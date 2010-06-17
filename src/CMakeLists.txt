@@ -4,6 +4,75 @@
 
 SET(LIBRARY_NAME ${PROJECT_NAME})
 
+SET(${LIBRARY_NAME}_SOURCES
+	debug/sotDebug.cpp
+	debug/sotContiifstream.cpp
+	
+	exception/sotExceptionAbstract.cpp
+	exception/sotExceptionDynamic.cpp
+	exception/sotExceptionFactory.cpp
+	exception/sotExceptionFeature.cpp
+	exception/sotExceptionSignal.cpp
+	exception/sotExceptionTask.cpp
+	exception/sotExceptionTools.cpp
+	exception/sotExceptionTraces.cpp
+	
+	signal/sotSignalCast.cpp
+	
+	matrix/sotBinaryOp.cpp
+	matrix/sotDerivator.cpp
+	matrix/sotFIRFilter.cpp
+	matrix/sotIntegratorAbstract.cpp
+	matrix/sotIntegratorEuler.cpp
+	matrix/sotMatrixConstant.cpp
+	matrix/sotUnaryOp.cpp
+	matrix/sotVectorConstant.cpp
+	matrix/sotVectorToRotation.cpp
+	
+	factory/sotAdditionalFunctions.cpp
+	factory/sotFactory.cpp
+	factory/sotPool.cpp
+	
+	math/sotMatrixForce.cpp
+	math/sotMatrixHomogeneous.cpp
+	math/sotMatrixRotation.cpp
+	math/sotMatrixTwist.cpp
+	math/sotOpPointModifior.cpp
+	math/sotVectorQuaternion.cpp
+	math/sotVectorRollPitchYaw.cpp
+	math/sotVectorUTheta.cpp
+	
+	feature/sotFeaturePoint6d.cpp
+	feature/sotFeatureVector3.cpp
+	feature/sotFeatureAbstract.cpp
+	feature/sotFeatureGeneric.cpp
+	feature/sotFeatureJointLimits.cpp
+	feature/sotFeature1D.cpp
+	feature/sotFeaturePoint6dRelative.cpp
+	feature/sotFeatureVisualPoint.cpp
+	feature/sotFeatureTask.cpp
+	feature/sotFeatureLineDistance.cpp
+	
+	task/sotGainAdaptative.cpp
+	task/sotTaskPD.cpp
+	task/sotConstraint.cpp
+	task/sotGainHyperbolic.cpp
+	task/sotTask.cpp
+	task/sotMultiBound.cpp
+	task/sotTaskConti.cpp
+	task/sotTaskUnilateral.cpp
+	task/sotTaskAbstract.cpp
+	
+	sot/sotFlags.cpp
+	sot/sotSOTQr.cpp
+	sot/sotMemoryTaskSOT.cpp
+	sot/sotSOTH.cpp
+	sot/sotSOT.cpp
+	sot/sotRotationSimple.cpp
+	sot/sotWeightedSOT.cpp
+	sot/sotSolverHierarchicalInequalities.cpp
+)
+
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
 
 ADD_DEFINITIONS(-DDEBUG=2)
@@ -29,7 +98,7 @@ LINK_DIRECTORIES(${DYNAMIC_GRAPH_LIBRARY_DIRS})
 
 ADD_LIBRARY(${LIBRARY_NAME} 
   SHARED
-  sot-core.cpp)
+  ${${LIBRARY_NAME}_SOURCES})
 
 SET_TARGET_PROPERTIES(${LIBRARY_NAME} 
   PROPERTIES 
