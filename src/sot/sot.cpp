@@ -23,13 +23,13 @@
 
 //#define VP_DEBUG
 #define VP_DEBUG_MODE 45
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 
 /* SOT */
 #ifdef VP_DEBUG
  class sotSOT__INIT
  {
- public:sotSOT__INIT( void ) { sotDebugTrace::openFile(); }
+ public:sotSOT__INIT( void ) { DebugTrace::openFile(); }
  };
  sotSOT__INIT sotSOT_initiator;
 #endif //#ifdef VP_DEBUG
@@ -193,14 +193,14 @@ clear( void )
 /* --------------------------------------------------------------------- */
 
 void sotSOT::
-addConstraint( sotConstraint& constraint )
+addConstraint( Constraint& constraint )
 {
   constraintList.push_back( &constraint );
   constraintSOUT.addDependancy( constraint.jacobianSOUT );
 }
 
 void sotSOT::
-removeConstraint( const sotConstraint& key )
+removeConstraint( const Constraint& key )
 {
   bool find =false; ConstraintListType::iterator it;
   for ( it=constraintList.begin();constraintList.end()!=it;++it )
@@ -870,14 +870,14 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
   else if( cmdLine == "addConstraint" )
     {
       std::string cstname; cmdArgs >> cstname;
-      sotConstraint &cs = dynamic_cast<sotConstraint&>(sotPool.getTask( cstname ));
+      Constraint &cs = dynamic_cast<Constraint&>(sotPool.getTask( cstname ));
       addConstraint( cs );
       constraintSOUT.setReady();
     }
   else if( cmdLine == "rmConstraint" )
     {
       std::string cstname; cmdArgs >> cstname;
-      sotConstraint &cs = dynamic_cast<sotConstraint&>(sotPool.getTask( cstname ));
+      Constraint &cs = dynamic_cast<Constraint&>(sotPool.getTask( cstname ));
       removeConstraint( cs );
       constraintSOUT.setReady();
     }

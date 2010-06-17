@@ -33,15 +33,17 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
+namespace sot {
+
 /*! @ingroup factory
   \brief This helper class dynamically overloads the "new" shell command
   to allow creation of tasks and features as well as entities.
  */
-class sotAdditionalFunctions
+class AdditionalFunctions
 {
 public:
-	sotAdditionalFunctions();
-	~sotAdditionalFunctions();
+	AdditionalFunctions();
+	~AdditionalFunctions();
 	static void cmdNew( const std::string& cmd,std::istringstream& args,
 						   std::ostream& os );
 	static void cmdMatrixDisplay( const std::string& cmd,std::istringstream& args,
@@ -49,3 +51,5 @@ public:
 	static void cmdFlagSet( const std::string& cmd,std::istringstream& args,
 						   std::ostream& os );
 };
+
+} // namespace sot

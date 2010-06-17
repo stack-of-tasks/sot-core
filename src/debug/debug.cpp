@@ -2,7 +2,7 @@
  * Copyright Projet Lagadic, 2005
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotDebug.h
+ * File:      debug.h
  * Project:   STack of Tasks
  * Author:    Nicolas Mansard
  *
@@ -32,14 +32,16 @@
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 #include <fstream>
 #include <ios>
 
+using namespace sot;
+
 #ifdef WIN32
-const char * sotDebugTrace::DEBUG_FILENAME_DEFAULT = "c:/tmp/traces.txt";
+const char * DebugTrace::DEBUG_FILENAME_DEFAULT = "c:/tmp/traces.txt";
 #else	/*WIN32*/
-const char * sotDebugTrace::DEBUG_FILENAME_DEFAULT = "/tmp/traces.txt";
+const char * DebugTrace::DEBUG_FILENAME_DEFAULT = "/tmp/traces.txt";
 #endif	/*WIN32*/
 
 
@@ -62,11 +64,11 @@ std::ofstream debugfile; //( "/dev/null", std::ios::trunc&std::ios::out );
 
 #endif
 
-sotDebugTrace sotDEBUGFLOW(debugfile);
-sotDebugTrace sotERRORFLOW(debugfile);
+DebugTrace sotDEBUGFLOW(debugfile);
+DebugTrace sotERRORFLOW(debugfile);
 
 
-void sotDebugTrace::openFile( const char * filename )
+void DebugTrace::openFile( const char * filename )
 {
   if( debugfile.good()&&debugfile.is_open() ) debugfile.close();
   debugfile.clear();
@@ -74,13 +76,13 @@ void sotDebugTrace::openFile( const char * filename )
   //std::cout << filename << debugfile.good() << debugfile.is_open() << std::endl;
 }
 
-void sotDebugTrace::closeFile( const char * filename )
+void DebugTrace::closeFile( const char * filename )
 {
   if( debugfile.good()&&debugfile.is_open() ) { debugfile.close(); }
   debugfile.setstate( std::ios::failbit ) ;
 }
 
 
-//sotDebugTrace sotDEBUGFLOW(std::cout);
-//sotDebugTrace sotERRORFLOW(std::cerr);
+//DebugTrace sotDEBUGFLOW(std::cout);
+//DebugTrace sotERRORFLOW(std::cerr);
 

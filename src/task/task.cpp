@@ -24,7 +24,7 @@
 
 /* SOT */
 #include <sot-core/task.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 using namespace std;
 
 

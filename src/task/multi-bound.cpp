@@ -21,7 +21,7 @@
 #include <sot-core/task-multi-bound.h>
 #define VP_DEBUG
 #define VP_DEBUG_MODE 25
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 
 sotMultiBound::
 sotMultiBound( const double x )

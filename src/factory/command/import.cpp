@@ -12,7 +12,7 @@
 
 #include <sot-core/import-default-paths.h>
 #include <sot-core/import.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 #include <sot-core/exception-abstract.h>
 #include <sot-core/exception-factory.h>
 #include <dynamic-graph/interpreter.h>

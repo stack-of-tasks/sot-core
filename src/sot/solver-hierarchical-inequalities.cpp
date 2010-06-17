@@ -26,10 +26,10 @@
 
 //#define VP_DEBUG
 #define VP_DEBUG_MODE 45
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 // class sotIneq__INIT
 // {
-// public:sotIneq__INIT( void ) { sotDebugTrace::openFile();  }
+// public:sotIneq__INIT( void ) { DebugTrace::openFile();  }
 // };
 // sotIneq__INIT sotIneq_initiator;
 
@@ -154,8 +154,8 @@ bub::indirect_array<>& operator-= ( bub::indirect_array<>& order,unsigned int _e
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
 
-sotConstraintMem::
-sotConstraintMem( const sotConstraintMem& clone )
+ConstraintMem::
+ConstraintMem( const ConstraintMem& clone )
   :active(clone.active),equality(clone.equality),notToBeConsidered(false)
   ,Ji(0),eiInf(clone.eiInf),eiSup(clone.eiSup)
   ,boundSide(clone.boundSide),activeSide(clone.activeSide)
@@ -164,35 +164,35 @@ sotConstraintMem( const sotConstraintMem& clone )
   ,Ju(clone.Ju),Jdu(clone.Jdu)
 {
   if( clone.Ji.size() ) { Ji.resize(clone.Ji.size(),false); Ji.assign(clone.Ji); }
-  sotDEBUG(15) << "sotConstraintMem cloning" << std::endl;
+  sotDEBUG(15) << "ConstraintMem cloning" << std::endl;
 }
 
-std::ostream& operator<<( std::ostream& os,const sotConstraintMem::BoundSideType& bs )
+std::ostream& operator<<( std::ostream& os,const ConstraintMem::BoundSideType& bs )
 {
   switch( bs )
     {
-    case sotConstraintMem::BOUND_VOID:
+    case ConstraintMem::BOUND_VOID:
       os << "#";
       break;
-    case sotConstraintMem::BOUND_INF:
+    case ConstraintMem::BOUND_INF:
       os <<"-";
       break;
-    case sotConstraintMem::BOUND_SUP:
+    case ConstraintMem::BOUND_SUP:
       os << "+";
       break;
-    case sotConstraintMem::BOUND_BOTH:
+    case ConstraintMem::BOUND_BOTH:
       os << "+/-";
       break;
     }
   return os;
 }
 
-std::ostream & operator<< (std::ostream& os,const sotConstraintMem &c )
+std::ostream & operator<< (std::ostream& os,const ConstraintMem &c )
 {
   os << "Cs[" << c.constraintRow << "] " << std::endl;
   if( c.Ji.size() ) os << "" << c.Ji;
-  if( c.boundSide&sotConstraintMem::BOUND_INF ) os << "/[-]" << c.eiInf;
-  if( c.boundSide&sotConstraintMem::BOUND_SUP ) os << "/[+]" << c.eiSup;
+  if( c.boundSide&ConstraintMem::BOUND_INF ) os << "/[-]" << c.eiInf;
+  if( c.boundSide&ConstraintMem::BOUND_SUP ) os << "/[+]" << c.eiSup;
   if( c.active )
     { os << "\n\t-> active [" << c.activeSide
          << "] <rg=" << c.range << "> " << std::endl << "\t-> ";
@@ -254,7 +254,7 @@ recordInitialConditions( void )
 {
   initialActiveH.resize(constraintH.size()); initialSideH.resize(constraintH.size());
   std::vector<bool>::iterator iterBool = initialActiveH.begin();
-  sotConstraintMem::BoundSideVector::iterator iterSide = initialSideH.begin();
+  ConstraintMem::BoundSideVector::iterator iterSide = initialSideH.begin();
   ConstraintList::const_iterator iterCH = constraintH.begin();
   for( ;iterCH!=constraintH.end();++iterBool,++iterCH,++iterSide )
     {
@@ -273,22 +273,22 @@ computeDifferentialCondition( void )
     {
       std::vector<bool>::const_iterator iterBool = initialActiveH.begin();
       ConstraintList::iterator iterCH = constraintH.begin();
-      sotConstraintMem::BoundSideVector::const_iterator iterSide = initialSideH.begin();
+      ConstraintMem::BoundSideVector::const_iterator iterSide = initialSideH.begin();
       toActivate.clear(); toInactivate.clear();
       for( ;iterBool!=initialActiveH.end();++iterBool,++iterCH,++iterSide )
         {
-          sotConstraintMem & ch = *iterCH;
+          ConstraintMem & ch = *iterCH;
           sotDEBUG(45) << "Initial " << (*iterSide)<<(*iterBool)
                        << " - Final "<<ch.activeSide<< ch.active << std::endl;
           /* Constraint was active, and is not anymore or changed side. */
           if( (*iterBool)&&( (!ch.active)||(*iterSide!=ch.activeSide) ) )
             {
-              toInactivate.push_back(sotConstraintRef(ch.constraintRow));
+              toInactivate.push_back(ConstraintRef(ch.constraintRow));
             }
           /* Constraint is now active, but was inactive or changed side. */
           if( (ch.active)&&( (!(*iterBool))||(*iterSide!=ch.activeSide) ) )
             {
-              toActivate.push_back(sotConstraintRef(ch.constraintRow,ch.activeSide) );
+              toActivate.push_back(ConstraintRef(ch.constraintRow,ch.activeSide) );
             }
         }
     }
@@ -312,19 +312,19 @@ printDifferentialCondition( std::ostream & os ) const
   if(! warmStartReady ) return; 
 
   os << "To activate = { ";
-  for( std::vector<sotConstraintRef>::const_iterator iterCH = toActivate.begin();
+  for( std::vector<ConstraintRef>::const_iterator iterCH = toActivate.begin();
        toActivate.end()!=iterCH;++iterCH )
     { os << *iterCH << ", "; }
   os << " }" << std::endl;
 
   os << "To inactivate = { ";
-  for( std::vector<sotConstraintRef>::const_iterator iterCH = toInactivate.begin();
+  for( std::vector<ConstraintRef>::const_iterator iterCH = toInactivate.begin();
        toInactivate.end()!=iterCH;++iterCH )
     { os << *iterCH << ", "; }
   os << " }" << std::endl;
 
   os <<"Active slack = { ";
-  for( std::vector<sotConstraintRef>::const_iterator iter=slackActiveSet.begin();
+  for( std::vector<ConstraintRef>::const_iterator iter=slackActiveSet.begin();
        iter!=slackActiveSet.end();++iter )
     { os << (*iter) << ", "; }
   os << " }" << std::endl;
@@ -408,7 +408,7 @@ displayConstraint( ConstraintList & cs )
   for( ConstraintList::iterator iter=cs.begin();
        iter!=cs.end();++iter )
     {
-      sotConstraintMem & ci = *iter;
+      ConstraintMem & ci = *iter;
       sotDEBUG(25) << ci << std::endl;
     }
 #endif //#ifdef VP_DEBUG
@@ -424,7 +424,7 @@ printDebug( void )
   for( ConstraintRefList::const_iterator iter=constraintSactive.begin();
        iter!=constraintSactive.end();++iter )
     {
-      sotConstraintMem & cs = **iter;
+      ConstraintMem & cs = **iter;
       sotDEBUG(15) << "+"<<cs << std::endl;
     }
 
@@ -438,7 +438,7 @@ printDebug( void )
   for( ConstraintList::iterator iter=constraintH.begin();
        iter!=constraintH.end();++iter )
     {
-      sotConstraintMem & cs = *iter;
+      ConstraintMem & cs = *iter;
       if( cs.active && cs.rankIncreaser )
         {
           if(cs.notToBeConsidered) continue;
@@ -472,7 +472,7 @@ printDebug( void )
   for( ConstraintRefList::iterator iter=constraintSactive.begin();
        iter!=constraintSactive.end();++iter )
     {
-      sotConstraintMem & cs = **iter;
+      ConstraintMem & cs = **iter;
       if( cs.active )
         {
           if(cs.range<sizes) {bub::row(Js,cs.range).assign( cs.Ji ); }
@@ -501,7 +501,7 @@ warmStart( void )
 {
   if(! warmStartReady ) return; 
   ConstraintRefList toInactivateCH;
-  for( std::vector<sotConstraintRef>::const_iterator iter=toInactivate.begin();
+  for( std::vector<ConstraintRef>::const_iterator iter=toInactivate.begin();
        iter!=toInactivate.end();++iter )
     {
       toInactivateCH.push_back( &constraintH[iter->id] );
@@ -511,8 +511,8 @@ warmStart( void )
   applyFreeSpaceMotion(du0);
 
   ConstraintRefList toActivateCH;
-  sotConstraintMem::BoundSideVector toActivateSide;
-  for( std::vector<sotConstraintRef>::const_iterator iter=toActivate.begin();
+  ConstraintMem::BoundSideVector toActivateSide;
+  for( std::vector<ConstraintRef>::const_iterator iter=toActivate.begin();
        iter!=toActivate.end();++iter )
     {
       toActivateCH.push_back( &constraintH[iter->id] );
@@ -541,11 +541,11 @@ applyFreeSpaceMotion( const bubVector& _du )
 
 void sotSolverHierarchicalInequalities::
 forceUpdateHierachic( ConstraintRefList& toUpdate,
-                      const sotConstraintMem::BoundSideVector& boundSide )
+                      const ConstraintMem::BoundSideVector& boundSide )
 {
   {
     sotDEBUG(5) << "Now activating { ";
-    sotConstraintMem::BoundSideVector::const_iterator iterBound = boundSide.begin();
+    ConstraintMem::BoundSideVector::const_iterator iterBound = boundSide.begin();
     for( ConstraintRefList::const_iterator iterCH = toUpdate.begin();
          toUpdate.end()!=iterCH;++iterCH,++iterBound )
       { sotDEBUGMUTE(5) << *iterBound  << (*iterCH)->constraintRow << ", "; }
@@ -557,11 +557,11 @@ forceUpdateHierachic( ConstraintRefList& toUpdate,
   bubMatrix _Jse(sizes,nJ); bubVector _ese(sizes);
 
   unsigned int col=0;
-  sotConstraintMem::BoundSideVector::const_iterator iterBound = boundSide.begin();
+  ConstraintMem::BoundSideVector::const_iterator iterBound = boundSide.begin();
   for( ConstraintRefList::iterator iter=toUpdate.begin();
        toUpdate.end() != iter;++iter,++iterBound )
     {
-      sotConstraintMem & cs = **iter;
+      ConstraintMem & cs = **iter;
       if(! cs.active )
         {
           sotDEBUG(1) << "Activation WSH <" << *iterBound
@@ -569,7 +569,7 @@ forceUpdateHierachic( ConstraintRefList& toUpdate,
 
           sotDEBUG(45) <<cs<<std::endl;
           bub::row(_Jse,col).assign(cs.Ji);
-          if( (*iterBound)==sotConstraintMem::BOUND_INF )
+          if( (*iterBound)==ConstraintMem::BOUND_INF )
             _ese(col)=cs.eiInf; else _ese(col)=cs.eiSup;
           col++;
           cs.active=false; cs.notToBeConsidered=true;
@@ -587,7 +587,7 @@ forceUpdateHierachic( ConstraintRefList& toUpdate,
 
   sotDEBUG(15) << "/* Solve these constraints. */" << std::endl;
   bubMatrix _Jsi(0,0); bubVector _esiInf(0),_esiSup(0);
-  std::vector<sotConstraintMem::BoundSideType> _esiBound(0);
+  std::vector<ConstraintMem::BoundSideType> _esiBound(0);
   solve(_Jse,_ese,_Jsi,_esiInf,_esiSup,_esiBound,false);
 
   sotDEBUG(15) << "/* Copy S in H. */" << std::endl;
@@ -597,15 +597,15 @@ forceUpdateHierachic( ConstraintRefList& toUpdate,
 //   for( ConstraintList::iterator iter=constraintS.begin();
 //        constraintS.end() != iter;++iter )
 //     {
-//       sotConstraintMem & cs = *iter;
-//       sotConstraintMem & ch = *toUpdate[cs.constraintRow];
+//       ConstraintMem & cs = *iter;
+//       ConstraintMem & ch = *toUpdate[cs.constraintRow];
   unsigned int rangeInS=0;
   for( ConstraintRefList::iterator iter=toUpdate.begin();
        toUpdate.end() != iter;++iter )
     {
-      sotConstraintMem & ch = **iter;
+      ConstraintMem & ch = **iter;
       if(! ch.notToBeConsidered ) continue;
-      sotConstraintMem & cs = constraintS[rangeInS++];
+      ConstraintMem & cs = constraintS[rangeInS++];
       ch.range=cs.range+rankh;
       ch.rankIncreaser=cs.rankIncreaser;
       ch.equality=false; // TODO: ?? lock a constraint ??
@@ -659,7 +659,7 @@ forceDowndateHierachic( ConstraintRefList& toDowndate )
   for( ConstraintRefList::iterator iter=toDowndate.begin();
        toDowndate.end() != iter;++iter )
     {
-      sotConstraintMem & cs = **iter;
+      ConstraintMem & cs = **iter;
       if( cs.active && cs.rankIncreaser )
         {
           sotDEBUG(1) << "Inactivation WSH <" << cs.activeSide << cs.constraintRow << ">" << std::endl;
@@ -682,7 +682,7 @@ forceDowndateHierachic( ConstraintRefList& toDowndate )
   for( ConstraintList::iterator iter=constraintH.begin();
        constraintH.end() != iter;++iter )
     {
-      sotConstraintMem & cs = *iter;
+      ConstraintMem & cs = *iter;
       if( cs.active )
         {
           const unsigned int range = cs.range;
@@ -730,7 +730,7 @@ forceDowndateHierachic( ConstraintRefList& toDowndate )
   for( ConstraintList::iterator iter=constraintH.begin();
        constraintH.end() != iter;++iter )
     {
-      sotConstraintMem & cs = *iter;
+      ConstraintMem & cs = *iter;
       if( cs.active&&(!cs.rankIncreaser) )
         {
           bubVector QJk(cs.Ji); Qh.multiplyLeft(QJk);
@@ -786,18 +786,18 @@ SOT_DEFINE_CHRONO;
 void sotSolverHierarchicalInequalities::
 solve( const bubMatrix& Jse, const bubVector& ese,
        const bubMatrix& Jsi, const bubVector& esiInf, const bubVector& esiSup,
-       const std::vector<sotConstraintMem::BoundSideType> esiBoundSide,
+       const std::vector<ConstraintMem::BoundSideType> esiBoundSide,
        bool pushBackAtTheEnd )
 {
-  std::vector<sotConstraintRef> vectVoid;
+  std::vector<ConstraintRef> vectVoid;
   solve(Jse,ese,Jsi,esiInf,esiSup,esiBoundSide,vectVoid,pushBackAtTheEnd);
 }
 
 void sotSolverHierarchicalInequalities::
 solve( const bubMatrix& Jse, const bubVector& ese,
        const bubMatrix& Jsi, const bubVector& esiInf, const bubVector& esiSup,
-       const sotConstraintMem::BoundSideVector & esiBoundSide,
-       const std::vector<sotConstraintRef> & slackActiveWarmStart,
+       const ConstraintMem::BoundSideVector & esiBoundSide,
+       const std::vector<ConstraintRef> & slackActiveWarmStart,
        bool pushBackAtTheEnd )
 {
   sotDEBUGIN(1);
@@ -928,8 +928,8 @@ solve( const bubMatrix& Jse, const bubVector& ese,
 void sotSolverHierarchicalInequalities::
 initializeConstraintMemory( const bubMatrix& Jse, const bubVector& ese,
                             const bubMatrix& Jsi, const bubVector& esiInf, const bubVector& esiSup,
-                            const sotConstraintMem::BoundSideVector& esiBoundSide,
-                            const std::vector<sotConstraintRef>& warmStartSide )
+                            const ConstraintMem::BoundSideVector& esiBoundSide,
+                            const std::vector<ConstraintRef>& warmStartSide )
 {
   // TODO ... activate those protection.
   //     if(!( (esiInf.size()==esiSup.size())&&(esiInf.size()==esiBoundSide.size())&&(esiInf.size()==Jsi.size1())) )
@@ -946,7 +946,7 @@ initializeConstraintMemory( const bubMatrix& Jse, const bubVector& ese,
   sotDEBUG(45) << "Ji = " << (MATLAB)Jsi << std::endl;
   {
     sotDEBUG(25) <<"Warm start active slack = { ";
-    for( std::vector<sotConstraintRef>::const_iterator iter=warmStartSide.begin();
+    for( std::vector<ConstraintRef>::const_iterator iter=warmStartSide.begin();
          iter!=warmStartSide.end();++iter )
       {     sotDEBUGMUTE(25) << (*iter) << ", "; }
     sotDEBUGMUTE(25) << " }" << std::endl;
@@ -962,7 +962,7 @@ initializeConstraintMemory( const bubMatrix& Jse, const bubVector& ese,
   for( ConstraintList::iterator iter=constraintS.begin();
        iter!=constraintS.end();++iter,++row )
     {
-      sotConstraintMem & cs = *iter;
+      ConstraintMem & cs = *iter;
 
       cs.Ji.resize(nJ,false);
       cs.constraintRow=row;
@@ -972,22 +972,22 @@ initializeConstraintMemory( const bubMatrix& Jse, const bubVector& ese,
         {
           cs.Ji.assign(bub::row(Jse,row)); cs.eiInf=ese(row); cs.equality=true;
           cs.active = true;
-          cs.boundSide = cs.activeSide = sotConstraintMem::BOUND_INF;
+          cs.boundSide = cs.activeSide = ConstraintMem::BOUND_INF;
         }
       else
         {
           const unsigned int rowi = row-sizee;
           cs.Ji.assign(bub::row(Jsi,rowi));
-          cs.boundSide = sotConstraintMem::BOUND_VOID;
-          if( (esiBoundSide[rowi]&sotConstraintMem::BOUND_INF)&&(!isnan(esiInf(rowi))) )
+          cs.boundSide = ConstraintMem::BOUND_VOID;
+          if( (esiBoundSide[rowi]&ConstraintMem::BOUND_INF)&&(!isnan(esiInf(rowi))) )
             {
               cs.eiInf=esiInf(rowi);
-              cs.boundSide = (sotConstraintMem::BoundSideType)(cs.boundSide|sotConstraintMem::BOUND_INF);
+              cs.boundSide = (ConstraintMem::BoundSideType)(cs.boundSide|ConstraintMem::BOUND_INF);
             }
-          if( (esiBoundSide[rowi]&sotConstraintMem::BOUND_SUP)&&(!isnan(esiSup(rowi))) )
+          if( (esiBoundSide[rowi]&ConstraintMem::BOUND_SUP)&&(!isnan(esiSup(rowi))) )
             {
               cs.eiSup=esiSup(rowi);
-              cs.boundSide = (sotConstraintMem::BoundSideType)(cs.boundSide|sotConstraintMem::BOUND_SUP);
+              cs.boundSide = (ConstraintMem::BoundSideType)(cs.boundSide|ConstraintMem::BOUND_SUP);
             }
           cs.equality=false;
         }
@@ -996,7 +996,7 @@ initializeConstraintMemory( const bubMatrix& Jse, const bubVector& ese,
 
   /* Activation Warm start. */
   {
-    for( std::vector<sotConstraintRef>::const_iterator iter=warmStartSide.begin();
+    for( std::vector<ConstraintRef>::const_iterator iter=warmStartSide.begin();
          iter!=warmStartSide.end();++iter )
         {
           if( iter->id<constraintS.size() )
@@ -1021,7 +1021,7 @@ initializeDecompositionSlack(void)
   for( ConstraintList::iterator iter=constraintS.begin();
        iter!=constraintS.end();++iter )
     {
-      sotConstraintMem & cs = *iter;
+      ConstraintMem & cs = *iter;
       if(cs.active)
         { bub::column(QhJsU,sizes++) = cs.Ji; }
     }
@@ -1040,7 +1040,7 @@ initializeDecompositionSlack(void)
       for( ConstraintList::iterator iter=constraintS.begin();
            iter!=constraintS.end();++iter,++row )
         {
-          sotConstraintMem & cs = *iter; cs.range=row;
+          ConstraintMem & cs = *iter; cs.range=row;
           if( cs.active ){ constraintSactive.push_back(&cs); }
         }
       sotDEBUG(15)<<"Freerank null, initial decomposition void."<<std::endl;
@@ -1094,13 +1094,13 @@ initializeDecompositionSlack(void)
   for( ConstraintList::iterator iter=constraintS.begin();
        iter!=constraintS.end();++iter )
     {
-      sotConstraintMem & cs = *iter;
+      ConstraintMem & cs = *iter;
       if( cs.active ) activeOrderRaw.push_back(&cs);
     }
   /* Push the constraint in cSactive in the order decided by the QR decomposition. */
   for( unsigned int i=0;i<sizes;++i )
     {
-      sotConstraintMem & cs = *activeOrderRaw[orderSe[i]-1];
+      ConstraintMem & cs = *activeOrderRaw[orderSe[i]-1];
       if(i<ranks){ cs.rankIncreaser = true; }
       cs.range = i;
       constraintSactive.push_back(&cs);
@@ -1116,10 +1116,10 @@ initializeDecompositionSlack(void)
 /* <constraintId> is the number of the constraint in the constraintH list. */
 void sotSolverHierarchicalInequalities::
 updateConstraintHierarchic( const unsigned int constraintId,
-                            const sotConstraintMem::BoundSideType side )
+                            const ConstraintMem::BoundSideType side )
 {
   sotDEBUG(15) << "khup = " << constraintId << std::endl;
-  sotConstraintMem & chup = constraintH[constraintId];
+  ConstraintMem & chup = constraintH[constraintId];
 
   /* Compute the limited Jacobian. */
   bub::matrix_column<bubMatrix> QtJt(Rh,rankh);
@@ -1171,7 +1171,7 @@ updateConstraintHierarchic( const unsigned int constraintId,
 void sotSolverHierarchicalInequalities::
 downdateConstraintHierarchic( const unsigned int kdown )
 {
-  sotConstraintMem & cdown = constraintH[kdown];
+  ConstraintMem & cdown = constraintH[kdown];
   sotDEBUG(15) << "kdown = " << kdown << std::endl;
   if(! constraintH[kdown].active) return;
 
@@ -1188,7 +1188,7 @@ downdateConstraintHierarchic( const unsigned int kdown )
   for( ConstraintList::iterator iter=constraintH.begin();
        iter!=constraintH.end();++iter )
     {
-      sotConstraintMem & cs = *iter;
+      ConstraintMem & cs = *iter;
       if( cs.range>cdown.range ) cs.range--;
     }
   /* Remove the columnd <kdown> from Rh. */
@@ -1208,7 +1208,7 @@ downdateConstraintHierarchic( const unsigned int kdown )
   for( ConstraintList::iterator iter=constraintH.begin();
        iter!=constraintH.end();++iter )
     {
-      sotConstraintMem & cs = *iter;
+      ConstraintMem & cs = *iter;
       if( cs.active && (!cs.rankIncreaser) )
         {
           bubVector QJk(cs.Ji); Qh.multiplyLeft(QJk);
@@ -1233,10 +1233,10 @@ downdateConstraintHierarchic( const unsigned int kdown )
 /* ---------------------------------------------------------- */
 /* <kup> is the number of the constraint in the constraintS list. */
 void sotSolverHierarchicalInequalities::
-updateConstraintSlack( const unsigned int kup,const sotConstraintMem::BoundSideType activeSide )
+updateConstraintSlack( const unsigned int kup,const ConstraintMem::BoundSideType activeSide )
 {
   sotDEBUG(15) << "kup = " << activeSide << kup << std::endl;
-  sotConstraintMem & csup = constraintS[kup];
+  ConstraintMem & csup = constraintS[kup];
   //     if( freeRank>0 )
   //       {
   /* Compute the limited Jacobian. */
@@ -1327,7 +1327,7 @@ regularizeQhJs( void )
   for( ConstraintRefList::iterator iter=constraintSactive.begin();
        iter!=constraintSactive.end();++iter )
     {
-      sotConstraintMem & cs = **iter;
+      ConstraintMem & cs = **iter;
       if(!cs.rankIncreaser)
         {
           bubQJsCol QJk(QhJs,cs.range);
@@ -1370,7 +1370,7 @@ void sotSolverHierarchicalInequalities::
 downdateConstraintSlack( const unsigned int kdown )
 {
   /* Remove the column. */
-  sotConstraintMem & cs = constraintS[kdown];
+  ConstraintMem & cs = constraintS[kdown];
   sotDEBUG(15) << "Downdate S " << cs;
   const unsigned int range = cs.range;
   if( orderS.end()!=std::find(orderS.begin(),orderS.end(),range) )
@@ -1622,8 +1622,8 @@ computeGradient( bubVector& gradientWide )
   for( ConstraintRefList::const_iterator iter=constraintSactive.begin();
        iter!=constraintSactive.end();++iter )
     {
-      const sotConstraintMem & ci = **iter;
-      const double ciei = (ci.activeSide==sotConstraintMem::BOUND_INF)?ci.eiInf:ci.eiSup;
+      const ConstraintMem & ci = **iter;
+      const double ciei = (ci.activeSide==ConstraintMem::BOUND_INF)?ci.eiInf:ci.eiSup;
       double epJu = ciei - bub::inner_prod(ci.Ji,u0);
       gradientWide += epJu*ci.Ji;
       sotDEBUG(55) << "Gradient with " << ci << " -> g = " << (MATLAB)gradientWide << std::endl;
@@ -1679,17 +1679,17 @@ computeSlack( void )
   for( ConstraintList::const_iterator iter=constraintS.begin();
        iter!=constraintS.end();++iter )
     {
-      const sotConstraintMem & cs = *iter;
+      const ConstraintMem & cs = *iter;
       if(! cs.equality)
         {
           const double Ju = bub::inner_prod(cs.Ji,updu);
           sotDEBUG(55) << "J = " << (MATLAB)cs.Ji << std::endl;
           sotDEBUG(55) << "Ju = " << Ju << std::endl;
 
-          if( cs.boundSide&sotConstraintMem::BOUND_INF )
+          if( cs.boundSide&ConstraintMem::BOUND_INF )
             { slackInf(cs.constraintRow) = cs.eiInf - Ju; }
           else { slackInf(cs.constraintRow) = 0; }
-          if( cs.boundSide&sotConstraintMem::BOUND_SUP )
+          if( cs.boundSide&ConstraintMem::BOUND_SUP )
             { slackSup(cs.constraintRow) = Ju - cs.eiSup; }
           else { slackSup(cs.constraintRow) = 0; }
         }
@@ -1721,13 +1721,13 @@ computeLagrangian( void )
   for( ConstraintList::iterator iter=constraintH.begin();
        iter!=constraintH.end();++iter )
     {
-      sotConstraintMem & cs = *iter;
+      ConstraintMem & cs = *iter;
       if( cs.active && cs.rankIncreaser )
         {
           const unsigned int range = cs.range;
-          if( cs.activeSide&sotConstraintMem::BOUND_INF )
+          if( cs.activeSide&ConstraintMem::BOUND_INF )
             { lagrangian(range) = Mbs(range); }
-          else if( cs.activeSide&sotConstraintMem::BOUND_SUP )
+          else if( cs.activeSide&ConstraintMem::BOUND_SUP )
             { lagrangian(range) = -Mbs(range); }
         }
     }
@@ -1745,26 +1745,26 @@ selecActivationHierarchic( double & tau )
   for( ConstraintList::iterator iter=constraintH.begin();
        iter!=constraintH.end();++iter,++constraintRef )
     {
-      sotConstraintMem & cs = *iter;
+      ConstraintMem & cs = *iter;
       if(!(cs.active||cs.notToBeConsidered))
         {
           cs.Ju = bub::inner_prod(cs.Ji,u0);
           cs.Jdu = bub::inner_prod(cs.Ji,du);
           /* Activation Inf. */
-          if( cs.Jdu<-THRESHOLD_ZERO&&(cs.boundSide&sotConstraintMem::BOUND_INF) )
+          if( cs.Jdu<-THRESHOLD_ZERO&&(cs.boundSide&ConstraintMem::BOUND_INF) )
             {
               const double taui = (cs.eiInf-cs.Ju)/cs.Jdu;
               if( taui<tau ) // If not: activate i.
                 { tau=taui; HactivationRef=constraintRef;
-                  HactivationSide=sotConstraintMem::BOUND_INF; res=true; }
+                  HactivationSide=ConstraintMem::BOUND_INF; res=true; }
             }
           /* Activation Sup. */
-          if( cs.Jdu>THRESHOLD_ZERO&&(cs.boundSide&sotConstraintMem::BOUND_SUP) )
+          if( cs.Jdu>THRESHOLD_ZERO&&(cs.boundSide&ConstraintMem::BOUND_SUP) )
             {
               const double taui = (cs.eiSup-cs.Ju)/cs.Jdu;
               if( taui<tau ) // If not: activate i.
                 { tau=taui; HactivationRef=constraintRef;
-                  HactivationSide=sotConstraintMem::BOUND_SUP; res=true; }
+                  HactivationSide=ConstraintMem::BOUND_SUP; res=true; }
             }
         }
     }
@@ -1779,7 +1779,7 @@ selecInactivationHierarchic( void )
   for( ConstraintList::iterator iter=constraintH.begin();
        iter!=constraintH.end();++iter )
     {
-      sotConstraintMem & cs = *iter;
+      ConstraintMem & cs = *iter;
       if( cs.active && (!cs.equality) && cs.rankIncreaser )
         {
           const double &l=cs.lagrangian=lagrangian(cs.range);
@@ -1804,10 +1804,10 @@ selecActivationSlack( void )
         {
          if( slackInf(row)>SactivationScore )
             { SactivationRef=row; SactivationScore=slackInf(row);
-              SactivationSide=sotConstraintMem::BOUND_INF; }
+              SactivationSide=ConstraintMem::BOUND_INF; }
           if( slackSup(row)>SactivationScore )
             { SactivationRef=row; SactivationScore=slackSup(row);
-              SactivationSide=sotConstraintMem::BOUND_SUP; }
+              SactivationSide=ConstraintMem::BOUND_SUP; }
         }
     }
   if( SactivationScore>THRESHOLD_ZERO )
@@ -1824,9 +1824,9 @@ selecInactivationSlack( void )
     {
       if( (!iter->equality)&&(iter->active) )
         {
-          if( (iter->activeSide&sotConstraintMem::BOUND_INF)&&(slackInf(row)<SinactivationScore) )
+          if( (iter->activeSide&ConstraintMem::BOUND_INF)&&(slackInf(row)<SinactivationScore) )
             { SinactivationRef=row; SinactivationScore=slackInf(row);}
-          if( (iter->activeSide&sotConstraintMem::BOUND_SUP)&&(slackSup(row)<SinactivationScore) )
+          if( (iter->activeSide&ConstraintMem::BOUND_SUP)&&(slackSup(row)<SinactivationScore) )
             { SinactivationRef=row; SinactivationScore=slackSup(row);}
         }
     }
@@ -1854,15 +1854,15 @@ pushBackSlackToHierarchy( void )
       for( ConstraintList::iterator iter=constraintS.begin();
            iter!=constraintS.end();++iter )
         {
-          sotConstraintMem& cs = *iter;
+          ConstraintMem& cs = *iter;
           if( cs.active )
             {
               const unsigned int nbcInJ = cs.constraintRow;
               if(! cs.equality )
                 {
-                  if(cs.activeSide==sotConstraintMem::BOUND_INF)
+                  if(cs.activeSide==ConstraintMem::BOUND_INF)
                     cs.equality=(slackInf(nbcInJ)>THRESHOLD_ZERO);
-                  if(cs.activeSide==sotConstraintMem::BOUND_SUP)
+                  if(cs.activeSide==ConstraintMem::BOUND_SUP)
                     cs.equality=(slackSup(nbcInJ)>THRESHOLD_ZERO);
                 }
             }
@@ -1907,7 +1907,7 @@ pushBackSlackToHierarchy( void )
       for( ConstraintList::iterator iter=constraintS.begin();
            iter!=constraintS.end();++iter )
         {
-          sotConstraintMem & cs = *iter;
+          ConstraintMem & cs = *iter;
           cs.rankIncreaser = false;
           cs.constraintRow = constraintH.size();
           constraintH.push_back(cs);

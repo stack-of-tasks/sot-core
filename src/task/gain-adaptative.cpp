@@ -25,7 +25,7 @@
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 #include <sot-core/factory.h>
 #include <sot-core/exception-signal.h>
 SOT_FACTORY_ENTITY_PLUGIN(sotGainAdaptative,"GainAdaptative");

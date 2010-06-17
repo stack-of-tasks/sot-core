@@ -18,7 +18,7 @@
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 #include <sot-core/vector-roll-pitch-yaw.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 using namespace std;
 
 static const double ANGLE_MINIMUM = 0.0001;

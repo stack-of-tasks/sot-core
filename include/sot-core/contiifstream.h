@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotContiifstream.h
+ * File:      Contiifstream.h
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -44,7 +44,7 @@
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (sotContiifstream_EXPORTS)
+#  if defined (Contiifstream_EXPORTS)
 #    define SOTCONTIIFSTREAM_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTCONTIIFSTREAM_EXPORT __declspec(dllimport)
@@ -52,10 +52,13 @@
 #else
 #  define SOTCONTIIFSTREAM_EXPORT
 #endif
+
+namespace sot {
+
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-class SOTCONTIIFSTREAM_EXPORT sotContiifstream
+class SOTCONTIIFSTREAM_EXPORT Contiifstream
 {
 protected:
   std::string filename;
@@ -66,8 +69,8 @@ protected:
   bool first;
  
 public: /* --- Constructor --- */
-  sotContiifstream( const std::string& n="" );
-  ~sotContiifstream( void );
+  Contiifstream( const std::string& n="" );
+  ~Contiifstream( void );
   void open( const std::string& n ) { filename=n; cursor=0; }
   
 public: /* --- READ FILE --- */
@@ -80,6 +83,7 @@ public: /* --- READ LIST --- */
 
 };
 
+} // namespace sot
 
 #endif /* #ifndef __SOT_CONTIIFSTREAM_HH__ */
 

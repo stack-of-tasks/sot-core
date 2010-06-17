@@ -27,7 +27,7 @@
 
 /* SOT */
 #include <sot-core/task-unilateral.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 using namespace std;
 
 

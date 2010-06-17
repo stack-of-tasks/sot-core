@@ -23,7 +23,7 @@
 #include <dynamic-graph/entity.h>
 
 #include <dynamic-graph/all-signals.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 #include <sot-core/matrix-homogeneous.h>
 
 /* Matrix */

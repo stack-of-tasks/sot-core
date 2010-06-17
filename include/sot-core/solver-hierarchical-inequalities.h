@@ -53,7 +53,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class SOTSOTH_EXPORT sotConstraintMem
+class SOTSOTH_EXPORT ConstraintMem
 {
 public:
   enum BoundSideType
@@ -63,7 +63,7 @@ public:
       BOUND_SUP = 2,
       BOUND_BOTH = 3
     };
-  typedef std::vector<sotConstraintMem::BoundSideType> BoundSideVector;
+  typedef std::vector<ConstraintMem::BoundSideType> BoundSideVector;
 
 public:
   bool active; // If the constraint is active.
@@ -81,15 +81,15 @@ public:
   double Ju,Jdu;  // effet of the control law in the task space.
 
 public:
-  sotConstraintMem( void )
+  ConstraintMem( void )
     :active(false),equality(0),notToBeConsidered(0)
     ,Ji(0),eiInf(0),eiSup(0),boundSide(BOUND_VOID),activeSide(BOUND_VOID)
     ,rankIncreaser(false),constraintRow(0),range(0),lagrangian(0)
     ,Ju(0),Jdu(0) {}
 
-  sotConstraintMem( const sotConstraintMem& clone );
+  ConstraintMem( const ConstraintMem& clone );
   SOTSOTH_EXPORT friend std::ostream& operator<<( std::ostream& os,const BoundSideType& bs );
-  SOTSOTH_EXPORT friend std::ostream & operator<< (std::ostream& os,const sotConstraintMem &c );
+  SOTSOTH_EXPORT friend std::ostream & operator<< (std::ostream& os,const ConstraintMem &c );
 };
 
 
@@ -97,17 +97,17 @@ public:
   /* ---------------------------------------------------------- */
   /* ---------------------------------------------------------- */
 
-class SOTSOTH_EXPORT sotConstraintRef
+class SOTSOTH_EXPORT ConstraintRef
 {
 public:
   unsigned int id;
-  sotConstraintMem::BoundSideType side;
-  sotConstraintRef( const unsigned int id_ = 0,
-                    const sotConstraintMem::BoundSideType side_
-                    =sotConstraintMem::BOUND_VOID )
+  ConstraintMem::BoundSideType side;
+  ConstraintRef( const unsigned int id_ = 0,
+                    const ConstraintMem::BoundSideType side_
+                    =ConstraintMem::BOUND_VOID )
     :id(id_),side(side_) {}
   SOTSOTH_EXPORT friend std::ostream & operator<< (std::ostream & os,
-                                    const sotConstraintRef & cr )
+                                    const ConstraintRef & cr )
   { return os << cr.side << cr.id; }
 };
 
@@ -135,8 +135,8 @@ public: // protected:
   typedef bub::matrix_indirect<bubMatrixQRConst> bubMatrixQROrderedConst;
   typedef bub::triangular_adaptor<bubMatrixQROrderedConst,bub::upper> bubMatrixQROrderedTriConst;
 
-  typedef std::vector<sotConstraintMem> ConstraintList;
-  typedef std::vector<sotConstraintMem*> ConstraintRefList;
+  typedef std::vector<ConstraintMem> ConstraintList;
+  typedef std::vector<ConstraintMem*> ConstraintRefList;
   static double THRESHOLD_ZERO;
 
 public: // protected:
@@ -150,7 +150,7 @@ public: // protected:
   ConstraintList& constraintH;
   bool Hactivation,Hinactivation;
   unsigned int HactivationRef,HinactivationRef;
-  sotConstraintMem::BoundSideType HactivationSide;
+  ConstraintMem::BoundSideType HactivationSide;
 
   /* --- S data --- */
   bubMatrixQRWide QhJsU,QhJs;
@@ -160,7 +160,7 @@ public: // protected:
   ConstraintRefList constraintSactive;
   bool Sactivation,Sinactivation;
   unsigned int SactivationRef,SinactivationRef;
-  sotConstraintMem::BoundSideType SactivationSide;
+  ConstraintMem::BoundSideType SactivationSide;
 
   /* --- Next step --- */
   double SactivationScore,SinactivationScore,HactivationScore,HinactivationScore;
@@ -173,10 +173,10 @@ public: // protected:
   /* --- Warm start knowledge --- */
   enum ActivationTodoType { TODO_NOTHING, TODO_ACTIVATE, TODO_INACTIVATE };
   std::vector<bool> initialActiveH;
-  sotConstraintMem::BoundSideVector initialSideH;
+  ConstraintMem::BoundSideVector initialSideH;
   bubVector du0;
-  std::vector<sotConstraintRef> slackActiveSet;
-  std::vector<sotConstraintRef> toActivate,toInactivate;
+  std::vector<ConstraintRef> slackActiveSet;
+  std::vector<ConstraintRef> toActivate,toInactivate;
   bool warmStartReady;
 
   /* ---------------------------------------------------------- */
@@ -206,13 +206,13 @@ public:
   void recordInitialConditions( void );
   void computeDifferentialCondition( void );
 
-  const std::vector<sotConstraintRef> & getToActivateList( void ) const
+  const std::vector<ConstraintRef> & getToActivateList( void ) const
   { return toActivate; }
-  const std::vector<sotConstraintRef> & getToInactivateList( void ) const
+  const std::vector<ConstraintRef> & getToInactivateList( void ) const
   { return toInactivate; }
   const bubVector & getDifferentialU0( void ) const
   {    return du0;  }
-  const std::vector<sotConstraintRef>& getSlackActiveSet( void ) const
+  const std::vector<ConstraintRef>& getSlackActiveSet( void ) const
   { return slackActiveSet; }
   void printDifferentialCondition( std::ostream & os ) const;
 
@@ -242,38 +242,38 @@ public:
   void warmStart( void );
   void applyFreeSpaceMotion( const bubVector& _du );
   void forceUpdateHierachic( ConstraintRefList& toUpdate,
-                             const sotConstraintMem::BoundSideVector& boundSide );
+                             const ConstraintMem::BoundSideVector& boundSide );
   void forceDowndateHierachic( ConstraintRefList& toDowndate );
 
   /* ---------------------------------------------------------- */
   void solve( const bubMatrix& Jse, const bubVector& ese,
               const bubMatrix& Jsi, const bubVector& esiInf, const bubVector& esiSup,
-              const std::vector<sotConstraintMem::BoundSideType> esiBoundSide,
+              const std::vector<ConstraintMem::BoundSideType> esiBoundSide,
               bool pushBackAtTheEnd = true );
   void solve( const bubMatrix& Jse, const bubVector& ese,
               const bubMatrix& Jsi, const bubVector& esiInf, const bubVector& esiSup,
-              const sotConstraintMem::BoundSideVector & esiBoundSide,
-              const std::vector<sotConstraintRef> & slackActiveWarmStart,
+              const ConstraintMem::BoundSideVector & esiBoundSide,
+              const std::vector<ConstraintRef> & slackActiveWarmStart,
               bool pushBackAtTheEnd = true );
 
   /* ---------------------------------------------------------- */
   void initializeConstraintMemory( const bubMatrix& Jse, const bubVector& ese,
                                    const bubMatrix& Jsi, const bubVector& esiInf,
                                    const bubVector& esiSup,
-                                   const sotConstraintMem::BoundSideVector& esiBoundSide,
-                                   const std::vector<sotConstraintRef>& warmStartSide );
+                                   const ConstraintMem::BoundSideVector& esiBoundSide,
+                                   const std::vector<ConstraintRef>& warmStartSide );
   void initializeDecompositionSlack(void);
 
   /* ---------------------------------------------------------- */
   void updateConstraintHierarchic( const unsigned int constraintId,
-                                   const sotConstraintMem::BoundSideType side );
+                                   const ConstraintMem::BoundSideType side );
   void downdateConstraintHierarchic( const unsigned int kdown );
   void updateRankOneDowndate( void );
   void updateRankOneUpdate( void );
 
   /* ---------------------------------------------------------- */
   void updateConstraintSlack( const unsigned int kup,
-                              const sotConstraintMem::BoundSideType activeSide );
+                              const ConstraintMem::BoundSideType activeSide );
   void regularizeQhJs( void );
   void regularizeQhJsU( void );
   void downdateConstraintSlack( const unsigned int kdown );

@@ -25,7 +25,7 @@
 /* --- SOT --- */
 //#define VP_DEBUG
 #define VP_DEBUG_MODE 45
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 #include <sot-core/feature-point6d.h>
 #include <sot-core/exception-feature.h>
 

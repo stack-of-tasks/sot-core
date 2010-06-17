@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotAdditionalFunctions.cpp
+ * File:      AdditionalFunctions.cpp
  * Project:   SOT
  * Author:    François Bleibel
  *
@@ -20,28 +20,29 @@
 
 
 #include <dynamic-graph/interpreter.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 #include <sot-core/factory.h>
 #include <sot-core/additional-functions.h>
 #include <sot-core/signal-cast.h>
 #include <dynamic-graph/all-signals.h>
 #include <sot-core/flags.h>
 using namespace std;
+using namespace sot;
 
 /* \brief Constructor. At creation, overloads (deregisters-then registers
  * again) the 'new' function in the shell
  */
-sotAdditionalFunctions::sotAdditionalFunctions() {
+AdditionalFunctions::AdditionalFunctions() {
 	// overload 'new'
 	Shell.deregisterFunction("new");
-	Shell.registerFunction("new", &sotAdditionalFunctions::cmdNew);
+	Shell.registerFunction("new", &AdditionalFunctions::cmdNew);
 }
 
-sotAdditionalFunctions::~sotAdditionalFunctions() {
+AdditionalFunctions::~AdditionalFunctions() {
 	Shell.deregisterFunction("new");
 }
 
-void sotAdditionalFunctions::cmdNew( const std::string& cmdLine, istringstream& cmdArg, std::ostream& os )
+void AdditionalFunctions::cmdNew( const std::string& cmdLine, istringstream& cmdArg, std::ostream& os )
 {
   if( cmdLine == "help" )
     {
@@ -71,7 +72,7 @@ void sotAdditionalFunctions::cmdNew( const std::string& cmdLine, istringstream& 
   else os << "  !! Class <" << className << "> does not exist."<<endl;
 }
 
-void sotAdditionalFunctions::
+void AdditionalFunctions::
 cmdMatrixDisplay( const std::string& cmdLine, std::istringstream& cmdArg, std::ostream& os )
 {
    if( cmdLine == "help" )
@@ -117,7 +118,7 @@ cmdMatrixDisplay( const std::string& cmdLine, std::istringstream& cmdArg, std::o
 
 }
 
-void sotAdditionalFunctions::
+void AdditionalFunctions::
 cmdFlagSet( const std::string& cmdLine, istringstream& cmdArg, std::ostream& os )
 {
   if( cmdLine == "help" )
@@ -147,9 +148,9 @@ cmdFlagSet( const std::string& cmdLine, istringstream& cmdArg, std::ostream& os 
 }
 
 namespace {
-	sotAdditionalFunctions functions;
+	AdditionalFunctions functions;
 	ShellFunctionRegisterer regFun18
-   ( "setflag",boost::bind(sotAdditionalFunctions::cmdFlagSet,_1,_2,_3) );
+   ( "setflag",boost::bind(AdditionalFunctions::cmdFlagSet,_1,_2,_3) );
     ShellFunctionRegisterer regFun6
-    ( "dispmat",boost::bind(sotAdditionalFunctions::cmdMatrixDisplay,_1,_2,_3) );
+    ( "dispmat",boost::bind(AdditionalFunctions::cmdMatrixDisplay,_1,_2,_3) );
 }

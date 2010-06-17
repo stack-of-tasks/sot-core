@@ -20,7 +20,7 @@
 
 
 #include <sot-core/exception-abstract.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 
 using namespace std;
 

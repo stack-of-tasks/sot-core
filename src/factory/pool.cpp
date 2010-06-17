@@ -24,7 +24,7 @@
 
 /* --- SOT --- */
 #include <sot-core/pool.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 #include <dynamic-graph/entity.h>
 #include <list>
 

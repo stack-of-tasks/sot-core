@@ -27,7 +27,7 @@
 #include <sot-core/memory-task-sot.h>
 #include <sot-core/pool.h>
 #include <sot-core/task.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 using namespace std;
 
 /* --------------------------------------------------------------------- */

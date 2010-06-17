@@ -43,12 +43,14 @@ namespace ml = maal::boost;
 
 #include <boost/function.hpp>
 
+namespace sot {
+
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
 template< class Tin1,class Tin2,class Tout,typename Operator >
-class sotBinaryOp
+class BinaryOp
 :public Entity
 {
   Operator op;
@@ -60,18 +62,18 @@ class sotBinaryOp
   static std::string getTypeOutName( void ) { return "UnknownOut"; }
   static const std::string CLASS_NAME;
 
-  sotBinaryOp( const std::string& name )
+  BinaryOp( const std::string& name )
     : Entity(name)
-    ,SIN1(NULL,sotBinaryOp::CLASS_NAME+"("+name+")::input("+getTypeIn1Name()+")::in1") 
+    ,SIN1(NULL,BinaryOp::CLASS_NAME+"("+name+")::input("+getTypeIn1Name()+")::in1") 
     ,SIN2(NULL,CLASS_NAME+"("+name+")::input("+getTypeIn2Name()+")::in2") 
-    ,SOUT( boost::bind(&sotBinaryOp<Tin1,Tin2,Tout,Operator>::computeOperation,this,_1,_2), 
+    ,SOUT( boost::bind(&BinaryOp<Tin1,Tin2,Tout,Operator>::computeOperation,this,_1,_2), 
 	   SIN1<<SIN2,CLASS_NAME+"("+name+")::output("+getTypeOutName()+")::out") 
     {
       signalRegistration( SIN1<<SIN2<<SOUT );
     }
 
 
-  virtual ~sotBinaryOp( void ) {};
+  virtual ~BinaryOp( void ) {};
 
  public: /* --- SIGNAL --- */
 
@@ -96,7 +98,7 @@ class sotBinaryOp
 };
 
 
-
+} // namespace sot
 
 
 #endif // #ifndef __SOT_BINARYOP_H__

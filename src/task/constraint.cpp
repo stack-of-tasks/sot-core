@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotConstraint.cpp
+ * File:      Constraint.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -24,13 +24,13 @@
 
 /* SOT */
 #include <sot-core/constraint.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
+#include <dynamic-graph/pool.h>
 using namespace std;
-
-
+using namespace sot;
 
 #include <sot-core/factory.h>
-SOT_FACTORY_TASK_PLUGIN(sotConstraint,"Constraint");
+SOT_FACTORY_TASK_PLUGIN(Constraint,"Constraint");
 
 
 /* --------------------------------------------------------------------- */
@@ -38,11 +38,11 @@ SOT_FACTORY_TASK_PLUGIN(sotConstraint,"Constraint");
 /* --------------------------------------------------------------------- */
 
 
-sotConstraint::
-sotConstraint( const std::string& n )
+Constraint::
+Constraint( const std::string& n )
   :sotTaskAbstract(n)
 {
-  jacobianSOUT.setFunction( boost::bind(&sotConstraint::computeJacobian,this,_1,_2) );
+  jacobianSOUT.setFunction( boost::bind(&Constraint::computeJacobian,this,_1,_2) );
   
   signalDeregistration( "task" );
   signalDeregistration( "activation" );
@@ -50,7 +50,7 @@ sotConstraint( const std::string& n )
 
 
 
-void sotConstraint::
+void Constraint::
 addJacobian( Signal< ml::Matrix,int >& sig )
 {
   sotDEBUGIN(15);
@@ -58,7 +58,7 @@ addJacobian( Signal< ml::Matrix,int >& sig )
   jacobianSOUT.addDependancy( sig );
   sotDEBUGOUT(15);
 }
-void sotConstraint::
+void Constraint::
 clearJacobianList( void )
 {
 
@@ -76,7 +76,7 @@ clearJacobianList( void )
 /* --- COMPUTATION ---------------------------------------------------------- */
 /* --- COMPUTATION ---------------------------------------------------------- */
 
-ml::Matrix& sotConstraint::
+ml::Matrix& Constraint::
 computeJacobian( ml::Matrix& J,int time )
 {
   sotDEBUG(15) << "# In {" << endl;
@@ -133,16 +133,16 @@ computeJacobian( ml::Matrix& J,int time )
 /* --- DISPLAY ------------------------------------------------------------ */
 /* --- DISPLAY ------------------------------------------------------------ */
 
-std::ostream& operator<< ( std::ostream& os,const sotConstraint& t )
+namespace sot {
+std::ostream& operator<< ( std::ostream& os,const Constraint& t )
 { return os << t.name; }
+}
 
 
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
-#include <dynamic-graph/pool.h>
-
-void sotConstraint::
+void Constraint::
 commandLine( const std::string& cmdLine
 	     ,std::istringstream& cmdArgs
 	     ,std::ostream& os )

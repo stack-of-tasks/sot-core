@@ -23,7 +23,7 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 #include <sot-core/feature-point6d-relative.h>
 #include <sot-core/exception-feature.h>
 

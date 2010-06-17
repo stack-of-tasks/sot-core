@@ -2,7 +2,7 @@
  * Copyright Projet Lagadic, 2005
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotDebug.h
+ * File:      debug.h
  * Project:   STack of Tasks
  * Author:    Nicolas Mansard
  *
@@ -44,6 +44,8 @@
 #include <stdarg.h>
 #include <sot-core/sot-core-api.h>
 
+namespace sot {
+
  
 /* -------------------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
@@ -66,7 +68,7 @@
 		    outputbuffer << tmpbuffer.str() << charbuffer <<std::endl; \
 		} while(0)
 
-class SOT_CORE_EXPORT sotDebugTrace
+class SOT_CORE_EXPORT DebugTrace
 {
  public:
     static const int SIZE = 512;
@@ -77,7 +79,7 @@ class SOT_CORE_EXPORT sotDebugTrace
     int traceLevel;
     int traceLevelTemplate; 
 
-    sotDebugTrace( std::ostream& os ): outputbuffer(os) {}
+    DebugTrace( std::ostream& os ): outputbuffer(os) {}
 
     inline void trace( const int level,const char* format,...)
 	{ if( level<=traceLevel ) SOT_COMMON_TRACES; tmpbuffer.str(""); }
@@ -90,10 +92,10 @@ class SOT_CORE_EXPORT sotDebugTrace
     inline void traceTemplate( const char* format,...)
 	{ SOT_COMMON_TRACES; tmpbuffer.str("");  }
 
-    inline sotDebugTrace& pre( const std::ostream& dummy ) { return *this; }
-    inline sotDebugTrace& pre( const std::ostream& dummy,int level ) 
+    inline DebugTrace& pre( const std::ostream& dummy ) { return *this; }
+    inline DebugTrace& pre( const std::ostream& dummy,int level ) 
 	{ traceLevel = level; return *this; }
-/*     inline sotDebugTrace& preTemplate( const std::ostream& dummy,int level )  */
+/*     inline DebugTrace& preTemplate( const std::ostream& dummy,int level )  */
 /* 	{ traceLevelTemplate = level; return *this; } */
 
 
@@ -104,8 +106,8 @@ class SOT_CORE_EXPORT sotDebugTrace
 };
 
 
-SOT_CORE_EXPORT extern sotDebugTrace sotDEBUGFLOW;
-SOT_CORE_EXPORT extern sotDebugTrace sotERRORFLOW;
+SOT_CORE_EXPORT extern DebugTrace sotDEBUGFLOW;
+SOT_CORE_EXPORT extern DebugTrace sotERRORFLOW;
 
 #ifdef VP_DEBUG
 #define sotPREDEBUG  __FILE__ << ": " <<__FUNCTION__  \
@@ -156,6 +158,9 @@ inline void sotTDEBUGF( const char* format,...) { return; }
 #define sotTDEBUGOUT(level) sotTDEBUG(level) << "# Out }" << std::endl
 #define sotTDEBUGINOUT(level) sotTDEBUG(level) << "# In/Out { }" << std::endl
 
+} // namespace sot
+
+using namespace sot; //FIXME, for now used for every header that isn't yet in sot::
 
 #endif /* #ifdef __VS_DEBUG_HH */
 

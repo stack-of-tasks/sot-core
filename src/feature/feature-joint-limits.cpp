@@ -25,7 +25,7 @@
 /* --- SOT --- */
 #include <sot-core/feature-joint-limits.h>
 #include <sot-core/exception-feature.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 using namespace std;
 
 #include <sot-core/factory.h>

@@ -19,7 +19,7 @@
 
 
 #include <sot-core/memory-task-sot.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 
 
 const std::string sotMemoryTaskSOT::CLASS_NAME = "MemoryTaskSOT";

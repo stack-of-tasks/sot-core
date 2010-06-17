@@ -46,7 +46,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (sotConstraint_EXPORTS)
+#  if defined (Constraint_EXPORTS)
 #    define SOTCONSTRAINT_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTCONSTRAINT_EXPORT __declspec(dllimport)
@@ -55,13 +55,16 @@ namespace ml = maal::boost;
 #  define SOTCONSTRAINT_EXPORT
 #endif
 
+
+namespace sot {
+
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
 
 
-class SOTCONSTRAINT_EXPORT sotConstraint
+class SOTCONSTRAINT_EXPORT Constraint
 : public sotTaskAbstract
 {
  protected:
@@ -73,7 +76,7 @@ class SOTCONSTRAINT_EXPORT sotConstraint
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
  public:
-  sotConstraint( const std::string& n );
+  Constraint( const std::string& n );
 
   void addJacobian( Signal<ml::Matrix,int>& sig );
   void clearJacobianList( void );
@@ -86,7 +89,7 @@ class SOTCONSTRAINT_EXPORT sotConstraint
   ml::Matrix& computeJacobian( ml::Matrix& J,int time );
 
   /* --- DISPLAY ------------------------------------------------------------ */
-  SOTCONSTRAINT_EXPORT friend std::ostream& operator<< ( std::ostream& os,const sotConstraint& t );
+  SOTCONSTRAINT_EXPORT friend std::ostream& operator<< ( std::ostream& os,const Constraint& t );
 
   /* --- PARAMS --- */
   virtual void commandLine( const std::string& cmdLine
@@ -94,7 +97,7 @@ class SOTCONSTRAINT_EXPORT sotConstraint
 			    ,std::ostream& os );
 };
 
-
+} // namespace sot
 
 
 

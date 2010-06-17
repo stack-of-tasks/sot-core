@@ -28,7 +28,7 @@
 
 /*! Local Framework */
 #include <sot-core/flags.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 
 using namespace std;
 /* --------------------------------------------------------------------- */

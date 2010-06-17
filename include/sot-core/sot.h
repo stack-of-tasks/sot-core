@@ -89,7 +89,7 @@ class SOTSOT_CORE_EXPORT sotSOT
   StackType stack;
 
   /*! \brief Defines a type for a list of constraints */
-  typedef std::list<sotConstraint*> ConstraintListType;
+  typedef std::list<Constraint*> ConstraintListType;
   /*! \brief This field is a list of constraints
     managed by the stack of tasks. */
   ConstraintListType constraintList;
@@ -185,9 +185,9 @@ class SOTSOT_CORE_EXPORT sotSOT
    */
   /*! \brief Add a constraint to the stack with the current level
    of priority. */
-  virtual void addConstraint( sotConstraint& constraint );
+  virtual void addConstraint( Constraint& constraint );
   /*! \brief Remove a constraint from the stack. */
-  virtual void removeConstraint( const sotConstraint& constraint );
+  virtual void removeConstraint( const Constraint& constraint );
   /*! \brief Remove all the constraints from the stack. */
   virtual void clearConstraint( void );
 

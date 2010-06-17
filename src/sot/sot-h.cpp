@@ -21,10 +21,10 @@
 #define WITH_CHRONO
 //#define VP_DEBUG
 #define VP_DEBUG_MODE 45
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
  class sotSOTH__INIT
  {
- public:sotSOTH__INIT( void ) { sotDebugTrace::openFile(); }
+ public:sotSOTH__INIT( void ) { DebugTrace::openFile(); }
  };
  sotSOTH__INIT sotSOTH_initiator;
 
@@ -119,7 +119,7 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 void buildTaskVectors( const sotVectorMultiBound& err,
                        const ml::Matrix & JK,
                        bubVector & ee,bubVector & eiinf,bubVector & eisup,
-                       sotConstraintMem::BoundSideVector& bounds,
+                       ConstraintMem::BoundSideVector& bounds,
                        bubMatrix & Je,bubMatrix & Ji )
 {
   const unsigned int nJ = JK.nbCols();
@@ -152,18 +152,18 @@ void buildTaskVectors( const sotVectorMultiBound& err,
         case sotMultiBound::MODE_DOUBLE:
           {
             --sizei;
-            bounds[sizei] = sotConstraintMem::BOUND_VOID;
+            bounds[sizei] = ConstraintMem::BOUND_VOID;
             if( err[i].getDoubleBoundSetup( sotMultiBound::BOUND_INF ) )
               {
                 eiinf(sizei) = err[i].getDoubleBound( sotMultiBound::BOUND_INF );
-                bounds[sizei] = sotConstraintMem::BOUND_INF;
+                bounds[sizei] = ConstraintMem::BOUND_INF;
               }
             if( err[i].getDoubleBoundSetup( sotMultiBound::BOUND_SUP ) )
               {
                 eisup(sizei) = err[i].getDoubleBound( sotMultiBound::BOUND_SUP );
-                if( bounds[sizei]==sotConstraintMem::BOUND_INF )
-                  bounds[sizei]= sotConstraintMem::BOUND_BOTH;
-                else bounds[sizei]= sotConstraintMem::BOUND_SUP;
+                if( bounds[sizei]==ConstraintMem::BOUND_INF )
+                  bounds[sizei]= ConstraintMem::BOUND_BOTH;
+                else bounds[sizei]= ConstraintMem::BOUND_SUP;
               }
             for( unsigned int j=0;j<nJ;++j )
               { Ji(sizei,j) = JK(i,j); }
@@ -312,7 +312,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 
       sotDEBUG(25) << "/* Build the task vectors. */"<< std::endl;
       bubMatrix Ji; bubVector eiinf,eisup;
-      sotConstraintMem::BoundSideVector bounds;
+      ConstraintMem::BoundSideVector bounds;
       bubMatrix Je; bubVector ee;
       buildTaskVectors(err,mem->JK,ee,eiinf,eisup,bounds,Je,Ji);
       sotDEBUG(15) << "ee" << iterTask << " = " << ee << std::endl;
@@ -352,7 +352,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
     sotDEBUG(25) << "/* Solve. */"<< std::endl;
     bubMatrix Idnj( bub::identity_matrix<double>(nJ,nJ));
     bubVector ee(nJ); ee.assign( bub::zero_vector<double>(nJ));
-    bubMatrix Ji(0,0);    bubVector ei(0);  sotConstraintMem::BoundSideVector bounds(0);
+    bubMatrix Ji(0,0);    bubVector ei(0);  ConstraintMem::BoundSideVector bounds(0);
     solverNorm.solve( Idnj,ee,Ji,ei,ei,bounds,solverNorm.getSlackActiveSet() );
     sotDEBUG(1) << "utop = " << (MATLAB)solverNorm.u0 << endl;
     SOT_CHRONO;

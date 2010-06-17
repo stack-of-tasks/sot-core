@@ -23,7 +23,7 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 #include <sot-core/feature-1d.h>
 #include <sot-core/exception-feature.h>
 using namespace std;

@@ -19,7 +19,7 @@
 
 #include <sot-core/matrix-homogeneous.h>
 #include <sot-core/matrix-rotation.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 
 sotMatrixHomogeneous& sotMatrixHomogeneous::
 buildFrom( const sotMatrixRotation& rot, const ml::Vector& trans )

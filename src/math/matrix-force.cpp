@@ -21,7 +21,7 @@
 #include <sot-core/matrix-homogeneous.h>
 #include <sot-core/matrix-rotation.h>
 #include <sot-core/matrix-twist.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 
 sotMatrixForce& sotMatrixForce::
 buildFrom( const sotMatrixHomogeneous& M )

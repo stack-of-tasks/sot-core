@@ -24,9 +24,13 @@
 #include <sot-core/vector-roll-pitch-yaw.h>
 #include <sot-core/matrix-rotation.h>
 #include <sot-core/matrix-twist.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 
+#include <deque>
 
+using namespace sot;
+
+namespace sot {
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(sotClassType,sotType,index,className,CMDLINE,CMDHELP)  \
   template<>                                                                            \
@@ -71,7 +75,7 @@ struct sotAdder
   void operator()( const T& v1,const T& v2,T& res ) const { res=v1; res+=v2; }
 };
 
-typedef sotBinaryOp<Vector,Vector,Vector,sotAdder<Vector> > advector;
+typedef BinaryOp<Vector,Vector,Vector,sotAdder<Vector> > advector;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD
 (advector,vector,ad_vector,"Add<vector>"
 ,else if( cmdLine=="coeff1" ){ cmdArgs>>op.coeff1; } 
@@ -80,10 +84,10 @@ else if( cmdLine=="print" ){ os<<"Add ["<<op.coeff1<<","<<op.coeff2<<"]"<<std::e
 "Add<vector>: \n - coeff{1|2} value.");
 
 
-typedef sotBinaryOp<Matrix,Matrix,Matrix,sotAdder<Matrix> > admatrix;
+typedef BinaryOp<Matrix,Matrix,Matrix,sotAdder<Matrix> > admatrix;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(admatrix,matrix,ad_matrix,"Add<matrix>");
 
-typedef sotBinaryOp<double,double,double,sotAdder<double> > addouble; 
+typedef BinaryOp<double,double,double,sotAdder<double> > addouble; 
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(addouble,double,ad_double,"Add<double>");
 
 /* -------------------------------------------------------------------------- */
@@ -119,21 +123,21 @@ operator()(const sotVectorQuaternion& q1,const sotVectorQuaternion& q2,
 	   sotVectorQuaternion& res) const
 { q1.multiply(q2,res); }
 
-typedef sotBinaryOp<Vector,Vector,Vector,sotMultiplier<Vector> > multvector;
+typedef BinaryOp<Vector,Vector,Vector,sotMultiplier<Vector> > multvector;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multvector,vector,mult_vector,"Multiply<vector>");
 
-typedef sotBinaryOp<Matrix,Matrix,Matrix,sotMultiplier<Matrix> > multmatrix;
+typedef BinaryOp<Matrix,Matrix,Matrix,sotMultiplier<Matrix> > multmatrix;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multmatrix,matrix,mult_matrix,"Multiply<matrix>");
-typedef sotBinaryOp<sotMatrixHomogeneous,sotMatrixHomogeneous,sotMatrixHomogeneous,sotMultiplier<sotMatrixHomogeneous> > multmatrixhomo;
+typedef BinaryOp<sotMatrixHomogeneous,sotMatrixHomogeneous,sotMatrixHomogeneous,sotMultiplier<sotMatrixHomogeneous> > multmatrixhomo;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multmatrixhomo,matrixhomo,mult_matrixhomo,"Multiply<matrixhomo>");
-typedef sotBinaryOp<sotMatrixRotation,sotMatrixRotation,sotMatrixRotation,sotMultiplier<sotMatrixRotation> > multmatrixrot;
+typedef BinaryOp<sotMatrixRotation,sotMatrixRotation,sotMatrixRotation,sotMultiplier<sotMatrixRotation> > multmatrixrot;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multmatrixrot,matrixrot,mult_matrixrot,"Multiply<matrixrotation>");
-typedef sotBinaryOp<sotMatrixTwist,sotMatrixTwist,sotMatrixTwist,sotMultiplier<sotMatrixTwist> > multmatrixtwist;
+typedef BinaryOp<sotMatrixTwist,sotMatrixTwist,sotMatrixTwist,sotMultiplier<sotMatrixTwist> > multmatrixtwist;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multmatrixtwist,matrixtwist,mult_matrixtwist,"Multiply<matrixtwist>");
-typedef sotBinaryOp<sotVectorQuaternion,sotVectorQuaternion,sotVectorQuaternion,sotMultiplier<sotVectorQuaternion> > multquat;
+typedef BinaryOp<sotVectorQuaternion,sotVectorQuaternion,sotVectorQuaternion,sotMultiplier<sotVectorQuaternion> > multquat;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multquat,q,mult_q,"Multiply<quaternion>");
 
-typedef sotBinaryOp<double,double,double,sotMultiplier<double> > multdouble;
+typedef BinaryOp<double,double,double,sotMultiplier<double> > multdouble;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multdouble,double,mult_double,"Multiply<double>");
 /* -------------------------------------------------------------------------- */
 /* --- SUBSTRACTION --------------------------------------------------------- */
@@ -145,13 +149,13 @@ struct sotSubstract
   void operator()( const T& v1,const T& v2,T& res ) const { res=v1; res-=v2; }
 };
 
-typedef sotBinaryOp<Vector,Vector,Vector,sotSubstract<Vector> > subsvector;
+typedef BinaryOp<Vector,Vector,Vector,sotSubstract<Vector> > subsvector;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(subsvector,vector,subs_vector,"Substract<vector>");
 
-typedef sotBinaryOp<Matrix,Matrix,Matrix,sotSubstract<Matrix> > subsmatrix;
+typedef BinaryOp<Matrix,Matrix,Matrix,sotSubstract<Matrix> > subsmatrix;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(subsmatrix,matrix,subs_matrix,"Substract<matrix>");
 
-typedef sotBinaryOp<double,double,double,sotSubstract<double> > subsdouble;
+typedef BinaryOp<double,double,double,sotSubstract<double> > subsdouble;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(subsdouble,double,subs_double,"Substract<double>");
 /* -------------------------------------------------------------------------- */
 /* --- STACK ---------------------------------------------------------------- */
@@ -184,7 +188,7 @@ public:
       { res(v1size+i) = v2(i+v2min_local); }
   }
 };
-typedef sotBinaryOp< Vector,Vector,Vector,sotVectorStack > stackvector;
+typedef BinaryOp< Vector,Vector,Vector,sotVectorStack > stackvector;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(stackvector,vector,stack_vector,"Stack<vector>",else if( cmdLine=="selec1" ){ cmdArgs>>op.v1min>>op.v1max; } 
    else if( cmdLine=="selec2" ){ cmdArgs>>op.v2min>>op.v2max; } 
    else if( cmdLine=="print" ){ os<<"Stack ["<<op.v1min<<","<<op.v1max<<"] - ["<<op.v2min<<","<<op.v2max<<"] "<<std::endl; }, 
@@ -205,7 +209,7 @@ public:
     res += gain2*v2;
   }
 };
-typedef sotBinaryOp< Vector,Vector,Vector,sotWeightedAdder > weightadd;
+typedef BinaryOp< Vector,Vector,Vector,sotWeightedAdder > weightadd;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(weightadd,vector,weight_add,"WeightAdd<vector>",else if( cmdLine=="gain1" ){ cmdArgs>>op.gain1; } 
    else if( cmdLine=="gain2" ){ cmdArgs>>op.gain2;}
    else if( cmdLine=="print" ){os<<"WeightAdd: "<<op.gain1<<" "<<op.gain2<<std::endl; }, 
@@ -224,7 +228,7 @@ public:
     res*= (1/norm2);
   }
 };
-typedef sotBinaryOp< Vector,Vector,Vector,sotWeightedDirection > weightdir;
+typedef BinaryOp< Vector,Vector,Vector,sotWeightedDirection > weightdir;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(weightdir,vector,weight_dir,"WeightDir");
 
 
@@ -245,7 +249,7 @@ public:
       }
   }
 };
-typedef sotBinaryOp< Vector,Vector,Vector,sotNullificator > vectNil;
+typedef BinaryOp< Vector,Vector,Vector,sotNullificator > vectNil;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(vectNil,vector,vectnil_,"Nullificator");
 
 
@@ -271,7 +275,7 @@ public:
     res *= spring;
   }
 };
-typedef sotBinaryOp< Vector,Vector,Vector,sotVirtualSpring > virtspring;
+typedef BinaryOp< Vector,Vector,Vector,sotVirtualSpring > virtspring;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD
 (virtspring,vector,virtspring_,
  "VirtualSpring"
@@ -367,7 +371,7 @@ struct sotComposer
     H(3,3)=1.;
   };
 };
-typedef sotBinaryOp<ml::Matrix,ml::Vector,sotMatrixHomogeneous,sotComposer > TandRtoH;
+typedef BinaryOp<ml::Matrix,ml::Vector,sotMatrixHomogeneous,sotComposer > TandRtoH;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(TandRtoH,matrix,vector,composeTR,"Compose<R+T>");
 struct sotVectorComposerPRPY
 {
@@ -381,7 +385,7 @@ struct sotVectorComposerPRPY
       }
   };
 };
-typedef sotBinaryOp<sotVectorRollPitchYaw,ml::Vector,ml::Vector,sotVectorComposerPRPY > TandRPYtoV;
+typedef BinaryOp<sotVectorRollPitchYaw,ml::Vector,ml::Vector,sotVectorComposerPRPY > TandRPYtoV;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(TandRPYtoV,matrix,vector,composeTRPYV,"ComposeVector<RPY+T>");
 
 struct sotVectorScalarMultiplyer
@@ -395,7 +399,7 @@ struct sotVectorScalarMultiplyer
     }
   }
 };
-typedef sotBinaryOp<ml::Vector,double,ml::Vector,sotVectorScalarMultiplyer> VAndScalToV;
+typedef BinaryOp<ml::Vector,double,ml::Vector,sotVectorScalarMultiplyer> VAndScalToV;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(VAndScalToV,vec,scal,newvec,"Multiply<vector,double>");
 
 struct sotMatrixHomeComposerPRPY
@@ -408,7 +412,7 @@ struct sotMatrixHomeComposerPRPY
 
   };
 };
-typedef sotBinaryOp<sotVectorRollPitchYaw,ml::Vector,sotMatrixHomogeneous,sotMatrixHomeComposerPRPY > TandRPYtoM;
+typedef BinaryOp<sotVectorRollPitchYaw,ml::Vector,sotMatrixHomogeneous,sotMatrixHomeComposerPRPY > TandRPYtoM;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_G(TandRPYtoM,vectorRPY,vector,matrixHomo,composeTRPYM,"Compose<RPY+T>");
 
 
@@ -438,7 +442,7 @@ struct sotEndomorphismBasis
 
 
 
-typedef sotBinaryOp<sotMatrixHomogeneous,sotMatrixRotation,sotMatrixHomogeneous,sotEndomorphismBasis > endoMRM;
+typedef BinaryOp<sotMatrixHomogeneous,sotMatrixRotation,sotMatrixHomogeneous,sotEndomorphismBasis > endoMRM;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(endoMRM,matrixhomo,matrixrotation,endoMRM_,"EndomorphismBasis");
 
 
@@ -450,17 +454,15 @@ struct sotMultiplierE_F
   { m2.multiply(v1,res); }
 };
 
-typedef sotBinaryOp<ml::Vector,ml::Matrix,ml::Vector,sotMultiplierE_F<ml::Vector,ml::Matrix> > multmatrixvector;
+typedef BinaryOp<ml::Vector,ml::Matrix,ml::Vector,sotMultiplierE_F<ml::Vector,ml::Matrix> > multmatrixvector;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(multmatrixvector,vector,matrix,multmatrixvector,"Multiply<vector,matrix>");
 
-typedef sotBinaryOp<ml::Vector,sotMatrixHomogeneous,ml::Vector,sotMultiplierE_F<ml::Vector,sotMatrixHomogeneous> > multmatrixhomovector;
+typedef BinaryOp<ml::Vector,sotMatrixHomogeneous,ml::Vector,sotMultiplierE_F<ml::Vector,sotMatrixHomogeneous> > multmatrixhomovector;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(multmatrixhomovector,vector,matrixHomo,multmatrixhomovector,"Multiply<vector,matrixHomo>");
 
 
 
 /* --- CONVOLUTION PRODUCT --- */
-#include <deque>
-
 struct sotConvolutionTemporal
 {
   typedef std::deque<ml::Vector> MemoryType;
@@ -500,6 +502,7 @@ struct sotConvolutionTemporal
 
 };
 
-typedef sotBinaryOp<ml::Vector,ml::Matrix,ml::Vector,sotConvolutionTemporal> convtemp;
+typedef BinaryOp<ml::Vector,ml::Matrix,ml::Vector,sotConvolutionTemporal> convtemp;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(convtemp,vector,matrix,convtemp,"ConvolutionTemporal");
 
+} // namespace sot

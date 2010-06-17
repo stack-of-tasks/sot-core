@@ -22,10 +22,10 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-//#include <sot-core/sotDebug.h>
+//#include <sot-core/debug.h>
 //class sotSOTQr__INIT
 //{
-//public:sotSOTQr__INIT( void ) { sotDebugTrace::openFile(); }
+//public:sotSOTQr__INIT( void ) { DebugTrace::openFile(); }
 //};
 //sotSOTQr__INIT sotSOTQr_initiator;
 
@@ -35,7 +35,7 @@
 #include <sot-core/task.h>
 #include <sot-core/sot.h>
 #include <sot-core/memory-task-sot.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 
 #define FORTRAN_ID( id ) id##_
 using namespace std;
@@ -191,14 +191,14 @@ clear( void )
 /* --------------------------------------------------------------------- */
 
 void sotSOTQr::
-addConstraint( sotConstraint& constraint )
+addConstraint( Constraint& constraint )
 {
   constraintList.push_back( &constraint );
   constraintSOUT.addDependancy( constraint.jacobianSOUT );
 }
 
 void sotSOTQr::
-removeConstraint( const sotConstraint& key )
+removeConstraint( const Constraint& key )
 {
   bool find =false; ConstraintListType::iterator it;
   for ( it=constraintList.begin();constraintList.end()!=it;++it )
@@ -1071,14 +1071,14 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
   else if( cmdLine == "addConstraint" )
     {
       std::string cstname; cmdArgs >> cstname;
-      sotConstraint &cs = dynamic_cast<sotConstraint&>(sotPool.getTask( cstname ));
+      Constraint &cs = dynamic_cast<Constraint&>(sotPool.getTask( cstname ));
       addConstraint( cs );
       constraintSOUT.setReady();
     }
   else if( cmdLine == "rmConstraint" )
     {
       std::string cstname; cmdArgs >> cstname;
-      sotConstraint &cs = dynamic_cast<sotConstraint&>(sotPool.getTask( cstname ));
+      Constraint &cs = dynamic_cast<Constraint&>(sotPool.getTask( cstname ));
       removeConstraint( cs );
       constraintSOUT.setReady();
     }

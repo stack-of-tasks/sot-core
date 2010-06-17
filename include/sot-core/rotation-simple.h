@@ -7,7 +7,7 @@
 #include <MatrixAbstractLayer/boost.h>
 #include <boost/numeric/ublas/triangular.hpp>
 #include <boost/numeric/ublas/lu.hpp>
-#include <sot-core/sotDebug.h>
+#include <sot-core/debug.h>
 
 #include <list>
 

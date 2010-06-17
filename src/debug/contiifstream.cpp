@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotContiifstream.cpp
+ * File:      Contiifstream.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -17,22 +17,24 @@
  *
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-#include <sot-core/sotContiifstream.h>
-#include <sot-core/sotDebug.h>
+#include <sot-core/contiifstream.h>
+#include <sot-core/debug.h>
 
-sotContiifstream::
-sotContiifstream( const std::string& n )
+using namespace sot;
+
+Contiifstream::
+Contiifstream( const std::string& n )
   :filename(n),cursor(0),first(true) {}
 
 
-sotContiifstream::
-~sotContiifstream( void )
+Contiifstream::
+~Contiifstream( void )
 {
   sotDEBUGINOUT(5);
 }
 
 
-bool sotContiifstream::
+bool Contiifstream::
 loop( void )
 {
   sotDEBUGIN(25);
@@ -64,7 +66,7 @@ loop( void )
 }
 
 std::string 
-sotContiifstream::next( void ) 
+Contiifstream::next( void ) 
 {
   std::string res = *reader.begin();
   reader.pop_front();
