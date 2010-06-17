@@ -28,7 +28,7 @@
 /* SOT */
 #include <sot-core/sotFeatureGeneric.h>
 #include <sot-core/sotTaskAbstract.h>
-#include <sot-core/sotExceptionTask.h>
+#include <sot-core/exception-task.h>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */

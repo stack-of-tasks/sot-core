@@ -33,7 +33,7 @@
 /* --- SOT --- */
 class sotFeatureAbstract;
 class sotTaskAbstract;
-#include <sot-core/sotExceptionFactory.h>
+#include <sot-core/exception-factory.h>
 #include <sot-core/sot-core-api.h>
 #include <dynamic-graph/factory.h>
 

@@ -25,7 +25,7 @@
 /* --- SOT --- */
 #include <sot-core/sotDebug.h>
 #include <sot-core/sotFeaturePoint6dRelative.h>
-#include <sot-core/sotExceptionFeature.h>
+#include <sot-core/exception-feature.h>
 
 #include <sot-core/sotMatrixHomogeneous.h>
 #include <sot-core/sotMatrixRotation.h>

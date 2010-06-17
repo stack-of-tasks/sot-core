@@ -6,21 +6,21 @@ SET(${PROJECT_NAME}_HEADERS
 sot-core-api.h
 
 #debug
-sotContiifstream.h
-sotDebug.h
+contiifstream.h
+debug.h
 
 #exception
-sotExceptionAbstract.h
-sotExceptionDynamic.h
-sotExceptionFactory.h
-sotExceptionFeature.h
-sotExceptionSignal.h
-sotExceptionTask.h
-sotExceptionTools.h
-sotExceptionTraces.h
+exception-abstract.h
+exception-dynamic.h
+exception-factory.h
+exception-feature.h
+exception-signal.h
+exception-task.h
+exception-tools.h
+exception-traces.h
 
 #signal
-sotSignalCast.h
+signal-cast.h
 
 #matrix
 sotBinaryOp.h

@@ -28,7 +28,7 @@
 /* SOT */
 #include <sot-core/sotFeatureAbstract.h>
 #include <sot-core/sotFeaturePoint6d.h>
-#include <sot-core/sotExceptionTask.h>
+#include <sot-core/exception-task.h>
 #include <sot-core/sotVectorUTheta.h>
 
 /* --------------------------------------------------------------------- */

@@ -27,7 +27,7 @@
 
 #include <sot-core/sotFactory.h>
 #include <sot-core/sotDebug.h>
-#include <sot-core/sotExceptionSignal.h>
+#include <sot-core/exception-signal.h>
 SOT_FACTORY_ENTITY_PLUGIN(sotGainHyperbolic,"GainHyperbolic");
 
 const double sotGainHyperbolic::
@@ -119,7 +119,7 @@ display( std::ostream& os ) const
   os <<" ("<<coeff_a<<".exp(-"<<coeff_b<<"(x-" << coeff_d << "))+" <<coeff_c;
 }
 
-#include <sot-core/sotExceptionTask.h>
+#include <sot-core/exception-task.h>
 void sotGainHyperbolic::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,

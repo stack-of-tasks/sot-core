@@ -23,7 +23,7 @@
 #include <sot-core/sotDebug.h>
 #include <sot-core/sotFactory.h>
 #include <sot-core/sotAdditionalFunctions.h>
-#include <sot-core/sotSignalCast.h>
+#include <sot-core/signal-cast.h>
 #include <dynamic-graph/all-signals.h>
 #include <sot-core/sotFlags.h>
 using namespace std;

@@ -13,8 +13,8 @@
 #include <sot-core/import-default-paths.h>
 #include <sot-core/import.h>
 #include <sot-core/sotDebug.h>
-#include <sot-core/sotExceptionAbstract.h>
-#include <sot-core/sotExceptionFactory.h>
+#include <sot-core/exception-abstract.h>
+#include <sot-core/exception-factory.h>
 #include <dynamic-graph/interpreter.h>
 
 static const char* ENV_SOT_PATH = "SOT_PATH";

@@ -33,7 +33,7 @@
 
 /* SOT */
 #include <sot-core/sot-core-api.h>
-#include <sot-core/sotExceptionTask.h>
+#include <sot-core/exception-task.h>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

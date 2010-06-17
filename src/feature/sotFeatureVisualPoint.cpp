@@ -24,7 +24,7 @@
 
 /* --- SOT --- */
 #include <sot-core/sotFeatureVisualPoint.h>
-#include <sot-core/sotExceptionFeature.h>
+#include <sot-core/exception-feature.h>
 #include <sot-core/sotDebug.h>
 using namespace std;
 

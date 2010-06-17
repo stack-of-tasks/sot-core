@@ -27,7 +27,7 @@
 /* --------------------------------------------------------------------- */
 #include <sot-core/sotDebug.h>
 #include <sot-core/sotFactory.h>
-#include <sot-core/sotExceptionSignal.h>
+#include <sot-core/exception-signal.h>
 SOT_FACTORY_ENTITY_PLUGIN(sotGainAdaptative,"GainAdaptative");
 
 const double sotGainAdaptative::
@@ -114,7 +114,7 @@ display( std::ostream& os ) const
   os <<" ("<<coeff_a<<";"<<coeff_b<<";"<<coeff_c<<") ";
 }
 
-#include <sot-core/sotExceptionTask.h>
+#include <sot-core/exception-task.h>
 void sotGainAdaptative::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,

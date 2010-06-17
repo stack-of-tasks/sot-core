@@ -27,7 +27,7 @@
 #define VP_DEBUG_MODE 45
 #include <sot-core/sotDebug.h>
 #include <sot-core/sotFeaturePoint6d.h>
-#include <sot-core/sotExceptionFeature.h>
+#include <sot-core/exception-feature.h>
 
 #include <sot-core/sotMatrixHomogeneous.h>
 #include <sot-core/sotMatrixRotation.h>

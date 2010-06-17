@@ -25,7 +25,7 @@
 /* --- SOT --- */
 #include <sot-core/sotDebug.h>
 #include <sot-core/sotFeatureTask.h>
-#include <sot-core/sotExceptionFeature.h>
+#include <sot-core/exception-feature.h>
 #include <dynamic-graph/pool.h>
 using namespace std;
 

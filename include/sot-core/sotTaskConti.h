@@ -38,7 +38,7 @@ namespace ml = maal::boost;
 #include <sot-core/sotFlags.h>
 #include <sot-core/sotTask.h>
 
-#include <sot-core/sotExceptionTask.h>
+#include <sot-core/exception-task.h>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */

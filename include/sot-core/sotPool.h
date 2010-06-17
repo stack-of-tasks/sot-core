@@ -33,7 +33,7 @@
 #include <sstream>
 
 /* --- SOT --- */
-#include <sot-core/sotExceptionFactory.h>
+#include <sot-core/exception-factory.h>
 #include <dynamic-graph/signal-base.h>
 #include <sot-core/sot-core-api.h>
 #include <dynamic-graph/pool.h>

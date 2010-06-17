@@ -38,8 +38,8 @@ namespace ml = maal::boost;
 #include <sot-core/sotFlags.h>
 #include <sot-core/sotTaskAbstract.h>
 #include <dynamic-graph/all-signals.h>
-#include <sot-core/sotExceptionTask.h>
-#include <sot-core/sotExceptionSignal.h>
+#include <sot-core/exception-task.h>
+#include <sot-core/exception-signal.h>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */

@@ -5,19 +5,19 @@
 SET(LIBRARY_NAME ${PROJECT_NAME})
 
 SET(${LIBRARY_NAME}_SOURCES
-	debug/sotDebug.cpp
-	debug/sotContiifstream.cpp
+	debug/debug.cpp
+	debug/contiifstream.cpp
 	
-	exception/sotExceptionAbstract.cpp
-	exception/sotExceptionDynamic.cpp
-	exception/sotExceptionFactory.cpp
-	exception/sotExceptionFeature.cpp
-	exception/sotExceptionSignal.cpp
-	exception/sotExceptionTask.cpp
-	exception/sotExceptionTools.cpp
-	exception/sotExceptionTraces.cpp
+	exception/exception-abstract.cpp
+	exception/exception-dynamic.cpp
+	exception/exception-factory.cpp
+	exception/exception-feature.cpp
+	exception/exception-signal.cpp
+	exception/exception-task.cpp
+	exception/exception-tools.cpp
+	exception/exception-traces.cpp
 	
-	signal/sotSignalCast.cpp
+	signal/signal-cast.cpp
 	
 	matrix/sotBinaryOp.cpp
 	matrix/sotDerivator.cpp

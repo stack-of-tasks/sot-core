@@ -25,7 +25,7 @@
 /* --- SOT --- */
 #include <sot-core/sotDebug.h>
 #include <sot-core/sotFeature1D.h>
-#include <sot-core/sotExceptionFeature.h>
+#include <sot-core/exception-feature.h>
 using namespace std;
 
 #include <sot-core/sotFactory.h>
