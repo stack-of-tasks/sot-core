@@ -19,8 +19,8 @@
 
 #include <sot-core/sotVectorToRotation.h>
 
-#include <sot-core/sotFactory.h>
-#include <sot-core/sotMacrosSignal.h>
+#include <sot-core/factory.h>
+#include <sot-core/macros-signal.h>
 #include <sot-core/sotDebug.h>
 SOT_FACTORY_ENTITY_PLUGIN(sotVectorToRotation,"VectorToRotation");
 

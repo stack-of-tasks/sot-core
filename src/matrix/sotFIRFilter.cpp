@@ -19,7 +19,7 @@
 
 #include <sot-core/sotFIRFilter.h>
 
-#include <sot-core/sotFactory.h>
+#include <sot-core/factory.h>
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotClassType,sotSigType,sotCoefType,id,className) \
   template<>								\

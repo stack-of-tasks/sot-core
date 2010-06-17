@@ -34,7 +34,7 @@
 
 using namespace std;
 
-#include <sot-core/sotFactory.h>
+#include <sot-core/factory.h>
 SOT_FACTORY_FEATURE_PLUGIN(sotFeaturePoint6dRelative,"FeaturePoint6dRelative");
 
 /* --------------------------------------------------------------------- */

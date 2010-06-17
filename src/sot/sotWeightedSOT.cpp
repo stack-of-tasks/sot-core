@@ -25,7 +25,7 @@
 /* SOT */
 #include <sot-core/sotWeightedSOT.h>
 #include <sot-core/sotMemoryTaskSOT.h>
-#include <sot-core/sotPool.h>
+#include <sot-core/pool.h>
 #include <sot-core/sotTask.h>
 #include <sot-core/sotDebug.h>
 using namespace std;
@@ -35,7 +35,7 @@ using namespace std;
 /* --------------------------------------------------------------------- */
 
 
-#include <sot-core/sotFactory.h>
+#include <sot-core/factory.h>
 SOT_FACTORY_ENTITY_PLUGIN(sotWeightedSOT,"WSOT");
 
 /* --------------------------------------------------------------------- */

@@ -23,7 +23,7 @@
 
 /* SOT */
 #include <sot-core/sotTaskAbstract.h>
-#include <sot-core/sotPool.h>
+#include <sot-core/pool.h>
 
 
 /* --------------------------------------------------------------------- */

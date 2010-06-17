@@ -29,7 +29,7 @@ using namespace std;
 
 
 
-#include <sot-core/sotFactory.h>
+#include <sot-core/factory.h>
 SOT_FACTORY_TASK_PLUGIN(sotTask,"Task");
 
 
@@ -306,7 +306,7 @@ display( std::ostream& os ) const
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
-#include <sot-core/sotPool.h>
+#include <sot-core/pool.h>
 
 static void readListIdx( std::istringstream& cmdArgs,
 			 unsigned int & idx_beg,unsigned int &idx_end,

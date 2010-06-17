@@ -19,7 +19,7 @@
 
 #include <sot-core/sotIntegratorEuler.h>
 
-#include <sot-core/sotFactory.h>
+#include <sot-core/factory.h>
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotClassType,sotSigType,sotCoefType,className)   \
   template<>                                                                                \

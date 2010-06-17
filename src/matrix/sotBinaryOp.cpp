@@ -19,7 +19,7 @@
 
 #include <sot-core/sotBinaryOp.h>
 
-#include <sot-core/sotFactory.h>
+#include <sot-core/factory.h>
 #include <sot-core/sotMatrixHomogeneous.h>
 #include <sot-core/sotVectorRollPitchYaw.h>
 #include <sot-core/sotMatrixRotation.h>

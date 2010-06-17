@@ -28,7 +28,7 @@
 #include <sot-core/exception-feature.h>
 using namespace std;
 
-#include <sot-core/sotFactory.h>
+#include <sot-core/factory.h>
 SOT_FACTORY_FEATURE_PLUGIN(sotFeature1D,"Feature1D");
 
 /* --------------------------------------------------------------------- */

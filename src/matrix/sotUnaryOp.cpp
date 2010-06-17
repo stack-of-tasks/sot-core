@@ -19,7 +19,7 @@
 
 #include <sot-core/sotUnaryOp.h>
 
-#include <sot-core/sotFactory.h>
+#include <sot-core/factory.h>
 
 #include <sot-core/sotMatrixHomogeneous.h>
 #include <sot-core/sotMatrixTwist.h>

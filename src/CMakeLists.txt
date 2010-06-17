@@ -29,9 +29,9 @@ SET(${LIBRARY_NAME}_SOURCES
 	matrix/sotVectorConstant.cpp
 	matrix/sotVectorToRotation.cpp
 	
-	factory/sotAdditionalFunctions.cpp
-	factory/sotFactory.cpp
-	factory/sotPool.cpp
+	factory/additional-functions.cpp
+	factory/factory.cpp
+	factory/pool.cpp
 	
 	math/sotMatrixForce.cpp
 	math/sotMatrixHomogeneous.cpp

@@ -18,7 +18,7 @@
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 #include <sot-core/sotFeatureAbstract.h>
-#include <sot-core/sotPool.h>
+#include <sot-core/pool.h>
 
 const std::string 
 sotFeatureAbstract::CLASS_NAME = "FeatureAbstract";

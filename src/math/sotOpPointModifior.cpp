@@ -23,7 +23,7 @@
 #include <sot-core/sotMatrixTwist.h>
 
 #include <dynamic-graph/pool.h>
-#include <sot-core/sotFactory.h>
+#include <sot-core/factory.h>
 SOT_FACTORY_ENTITY_PLUGIN(sotOpPointModifior,"OpPointModifior");
 
 using namespace std;

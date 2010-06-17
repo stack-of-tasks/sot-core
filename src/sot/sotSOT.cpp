@@ -35,7 +35,7 @@
 #endif //#ifdef VP_DEBUG
 
 #include <sot-core/sotSOT.h>
-#include <sot-core/sotPool.h>
+#include <sot-core/pool.h>
 #include <sot-core/sotTask.h>
 #include <sot-core/sotMemoryTaskSOT.h>
 
@@ -46,7 +46,7 @@ using namespace std;
 /* --------------------------------------------------------------------- */
 
 
-#include <sot-core/sotFactory.h>
+#include <sot-core/factory.h>
 SOT_FACTORY_ENTITY_PLUGIN(sotSOT,"SOT");
 
 

@@ -18,7 +18,7 @@
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 #include <sot-core/sotDerivator.h>
-#include <sot-core/sotFactory.h>
+#include <sot-core/factory.h>
 
 
 

@@ -34,10 +34,10 @@ sotVectorConstant.h
 sotVectorToRotation.h
 
 #factory
-sotAdditionalFunctions.h
-sotFactory.h
-sotMacrosSignal.h
-sotPool.h
+additional-functions.h
+factory.h
+macros-signal.h
+pool.h
 
 #math
 sotMatrixForce.h

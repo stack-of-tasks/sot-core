@@ -19,7 +19,7 @@
 
 #include <sot-core/sotMatrixConstant.h>
 
-#include <sot-core/sotFactory.h>
+#include <sot-core/factory.h>
 SOT_FACTORY_ENTITY_PLUGIN(sotMatrixConstant,"MatrixConstant");
 
 using namespace std;

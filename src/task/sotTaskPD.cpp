@@ -29,7 +29,7 @@ using namespace std;
 
 
 
-#include <sot-core/sotFactory.h>
+#include <sot-core/factory.h>
 
 SOT_FACTORY_TASK_PLUGIN(sotTaskPD,"TaskPD");
 
@@ -108,7 +108,7 @@ computeTaskModif( sotVectorMultiBound& task,int time )
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
-#include <sot-core/sotPool.h>
+#include <sot-core/pool.h>
 
 void sotTaskPD::
 commandLine( const std::string& cmdLine

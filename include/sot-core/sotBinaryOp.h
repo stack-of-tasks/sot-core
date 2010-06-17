@@ -33,7 +33,7 @@ namespace ml = maal::boost;
 /* SOT */
 #include <sot-core/sotFlags.h>
 #include <dynamic-graph/entity.h>
-#include <sot-core/sotPool.h>
+#include <sot-core/pool.h>
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/all-signals.h>
 #include <sot-core/sotVectorQuaternion.h>
