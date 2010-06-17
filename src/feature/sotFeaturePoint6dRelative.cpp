@@ -27,9 +27,9 @@
 #include <sot-core/sotFeaturePoint6dRelative.h>
 #include <sot-core/exception-feature.h>
 
-#include <sot-core/sotMatrixHomogeneous.h>
-#include <sot-core/sotMatrixRotation.h>
-#include <sot-core/sotMatrixTwist.h>
+#include <sot-core/matrix-homogeneous.h>
+#include <sot-core/matrix-rotation.h>
+#include <sot-core/matrix-twist.h>
 #include <dynamic-graph/pool.h>
 
 using namespace std;

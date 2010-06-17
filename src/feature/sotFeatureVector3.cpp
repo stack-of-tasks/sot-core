@@ -29,9 +29,9 @@
 #include <sot-core/sotFeatureVector3.h>
 #include <sot-core/exception-feature.h>
 
-#include <sot-core/sotMatrixHomogeneous.h>
-#include <sot-core/sotMatrixRotation.h>
-#include <sot-core/sotVectorUTheta.h>
+#include <sot-core/matrix-homogeneous.h>
+#include <sot-core/matrix-rotation.h>
+#include <sot-core/vector-utheta.h>
 
 using namespace std;
 

@@ -23,15 +23,15 @@ exception-traces.h
 signal-cast.h
 
 #matrix
-sotBinaryOp.h
-sotDerivator.h
-sotFIRFilter.h
-sotIntegratorAbstract.h
-sotIntegratorEuler.h
-sotMatrixConstant.h
-sotUnaryOp.h
-sotVectorConstant.h
-sotVectorToRotation.h
+binary-op.h
+derivator.h
+fir-filter.h
+integrator-abstract.h
+integrator-euler.h
+matrix-constant.h
+unary-op.h
+vector-constant.h
+vector-to-rotation.h
 
 #factory
 additional-functions.h
@@ -40,15 +40,15 @@ macros-signal.h
 pool.h
 
 #math
-sotMatrixForce.h
-sotMatrixHomogeneous.h
-sotMatrixRotation.h
-sotMatrixTwist.h
-sotOpPointModifior.h
-sotVectorQuaternion.h
-sotVectorRollPitchYaw.h
-sotVectorRotation.h
-sotVectorUTheta.h
+matrix-force.h
+matrix-homogeneous.h
+matrix-rotation.h
+matrix-twist.h
+op-point-modifier.h
+vector-quaternion.h
+vector-roll-pitch-yaw.h
+vector-rotation.h
+vector-utheta.h
 
 #feature
 sotFeaturePoint6d.h

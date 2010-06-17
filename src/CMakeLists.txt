@@ -19,28 +19,28 @@ SET(${LIBRARY_NAME}_SOURCES
 	
 	signal/signal-cast.cpp
 	
-	matrix/sotBinaryOp.cpp
-	matrix/sotDerivator.cpp
-	matrix/sotFIRFilter.cpp
-	matrix/sotIntegratorAbstract.cpp
-	matrix/sotIntegratorEuler.cpp
-	matrix/sotMatrixConstant.cpp
-	matrix/sotUnaryOp.cpp
-	matrix/sotVectorConstant.cpp
-	matrix/sotVectorToRotation.cpp
+	matrix/binary-op.cpp
+	matrix/derivator.cpp
+	matrix/fir-filter.cpp
+	matrix/integrator-abstract.cpp
+	matrix/integrator-euler.cpp
+	matrix/matrix-constant.cpp
+	matrix/unary-op.cpp
+	matrix/vector-constant.cpp
+	matrix/vector-to-rotation.cpp
 	
 	factory/additional-functions.cpp
 	factory/factory.cpp
 	factory/pool.cpp
 	
-	math/sotMatrixForce.cpp
-	math/sotMatrixHomogeneous.cpp
-	math/sotMatrixRotation.cpp
-	math/sotMatrixTwist.cpp
-	math/sotOpPointModifior.cpp
-	math/sotVectorQuaternion.cpp
-	math/sotVectorRollPitchYaw.cpp
-	math/sotVectorUTheta.cpp
+	math/matrix-force.cpp
+	math/matrix-homogeneous.cpp
+	math/matrix-rotation.cpp
+	math/matrix-twist.cpp
+	math/op-point-modifior.cpp
+	math/vector-quaternion.cpp
+	math/vector-roll-pitch-yaw.cpp
+	math/vector-utheta.cpp
 	
 	feature/sotFeaturePoint6d.cpp
 	feature/sotFeatureVector3.cpp

@@ -28,7 +28,7 @@
 /* SOT */
 #include <sot-core/sotFeatureAbstract.h>
 #include <sot-core/exception-task.h>
-#include <sot-core/sotMatrixHomogeneous.h>
+#include <sot-core/matrix-homogeneous.h>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
