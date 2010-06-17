@@ -20,7 +20,7 @@
 #include <sot-core/pool.h>
 #include <sot-core/signal-cast.h>
 #include <iomanip>
-#include <sot-core/sotFeatureAbstract.h>
+#include <sot-core/feature-abstract.h>
 
 using namespace std;
 

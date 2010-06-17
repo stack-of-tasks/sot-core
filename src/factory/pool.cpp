@@ -115,8 +115,8 @@ getFeature( const std::string& name )
 /* --------------------------------------------------------------------- */
 
 #include <dynamic-graph/entity.h>
-#include <sot-core/sotTaskAbstract.h>
-#include <sot-core/sotFeatureAbstract.h>
+#include <sot-core/task-abstract.h>
+#include <sot-core/feature-abstract.h>
 
 #ifdef WIN32
 #include <time.h>

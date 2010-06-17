@@ -23,7 +23,7 @@
 #define __SOT_SIGNAL_CAST_HH__
 
 
-#include <sot-core/sotFlags.h>
+#include <sot-core/flags.h>
 #include <MatrixAbstractLayer/boost.h>
 #include <sot-core/matrix-homogeneous.h>
 #include <sot-core/matrix-twist.h>
@@ -31,7 +31,7 @@
 #include <sot-core/vector-quaternion.h>
 #include <sot-core/vector-roll-pitch-yaw.h>
 #include <sot-core/matrix-force.h>
-#include <sot-core/sotMultiBound.h>
+#include <sot-core/task-multi-bound.h>
 #include <sot-core/sot-core-api.h>
 #ifdef WIN32
 #include <sot-core/sotUtilsWindows.h>

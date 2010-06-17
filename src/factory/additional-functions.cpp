@@ -25,7 +25,7 @@
 #include <sot-core/additional-functions.h>
 #include <sot-core/signal-cast.h>
 #include <dynamic-graph/all-signals.h>
-#include <sot-core/sotFlags.h>
+#include <sot-core/flags.h>
 using namespace std;
 
 /* \brief Constructor. At creation, overloads (deregisters-then registers

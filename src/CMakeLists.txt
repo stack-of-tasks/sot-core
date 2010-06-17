@@ -42,35 +42,35 @@ SET(${LIBRARY_NAME}_SOURCES
 	math/vector-roll-pitch-yaw.cpp
 	math/vector-utheta.cpp
 	
-	feature/sotFeaturePoint6d.cpp
-	feature/sotFeatureVector3.cpp
-	feature/sotFeatureAbstract.cpp
-	feature/sotFeatureGeneric.cpp
-	feature/sotFeatureJointLimits.cpp
-	feature/sotFeature1D.cpp
-	feature/sotFeaturePoint6dRelative.cpp
-	feature/sotFeatureVisualPoint.cpp
-	feature/sotFeatureTask.cpp
-	feature/sotFeatureLineDistance.cpp
+	feature/feature-point6d.cpp
+	feature/feature-vector3.cpp
+	feature/feature-abstract.cpp
+	feature/feature-generic.cpp
+	feature/feature-joint-limits.cpp
+	feature/feature-1d.cpp
+	feature/feature-point6d-relative.cpp
+	feature/feature-visual-point.cpp
+	feature/feature-task.cpp
+	feature/feature-line-distance.cpp
 	
-	task/sotGainAdaptative.cpp
-	task/sotTaskPD.cpp
-	task/sotConstraint.cpp
-	task/sotGainHyperbolic.cpp
-	task/sotTask.cpp
-	task/sotMultiBound.cpp
-	task/sotTaskConti.cpp
-	task/sotTaskUnilateral.cpp
-	task/sotTaskAbstract.cpp
+	task/gain-adaptative.cpp
+	task/task-pd.cpp
+	task/constraint.cpp
+	task/gain-hyperbolic.cpp
+	task/task.cpp
+	task/multi-bound.cpp
+	task/task-conti.cpp
+	task/task-unilateral.cpp
+	task/task-abstract.cpp
 	
-	sot/sotFlags.cpp
-	sot/sotSOTQr.cpp
-	sot/sotMemoryTaskSOT.cpp
-	sot/sotSOTH.cpp
-	sot/sotSOT.cpp
-	sot/sotRotationSimple.cpp
-	sot/sotWeightedSOT.cpp
-	sot/sotSolverHierarchicalInequalities.cpp
+	sot/flags.cpp
+	sot/sot-qr.cpp
+	sot/memory-task-sot.cpp
+	sot/sot-h.cpp
+	sot/sot.cpp
+	sot/rotation-simple.cpp
+	sot/weighted-sot.cpp
+	sot/solver-hierarchical-inequalities.cpp
 )
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)

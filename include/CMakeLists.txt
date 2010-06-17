@@ -51,37 +51,37 @@ vector-rotation.h
 vector-utheta.h
 
 #feature
-sotFeaturePoint6d.h
-sotFeatureVector3.h
-sotFeatureAbstract.h
-sotFeatureGeneric.h
-sotFeatureJointLimits.h
-sotFeature1D.h
-sotFeaturePoint6dRelative.h
-sotFeatureVisualPoint.h
-sotFeatureTask.h
-sotFeatureLineDistance.h
+feature-point6d.h
+feature-vector3.h
+feature-abstract.h
+feature-generic.h
+feature-joint-limits.h
+feature-1d.h
+feature-point6d-relative.h
+feature-visual-point.h
+feature-task.h
+feature-line-distance.h
 
 #task
-sotTaskAbstract.h
-sotTaskUnilateral.h
-sotTaskPD.h
-sotTaskConti.h
-sotMultiBound.h
-sotConstraint.h
-sotGainAdaptative.h
-sotTask.h
-sotGainHyperbolic.h
+task-abstract.h
+task-unilateral.h
+task-pd.h
+task-conti.h
+task-multi-bound.h
+constraint.h
+gain-adaptive.h
+task.h
+gain-hyperbolic.h
 
 #sot
-sotFlags.h
-sotSOTQr.h
-sotMemoryTaskSOT.h
-sotSOTH.h
-sotSOT.h
-sotRotationSimple.h
-sotWeightedSOT.h
-sotSolverHierarchicalInequalities.h
+flags.h
+sot-qr.h
+memory-task-sot.h
+sot-h.h
+sot.h
+rotation-simple.h
+weighted-sot.h
+solver-hierarchical-inequalities.h
 )
 
 # Recreate correct path for the headers
