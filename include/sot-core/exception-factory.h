@@ -37,14 +37,14 @@ namespace sot {
 /* \class sotExceptionFactory
  */
 class SOT_CORE_EXPORT sotExceptionFactory 
-:public sotExceptionAbstract
+:public ExceptionAbstract
 
 {
 public:
 
   enum ErrorCodeEnum
     {
-      GENERIC = sotExceptionAbstract::FACTORY
+      GENERIC = ExceptionAbstract::FACTORY
       ,UNREFERED_OBJECT
       ,UNREFERED_SIGNAL
       ,UNREFERED_FUNCTION

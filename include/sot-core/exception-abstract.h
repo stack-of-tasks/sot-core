@@ -41,9 +41,9 @@
 
 namespace sot {
 
-/* \class sotExceptionAbstract
+/* \class ExceptionAbstract
  */
-class SOT_CORE_EXPORT sotExceptionAbstract 
+class SOT_CORE_EXPORT ExceptionAbstract 
 {
 
  public:
@@ -75,11 +75,11 @@ class SOT_CORE_EXPORT sotExceptionAbstract
 private:
 
   /**  forbid the empty constructor (private). */
-  sotExceptionAbstract( void );
+  ExceptionAbstract( void );
 public:
 
-  sotExceptionAbstract( const int& code, const std::string & msg = "" );
-  virtual ~sotExceptionAbstract( void ){}
+  ExceptionAbstract( const int& code, const std::string & msg = "" );
+  virtual ~ExceptionAbstract( void ){}
 
   /**  Access to the error code. */
   int getCode (void);
@@ -95,7 +95,7 @@ public:
   
   /** Print the error structure. */
   SOT_CORE_EXPORT friend std::ostream & operator << (std::ostream & os,
-				     const sot::sotExceptionAbstract & err);
+				     const sot::ExceptionAbstract & err);
 
 #ifdef SOT_EXCEPTION_PASSING_PARAM 
  public:
@@ -121,20 +121,20 @@ public:
   mutable Param p;
 
   template<class Exc>
-    friend const Exc& operator+ ( const sotExceptionAbstract::Param& p, const Exc& e ) 
+    friend const Exc& operator+ ( const ExceptionAbstract::Param& p, const Exc& e ) 
     { e.p.initCopy(p);   return e;    }
   template<class Exc>
-    friend Exc& operator+ ( const sotExceptionAbstract::Param& p, Exc& e ) 
+    friend Exc& operator+ ( const ExceptionAbstract::Param& p, Exc& e ) 
     { e.p.initCopy(p);   return e;    }
 #endif //#ifdef SOT_EXCEPTION_PASSING_PARAM 
 };
 
-#define SOT_RETHROW ( const sotExceptionAbstract& err ) { throw err; }
+#define SOT_RETHROW ( const ExceptionAbstract& err ) { throw err; }
 
 
 
 #ifdef SOT_EXCEPTION_PASSING_PARAM 
-#  define SOT_THROW throw sotExceptionAbstract::Param(__LINE__,__FUNCTION__,__FILE__) +
+#  define SOT_THROW throw ExceptionAbstract::Param(__LINE__,__FUNCTION__,__FILE__) +
 #else //#ifdef SOT_EXCEPTION_PASSING_PARAM 
 #  define SOT_THROW throw
 #endif //#ifdef SOT_EXCEPTION_PASSING_PARAM 

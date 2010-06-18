@@ -195,7 +195,7 @@ namespace sot
 	      sotDEBUGOUT (15);
 	    }
 	}
-      catch (sotExceptionAbstract& exc)
+      catch (ExceptionAbstract& exc)
 	{
 	  // FIXME: come on...
 	  std::string& msg = const_cast<std::string&> (exc.getStringMessage ());

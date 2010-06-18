@@ -37,13 +37,13 @@ namespace sot {
 /* \class sotExceptionTools
  */
 class SOT_CORE_EXPORT sotExceptionTools 
-:public sotExceptionAbstract
+:public ExceptionAbstract
 
 {
  public:
   enum ErrorCodeEnum
     {
-      GENERIC = sotExceptionAbstract::TOOLS
+      GENERIC = ExceptionAbstract::TOOLS
 
       ,CORBA
       ,KALMAN_SIZE

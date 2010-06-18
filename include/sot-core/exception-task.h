@@ -37,14 +37,14 @@ namespace sot {
 /* \class sotExceptionTask
  */
 class SOT_CORE_EXPORT sotExceptionTask 
-:public sotExceptionAbstract
+:public ExceptionAbstract
 
 {
 public:
 
   enum ErrorCodeEnum
     {
-      GENERIC = sotExceptionAbstract::TASK
+      GENERIC = ExceptionAbstract::TASK
       ,EMPTY_LIST
       ,NON_ADEQUATE_FEATURES
       ,MATRIX_SIZE

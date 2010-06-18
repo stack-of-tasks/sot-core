@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotExceptionDynamic.cpp
+ * File:      ExceptionDynamic.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -27,19 +27,19 @@ using namespace sot;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-const std::string sotExceptionDynamic::EXCEPTION_NAME = "Dynamic";
+const std::string ExceptionDynamic::EXCEPTION_NAME = "Dynamic";
 
-sotExceptionDynamic::
-sotExceptionDynamic ( const sotExceptionDynamic::ErrorCodeEnum& errcode,
+ExceptionDynamic::
+ExceptionDynamic ( const ExceptionDynamic::ErrorCodeEnum& errcode,
 		     const std::string & msg )
-  :sotExceptionAbstract(errcode,msg)
+  :ExceptionAbstract(errcode,msg)
 {
 }
 
-sotExceptionDynamic::
-sotExceptionDynamic ( const sotExceptionDynamic::ErrorCodeEnum& errcode,
+ExceptionDynamic::
+ExceptionDynamic ( const ExceptionDynamic::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... )
-  :sotExceptionAbstract(errcode,msg)
+  :ExceptionAbstract(errcode,msg)
 {
   va_list args;
   va_start(args,format);

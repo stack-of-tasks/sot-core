@@ -199,12 +199,12 @@ display( std::ostream& os ) const
     const sotFlags& fl = selectionSIN;
     if( fl(0) ) os << " x=" << xy(0) ;
     if( fl(1) ) os << " y=" << xy(1) ;
-  }  catch(sotExceptionAbstract e){ os<< " XY or select not set."; }
+  }  catch(ExceptionAbstract e){ os<< " XY or select not set."; }
   
   try {
     const double& z = ZSIN; 
     os<<" Z=" << z << " ";
-  }catch(sotExceptionAbstract e){ os<< " Z not set."; }
+  }catch(ExceptionAbstract e){ os<< " Z not set."; }
 }
 
 

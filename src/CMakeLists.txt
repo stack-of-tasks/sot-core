@@ -37,7 +37,7 @@ SET(${LIBRARY_NAME}_SOURCES
 	math/matrix-homogeneous.cpp
 	math/matrix-rotation.cpp
 	math/matrix-twist.cpp
-	math/op-point-modifior.cpp
+	math/op-point-modifier.cpp
 	math/vector-quaternion.cpp
 	math/vector-roll-pitch-yaw.cpp
 	math/vector-utheta.cpp

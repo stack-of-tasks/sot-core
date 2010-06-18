@@ -38,32 +38,35 @@
 
 using namespace sot;
 
+namespace sot {
 #ifdef WIN32
-const char * DebugTrace::DEBUG_FILENAME_DEFAULT = "c:/tmp/traces.txt";
+const char * DebugTrace::DEBUG_FILENAME_DEFAULT = "c:/tmp/sot-core-traces.txt";
 #else	/*WIN32*/
-const char * DebugTrace::DEBUG_FILENAME_DEFAULT = "/tmp/traces.txt";
+const char * DebugTrace::DEBUG_FILENAME_DEFAULT = "/tmp/sot-core-traces.txt";
 #endif	/*WIN32*/
-
-
 
 #ifdef VP_DEBUG
  #ifdef WIN32
-  std::ofstream debugfile( "C:/tmp/traces.txt", std::ios::trunc&std::ios::out );
+  std::ofstream debugfile( "C:/tmp/sot-core-traces.txt", std::ios::trunc&std::ios::out );
  #else	/*WIN32*/
-  std::ofstream debugfile( "/tmp/traces.txt", std::ios::trunc&std::ios::out );
-#endif	/*WIN32*/
+  std::ofstream debugfile( "/tmp/sot-core-traces.txt", std::ios::trunc&std::ios::out );
+ #endif	/*WIN32*/
+
 #else
+
 std::ofstream debugfile; //( "/dev/null", std::ios::trunc&std::ios::out );
+
  class __sotDebug_init
  {
  public:
-   __sotDebug_init( void ) 
-     { debugfile.setstate( std::ios::failbit ) ; /* debugfile.close(); */ }
+   __sotDebug_init( void ) {
+     debugfile.setstate( std::ios::failbit ) ; /* debugfile.close(); */ }
  };
  __sotDebug_init __sotDebug_initialisator;
 
 #endif
 
+} // namespace sot
 
 void DebugTrace::openFile( const char * filename )
 {
@@ -79,12 +82,7 @@ void DebugTrace::closeFile( const char * filename )
   debugfile.setstate( std::ios::failbit ) ;
 }
 
-
-//DebugTrace sotDEBUGFLOW(std::cout);
-//DebugTrace sotERRORFLOW(std::cerr);
-
-/// Debug objects instances
 namespace sot {
-DebugTrace sotDEBUGFLOW(debugfile);
-DebugTrace sotERRORFLOW(debugfile);
+	DebugTrace sotDEBUGFLOW(debugfile);
+	DebugTrace sotERRORFLOW(debugfile);
 }

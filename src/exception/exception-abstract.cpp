@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotExceptionAbstract.cpp
+ * File:      ExceptionAbstract.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -29,11 +29,11 @@ using namespace sot;
 /* --- CONSTRUCTORS -------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
 
-const std::string sotExceptionAbstract::EXCEPTION_NAME = "Abstract";
+const std::string ExceptionAbstract::EXCEPTION_NAME = "Abstract";
 
 
-sotExceptionAbstract::
-sotExceptionAbstract (const int& _code,
+ExceptionAbstract::
+ExceptionAbstract (const int& _code,
 		      const string & _msg)
     :
     code (_code),
@@ -48,19 +48,19 @@ sotExceptionAbstract (const int& _code,
 /* --- ACCESSORS ---------------------------------------------------------- */
 /* ------------------------------------------------------------------------ */
 
-const char *sotExceptionAbstract::
+const char *ExceptionAbstract::
 getMessage (void)
 {
     return (this->message) .c_str();
 }
 
-const string &sotExceptionAbstract::
+const string &ExceptionAbstract::
 getStringMessage (void)
 {
     return this->message;
 }
 
-int sotExceptionAbstract::
+int ExceptionAbstract::
 getCode (void)
 {
     return this->code;
@@ -73,7 +73,7 @@ getCode (void)
 #ifdef SOT_EXCEPTION_PASSING_PARAM 
 
 
-sotExceptionAbstract::Param& sotExceptionAbstract::Param::
+ExceptionAbstract::Param& ExceptionAbstract::Param::
 initCopy( const Param& p )
 {
     sotDEBUGIN(25);
@@ -88,7 +88,7 @@ initCopy( const Param& p )
     sotDEBUGOUT(25);
     return *this;
 }
-sotExceptionAbstract::Param::
+ExceptionAbstract::Param::
 Param( const int& _line, const char * _function, const char * _file )
     : functionPTR(_function),line(_line),filePTR(_file),pointersSet(true)
 {
@@ -104,7 +104,7 @@ Param( const int& _line, const char * _function, const char * _file )
 namespace sot {
 ostream &
 operator << (ostream & os,
-	     const sotExceptionAbstract & error)
+	     const ExceptionAbstract & error)
 {
     os << error.getExceptionName()<<"Error [#" << error.code << "]:  " << error.message << endl;
 

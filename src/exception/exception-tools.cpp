@@ -32,14 +32,14 @@ const std::string sotExceptionTools::EXCEPTION_NAME = "Tools";
 sotExceptionTools::
 sotExceptionTools ( const sotExceptionTools::ErrorCodeEnum& errcode,
 		     const std::string & msg )
-  :sotExceptionAbstract(errcode,msg)
+  :ExceptionAbstract(errcode,msg)
 {
 }
 
 sotExceptionTools::
 sotExceptionTools ( const sotExceptionTools::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... )
-  :sotExceptionAbstract(errcode,msg)
+  :ExceptionAbstract(errcode,msg)
 {
   va_list args;
   va_start(args,format);

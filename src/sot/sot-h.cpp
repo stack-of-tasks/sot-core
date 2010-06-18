@@ -22,29 +22,26 @@
 //#define VP_DEBUG
 #define VP_DEBUG_MODE 45
 #include <sot-core/debug.h>
- class sotSOTH__INIT
- {
- public:sotSOTH__INIT( void ) { DebugTrace::openFile(); }
- };
- sotSOTH__INIT sotSOTH_initiator;
-
-
 #include <sot-core/sot-h.h>
 #include <sot-core/pool.h>
 #include <sot-core/task.h>
 #include <sot-core/task-unilateral.h>
-
+#include <sot-core/factory.h>
 
 using namespace std;
 using namespace sot;
 
+class sotSOTH__INIT
+{
+public:sotSOTH__INIT( void ) { sot::DebugTrace::openFile(); }
+};
+
+sotSOTH__INIT sotSOTH_initiator;
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-
-#include <sot-core/factory.h>
 SOT_FACTORY_ENTITY_PLUGIN(sotSOTH,"SOTH");
 
 

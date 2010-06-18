@@ -37,14 +37,14 @@ namespace sot {
 /* \class sotExceptionFeature
  */
 class SOT_CORE_EXPORT sotExceptionFeature 
-:public sotExceptionAbstract
+:public ExceptionAbstract
 
 {
 public:
 
   enum ErrorCodeEnum
     {
-      GENERIC = sotExceptionAbstract::FEATURE
+      GENERIC = ExceptionAbstract::FEATURE
       ,BAD_INIT
       ,UNCOMPATIBLE_SIZE
     };

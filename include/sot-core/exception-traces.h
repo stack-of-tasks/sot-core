@@ -37,13 +37,13 @@ namespace sot {
 /* \class sotExceptionTraces
  */
 class SOT_CORE_EXPORT sotExceptionTraces 
-:public sotExceptionAbstract
+:public ExceptionAbstract
 
 {
  public:
   enum ErrorCodeEnum
     {
-      GENERIC = sotExceptionAbstract::TRACES
+      GENERIC = ExceptionAbstract::TRACES
 
       ,NOT_OPEN
     };

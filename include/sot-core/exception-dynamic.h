@@ -34,16 +34,16 @@
 
 namespace sot {
 
-/* \class sotExceptionDynamic
+/* \class ExceptionDynamic
  */
-class SOT_CORE_EXPORT sotExceptionDynamic 
-:public sotExceptionAbstract
+class SOT_CORE_EXPORT ExceptionDynamic 
+:public ExceptionAbstract
 
 {
  public:
   enum ErrorCodeEnum
     {
-      GENERIC = sotExceptionAbstract::DYNAMIC
+      GENERIC = ExceptionAbstract::DYNAMIC
 
       ,CANT_DESTROY_SIGNAL
       ,JOINT_RANK
@@ -57,11 +57,11 @@ class SOT_CORE_EXPORT sotExceptionDynamic
 
 public:
 
-  sotExceptionDynamic ( const sotExceptionDynamic::ErrorCodeEnum& errcode,
+  ExceptionDynamic ( const ExceptionDynamic::ErrorCodeEnum& errcode,
 		       const std::string & msg = "" );
-  sotExceptionDynamic( const sotExceptionDynamic::ErrorCodeEnum& errcode,
+  ExceptionDynamic( const ExceptionDynamic::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... );
-  virtual ~sotExceptionDynamic( void ){}
+  virtual ~ExceptionDynamic( void ){}
 
 
 };

@@ -33,14 +33,14 @@ const std::string sotExceptionTask::EXCEPTION_NAME = "Task";
 sotExceptionTask::
 sotExceptionTask ( const sotExceptionTask::ErrorCodeEnum& errcode,
 		   const std::string & msg )
-  :sotExceptionAbstract(errcode,msg)
+  :ExceptionAbstract(errcode,msg)
 {
 }
 
 sotExceptionTask::
 sotExceptionTask ( const sotExceptionTask::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... )
-  :sotExceptionAbstract(errcode,msg)
+  :ExceptionAbstract(errcode,msg)
 {
   va_list args;
   va_start(args,format);

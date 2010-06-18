@@ -37,13 +37,13 @@ namespace sot {
 /* \class sotExceptionSignal
  */
 class SOT_CORE_EXPORT sotExceptionSignal 
-:public sotExceptionAbstract
+:public ExceptionAbstract
 
 {
  public:
   enum ErrorCodeEnum
     {
-      GENERIC = sotExceptionAbstract::SIGNAL
+      GENERIC = ExceptionAbstract::SIGNAL
 
       ,READWRITE_LOCK
       ,COPY_NOT_INITIALIZED

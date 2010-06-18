@@ -29,9 +29,10 @@
 using namespace std;
 
 #include <sot-core/factory.h>
-SOT_FACTORY_FEATURE_PLUGIN(sotFeature1D,"Feature1D");
+
 
 using namespace sot;
+SOT_FACTORY_FEATURE_PLUGIN(sotFeature1D,"Feature1D");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -129,7 +130,7 @@ display( std::ostream& os ) const
     os << "  error= "<< errorSIN.accessCopy() << endl
        << "  J    = "<< jacobianSIN.accessCopy() << endl
        << "  act  = "<<activationSIN.accessCopy() << endl;
-  }  catch(sotExceptionAbstract e){ os<< " All SIN not set."; }
+  }  catch(ExceptionAbstract e){ os<< " All SIN not set."; }
 }
 
 

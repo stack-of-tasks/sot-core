@@ -32,14 +32,14 @@ const std::string sotExceptionFeature::EXCEPTION_NAME = "Feature";
 sotExceptionFeature::
 sotExceptionFeature ( const sotExceptionFeature::ErrorCodeEnum& errcode,
 		      const std::string & msg )
-  :sotExceptionAbstract(errcode,msg)
+  :ExceptionAbstract(errcode,msg)
 {
 }
 
 sotExceptionFeature::
 sotExceptionFeature ( const sotExceptionFeature::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... )
-  :sotExceptionAbstract(errcode,msg)
+  :ExceptionAbstract(errcode,msg)
 {
   va_list args;
   va_start(args,format);

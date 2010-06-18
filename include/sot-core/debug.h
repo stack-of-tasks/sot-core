@@ -105,7 +105,6 @@ class SOT_CORE_EXPORT DebugTrace
 
 };
 
-
 SOT_CORE_EXPORT extern DebugTrace sotDEBUGFLOW;
 SOT_CORE_EXPORT extern DebugTrace sotERRORFLOW;
 
@@ -159,8 +158,6 @@ inline void sotTDEBUGF( const char* format,...) { return; }
 #define sotTDEBUGINOUT(level) sotTDEBUG(level) << "# In/Out { }" << std::endl
 
 } // namespace sot
-
-using namespace sot; //FIXME, for now used for every header that isn't yet in sot::
 
 #endif /* #ifdef __VS_DEBUG_HH */
 

@@ -33,7 +33,7 @@ const std::string sotExceptionFactory::EXCEPTION_NAME = "Factory";
 sotExceptionFactory::
 sotExceptionFactory ( const sotExceptionFactory::ErrorCodeEnum& errcode,
 		      const std::string & msg )
-  :sotExceptionAbstract(errcode,msg)
+  :ExceptionAbstract(errcode,msg)
 {
   sotDEBUGF( 15,"Created with message <%s>.",msg.c_str());
   sotDEBUG( 1) <<"Created with message <%s>."<<msg<<std::endl;
@@ -42,7 +42,7 @@ sotExceptionFactory ( const sotExceptionFactory::ErrorCodeEnum& errcode,
 sotExceptionFactory::
 sotExceptionFactory ( const sotExceptionFactory::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... )
-  :sotExceptionAbstract(errcode,msg)
+  :ExceptionAbstract(errcode,msg)
 {
   va_list args;
   va_start(args,format);

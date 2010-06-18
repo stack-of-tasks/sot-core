@@ -29,13 +29,13 @@
 using namespace std;
 
 #include <sot-core/factory.h>
-SOT_FACTORY_FEATURE_PLUGIN(sotFeatureJointLimits,"FeatureJointLimits");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
 using namespace sot;
+SOT_FACTORY_FEATURE_PLUGIN(sotFeatureJointLimits,"FeatureJointLimits");
 
 const double sotFeatureJointLimits::THRESHOLD_DEFAULT = .9;
 
