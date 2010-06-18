@@ -26,11 +26,11 @@
 #include <sot-core/task-conti.h>
 #include <sot-core/debug.h>
 #include <MatrixAbstractLayer/boostVector.h>
-using namespace std;
-
-
-
 #include <sot-core/factory.h>
+
+using namespace std;
+using namespace sot;
+
 SOT_FACTORY_TASK_PLUGIN(sotTaskConti,"TaskConti");
 
 

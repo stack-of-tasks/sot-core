@@ -28,6 +28,8 @@
 #include <sot-core/vector-quaternion.h>
 
 
+using namespace sot;
+
 
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(sotClassType,sotType,index,className,CMDLINE,CMDHELP)    \
@@ -59,6 +61,8 @@
   }
 
 using namespace ml;
+
+namespace sot {
 
 template< typename matrixgen >
 struct sotInverser
@@ -464,3 +468,5 @@ res=r;
 
 typedef sotUnaryOp<ml::Vector,ml::Vector,sotDirtyMemory> v2mDirtyMemory;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(v2mDirtyMemory,vector,v2mDM_,"DirtyMemory", ,"");
+
+} // namespace sot

@@ -18,8 +18,10 @@
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 #include <sot-core/fir-filter.h>
-
 #include <sot-core/factory.h>
+
+using namespace sot;
+
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotClassType,sotSigType,sotCoefType,id,className) \
   template<>								\

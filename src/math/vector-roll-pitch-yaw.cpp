@@ -20,6 +20,8 @@
 #include <sot-core/vector-roll-pitch-yaw.h>
 #include <sot-core/debug.h>
 using namespace std;
+using namespace sot;
+
 
 static const double ANGLE_MINIMUM = 0.0001;
 static const double SINC_MINIMUM = 1e-8;

@@ -27,6 +27,8 @@
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
+namespace sot {
+
 class SOT_CORE_EXPORT sotVectorQuaternion
 : public sotVectorRotation
 {
@@ -45,6 +47,7 @@ class SOT_CORE_EXPORT sotVectorQuaternion
 
 };
     
+}
 
 
 #endif /* #ifndef __SOT_VECTOR_QUATERNION_H__ */

@@ -33,7 +33,6 @@ namespace ml = maal::boost;
 
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
-#include <dynamic-graph/all-signals.h>
 
 namespace detail
 {

@@ -23,6 +23,8 @@
 #include <sot-core/feature-abstract.h>
 
 using namespace std;
+using namespace sot;
+
 
 #ifdef WIN32
 #include < Windows.h >

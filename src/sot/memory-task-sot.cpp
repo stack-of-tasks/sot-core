@@ -21,6 +21,8 @@
 #include <sot-core/memory-task-sot.h>
 #include <sot-core/debug.h>
 
+using namespace sot;
+
 
 const std::string sotMemoryTaskSOT::CLASS_NAME = "MemoryTaskSOT";
 

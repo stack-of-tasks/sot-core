@@ -24,6 +24,7 @@
 
 //#define WITH_CHRONO
 
+
 //#define VP_DEBUG
 #define VP_DEBUG_MODE 45
 #include <sot-core/debug.h>
@@ -34,6 +35,7 @@
 // sotIneq__INIT sotIneq_initiator;
 
 #include <sot-core/solver-hierarchical-inequalities.h>
+using namespace sot;
 
 #ifndef WIN32
 #  include <sys/time.h>
@@ -48,6 +50,9 @@
 #  include <Winsock2.h>
 #endif /*WIN32*/
 #define FORTRAN_ID( id ) id##_
+
+
+
 /* ---------------------------------------------------------- */
 /* --- BINDING FORTRAN -------------------------------------- */
 /* ---------------------------------------------------------- */
@@ -167,6 +172,7 @@ ConstraintMem( const ConstraintMem& clone )
   sotDEBUG(15) << "ConstraintMem cloning" << std::endl;
 }
 
+namespace sot {
 std::ostream& operator<<( std::ostream& os,const ConstraintMem::BoundSideType& bs )
 {
   switch( bs )
@@ -209,6 +215,8 @@ std::ostream & operator<< (std::ostream& os,const ConstraintMem &c )
     }
   return os;
 }
+
+} // namespace sot
 
 /* ---------------------------------------------------------- */
 /* Specify the size of the constraint matrix, for pre-alocation. */

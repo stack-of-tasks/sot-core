@@ -63,6 +63,9 @@ namespace ml = maal::boost;
 
 
 */
+
+namespace sot {
+
 class SOTWEIGHTEDSOT_CORE_EXPORT sotWeightedSOT
 :public sotSOT
 {
@@ -104,7 +107,7 @@ class SOTWEIGHTEDSOT_CORE_EXPORT sotWeightedSOT
 
 };
 
-
+} // namespace sot
 
 
 

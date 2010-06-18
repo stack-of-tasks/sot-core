@@ -37,6 +37,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 class SOT_CORE_EXPORT sotFlags
 {
@@ -99,5 +100,6 @@ SOT_CORE_EXPORT extern const sotFlags FLAG_LINE_6;
 SOT_CORE_EXPORT extern const sotFlags FLAG_LINE_7;
 SOT_CORE_EXPORT extern const sotFlags FLAG_LINE_8;
 
+} // namespace sot
 
 #endif /* #ifndef __SOT_FLAGS_H */

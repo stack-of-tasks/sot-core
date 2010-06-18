@@ -47,6 +47,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 /*!
   \class sotFeatureVisualPoint
@@ -99,7 +100,7 @@ class SOTFEATUREVISUALPOINT_EXPORT sotFeatureVisualPoint
 
 } ;
 
-
+} // namespace sot
 
 #endif // #ifndef __SOT_FEATURE_VISUALPOINT_HH__
 

@@ -22,12 +22,13 @@
 
 
 /* --- Matrix --- */
+
+#include <sot-core/sot-core-api.h>
 #include <MatrixAbstractLayer/boost.h>
 namespace ml = maal::boost;
 
+namespace sot {
 class sotVectorUTheta;
-
-#include <sot-core/sot-core-api.h>
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -45,7 +46,7 @@ class SOT_CORE_EXPORT sotMatrixRotation
   sotMatrixRotation& operator= ( sotVectorUTheta&th ) { fromVector(th); return *this; } 
 };
     
-
+} // namespace sot
 #endif /* #ifndef __SOT_MATRIX_ROTATION_H__ */
 
 

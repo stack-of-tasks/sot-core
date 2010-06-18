@@ -32,6 +32,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 /* \class sotExceptionFactory
  */
@@ -67,7 +68,7 @@ public:
 };
 
 
-
+} // namespace sot
 
 
 #endif /* #ifndef __SOT_EXCEPTION_FACTORY_H */

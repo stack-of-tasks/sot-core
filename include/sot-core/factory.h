@@ -31,11 +31,14 @@
 #include <string>
 
 /* --- SOT --- */
-class sotFeatureAbstract;
-class sotTaskAbstract;
 #include <sot-core/exception-factory.h>
 #include <sot-core/sot-core-api.h>
 #include <dynamic-graph/factory.h>
+
+namespace sot {
+
+class sotFeatureAbstract;
+class sotTaskAbstract;
 
 /* --------------------------------------------------------------------- */
 /* --- FACTORY ---------------------------------------------------------- */
@@ -149,7 +152,7 @@ class SOT_CORE_EXPORT sotTaskRegisterer
   sotTaskRegisterer reg##_##sotTaskType( className,&sotTaskMaker##_##sotTaskType );   \
   }                                                       \
 
-
+} // namespace sot
 
 #endif /* #ifndef __SOT_FACTORY_HH__ */
 

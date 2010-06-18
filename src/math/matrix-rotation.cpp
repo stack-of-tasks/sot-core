@@ -21,6 +21,8 @@
 #include <sot-core/vector-utheta.h>
 
 using namespace std;
+using namespace sot;
+
 
 void sotMatrixRotation::fromVector( sotVectorUTheta& vec )
 {

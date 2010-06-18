@@ -45,6 +45,8 @@ namespace ml = maal::boost;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
+
 /*! \brief integrates an ODE. If Y is the output and X the input, the
  * following equation is integrated:
  * a_p * d(p)Y / dt^p + .... + a_0 Y = b_m * d(m)X / dt^m + ... . b_0 X
@@ -137,5 +139,11 @@ class sotIntegratorAbstract
   std::vector<coefT> numerator;
   std::vector<coefT> denominator;
 };
+
+
+} // namespace sot
+
+
+
 
 #endif

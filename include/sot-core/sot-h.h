@@ -50,6 +50,8 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
+
 class SOTSOTH_EXPORT sotSOTH
 :public sotSOT
 {
@@ -126,7 +128,7 @@ class SOTSOTH_EXPORT sotSOTH
 
 };
 
-
+} // namespace sot
 
 
 

@@ -28,6 +28,9 @@
 #include <sot-core/debug.h>
 #include <sot-core/factory.h>
 #include <sot-core/exception-signal.h>
+
+using namespace sot;
+
 SOT_FACTORY_ENTITY_PLUGIN(sotGainAdaptative,"GainAdaptative");
 
 const double sotGainAdaptative::

@@ -20,6 +20,8 @@
 #include <sot-core/feature-abstract.h>
 #include <sot-core/pool.h>
 
+using namespace sot;
+
 const std::string 
 sotFeatureAbstract::CLASS_NAME = "FeatureAbstract";
 

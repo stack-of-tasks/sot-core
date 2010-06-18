@@ -48,6 +48,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 class SOTFEATURETASK_EXPORT sotFeatureTask 
 : public sotFeatureGeneric
@@ -92,7 +93,7 @@ class SOTFEATURETASK_EXPORT sotFeatureTask
 
 } ;
 
-
+} // namespace sot
 
 #endif // #ifndef __SOT_FEATURE_TASK_HH__
 

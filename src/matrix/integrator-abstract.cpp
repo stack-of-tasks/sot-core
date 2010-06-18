@@ -18,8 +18,10 @@
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 #include <sot-core/integrator-abstract.h>
-
 #include <sot-core/factory.h>
+
+using namespace sot;
+
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotClassType,sotSigType,sotCoefType,className)   \
   template<>                                                                                \
@@ -34,8 +36,10 @@
 
 
 using namespace ml;
+namespace sot {
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotIntegratorAbstract,double,double,"integratorAbstract");
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotIntegratorAbstract,Vector,Matrix,"integratorAbstract");
+}
 
 #if 0
   extern "C" {

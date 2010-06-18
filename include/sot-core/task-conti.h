@@ -58,7 +58,7 @@ namespace ml = maal::boost;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-
+namespace sot {
 
 class SOTTASKCONTI_EXPORT sotTaskConti
 : public sotTask
@@ -103,7 +103,7 @@ class SOTTASKCONTI_EXPORT sotTaskConti
 			    std::ostream& os );
 };
 
-
+} // namespace sot
 
 
 

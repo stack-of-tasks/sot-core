@@ -48,6 +48,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 /*!
   \class sotFeatureLineDistance
@@ -98,6 +99,7 @@ class SOTFEATURELINEDISTANCE_EXPORT sotFeatureLineDistance
 } ;
 
 
+} // namespace sot
 
 #endif // #ifndef __SOT_FEATURE_LINEDISTANCE_HH__
 

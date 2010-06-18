@@ -32,6 +32,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 /* \class sotExceptionSignal
  */
@@ -67,7 +68,7 @@ public:
 };
 
 
-
+} // namespace sot
 
 
 #endif /* #ifndef __SOT_SIGNAL_EXCEPTION_H */

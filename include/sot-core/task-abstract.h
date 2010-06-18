@@ -38,12 +38,15 @@ namespace ml = maal::boost;
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/all-signals.h>
-#include <sot-core/task-multi-bound.h>
+#include <sot-core/multi-bound.h>
 #include <sot-core/sot-core-api.h>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
+
+namespace sot {
+
 class SOT_CORE_EXPORT sotTaskAbstract
 : public Entity
 {
@@ -88,6 +91,8 @@ class SOT_CORE_EXPORT sotTaskAbstract
 			    ,std::ostream& os ) ;
  public:
 };
+
+} // namespace sot
 
 
 

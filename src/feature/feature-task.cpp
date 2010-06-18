@@ -28,6 +28,8 @@
 #include <sot-core/exception-feature.h>
 #include <dynamic-graph/pool.h>
 using namespace std;
+using namespace sot;
+
 
 #include <sot-core/factory.h>
 SOT_FACTORY_FEATURE_PLUGIN(sotFeatureTask,"FeatureTask");

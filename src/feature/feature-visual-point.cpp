@@ -26,9 +26,12 @@
 #include <sot-core/feature-visual-point.h>
 #include <sot-core/exception-feature.h>
 #include <sot-core/debug.h>
-using namespace std;
-
 #include <sot-core/factory.h>
+using namespace std;
+using namespace sot;
+
+
+
 SOT_FACTORY_FEATURE_PLUGIN(sotFeatureVisualPoint,"FeatureVisualPoint");
 
 /* --------------------------------------------------------------------- */

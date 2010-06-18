@@ -27,6 +27,10 @@
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
+
+namespace sot {
+
+
 class SOT_CORE_EXPORT sotVectorUTheta
 : public sotVectorRotation
 {
@@ -39,6 +43,8 @@ class SOT_CORE_EXPORT sotVectorUTheta
   virtual sotMatrixRotation& toMatrix( sotMatrixRotation& rot ) const;
 
 };
+
+} // namespace sot
     
 
 

@@ -31,6 +31,8 @@ using namespace std;
 #include <sot-core/factory.h>
 SOT_FACTORY_FEATURE_PLUGIN(sotFeatureGeneric,"FeatureGeneric");
 
+using namespace sot;
+
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */

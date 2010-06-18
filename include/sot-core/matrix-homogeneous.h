@@ -23,15 +23,16 @@
 
 /* --- Matrix --- */
 #include <MatrixAbstractLayer/boost.h>
+#include <sot-core/sot-core-api.h>
 namespace ml = maal::boost;
+
+/* --------------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+namespace sot {
 
 class sotMatrixRotation;
 
-#include <sot-core/sot-core-api.h>
-
-/* --------------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
 class SOT_CORE_EXPORT sotMatrixHomogeneous
 : public ml::Matrix
 {
@@ -64,7 +65,7 @@ class SOT_CORE_EXPORT sotMatrixHomogeneous
 
  };
     
-
+} // namespace sot
 
 
 #endif /* #ifndef __SOT_MATRIX_HOMOGENEOUS_H__ */

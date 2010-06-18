@@ -38,12 +38,16 @@
 #include <sot-core/sot-core-api.h>
 #include <dynamic-graph/pool.h>
 
-class sotFeatureAbstract;
-class sotTaskAbstract;
-
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
+
+namespace sot {
+
+// Preliminary declarations
+class sotFeatureAbstract;
+class sotTaskAbstract;
+
 
 /*! @ingroup factory
   \brief This class keep tracks of all the objects in the stack of Tasks.
@@ -136,6 +140,8 @@ class SOT_CORE_EXPORT sotPoolStorage
 
 
 SOT_CORE_EXPORT extern sotPoolStorage sotPool;
+
+} // namespace sot
 
 #endif /* #ifndef __SOT_POOL_HH__ */
 

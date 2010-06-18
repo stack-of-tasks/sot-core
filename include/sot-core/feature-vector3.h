@@ -48,6 +48,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 /*!
   \class sotFeatureVector3
@@ -95,6 +96,7 @@ class SOTFEATUREVECTOR3_EXPORT sotFeatureVector3
 
 } ;
 
+} // namespace sot
 
 
 #endif // #ifndef __SOT_FEATURE_VECTOR3_HH__

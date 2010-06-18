@@ -59,6 +59,7 @@ namespace ml = maal::boost;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 /*! @ingroup stackoftasks
   \brief This class implements the Stack of Task.
@@ -283,6 +284,7 @@ class SOTSOT_CORE_EXPORT sotSOT
 
 };
 
+} // namespace sot
 
 
 

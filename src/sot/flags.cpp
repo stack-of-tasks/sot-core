@@ -25,12 +25,15 @@
 
 /*! System framework */
 #include <stdlib.h>
+#include <list>
 
 /*! Local Framework */
 #include <sot-core/flags.h>
 #include <sot-core/debug.h>
 
 using namespace std;
+using namespace sot;
+
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -87,6 +90,7 @@ operator[] (const unsigned int& i) const
   return res;
 }
 
+namespace sot {
 char operator>> (const sotFlags& f,const int& i)
 {
   const div_t q = div(i,8); 
@@ -96,6 +100,7 @@ char operator>> (const sotFlags& f,const int& i)
   
   return res;
 }
+} // namespace sot
 
 bool sotFlags::
 operator() (const int& i) const
@@ -234,6 +239,7 @@ unset( const unsigned int & idx )
 
 
 /* --------------------------------------------------------------------- */
+namespace sot {
 std::ostream& operator<< (std::ostream& os, const sotFlags& fl )
 {
   if( fl.reverse ) os << "...11111 ";
@@ -246,8 +252,6 @@ std::ostream& operator<< (std::ostream& os, const sotFlags& fl )
     }
   return os;
 }
-
-#include <list>
 
 static char MASK [] = { 0,1,3,7,15,31,63,127,255 };
 
@@ -367,6 +371,7 @@ std::istream& operator>> (std::istream& is, sotFlags& fl )
   return is;
 }
 
+} // namespace sot
 
 /* --------------------------------------------------------------------- */
 const sotFlags FLAG_LINE_1( (char)0x1 );

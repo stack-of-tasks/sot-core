@@ -47,6 +47,9 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
+
+namespace sot {
+
 class SOTOPPOINTMODIFIOR_EXPORT sotOpPointModifior
 : public Entity
 {
@@ -79,5 +82,6 @@ public:
 
 };
 
+} // namespace sot
 
 #endif //  __SOT_OP_POINT_MODIFIOR_H__ 

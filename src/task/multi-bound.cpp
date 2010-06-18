@@ -2,7 +2,7 @@
  * Copyright Projet Gepetto, Laas, CNRS, 2009
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      task-multi-bound.h
+ * File:      multi-bound.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -18,10 +18,13 @@
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 
-#include <sot-core/task-multi-bound.h>
+#include <sot-core/multi-bound.h>
 #define VP_DEBUG
 #define VP_DEBUG_MODE 25
 #include <sot-core/debug.h>
+
+using namespace sot;
+
 
 sotMultiBound::
 sotMultiBound( const double x )
@@ -142,6 +145,24 @@ setSingleBound( double boundValue )
   boundSingle=boundValue;
 }
 
+inline static void SOT_MULTI_BOUND_CHECK_C(std::istream& is,
+                                           char check,
+                                           sotVectorMultiBound& v)
+{
+  char c;
+  is.get(c);
+  if(c!=check)
+    {
+      v.resize(0);
+      sotERROR << "Error while parsing vector multi-bound. Waiting for a '" << check
+               << "'. Get '" << c << "' instead. " << std::endl;
+      SOT_THROW sotExceptionTask(sotExceptionTask::PARSER_MULTI_BOUND,
+                                 "Error parsing vector multi-bound.");
+    }
+}
+
+namespace sot {
+
 std::ostream& operator<< ( std::ostream& os, const sotMultiBound & m  )
 {
   switch( m.mode )
@@ -227,22 +248,6 @@ std::ostream& operator<< (std::ostream& os, const sotVectorMultiBound& v )
   return os<<")";
 }
 
-inline static void SOT_MULTI_BOUND_CHECK_C(std::istream& is,
-                                           char check,
-                                           sotVectorMultiBound& v)
-{
-  char c;
-  is.get(c);
-  if(c!=check)
-    {
-      v.resize(0);
-      sotERROR << "Error while parsing vector multi-bound. Waiting for a '" << check
-               << "'. Get '" << c << "' instead. " << std::endl;
-      SOT_THROW sotExceptionTask(sotExceptionTask::PARSER_MULTI_BOUND,
-                                 "Error parsing vector multi-bound.");
-    }
-}
-
 std::istream& operator>> (std::istream& is, sotVectorMultiBound& v )
 {
   unsigned int vali;
@@ -264,3 +269,5 @@ std::istream& operator>> (std::istream& is, sotVectorMultiBound& v )
 
   return is;
 }
+
+} // namespace sot

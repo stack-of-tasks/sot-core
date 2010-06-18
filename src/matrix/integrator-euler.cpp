@@ -18,8 +18,10 @@
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 #include <sot-core/integrator-euler.h>
-
 #include <sot-core/factory.h>
+
+using namespace sot;
+
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotClassType,sotSigType,sotCoefType,className)   \
   template<>                                                                                \
@@ -43,4 +45,6 @@
 
 using namespace ml;
 using namespace std;
+namespace sot {
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotIntegratorEuler,Vector,Matrix,"integratorEuler");
+}

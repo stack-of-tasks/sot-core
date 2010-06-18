@@ -27,6 +27,8 @@
 SOT_FACTORY_ENTITY_PLUGIN(sotOpPointModifior,"OpPointModifior");
 
 using namespace std;
+using namespace sot;
+
 
 
 /* --------------------------------------------------------------------- */

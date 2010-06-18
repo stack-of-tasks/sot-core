@@ -47,6 +47,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 /*!
   \class sotFeature1D
@@ -132,7 +133,7 @@ class SOTFEATURE1D_EXPORT sotFeature1D
 
 } ;
 
-
+} // namespace sot
 
 #endif // #ifndef __SOT_FEATURE_1D_HH__
 

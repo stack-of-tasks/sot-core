@@ -44,6 +44,8 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
+
 class SOTSOT_CORE_EXPORT sotMemoryTaskSOT
 : public sotTaskAbstract::sotMemoryTaskAbstract, public Entity
 {
@@ -86,5 +88,7 @@ class SOTSOT_CORE_EXPORT sotMemoryTaskSOT
   virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 			    std::ostream& os );
 };
+
+} //namespace sot
 
 #endif // __SOT_MEMORY_TASK_HH

@@ -21,6 +21,9 @@
 #include <sot-core/matrix-rotation.h>
 #include <sot-core/debug.h>
 
+using namespace sot;
+
+
 sotMatrixHomogeneous& sotMatrixHomogeneous::
 buildFrom( const sotMatrixRotation& rot, const ml::Vector& trans )
 {

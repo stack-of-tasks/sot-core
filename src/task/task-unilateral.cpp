@@ -28,7 +28,9 @@
 /* SOT */
 #include <sot-core/task-unilateral.h>
 #include <sot-core/debug.h>
+
 using namespace std;
+using namespace sot;
 
 
 

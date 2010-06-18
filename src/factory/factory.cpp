@@ -27,6 +27,8 @@
 #include <sot-core/factory.h>
 
 using namespace std;
+using namespace sot;
+
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -202,6 +204,7 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 
 
 
-
+/// The global sotFactory object
+namespace sot {
 sotFactoryStorage sotFactory;
-
+}

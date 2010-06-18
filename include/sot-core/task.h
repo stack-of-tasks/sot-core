@@ -82,6 +82,7 @@ namespace ml = maal::boost;
 
  */
 
+namespace sot {
 
 class SOTTASK_EXPORT sotTask
 : public sotTaskAbstract
@@ -134,7 +135,7 @@ class SOTTASK_EXPORT sotTask
   virtual std::ostream& writeGraph( std::ostream& os ) const;
 };
 
-
+} // namespace sot
 
 
 

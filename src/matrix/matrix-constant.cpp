@@ -18,12 +18,13 @@
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 #include <sot-core/matrix-constant.h>
-
 #include <sot-core/factory.h>
-SOT_FACTORY_ENTITY_PLUGIN(sotMatrixConstant,"MatrixConstant");
 
 using namespace std;
+using namespace sot;
 
+
+SOT_FACTORY_ENTITY_PLUGIN(sotMatrixConstant,"MatrixConstant");
 
 /* --------------------------------------------------------------------- */
 /* --- MATRIX ---------------------------------------------------------- */

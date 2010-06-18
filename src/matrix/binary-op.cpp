@@ -28,8 +28,6 @@
 
 #include <deque>
 
-using namespace sot;
-
 namespace sot {
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(sotClassType,sotType,index,className,CMDLINE,CMDHELP)  \
@@ -76,6 +74,8 @@ struct sotAdder
 };
 
 typedef BinaryOp<Vector,Vector,Vector,sotAdder<Vector> > advector;
+
+
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD
 (advector,vector,ad_vector,"Add<vector>"
 ,else if( cmdLine=="coeff1" ){ cmdArgs>>op.coeff1; } 

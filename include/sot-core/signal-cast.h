@@ -31,7 +31,7 @@
 #include <sot-core/vector-quaternion.h>
 #include <sot-core/vector-roll-pitch-yaw.h>
 #include <sot-core/matrix-force.h>
-#include <sot-core/task-multi-bound.h>
+#include <sot-core/multi-bound.h>
 #include <sot-core/sot-core-api.h>
 #ifdef WIN32
 #include <sot-core/sotUtilsWindows.h>
@@ -41,6 +41,10 @@
 /* -------------------------------------------------------------------------- */
 /* --- CLASS ---------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
+
+namespace sot {
+
+
 class sotFeatureAbstract;
 
 
@@ -192,7 +196,7 @@ SOT_SIGNAL_CAST_DEFINITION_MATRIX(sotMatrixHomogeneous);
 SOT_SIGNAL_CAST_DEFINITION_MATRIX(sotMatrixTwist);
 SOT_SIGNAL_CAST_DEFINITION_MATRIX(sotMatrixForce);
 
-
+} // namespace sot
 
 
 #endif // #ifndef __SOT_SIGNAL_CAST_HH__

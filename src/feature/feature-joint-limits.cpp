@@ -35,6 +35,8 @@ SOT_FACTORY_FEATURE_PLUGIN(sotFeatureJointLimits,"FeatureJointLimits");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+using namespace sot;
+
 const double sotFeatureJointLimits::THRESHOLD_DEFAULT = .9;
 
 

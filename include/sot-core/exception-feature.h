@@ -32,6 +32,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 /* \class sotExceptionFeature
  */
@@ -61,7 +62,7 @@ public:
 };
 
 
-
+} // namespace sot
 
 
 #endif /* #ifndef __SOT_EXCEPTION_FEATURE_H */

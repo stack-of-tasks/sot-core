@@ -20,9 +20,13 @@
 #include <sot-core/vector-constant.h>
 
 #include <sot-core/factory.h>
+
+namespace sot  {
 SOT_FACTORY_ENTITY_PLUGIN(sotVectorConstant,"VectorConstant");
+}
 
 using namespace std;
+using namespace sot;
 
 
 /* --------------------------------------------------------------------- */

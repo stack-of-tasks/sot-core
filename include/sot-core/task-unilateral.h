@@ -60,6 +60,7 @@ namespace ml = maal::boost;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 class SOTTASKUNILATERAL_EXPORT sotTaskUnilateral
 : public sotTask
@@ -90,7 +91,7 @@ class SOTTASKUNILATERAL_EXPORT sotTaskUnilateral
   void display( std::ostream& os ) const;
 };
 
-
+} // namespace sot
 
 
 

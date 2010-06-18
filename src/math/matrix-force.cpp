@@ -23,6 +23,9 @@
 #include <sot-core/matrix-twist.h>
 #include <sot-core/debug.h>
 
+using namespace sot;
+
+
 sotMatrixForce& sotMatrixForce::
 buildFrom( const sotMatrixHomogeneous& M )
 {

@@ -53,6 +53,8 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
+
 class SOTSOTH_EXPORT ConstraintMem
 {
 public:
@@ -291,6 +293,10 @@ public:
   void pushBackSlackToHierarchy( void );
 
 };
+
+
+} // namespace sot
+
 
 
 #endif // #ifdef __SOT_sotSolverHierarchicalInequalities_HH__

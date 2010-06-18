@@ -28,6 +28,9 @@
 #include <dynamic-graph/entity.h>
 #include <list>
 
+using namespace sot;
+
+
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -244,6 +247,7 @@ commandLine( const std::string& objectName,const std::string& functionName,
     }
 }
 
-
+/// The global sotPool object
+namespace sot {
 sotPoolStorage sotPool;
-
+}

@@ -67,7 +67,7 @@ task-abstract.h
 task-unilateral.h
 task-pd.h
 task-conti.h
-task-multi-bound.h
+multi-bound.h
 constraint.h
 gain-adaptive.h
 task.h

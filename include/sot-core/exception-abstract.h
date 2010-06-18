@@ -31,6 +31,7 @@
 #include <string>                  /* Classe string.     */
 #include <sot-core/sot-core-api.h>
 
+
 // Uncomment this macros to have lines parameter on the throw display
 // #define SOT_EXCEPTION_PASSING_PARAM 
 
@@ -38,6 +39,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 /* \class sotExceptionAbstract
  */
@@ -93,7 +95,7 @@ public:
   
   /** Print the error structure. */
   SOT_CORE_EXPORT friend std::ostream & operator << (std::ostream & os,
-				     const sotExceptionAbstract & err);
+				     const sot::sotExceptionAbstract & err);
 
 #ifdef SOT_EXCEPTION_PASSING_PARAM 
  public:
@@ -137,6 +139,7 @@ public:
 #  define SOT_THROW throw
 #endif //#ifdef SOT_EXCEPTION_PASSING_PARAM 
 
+} // namespace sot
 
 #endif /* #ifndef __SOT_ABSTRACT_EXCEPTION_H */
 

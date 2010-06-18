@@ -39,6 +39,8 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
+
 class SOT_CORE_EXPORT sotMultiBound
 {
  public:
@@ -78,6 +80,7 @@ typedef std::vector< sotMultiBound > sotVectorMultiBound;
 SOT_CORE_EXPORT std::ostream& operator<< (std::ostream& os, const sotVectorMultiBound& v );
 SOT_CORE_EXPORT std::istream& operator>> (std::istream& os, sotVectorMultiBound& v );
 
+} // namespace sot
 
 
 #endif // #ifndef __SOT_sotMultiBound_H__

@@ -46,6 +46,8 @@ namespace ml = maal::boost;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
+
 template< class Tin,class Tout,typename Operator >
 class sotUnaryOp
 :public Entity
@@ -90,7 +92,7 @@ class sotUnaryOp
 
 };
 
-
+} // namespace sot
 
 
 

@@ -39,6 +39,7 @@ namespace ml = maal::boost;
 /* STD */
 #include <string>
 using namespace dynamicgraph;
+namespace sot {
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -182,7 +183,7 @@ class SOT_CORE_EXPORT sotFeatureAbstract
 
 };
 
-
+} // namespace sot
 
 
 

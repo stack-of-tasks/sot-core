@@ -26,6 +26,8 @@
 #include <sot-core/task.h>
 #include <sot-core/debug.h>
 using namespace std;
+using namespace sot;
+
 
 
 

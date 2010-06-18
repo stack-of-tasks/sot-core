@@ -49,6 +49,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 /*!
   \class sotFeaturePoint6dRelative
@@ -105,7 +106,7 @@ class SOTFEATUREPOINT6DRELATIVE_EXPORT sotFeaturePoint6dRelative
 
 } ;
 
-
+} // namespace sot
 
 #endif // #ifndef __SOT_FEATURE_POINT6DRELATIVE_HH__
 

@@ -48,6 +48,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 /*!
   \class sotFeaturePoint6d
@@ -111,7 +112,7 @@ class SOTFEATUREPOINT6D_EXPORT sotFeaturePoint6d
 
 } ;
 
-
+} // namespace sot
 
 #endif // #ifndef __SOT_FEATURE_POINT6D_HH__
 

@@ -27,6 +27,8 @@
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
+namespace sot {
+
 class SOT_CORE_EXPORT sotVectorRollPitchYaw
 : public sotVectorRotation
 {
@@ -40,6 +42,6 @@ class SOT_CORE_EXPORT sotVectorRollPitchYaw
 
 };
     
-
+} // namespace sot
 
 #endif /* #ifndef __SOT_VECTOR_ROLLPITCHYAW_H__ */

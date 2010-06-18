@@ -66,6 +66,9 @@ namespace ml = maal::boost;
 
 
 */
+
+namespace sot {
+
 class SOTSOTQR_EXPORT sotSOTQr
 :public Entity
 {
@@ -266,7 +269,7 @@ class SOTSOTQR_EXPORT sotSOTQr
 
 };
 
-
+} // namespace sot
 
 
 

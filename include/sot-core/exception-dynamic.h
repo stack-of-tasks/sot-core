@@ -32,6 +32,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 /* \class sotExceptionDynamic
  */
@@ -66,7 +67,7 @@ public:
 };
 
 
-
+} // namespace sot
 
 
 #endif /* #ifndef __SOT_DYNAMIC_EXCEPTION_H */

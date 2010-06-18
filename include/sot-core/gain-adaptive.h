@@ -52,6 +52,8 @@ namespace ml = maal::boost;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
+
 class SOTGAINADAPTATIVE_EXPORT sotGainAdaptative
 : public Entity
 {
@@ -106,7 +108,7 @@ class SOTGAINADAPTATIVE_EXPORT sotGainAdaptative
 			    std::ostream& os );
 };
 
-
+} // namespace sot
 
 
 

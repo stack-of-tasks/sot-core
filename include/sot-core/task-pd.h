@@ -48,7 +48,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-
+namespace sot {
 
 class SOTTASKPD_EXPORT sotTaskPD
 : public sotTask
@@ -82,7 +82,7 @@ class SOTTASKPD_EXPORT sotTaskPD
 
 };
 
-
+} // namespace sot
 
 
 

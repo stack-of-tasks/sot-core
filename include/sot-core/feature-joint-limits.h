@@ -47,6 +47,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 /*!
   \class sotFeatureJointLimits
@@ -104,6 +105,8 @@ class SOTFEATUREJOINTLIMITS_EXPORT sotFeatureJointLimits
 
 
 } ;
+
+} // namespace sot
 
 #endif // #ifndef __SOT_FEATURE_JOINTLIMITS_HH__
 

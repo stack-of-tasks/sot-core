@@ -25,6 +25,8 @@
 SOT_FACTORY_ENTITY_PLUGIN(sotVectorToRotation,"VectorToRotation");
 
 using namespace std;
+using namespace sot;
+
 
 
 /* --------------------------------------------------------------------- */

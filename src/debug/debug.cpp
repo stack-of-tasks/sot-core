@@ -64,9 +64,6 @@ std::ofstream debugfile; //( "/dev/null", std::ios::trunc&std::ios::out );
 
 #endif
 
-DebugTrace sotDEBUGFLOW(debugfile);
-DebugTrace sotERRORFLOW(debugfile);
-
 
 void DebugTrace::openFile( const char * filename )
 {
@@ -86,3 +83,8 @@ void DebugTrace::closeFile( const char * filename )
 //DebugTrace sotDEBUGFLOW(std::cout);
 //DebugTrace sotERRORFLOW(std::cerr);
 
+/// Debug objects instances
+namespace sot {
+DebugTrace sotDEBUGFLOW(debugfile);
+DebugTrace sotERRORFLOW(debugfile);
+}

@@ -32,10 +32,12 @@
 #include <sot-core/matrix-homogeneous.h>
 #include <sot-core/matrix-rotation.h>
 #include <sot-core/vector-utheta.h>
+#include <sot-core/factory.h>
 
+using namespace sot;
 using namespace std;
 
-#include <sot-core/factory.h>
+
 SOT_FACTORY_FEATURE_PLUGIN(sotFeatureVector3,"FeatureVector3");
 
 /* --------------------------------------------------------------------- */

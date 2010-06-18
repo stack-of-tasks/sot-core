@@ -47,6 +47,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace sot {
 
 /*!
   \class sotFeatureGeneric
@@ -148,6 +149,7 @@ class SOTFEATUREGENERIC_EXPORT sotFeatureGeneric
 
 } ;
 
+} // namespace sot
 
 
 #endif // #ifndef __SOT_FEATURE_GENERIC_HH__

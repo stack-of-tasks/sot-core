@@ -32,15 +32,15 @@ namespace ml = maal::boost;
 
 /* SOT */
 #include <sot-core/flags.h>
-#include <dynamic-graph/entity.h>
 #include <sot-core/pool.h>
+#include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
 #include <sot-core/vector-quaternion.h>
 
 /* STD */
 #include <string>
 
-
+namespace sot {
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -108,7 +108,7 @@ class sotDerivator
 
 };
 
-
+} // using namespace sot
 
 
 

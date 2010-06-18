@@ -23,6 +23,7 @@
 #include <sot-core/debug.h>
 
 using namespace std;
+using namespace sot;
 
 /* ------------------------------------------------------------------------- */
 /* --- CONSTRUCTORS -------------------------------------------------------- */
@@ -99,6 +100,8 @@ Param( const int& _line, const char * _function, const char * _file )
 /* --- OP << --------------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
 
+
+namespace sot {
 ostream &
 operator << (ostream & os,
 	     const sotExceptionAbstract & error)
@@ -114,6 +117,7 @@ operator << (ostream & os,
     return os;
 }
 
+}
 
 
 

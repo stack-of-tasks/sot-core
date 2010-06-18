@@ -20,7 +20,8 @@
 #include <sot-core/derivator.h>
 #include <sot-core/factory.h>
 
-
+using namespace sot;
+using namespace ml;
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotClassType,sotType,className)              \
   template<>                                                                            \
@@ -40,13 +41,12 @@
 					  &regFunction##_##sotType##_##sotClassType );                   \
   }
 
-using namespace ml;
+namespace sot {
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotDerivator,double,"Derivator");
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotDerivator,Vector,"Derivator");
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotDerivator,Matrix,"Derivator");
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotDerivator,sotVectorQuaternion,"Derivator");
-
-
+}
 
 //SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotDerivator,double,"T");
 
