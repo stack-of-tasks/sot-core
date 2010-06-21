@@ -4,8 +4,7 @@
 
 SET (tests
 	main
-	signal/test_signal
-	plugin/test_shell)
+	signal/test_signal)
 
 FOREACH(test ${tests})
 	GET_FILENAME_COMPONENT(EXECUTABLE_NAME ${test} NAME)
