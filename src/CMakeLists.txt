@@ -4,6 +4,8 @@
 
 SET(LIBRARY_NAME ${PROJECT_NAME})
 
+#Warning: compile order is VERY important (if you get a segfault, it's probably
+#the reason
 SET(${LIBRARY_NAME}_SOURCES
 	debug/debug.cpp
 	debug/contiifstream.cpp
@@ -28,10 +30,6 @@ SET(${LIBRARY_NAME}_SOURCES
 	matrix/unary-op.cpp
 	matrix/vector-constant.cpp
 	matrix/vector-to-rotation.cpp
-	
-	factory/additional-functions.cpp
-	factory/factory.cpp
-	factory/pool.cpp
 	
 	math/matrix-force.cpp
 	math/matrix-homogeneous.cpp
@@ -66,11 +64,16 @@ SET(${LIBRARY_NAME}_SOURCES
 	sot/flags.cpp
 	sot/sot-qr.cpp
 	sot/memory-task-sot.cpp
-	sot/sot-h.cpp
 	sot/sot.cpp
 	sot/rotation-simple.cpp
 	sot/weighted-sot.cpp
 	sot/solver-hierarchical-inequalities.cpp
+	
+	sot/sot-h.cpp
+	
+	factory/additional-functions.cpp
+	factory/factory.cpp
+	factory/pool.cpp
 )
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
@@ -171,7 +174,7 @@ foreach(dlink ${DYNAMIC_GRAPH_LDFLAGS})
 endforeach(dlink)
 ENDIF(WIN32)
 
-# Dynamic loading
+# Linux dynamic loading library flags
 IF(UNIX)
   SET(${PROJECT_NAME}_src_LDFLAGS "${${PROJECT_NAME}_src_LDFLAGS} -ldl")
 ENDIF(UNIX)

@@ -146,6 +146,14 @@ ELSE(PACKAGE_REQUIREMENTS STREQUAL "")
 ENDIF(PACKAGE_REQUIREMENTS STREQUAL "")
 
 #
+# Boost
+#
+FIND_PACKAGE(Boost REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+set(LIBS ${LIBS} ${Boost_LIBRARIES})
+
+
+#
 # pkg-config file
 #
 

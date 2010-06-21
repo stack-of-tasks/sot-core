@@ -31,12 +31,14 @@
 using namespace std;
 using namespace sot;
 
+#ifdef VP_DEBUG
 class sotSOTH__INIT
 {
 public:sotSOTH__INIT( void ) { sot::DebugTrace::openFile(); }
 };
 
 sotSOTH__INIT sotSOTH_initiator;
+#endif
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

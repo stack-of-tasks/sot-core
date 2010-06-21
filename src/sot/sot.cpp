@@ -38,6 +38,7 @@
 #include <sot-core/pool.h>
 #include <sot-core/task.h>
 #include <sot-core/memory-task-sot.h>
+#include <sot-core/factory.h>
 
 using namespace std;
 using namespace sot;
@@ -48,7 +49,6 @@ using namespace sot;
 /* --------------------------------------------------------------------- */
 
 
-#include <sot-core/factory.h>
 SOT_FACTORY_ENTITY_PLUGIN(sotSOT,"SOT");
 
 

@@ -3,12 +3,12 @@
 # 
 
 SET (tests
-	main)
+	main
+	signal/test_signal
+	plugin/test_shell)
 
 FOREACH(test ${tests})
-	GET_FILENAME_COMPONENT(testName ${test} NAME)
-
-	SET(EXECUTABLE_NAME ${testName})
+	GET_FILENAME_COMPONENT(EXECUTABLE_NAME ${test} NAME)
 	
 	ADD_DEFINITIONS(-DDEBUG=2)
 	
@@ -56,5 +56,9 @@ FOREACH(test ${tests})
 	# Add dynamic-graph compilation flags and link to library libdynamic-graph.so
 	ADD_DEFINITIONS(${DYNAMIC_GRAPH_CFLAGS})
 	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${DYNAMIC_GRAPH_LIBRARIES})
+	
+	# FIXME
+	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME}
+		dl)
 
 ENDFOREACH(test)
