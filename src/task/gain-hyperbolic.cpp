@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotGainHyperbolic.cpp
+ * File:      GainHyperbolic.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -31,13 +31,13 @@
 
 using namespace sot;
 
-SOT_FACTORY_ENTITY_PLUGIN(sotGainHyperbolic,"GainHyperbolic");
+SOT_FACTORY_ENTITY_PLUGIN(GainHyperbolic,"GainHyperbolic");
 
-const double sotGainHyperbolic::
+const double GainHyperbolic::
 ZERO_DEFAULT = .1;
-const double sotGainHyperbolic::
+const double GainHyperbolic::
 INFTY_DEFAULT = .1;
-const double sotGainHyperbolic::
+const double GainHyperbolic::
 TAN_DEFAULT = 1;
 
 /* --------------------------------------------------------------------- */
@@ -52,13 +52,13 @@ Entity(name) \
 ,coeff_c(0) \
 ,coeff_d(0) \
 ,errorSIN(NULL,"sotGainHyperbolic("+name+")::input(vector)::error") \
-,gainSOUT( boost::bind(&sotGainHyperbolic::computeGain,this,_1,_2), \
+,gainSOUT( boost::bind(&GainHyperbolic::computeGain,this,_1,_2), \
 	   errorSIN,"sotGainHyperbolic("+name+")::output(double)::gain" ) 
 
 
 
-sotGainHyperbolic::
-sotGainHyperbolic( const std::string & name )
+GainHyperbolic::
+GainHyperbolic( const std::string & name )
   :__SOT_GAIN_HYPERBOLIC_INIT
 {
   sotDEBUG(15) << "New gain <"<<name<<">"<<std::endl;
@@ -67,16 +67,16 @@ sotGainHyperbolic( const std::string & name )
 }
 
 
-sotGainHyperbolic::
-sotGainHyperbolic( const std::string & name,const double& lambda )
+GainHyperbolic::
+GainHyperbolic( const std::string & name,const double& lambda )
   :__SOT_GAIN_HYPERBOLIC_INIT
 {
   init(lambda);
   Entity::signalRegistration( gainSOUT );
 }
 
-sotGainHyperbolic::
-sotGainHyperbolic( const std::string & name,
+GainHyperbolic::
+GainHyperbolic( const std::string & name,
 		   const double& valueAt0, 
 		   const double& valueAtInfty,
 		   const double& tanAt0,
@@ -88,7 +88,7 @@ sotGainHyperbolic( const std::string & name,
 }
 
 
-void sotGainHyperbolic::
+void GainHyperbolic::
 init( const double& valueAt0, 
       const double& valueAtInfty,
       const double& tanAt0,
@@ -103,7 +103,7 @@ init( const double& valueAt0,
   return;
 }
 
-void sotGainHyperbolic::
+void GainHyperbolic::
 forceConstant( void )
 {
   coeff_a = 0;
@@ -113,17 +113,17 @@ forceConstant( void )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void sotGainHyperbolic::
+void GainHyperbolic::
 display( std::ostream& os ) const
 {
   os << "Gain Hyperbolic "<<getName();
-  try{ os <<" = "<<double(gainSOUT); } catch (sotExceptionSignal e) {}
+  try{ os <<" = "<<double(gainSOUT); } catch (ExceptionSignal e) {}
   //os <<" ("<<coeff_a<<";"<<coeff_b<<";"<<coeff_c<<coeff_d<<") ";
   os <<" ("<<coeff_a<<".exp(-"<<coeff_b<<"(x-" << coeff_d << "))+" <<coeff_c;
 }
 
 #include <sot-core/exception-task.h>
-void sotGainHyperbolic::
+void GainHyperbolic::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,
 	     std::ostream& os )
@@ -156,7 +156,7 @@ commandLine( const std::string& cmdLine,
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-double& sotGainHyperbolic::
+double& GainHyperbolic::
 computeGain( double&res, int t ) 
 {
   sotDEBUGIN(15);

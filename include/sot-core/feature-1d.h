@@ -50,14 +50,14 @@
 namespace sot {
 
 /*!
-  \class sotFeature1D
+  \class Feature1D
   \brief Simple test: the task is defined to be e_2 = .5 . e'.e, with
   e the mother task. The jacobian is then J_2 = e'.J, J being the jacobian
   of the mother task.
   
 */
-class SOTFEATURE1D_EXPORT sotFeature1D 
-: public sotFeatureAbstract
+class SOTFEATURE1D_EXPORT Feature1D 
+: public FeatureAbstract
 {
 
  public: 
@@ -90,21 +90,21 @@ class SOTFEATURE1D_EXPORT sotFeature1D
     @{
   */
   /*! \brief Publish the jacobian of the feature according to the robot state. */
-  using sotFeatureAbstract::jacobianSOUT;
+  using FeatureAbstract::jacobianSOUT;
 
   /*! \brief Publish the error between the desired and the current value of the feature. */
-  using sotFeatureAbstract::errorSOUT;
+  using FeatureAbstract::errorSOUT;
 
   /*! \brief Publish the activation of this feature. */
-  using sotFeatureAbstract::activationSOUT;
+  using FeatureAbstract::activationSOUT;
 
  public:
 
   /*! \brief Default constructor */
-  sotFeature1D( const std::string& name );
+  Feature1D( const std::string& name );
 
   /*! \brief Default destructor */
-  virtual ~sotFeature1D( void ) {}
+  virtual ~Feature1D( void ) {}
 
   /*! \brief Get the dimension of the feature. */
   virtual unsigned int& getDimension( unsigned int & dim, int time );

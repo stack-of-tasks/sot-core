@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotMatrixConstant.cpp
+ * File:      MatrixConstant.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -24,12 +24,12 @@ using namespace std;
 using namespace sot;
 
 
-SOT_FACTORY_ENTITY_PLUGIN(sotMatrixConstant,"MatrixConstant");
+SOT_FACTORY_ENTITY_PLUGIN(MatrixConstant,"MatrixConstant");
 
 /* --------------------------------------------------------------------- */
 /* --- MATRIX ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-void sotMatrixConstant::
+void MatrixConstant::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs, 
 	     std::ostream& os )

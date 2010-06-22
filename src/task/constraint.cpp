@@ -40,7 +40,7 @@ SOT_FACTORY_TASK_PLUGIN(Constraint,"Constraint");
 
 Constraint::
 Constraint( const std::string& n )
-  :sotTaskAbstract(n)
+  :TaskAbstract(n)
 {
   jacobianSOUT.setFunction( boost::bind(&Constraint::computeJacobian,this,_1,_2) );
   
@@ -83,7 +83,7 @@ computeJacobian( ml::Matrix& J,int time )
 
   if( jacobianList.empty())
     { J.resize(0,0); }
-//    { throw( sotExceptionTask(sotExceptionTask::EMPTY_LIST,
+//    { throw( ExceptionTask(ExceptionTask::EMPTY_LIST,
 // 			      "Empty feature list") ) ; }
 
   try {
@@ -105,7 +105,7 @@ computeJacobian( ml::Matrix& J,int time )
 	
 	if( 0==nbc ) { nbc = partialJacobian.nbCols(); J.resize(nbc,dimJ); }
 	else if( partialJacobian.nbCols() != nbc )
-	  {SOT_THROW sotExceptionTask(sotExceptionTask::NON_ADEQUATE_FEATURES,
+	  {SOT_THROW ExceptionTask(ExceptionTask::NON_ADEQUATE_FEATURES,
 				      "Features from the list don't "
 				      "have compatible-size jacobians.");}
 	sotDEBUG(25) << "Jp =" <<endl<< partialJacobian<<endl;
@@ -152,7 +152,7 @@ commandLine( const std::string& cmdLine
       os << "Constraint: "<<endl
 	 << "  - add <obj.signal>"<<endl
 	 << "  - clear"<<endl;
-      //sotTaskAbstract
+      //TaskAbstract
       Entity::commandLine( cmdLine,cmdArgs,os );
     }
   else if( cmdLine=="add" )
@@ -163,12 +163,12 @@ commandLine( const std::string& cmdLine
       if(! sig ) 
 	{
     	  if ( sigA )
-			  SOT_THROW sotExceptionSignal( sotExceptionSignal::BAD_CAST,
+			  SOT_THROW ExceptionSignal( ExceptionSignal::BAD_CAST,
 							"Not a Matrix signal",
 							": while casting signal <%s> (signal type is %s).",
 							sigA->getName().c_str(), typeid(*sigA).name() );
     	  else
-    		  SOT_THROW sotExceptionSignal( sotExceptionSignal::NOT_INITIALIZED,
+    		  SOT_THROW ExceptionSignal( ExceptionSignal::NOT_INITIALIZED,
     				  "Could not get a reference to requested signal");
 	}
       addJacobian( *sig );
@@ -179,6 +179,6 @@ commandLine( const std::string& cmdLine
       jacobianSOUT.setReady();
     }
   else 
-    sotTaskAbstract::commandLine( cmdLine,cmdArgs,os );
+    TaskAbstract::commandLine( cmdLine,cmdArgs,os );
 
 }

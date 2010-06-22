@@ -118,7 +118,7 @@ public:
   /* ---------------------------------------------------------- */
   /* ---------------------------------------------------------- */
 
-class SOTSOTH_EXPORT sotSolverHierarchicalInequalities
+class SOTSOTH_EXPORT SolverHierarchicalInequalities
 {
 public: // protected:
   typedef bub::matrix<double,bub::column_major> bubMatrixQRWide;
@@ -183,7 +183,7 @@ public: // protected:
 
   /* ---------------------------------------------------------- */
 public:
-  sotSolverHierarchicalInequalities( unsigned int _nJ,
+  SolverHierarchicalInequalities( unsigned int _nJ,
                                      sotRotationComposedInExtenso& _Qh,
                                      bubMatrix &_Rh,
                                      ConstraintList &_cH )
@@ -193,7 +193,7 @@ public:
     u0*=0;
   }
  private:
-  sotSolverHierarchicalInequalities( const sotSolverHierarchicalInequalities& clone )
+  SolverHierarchicalInequalities( const SolverHierarchicalInequalities& clone )
     : nJ(clone.nJ),Qh(clone.Qh),Rh(clone.Rh),constraintH(clone.constraintH){ /* forbiden */ }
 
  public:

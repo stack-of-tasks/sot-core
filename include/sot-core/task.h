@@ -84,11 +84,11 @@ namespace ml = maal::boost;
 
 namespace sot {
 
-class SOTTASK_EXPORT sotTask
-: public sotTaskAbstract
+class SOTTASK_EXPORT Task
+: public TaskAbstract
 {
  protected:
-  std::list< sotFeatureAbstract* > featureList;
+  std::list< FeatureAbstract* > featureList;
 
  public:
  private: //HACK
@@ -97,13 +97,13 @@ class SOTTASK_EXPORT sotTask
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
  public:
-  sotTask( const std::string& n );
+  Task( const std::string& n );
 
-  void addFeature( sotFeatureAbstract& s );
+  void addFeature( FeatureAbstract& s );
   void clearFeatureList( void );
 
-  void setControlSelection( const sotFlags& act );
-  void addControlSelection( const sotFlags& act );
+  void setControlSelection( const Flags& act );
+  void addControlSelection( const Flags& act );
   void clearControlSelection( void );
 
   /* --- COMPUTATION --- */
@@ -118,14 +118,14 @@ class SOTTASK_EXPORT sotTask
  public:
   SignalPtr< double,int > controlGainSIN;
   SignalPtr< double,int > dampingGainSINOUT;
-  SignalPtr< sotFlags,int > controlSelectionSIN; // At the task level or at the feature level?
+  SignalPtr< Flags,int > controlSelectionSIN; // At the task level or at the feature level?
 
  public:
   SignalTimeDependant< ml::Vector,int > errorSOUT;
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display( std::ostream& os ) const;
-  //  friend std::ostream& operator<< ( std::ostream& os,const sotTask& t );
+  //  friend std::ostream& operator<< ( std::ostream& os,const Task& t );
 
   /* --- PARAMS --- */
   virtual void commandLine( const std::string& cmdLine

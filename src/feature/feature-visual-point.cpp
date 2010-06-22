@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotFeatureVisualPoint.cpp
+ * File:      FeatureVisualPoint.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -32,7 +32,7 @@ using namespace sot;
 
 
 
-SOT_FACTORY_FEATURE_PLUGIN(sotFeatureVisualPoint,"FeatureVisualPoint");
+SOT_FACTORY_FEATURE_PLUGIN(FeatureVisualPoint,"FeatureVisualPoint");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -40,9 +40,9 @@ SOT_FACTORY_FEATURE_PLUGIN(sotFeatureVisualPoint,"FeatureVisualPoint");
 
 
 
-sotFeatureVisualPoint::
-sotFeatureVisualPoint( const string& pointName )
-  : sotFeatureAbstract( pointName )
+FeatureVisualPoint::
+FeatureVisualPoint( const string& pointName )
+  : FeatureAbstract( pointName )
     ,L()
     ,xySIN( NULL,"sotFeatureVisualPoint("+name+")::input(vector)::xy" )
     ,ZSIN( NULL,"sotFeatureVisualPoint("+name+")::input(double)::Z" )
@@ -67,12 +67,12 @@ sotFeatureVisualPoint( const string& pointName )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int& sotFeatureVisualPoint::
+unsigned int& FeatureVisualPoint::
 getDimension( unsigned int & dim, int time ) 
 {
   sotDEBUG(25)<<"# In {"<<endl;
 
-  const sotFlags &fl = selectionSIN.access(time);
+  const Flags &fl = selectionSIN.access(time);
 
   dim = 0;
   if( fl(0) ) dim++;
@@ -86,13 +86,13 @@ getDimension( unsigned int & dim, int time )
 /** Compute the interaction matrix from a subset of
  * the possible features. 
  */
-ml::Matrix& sotFeatureVisualPoint::
+ml::Matrix& FeatureVisualPoint::
 computeJacobian( ml::Matrix& J,int time )
 {
   sotDEBUG(15)<<"# In {"<<endl;
 
   sotDEBUG(15) << "Get selection flags." << endl;
-  const sotFlags &fl = selectionSIN(time);
+  const Flags &fl = selectionSIN(time);
 
   const int dim = dimensionSOUT(time);
   std::cout<<" Dimension="<<dim<<std::endl;
@@ -109,11 +109,11 @@ computeJacobian( ml::Matrix& J,int time )
 
 
   if( Z<0 )
-    { throw(sotExceptionFeature(sotExceptionFeature::BAD_INIT,
+    { throw(ExceptionFeature(ExceptionFeature::BAD_INIT,
 				"VisualPoint is behind the camera"," (Z=%.1f).",Z)); }
 
   if( fabs(Z)<1e-6 )
-    { throw(sotExceptionFeature(sotExceptionFeature::BAD_INIT,
+    { throw(ExceptionFeature(ExceptionFeature::BAD_INIT,
 				"VisualPoint Z coordinates is null"," (Z=%.3f)",Z)); }
 
   if( fl(0) )
@@ -152,18 +152,18 @@ computeJacobian( ml::Matrix& J,int time )
  * a the possible features.
  */
 ml::Vector&
-sotFeatureVisualPoint::computeError( ml::Vector& error,int time )
+FeatureVisualPoint::computeError( ml::Vector& error,int time )
 {
-  const sotFlags &fl = selectionSIN(time);
+  const Flags &fl = selectionSIN(time);
   sotDEBUGIN(15);
   error.resize(dimensionSOUT(time)) ;
   unsigned int cursorL = 0;
 
-  sotFeatureVisualPoint * sdes 
-    = dynamic_cast<sotFeatureVisualPoint*>(desiredValueSIN(time));
+  FeatureVisualPoint * sdes 
+    = dynamic_cast<FeatureVisualPoint*>(desiredValueSIN(time));
   
   if( NULL==sdes )
-    { throw(sotExceptionFeature(sotExceptionFeature::BAD_INIT,
+    { throw(ExceptionFeature(ExceptionFeature::BAD_INIT,
 				"S* is not of adequate type.")); }
   if( fl(0) )
     { error( cursorL++ ) = xySIN(time)(0) - sdes->xySIN(time)(0) ;   }
@@ -179,7 +179,7 @@ sotFeatureVisualPoint::computeError( ml::Vector& error,int time )
  * a the possible features.
  */
 ml::Vector&
-sotFeatureVisualPoint::computeActivation( ml::Vector& act,int time )
+FeatureVisualPoint::computeActivation( ml::Vector& act,int time )
 {
   selectionSIN(time);
   act.resize(dimensionSOUT(time)) ; act.fill(1);
@@ -187,7 +187,7 @@ sotFeatureVisualPoint::computeActivation( ml::Vector& act,int time )
 }
 
 
-void sotFeatureVisualPoint::
+void FeatureVisualPoint::
 display( std::ostream& os ) const
 {
   
@@ -196,7 +196,7 @@ display( std::ostream& os ) const
 
   try{
     const ml::Vector& xy = xySIN;
-    const sotFlags& fl = selectionSIN;
+    const Flags& fl = selectionSIN;
     if( fl(0) ) os << " x=" << xy(0) ;
     if( fl(1) ) os << " y=" << xy(1) ;
   }  catch(ExceptionAbstract e){ os<< " XY or select not set."; }

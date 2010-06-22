@@ -45,7 +45,7 @@
 namespace sot {
 
 
-class sotFeatureAbstract;
+class FeatureAbstract;
 
 
 /*!
@@ -161,10 +161,10 @@ public:            																\
 /* -------------------------------------------------------------------------- */
 
 /* --- OTHER --- */
-SOT_SIGNAL_CAST_DEFINITION(sotFlags);
+SOT_SIGNAL_CAST_DEFINITION(Flags);
 SOT_SIGNAL_CAST_DEFINITION_TRACE(sotVectorMultiBound);
 
-typedef sotFeatureAbstract* SignalCast_sotFeatureAbstractPtr  ;
+typedef FeatureAbstract* SignalCast_sotFeatureAbstractPtr  ;
 
 SOT_SIGNAL_CAST_DEFINITION_HPP( SignalCast_sotFeatureAbstractPtr );
 SOT_SIGNAL_CAST_DEFINITION_HPP( struct timeval );
@@ -188,13 +188,13 @@ SOT_SIGNAL_CAST_FULL_DEFINITION(maal::boost::Matrix,;,;,;);
 /* All the followings are defined with proxys on the equivalent
  * functions ml:: based.
  */
-SOT_SIGNAL_CAST_DEFINITION_VECTOR(sotVectorUTheta);
-SOT_SIGNAL_CAST_DEFINITION_VECTOR(sotVectorQuaternion);
-SOT_SIGNAL_CAST_DEFINITION_VECTOR(sotVectorRollPitchYaw);
-SOT_SIGNAL_CAST_DEFINITION_MATRIX(sotMatrixRotation);
-SOT_SIGNAL_CAST_DEFINITION_MATRIX(sotMatrixHomogeneous);
-SOT_SIGNAL_CAST_DEFINITION_MATRIX(sotMatrixTwist);
-SOT_SIGNAL_CAST_DEFINITION_MATRIX(sotMatrixForce);
+SOT_SIGNAL_CAST_DEFINITION_VECTOR(VectorUTheta);
+SOT_SIGNAL_CAST_DEFINITION_VECTOR(VectorQuaternion);
+SOT_SIGNAL_CAST_DEFINITION_VECTOR(VectorRollPitchYaw);
+SOT_SIGNAL_CAST_DEFINITION_MATRIX(MatrixRotation);
+SOT_SIGNAL_CAST_DEFINITION_MATRIX(MatrixHomogeneous);
+SOT_SIGNAL_CAST_DEFINITION_MATRIX(MatrixTwist);
+SOT_SIGNAL_CAST_DEFINITION_MATRIX(MatrixForce);
 
 } // namespace sot
 

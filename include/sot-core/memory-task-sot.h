@@ -46,8 +46,8 @@
 
 namespace sot {
 
-class SOTSOT_CORE_EXPORT sotMemoryTaskSOT
-: public sotTaskAbstract::sotMemoryTaskAbstract, public Entity
+class SOTSOT_CORE_EXPORT MemoryTaskSOT
+: public TaskAbstract::sotMemoryTaskAbstract, public Entity
 {
  public://   protected:
   /* Internal memory to reduce the dynamic allocation at task resolution. */

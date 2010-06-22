@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotExceptionFeature.cpp
+ * File:      ExceptionFeature.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -27,17 +27,17 @@ using namespace sot;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-const std::string sotExceptionFeature::EXCEPTION_NAME = "Feature";
+const std::string ExceptionFeature::EXCEPTION_NAME = "Feature";
 
-sotExceptionFeature::
-sotExceptionFeature ( const sotExceptionFeature::ErrorCodeEnum& errcode,
+ExceptionFeature::
+ExceptionFeature ( const ExceptionFeature::ErrorCodeEnum& errcode,
 		      const std::string & msg )
   :ExceptionAbstract(errcode,msg)
 {
 }
 
-sotExceptionFeature::
-sotExceptionFeature ( const sotExceptionFeature::ErrorCodeEnum& errcode,
+ExceptionFeature::
+ExceptionFeature ( const ExceptionFeature::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... )
   :ExceptionAbstract(errcode,msg)
 {

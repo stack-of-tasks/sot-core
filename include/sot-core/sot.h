@@ -69,7 +69,7 @@ namespace sot {
   
   
 */
-class SOTSOT_CORE_EXPORT sotSOT
+class SOTSOT_CORE_EXPORT Sot
 :public Entity
 {
  public:
@@ -82,7 +82,7 @@ class SOTSOT_CORE_EXPORT sotSOT
  protected:
 
   /*! \brief Defines a type for a list of tasks */
-  typedef std::list<sotTaskAbstract*> StackType;
+  typedef std::list<TaskAbstract*> StackType;
 
 
   /*! \brief This field is a list of controllers 
@@ -109,7 +109,7 @@ class SOTSOT_CORE_EXPORT sotSOT
   unsigned int nbJoints;
   
   /*! \brief Store a pointer to compute the gradient */
-  sotTaskAbstract* taskGradient;
+  TaskAbstract* taskGradient;
 
   /*! Projection used to compute the control law. */
   ml::Matrix Proj;
@@ -133,15 +133,15 @@ class SOTSOT_CORE_EXPORT sotSOT
                                            ml::Matrix& JK,
                                            ml::Matrix& Jff,
                                            ml::Matrix& Jact );
-  static ml::Matrix & computeJacobianConstrained( const sotTaskAbstract& task,
+  static ml::Matrix & computeJacobianConstrained( const TaskAbstract& task,
                                            const ml::Matrix& K );
   static ml::Vector taskVectorToMlVector( const sotVectorMultiBound& taskVector );
 
  public:
   
   /*! \brief Default constructor */
-  sotSOT( const std::string& name );
-  ~sotSOT( void ) { /* TODO!! */ }
+  Sot( const std::string& name );
+  ~Sot( void ) { /* TODO!! */ }
 
   /*! \name Methods to handle the stack. 
     @{
@@ -151,30 +151,30 @@ class SOTSOT_CORE_EXPORT sotSOT
     It has a lowest priority than the previous ones.
     If this is the first task, then it has the highest
     priority. */
-  virtual void push( sotTaskAbstract& task );
+  virtual void push( TaskAbstract& task );
   /*! \brief Pop the task from the stack.
     This method removes the task with the smallest
     priority in the task. The other are projected
     in the null-space of their predecessors. */
-  virtual sotTaskAbstract& pop( void );
+  virtual TaskAbstract& pop( void );
 
   /*! \brief This method allows to know if a task exists or not */
-  virtual bool exist( const sotTaskAbstract& task );
+  virtual bool exist( const TaskAbstract& task );
 
   /*! \brief Remove a task regardless to its position in the stack. 
     It removes also the signals connected to the output signal of this stack.*/
-  virtual void remove( const sotTaskAbstract& task );
+  virtual void remove( const TaskAbstract& task );
 
   /*! \brief This method removes the output signals depending on this task. */
-  virtual void removeDependancy( const sotTaskAbstract& key );
+  virtual void removeDependancy( const TaskAbstract& key );
 
   /*! \brief This method makes the task to swap with the task having the 
     immediate superior priority. */
-  virtual void up( const sotTaskAbstract& task );
+  virtual void up( const TaskAbstract& task );
 
   /*! \brief This method makes the task to swap with the task having the 
     immediate inferior priority. */
-  virtual void down( const sotTaskAbstract& task );
+  virtual void down( const TaskAbstract& task );
 
   /*! \brief Remove all the tasks from the stack. */
   virtual void clear( void );
@@ -230,7 +230,7 @@ class SOTSOT_CORE_EXPORT sotSOT
   /*! Display the stack of tasks in text mode as a tree. */
   virtual void display( std::ostream& os ) const;
   /*! Wrap the previous method around an operator. */
-  SOTSOT_CORE_EXPORT friend std::ostream& operator<< ( std::ostream& os,const sotSOT& sot );
+  SOTSOT_CORE_EXPORT friend std::ostream& operator<< ( std::ostream& os,const Sot& sot );
   /*! @} */
  public: /* --- SIGNALS --- */
   

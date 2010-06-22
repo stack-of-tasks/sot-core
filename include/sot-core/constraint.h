@@ -65,7 +65,7 @@ namespace sot {
 
 
 class SOTCONSTRAINT_EXPORT Constraint
-: public sotTaskAbstract
+: public TaskAbstract
 {
  protected:
   typedef std::list< Signal<ml::Matrix,int>* > JacobianList;
@@ -81,8 +81,8 @@ class SOTCONSTRAINT_EXPORT Constraint
   void addJacobian( Signal<ml::Matrix,int>& sig );
   void clearJacobianList( void );
 
-  void setControlSelection( const sotFlags& act );
-  void addControlSelection( const sotFlags& act );
+  void setControlSelection( const Flags& act );
+  void addControlSelection( const Flags& act );
   void clearControlSelection( void );
 
   /* --- COMPUTATION --- */

@@ -46,7 +46,7 @@ namespace sot {
 /* --------------------------------------------------------------------- */
 
 template< class T >
-class sotDerivator
+class Derivator
 :public Entity
 {
  protected:
@@ -60,12 +60,12 @@ class sotDerivator
   static std::string getTypeName( void ) { return "Unknown"; }
   static const std::string CLASS_NAME;
 
-  sotDerivator( const std::string& name )
+  Derivator( const std::string& name )
     : Entity(name)
     ,memory(),initialized(false)
     ,timestep(TIMESTEP_DEFAULT)
     ,SIN(NULL,"sotDerivator<"+getTypeName()+">("+name+")::input("+getTypeName()+")::in") 
-    ,SOUT( boost::bind(&sotDerivator<T>::computeDerivation,this,_1,_2), 
+    ,SOUT( boost::bind(&Derivator<T>::computeDerivation,this,_1,_2), 
 	   SIN,"sotDerivator<"+getTypeName()+">("+name+")::output("+getTypeName()+")::out")
     ,timestepSIN("sotDerivator<"+getTypeName()+">("+name+")::input(double)::dt")
     {
@@ -75,7 +75,7 @@ class sotDerivator
     }
 
 
-  virtual ~sotDerivator( void ) {};
+  virtual ~Derivator( void ) {};
 
  public: /* --- SIGNAL --- */
 

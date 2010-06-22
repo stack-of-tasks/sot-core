@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotVectorToRotation.cp
+ * File:      VectorToRotation.cp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -27,19 +27,19 @@ using namespace std;
 using namespace sot;
 
 namespace sot {
-SOT_FACTORY_ENTITY_PLUGIN(sotVectorToRotation,"VectorToRotation");
+SOT_FACTORY_ENTITY_PLUGIN(VectorToRotation,"VectorToRotation");
 }
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-sotVectorToRotation::
-sotVectorToRotation( const std::string& name )
+VectorToRotation::
+VectorToRotation( const std::string& name )
   :Entity( name )
   ,size(0),axes(0)
   ,SIN( NULL,"sotVectorToRotation("+name+")::output(vector)::in" )
-  ,SOUT( SOT_MEMBER_SIGNAL_1( sotVectorToRotation::computeRotation,
+  ,SOUT( SOT_MEMBER_SIGNAL_1( VectorToRotation::computeRotation,
 			    SIN,ml::Vector),
 	 "sotVectorToRotation("+name+")::output(matrixRotation)::out" )
 {
@@ -50,12 +50,12 @@ sotVectorToRotation( const std::string& name )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-sotMatrixRotation& sotVectorToRotation::
+MatrixRotation& VectorToRotation::
 computeRotation( const ml::Vector& angles,
-		 sotMatrixRotation& res )
+		 MatrixRotation& res )
 {
   res.setIdentity();
-  sotMatrixRotation Ra,Rtmp;
+  MatrixRotation Ra,Rtmp;
   for( unsigned int i=0;i<size;++i )
     {
       Ra.setIdentity();
@@ -96,7 +96,7 @@ computeRotation( const ml::Vector& angles,
 /* --------------------------------------------------------------------- */
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-void sotVectorToRotation::
+void VectorToRotation::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs, 
 	     std::ostream& os )

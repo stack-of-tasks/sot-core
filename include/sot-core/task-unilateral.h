@@ -62,18 +62,18 @@ namespace ml = maal::boost;
 
 namespace sot {
 
-class SOTTASKUNILATERAL_EXPORT sotTaskUnilateral
-: public sotTask
+class SOTTASKUNILATERAL_EXPORT TaskUnilateral
+: public Task
 {
  protected:
-  std::list< sotFeatureAbstract* > featureList;
+  std::list< FeatureAbstract* > featureList;
 
  public:
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
  public:
-  sotTaskUnilateral( const std::string& n );
+  TaskUnilateral( const std::string& n );
 
   /* --- COMPUTATION --- */
   sotVectorMultiBound& computeTaskUnilateral( sotVectorMultiBound& res,int time );

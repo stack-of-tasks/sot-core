@@ -69,7 +69,7 @@ namespace ml = maal::boost;
 
 namespace sot {
 
-class SOTSOTQR_EXPORT sotSOTQr
+class SOTSOTQR_EXPORT SotQr
 :public Entity
 {
  public:
@@ -81,7 +81,7 @@ class SOTSOTQR_EXPORT sotSOTQr
  protected:
 
   /*! \brief Defines a type for a list of tasks */
-  typedef std::list<sotTaskAbstract*> StackType;
+  typedef std::list<TaskAbstract*> StackType;
 
 
   /*! \brief This field is a list of controllers
@@ -108,7 +108,7 @@ class SOTSOTQR_EXPORT sotSOTQr
   unsigned int nbJoints;
 
   /*! \brief Store a pointer to compute the gradient */
-  sotTaskAbstract* taskGradient;
+  TaskAbstract* taskGradient;
 
   /*! Projection used to compute the control law. */
   ml::Matrix Proj;
@@ -127,7 +127,7 @@ class SOTSOTQR_EXPORT sotSOTQr
  public:
 
   /*! \brief Default constructor */
-  sotSOTQr( const std::string& name );
+  SotQr( const std::string& name );
 
   /*! \name Methods to handle the stack.
     @{
@@ -137,30 +137,30 @@ class SOTSOTQR_EXPORT sotSOTQr
     It has a lowest priority than the previous ones.
     If this is the first task, then it has the highest
     priority. */
-  void push( sotTaskAbstract& task );
+  void push( TaskAbstract& task );
   /*! \brief Pop the task from the stack.
     This method removes the task with the smallest
     priority in the task. The other are projected
     in the null-space of their predecessors. */
-  sotTaskAbstract& pop( void );
+  TaskAbstract& pop( void );
 
   /*! \brief This method allows to know if a task exists or not */
-  bool exist( const sotTaskAbstract& task );
+  bool exist( const TaskAbstract& task );
 
   /*! \brief Remove a task regardless to its position in the stack.
     It removes also the signals connected to the output signal of this stack.*/
-  void remove( const sotTaskAbstract& task );
+  void remove( const TaskAbstract& task );
 
   /*! \brief This method removes the output signals depending on this task. */
-  void removeDependancy( const sotTaskAbstract& key );
+  void removeDependancy( const TaskAbstract& key );
 
   /*! \brief This method makes the task to swap with the task having the
     immediate superior priority. */
-  void up( const sotTaskAbstract& task );
+  void up( const TaskAbstract& task );
 
   /*! \brief This method makes the task to swap with the task having the
     immediate inferior priority. */
-  void down( const sotTaskAbstract& task );
+  void down( const TaskAbstract& task );
 
   /*! \brief Remove all the tasks from the stack. */
   void clear( void );
@@ -215,7 +215,7 @@ class SOTSOTQR_EXPORT sotSOTQr
   /*! Display the stack of tasks in text mode as a tree. */
   virtual void display( std::ostream& os ) const;
   /*! Wrap the previous method around an operator. */
-  SOTSOTQR_EXPORT friend std::ostream& operator<< ( std::ostream& os,const sotSOTQr& sot );
+  SOTSOTQR_EXPORT friend std::ostream& operator<< ( std::ostream& os,const SotQr& sot );
   /*! @} */
  public: /* --- SIGNALS --- */
 

@@ -47,7 +47,7 @@ namespace ml = maal::boost;
 
 namespace sot {
 
-class SOT_CORE_EXPORT sotTaskAbstract
+class SOT_CORE_EXPORT TaskAbstract
 : public Entity
 {
  public:
@@ -77,7 +77,7 @@ class SOT_CORE_EXPORT sotTaskAbstract
   void taskRegistration( void );
 
  public:
-  sotTaskAbstract( const std::string& n );
+  TaskAbstract( const std::string& n );
 
  public: /* --- SIGNALS --- */
 

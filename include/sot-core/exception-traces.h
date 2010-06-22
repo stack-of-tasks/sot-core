@@ -34,9 +34,9 @@
 
 namespace sot {
 
-/* \class sotExceptionTraces
+/* \class ExceptionTraces
  */
-class SOT_CORE_EXPORT sotExceptionTraces 
+class SOT_CORE_EXPORT ExceptionTraces 
 :public ExceptionAbstract
 
 {
@@ -53,11 +53,11 @@ class SOT_CORE_EXPORT sotExceptionTraces
 
 public:
 
-  sotExceptionTraces ( const sotExceptionTraces::ErrorCodeEnum& errcode,
+  ExceptionTraces ( const ExceptionTraces::ErrorCodeEnum& errcode,
 		       const std::string & msg = "" );
-  sotExceptionTraces( const sotExceptionTraces::ErrorCodeEnum& errcode,
+  ExceptionTraces( const ExceptionTraces::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... );
-  virtual ~sotExceptionTraces( void ){}
+  virtual ~ExceptionTraces( void ){}
 
 
 };

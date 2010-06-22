@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotFeatureTask.cpp
+ * File:      FeatureTask.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -32,7 +32,7 @@ using namespace sot;
 
 
 #include <sot-core/factory.h>
-SOT_FACTORY_FEATURE_PLUGIN(sotFeatureTask,"FeatureTask");
+SOT_FACTORY_FEATURE_PLUGIN(FeatureTask,"FeatureTask");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -40,9 +40,9 @@ SOT_FACTORY_FEATURE_PLUGIN(sotFeatureTask,"FeatureTask");
 
 
 
-sotFeatureTask::
-sotFeatureTask( const string& pointName )
-  : sotFeatureGeneric( pointName )
+FeatureTask::
+FeatureTask( const string& pointName )
+  : FeatureGeneric( pointName )
 {
 }
 
@@ -51,25 +51,25 @@ sotFeatureTask( const string& pointName )
 /* --------------------------------------------------------------------- */
 
 
-ml::Vector& sotFeatureTask::
+ml::Vector& FeatureTask::
 computeError( ml::Vector& res,int time )
 { 
   const ml::Vector& err = errorSIN.access(time);
-  const sotFlags &fl = selectionSIN.access(time);
+  const Flags &fl = selectionSIN.access(time);
   const unsigned int & dim = dimensionSOUT(time);
 
   unsigned int curr = 0;
   res.resize( dim );
   if( err.size()<dim )
-    { SOT_THROW sotExceptionFeature( sotExceptionFeature::UNCOMPATIBLE_SIZE,
+    { SOT_THROW ExceptionFeature( ExceptionFeature::UNCOMPATIBLE_SIZE,
 				     "Error: dimension uncompatible with des->errorIN size."
 				     " (while considering feature <%s>).",getName().c_str() ); }
 
-  sotFeatureTask * sdes = NULL;
+  FeatureTask * sdes = NULL;
   if( desiredValueSIN )
     {
-      sotFeatureAbstract* sdesAbs = desiredValueSIN(time);
-      sdes = dynamic_cast<sotFeatureTask*>(sdesAbs);
+      FeatureAbstract* sdesAbs = desiredValueSIN(time);
+      sdes = dynamic_cast<FeatureTask*>(sdesAbs);
     }
   
   sotDEBUG(15) << "Err = " << err;
@@ -80,7 +80,7 @@ computeError( ml::Vector& res,int time )
       const ml::Vector& errDes = sdes->errorSIN(time);
       sotDEBUG(15) << "Err* = " << errDes;
       if( errDes.size()<dim )
-	{ SOT_THROW sotExceptionFeature( sotExceptionFeature::UNCOMPATIBLE_SIZE,
+	{ SOT_THROW ExceptionFeature( ExceptionFeature::UNCOMPATIBLE_SIZE,
 					 "Error: dimension uncompatible with des->errorIN size."
 					 " (while considering feature <%s>).",getName().c_str() ); }
 
@@ -100,7 +100,7 @@ computeError( ml::Vector& res,int time )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void sotFeatureTask::
+void FeatureTask::
 display( std::ostream& os ) const
 {
   os << "Feature from task <" << getName();
@@ -109,7 +109,7 @@ display( std::ostream& os ) const
 }
 
 
-void sotFeatureTask::
+void FeatureTask::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,
 	     std::ostream& os )
@@ -125,7 +125,7 @@ commandLine( const std::string& cmdLine,
       if( cmdArgs.good() )
 	{
 	  std::string name; cmdArgs >> name;
-	  sotTaskAbstract& task = dynamic_cast< sotTaskAbstract & > (pool .getEntity( name ));
+	  TaskAbstract& task = dynamic_cast< TaskAbstract & > (pool .getEntity( name ));
 	  taskPtr = &task;
 
 	  errorSIN.plug( &task.taskSOUT );

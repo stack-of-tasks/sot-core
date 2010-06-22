@@ -72,15 +72,15 @@ trace( const sotVectorMultiBound& t,std::ostream& os )
     {
       switch( iter->mode )
         {
-        case sotMultiBound::MODE_SINGLE:
+        case MultiBound::MODE_SINGLE:
           os << iter->getSingleBound() << "\t";
           break;
-        case sotMultiBound::MODE_DOUBLE:
-          if( iter->getDoubleBoundSetup(sotMultiBound::BOUND_INF) )
-            os << iter->getDoubleBound(sotMultiBound::BOUND_INF)<<"\t";
+        case MultiBound::MODE_DOUBLE:
+          if( iter->getDoubleBoundSetup(MultiBound::BOUND_INF) )
+            os << iter->getDoubleBound(MultiBound::BOUND_INF)<<"\t";
           else os <<"-inf\t";
-          if( iter->getDoubleBoundSetup(sotMultiBound::BOUND_SUP) )
-            os << iter->getDoubleBound(sotMultiBound::BOUND_SUP)<<"\t";
+          if( iter->getDoubleBoundSetup(MultiBound::BOUND_SUP) )
+            os << iter->getDoubleBound(MultiBound::BOUND_SUP)<<"\t";
           else os <<"+inf\t";
           break;
         }
@@ -190,17 +190,17 @@ trace( const ml::Matrix& t,std::ostream& os )
 
 namespace {
 	SOT_SIGNAL_CAST_DECLARATION(SignalCast_sotFeatureAbstractPtr);
-	SOT_SIGNAL_CAST_DECLARATION(sotFlags);
+	SOT_SIGNAL_CAST_DECLARATION(Flags);
 	SOT_SIGNAL_CAST_DECLARATION(sotVectorMultiBound);
 	SOT_SIGNAL_CAST_DECLARATION(timeval );
 	SOT_SIGNAL_CAST_DECLARATION_NAMED(maal::boost::Vector, maal_boost_Vector);
 	SOT_SIGNAL_CAST_DECLARATION_NAMED(maal::boost::Matrix, maal_boost_Matrix);
-	SOT_SIGNAL_CAST_DECLARATION(sotVectorUTheta);
-	SOT_SIGNAL_CAST_DECLARATION(sotVectorQuaternion);
-	SOT_SIGNAL_CAST_DECLARATION(sotVectorRollPitchYaw);
-	SOT_SIGNAL_CAST_DECLARATION(sotMatrixRotation);
-	SOT_SIGNAL_CAST_DECLARATION(sotMatrixHomogeneous);
-	SOT_SIGNAL_CAST_DECLARATION(sotMatrixTwist);
-	SOT_SIGNAL_CAST_DECLARATION(sotMatrixForce);
+	SOT_SIGNAL_CAST_DECLARATION(VectorUTheta);
+	SOT_SIGNAL_CAST_DECLARATION(VectorQuaternion);
+	SOT_SIGNAL_CAST_DECLARATION(VectorRollPitchYaw);
+	SOT_SIGNAL_CAST_DECLARATION(MatrixRotation);
+	SOT_SIGNAL_CAST_DECLARATION(MatrixHomogeneous);
+	SOT_SIGNAL_CAST_DECLARATION(MatrixTwist);
+	SOT_SIGNAL_CAST_DECLARATION(MatrixForce);
 
 }

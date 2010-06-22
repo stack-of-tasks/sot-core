@@ -25,7 +25,7 @@ using namespace ml;
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotClassType,sotType,className)              \
   template<>                                                                            \
-  const double sotDerivator<sotType>::TIMESTEP_DEFAULT = 1.;                            \
+  const double Derivator<sotType>::TIMESTEP_DEFAULT = 1.;                            \
   template<>                                                                            \
   std::string sotClassType<sotType>::                                                   \
   getTypeName( void ) { return #sotType; }                                              \
@@ -42,13 +42,13 @@ using namespace ml;
   }
 
 namespace sot {
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotDerivator,double,"Derivator");
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotDerivator,Vector,"Derivator");
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotDerivator,Matrix,"Derivator");
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotDerivator,sotVectorQuaternion,"Derivator");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,double,"Derivator");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,Vector,"Derivator");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,Matrix,"Derivator");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,VectorQuaternion,"Derivator");
 }
 
-//SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotDerivator,double,"T");
+//SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,double,"T");
 
 
 /*
@@ -67,9 +67,9 @@ SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotDerivator,sotVectorQuaternion,"Derivator")
   }
 
 
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotDerivator,double,"derivator","Double",rfd,rod);
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotDerivator,ml::Vector,"derivator","Vector",rfv,rov);
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotDerivator,ml::Matrix,"derivator","Matrix",rfm,rom);
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,double,"derivator","Double",rfd,rod);
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,ml::Vector,"derivator","Vector",rfv,rov);
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,ml::Matrix,"derivator","Matrix",rfm,rom);
 
 */
 

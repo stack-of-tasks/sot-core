@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotTaskAbstract.cpp
+ * File:      TaskAbstract.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -33,8 +33,8 @@ using namespace sot;
 /* --------------------------------------------------------------------- */
 
 
-sotTaskAbstract::
-sotTaskAbstract( const std::string& n )
+TaskAbstract::
+TaskAbstract( const std::string& n )
   :Entity(n)
   ,memoryInternal(NULL)
   ,taskSOUT( "sotTaskAbstract("+n+")::output(vector)::task" )
@@ -47,14 +47,14 @@ sotTaskAbstract( const std::string& n )
 }
 
 
-void sotTaskAbstract::
+void TaskAbstract::
 taskRegistration( void )
 {
   sotPool.registerTask(name,this);
 }
 
 
-void sotTaskAbstract::
+void TaskAbstract::
 commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 	     std::ostream& os )
 {

@@ -54,7 +54,7 @@ namespace ml = maal::boost;
 
 namespace sot {
 
-class SOTGAINADAPTATIVE_EXPORT sotGainAdaptative
+class SOTGAINADAPTATIVE_EXPORT GainAdaptative
 : public Entity
 {
 
@@ -81,9 +81,9 @@ class SOTGAINADAPTATIVE_EXPORT sotGainAdaptative
 
  public: /* --- CONSTRUCTORS ---- */
 
-  sotGainAdaptative( const std::string & name );
-  sotGainAdaptative( const std::string & name,const double& lambda );
-  sotGainAdaptative( const std::string & name,
+  GainAdaptative( const std::string & name );
+  GainAdaptative( const std::string & name,const double& lambda );
+  GainAdaptative( const std::string & name,
 		     const double& valueAt0, 
 		     const double& valueAtInfty,
 		     const double& tanAt0 );

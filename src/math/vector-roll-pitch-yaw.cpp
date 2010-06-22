@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotVectorRollPitchYaw.cpp
+ * File:      VectorRollPitchYaw.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -27,8 +27,8 @@ static const double ANGLE_MINIMUM = 0.0001;
 static const double SINC_MINIMUM = 1e-8;
 static const double COSC_MINIMUM = 2.5e-4;
 
-sotVectorRotation& sotVectorRollPitchYaw::
-fromMatrix( const sotMatrixRotation& rot )
+sotVectorRotation& VectorRollPitchYaw::
+fromMatrix( const MatrixRotation& rot )
 {
   sotDEBUGIN(15) ;
   
@@ -45,8 +45,8 @@ fromMatrix( const sotMatrixRotation& rot )
 }
 
 
-sotMatrixRotation& sotVectorRollPitchYaw::
-toMatrix( sotMatrixRotation& rot ) const
+MatrixRotation& VectorRollPitchYaw::
+toMatrix( MatrixRotation& rot ) const
 {
   sotDEBUGIN(15) ;
 

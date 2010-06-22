@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotTask.cpp
+ * File:      Task.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -32,7 +32,7 @@ using namespace sot;
 
 
 #include <sot-core/factory.h>
-SOT_FACTORY_TASK_PLUGIN(sotTask,"Task");
+SOT_FACTORY_TASK_PLUGIN(Task,"Task");
 
 
 /* --------------------------------------------------------------------- */
@@ -40,20 +40,20 @@ SOT_FACTORY_TASK_PLUGIN(sotTask,"Task");
 /* --------------------------------------------------------------------- */
 
 
-sotTask::
-sotTask( const std::string& n )
-  :sotTaskAbstract(n)
+Task::
+Task( const std::string& n )
+  :TaskAbstract(n)
    ,featureList()
    ,controlGainSIN( NULL,"sotTask("+n+")::input(double)::controlGain" )
    ,dampingGainSINOUT( NULL,"sotTask("+n+")::in/output(double)::damping" )
    ,controlSelectionSIN( NULL,"sotTask("+n+")::input(flag)::controlSelec" )
-   ,errorSOUT( boost::bind(&sotTask::computeError,this,_1,_2),
+   ,errorSOUT( boost::bind(&Task::computeError,this,_1,_2),
 	       sotNOSIGNAL,
 	       "sotTask("+n+")::output(vector)::error" )
 {
-  taskSOUT.setFunction( boost::bind(&sotTask::computeTaskExponentialDecrease,this,_1,_2) );
-  jacobianSOUT.setFunction( boost::bind(&sotTask::computeJacobian,this,_1,_2) );
-  featureActivationSOUT.setFunction( boost::bind(&sotTask::computeFeatureActivation,this,_1,_2) );
+  taskSOUT.setFunction( boost::bind(&Task::computeTaskExponentialDecrease,this,_1,_2) );
+  jacobianSOUT.setFunction( boost::bind(&Task::computeJacobian,this,_1,_2) );
+  featureActivationSOUT.setFunction( boost::bind(&Task::computeFeatureActivation,this,_1,_2) );
 
   taskSOUT.addDependancy( controlGainSIN );
   taskSOUT.addDependancy( errorSOUT );
@@ -68,22 +68,22 @@ sotTask( const std::string& n )
 
 
 
-void sotTask::
-addFeature( sotFeatureAbstract& s )
+void Task::
+addFeature( FeatureAbstract& s )
 {
   featureList.push_back(&s);
   jacobianSOUT.addDependancy( s.jacobianSOUT );
   errorSOUT.addDependancy( s.errorSOUT );
   featureActivationSOUT.addDependancy( s.activationSOUT );
 }
-void sotTask::
+void Task::
 clearFeatureList( void )
 {
 
-  for(   std::list< sotFeatureAbstract* >::iterator iter = featureList.begin();
+  for(   std::list< FeatureAbstract* >::iterator iter = featureList.begin();
 	 iter!=featureList.end(); ++iter )
     {
-      sotFeatureAbstract & s = **iter;
+      FeatureAbstract & s = **iter;
       jacobianSOUT.removeDependancy( s.jacobianSOUT );
       errorSOUT.removeDependancy( s.errorSOUT );
       featureActivationSOUT.removeDependancy( s.activationSOUT );
@@ -92,35 +92,35 @@ clearFeatureList( void )
   featureList.clear();
 }
 
-void sotTask::
-setControlSelection( const sotFlags& act )
+void Task::
+setControlSelection( const Flags& act )
 {
   controlSelectionSIN = act;
 }
-void sotTask::
-addControlSelection( const sotFlags& act )
+void Task::
+addControlSelection( const Flags& act )
 {
-  sotFlags fl = controlSelectionSIN.accessCopy();
+  Flags fl = controlSelectionSIN.accessCopy();
   fl &= act;
   controlSelectionSIN = fl;
 }
-void sotTask::
+void Task::
 clearControlSelection( void )
 {
-  controlSelectionSIN = sotFlags(false);
+  controlSelectionSIN = Flags(false);
 }
 
 /* --- COMPUTATION ---------------------------------------------------------- */
 /* --- COMPUTATION ---------------------------------------------------------- */
 /* --- COMPUTATION ---------------------------------------------------------- */
 
-ml::Vector& sotTask::
+ml::Vector& Task::
 computeError( ml::Vector& error,int time )
 {
   sotDEBUG(15) << "# In " << getName() << " {" << endl;
 
   if( featureList.empty())
-    { throw( sotExceptionTask(sotExceptionTask::EMPTY_LIST,
+    { throw( ExceptionTask(ExceptionTask::EMPTY_LIST,
 			      "Empty feature list") ) ; }
 
   try {
@@ -145,10 +145,10 @@ computeError( ml::Vector& error,int time )
     int cursorError = 0;
 
     /* For each cell of the list, recopy value of s, s_star and error. */
-    for(   std::list< sotFeatureAbstract* >::iterator iter = featureList.begin();
+    for(   std::list< FeatureAbstract* >::iterator iter = featureList.begin();
 	   iter!=featureList.end(); ++iter )
       {
-	sotFeatureAbstract &feature = **iter;
+	FeatureAbstract &feature = **iter;
 
 	/* Get s, and store it in the s vector. */
 	sotDEBUG(45) << "Feature <" << feature.getName() << ">." << std::endl;
@@ -172,7 +172,7 @@ computeError( ml::Vector& error,int time )
   return error;
 }
 
-sotVectorMultiBound& sotTask::
+sotVectorMultiBound& Task::
 computeTaskExponentialDecrease( sotVectorMultiBound& errorRef,int time )
 {
   sotDEBUG(15) << "# In {" << endl;
@@ -187,13 +187,13 @@ computeTaskExponentialDecrease( sotVectorMultiBound& errorRef,int time )
   return errorRef;
 }
 
-ml::Matrix& sotTask::
+ml::Matrix& Task::
 computeJacobian( ml::Matrix& J,int time )
 {
   sotDEBUG(15) << "# In {" << endl;
 
   if( featureList.empty())
-    { throw( sotExceptionTask(sotExceptionTask::EMPTY_LIST,
+    { throw( ExceptionTask(ExceptionTask::EMPTY_LIST,
 			      "Empty feature list") ) ; }
 
   try {
@@ -202,13 +202,13 @@ computeJacobian( ml::Matrix& J,int time )
     if( 0==dimJ ){ dimJ = 1; J.resize(dimJ,nbc); }
 
     int cursorJ = 0;
-    //const sotFlags& selection = controlSelectionSIN(time);
+    //const Flags& selection = controlSelectionSIN(time);
 
     /* For each cell of the list, recopy value of s, s_star and error. */
-    for(   std::list< sotFeatureAbstract* >::iterator iter = featureList.begin();
+    for(   std::list< FeatureAbstract* >::iterator iter = featureList.begin();
 	   iter!=featureList.end(); ++iter )
       {
-	sotFeatureAbstract &feature = ** iter;
+	FeatureAbstract &feature = ** iter;
 	sotDEBUG(25) << "Feature <" << feature.getName() <<">"<< endl;
 
 	/* Get s, and store it in the s vector. */
@@ -218,7 +218,7 @@ computeJacobian( ml::Matrix& J,int time )
 
 	if( 0==nbc ) { nbc = partialJacobian.nbCols(); J.resize(nbc,dimJ); }
 	else if( partialJacobian.nbCols() != nbc )
-	  throw sotExceptionTask(sotExceptionTask::NON_ADEQUATE_FEATURES,
+	  throw ExceptionTask(ExceptionTask::NON_ADEQUATE_FEATURES,
 				 "Features from the list don't have compatible-size jacobians.");
 
 	while( cursorJ+nbr>=dimJ )
@@ -245,12 +245,12 @@ computeJacobian( ml::Matrix& J,int time )
 
 
 
-ml::Vector& sotTask::
+ml::Vector& Task::
 computeFeatureActivation( ml::Vector& activation,int time )
 {
   sotDEBUG(15) << "# In {" << endl;
   if( featureList.empty())
-    { throw( sotExceptionTask(sotExceptionTask::EMPTY_LIST,
+    { throw( ExceptionTask(ExceptionTask::EMPTY_LIST,
 			      "Empty feature list") ) ; }
 
   try {
@@ -260,10 +260,10 @@ computeFeatureActivation( ml::Vector& activation,int time )
     int cursorH = 0;
 
     /* For each cell of the list, recopy value of s, s_star and error. */
-    for(   std::list< sotFeatureAbstract* >::iterator iter = featureList.begin();
+    for(   std::list< FeatureAbstract* >::iterator iter = featureList.begin();
 	   iter!=featureList.end(); ++iter )
       {
-	sotFeatureAbstract &feature = ** iter;
+	FeatureAbstract &feature = ** iter;
 
 	/* Get s, and store it in the s vector. */
 	const ml::Vector& partialActivation = feature.activationSOUT(time);
@@ -289,13 +289,13 @@ computeFeatureActivation( ml::Vector& activation,int time )
 /* --- DISPLAY ------------------------------------------------------------ */
 /* --- DISPLAY ------------------------------------------------------------ */
 
-void sotTask::
+void Task::
 display( std::ostream& os ) const
 {
   os << "Task " << name << ": " << endl;
   os << "--- LIST ---  " << std::endl;
 
-  for(   std::list< sotFeatureAbstract* >::const_iterator iter = featureList.begin();
+  for(   std::list< FeatureAbstract* >::const_iterator iter = featureList.begin();
 	 iter!=featureList.end(); ++iter )
     {
       os << "-> " << (*iter)->getName() <<endl;
@@ -338,7 +338,7 @@ static void readListIdx( std::istringstream& cmdArgs,
 	       << "(" << no_end <<")"<<endl;
 }
 
-void sotTask::
+void Task::
 commandLine( const std::string& cmdLine
 	     ,std::istringstream& cmdArgs
 	     ,std::ostream& os )
@@ -350,12 +350,12 @@ commandLine( const std::string& cmdLine
 	 << "  - [un]selec [init] : [end] :"<<endl
 	 << "modify the default value of the controlSelec signal"<<endl
 	 << "  - clear"<<endl;
-      sotTaskAbstract::commandLine( cmdLine,cmdArgs,os );
+      TaskAbstract::commandLine( cmdLine,cmdArgs,os );
     }
   else if( cmdLine=="add" )
     {
       std::string f; cmdArgs >> f;
-      sotFeatureAbstract& feat = sotPool.getFeature( f );
+      FeatureAbstract& feat = sotPool.getFeature( f );
       addFeature( feat );
     }
   else if( cmdLine=="selec" )
@@ -364,7 +364,7 @@ commandLine( const std::string& cmdLine
       bool base;
       readListIdx( cmdArgs,idx_beg,idx_end,base );
 
-      sotFlags newFlag( base );
+      Flags newFlag( base );
       if(base)
 	{
 	  for( unsigned int i=0;i<idx_beg;++i)
@@ -386,7 +386,7 @@ commandLine( const std::string& cmdLine
       unsigned int idx_beg,idx_end; bool base;
       readListIdx( cmdArgs,idx_beg,idx_end,base );
 
-      sotFlags newFlag(! base );
+      Flags newFlag(! base );
       if(base)
 	{
 	  for( unsigned int i=0;i<idx_beg;++i)
@@ -407,7 +407,7 @@ commandLine( const std::string& cmdLine
       unsigned int idx_beg,idx_end; bool base;
       readListIdx( cmdArgs,idx_beg,idx_end,base );
 
-      sotFlags newFlag(! base );
+      Flags newFlag(! base );
       if(base)
 	{
 	  for( unsigned int i=0;i<idx_beg;++i)
@@ -427,13 +427,13 @@ commandLine( const std::string& cmdLine
     {
       clearFeatureList();
     }
-  else  { sotTaskAbstract::commandLine( cmdLine,cmdArgs,os ); }
+  else  { TaskAbstract::commandLine( cmdLine,cmdArgs,os ); }
 
 }
-std::ostream & sotTask::
+std::ostream & Task::
 writeGraph(std::ostream &os) const
 {
-  std::list< sotFeatureAbstract * >::const_iterator itFeatureAbstract;
+  std::list< FeatureAbstract * >::const_iterator itFeatureAbstract;
   itFeatureAbstract = featureList.begin();
   while(itFeatureAbstract!=featureList.end())
     {

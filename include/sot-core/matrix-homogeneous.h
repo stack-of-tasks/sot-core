@@ -31,27 +31,27 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 namespace sot {
 
-class sotMatrixRotation;
+class MatrixRotation;
 
-class SOT_CORE_EXPORT sotMatrixHomogeneous
+class SOT_CORE_EXPORT MatrixHomogeneous
 : public ml::Matrix
 {
 
  public: 
 
-  sotMatrixHomogeneous( void ) : ml::Matrix(4,4) { setIdentity(); }
-  ~sotMatrixHomogeneous( void ) { }
+  MatrixHomogeneous( void ) : ml::Matrix(4,4) { setIdentity(); }
+  ~MatrixHomogeneous( void ) { }
 
-  sotMatrixHomogeneous& buildFrom( const sotMatrixRotation& rot, const ml::Vector& trans );
-  sotMatrixRotation& extract( sotMatrixRotation& rot ) const;
+  MatrixHomogeneous& buildFrom( const MatrixRotation& rot, const ml::Vector& trans );
+  MatrixRotation& extract( MatrixRotation& rot ) const;
   ml::Vector& extract( ml::Vector& trans ) const;
 
-  sotMatrixHomogeneous& operator=( const ml::Matrix& );
+  MatrixHomogeneous& operator=( const ml::Matrix& );
 
-  sotMatrixHomogeneous&
-    inverse( sotMatrixHomogeneous& invMatrix ) const ;
-  inline sotMatrixHomogeneous inverse( void )  const 
-    { sotMatrixHomogeneous Ainv; return inverse(Ainv); }
+  MatrixHomogeneous&
+    inverse( MatrixHomogeneous& invMatrix ) const ;
+  inline MatrixHomogeneous inverse( void )  const 
+    { MatrixHomogeneous Ainv; return inverse(Ainv); }
 
   ml::Vector& multiply( const ml::Vector& v1,ml::Vector& res ) const;
   inline ml::Vector multiply( const ml::Vector& v1 )  const

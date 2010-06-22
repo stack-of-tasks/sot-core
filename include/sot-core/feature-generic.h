@@ -50,7 +50,7 @@
 namespace sot {
 
 /*!
-  \class sotFeatureGeneric
+  \class FeatureGeneric
   \brief Class that defines a generic implementation of the abstract interface for features. 
   
   This class is very useful if the feature can be easily computed using
@@ -62,8 +62,8 @@ namespace sot {
   generic feature implementation.
   
 */
-class SOTFEATUREGENERIC_EXPORT sotFeatureGeneric 
-: public sotFeatureAbstract
+class SOTFEATUREGENERIC_EXPORT FeatureGeneric 
+: public FeatureAbstract
 {
 
  public: 
@@ -100,13 +100,13 @@ class SOTFEATUREGENERIC_EXPORT sotFeatureGeneric
     @{
   */
   /*! \brief Publish the jacobian of the feature according to the robot state. */
-  using sotFeatureAbstract::jacobianSOUT;
+  using FeatureAbstract::jacobianSOUT;
 
   /*! \brief Publish the error between the desired and the current value of the feature. */
-  using sotFeatureAbstract::errorSOUT;
+  using FeatureAbstract::errorSOUT;
 
   /*! \brief Publish the activation of this feature. */
-  using sotFeatureAbstract::activationSOUT;
+  using FeatureAbstract::activationSOUT;
 
   /*! \brief New signal the errordot. */
   SignalTimeDependant< ml::Vector,int > errordotSOUT;
@@ -114,10 +114,10 @@ class SOTFEATUREGENERIC_EXPORT sotFeatureGeneric
  public:
 
   /*! \brief Default constructor */
-  sotFeatureGeneric( const std::string& name );
+  FeatureGeneric( const std::string& name );
 
   /*! \brief Default destructor */
-  virtual ~sotFeatureGeneric( void ) {}
+  virtual ~FeatureGeneric( void ) {}
 
   /*! \brief Get the dimension of the feature. */
   virtual unsigned int& getDimension( unsigned int & dim, int time );

@@ -52,7 +52,7 @@ void bubClearMatrix( const bubTemplateMatrix& m )
 /* --- DEBUG ---------------------------------------------------------------- */
 /* --- DEBUG ---------------------------------------------------------------- */
 /* --- DEBUG ---------------------------------------------------------------- */
-class sotRotationSimple;
+class RotationSimple;
 class SOTSOTH_EXPORT MATLAB
 {
  public:
@@ -119,7 +119,7 @@ class SOTSOTH_EXPORT MATLAB
   MATLAB( const bubMatrix& m1)
     {initFromBubMatrix(m1);}
 
-  MATLAB( const sotRotationSimple& m1,const unsigned int nJ );
+  MATLAB( const RotationSimple& m1,const unsigned int nJ );
 
 };
 
@@ -181,10 +181,10 @@ typedef bub::matrix_column<__SRS_matcolmaj> __SRS_col_matcolmaj;
 
 
   /* Virtual Pure. */
-class SOTSOTH_EXPORT sotRotationSimple
+class SOTSOTH_EXPORT RotationSimple
 {
  public:
-  virtual ~sotRotationSimple( void ) {}
+  virtual ~RotationSimple( void ) {}
 
  public:
   /* --- STANDARD (FULL-RANGE) MULTIPLICATIONS. */
@@ -303,7 +303,7 @@ class SOTSOTH_EXPORT sotRotationSimple
 
 public:
   virtual std::ostream & display( std::ostream & os ) const = 0;
-  friend std::ostream& operator << ( std::ostream & os,const sotRotationSimple& Q ) { return Q.display(os); }
+  friend std::ostream& operator << ( std::ostream & os,const RotationSimple& Q ) { return Q.display(os); }
 };
 
 
@@ -313,7 +313,7 @@ public:
 /* ---------------------------------------------------------- */
 
 class SOTSOTH_EXPORT sotRotationSimpleHouseholder
-  : public sotRotationSimple
+  : public RotationSimple
 {
 public: // protected:
   bubVector v;
@@ -460,7 +460,7 @@ public:
 /* ---------------------------------------------------------- */
 
 class SOTSOTH_EXPORT sotRotationSimpleGiven
-  : public sotRotationSimple
+  : public RotationSimple
 {
 public: // protected:
   double cosF,sinF;
@@ -686,10 +686,10 @@ public: /* --- MULTIPLIERS -------------------------------------------------- */
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
 class SOTSOTH_EXPORT sotRotationComposed
-  :public sotRotationSimple
+  :public RotationSimple
 {
 public: // protected
-  std::list< sotRotationSimple* > listRotationSimple;
+  std::list< RotationSimple* > listRotationSimple;
   std::list< sotRotationSimpleHouseholder > listHouseholder;
   std::list< sotRotationSimpleGiven > listGivenRotation;
 
@@ -721,7 +721,7 @@ public:
     listHouseholder.push_back(R);
     listRotationSimple.push_back(&listHouseholder.back());
   }
-  void pushBack( const sotRotationSimple * R )
+  void pushBack( const RotationSimple * R )
   {
     const sotRotationSimpleGiven * GR = dynamic_cast<const sotRotationSimpleGiven *>(R);
     if( GR ) pushBack(*GR);
@@ -739,10 +739,10 @@ public:
   void pushBack( const sotRotationComposed & R )
   {
     //sotDEBUG(15) << "PB size clone = " << R.listRotationSimple.size() << std::endl;
-    for( std::list<sotRotationSimple*>::const_iterator Pi = R.listRotationSimple.begin();
+    for( std::list<RotationSimple*>::const_iterator Pi = R.listRotationSimple.begin();
 Pi!=R.listRotationSimple.end(); ++Pi )
       {
-        const sotRotationSimple* R = *Pi;
+        const RotationSimple* R = *Pi;
         const sotRotationSimpleHouseholder * Rh = dynamic_cast<const sotRotationSimpleHouseholder*>(R);
         const sotRotationSimpleGiven * Rg = dynamic_cast<const sotRotationSimpleGiven*>(R);
         if(NULL!=Rh) pushBack(*Rh);
@@ -761,7 +761,7 @@ Pi!=R.listRotationSimple.end(); ++Pi )
 
   void popBack( void )
   {
-    sotRotationSimple * R = listRotationSimple.back();
+    RotationSimple * R = listRotationSimple.back();
     listRotationSimple.pop_back();
     if( dynamic_cast<sotRotationSimpleHouseholder*>(R) ) { listHouseholder.pop_back(); }
     if( dynamic_cast<sotRotationSimpleGiven*>(R) ) { listGivenRotation.pop_back(); }
@@ -847,7 +847,7 @@ Pi!=R.listRotationSimple.end(); ++Pi )
   template< typename bubTemplate >
   void multiplyLeftTemplate( bubTemplate & Rx ) const // Rx <- Rx*U1*...*Un
   {
-    for( std::list<sotRotationSimple*>::const_iterator Pi
+    for( std::list<RotationSimple*>::const_iterator Pi
            = listRotationSimple.begin();
 	 Pi!=listRotationSimple.end(); ++Pi )
       {	(*Pi)->multiplyLeft(Rx);      }
@@ -855,7 +855,7 @@ Pi!=R.listRotationSimple.end(); ++Pi )
   template< typename bubTemplate >
   void multiplyRightTemplate( bubTemplate & Rx ) const // Rx <- U1*...*Un*Rx
   {
-    for( std::list<sotRotationSimple*>::const_reverse_iterator Pi
+    for( std::list<RotationSimple*>::const_reverse_iterator Pi
            = listRotationSimple.rbegin();
 	 Pi!=listRotationSimple.rend(); ++Pi )
       {      (*Pi)->multiplyRight(Rx);      }
@@ -863,7 +863,7 @@ Pi!=R.listRotationSimple.end(); ++Pi )
   template< typename bubTemplate >
   void multiplyLeftTransposeTemplate( bubTemplate & Rx ) const // Rx <- Rx*Un*...*U1
   {
-    for( std::list<sotRotationSimple*>::const_reverse_iterator Pi
+    for( std::list<RotationSimple*>::const_reverse_iterator Pi
            = listRotationSimple.rbegin();
 	 Pi!=listRotationSimple.rend(); ++Pi )
       {	(*Pi)->multiplyLeftTranspose(Rx);      }
@@ -871,7 +871,7 @@ Pi!=R.listRotationSimple.end(); ++Pi )
   template< typename bubTemplate >
   void multiplyRightTransposeTemplate( bubTemplate & Rx ) const // Rx <- Un*...*U1*Rx
   {
-    for( std::list<sotRotationSimple*>::const_iterator Pi
+    for( std::list<RotationSimple*>::const_iterator Pi
            = listRotationSimple.begin();
 	 Pi!=listRotationSimple.end(); ++Pi )
       {        (*Pi)->multiplyRightTranspose(Rx);      }
@@ -880,7 +880,7 @@ Pi!=R.listRotationSimple.end(); ++Pi )
   /* --- DISPLAY --- */
   virtual std::ostream& display(  std::ostream& os ) const
   {
-    for( std::list<sotRotationSimple*>::const_iterator Pi = listRotationSimple.begin();
+    for( std::list<RotationSimple*>::const_iterator Pi = listRotationSimple.begin();
 	 Pi!=listRotationSimple.end(); ++Pi )
       {
 	os << (**Pi) << " ";
@@ -970,7 +970,7 @@ sotDEBUG(1)<<std::endl;
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
 class SOTSOTH_EXPORT sotRotationComposedInExtenso
-  :public sotRotationSimple
+  :public RotationSimple
 {
 public: // protected
   bubMatrix Q;
@@ -992,7 +992,7 @@ public:
   { // Q=U1*...*Un <- Q*Un+1
     R.multiplyLeft(Q);
   }
-  void pushBack( const sotRotationSimple * R )
+  void pushBack( const RotationSimple * R )
   {
     R->multiplyLeft(Q);
   }

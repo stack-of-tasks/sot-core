@@ -42,8 +42,8 @@ class SOT_CORE_EXPORT sotVectorRotation
   sotVectorRotation( void ) : ml::Vector(3) { fill(0.); } 
   virtual ~sotVectorRotation( void ) { }
 
-  virtual sotVectorRotation& fromMatrix( const sotMatrixRotation& rot ) = 0;
-  virtual sotMatrixRotation& toMatrix( sotMatrixRotation& rot ) const = 0;
+  virtual sotVectorRotation& fromMatrix( const MatrixRotation& rot ) = 0;
+  virtual MatrixRotation& toMatrix( MatrixRotation& rot ) const = 0;
 };
 
 } // namespace sot

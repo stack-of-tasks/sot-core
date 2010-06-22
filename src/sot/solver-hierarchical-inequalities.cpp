@@ -2,7 +2,7 @@
  * Copyright Projet Gepetto, LAAS, 2009
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotSolverHierarchicalInequalities.cpp
+ * File:      SolverHierarchicalInequalities.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -220,7 +220,7 @@ std::ostream & operator<< (std::ostream& os,const ConstraintMem &c )
 
 /* ---------------------------------------------------------- */
 /* Specify the size of the constraint matrix, for pre-alocation. */
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 initConstraintSize( const unsigned int size )
 {
   if(Rh.size1()!=nJ) {Rh.resize(nJ,nJ,false); Rh.clear();}
@@ -230,7 +230,7 @@ initConstraintSize( const unsigned int size )
   constraintS.reserve(size+1);
 }
 
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 setInitialCondition( const bubVector& _u0,
                      const unsigned int _rankh )
 {
@@ -238,13 +238,13 @@ setInitialCondition( const bubVector& _u0,
   rankh=_rankh; freeRank=nJ-rankh;
 }
 
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 setInitialConditionVoid( void )
 {
   u0.resize(nJ,false); u0.clear();
   rankh=0; freeRank=nJ;
 }
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 setNbDof( const unsigned int _nJ )
 {
   sotDEBUGIN(15);
@@ -257,7 +257,7 @@ setNbDof( const unsigned int _nJ )
 
 /* ---------------------------------------------------------- */
 
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 recordInitialConditions( void )
 {
   initialActiveH.resize(constraintH.size()); initialSideH.resize(constraintH.size());
@@ -274,7 +274,7 @@ recordInitialConditions( void )
 
   du0.resize(u0.size(),false); du0.assign(-u0);
 }
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 computeDifferentialCondition( void )
 {
   if( constraintH.size()>initialActiveH.size() )
@@ -314,7 +314,7 @@ computeDifferentialCondition( void )
   warmStartReady = true;
 }
 
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 printDifferentialCondition( std::ostream & os ) const
 {
   if(! warmStartReady ) return; 
@@ -343,32 +343,32 @@ printDifferentialCondition( std::ostream & os ) const
 /* ---------------------------------------------------------- */
 
 
-// sotSolverHierarchicalInequalities::bubMatrixQROrdered
-// sotSolverHierarchicalInequalities::
+// SolverHierarchicalInequalities::bubMatrixQROrdered
+// SolverHierarchicalInequalities::
 // accessQRs( void )
 // {
 //   bubMatrixQR QRs( QhJsU,freerange(),bub::range::all() );
 //   bubMatrixQROrdered QRord( QRs,bubOrder::all(),orderS );
 //   return QRord;
 // }
-// sotSolverHierarchicalInequalities::bubMatrixQROrderedConst
-// sotSolverHierarchicalInequalities::
+// SolverHierarchicalInequalities::bubMatrixQROrderedConst
+// SolverHierarchicalInequalities::
 // accessQRs( void ) const
 // {
 //   bubMatrixQRConst QRs( QhJsU,freerange(),bub::range::all() );
 //   bubMatrixQROrderedConst QRord( QRs,bubOrder::all(),orderS );
 //   return QRord;
 // }
-// sotSolverHierarchicalInequalities::bubMatrixQROrderedTri
-// sotSolverHierarchicalInequalities::
+// SolverHierarchicalInequalities::bubMatrixQROrderedTri
+// SolverHierarchicalInequalities::
 // accessRs( void )
 // {
 //   bubMatrixQR QRs( QhJsU,freeranges(),bub::range::all() );
 //    bubMatrixQROrdered QRord( QRs,bubOrder::all(),orderS );
 //    return QRord;
 //  }
-sotSolverHierarchicalInequalities::bubMatrixQROrderedTriConst
-sotSolverHierarchicalInequalities::
+SolverHierarchicalInequalities::bubMatrixQROrderedTriConst
+SolverHierarchicalInequalities::
 accessRsConst( void ) const
 {
   bubMatrixQRConst QRs( QhJsU,freeranges(),bub::range(0,sizes) );
@@ -379,7 +379,7 @@ accessRsConst( void ) const
 }
 
 bub::triangular_adaptor<bub::matrix_range< const bubMatrix >,bub::upper>
-sotSolverHierarchicalInequalities::
+SolverHierarchicalInequalities::
 accessRhConst( void ) const
 {
   bub::matrix_range< const bubMatrix >
@@ -388,7 +388,7 @@ accessRhConst( void ) const
 }
 
 bub::triangular_adaptor<bub::matrix_range< bubMatrix >,bub::upper>
-sotSolverHierarchicalInequalities::
+SolverHierarchicalInequalities::
 accessRh( void )
 {
   bub::matrix_range< bubMatrix >
@@ -398,7 +398,7 @@ accessRh( void )
 
 /* Assuming a diagonal-ordered triangular matrix. */
 template< typename bubTemplateMatrix >
-unsigned int sotSolverHierarchicalInequalities::
+unsigned int SolverHierarchicalInequalities::
 rankDetermination( const bubTemplateMatrix& A,
                    const double threshold )
 {
@@ -409,7 +409,7 @@ rankDetermination( const bubTemplateMatrix& A,
 }
 
 /* ---------------------------------------------------------- */
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 displayConstraint( ConstraintList & cs )
 {
 #ifdef VP_DEBUG
@@ -424,7 +424,7 @@ displayConstraint( ConstraintList & cs )
 
 
 
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 printDebug( void )
 {
 #ifdef VP_DEBUG
@@ -504,7 +504,7 @@ printDebug( void )
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
 
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 warmStart( void )
 {
   if(! warmStartReady ) return; 
@@ -529,7 +529,7 @@ warmStart( void )
   if( toActivateCH.size()>0 )forceUpdateHierachic(toActivateCH,toActivateSide);
 }
 
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 applyFreeSpaceMotion( const bubVector& _du )
 {
   printDebug();
@@ -547,7 +547,7 @@ applyFreeSpaceMotion( const bubVector& _du )
   u0+=du;
 }
 
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 forceUpdateHierachic( ConstraintRefList& toUpdate,
                       const ConstraintMem::BoundSideVector& boundSide )
 {
@@ -648,7 +648,7 @@ forceUpdateHierachic( ConstraintRefList& toUpdate,
   Qh.pushBack(Qlast);
 }
 
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 forceDowndateHierachic( ConstraintRefList& toDowndate )
 {
   {
@@ -791,7 +791,7 @@ forceDowndateHierachic( ConstraintRefList& toDowndate )
 /* ---------------------------------------------------------- */
 
 SOT_DEFINE_CHRONO;
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 solve( const bubMatrix& Jse, const bubVector& ese,
        const bubMatrix& Jsi, const bubVector& esiInf, const bubVector& esiSup,
        const std::vector<ConstraintMem::BoundSideType> esiBoundSide,
@@ -801,7 +801,7 @@ solve( const bubMatrix& Jse, const bubVector& ese,
   solve(Jse,ese,Jsi,esiInf,esiSup,esiBoundSide,vectVoid,pushBackAtTheEnd);
 }
 
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 solve( const bubMatrix& Jse, const bubVector& ese,
        const bubMatrix& Jsi, const bubVector& esiInf, const bubVector& esiSup,
        const ConstraintMem::BoundSideVector & esiBoundSide,
@@ -933,7 +933,7 @@ solve( const bubMatrix& Jse, const bubVector& ese,
 }
 
 /* ---------------------------------------------------------- */
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 initializeConstraintMemory( const bubMatrix& Jse, const bubVector& ese,
                             const bubMatrix& Jsi, const bubVector& esiInf, const bubVector& esiSup,
                             const ConstraintMem::BoundSideVector& esiBoundSide,
@@ -1017,7 +1017,7 @@ initializeConstraintMemory( const bubMatrix& Jse, const bubVector& ese,
     }
 }
 
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 initializeDecompositionSlack(void)
 {
   QhJsU.resize(nJ,constraintS.size(),false); QhJsU.clear();
@@ -1122,7 +1122,7 @@ initializeDecompositionSlack(void)
 
 /* ---------------------------------------------------------- */
 /* <constraintId> is the number of the constraint in the constraintH list. */
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 updateConstraintHierarchic( const unsigned int constraintId,
                             const ConstraintMem::BoundSideType side )
 {
@@ -1176,7 +1176,7 @@ updateConstraintHierarchic( const unsigned int constraintId,
 
 
 /* <constraintId> is the number of the constraint in the constraintH list. */
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 downdateConstraintHierarchic( const unsigned int kdown )
 {
   ConstraintMem & cdown = constraintH[kdown];
@@ -1240,7 +1240,7 @@ downdateConstraintHierarchic( const unsigned int kdown )
 
 /* ---------------------------------------------------------- */
 /* <kup> is the number of the constraint in the constraintS list. */
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 updateConstraintSlack( const unsigned int kup,const ConstraintMem::BoundSideType activeSide )
 {
   sotDEBUG(15) << "kup = " << activeSide << kup << std::endl;
@@ -1312,7 +1312,7 @@ updateConstraintSlack( const unsigned int kup,const ConstraintMem::BoundSideType
 }
 
 /* Regularize from right (Q.J from Q.J.U). */
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 regularizeQhJs( void )
 {
   typedef bub::matrix_column<bubMatrixQRWide> bubQJsCol;
@@ -1347,7 +1347,7 @@ regularizeQhJs( void )
 }
 
 /* Regularize from right (Q.J from Q.J.U). */
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 regularizeQhJsU( void )
 {
   if( ranks==sizes ) return;
@@ -1374,7 +1374,7 @@ regularizeQhJsU( void )
 
 
 /* <constraintId> is the number of the constraint in the constraintS list. */
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 downdateConstraintSlack( const unsigned int kdown )
 {
   /* Remove the column. */
@@ -1416,14 +1416,14 @@ downdateConstraintSlack( const unsigned int kdown )
     .assign(bub::zero_matrix<double>(nJ,QhJsU.size2()-sizes));
   regularizeQhJsU();
 
-  //     std::cerr << "Not implemented yet (sotRotationSimple l" << __LINE__
+  //     std::cerr << "Not implemented yet (RotationSimple l" << __LINE__
   //               << ")." << std::endl;
   //     throw  "Not implemented yet.";
 }
 
 
 /* ---------------------------------------------------------- */
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 updateRankOneDowndate( void )
 {
   sotDEBUG(15) << "/* Apply the last corrections of Qh. */"<<std::endl;
@@ -1475,7 +1475,7 @@ updateRankOneDowndate( void )
     }
 }
 
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 updateRankOneUpdate( void )
 {
   sotDEBUG(15) << "ranks = " << ranks << std::endl;
@@ -1620,7 +1620,7 @@ updateRankOneUpdate( void )
  * of the active slack constraints.
  * <gradient> must be of size <nJ> (no resize).
  */
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 computeGradient( bubVector& gradientWide )
 {
   //     bubVector gse(ese.size()); gse=ese;
@@ -1642,7 +1642,7 @@ computeGradient( bubVector& gradientWide )
  * using the Null-Space method:
  *   du = Nh Ms Rs^-T Rs^-1 Ms' Nh' Js' ( es - Js u0 )
  */
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 computePrimal( void )
 {
   if( (0==freeRank)||(0==ranks) )
@@ -1677,7 +1677,7 @@ computePrimal( void )
 /* Compute the slack w = es-Js(u0+du). Since esi<Jsi.u, the slack
  * w = esi-Jsi.u should be negative. Since Jss.u<ess, the slack
  * w = Jss.u-ess should also be negative. */
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 computeSlack( void )
 {
   slackInf.resize(constraintS.size(),false); slackInf.clear();
@@ -1705,7 +1705,7 @@ computeSlack( void )
   sotDEBUG(5) << "slackInf = " << (MATLAB)slackInf << std::endl;
   sotDEBUG(5) << "slackSup = " << (MATLAB)slackSup << std::endl;
 }
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 computeLagrangian( void )
 {
   if(rankh==0) return;
@@ -1745,7 +1745,7 @@ computeLagrangian( void )
 
 
 /* ---------------------------------------------------------- */
-bool sotSolverHierarchicalInequalities::
+bool SolverHierarchicalInequalities::
 selecActivationHierarchic( double & tau )
 {
   tau=1-THRESHOLD_ZERO; unsigned int constraintRef = 0;
@@ -1780,7 +1780,7 @@ selecActivationHierarchic( double & tau )
                        << HactivationRef << ">" << std::endl;}
   return res;
 }
-bool sotSolverHierarchicalInequalities::
+bool SolverHierarchicalInequalities::
 selecInactivationHierarchic( void )
 {
   bool res=false; double HinactivationScore=-THRESHOLD_ZERO;
@@ -1800,7 +1800,7 @@ selecInactivationHierarchic( void )
   return res;
 }
 /* The slack w = es-Js.u should be negative. */
-bool sotSolverHierarchicalInequalities::
+bool SolverHierarchicalInequalities::
 selecActivationSlack( void )
 {
   unsigned int row = 0; SactivationScore=THRESHOLD_ZERO;
@@ -1823,7 +1823,7 @@ selecActivationSlack( void )
   return SactivationScore>THRESHOLD_ZERO;
 }
 /* The slack should be negative. If strickly negative: unactivate. */
-bool sotSolverHierarchicalInequalities::
+bool SolverHierarchicalInequalities::
 selecInactivationSlack( void )
 {
   unsigned int row = 0; SinactivationScore=-THRESHOLD_ZERO;
@@ -1845,7 +1845,7 @@ selecInactivationSlack( void )
 }
 
 /* ---------------------------------------------------------- */
-void sotSolverHierarchicalInequalities::
+void SolverHierarchicalInequalities::
 pushBackSlackToHierarchy( void )
 {
   if( freeRank>0 )
@@ -1934,4 +1934,4 @@ pushBackSlackToHierarchy( void )
 }
 
 
-double sotSolverHierarchicalInequalities::THRESHOLD_ZERO = 1e-6;
+double SolverHierarchicalInequalities::THRESHOLD_ZERO = 1e-6;

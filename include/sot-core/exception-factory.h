@@ -34,9 +34,9 @@
 
 namespace sot {
 
-/* \class sotExceptionFactory
+/* \class ExceptionFactory
  */
-class SOT_CORE_EXPORT sotExceptionFactory 
+class SOT_CORE_EXPORT ExceptionFactory 
 :public ExceptionAbstract
 
 {
@@ -57,13 +57,13 @@ public:
     };
 
   static const std::string EXCEPTION_NAME;
-  virtual const std::string& getExceptionName( void )const{ return sotExceptionFactory::EXCEPTION_NAME; }
+  virtual const std::string& getExceptionName( void )const{ return ExceptionFactory::EXCEPTION_NAME; }
 
-  sotExceptionFactory ( const sotExceptionFactory::ErrorCodeEnum& errcode,
+  ExceptionFactory ( const ExceptionFactory::ErrorCodeEnum& errcode,
 			const std::string & msg = "" );
-  sotExceptionFactory ( const sotExceptionFactory::ErrorCodeEnum& errcode,
+  ExceptionFactory ( const ExceptionFactory::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... );
-  virtual ~sotExceptionFactory( void ){}
+  virtual ~ExceptionFactory( void ){}
 
 };
 

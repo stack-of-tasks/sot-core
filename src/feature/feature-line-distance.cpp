@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotFeatureLineDistance.cpp
+ * File:      FeatureLineDistance.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -36,20 +36,20 @@ using namespace std;
 using namespace sot;
 
 #include <sot-core/factory.h>
-SOT_FACTORY_FEATURE_PLUGIN(sotFeatureLineDistance,"FeatureLineDistance");
+SOT_FACTORY_FEATURE_PLUGIN(FeatureLineDistance,"FeatureLineDistance");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-sotFeatureLineDistance::
-sotFeatureLineDistance( const string& pointName )
-  : sotFeatureAbstract( pointName )
+FeatureLineDistance::
+FeatureLineDistance( const string& pointName )
+  : FeatureAbstract( pointName )
     ,positionSIN( NULL,"sotFeatureLineDistance("+name+")::input(matrixHomo)::position" )
     ,articularJacobianSIN( NULL,"sotFeatureLineDistance("+name+")::input(matrix)::Jq" )
     ,positionRefSIN( NULL,"sotFeatureLineDistance("+name+")::input(vector)::positionRef" )
     ,vectorSIN( NULL,"sotFeatureVector3("+name+")::input(vector3)::vector" )
-  ,lineSOUT( boost::bind(&sotFeatureLineDistance::computeLineCoordinates,this,_1,_2),
+  ,lineSOUT( boost::bind(&FeatureLineDistance::computeLineCoordinates,this,_1,_2),
              positionSIN<<positionRefSIN,
              "sotFeatureAbstract("+name+")::output(vector)::line" )
 {
@@ -69,7 +69,7 @@ sotFeatureLineDistance( const string& pointName )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int& sotFeatureLineDistance::
+unsigned int& FeatureLineDistance::
 getDimension( unsigned int & dim, int time )
 {
   sotDEBUG(25)<<"# In {"<<endl;
@@ -78,7 +78,7 @@ getDimension( unsigned int & dim, int time )
 }
 
 /* --------------------------------------------------------------------- */
-ml::Vector& sotFeatureLineDistance::
+ml::Vector& FeatureLineDistance::
 computeLineCoordinates( ml::Vector& cood,int time )
 {
   sotDEBUGIN(15);
@@ -86,9 +86,9 @@ computeLineCoordinates( ml::Vector& cood,int time )
   cood.resize(6);
 
   /* Line coordinates */
-  const sotMatrixHomogeneous &pos = positionSIN(time);
+  const MatrixHomogeneous &pos = positionSIN(time);
   const ml::Vector & vect = vectorSIN(time);
-  sotMatrixRotation R; pos.extract(R);
+  MatrixRotation R; pos.extract(R);
   ml::Vector v(3); R.multiply(vect,v);
 
   cood(0)= pos(0,3);
@@ -107,7 +107,7 @@ computeLineCoordinates( ml::Vector& cood,int time )
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-ml::Matrix& sotFeatureLineDistance::
+ml::Matrix& FeatureLineDistance::
 computeJacobian( ml::Matrix& J,int time )
 {
   sotDEBUG(15)<<"# In {"<<endl;
@@ -118,8 +118,8 @@ computeJacobian( ml::Matrix& J,int time )
     const ml::Matrix & Jq = articularJacobianSIN(time);
 
     const ml::Vector & vect = vectorSIN(time);
-    const sotMatrixHomogeneous & M = positionSIN(time);
-    sotMatrixRotation R; M.extract(R); // wRh
+    const MatrixHomogeneous & M = positionSIN(time);
+    MatrixRotation R; M.extract(R); // wRh
 
     ml::Matrix Skew(3,3);
     Skew( 0,0 ) = 0        ; Skew( 0,1 )=-vect( 2 );  Skew( 0,2 ) = vect( 1 );
@@ -196,7 +196,7 @@ computeJacobian( ml::Matrix& J,int time )
 *a the possible features.
  */
 ml::Vector&
-sotFeatureLineDistance::computeError( ml::Vector& error,int time )
+FeatureLineDistance::computeError( ml::Vector& error,int time )
 {
   sotDEBUGIN(15);
 
@@ -236,14 +236,14 @@ sotFeatureLineDistance::computeError( ml::Vector& error,int time )
 *a the possible features.
  */
 ml::Vector&
-sotFeatureLineDistance::computeActivation( ml::Vector& act,int time )
+FeatureLineDistance::computeActivation( ml::Vector& act,int time )
 {
   selectionSIN(time);
   act.resize(dimensionSOUT(time)) ; act.fill(1);
   return act ;
 }
 
-void sotFeatureLineDistance::
+void FeatureLineDistance::
 display( std::ostream& os ) const
 {
   os <<"LineDistance <"<<name<<">";
@@ -251,7 +251,7 @@ display( std::ostream& os ) const
 
 
 
-void sotFeatureLineDistance::
+void FeatureLineDistance::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,
 	     std::ostream& os )
@@ -261,7 +261,7 @@ commandLine( const std::string& cmdLine,
       os << "FeaturePoint: "<<endl;
       Entity::commandLine( cmdLine,cmdArgs,os );
     }
-  else  //sotFeatureAbstract::
+  else  //FeatureAbstract::
     Entity::commandLine( cmdLine,cmdArgs,os );
 
 }

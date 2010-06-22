@@ -26,47 +26,47 @@
 using namespace sot;
 
 
-sotMultiBound::
-sotMultiBound( const double x )
+MultiBound::
+MultiBound( const double x )
   : mode(MODE_SINGLE),boundSingle(x)
   ,boundSup(0),boundInf(0),boundSupSetup(false),boundInfSetup(false) {}
 
-sotMultiBound::
-sotMultiBound( const double xi,const double xs )
+MultiBound::
+MultiBound( const double xi,const double xs )
   : mode(MODE_DOUBLE),boundSingle(0)
   ,boundSup(xs),boundInf(xi),boundSupSetup(true),boundInfSetup(true) {}
 
-sotMultiBound::
-sotMultiBound( const double x,const sotMultiBound::SupInfType bound )
+MultiBound::
+MultiBound( const double x,const MultiBound::SupInfType bound )
   : mode(MODE_DOUBLE),boundSingle(0)
   ,boundSup((bound==BOUND_SUP)?x:0),boundInf((bound==BOUND_INF)?x:0)
   ,boundSupSetup(bound==BOUND_SUP),boundInfSetup(bound==BOUND_INF) {}
 
-sotMultiBound::
-sotMultiBound( const sotMultiBound& clone )
+MultiBound::
+MultiBound( const MultiBound& clone )
 :mode(clone.mode),boundSingle(clone.boundSingle)
 ,boundSup(clone.boundSup),boundInf(clone.boundInf)
 ,boundSupSetup(clone.boundSupSetup),boundInfSetup(clone.boundInfSetup) {}
 
-sotMultiBound::MultiBoundModeType sotMultiBound::
+MultiBound::MultiBoundModeType MultiBound::
 getMode( void ) const
 { return mode; }
-double sotMultiBound::
+double MultiBound::
 getSingleBound( void ) const
 {
   if( MODE_SINGLE!=mode )
     {
-      SOT_THROW sotExceptionTask( sotExceptionTask::BOUND_TYPE,
+      SOT_THROW ExceptionTask( ExceptionTask::BOUND_TYPE,
                                   "Accessing single bound of a non-single type.");
     }
   return boundSingle;
 }
-double sotMultiBound::
-getDoubleBound( const sotMultiBound::SupInfType bound ) const
+double MultiBound::
+getDoubleBound( const MultiBound::SupInfType bound ) const
 {
   if( MODE_DOUBLE!=mode )
     {
-      SOT_THROW sotExceptionTask( sotExceptionTask::BOUND_TYPE,
+      SOT_THROW ExceptionTask( ExceptionTask::BOUND_TYPE,
                                   "Accessing double bound of a non-double type.");
     }
   switch(bound)
@@ -74,26 +74,26 @@ getDoubleBound( const sotMultiBound::SupInfType bound ) const
     case BOUND_SUP:
       {
         if(! boundSupSetup)
-          {SOT_THROW sotExceptionTask( sotExceptionTask::BOUND_TYPE,
+          {SOT_THROW ExceptionTask( ExceptionTask::BOUND_TYPE,
                                        "Accessing un-setup sup bound.");}
         return boundSup;
       }
     case BOUND_INF:
       {
         if(! boundInfSetup)
-          {SOT_THROW sotExceptionTask( sotExceptionTask::BOUND_TYPE,
+          {SOT_THROW ExceptionTask( ExceptionTask::BOUND_TYPE,
                                        "Accessing un-setup inf bound");}
         return boundInf;
       }
     }
   return 0;
 }
-bool sotMultiBound::
-getDoubleBoundSetup( const sotMultiBound::SupInfType bound ) const
+bool MultiBound::
+getDoubleBoundSetup( const MultiBound::SupInfType bound ) const
 {
   if( MODE_DOUBLE!=mode )
     {
-      SOT_THROW sotExceptionTask( sotExceptionTask::BOUND_TYPE,
+      SOT_THROW ExceptionTask( ExceptionTask::BOUND_TYPE,
                                   "Accessing double bound of a non-double type.");
     }
   switch(bound)
@@ -105,7 +105,7 @@ getDoubleBoundSetup( const sotMultiBound::SupInfType bound ) const
     }
   return false;
 }
-void sotMultiBound::
+void MultiBound::
 setDoubleBound( SupInfType boundType,double boundValue )
 {
   if(MODE_DOUBLE!=mode)
@@ -120,7 +120,7 @@ setDoubleBound( SupInfType boundType,double boundValue )
       break;
     }
 }
-void sotMultiBound::
+void MultiBound::
 unsetDoubleBound( SupInfType boundType )
 {
   if(MODE_DOUBLE!=mode)
@@ -138,7 +138,7 @@ unsetDoubleBound( SupInfType boundType )
         }
     }
 }
-void sotMultiBound::
+void MultiBound::
 setSingleBound( double boundValue )
 {
   mode=MODE_SINGLE;
@@ -156,23 +156,23 @@ inline static void SOT_MULTI_BOUND_CHECK_C(std::istream& is,
       v.resize(0);
       sotERROR << "Error while parsing vector multi-bound. Waiting for a '" << check
                << "'. Get '" << c << "' instead. " << std::endl;
-      SOT_THROW sotExceptionTask(sotExceptionTask::PARSER_MULTI_BOUND,
+      SOT_THROW ExceptionTask(ExceptionTask::PARSER_MULTI_BOUND,
                                  "Error parsing vector multi-bound.");
     }
 }
 
 namespace sot {
 
-std::ostream& operator<< ( std::ostream& os, const sotMultiBound & m  )
+std::ostream& operator<< ( std::ostream& os, const MultiBound & m  )
 {
   switch( m.mode )
     {
-    case sotMultiBound::MODE_SINGLE:
+    case MultiBound::MODE_SINGLE:
       {
         os << m.boundSingle;
         break;
       }
-    case sotMultiBound::MODE_DOUBLE:
+    case MultiBound::MODE_DOUBLE:
       {
         os << "(";
         if( m.boundInfSetup )  os << m.boundInf; else os << "--"; os<<",";
@@ -183,7 +183,7 @@ std::ostream& operator<< ( std::ostream& os, const sotMultiBound & m  )
   return os;
 }
 
-std::istream& operator>> ( std::istream& is, sotMultiBound & m  )
+std::istream& operator>> ( std::istream& is, MultiBound & m  )
 {
   sotDEBUGIN(15);
   char c; double val;
@@ -199,14 +199,14 @@ std::istream& operator>> ( std::istream& is, sotMultiBound & m  )
           //{char strbuf[256]; is.getline(strbuf,256); sotDEBUG(1) << "#"<<strbuf<<"#"<<std::endl;}
           is>>val;
           sotDEBUG(15) << "First val = " << val << std::endl;
-          m.setDoubleBound(sotMultiBound::BOUND_INF,val);
-        } else { m.unsetDoubleBound(sotMultiBound::BOUND_INF); }
+          m.setDoubleBound(MultiBound::BOUND_INF,val);
+        } else { m.unsetDoubleBound(MultiBound::BOUND_INF); }
       is.get(c);
       if( c!=',' )
         {
           sotERROR << "Error while parsing multi-bound. Waiting for a ','. Get '"
                    << c << "' instead. " << std::endl;
-          SOT_THROW sotExceptionTask(sotExceptionTask::PARSER_MULTI_BOUND,
+          SOT_THROW ExceptionTask(ExceptionTask::PARSER_MULTI_BOUND,
                                      "Error parsing multi-bound, while waiting for a ','.");
         }
 
@@ -216,14 +216,14 @@ std::istream& operator>> ( std::istream& is, sotMultiBound & m  )
           is.putback(c2[1]); is.putback(c2[0]);
           is>>val;
           sotDEBUG(15) << "Second val = " << val << std::endl;
-          m.setDoubleBound(sotMultiBound::BOUND_SUP,val);
-        } else { m.unsetDoubleBound(sotMultiBound::BOUND_SUP); }
+          m.setDoubleBound(MultiBound::BOUND_SUP,val);
+        } else { m.unsetDoubleBound(MultiBound::BOUND_SUP); }
       is.get(c);
       if( c!=')' )
         {
           sotERROR << "Error while parsing multi-bound. Waiting for a ')'. Get '"
                    << c << "' instead. " << std::endl;
-          SOT_THROW sotExceptionTask(sotExceptionTask::PARSER_MULTI_BOUND,
+          SOT_THROW ExceptionTask(ExceptionTask::PARSER_MULTI_BOUND,
                                      "Error parsing multi-bound, while waiting for a ')'.");
         }
     }

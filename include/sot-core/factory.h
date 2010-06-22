@@ -37,8 +37,8 @@
 
 namespace sot {
 
-class sotFeatureAbstract;
-class sotTaskAbstract;
+class FeatureAbstract;
+class TaskAbstract;
 
 /* --------------------------------------------------------------------- */
 /* --- FACTORY ---------------------------------------------------------- */
@@ -51,14 +51,14 @@ class sotTaskAbstract;
   public "new" methods (newEntity, newFeature or newTask).
   The factory instance (singleton) is publicly available under the name sotFactory
   (include factory.h).  A task, feature or entity can register itself by
-   using the SOT_FACTORY_{ENTITY,TASK,FEATURE}_PLUGIN macro. See sotTask.cpp for
+   using the SOT_FACTORY_{ENTITY,TASK,FEATURE}_PLUGIN macro. See Task.cpp for
    an example.
 */
-class SOT_CORE_EXPORT sotFactoryStorage
+class SOT_CORE_EXPORT FactoryStorage
 {
  public:
-  typedef sotFeatureAbstract* (*FeatureConstructor_ptr)( const std::string& );
-  typedef sotTaskAbstract* (*TaskConstructor_ptr)( const std::string& );
+  typedef FeatureAbstract* (*FeatureConstructor_ptr)( const std::string& );
+  typedef TaskAbstract* (*TaskConstructor_ptr)( const std::string& );
   
  protected:
   typedef std::map< std::string,TaskConstructor_ptr > TaskMap;
@@ -69,15 +69,15 @@ class SOT_CORE_EXPORT sotFactoryStorage
 
  public:
 
-  ~sotFactoryStorage( void );
+  ~FactoryStorage( void );
 
   void registerTask( const std::string& entname,TaskConstructor_ptr ent );
-  sotTaskAbstract* newTask( const std::string& name,const std::string& objname );
+  TaskAbstract* newTask( const std::string& name,const std::string& objname );
   bool existTask( const std::string& name, TaskMap::iterator& entPtr );
   bool existTask( const std::string& name );
 
   void registerFeature( const std::string& entname,FeatureConstructor_ptr ent );
-  sotFeatureAbstract* newFeature( const std::string& name,const std::string& objname );
+  FeatureAbstract* newFeature( const std::string& name,const std::string& objname );
   bool existFeature( const std::string& name, FeatureMap::iterator& entPtr );
   bool existFeature( const std::string& name );
 
@@ -87,7 +87,7 @@ class SOT_CORE_EXPORT sotFactoryStorage
 
 };
 
-SOT_CORE_EXPORT extern sotFactoryStorage sotFactory;
+SOT_CORE_EXPORT extern FactoryStorage sotFactory;
 
 /* --- REGISTERER ----------------------------------------------------------- */
 /* --- REGISTERER ----------------------------------------------------------- */
@@ -112,13 +112,13 @@ class SOT_CORE_EXPORT sotFeatureRegisterer
 
  public:
   sotFeatureRegisterer( const std::string& featureClassName,
-			sotFactoryStorage::FeatureConstructor_ptr maker);
+			FactoryStorage::FeatureConstructor_ptr maker);
 };
 
 #define SOT_FACTORY_FEATURE_PLUGIN(sotFeatureType,className) \
   const std::string sotFeatureType::CLASS_NAME = className;  \
   extern "C" {                                               \
-    sotFeatureAbstract *sotFeatureMaker##_##sotFeatureType( const std::string& objname )\
+    FeatureAbstract *sotFeatureMaker##_##sotFeatureType( const std::string& objname )\
     {                                                        \
       return new sotFeatureType( objname );                  \
     }                                                        \
@@ -138,14 +138,14 @@ class SOT_CORE_EXPORT sotTaskRegisterer
 
  public:
   sotTaskRegisterer( const std::string& taskClassName,
-		     sotFactoryStorage::TaskConstructor_ptr maker);
+		     FactoryStorage::TaskConstructor_ptr maker);
 };
 
 
 #define SOT_FACTORY_TASK_PLUGIN(sotTaskType,className) \
   const std::string sotTaskType::CLASS_NAME = className; \
   extern "C" {                                            \
-    sotTaskAbstract *sotTaskMaker##_##sotTaskType( const std::string& objname )    \
+    TaskAbstract *sotTaskMaker##_##sotTaskType( const std::string& objname )    \
     {                                                     \
       return new sotTaskType( objname );                 \
     }                                                     \

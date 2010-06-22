@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotIntegratorEuler.cpp
+ * File:      IntegratorEuler.cpp
  * Project:   SOT
  * Author:    Paul Evrard and Nicolas Mansard
  *
@@ -46,5 +46,5 @@ using namespace sot;
 using namespace ml;
 using namespace std;
 namespace sot {
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotIntegratorEuler,Vector,Matrix,"integratorEuler");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorEuler,Vector,Matrix,"integratorEuler");
 }

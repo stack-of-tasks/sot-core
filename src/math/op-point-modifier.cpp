@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotOpPointModifior.cp
+ * File:      OpPointModifior.cp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -29,7 +29,7 @@ using namespace std;
 using namespace sot;
 
 namespace sot {
-SOT_FACTORY_ENTITY_PLUGIN(sotOpPointModifior,"OpPointModifior");
+SOT_FACTORY_ENTITY_PLUGIN(OpPointModifior,"OpPointModifior");
 }
 
 
@@ -37,16 +37,16 @@ SOT_FACTORY_ENTITY_PLUGIN(sotOpPointModifior,"OpPointModifior");
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-sotOpPointModifior::
-sotOpPointModifior( const std::string& name )
+OpPointModifior::
+OpPointModifior( const std::string& name )
   :Entity( name )
    ,transformation()
    ,jacobianSIN(NULL,"OpPointModifior("+name+")::input(matrix)::jacobianIN")
    ,positionSIN(NULL,"OpPointModifior("+name+")::input(matrixhomo)::positionIN")
-   ,jacobianSOUT( boost::bind(&sotOpPointModifior::computeJacobian,this,_1,_2),
+   ,jacobianSOUT( boost::bind(&OpPointModifior::computeJacobian,this,_1,_2),
 		  jacobianSIN,
 		  "OpPointModifior("+name+")::output(matrix)::jacobian" )
-   ,positionSOUT( boost::bind(&sotOpPointModifior::computePosition,this,_1,_2),
+   ,positionSOUT( boost::bind(&OpPointModifior::computePosition,this,_1,_2),
 		  jacobianSIN,
 		  "OpPointModifior("+name+")::output(matrixhomo)::position" )
 
@@ -57,45 +57,45 @@ sotOpPointModifior( const std::string& name )
 }
 
 ml::Matrix&
-sotOpPointModifior::computeJacobian( ml::Matrix& res,const int& time )
+OpPointModifior::computeJacobian( ml::Matrix& res,const int& time )
 {
   const ml::Matrix& jacobian = jacobianSIN( time );
-  sotMatrixTwist V( transformation );
+  MatrixTwist V( transformation );
   res = V*jacobian;
   return res;
 }
 
-sotMatrixHomogeneous&
-sotOpPointModifior::computePosition( sotMatrixHomogeneous& res,const int& time )
+MatrixHomogeneous&
+OpPointModifior::computePosition( MatrixHomogeneous& res,const int& time )
 {
   sotDEBUGIN(15);
   sotDEBUGIN(15) << time << " " << positionSIN.getTime() << positionSOUT.getTime() << endl;
-  const sotMatrixHomogeneous& position = positionSIN( time );
+  const MatrixHomogeneous& position = positionSIN( time );
   position.multiply(transformation,res);
   sotDEBUGOUT(15);
   return res;
 }
 
 void
-sotOpPointModifior::setTransformation( const sotMatrixHomogeneous& tr )
+OpPointModifior::setTransformation( const MatrixHomogeneous& tr )
 { transformation = tr; }
 
 
-void sotOpPointModifior::
+void OpPointModifior::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs, 
 	     std::ostream& os )
 {
   if( cmdLine == "transfo" ) 
     {
-      sotMatrixHomogeneous tr;
+      MatrixHomogeneous tr;
       cmdArgs >> tr;
       setTransformation(tr);
     }
   else if( cmdLine == "transfoSignal" ) 
     {
-      Signal< sotMatrixHomogeneous,int > &sig 
-	= dynamic_cast< Signal< sotMatrixHomogeneous,int >& > 
+      Signal< MatrixHomogeneous,int > &sig 
+	= dynamic_cast< Signal< MatrixHomogeneous,int >& > 
 	(pool.getSignal( cmdArgs ));
       setTransformation(sig.accessCopy());
     }

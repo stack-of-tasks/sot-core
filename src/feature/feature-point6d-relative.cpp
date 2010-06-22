@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotFeaturePoint6dRelative.cpp
+ * File:      FeaturePoint6dRelative.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -37,7 +37,7 @@ using namespace sot;
 
 
 #include <sot-core/factory.h>
-SOT_FACTORY_FEATURE_PLUGIN(sotFeaturePoint6dRelative,"FeaturePoint6dRelative");
+SOT_FACTORY_FEATURE_PLUGIN(FeaturePoint6dRelative,"FeaturePoint6dRelative");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -45,14 +45,14 @@ SOT_FACTORY_FEATURE_PLUGIN(sotFeaturePoint6dRelative,"FeaturePoint6dRelative");
 
 
 
-sotFeaturePoint6dRelative::
-sotFeaturePoint6dRelative( const string& pointName )
-  : sotFeaturePoint6d( pointName )
+FeaturePoint6dRelative::
+FeaturePoint6dRelative( const string& pointName )
+  : FeaturePoint6d( pointName )
   ,positionReferenceSIN( NULL,"sotFeaturePoint6dRelative("+name+")::input(matrixHomo)::positionRef" )
   ,articularJacobianReferenceSIN( NULL,"sotFeaturePoint6dRelative("+name+")::input(matrix)::JqRef" )
   ,dotpositionSIN(NULL,"sotFeaturePoint6dRelative("+name+")::input(matrixHomo)::dotposition" )
   ,dotpositionReferenceSIN(NULL,"sotFeaturePoint6dRelative("+name+")::input(matrixHomo)::dotpositionRef" )
-  ,errordotSOUT(boost::bind(&sotFeaturePoint6dRelative::computeErrorDot,this,_1,_2),
+  ,errordotSOUT(boost::bind(&FeaturePoint6dRelative::computeErrorDot,this,_1,_2),
 		selectionSIN<<desiredValueSIN,
 		"sotFeatureAbstract("+name+")::output(vector)::errordot" )
 {
@@ -81,27 +81,27 @@ sotFeaturePoint6dRelative( const string& pointName )
 /** Compute the interaction matrix from a subset of
  * the possible features. 
  */
-ml::Matrix& sotFeaturePoint6dRelative::
+ml::Matrix& FeaturePoint6dRelative::
 computeJacobian( ml::Matrix& Jres,int time )
 {
   sotDEBUG(15)<<"# In {"<<endl;
 
   const ml::Matrix & Jq = articularJacobianSIN(time);
   const ml::Matrix & JqRef = articularJacobianReferenceSIN(time);
-  const sotMatrixHomogeneous & wMp = positionSIN(time);
-  const sotMatrixHomogeneous & wMpref = positionReferenceSIN(time);
+  const MatrixHomogeneous & wMp = positionSIN(time);
+  const MatrixHomogeneous & wMpref = positionReferenceSIN(time);
 
   const unsigned int cJ = Jq.nbCols();
   ml::Matrix J(6,cJ);
   {
-    sotMatrixHomogeneous pMw;  wMp.inverse(pMw);
-    sotMatrixHomogeneous pMpref; pMw.multiply( wMpref,pMpref );
-    sotMatrixTwist pVpref; pVpref.buildFrom(pMpref );
+    MatrixHomogeneous pMw;  wMp.inverse(pMw);
+    MatrixHomogeneous pMpref; pMw.multiply( wMpref,pMpref );
+    MatrixTwist pVpref; pVpref.buildFrom(pMpref );
     pVpref.multiply( JqRef,J );
     J -= Jq;
   }
 
-  const sotFlags &fl = selectionSIN(time);
+  const Flags &fl = selectionSIN(time);
   const int dim = dimensionSOUT(time);
   sotDEBUG(15) <<"Dimension="<<dim<<std::endl;
   Jres.resize(dim,cJ) ;
@@ -123,50 +123,50 @@ computeJacobian( ml::Matrix& Jres,int time )
  * a the possible features.
  */
 ml::Vector&
-sotFeaturePoint6dRelative::computeError( ml::Vector& error,int time )
+FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
 {
   sotDEBUGIN(15);
 
 //   /* TODO */
 //   error.resize(6); error.fill(.0);
 
-  const sotMatrixHomogeneous & wMp = positionSIN(time);
-  const sotMatrixHomogeneous & wMpref = positionReferenceSIN(time);
+  const MatrixHomogeneous & wMp = positionSIN(time);
+  const MatrixHomogeneous & wMpref = positionReferenceSIN(time);
 
-  sotMatrixHomogeneous pMw;  wMp.inverse(pMw);
-  sotMatrixHomogeneous pMpref; pMw.multiply( wMpref,pMpref );
+  MatrixHomogeneous pMw;  wMp.inverse(pMw);
+  MatrixHomogeneous pMpref; pMw.multiply( wMpref,pMpref );
   
-  sotMatrixHomogeneous Merr;
+  MatrixHomogeneous Merr;
   try
     {
-      sotFeatureAbstract * sdesAbs = desiredValueSIN(time);
+      FeatureAbstract * sdesAbs = desiredValueSIN(time);
     
-      sotFeaturePoint6dRelative * sdes = dynamic_cast<sotFeaturePoint6dRelative*>(sdesAbs);
+      FeaturePoint6dRelative * sdes = dynamic_cast<FeaturePoint6dRelative*>(sdesAbs);
       if( sdes )
 	{
-	  const sotMatrixHomogeneous & wMp_des = sdes->positionSIN(time);
-	  const sotMatrixHomogeneous & wMpref_des = sdes->positionReferenceSIN(time);
+	  const MatrixHomogeneous & wMp_des = sdes->positionSIN(time);
+	  const MatrixHomogeneous & wMpref_des = sdes->positionReferenceSIN(time);
 	  
-	  sotMatrixHomogeneous pMw_des;  wMp_des.inverse(pMw_des);
-	  sotMatrixHomogeneous pMpref_des; pMw_des.multiply( wMpref_des,pMpref_des );
-	  sotMatrixHomogeneous Minv; pMpref_des.inverse(Minv);
+	  MatrixHomogeneous pMw_des;  wMp_des.inverse(pMw_des);
+	  MatrixHomogeneous pMpref_des; pMw_des.multiply( wMpref_des,pMpref_des );
+	  MatrixHomogeneous Minv; pMpref_des.inverse(Minv);
 	  pMpref.multiply(Minv,Merr);
 	} else {
 
-	  sotFeaturePoint6d * sdes6d = dynamic_cast<sotFeaturePoint6d*>(sdesAbs);
+	  FeaturePoint6d * sdes6d = dynamic_cast<FeaturePoint6d*>(sdesAbs);
 	  if( sdes6d )
 	    {
-	      const sotMatrixHomogeneous & Mref = sdes6d->positionSIN(time);
-	      sotMatrixHomogeneous Minv; Mref.inverse(Minv);
+	      const MatrixHomogeneous & Mref = sdes6d->positionSIN(time);
+	      MatrixHomogeneous Minv; Mref.inverse(Minv);
 	      pMpref.multiply(Minv,Merr);
 	    } else Merr=pMpref;
 	}
     } catch( ... ) { Merr=pMpref; }
   
-  sotMatrixRotation Rerr; Merr.extract( Rerr );
-  sotVectorUTheta rerr; rerr.fromMatrix( Rerr );
+  MatrixRotation Rerr; Merr.extract( Rerr );
+  VectorUTheta rerr; rerr.fromMatrix( Rerr );
 
-  const sotFlags &fl = selectionSIN(time);
+  const Flags &fl = selectionSIN(time);
   error.resize(dimensionSOUT(time)) ;
   unsigned int cursor = 0;
   for( unsigned int i=0;i<3;++i )
@@ -184,29 +184,29 @@ sotFeaturePoint6dRelative::computeError( ml::Vector& error,int time )
  * This is computed by the desired feature.
  */
 ml::Vector&
-sotFeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
+FeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
 {
   sotDEBUGIN(15);
 
   //   /* TODO */
   //   error.resize(6); error.fill(.0);
-  const sotMatrixHomogeneous & wMp = positionSIN(time);
-  const sotMatrixHomogeneous & wMpref = positionReferenceSIN(time);  
-  const sotMatrixHomogeneous & wdMp = dotpositionSIN(time);
-  const sotMatrixHomogeneous & wdMpref = dotpositionReferenceSIN(time);
+  const MatrixHomogeneous & wMp = positionSIN(time);
+  const MatrixHomogeneous & wMpref = positionReferenceSIN(time);  
+  const MatrixHomogeneous & wdMp = dotpositionSIN(time);
+  const MatrixHomogeneous & wdMpref = dotpositionReferenceSIN(time);
 
   sotDEBUG(15) << "wdMp :" <<wdMp << endl;
   sotDEBUG(15) << "wdMpref :" <<wdMpref << endl;
 
-  sotMatrixRotation dRerr;
+  MatrixRotation dRerr;
   ml::Vector dtrerr;
 
   try
     {
-      sotMatrixRotation wRp;    wMp.extract(wRp);
-      sotMatrixRotation wRpref; wMpref.extract(wRpref );
-      sotMatrixRotation wdRp; wdMp.extract(wdRp);
-      sotMatrixRotation wdRpref; wdMpref.extract(wdRpref );
+      MatrixRotation wRp;    wMp.extract(wRp);
+      MatrixRotation wRpref; wMpref.extract(wRpref );
+      MatrixRotation wdRp; wdMp.extract(wdRp);
+      MatrixRotation wdRpref; wdMpref.extract(wdRpref );
       
       ml::Vector trp(3); wMp.extract(trp);
       ml::Vector trpref(3); wMpref.extract(trpref);
@@ -214,7 +214,7 @@ sotFeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
       ml::Vector trdpref(3); wdMpref.extract(trdpref);
       
       sotDEBUG(15) << "Everything is extracted" <<endl;
-      sotMatrixRotation wdRpt,wRpt,op1,op2; 
+      MatrixRotation wdRpt,wRpt,op1,op2; 
       wdRp.transpose(wdRpt);wdRpt.multiply(wRpref, op1);
       wRp.transpose(wRpt);wRpt.multiply(wdRpref,op2);
       op1.addition(op2,dRerr);
@@ -232,9 +232,9 @@ sotFeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
 
     } catch( ... ) { sotDEBUG(15) << "You've got a problem with errordot." << std::endl; }
   
-  sotVectorUTheta rerr; rerr.fromMatrix( dRerr );
+  VectorUTheta rerr; rerr.fromMatrix( dRerr );
 
-  const sotFlags &fl = selectionSIN(time);
+  const Flags &fl = selectionSIN(time);
   errordot.resize(dimensionSOUT(time)) ;
   unsigned int cursor = 0;
   for( unsigned int i=0;i<3;++i )
@@ -250,7 +250,7 @@ sotFeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
  * a the possible features.
  */
 ml::Vector&
-sotFeaturePoint6dRelative::computeActivation( ml::Vector& act,int time )
+FeaturePoint6dRelative::computeActivation( ml::Vector& act,int time )
 {
   selectionSIN(time);
   act.resize(dimensionSOUT(time)) ; act.fill(1);
@@ -265,13 +265,13 @@ static const char * featureNames  []
     "RX",
     "RY",
     "RZ"  };
-void sotFeaturePoint6dRelative::
+void FeaturePoint6dRelative::
 display( std::ostream& os ) const
 {
   os <<"Point6dRelative <"<<name<<">: (" ;
 
   try{ 
-    const sotFlags &fl = selectionSIN.accessCopy();
+    const Flags &fl = selectionSIN.accessCopy();
     bool first = true;
     for( int i=0;i<6;++i ) 
       if( fl(i) ) 
@@ -284,7 +284,7 @@ display( std::ostream& os ) const
 }
 
 
-void sotFeaturePoint6dRelative::
+void FeaturePoint6dRelative::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,
 	     std::ostream& os )
@@ -293,7 +293,7 @@ commandLine( const std::string& cmdLine,
     {
       os << "FeaturePoint6dRelative: "<<endl
 	 << "  - initSdes <feature>: init <feature> by copy of the current value."<<endl;
-      sotFeaturePoint6d::commandLine( cmdLine,cmdArgs,os );
+      FeaturePoint6d::commandLine( cmdLine,cmdArgs,os );
     }
   else if( cmdLine=="initSdes" )
     {
@@ -301,8 +301,8 @@ commandLine( const std::string& cmdLine,
       if(cmdArgs.good())
 	{
 	  std::string nameSdes; cmdArgs >> nameSdes;
-	  sotFeaturePoint6dRelative & sdes 
-	    = dynamic_cast< sotFeaturePoint6dRelative &> (pool.getEntity( nameSdes ));
+	  FeaturePoint6dRelative & sdes 
+	    = dynamic_cast< FeaturePoint6dRelative &> (pool.getEntity( nameSdes ));
 	  const int timeCurr = positionSIN.getTime() +1;
 	  positionSIN.recompute( timeCurr );
 	  positionReferenceSIN.recompute( timeCurr );
@@ -313,7 +313,7 @@ commandLine( const std::string& cmdLine,
 	}
     }
   else  
-    sotFeaturePoint6d::commandLine( cmdLine,cmdArgs,os );
+    FeaturePoint6d::commandLine( cmdLine,cmdArgs,os );
 
 }
 

@@ -34,9 +34,9 @@
 
 namespace sot {
 
-/* \class sotExceptionTools
+/* \class ExceptionTools
  */
-class SOT_CORE_EXPORT sotExceptionTools 
+class SOT_CORE_EXPORT ExceptionTools 
 :public ExceptionAbstract
 
 {
@@ -54,11 +54,11 @@ class SOT_CORE_EXPORT sotExceptionTools
 
 public:
 
-  sotExceptionTools ( const sotExceptionTools::ErrorCodeEnum& errcode,
+  ExceptionTools ( const ExceptionTools::ErrorCodeEnum& errcode,
 		       const std::string & msg = "" );
-  sotExceptionTools( const sotExceptionTools::ErrorCodeEnum& errcode,
+  ExceptionTools( const ExceptionTools::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... );
-  virtual ~sotExceptionTools( void ){}
+  virtual ~ExceptionTools( void ){}
 
 
 };

@@ -23,24 +23,24 @@
 using namespace sot;
 
 const std::string 
-sotFeatureAbstract::CLASS_NAME = "FeatureAbstract";
+FeatureAbstract::CLASS_NAME = "FeatureAbstract";
 
 
-sotFeatureAbstract::
-sotFeatureAbstract( const std::string& name ) 
+FeatureAbstract::
+FeatureAbstract( const std::string& name ) 
   :Entity(name)
    ,desiredValueSIN(NULL,"sotFeatureAbstract("+name+")::input(feature)::sdes")
    ,selectionSIN(NULL,"sotFeatureAbstract("+name+")::input(flag)::selec")
-   ,errorSOUT( boost::bind(&sotFeatureAbstract::computeError,this,_1,_2),
+   ,errorSOUT( boost::bind(&FeatureAbstract::computeError,this,_1,_2),
 	       selectionSIN<<desiredValueSIN,
 	       "sotFeatureAbstract("+name+")::output(vector)::error" )
-   ,jacobianSOUT( boost::bind(&sotFeatureAbstract::computeJacobian,this,_1,_2),
+   ,jacobianSOUT( boost::bind(&FeatureAbstract::computeJacobian,this,_1,_2),
 		  selectionSIN,
 		  "sotFeatureAbstract("+name+")::output(matrix)::jacobian" )
-   ,activationSOUT( boost::bind(&sotFeatureAbstract::computeActivation,this,_1,_2),
+   ,activationSOUT( boost::bind(&FeatureAbstract::computeActivation,this,_1,_2),
 		    selectionSIN<<desiredValueSIN,
 		    "sotFeatureAbstract("+name+")::output(vector)::activation" )
-   ,dimensionSOUT( boost::bind(&sotFeatureAbstract::getDimension,this,_1,_2),
+   ,dimensionSOUT( boost::bind(&FeatureAbstract::getDimension,this,_1,_2),
 		   selectionSIN,
 		   "sotFeatureAbstract("+name+")::output(uint)::dim" )
 {
@@ -52,14 +52,14 @@ sotFeatureAbstract( const std::string& name )
 }
 
 
-void sotFeatureAbstract::
+void FeatureAbstract::
 featureRegistration( void )
 {
   sotPool.registerFeature(name,this);
 }
 
 
-std::ostream& sotFeatureAbstract::
+std::ostream& FeatureAbstract::
 writeGraph( std::ostream& os ) const
 {
   Entity::writeGraph(os);
@@ -67,11 +67,11 @@ writeGraph( std::ostream& os ) const
   if( desiredValueSIN )
     {
       //      const SignalAbstract<int> & sdesAbs = desiredValueSIN;
-      const SignalPtr<sotFeatureAbstract *,int>  & sdesSig = desiredValueSIN;
+      const SignalPtr<FeatureAbstract *,int>  & sdesSig = desiredValueSIN;
       
       if (sdesSig!=0)
 	{
-	  sotFeatureAbstract *asotFA = sdesSig.accessCopy();
+	  FeatureAbstract *asotFA = sdesSig.accessCopy();
 	  if (asotFA!=0)
 	    {
 	      os << "\t\"" << asotFA->getName() << "\" -> \"" << getName() << "\""

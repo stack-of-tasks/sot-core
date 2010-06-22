@@ -39,7 +39,7 @@
 
 namespace sot {
 
-class SOT_CORE_EXPORT sotFlags
+class SOT_CORE_EXPORT Flags
 {
  protected:
   std::vector<char> flags;
@@ -50,27 +50,27 @@ class SOT_CORE_EXPORT sotFlags
   
  public:
   
-  sotFlags( const bool& b=false ) ;
-  sotFlags( const char& c ) ;
-  sotFlags( const int& c4 ) ;
+  Flags( const bool& b=false ) ;
+  Flags( const char& c ) ;
+  Flags( const int& c4 ) ;
 
   void add( const char& c ) ;
   void add( const int& c4 ) ;
     
-  sotFlags operator! (void) const;
-  SOT_CORE_EXPORT friend sotFlags operator& ( const sotFlags& f1,const sotFlags& f2 ) ;
-  SOT_CORE_EXPORT friend sotFlags operator| ( const sotFlags& f1,const sotFlags& f2 ) ;
-  sotFlags& operator&= ( const sotFlags& f2 ) ;
-  sotFlags& operator|= ( const sotFlags& f2 ) ;
+  Flags operator! (void) const;
+  SOT_CORE_EXPORT friend Flags operator& ( const Flags& f1,const Flags& f2 ) ;
+  SOT_CORE_EXPORT friend Flags operator| ( const Flags& f1,const Flags& f2 ) ;
+  Flags& operator&= ( const Flags& f2 ) ;
+  Flags& operator|= ( const Flags& f2 ) ;
    
-  SOT_CORE_EXPORT friend sotFlags operator& ( const sotFlags& f1,const bool& b ) ;
-  SOT_CORE_EXPORT friend sotFlags operator| ( const sotFlags& f1,const bool& b ) ;
-  sotFlags& operator&= ( const bool& b );
-  sotFlags& operator|= ( const bool& b );
+  SOT_CORE_EXPORT friend Flags operator& ( const Flags& f1,const bool& b ) ;
+  SOT_CORE_EXPORT friend Flags operator| ( const Flags& f1,const bool& b ) ;
+  Flags& operator&= ( const bool& b );
+  Flags& operator|= ( const bool& b );
   
-  SOT_CORE_EXPORT friend std::ostream& operator<< (std::ostream& os, const sotFlags& fl );
-  SOT_CORE_EXPORT friend char operator>> (const sotFlags& flags, const int& i);
-  SOT_CORE_EXPORT friend std::istream& operator>> (std::istream& is, sotFlags& fl );
+  SOT_CORE_EXPORT friend std::ostream& operator<< (std::ostream& os, const Flags& fl );
+  SOT_CORE_EXPORT friend char operator>> (const Flags& flags, const int& i);
+  SOT_CORE_EXPORT friend std::istream& operator>> (std::istream& is, Flags& fl );
   bool operator() (const int& i) const;
 
   operator bool (void) const;
@@ -84,21 +84,21 @@ class SOT_CORE_EXPORT sotFlags
 			       unsigned int & indexStart,
 			       unsigned int & indexEnd,
 			       bool& unspecifiedEnd );
-  static sotFlags readIndexMatlab( std::istream & iss );
+  static Flags readIndexMatlab( std::istream & iss );
 
 	  
 
 
 };
 
-SOT_CORE_EXPORT extern const sotFlags FLAG_LINE_1;
-SOT_CORE_EXPORT extern const sotFlags FLAG_LINE_2;
-SOT_CORE_EXPORT extern const sotFlags FLAG_LINE_3;
-SOT_CORE_EXPORT extern const sotFlags FLAG_LINE_4;
-SOT_CORE_EXPORT extern const sotFlags FLAG_LINE_5;
-SOT_CORE_EXPORT extern const sotFlags FLAG_LINE_6;
-SOT_CORE_EXPORT extern const sotFlags FLAG_LINE_7;
-SOT_CORE_EXPORT extern const sotFlags FLAG_LINE_8;
+SOT_CORE_EXPORT extern const Flags FLAG_LINE_1;
+SOT_CORE_EXPORT extern const Flags FLAG_LINE_2;
+SOT_CORE_EXPORT extern const Flags FLAG_LINE_3;
+SOT_CORE_EXPORT extern const Flags FLAG_LINE_4;
+SOT_CORE_EXPORT extern const Flags FLAG_LINE_5;
+SOT_CORE_EXPORT extern const Flags FLAG_LINE_6;
+SOT_CORE_EXPORT extern const Flags FLAG_LINE_7;
+SOT_CORE_EXPORT extern const Flags FLAG_LINE_8;
 
 } // namespace sot
 

@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotFeature1D.cpp
+ * File:      Feature1D.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -32,7 +32,7 @@ using namespace std;
 
 
 using namespace sot;
-SOT_FACTORY_FEATURE_PLUGIN(sotFeature1D,"Feature1D");
+SOT_FACTORY_FEATURE_PLUGIN(Feature1D,"Feature1D");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -40,9 +40,9 @@ SOT_FACTORY_FEATURE_PLUGIN(sotFeature1D,"Feature1D");
 
 
 
-sotFeature1D::
-sotFeature1D( const string& pointName )
-  : sotFeatureAbstract( pointName )
+Feature1D::
+Feature1D( const string& pointName )
+  : FeatureAbstract( pointName )
     ,errorSIN( NULL,"sotFeature1D("+name+")::input(vector)::errorIN" )
     ,jacobianSIN( NULL,"sotFeature1D("+name+")::input(matrix)::jacobianIN" )
     ,activationSIN( NULL,"sotFeature1D("+name+")::input(matrix)::activationIN" )
@@ -58,7 +58,7 @@ sotFeature1D( const string& pointName )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int& sotFeature1D::
+unsigned int& Feature1D::
 getDimension( unsigned int & dim, int time ) 
 {  
   sotDEBUG(25)<<"# In {"<<endl;
@@ -70,7 +70,7 @@ getDimension( unsigned int & dim, int time )
 }
 
 
-ml::Vector& sotFeature1D::
+ml::Vector& Feature1D::
 computeError( ml::Vector& res,int time )
 { 
   const ml::Vector& err = errorSIN.access(time);
@@ -82,7 +82,7 @@ computeError( ml::Vector& res,int time )
 
 
 
-ml::Matrix& sotFeature1D::
+ml::Matrix& Feature1D::
 computeJacobian( ml::Matrix& res,int time )
 { 
   sotDEBUGIN(15);
@@ -99,7 +99,7 @@ computeJacobian( ml::Matrix& res,int time )
   return res; 
 }
 
-ml::Vector& sotFeature1D::
+ml::Vector& Feature1D::
 computeActivation( ml::Vector& res,int time )
 { 
   if( activationSIN )
@@ -121,7 +121,7 @@ computeActivation( ml::Vector& res,int time )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void sotFeature1D::
+void Feature1D::
 display( std::ostream& os ) const
 {
   os <<"1D <"<<name<<">: " <<std::endl;
@@ -134,7 +134,7 @@ display( std::ostream& os ) const
 }
 
 
-// void sotFeature1D::
+// void Feature1D::
 // commandLine( const std::string& cmdLine,
 // 	     std::istringstream& cmdArgs,
 // 	     std::ostream& os )

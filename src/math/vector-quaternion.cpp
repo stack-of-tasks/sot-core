@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotVectorQuaternion.cpp
+ * File:      VectorQuaternion.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -27,8 +27,8 @@ static const double ANGLE_MINIMUM = 0.0001;
 static const double SINC_MINIMUM = 1e-8;
 static const double COSC_MINIMUM = 2.5e-4;
 
-sotVectorRotation& sotVectorQuaternion::
-fromMatrix( const sotMatrixRotation& rot )
+sotVectorRotation& VectorQuaternion::
+fromMatrix( const MatrixRotation& rot )
 {
   sotDEBUGIN(15) ;
   
@@ -125,8 +125,8 @@ fromMatrix( const sotMatrixRotation& rot )
 
 #include <sot-core/vector-utheta.h>
 
-sotVectorRotation& sotVectorQuaternion::
-fromVector( const sotVectorUTheta& ut )
+sotVectorRotation& VectorQuaternion::
+fromVector( const VectorUTheta& ut )
 {
   sotDEBUGIN(15) ;
   
@@ -143,8 +143,8 @@ fromVector( const sotVectorUTheta& ut )
 }
 
 
-sotMatrixRotation& sotVectorQuaternion::
-toMatrix( sotMatrixRotation& rot ) const
+MatrixRotation& VectorQuaternion::
+toMatrix( MatrixRotation& rot ) const
 {
   sotDEBUGIN(15) ;
 
@@ -234,7 +234,7 @@ toMatrix( sotMatrixRotation& rot ) const
   return rot;
 }
 
-sotVectorQuaternion& sotVectorQuaternion::conjugate(sotVectorQuaternion& res) const
+VectorQuaternion& VectorQuaternion::conjugate(VectorQuaternion& res) const
 {
   res.vector(0) = vector(0);
   res.vector(1) = -vector(1);
@@ -243,7 +243,7 @@ sotVectorQuaternion& sotVectorQuaternion::conjugate(sotVectorQuaternion& res) co
   return res;
 }
 
-sotVectorQuaternion& sotVectorQuaternion::multiply(const sotVectorQuaternion& q2, sotVectorQuaternion& res) const
+VectorQuaternion& VectorQuaternion::multiply(const VectorQuaternion& q2, VectorQuaternion& res) const
 {
   double & a1 = vector(0);
   double & b1 = vector(1);

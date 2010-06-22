@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotTaskUnilateral.cpp
+ * File:      TaskUnilateral.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -35,7 +35,7 @@ using namespace sot;
 
 
 #include <sot-core/factory.h>
-SOT_FACTORY_TASK_PLUGIN(sotTaskUnilateral,"TaskUnilateral");
+SOT_FACTORY_TASK_PLUGIN(TaskUnilateral,"TaskUnilateral");
 
 
 /* --------------------------------------------------------------------- */
@@ -43,16 +43,16 @@ SOT_FACTORY_TASK_PLUGIN(sotTaskUnilateral,"TaskUnilateral");
 /* --------------------------------------------------------------------- */
 
 
-sotTaskUnilateral::
-sotTaskUnilateral( const std::string& n )
-  :sotTask(n)
+TaskUnilateral::
+TaskUnilateral( const std::string& n )
+  :Task(n)
   ,featureList()
   ,positionSIN( NULL,"sotTaskUnilateral("+n+")::input(vector)::position" )
   ,referenceInfSIN( NULL,"sotTaskUnilateral("+n+")::input(vector)::referenceInf" )
   ,referenceSupSIN( NULL,"sotTaskUnilateral("+n+")::input(vector)::referenceSup" )
   ,dtSIN( NULL,"sotTaskUnilateral("+n+")::input(double)::dt" )
 {
-  taskSOUT.setFunction( boost::bind(&sotTaskUnilateral::computeTaskUnilateral,this,_1,_2) );
+  taskSOUT.setFunction( boost::bind(&TaskUnilateral::computeTaskUnilateral,this,_1,_2) );
   taskSOUT.clearDependancies();
   taskSOUT.addDependancy( referenceSupSIN );
   taskSOUT.addDependancy( referenceInfSIN );
@@ -67,7 +67,7 @@ sotTaskUnilateral( const std::string& n )
 /* --- COMPUTATION ---------------------------------------------------------- */
 /* --- COMPUTATION ---------------------------------------------------------- */
 
-sotVectorMultiBound& sotTaskUnilateral::
+sotVectorMultiBound& TaskUnilateral::
 computeTaskUnilateral( sotVectorMultiBound& res,int time )
 {
   sotDEBUG(45) << "# In " << getName() << " {" << endl;
@@ -79,7 +79,7 @@ computeTaskUnilateral( sotVectorMultiBound& res,int time )
   res.resize(position.size());
   for( unsigned int i=0;i<res.size();++i )
     {
-      sotMultiBound toto((refInf(i)-position(i))/dt,(refSup(i)-position(i))/dt);
+      MultiBound toto((refInf(i)-position(i))/dt,(refSup(i)-position(i))/dt);
       res[i] = toto;
     }
 
@@ -92,7 +92,7 @@ computeTaskUnilateral( sotVectorMultiBound& res,int time )
 /* --- DISPLAY ------------------------------------------------------------ */
 /* --- DISPLAY ------------------------------------------------------------ */
 
-void sotTaskUnilateral::
+void TaskUnilateral::
 display( std::ostream& os ) const
 {
   os << "TaskUnilateral " << name << ": " << endl;

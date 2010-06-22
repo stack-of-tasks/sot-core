@@ -36,7 +36,7 @@
 namespace sot {
 
 /*!
- * \class sotIntegratorEuler
+ * \class IntegratorEuler
  * \brief integrates an ODE using a naive Euler integration.
  * TODO: change the integration method. For the moment, the highest
  * derivative of the output signal is computed using the
@@ -45,8 +45,8 @@ namespace sot {
  * induce a huge drift for ODEs with a high order at the denominator.
 */
 template<class sigT,class coefT>
-class sotIntegratorEuler
-  : public sotIntegratorAbstract<sigT,coefT>
+class IntegratorEuler
+  : public IntegratorAbstract<sigT,coefT>
 {
 
  public: 
@@ -55,19 +55,19 @@ class sotIntegratorEuler
   static const std::string CLASS_NAME;
 
  public:
-  using sotIntegratorAbstract<sigT,coefT>::SIN;
-  using sotIntegratorAbstract<sigT,coefT>::SOUT;
-  using sotIntegratorAbstract<sigT,coefT>::numerator;
-  using sotIntegratorAbstract<sigT,coefT>::denominator;
+  using IntegratorAbstract<sigT,coefT>::SIN;
+  using IntegratorAbstract<sigT,coefT>::SOUT;
+  using IntegratorAbstract<sigT,coefT>::numerator;
+  using IntegratorAbstract<sigT,coefT>::denominator;
 
  public:
-  sotIntegratorEuler( const std::string& name )
-    : sotIntegratorAbstract<sigT,coefT>( name )
+  IntegratorEuler( const std::string& name )
+    : IntegratorAbstract<sigT,coefT>( name )
   {
     SOUT.addDependancy(SIN);
   }
 
-  virtual ~sotIntegratorEuler( void ) {}
+  virtual ~IntegratorEuler( void ) {}
 
 protected:
   std::vector<sigT> inputMemory;

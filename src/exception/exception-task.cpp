@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotExceptionTask.cpp
+ * File:      ExceptionTask.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -28,17 +28,17 @@ using namespace sot;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-const std::string sotExceptionTask::EXCEPTION_NAME = "Task";
+const std::string ExceptionTask::EXCEPTION_NAME = "Task";
 
-sotExceptionTask::
-sotExceptionTask ( const sotExceptionTask::ErrorCodeEnum& errcode,
+ExceptionTask::
+ExceptionTask ( const ExceptionTask::ErrorCodeEnum& errcode,
 		   const std::string & msg )
   :ExceptionAbstract(errcode,msg)
 {
 }
 
-sotExceptionTask::
-sotExceptionTask ( const sotExceptionTask::ErrorCodeEnum& errcode,
+ExceptionTask::
+ExceptionTask ( const ExceptionTask::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... )
   :ExceptionAbstract(errcode,msg)
 {

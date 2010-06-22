@@ -66,8 +66,8 @@ namespace ml = maal::boost;
 
 namespace sot {
 
-class SOTWEIGHTEDSOT_CORE_EXPORT sotWeightedSOT
-:public sotSOT
+class SOTWEIGHTEDSOT_CORE_EXPORT WeightedSot
+:public Sot
 {
  public:
   /*! \brief Specify the name of the class entity. */
@@ -77,7 +77,7 @@ class SOTWEIGHTEDSOT_CORE_EXPORT sotWeightedSOT
 
  public:
   /*! \brief Default constructor */
-  sotWeightedSOT( const std::string& name );
+  WeightedSot( const std::string& name );
 
  public: /* --- CONTROL --- */
 

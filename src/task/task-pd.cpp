@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotTaskPD.cpp
+ * File:      TaskPD.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -34,7 +34,7 @@ using namespace sot;
 
 #include <sot-core/factory.h>
 
-SOT_FACTORY_TASK_PLUGIN(sotTaskPD,"TaskPD");
+SOT_FACTORY_TASK_PLUGIN(TaskPD,"TaskPD");
 
 
 /* --------------------------------------------------------------------- */
@@ -42,18 +42,18 @@ SOT_FACTORY_TASK_PLUGIN(sotTaskPD,"TaskPD");
 /* --------------------------------------------------------------------- */
 
 
-sotTaskPD::
-sotTaskPD( const std::string& n )
-  :sotTask(n)
+TaskPD::
+TaskPD( const std::string& n )
+  :Task(n)
    ,previousError()
    ,beta(1)
-   ,errorDotSOUT( boost::bind(&sotTaskPD::computeErrorDot,this,_1,_2),
+   ,errorDotSOUT( boost::bind(&TaskPD::computeErrorDot,this,_1,_2),
 		  errorSOUT,
 		  "sotTaskPD("+n+")::output(vector)::errorDotOUT" )
    ,errorDotSIN(  NULL,
 		  "sotTaskPD("+n+")::input(vector)::errorDot" )
 {
-  taskSOUT.setFunction( boost::bind(&sotTaskPD::computeTaskModif,this,_1,_2) );
+  taskSOUT.setFunction( boost::bind(&TaskPD::computeTaskModif,this,_1,_2) );
   taskSOUT.addDependancy( errorDotSOUT );
 
   signalRegistration( errorDotSOUT<<errorDotSIN );
@@ -65,7 +65,7 @@ sotTaskPD( const std::string& n )
 /* --- COMPUTATION ---------------------------------------------------------- */
 /* --- COMPUTATION ---------------------------------------------------------- */
 
-ml::Vector& sotTaskPD::
+ml::Vector& TaskPD::
 computeErrorDot( ml::Vector& errorDot,int time )
 {
   sotDEBUG(15) << "# In {" << endl;
@@ -87,13 +87,13 @@ computeErrorDot( ml::Vector& errorDot,int time )
   return errorDot;
 }
 
-sotVectorMultiBound& sotTaskPD::
+sotVectorMultiBound& TaskPD::
 computeTaskModif( sotVectorMultiBound& task,int time )
 {
   sotDEBUG(15) << "# In {" << endl;
 
   const ml::Vector & errorDot = errorDotSIN(time);
-  sotTask::computeTaskExponentialDecrease(task,time);
+  Task::computeTaskExponentialDecrease(task,time);
 
   sotDEBUG(25) << " Task = " << task;
   sotDEBUG(25) << " edot = " << errorDot;
@@ -113,7 +113,7 @@ computeTaskModif( sotVectorMultiBound& task,int time )
 /* --- PARAMS --------------------------------------------------------------- */
 #include <sot-core/pool.h>
 
-void sotTaskPD::
+void TaskPD::
 commandLine( const std::string& cmdLine
 	     ,std::istringstream& cmdArgs
 	     ,std::ostream& os )
@@ -130,6 +130,6 @@ commandLine( const std::string& cmdLine
 	{ cmdArgs >> beta; } else { os << beta; }
     }
   else  //sotTaskPDAbstract::
-    sotTask::commandLine( cmdLine,cmdArgs,os );
+    Task::commandLine( cmdLine,cmdArgs,os );
 
 }

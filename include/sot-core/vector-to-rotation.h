@@ -37,7 +37,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 namespace sot {
 
-class sotVectorToRotation
+class VectorToRotation
 : public Entity
 {
   static const std::string CLASS_NAME;
@@ -55,15 +55,15 @@ class sotVectorToRotation
   
 
 public:
-  sotVectorToRotation( const std::string& name );
+  VectorToRotation( const std::string& name );
 
-  virtual ~sotVectorToRotation( void ){}
+  virtual ~VectorToRotation( void ){}
 
   SignalPtr<ml::Vector,int> SIN;
-  SignalTimeDependant<sotMatrixRotation,int> SOUT;
+  SignalTimeDependant<MatrixRotation,int> SOUT;
 
-  sotMatrixRotation& computeRotation( const ml::Vector& angles,
-				      sotMatrixRotation& res );
+  MatrixRotation& computeRotation( const ml::Vector& angles,
+				      MatrixRotation& res );
 
 
   virtual void commandLine( const std::string& cmdLine,

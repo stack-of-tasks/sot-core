@@ -3,6 +3,6 @@
 # define SOT_FACTORY_COMMAND_IMPORT_DEFAULT_PATHS_H
 
 /// Default script path as known by CMake at configure time.
-# define SOT_IMPORT_DEFAULT_PATHS "/home/blue/sot-lib/script"
+# define SOT_IMPORT_DEFAULT_PATHS @SOT_IMPORT_DEFAULT_PATHS@
 
 #endif //! SOT_FACTORY_COMMAND_IMPORT_DEFAULT_PATHS_H

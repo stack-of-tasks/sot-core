@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotMatrixHomogeneous.cpp
+ * File:      MatrixHomogeneous.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -24,8 +24,8 @@
 using namespace sot;
 
 
-sotMatrixHomogeneous& sotMatrixHomogeneous::
-buildFrom( const sotMatrixRotation& rot, const ml::Vector& trans )
+MatrixHomogeneous& MatrixHomogeneous::
+buildFrom( const MatrixRotation& rot, const ml::Vector& trans )
 {
   for( int i=0;i<3;++i )
     {
@@ -40,8 +40,8 @@ buildFrom( const sotMatrixRotation& rot, const ml::Vector& trans )
   return *this;
 }
 
-sotMatrixRotation& sotMatrixHomogeneous::
-extract( sotMatrixRotation& rot ) const
+MatrixRotation& MatrixHomogeneous::
+extract( MatrixRotation& rot ) const
 {
   for( int i=0;i<3;++i )
     for( int j=0;j<3;++j )
@@ -50,7 +50,7 @@ extract( sotMatrixRotation& rot ) const
   return rot;
 }
 
-ml::Vector& sotMatrixHomogeneous::
+ml::Vector& MatrixHomogeneous::
 extract( ml::Vector& trans ) const
 {
   for( int i=0;i<3;++i )
@@ -60,7 +60,7 @@ extract( ml::Vector& trans ) const
 }
 
 
-sotMatrixHomogeneous& sotMatrixHomogeneous::
+MatrixHomogeneous& MatrixHomogeneous::
 operator=( const ml::Matrix& m2)
 {
   if( (m2.nbRows()==4)&&(m2.nbCols()==4) )
@@ -71,19 +71,19 @@ operator=( const ml::Matrix& m2)
 }
 
 
-sotMatrixHomogeneous& sotMatrixHomogeneous::
-inverse( sotMatrixHomogeneous& invMatrix ) const 
+MatrixHomogeneous& MatrixHomogeneous::
+inverse( MatrixHomogeneous& invMatrix ) const 
 {
   sotDEBUGIN(25);
 
   ml::Matrix & inv = this->ml::Matrix::inverse( invMatrix );
 
   sotDEBUGOUT(25);
-  return dynamic_cast< sotMatrixHomogeneous& > (inv);
+  return dynamic_cast< MatrixHomogeneous& > (inv);
 }
 
 
-ml::Vector& sotMatrixHomogeneous::
+ml::Vector& MatrixHomogeneous::
 multiply( const ml::Vector& v1,ml::Vector& res ) const
 {
   sotDEBUGIN(15);

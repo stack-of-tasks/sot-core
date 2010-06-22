@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotFeaturePoint6d.cpp
+ * File:      FeaturePoint6d.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -38,19 +38,19 @@ using namespace std;
 using namespace sot;
 
 #include <sot-core/factory.h>
-SOT_FACTORY_FEATURE_PLUGIN(sotFeaturePoint6d,"FeaturePoint6d");
+SOT_FACTORY_FEATURE_PLUGIN(FeaturePoint6d,"FeaturePoint6d");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
 
-const sotFeaturePoint6d::ComputationFrameType sotFeaturePoint6d::
+const FeaturePoint6d::ComputationFrameType FeaturePoint6d::
 COMPUTATION_FRAME_DEFAULT = FRAME_DESIRED;
 
-sotFeaturePoint6d::
-sotFeaturePoint6d( const string& pointName )
-  : sotFeatureAbstract( pointName )
+FeaturePoint6d::
+FeaturePoint6d( const string& pointName )
+  : FeatureAbstract( pointName )
     ,computationFrame( COMPUTATION_FRAME_DEFAULT )
     ,positionSIN( NULL,"sotFeaturePoint6d("+name+")::input(matrixHomo)::position" )
     ,articularJacobianSIN( NULL,"sotFeaturePoint6d("+name+")::input(matrix)::Jq" )
@@ -70,12 +70,12 @@ sotFeaturePoint6d( const string& pointName )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int& sotFeaturePoint6d::
+unsigned int& FeaturePoint6d::
 getDimension( unsigned int & dim, int time )
 {
   sotDEBUG(25)<<"# In {"<<endl;
 
-  const sotFlags &fl = selectionSIN.access(time);
+  const Flags &fl = selectionSIN.access(time);
 
   dim = 0;
   for( int i=0;i<6;++i ) if( fl(i) ) dim++;
@@ -88,14 +88,14 @@ getDimension( unsigned int & dim, int time )
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-ml::Matrix& sotFeaturePoint6d::
+ml::Matrix& FeaturePoint6d::
 computeJacobian( ml::Matrix& J,int time )
 {
   sotDEBUG(15)<<"# In {"<<endl;
 
   const ml::Matrix & Jq = articularJacobianSIN(time);
   const int & dim = dimensionSOUT(time);
-  const sotFlags &fl = selectionSIN(time);
+  const Flags &fl = selectionSIN(time);
 
   sotDEBUG(25)<<"dim = "<<dimensionSOUT(time)<<" time:" << time << " "
               << dimensionSOUT.getTime() << " " << dimensionSOUT.getReady() << endl;
@@ -112,17 +112,17 @@ computeJacobian( ml::Matrix& J,int time )
     {
       /* The Jacobian on rotation is equal to Jr = - hdRh Jr6d.
        * The Jacobian in translation is equalt to Jt = [hRw(wthd-wth)]x Jr - Jt. */
-      sotFeatureAbstract * sdesAbs = desiredValueSIN(time);
-      sotFeaturePoint6d * sdes = dynamic_cast<sotFeaturePoint6d*>(sdesAbs);
+      FeatureAbstract * sdesAbs = desiredValueSIN(time);
+      FeaturePoint6d * sdes = dynamic_cast<FeaturePoint6d*>(sdesAbs);
 
-      const sotMatrixHomogeneous& wMh = positionSIN(time);
-      sotMatrixRotation wRh;      wMh.extract(wRh);
-      sotMatrixRotation wRhd;
+      const MatrixHomogeneous& wMh = positionSIN(time);
+      MatrixRotation wRh;      wMh.extract(wRh);
+      MatrixRotation wRhd;
       ml::Vector hdth(3),Rhdth(3);
 
       if(NULL!=sdes)
         {
-          const sotMatrixHomogeneous& wMhd = sdes->positionSIN(time);
+          const MatrixHomogeneous& wMhd = sdes->positionSIN(time);
           wMhd.extract(wRhd);
           for( unsigned int i=0;i<3;++i ) hdth(i)=wMhd(i,3)-wMh(i,3);
         }
@@ -132,7 +132,7 @@ computeJacobian( ml::Matrix& J,int time )
           for( unsigned int i=0;i<3;++i ) hdth(i)=-wMh(i,3);
         }
       wRh.inverse().multiply(hdth,Rhdth);
-      sotMatrixRotation hdRh; wRhd.inverse().multiply(wRh,hdRh);
+      MatrixRotation hdRh; wRhd.inverse().multiply(wRh,hdRh);
 
       ml::Matrix Lx(6,6);
       for(unsigned int i=0;i<3;i++)
@@ -155,17 +155,17 @@ computeJacobian( ml::Matrix& J,int time )
       /* The Jacobian in rotation is equal to Jr = hdJ = hdRh Jr.
        * The Jacobian in translation is equal to Jr = hdJ = hdRh Jr. */
 
-      sotFeatureAbstract * sdesAbs = desiredValueSIN(time);
-      sotFeaturePoint6d * sdes = dynamic_cast<sotFeaturePoint6d*>(sdesAbs);
+      FeatureAbstract * sdesAbs = desiredValueSIN(time);
+      FeaturePoint6d * sdes = dynamic_cast<FeaturePoint6d*>(sdesAbs);
 
-      const sotMatrixHomogeneous& wMh = positionSIN(time);
-      sotMatrixRotation wRh; wMh.extract(wRh);
-      sotMatrixRotation hdRh;
+      const MatrixHomogeneous& wMh = positionSIN(time);
+      MatrixRotation wRh; wMh.extract(wRh);
+      MatrixRotation hdRh;
 
       if( NULL!=sdes )
         {
-          const sotMatrixHomogeneous& wMhd = sdes->positionSIN(time);
-          sotMatrixRotation wRhd; wMhd.extract(wRhd);
+          const MatrixHomogeneous& wMhd = sdes->positionSIN(time);
+          MatrixRotation wRhd; wMhd.extract(wRhd);
           wRhd.inverse().multiply( wRh,hdRh );
         }
       else
@@ -198,7 +198,7 @@ computeJacobian( ml::Matrix& J,int time )
 }
 
 #define SOT_COMPUTE_H1MH2(wMh,wMhd,hMhd) {                 \
-	sotMatrixHomogeneous hMw; wMh.inverse(hMw);        \
+	MatrixHomogeneous hMw; wMh.inverse(hMw);        \
 	sotDEBUG(15)<<"hMw = "<<hMw<<endl;                 \
 	hMw.multiply( wMhd,hMhd );                         \
 	sotDEBUG(15)<<"hMhd = "<<hMhd<<endl;               \
@@ -209,15 +209,15 @@ computeJacobian( ml::Matrix& J,int time )
  * a the possible features.
  */
 ml::Vector&
-sotFeaturePoint6d::computeError( ml::Vector& error,int time )
+FeaturePoint6d::computeError( ml::Vector& error,int time )
 {
   sotDEBUGIN(15);
 
-  const sotFlags &fl = selectionSIN(time);
-  sotFeatureAbstract * sdesAbs = desiredValueSIN(time);
-  sotFeaturePoint6d * sdes = dynamic_cast<sotFeaturePoint6d*>(sdesAbs);
+  const Flags &fl = selectionSIN(time);
+  FeatureAbstract * sdesAbs = desiredValueSIN(time);
+  FeaturePoint6d * sdes = dynamic_cast<FeaturePoint6d*>(sdesAbs);
 
-  const sotMatrixHomogeneous& wMh = positionSIN(time);
+  const MatrixHomogeneous& wMh = positionSIN(time);
   sotDEBUG(15)<<"wMh = "<<wMh<<endl;
 
   /* Computing only translation:                                        *
@@ -226,10 +226,10 @@ sotFeaturePoint6d::computeError( ml::Vector& error,int time )
    *                   = hRw ( wthd - wth )                             *
    * The second line is obtained by writting hMw as the inverse of wMh. */
 
-  sotMatrixHomogeneous hMhd;
+  MatrixHomogeneous hMhd;
   if(NULL!=sdes)
     {
-      const sotMatrixHomogeneous& wMhd = sdes->positionSIN(time);
+      const MatrixHomogeneous& wMhd = sdes->positionSIN(time);
       sotDEBUG(15)<<"wMhd = "<<wMhd<<endl;
       switch(computationFrame)
         {
@@ -262,8 +262,8 @@ sotFeaturePoint6d::computeError( ml::Vector& error,int time )
 
   if(fl(3)||fl(4)||fl(5))
     {
-      sotMatrixRotation hRhd; hMhd.extract( hRhd );
-      sotVectorUTheta hrhd; hrhd.fromMatrix( hRhd );
+      MatrixRotation hRhd; hMhd.extract( hRhd );
+      VectorUTheta hrhd; hrhd.fromMatrix( hRhd );
       for( unsigned int i=0;i<3;++i )
         { if( fl(i+3) ) error(cursor++) = hrhd(i); }
     }
@@ -277,7 +277,7 @@ sotFeaturePoint6d::computeError( ml::Vector& error,int time )
  * a the possible features.
  */
 ml::Vector&
-sotFeaturePoint6d::computeActivation( ml::Vector& act,int time )
+FeaturePoint6d::computeActivation( ml::Vector& act,int time )
 {
   selectionSIN(time);
   act.resize(dimensionSOUT(time)) ; act.fill(1);
@@ -292,13 +292,13 @@ static const char * featureNames  []
     "RX",
     "RY",
     "RZ"  };
-void sotFeaturePoint6d::
+void FeaturePoint6d::
 display( std::ostream& os ) const
 {
   os <<"Point6d <"<<name<<">: (" ;
 
   try{
-    const sotFlags &fl = selectionSIN.accessCopy();
+    const Flags &fl = selectionSIN.accessCopy();
     bool first = true;
     for( int i=0;i<6;++i )
       if( fl(i) )
@@ -312,7 +312,7 @@ display( std::ostream& os ) const
 
 
 
-void sotFeaturePoint6d::
+void FeaturePoint6d::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,
 	     std::ostream& os )
@@ -338,7 +338,7 @@ commandLine( const std::string& cmdLine,
 	else if( FRAME_CURRENT==computationFrame ) os << "current" << std::endl;
       }
     }
-  else  //sotFeatureAbstract::
+  else  //FeatureAbstract::
     Entity::commandLine( cmdLine,cmdArgs,os );
 
 }

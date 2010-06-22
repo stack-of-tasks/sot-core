@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotVectorConstant.cp
+ * File:      VectorConstant.cp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -22,7 +22,7 @@
 #include <sot-core/factory.h>
 
 namespace sot  {
-SOT_FACTORY_ENTITY_PLUGIN(sotVectorConstant,"VectorConstant");
+SOT_FACTORY_ENTITY_PLUGIN(VectorConstant,"VectorConstant");
 }
 
 using namespace std;
@@ -32,7 +32,7 @@ using namespace sot;
 /* --------------------------------------------------------------------- */
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-void sotVectorConstant::
+void VectorConstant::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs, 
 	     std::ostream& os )

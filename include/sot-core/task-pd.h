@@ -50,8 +50,8 @@
 
 namespace sot {
 
-class SOTTASKPD_EXPORT sotTaskPD
-: public sotTask
+class SOTTASKPD_EXPORT TaskPD
+: public Task
 {
  public:
   static const std::string CLASS_NAME;
@@ -61,7 +61,7 @@ class SOTTASKPD_EXPORT sotTaskPD
   double beta;
 
  public:
-  sotTaskPD( const std::string& n );
+  TaskPD( const std::string& n );
 
 
   /* --- COMPUTATION --- */

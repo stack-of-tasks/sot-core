@@ -52,8 +52,8 @@
 
 namespace sot {
 
-class SOTSOTH_EXPORT sotSOTH
-:public sotSOT
+class SOTSOTH_EXPORT SotH
+:public Sot
 {
  public:
   /*! \brief Specify the name of the class entity. */
@@ -63,19 +63,19 @@ class SOTSOTH_EXPORT sotSOTH
 
   /* --- SPECIFIC MEM -------------------------------------------------- */
   class sotMemoryTaskSOTH
-    : public sotTaskAbstract::sotMemoryTaskAbstract,public Entity
+    : public TaskAbstract::sotMemoryTaskAbstract,public Entity
     {
     public:
-      const sotSOTH * referenceKey;
-      sotSolverHierarchicalInequalities solver;
+      const SotH * referenceKey;
+      SolverHierarchicalInequalities solver;
       ml::Matrix JK,Jff,Jact;
     public:
     sotMemoryTaskSOTH( const std::string & name,
-                       const sotSOTH * ref,
+                       const SotH * ref,
                        unsigned int nJ,
                        sotRotationComposedInExtenso& Qh,
                        bubMatrix &Rh,
-                       sotSolverHierarchicalInequalities::ConstraintList &cH );
+                       SolverHierarchicalInequalities::ConstraintList &cH );
 
     public: // Entity heritage
       static const std::string CLASS_NAME;
@@ -91,20 +91,20 @@ class SOTSOTH_EXPORT sotSOTH
 
 
  protected:
-  //typedef std::vector<sotSolverHierarchicalInequalities *> SolversList;
+  //typedef std::vector<SolverHierarchicalInequalities *> SolversList;
   //SolversList solvers;
   sotRotationComposedInExtenso Qh;
   bubMatrix Rh;
-  sotSolverHierarchicalInequalities::ConstraintList constraintH;
-  sotSolverHierarchicalInequalities solverNorm;
-  sotSolverHierarchicalInequalities * solverPrec;
+  SolverHierarchicalInequalities::ConstraintList constraintH;
+  SolverHierarchicalInequalities solverNorm;
+  SolverHierarchicalInequalities * solverPrec;
   bool fillMemorySignal;
 
  public:
 
   /*! \brief Default constructor */
-  sotSOTH( const std::string& name );
-  ~sotSOTH( void );
+  SotH( const std::string& name );
+  ~SotH( void );
 
  public: /* --- CONTROL --- */
 

@@ -28,22 +28,22 @@
 namespace ml = maal::boost;
 
 namespace sot {
-class sotVectorUTheta;
+class VectorUTheta;
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-class SOT_CORE_EXPORT sotMatrixRotation
+class SOT_CORE_EXPORT MatrixRotation
 : public ml::Matrix
 {
 
  public: 
 
-  sotMatrixRotation( void ) : ml::Matrix(3,3) { setIdentity(); }
-  ~sotMatrixRotation( void ) { }
+  MatrixRotation( void ) : ml::Matrix(3,3) { setIdentity(); }
+  ~MatrixRotation( void ) { }
 
-  void fromVector( sotVectorUTheta& );
-  sotMatrixRotation& operator= ( sotVectorUTheta&th ) { fromVector(th); return *this; } 
+  void fromVector( VectorUTheta& );
+  MatrixRotation& operator= ( VectorUTheta&th ) { fromVector(th); return *this; } 
 };
     
 } // namespace sot

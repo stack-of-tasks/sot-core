@@ -50,31 +50,31 @@ namespace ml = maal::boost;
 
 namespace sot {
 
-class SOTOPPOINTMODIFIOR_EXPORT sotOpPointModifior
+class SOTOPPOINTMODIFIOR_EXPORT OpPointModifior
 : public Entity
 {
  public:
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
   
-  sotMatrixHomogeneous transformation;
+  MatrixHomogeneous transformation;
 
  public:
 
   SignalPtr<ml::Matrix,int> jacobianSIN;
-  SignalPtr<sotMatrixHomogeneous,int> positionSIN;
+  SignalPtr<MatrixHomogeneous,int> positionSIN;
   
   SignalTimeDependant<ml::Matrix,int> jacobianSOUT;
-  SignalTimeDependant<sotMatrixHomogeneous,int> positionSOUT;
+  SignalTimeDependant<MatrixHomogeneous,int> positionSOUT;
 
 public:
-  sotOpPointModifior( const std::string& name );
+  OpPointModifior( const std::string& name );
 
-  virtual ~sotOpPointModifior( void ){}
+  virtual ~OpPointModifior( void ){}
 
   ml::Matrix& computeJacobian( ml::Matrix& res,const int& time );
-  sotMatrixHomogeneous& computePosition( sotMatrixHomogeneous& res,const int& time );
-  void setTransformation( const sotMatrixHomogeneous& tr );
+  MatrixHomogeneous& computePosition( MatrixHomogeneous& res,const int& time );
+  void setTransformation( const MatrixHomogeneous& tr );
 
   virtual void commandLine( const std::string& cmdLine,
 			    std::istringstream& cmdArgs, 

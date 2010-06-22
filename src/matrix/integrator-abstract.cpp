@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotIntegratorAbstract.cpp
+ * File:      IntegratorAbstract.cpp
  * Project:   SOT
  * Author:    Paul Evrard and Nicolas Mansard
  *
@@ -37,8 +37,8 @@ using namespace sot;
 
 using namespace ml;
 namespace sot {
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotIntegratorAbstract,double,double,"integratorAbstract");
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotIntegratorAbstract,Vector,Matrix,"integratorAbstract");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,double,double,"integratorAbstract");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,Vector,Matrix,"integratorAbstract");
 }
 
 #if 0

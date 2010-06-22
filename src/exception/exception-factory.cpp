@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotExceptionFactory.cpp
+ * File:      ExceptionFactory.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -28,10 +28,10 @@ using namespace sot;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-const std::string sotExceptionFactory::EXCEPTION_NAME = "Factory";
+const std::string ExceptionFactory::EXCEPTION_NAME = "Factory";
 
-sotExceptionFactory::
-sotExceptionFactory ( const sotExceptionFactory::ErrorCodeEnum& errcode,
+ExceptionFactory::
+ExceptionFactory ( const ExceptionFactory::ErrorCodeEnum& errcode,
 		      const std::string & msg )
   :ExceptionAbstract(errcode,msg)
 {
@@ -39,8 +39,8 @@ sotExceptionFactory ( const sotExceptionFactory::ErrorCodeEnum& errcode,
   sotDEBUG( 1) <<"Created with message <%s>."<<msg<<std::endl;
 }
 
-sotExceptionFactory::
-sotExceptionFactory ( const sotExceptionFactory::ErrorCodeEnum& errcode,
+ExceptionFactory::
+ExceptionFactory ( const ExceptionFactory::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... )
   :ExceptionAbstract(errcode,msg)
 {

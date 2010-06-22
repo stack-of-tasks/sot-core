@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotExceptionSignal.cpp
+ * File:      ExceptionSignal.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -27,17 +27,17 @@ using namespace sot;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-const std::string sotExceptionSignal::EXCEPTION_NAME = "Signal";
+const std::string ExceptionSignal::EXCEPTION_NAME = "Signal";
 
-sotExceptionSignal::
-sotExceptionSignal ( const sotExceptionSignal::ErrorCodeEnum& errcode,
+ExceptionSignal::
+ExceptionSignal ( const ExceptionSignal::ErrorCodeEnum& errcode,
 		     const std::string & msg )
   :ExceptionAbstract(errcode,msg)
 {
 }
 
-sotExceptionSignal::
-sotExceptionSignal ( const sotExceptionSignal::ErrorCodeEnum& errcode,
+ExceptionSignal::
+ExceptionSignal ( const ExceptionSignal::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... )
   :ExceptionAbstract(errcode,msg)
 {

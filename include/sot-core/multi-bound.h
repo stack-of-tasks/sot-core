@@ -19,8 +19,8 @@
 
 
 
-#ifndef __SOT_sotMultiBound_H__
-#define __SOT_sotMultiBound_H__
+#ifndef __SOT_MultiBound_H__
+#define __SOT_MultiBound_H__
 
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */
@@ -41,7 +41,7 @@
 
 namespace sot {
 
-class SOT_CORE_EXPORT sotMultiBound
+class SOT_CORE_EXPORT MultiBound
 {
  public:
   enum MultiBoundModeType { MODE_SINGLE, MODE_DOUBLE };
@@ -54,10 +54,10 @@ class SOT_CORE_EXPORT sotMultiBound
   bool boundSupSetup,boundInfSetup;
 
  public:
-  sotMultiBound( const double x = 0.);
-  sotMultiBound( const double xi,const double xs );
-  sotMultiBound( const double x,const SupInfType bound );
-  sotMultiBound( const sotMultiBound& clone );
+  MultiBound( const double x = 0.);
+  MultiBound( const double xi,const double xs );
+  MultiBound( const double x,const SupInfType bound );
+  MultiBound( const MultiBound& clone );
 
  public: // Acessors
   MultiBoundModeType getMode( void ) const;
@@ -71,16 +71,16 @@ class SOT_CORE_EXPORT sotMultiBound
   void setSingleBound( double boundValue );
 
  public:
-  SOT_CORE_EXPORT friend std::ostream& operator<< ( std::ostream& os, const sotMultiBound & m  );
-  SOT_CORE_EXPORT friend std::istream& operator>> ( std::istream& is, sotMultiBound & m  );
+  SOT_CORE_EXPORT friend std::ostream& operator<< ( std::ostream& os, const MultiBound & m  );
+  SOT_CORE_EXPORT friend std::istream& operator>> ( std::istream& is, MultiBound & m  );
 };
 
 /* --------------------------------------------------------------------- */
-typedef std::vector< sotMultiBound > sotVectorMultiBound;
+typedef std::vector< MultiBound > sotVectorMultiBound;
 SOT_CORE_EXPORT std::ostream& operator<< (std::ostream& os, const sotVectorMultiBound& v );
 SOT_CORE_EXPORT std::istream& operator>> (std::istream& os, sotVectorMultiBound& v );
 
 } // namespace sot
 
 
-#endif // #ifndef __SOT_sotMultiBound_H__
+#endif // #ifndef __SOT_MultiBound_H__

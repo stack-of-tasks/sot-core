@@ -51,11 +51,11 @@
 namespace sot {
 
 /*!
-  \class sotFeatureVector3
+  \class FeatureVector3
   \brief Class that defines point-3d control feature
 */
-class SOTFEATUREVECTOR3_EXPORT sotFeatureVector3
-: public sotFeatureAbstract
+class SOTFEATUREVECTOR3_EXPORT FeatureVector3
+: public FeatureAbstract
 {
 
  public:
@@ -67,20 +67,20 @@ class SOTFEATUREVECTOR3_EXPORT sotFeatureVector3
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
   SignalPtr< ml::Vector,int > vectorSIN;
-  SignalPtr< sotMatrixHomogeneous,int > positionSIN;
+  SignalPtr< MatrixHomogeneous,int > positionSIN;
   SignalPtr< ml::Matrix,int > articularJacobianSIN;
   SignalPtr< ml::Vector,int > positionRefSIN;
 
-  using sotFeatureAbstract::desiredValueSIN;
-  using sotFeatureAbstract::selectionSIN;
+  using FeatureAbstract::desiredValueSIN;
+  using FeatureAbstract::selectionSIN;
 
-  using sotFeatureAbstract::jacobianSOUT;
-  using sotFeatureAbstract::errorSOUT;
-  using sotFeatureAbstract::activationSOUT;
+  using FeatureAbstract::jacobianSOUT;
+  using FeatureAbstract::errorSOUT;
+  using FeatureAbstract::activationSOUT;
 
  public:
-  sotFeatureVector3( const std::string& name );
-  virtual ~sotFeatureVector3( void ) {}
+  FeatureVector3( const std::string& name );
+  virtual ~FeatureVector3( void ) {}
 
   virtual unsigned int& getDimension( unsigned int & dim, int time );
 

@@ -54,7 +54,7 @@ namespace sot {
  * function between X and Y, while the b_i are those of the numerator.
 */
 template<class sigT, class coefT>
-class sotIntegratorAbstract
+class IntegratorAbstract
 :public Entity
 {
  public:
@@ -63,17 +63,17 @@ class sotIntegratorAbstract
   static const std::string CLASS_NAME;
 
  public:
-  sotIntegratorAbstract ( const std::string& name )
+  IntegratorAbstract ( const std::string& name )
     :Entity(name)
      ,SIN(NULL,"sotIntegratorAbstract("+name+")::input(vector)::in")
-     ,SOUT(boost::bind(&sotIntegratorAbstract<sigT,coefT>::integrate,this,_1,_2),
+     ,SOUT(boost::bind(&IntegratorAbstract<sigT,coefT>::integrate,this,_1,_2),
 		 SIN,
 		 "sotIntegratorAbstract("+name+")::output(vector)::out")
   {
     signalRegistration( SIN<<SOUT );
   }
 
-  virtual ~sotIntegratorAbstract() {}
+  virtual ~IntegratorAbstract() {}
 
   virtual sigT& integrate( sigT& res,int time ) = 0;
 

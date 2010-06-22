@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotFlags.cpp
+ * File:      Flags.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -60,16 +60,16 @@ static string displaybool(const char c, const bool reverse=false )
 /* --------------------------------------------------------------------- */
 
   
-sotFlags::
-sotFlags( const bool& b ) : flags(),reverse(b) { }
+Flags::
+Flags( const bool& b ) : flags(),reverse(b) { }
 
-sotFlags::
-sotFlags( const char& c ) : flags(),reverse(false) { add(c); }
+Flags::
+Flags( const char& c ) : flags(),reverse(false) { add(c); }
 
-sotFlags::
-sotFlags( const int& c4 ) : flags(),reverse(false) { add(c4);}
+Flags::
+Flags( const int& c4 ) : flags(),reverse(false) { add(c4);}
 
-sotFlags::
+Flags::
 operator bool ( void ) const
 {
   if(reverse) return true;
@@ -78,7 +78,7 @@ operator bool ( void ) const
 }
 
 /* --------------------------------------------------------------------- */
-char sotFlags::
+char Flags::
 operator[] (const unsigned int& i) const
 { 
   char res;
@@ -91,7 +91,7 @@ operator[] (const unsigned int& i) const
 }
 
 namespace sot {
-char operator>> (const sotFlags& f,const int& i)
+char operator>> (const Flags& f,const int& i)
 {
   const div_t q = div(i,8); 
 
@@ -102,7 +102,7 @@ char operator>> (const sotFlags& f,const int& i)
 }
 } // namespace sot
 
-bool sotFlags::
+bool Flags::
 operator() (const int& i) const
 {
   return ((*this)>>i)&0x01;
@@ -110,11 +110,11 @@ operator() (const int& i) const
 
 
 /* --------------------------------------------------------------------- */
-void sotFlags::
+void Flags::
 add( const char& c ) 
 { flags.push_back( c );    }
 
-void sotFlags::
+void Flags::
 add( const int& c4 ) 
 {
   const char* c4p = (const char*)&c4; 
@@ -123,28 +123,28 @@ add( const int& c4 )
  
 
 /* --------------------------------------------------------------------- */
-sotFlags sotFlags::
+Flags Flags::
 operator! (void) const
 {
-  sotFlags res = *this;
+  Flags res = *this;
   res.reverse=!reverse; 
   return res;
 }
 
-sotFlags operator& ( const sotFlags& f1,const sotFlags& f2 ) 
+Flags operator& ( const Flags& f1,const Flags& f2 ) 
 {
-  sotFlags res = f1; res &= f2; return res;
+  Flags res = f1; res &= f2; return res;
 }
 
-sotFlags operator| ( const sotFlags& f1,const sotFlags& f2 ) 
+Flags operator| ( const Flags& f1,const Flags& f2 ) 
 {
-  sotFlags res = f1; res |= f2; return res;
+  Flags res = f1; res |= f2; return res;
 }
 
-sotFlags& sotFlags::
-operator&= ( const sotFlags& f2 ) 
+Flags& Flags::
+operator&= ( const Flags& f2 ) 
 { 
-  sotFlags &f1=*this;
+  Flags &f1=*this;
   const unsigned int max=std::max(flags.size(),f2.flags.size());
   if( flags.size()<max ){ flags.resize(max); }
   bool revres = reverse&&f2.reverse;
@@ -158,10 +158,10 @@ operator&= ( const sotFlags& f2 )
   return *this;
 }
 
-sotFlags& sotFlags::
-operator|= ( const sotFlags& f2 ) 
+Flags& Flags::
+operator|= ( const Flags& f2 ) 
 { 
-  sotFlags &f1=*this;
+  Flags &f1=*this;
   const unsigned int max=std::max(flags.size(),f2.flags.size());
   if( flags.size()<max ){ flags.resize(max); }
   bool revres = reverse||f2.reverse;
@@ -178,15 +178,15 @@ operator|= ( const sotFlags& f2 )
   return *this;
 }
 
-sotFlags operator& ( const sotFlags& f1,const bool& b ){ if(b)return f1; else return sotFlags();}
-sotFlags operator| ( const sotFlags& f1,const bool& b ){ if(b)return sotFlags(true); else return f1;}
-sotFlags& sotFlags::
+Flags operator& ( const Flags& f1,const bool& b ){ if(b)return f1; else return Flags();}
+Flags operator| ( const Flags& f1,const bool& b ){ if(b)return Flags(true); else return f1;}
+Flags& Flags::
 operator&= ( const bool& b ){ if(!b) { flags.clear(); reverse=false; } return *this; }
-sotFlags& sotFlags::
+Flags& Flags::
 operator|= ( const bool& b ){ if(b) { flags.clear(); reverse=true; } return *this;}
 
 /* --------------------------------------------------------------------- */
-void sotFlags::
+void Flags::
 set( const unsigned int & idx )
 {
   unsigned int d= (idx/8), m=(idx%8);
@@ -212,7 +212,7 @@ set( const unsigned int & idx )
   sotDEBUG(45) << "New flag: "<< *this << endl;
 }
 
-void sotFlags::
+void Flags::
 unset( const unsigned int & idx )
 {
   unsigned int d= (idx/8), m=(idx%8);
@@ -240,7 +240,7 @@ unset( const unsigned int & idx )
 
 /* --------------------------------------------------------------------- */
 namespace sot {
-std::ostream& operator<< (std::ostream& os, const sotFlags& fl )
+std::ostream& operator<< (std::ostream& os, const Flags& fl )
 {
   if( fl.reverse ) os << "...11111 ";
   unsigned int s = fl.flags.size();
@@ -255,7 +255,7 @@ std::ostream& operator<< (std::ostream& os, const sotFlags& fl )
 
 static char MASK [] = { 0,1,3,7,15,31,63,127,255 };
 
-std::istream& operator>> (std::istream& is, sotFlags& fl )
+std::istream& operator>> (std::istream& is, Flags& fl )
 {
   sotDEBUGIN(15);
   std::list<char> listing;
@@ -286,9 +286,9 @@ std::istream& operator>> (std::istream& is, sotFlags& fl )
 	  {
 	    char cnot; is.get(cnot);
 	    if( cnot=='!' ) 
-	      fl = (! sotFlags::readIndexMatlab( is ));
+	      fl = (! Flags::readIndexMatlab( is ));
 	    else 
-	      { is.unget(); fl = sotFlags::readIndexMatlab( is ); }
+	      { is.unget(); fl = Flags::readIndexMatlab( is ); }
 
 	    return is;
 	  }
@@ -296,18 +296,18 @@ std::istream& operator>> (std::istream& is, sotFlags& fl )
 	  {
 	    char cnot; is.get(cnot);
 	    if( cnot=='!' ) 
-	      fl &= (! sotFlags::readIndexMatlab( is ));
+	      fl &= (! Flags::readIndexMatlab( is ));
 	    else 
-	      { is.unget(); fl &= sotFlags::readIndexMatlab( is ); }
+	      { is.unget(); fl &= Flags::readIndexMatlab( is ); }
 	    return is;
 	  }
 	case '|': 
 	  {
 	    char cnot; is.get(cnot);
 	    if( cnot=='!' ) 
-	      fl |= (! sotFlags::readIndexMatlab( is ));
+	      fl |= (! Flags::readIndexMatlab( is ));
 	    else 
-	      { is.unget(); fl |= (sotFlags::readIndexMatlab( is )); }
+	      { is.unget(); fl |= (Flags::readIndexMatlab( is )); }
 	    return is;
 	  }
 	default: 
@@ -374,18 +374,18 @@ std::istream& operator>> (std::istream& is, sotFlags& fl )
 } // namespace sot
 
 /* --------------------------------------------------------------------- */
-const sotFlags FLAG_LINE_1( (char)0x1 );
-const sotFlags FLAG_LINE_2( (char)0x2 );
-const sotFlags FLAG_LINE_3( (char)0x4 );
-const sotFlags FLAG_LINE_4( (char)0x8 );
-const sotFlags FLAG_LINE_5( (char)0x10 );
-const sotFlags FLAG_LINE_6( (char)0x20 );
-const sotFlags FLAG_LINE_7( (char)0x40 );
-const sotFlags FLAG_LINE_8( (char)0x80 );
+const Flags FLAG_LINE_1( (char)0x1 );
+const Flags FLAG_LINE_2( (char)0x2 );
+const Flags FLAG_LINE_3( (char)0x4 );
+const Flags FLAG_LINE_4( (char)0x8 );
+const Flags FLAG_LINE_5( (char)0x10 );
+const Flags FLAG_LINE_6( (char)0x20 );
+const Flags FLAG_LINE_7( (char)0x40 );
+const Flags FLAG_LINE_8( (char)0x80 );
 
 /* --------------------------------------------------------------------- */
 
-void sotFlags::
+void Flags::
 readIndexMatlab( std::istream& cmdArgs,
 		 unsigned int & idx_beg,
 		 unsigned int &idx_end,
@@ -415,7 +415,7 @@ readIndexMatlab( std::istream& cmdArgs,
 	       << "(" << no_end <<")"<<endl;
 }
 
-sotFlags sotFlags::
+Flags Flags::
 readIndexMatlab( std::istream& cmdArgs )
 {
   sotDEBUGIN(15) ;
@@ -424,7 +424,7 @@ readIndexMatlab( std::istream& cmdArgs )
   
   readIndexMatlab( cmdArgs,idxStart,idxEnd,idxUnspec );
   
-  sotFlags newFlag( idxUnspec );
+  Flags newFlag( idxUnspec );
   if( idxUnspec )
     {    for( unsigned int i=0;i<idxStart;++i )       newFlag.unset(i);  }
   else { for( unsigned int i=idxStart;i<=idxEnd;++i ) newFlag.set(i);    }

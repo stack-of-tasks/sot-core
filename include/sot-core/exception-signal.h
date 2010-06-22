@@ -34,9 +34,9 @@
 
 namespace sot {
 
-/* \class sotExceptionSignal
+/* \class ExceptionSignal
  */
-class SOT_CORE_EXPORT sotExceptionSignal 
+class SOT_CORE_EXPORT ExceptionSignal 
 :public ExceptionAbstract
 
 {
@@ -58,11 +58,11 @@ class SOT_CORE_EXPORT sotExceptionSignal
 
 public:
 
-  sotExceptionSignal ( const sotExceptionSignal::ErrorCodeEnum& errcode,
+  ExceptionSignal ( const ExceptionSignal::ErrorCodeEnum& errcode,
 		       const std::string & msg = "" );
-  sotExceptionSignal( const sotExceptionSignal::ErrorCodeEnum& errcode,
+  ExceptionSignal( const ExceptionSignal::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... );
-  virtual ~sotExceptionSignal( void ){}
+  virtual ~ExceptionSignal( void ){}
 
 
 };

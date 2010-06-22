@@ -30,7 +30,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 namespace sot{
 
-class sotVectorConstant
+class VectorConstant
 : public Entity
 {
   static const std::string CLASS_NAME;
@@ -40,7 +40,7 @@ class sotVectorConstant
   double color;
 
 public:
-  sotVectorConstant( const std::string& name )
+  VectorConstant( const std::string& name )
     :Entity( name )
     ,rows(0),color(0.)
     ,SOUT( "sotVectorConstant("+name+")::output(vector)::out" )
@@ -49,7 +49,7 @@ public:
       signalRegistration( SOUT );
     }
 
-  virtual ~sotVectorConstant( void ){}
+  virtual ~VectorConstant( void ){}
 
   SignalTimeDependant<ml::Vector,int> SOUT;
 

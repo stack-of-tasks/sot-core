@@ -51,11 +51,11 @@
 namespace sot {
 
 /*!
-  \class sotFeaturePoint6d
+  \class FeaturePoint6d
   \brief Class that defines point-3d control feature
 */
-class SOTFEATUREPOINT6D_EXPORT sotFeaturePoint6d 
-: public sotFeatureAbstract
+class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d 
+: public FeatureAbstract
 {
 
  public: 
@@ -73,19 +73,19 @@ class SOTFEATUREPOINT6D_EXPORT sotFeaturePoint6d
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  SignalPtr< sotMatrixHomogeneous,int > positionSIN;
+  SignalPtr< MatrixHomogeneous,int > positionSIN;
   SignalPtr< ml::Matrix,int > articularJacobianSIN;
 
-  using sotFeatureAbstract::desiredValueSIN;
-  using sotFeatureAbstract::selectionSIN;
+  using FeatureAbstract::desiredValueSIN;
+  using FeatureAbstract::selectionSIN;
 
-  using sotFeatureAbstract::jacobianSOUT;
-  using sotFeatureAbstract::errorSOUT;
-  using sotFeatureAbstract::activationSOUT;
+  using FeatureAbstract::jacobianSOUT;
+  using FeatureAbstract::errorSOUT;
+  using FeatureAbstract::activationSOUT;
 
  public:
-  sotFeaturePoint6d( const std::string& name );
-  virtual ~sotFeaturePoint6d( void ) {}
+  FeaturePoint6d( const std::string& name );
+  virtual ~FeaturePoint6d( void ) {}
 
   virtual unsigned int& getDimension( unsigned int & dim, int time );
   
@@ -94,15 +94,15 @@ class SOTFEATUREPOINT6D_EXPORT sotFeaturePoint6d
   virtual ml::Vector& computeActivation( ml::Vector& res,int time ); 
 
   /** Static Feature selection. */
-  inline static sotFlags selectX( void )  { return FLAG_LINE_1; }
-  inline static sotFlags selectY( void )  { return FLAG_LINE_2; }
-  inline static sotFlags selectZ( void )  { return FLAG_LINE_3; }
-  inline static sotFlags selectRX( void ) { return FLAG_LINE_4; }
-  inline static sotFlags selectRY( void ) { return FLAG_LINE_5; }
-  inline static sotFlags selectRZ( void ) { return FLAG_LINE_6; }
+  inline static Flags selectX( void )  { return FLAG_LINE_1; }
+  inline static Flags selectY( void )  { return FLAG_LINE_2; }
+  inline static Flags selectZ( void )  { return FLAG_LINE_3; }
+  inline static Flags selectRX( void ) { return FLAG_LINE_4; }
+  inline static Flags selectRY( void ) { return FLAG_LINE_5; }
+  inline static Flags selectRZ( void ) { return FLAG_LINE_6; }
 
-  inline static sotFlags selectTranslation( void ) { return sotFlags(7); }
-  inline static sotFlags selectRotation( void ) { return sotFlags(56); }
+  inline static Flags selectTranslation( void ) { return Flags(7); }
+  inline static Flags selectRotation( void ) { return Flags(56); }
 
   virtual void display( std::ostream& os ) const;
 

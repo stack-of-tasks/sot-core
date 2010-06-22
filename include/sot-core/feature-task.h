@@ -50,8 +50,8 @@
 
 namespace sot {
 
-class SOTFEATURETASK_EXPORT sotFeatureTask 
-: public sotFeatureGeneric
+class SOTFEATURETASK_EXPORT FeatureTask 
+: public FeatureGeneric
 {
 
  public: 
@@ -61,7 +61,7 @@ class SOTFEATURETASK_EXPORT sotFeatureTask
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
  protected:
-  sotTaskAbstract * taskPtr;
+  TaskAbstract * taskPtr;
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
@@ -69,10 +69,10 @@ class SOTFEATURETASK_EXPORT sotFeatureTask
  public:
 
   /*! \brief Default constructor */
-  sotFeatureTask( const std::string& name );
+  FeatureTask( const std::string& name );
 
   /*! \brief Default destructor */
-  virtual ~sotFeatureTask( void ) {}
+  virtual ~FeatureTask( void ) {}
 
   /*! \name Methods to trigger computation related to this feature. 
     @{

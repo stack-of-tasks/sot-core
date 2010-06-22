@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotTaskConti.cpp
+ * File:      TaskConti.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -31,7 +31,7 @@
 using namespace std;
 using namespace sot;
 
-SOT_FACTORY_TASK_PLUGIN(sotTaskConti,"TaskConti");
+SOT_FACTORY_TASK_PLUGIN(TaskConti,"TaskConti");
 
 
 /* --------------------------------------------------------------------- */
@@ -39,19 +39,19 @@ SOT_FACTORY_TASK_PLUGIN(sotTaskConti,"TaskConti");
 /* --------------------------------------------------------------------- */
 
 
-sotTaskConti::
-sotTaskConti( const std::string& n )
-  :sotTask(n)
+TaskConti::
+TaskConti( const std::string& n )
+  :Task(n)
    ,timeRef( TIME_REF_UNSIGNIFICANT )
    ,mu(0)
    ,controlPrevSIN( NULL,"sotTaskConti("+n+")::input(double)::q0" )
 {
-  taskSOUT.setFunction( boost::bind(&sotTaskConti::computeContiDesiredVelocity,this,_1,_2) );
+  taskSOUT.setFunction( boost::bind(&TaskConti::computeContiDesiredVelocity,this,_1,_2) );
   signalRegistration( controlPrevSIN );
 }
 
 
-sotVectorMultiBound& sotTaskConti::
+sotVectorMultiBound& TaskConti::
 computeContiDesiredVelocity( sotVectorMultiBound& desvel2b,const int & timecurr )
 {
   sotDEBUG(15) << "# In {" << endl;
@@ -118,7 +118,7 @@ computeContiDesiredVelocity( sotVectorMultiBound& desvel2b,const int & timecurr 
 /* --- DISPLAY ------------------------------------------------------------ */
 /* --- DISPLAY ------------------------------------------------------------ */
 
-void sotTaskConti::
+void TaskConti::
 display( std::ostream& os ) const
 {
   os << "TaskConti " << name
@@ -126,7 +126,7 @@ display( std::ostream& os ) const
      << ": " << endl;
   os << "--- LIST ---  " << std::endl;
 
-  for(   std::list< sotFeatureAbstract* >::const_iterator iter = featureList.begin();
+  for(   std::list< FeatureAbstract* >::const_iterator iter = featureList.begin();
 	 iter!=featureList.end(); ++iter )
     {
       os << "-> " << (*iter)->getName() <<endl;
@@ -142,7 +142,7 @@ display( std::ostream& os ) const
 
 #include <dynamic-graph/pool.h>
 
-void sotTaskConti::
+void TaskConti::
 commandLine( const std::string& cmdLine
 	     ,std::istringstream& cmdArgs
 	     ,std::ostream& os )
@@ -154,7 +154,7 @@ commandLine( const std::string& cmdLine
 	 << "  - timeRef" << endl
 	 << "  - mu [<val>]" << endl;
 
-      sotTask::commandLine( cmdLine,cmdArgs,os );
+      Task::commandLine( cmdLine,cmdArgs,os );
     }
   else if( cmdLine=="touch" )
     {
@@ -176,6 +176,6 @@ commandLine( const std::string& cmdLine
       cmdArgs >> std::ws; if(! cmdArgs.good() ) os << "mu = " << mu << std::endl;
       else { cmdArgs >> mu; }
     }
-  else  sotTask::commandLine( cmdLine,cmdArgs,os );
+  else  Task::commandLine( cmdLine,cmdArgs,os );
 
 }

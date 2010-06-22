@@ -35,20 +35,20 @@ using namespace sot;
 /* --------------------------------------------------------------------- */
 
 
-sotFactoryStorage::
-~sotFactoryStorage( void )
+FactoryStorage::
+~FactoryStorage( void )
 {
   sotDEBUGINOUT(25);
 }
 
 /* --------------------------------------------------------------------- */
-void sotFactoryStorage::
+void FactoryStorage::
 registerTask( const std::string& entname,TaskConstructor_ptr ent )
 {
   TaskMap::iterator entkey;
   if( existTask(entname,entkey) ) // key does exist
     {
-//       SOT_THROW sotExceptionFactory( sotExceptionFactory::OBJECT_CONFLICT,
+//       SOT_THROW ExceptionFactory( ExceptionFactory::OBJECT_CONFLICT,
 // 				 "Another task class already defined with the same name. ",
 // 				 "( while adding task class <%s> inside the factory).",
 // 				 entname.c_str() );
@@ -64,25 +64,25 @@ registerTask( const std::string& entname,TaskConstructor_ptr ent )
     }
 }
 
-sotTaskAbstract* sotFactoryStorage::
+TaskAbstract* FactoryStorage::
 newTask( const std::string& classname,const std::string& objname  )
 {
   TaskMap::iterator entPtr;
   if(! existTask(classname,entPtr) ) // key does not exist
     {
-      SOT_THROW sotExceptionFactory( sotExceptionFactory::UNREFERED_OBJECT,
+      SOT_THROW ExceptionFactory( ExceptionFactory::UNREFERED_OBJECT,
 				     "Unknown task."," (while calling new_task <%s>)",
 				     classname.c_str() );
     }
   return entPtr->second(objname);
 }
-bool sotFactoryStorage::
+bool FactoryStorage::
 existTask( const std::string& name, TaskMap::iterator& entPtr )
 {
   entPtr = taskMap .find( name );
   return ( entPtr != taskMap.end() );
 }
-bool sotFactoryStorage::
+bool FactoryStorage::
 existTask( const std::string& name )
 {
   TaskMap::iterator entPtr;return existTask( name,entPtr );
@@ -90,13 +90,13 @@ existTask( const std::string& name )
 
 
 /* --------------------------------------------------------------------- */
-void sotFactoryStorage::
+void FactoryStorage::
 registerFeature( const std::string& entname,FeatureConstructor_ptr ent )
 {
   FeatureMap::iterator entkey;
   if( existFeature(entname,entkey) ) // key does exist
     {
-//       SOT_THROW sotExceptionFactory( sotExceptionFactory::OBJECT_CONFLICT,
+//       SOT_THROW ExceptionFactory( ExceptionFactory::OBJECT_CONFLICT,
 // 				 "Another feature already defined with the same name. ",
 // 				 "(while adding feature class <%s> inside the factory).",
 // 				 entname.c_str() );
@@ -112,19 +112,19 @@ registerFeature( const std::string& entname,FeatureConstructor_ptr ent )
     }
 }
 
-sotFeatureAbstract* sotFactoryStorage::
+FeatureAbstract* FactoryStorage::
 newFeature( const std::string& classname,const std::string& objname  )
 {
   FeatureMap::iterator entPtr;
   if(! existFeature(classname,entPtr) ) // key does not exist
     {
-      SOT_THROW sotExceptionFactory( sotExceptionFactory::UNREFERED_OBJECT,
+      SOT_THROW ExceptionFactory( ExceptionFactory::UNREFERED_OBJECT,
 				     "Unknown feature."," (while calling new_feature <%s>)",
 				     classname.c_str() );
     }
   return entPtr->second(objname);
 }
-bool sotFactoryStorage::
+bool FactoryStorage::
 existFeature( const std::string& name, FeatureMap::iterator& entPtr )
 {
   //  sotDEBUGINOUT(25) << "(name=<"<<name<<">)."<<std::endl;
@@ -133,7 +133,7 @@ existFeature( const std::string& name, FeatureMap::iterator& entPtr )
   //  sotDEBUG(6) << "ptr: "<< entPtr->second <<std::endl;
   return ( entPtr != featureMap.end() );
 }
-bool sotFactoryStorage::
+bool FactoryStorage::
 existFeature( const std::string& name )
 {
   FeatureMap::iterator entPtr;return existFeature( name,entPtr );
@@ -147,7 +147,7 @@ existFeature( const std::string& name )
 
 sotFeatureRegisterer::
 sotFeatureRegisterer( const std::string& featureClassName,
-		      sotFactoryStorage::FeatureConstructor_ptr maker)
+		      FactoryStorage::FeatureConstructor_ptr maker)
 { 
   //sotDEBUG(3) << "Register feature class: "<< featureClassName << std::endl;
   sotFactory.registerFeature(featureClassName,maker);
@@ -155,7 +155,7 @@ sotFeatureRegisterer( const std::string& featureClassName,
 
 sotTaskRegisterer::
 sotTaskRegisterer( const std::string& taskClassName,
-		   sotFactoryStorage::TaskConstructor_ptr maker) 
+		   FactoryStorage::TaskConstructor_ptr maker) 
 {  
   //sotDEBUG(3) << "Register task class: "<< taskClassName << std::endl;
   sotFactory.registerTask(taskClassName,maker);
@@ -165,7 +165,7 @@ sotTaskRegisterer( const std::string& taskClassName,
 /* --------------------------------------------------------------------- */
 /* ---  COMMAND LINE ---------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-void sotFactoryStorage::
+void FactoryStorage::
 commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 	     std::ostream& os )
 {
@@ -206,5 +206,5 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 
 /// The global sotFactory object
 namespace sot {
-sotFactoryStorage sotFactory;
+FactoryStorage sotFactory;
 }

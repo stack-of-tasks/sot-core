@@ -55,7 +55,7 @@ namespace ml = maal::boost;
 
 namespace sot {
 
-class SOTGAINHYPERBOLIC_EXPORT sotGainHyperbolic
+class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic
 : public Entity
 {
 
@@ -83,9 +83,9 @@ class SOTGAINHYPERBOLIC_EXPORT sotGainHyperbolic
 
  public: /* --- CONSTRUCTORS ---- */
 
-  sotGainHyperbolic( const std::string & name );
-  sotGainHyperbolic( const std::string & name,const double& lambda );
-  sotGainHyperbolic( const std::string & name,
+  GainHyperbolic( const std::string & name );
+  GainHyperbolic( const std::string & name,const double& lambda );
+  GainHyperbolic( const std::string & name,
 		     const double& valueAt0, 
 		     const double& valueAtInfty,
 		     const double& tanAt0,

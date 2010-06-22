@@ -75,7 +75,7 @@ namespace detail
 }
 
 template<class sigT, class coefT>
-class sotFIRFilter
+class FIRFilter
   : public Entity
 {
 public:
@@ -84,17 +84,17 @@ public:
   static const std::string CLASS_NAME;
 
 public:
-  sotFIRFilter( const std::string& name )
+  FIRFilter( const std::string& name )
     : Entity(name)
     , SIN(NULL,"sotFIRFilter("+name+")::input(T)::in")
-    , SOUT(boost::bind(&sotFIRFilter::compute,this,_1,_2),
+    , SOUT(boost::bind(&FIRFilter::compute,this,_1,_2),
 	   SIN,
 	   "sotFIRFilter("+name+")::output(T)::out")
   {
     signalRegistration( SIN<<SOUT );
   }
 
-  virtual ~sotFIRFilter() {}
+  virtual ~FIRFilter() {}
 
   virtual sigT& compute( sigT& res,int time )
   {

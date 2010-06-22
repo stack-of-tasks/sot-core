@@ -16,8 +16,6 @@ SET(${LIBRARY_NAME}_SOURCES
 	exception/exception-feature.cpp
 	exception/exception-signal.cpp
 	exception/exception-task.cpp
-	exception/exception-tools.cpp
-	exception/exception-traces.cpp
 	
 	signal/signal-cast.cpp
 	
@@ -74,6 +72,7 @@ SET(${LIBRARY_NAME}_SOURCES
 	factory/additional-functions.cpp
 	factory/factory.cpp
 	factory/pool.cpp
+	factory/command/import.cpp
 )
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)

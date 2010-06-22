@@ -31,16 +31,16 @@
 namespace sot {
 
 
-class SOT_CORE_EXPORT sotVectorUTheta
+class SOT_CORE_EXPORT VectorUTheta
 : public sotVectorRotation
 {
  public: 
 
-  sotVectorUTheta( void ) : sotVectorRotation() { }
-  virtual ~sotVectorUTheta( void ) { }
+  VectorUTheta( void ) : sotVectorRotation() { }
+  virtual ~VectorUTheta( void ) { }
 
-  virtual sotVectorRotation& fromMatrix( const sotMatrixRotation& rot );
-  virtual sotMatrixRotation& toMatrix( sotMatrixRotation& rot ) const;
+  virtual sotVectorRotation& fromMatrix( const MatrixRotation& rot );
+  virtual MatrixRotation& toMatrix( MatrixRotation& rot ) const;
 
 };
 

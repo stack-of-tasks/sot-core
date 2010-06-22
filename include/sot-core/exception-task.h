@@ -34,9 +34,9 @@
 
 namespace sot {
 
-/* \class sotExceptionTask
+/* \class ExceptionTask
  */
-class SOT_CORE_EXPORT sotExceptionTask 
+class SOT_CORE_EXPORT ExceptionTask 
 :public ExceptionAbstract
 
 {
@@ -55,11 +55,11 @@ public:
   static const std::string EXCEPTION_NAME;
   virtual const std::string& getExceptionName( void ) const { return EXCEPTION_NAME; }
 
-  sotExceptionTask ( const sotExceptionTask::ErrorCodeEnum& errcode,
+  ExceptionTask ( const ExceptionTask::ErrorCodeEnum& errcode,
 		     const std::string & msg = "" );
-  sotExceptionTask( const sotExceptionTask::ErrorCodeEnum& errcode,
+  ExceptionTask( const ExceptionTask::ErrorCodeEnum& errcode,
 		    const std::string & msg,const char* format, ... );
-  virtual ~sotExceptionTask( void ){}
+  virtual ~ExceptionTask( void ){}
 
 };
 

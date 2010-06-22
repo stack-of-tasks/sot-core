@@ -2,7 +2,7 @@
 
 
 bool MATLAB::fullPrec = false;
-MATLAB::MATLAB( const sotRotationSimple& Qh,const unsigned int nJ)
+MATLAB::MATLAB( const RotationSimple& Qh,const unsigned int nJ)
 {
 
   bubMatrix eye(nJ,nJ); eye.assign(bub::identity_matrix<double>(nJ));

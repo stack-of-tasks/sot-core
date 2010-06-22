@@ -45,7 +45,7 @@ namespace sot {
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/*! \class sotFeatureAbstract
+/*! \class FeatureAbstract
   \ingroup features
   \brief This class gives the abstract definition of a feature.
 
@@ -58,7 +58,7 @@ namespace sot {
   A feature is supposed to compute a Jacobian according to the robot state vector
   \f$ \frac{\delta {\bf s}(t)}{\delta {\bf q}(t)}\f$.
  */
-class SOT_CORE_EXPORT sotFeatureAbstract
+class SOT_CORE_EXPORT FeatureAbstract
 :public Entity
 {
  public:
@@ -73,9 +73,9 @@ class SOT_CORE_EXPORT sotFeatureAbstract
 
  public:
   /*! \brief Default constructor: the name of the class should be given. */
-  sotFeatureAbstract( const std::string& name );
+  FeatureAbstract( const std::string& name );
   /*! \brief Default destructor */
-  virtual ~sotFeatureAbstract( void ) {};
+  virtual ~FeatureAbstract( void ) {};
 
   /*! \name Methods returning the dimension of the feature.
     @{ */
@@ -150,13 +150,13 @@ class SOT_CORE_EXPORT sotFeatureAbstract
   /*! \name Input signals: 
    @{ */
   /*! \brief This signal specifies the desired value \f$ {\bf s}^*(t) \f$ */
-  SignalPtr< sotFeatureAbstract*,int > desiredValueSIN;
+  SignalPtr< FeatureAbstract*,int > desiredValueSIN;
 
   /*! \brief This vector specifies which dimension are used to perform the computation.
    For instance let us assume that the feature is a 3D point. If only the Y-axis should
    be used for computing error, activation and Jacobian, then the vector to specify
    is \f$ [ 0 1 0] \f$.*/
-  SignalPtr< sotFlags,int > selectionSIN;
+  SignalPtr< Flags,int > selectionSIN;
   /*! @} */
 
   /*! \name Output signals: 

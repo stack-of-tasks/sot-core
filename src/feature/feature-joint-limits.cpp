@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotFeatureJointLimits.cpp
+ * File:      FeatureJointLimits.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -35,14 +35,14 @@ using namespace std;
 /* --------------------------------------------------------------------- */
 
 using namespace sot;
-SOT_FACTORY_FEATURE_PLUGIN(sotFeatureJointLimits,"FeatureJointLimits");
+SOT_FACTORY_FEATURE_PLUGIN(FeatureJointLimits,"FeatureJointLimits");
 
-const double sotFeatureJointLimits::THRESHOLD_DEFAULT = .9;
+const double FeatureJointLimits::THRESHOLD_DEFAULT = .9;
 
 
-sotFeatureJointLimits::
-sotFeatureJointLimits( const string& fName )
-  : sotFeatureAbstract( fName )
+FeatureJointLimits::
+FeatureJointLimits( const string& fName )
+  : FeatureAbstract( fName )
     ,threshold(THRESHOLD_DEFAULT)
 //     ,freeFloatingIndex( FREE_FLOATING_INDEX )
 //     ,freeFloatingSize( FREE_FLOATING_SIZE )
@@ -50,7 +50,7 @@ sotFeatureJointLimits( const string& fName )
     ,jointSIN( NULL,"sotFeatureJointLimits("+name+")::input(vector)::joint" )
     ,upperJlSIN( NULL,"sotFeatureJointLimits("+name+")::input(vector)::upperJl" )
     ,lowerJlSIN( NULL,"sotFeatureJointLimits("+name+")::input(vector)::lowerJl" )
-    ,widthJlSINTERN( boost::bind(&sotFeatureJointLimits::computeWidthJl,this,_1,_2),
+    ,widthJlSINTERN( boost::bind(&FeatureJointLimits::computeWidthJl,this,_1,_2),
 		     upperJlSIN<<lowerJlSIN,
 		     "sotFeatureJointLimits("+name+")::input(vector)::widthJl" )
 {
@@ -76,12 +76,12 @@ sotFeatureJointLimits( const string& fName )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int& sotFeatureJointLimits::
+unsigned int& FeatureJointLimits::
 getDimension( unsigned int & dim, int time ) 
 {
   sotDEBUG(25)<<"# In {"<<endl;
 
-  const sotFlags &fl = selectionSIN.access(time);
+  const Flags &fl = selectionSIN.access(time);
   const unsigned int NBJL  = upperJlSIN.access(time).size();
 
   dim = 0;
@@ -93,7 +93,7 @@ getDimension( unsigned int & dim, int time )
 }
 
 ml::Vector&
-sotFeatureJointLimits::computeWidthJl( ml::Vector& res,const int& time )
+FeatureJointLimits::computeWidthJl( ml::Vector& res,const int& time )
 {
   sotDEBUGIN(15);
 
@@ -112,14 +112,14 @@ sotFeatureJointLimits::computeWidthJl( ml::Vector& res,const int& time )
 /** Compute the interaction matrix from a subset of
  * the possible features. 
  */
-ml::Matrix& sotFeatureJointLimits::
+ml::Matrix& FeatureJointLimits::
 computeJacobian( ml::Matrix& J,int time )
 {
   sotDEBUG(15)<<"# In {"<<endl;
 
   const unsigned int SIZE=dimensionSOUT.access(time);
   const ml::Vector q = jointSIN.access(time);
-  const sotFlags &fl = selectionSIN(time);
+  const Flags &fl = selectionSIN(time);
   //const unsigned int SIZE_FF=SIZE+freeFloatingSize;
   const unsigned int SIZE_TOTAL=q.size();
   const ml::Vector WJL = widthJlSINTERN.access(time);
@@ -156,11 +156,11 @@ computeJacobian( ml::Matrix& J,int time )
  * a the possible features.
  */
 ml::Vector&
-sotFeatureJointLimits::computeError( ml::Vector& error,int time )
+FeatureJointLimits::computeError( ml::Vector& error,int time )
 {
   sotDEBUGIN(15);
 
-  const sotFlags &fl = selectionSIN(time);
+  const Flags &fl = selectionSIN(time);
   const ml::Vector q = jointSIN.access(time);
   const ml::Vector UJL = upperJlSIN.access(time);
   const ml::Vector LJL = lowerJlSIN.access(time);
@@ -196,10 +196,10 @@ sotFeatureJointLimits::computeError( ml::Vector& error,int time )
  * a the possible features.
  */
 ml::Vector&
-sotFeatureJointLimits::computeActivation( ml::Vector& act,int time )
+FeatureJointLimits::computeActivation( ml::Vector& act,int time )
 {
   const ml::Vector err = errorSOUT.access(time);
-  //const sotFlags &fl = selectionSIN(time);
+  //const Flags &fl = selectionSIN(time);
   const unsigned int SIZE=dimensionSOUT.access(time);
   //const unsigned int SIZE_TOTAL=jointSIN.access(time).size();
   act.resize(SIZE);
@@ -220,7 +220,7 @@ sotFeatureJointLimits::computeActivation( ml::Vector& act,int time )
 }
 
 
-void sotFeatureJointLimits::
+void FeatureJointLimits::
 display( std::ostream& os ) const
 {
   
@@ -232,7 +232,7 @@ display( std::ostream& os ) const
 
 
 
-void sotFeatureJointLimits::
+void FeatureJointLimits::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,
 	     std::ostream& os )
@@ -255,10 +255,10 @@ commandLine( const std::string& cmdLine,
     }
   else if( cmdLine == "actuate" )
     {
-      sotFlags fl( 63 );
+      Flags fl( 63 );
       selectionSIN =  (! fl);
     }
-  else { sotFeatureAbstract::commandLine( cmdLine,cmdArgs,os ); }
+  else { FeatureAbstract::commandLine( cmdLine,cmdArgs,os ); }
 }
 
 

@@ -67,13 +67,13 @@ namespace sot {
 using namespace ml;
 
 template< typename T>
-struct sotAdder
+struct Adder
 {
   double coeff1, coeff2;
   void operator()( const T& v1,const T& v2,T& res ) const { res=v1; res+=v2; }
 };
 
-typedef BinaryOp<Vector,Vector,Vector,sotAdder<Vector> > advector;
+typedef BinaryOp<Vector,Vector,Vector,Adder<Vector> > advector;
 
 
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD
@@ -84,10 +84,10 @@ else if( cmdLine=="print" ){ os<<"Add ["<<op.coeff1<<","<<op.coeff2<<"]"<<std::e
 "Add<vector>: \n - coeff{1|2} value.");
 
 
-typedef BinaryOp<Matrix,Matrix,Matrix,sotAdder<Matrix> > admatrix;
+typedef BinaryOp<Matrix,Matrix,Matrix,Adder<Matrix> > admatrix;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(admatrix,matrix,ad_matrix,"Add<matrix>");
 
-typedef BinaryOp<double,double,double,sotAdder<double> > addouble; 
+typedef BinaryOp<double,double,double,Adder<double> > addouble; 
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(addouble,double,ad_double,"Add<double>");
 
 /* -------------------------------------------------------------------------- */
@@ -95,74 +95,74 @@ SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(addouble,double,ad_double,"Add<double>"
 /* -------------------------------------------------------------------------- */
 
 template< typename T>
-struct sotMultiplier
+struct Multiplier
 {
   void operator()( const T& v1,const T& v2,T& res ) const { res=v1; res*=v2; }
 };
 template<>
-void sotMultiplier<Matrix>::
+void Multiplier<Matrix>::
 operator()( const Matrix& v1,const Matrix& v2,Matrix& res ) const { v1.multiply(v2,res); }
 template<>
-void sotMultiplier<sotMatrixHomogeneous>::
-operator()( const sotMatrixHomogeneous& v1,const sotMatrixHomogeneous& v2,
-	    sotMatrixHomogeneous& res ) const 
+void Multiplier<MatrixHomogeneous>::
+operator()( const MatrixHomogeneous& v1,const MatrixHomogeneous& v2,
+	    MatrixHomogeneous& res ) const 
 { v1.multiply(v2,res); }
 template<>
-void sotMultiplier<sotMatrixRotation>::
-operator()( const sotMatrixRotation& v1,const sotMatrixRotation& v2,
-	    sotMatrixRotation& res ) const 
+void Multiplier<MatrixRotation>::
+operator()( const MatrixRotation& v1,const MatrixRotation& v2,
+	    MatrixRotation& res ) const 
 { v1.multiply(v2,res); }
 template<>
-void sotMultiplier<sotMatrixTwist>::
-operator()( const sotMatrixTwist& v1,const sotMatrixTwist& v2,
-	    sotMatrixTwist& res ) const 
+void Multiplier<MatrixTwist>::
+operator()( const MatrixTwist& v1,const MatrixTwist& v2,
+	    MatrixTwist& res ) const 
 { v1.multiply(v2,res); }
 template<>
-void sotMultiplier<sotVectorQuaternion>::
-operator()(const sotVectorQuaternion& q1,const sotVectorQuaternion& q2,
-	   sotVectorQuaternion& res) const
+void Multiplier<VectorQuaternion>::
+operator()(const VectorQuaternion& q1,const VectorQuaternion& q2,
+	   VectorQuaternion& res) const
 { q1.multiply(q2,res); }
 
-typedef BinaryOp<Vector,Vector,Vector,sotMultiplier<Vector> > multvector;
+typedef BinaryOp<Vector,Vector,Vector,Multiplier<Vector> > multvector;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multvector,vector,mult_vector,"Multiply<vector>");
 
-typedef BinaryOp<Matrix,Matrix,Matrix,sotMultiplier<Matrix> > multmatrix;
+typedef BinaryOp<Matrix,Matrix,Matrix,Multiplier<Matrix> > multmatrix;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multmatrix,matrix,mult_matrix,"Multiply<matrix>");
-typedef BinaryOp<sotMatrixHomogeneous,sotMatrixHomogeneous,sotMatrixHomogeneous,sotMultiplier<sotMatrixHomogeneous> > multmatrixhomo;
+typedef BinaryOp<MatrixHomogeneous,MatrixHomogeneous,MatrixHomogeneous,Multiplier<MatrixHomogeneous> > multmatrixhomo;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multmatrixhomo,matrixhomo,mult_matrixhomo,"Multiply<matrixhomo>");
-typedef BinaryOp<sotMatrixRotation,sotMatrixRotation,sotMatrixRotation,sotMultiplier<sotMatrixRotation> > multmatrixrot;
+typedef BinaryOp<MatrixRotation,MatrixRotation,MatrixRotation,Multiplier<MatrixRotation> > multmatrixrot;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multmatrixrot,matrixrot,mult_matrixrot,"Multiply<matrixrotation>");
-typedef BinaryOp<sotMatrixTwist,sotMatrixTwist,sotMatrixTwist,sotMultiplier<sotMatrixTwist> > multmatrixtwist;
+typedef BinaryOp<MatrixTwist,MatrixTwist,MatrixTwist,Multiplier<MatrixTwist> > multmatrixtwist;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multmatrixtwist,matrixtwist,mult_matrixtwist,"Multiply<matrixtwist>");
-typedef BinaryOp<sotVectorQuaternion,sotVectorQuaternion,sotVectorQuaternion,sotMultiplier<sotVectorQuaternion> > multquat;
+typedef BinaryOp<VectorQuaternion,VectorQuaternion,VectorQuaternion,Multiplier<VectorQuaternion> > multquat;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multquat,q,mult_q,"Multiply<quaternion>");
 
-typedef BinaryOp<double,double,double,sotMultiplier<double> > multdouble;
+typedef BinaryOp<double,double,double,Multiplier<double> > multdouble;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multdouble,double,mult_double,"Multiply<double>");
 /* -------------------------------------------------------------------------- */
 /* --- SUBSTRACTION --------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
 template< typename T>
-struct sotSubstract
+struct Substract
 {
   void operator()( const T& v1,const T& v2,T& res ) const { res=v1; res-=v2; }
 };
 
-typedef BinaryOp<Vector,Vector,Vector,sotSubstract<Vector> > subsvector;
+typedef BinaryOp<Vector,Vector,Vector,Substract<Vector> > subsvector;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(subsvector,vector,subs_vector,"Substract<vector>");
 
-typedef BinaryOp<Matrix,Matrix,Matrix,sotSubstract<Matrix> > subsmatrix;
+typedef BinaryOp<Matrix,Matrix,Matrix,Substract<Matrix> > subsmatrix;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(subsmatrix,matrix,subs_matrix,"Substract<matrix>");
 
-typedef BinaryOp<double,double,double,sotSubstract<double> > subsdouble;
+typedef BinaryOp<double,double,double,Substract<double> > subsdouble;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(subsdouble,double,subs_double,"Substract<double>");
 /* -------------------------------------------------------------------------- */
 /* --- STACK ---------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
 
-struct sotVectorStack
+struct VectorStack
 {
 public:
   unsigned int v1min,v1max;
@@ -188,7 +188,7 @@ public:
       { res(v1size+i) = v2(i+v2min_local); }
   }
 };
-typedef BinaryOp< Vector,Vector,Vector,sotVectorStack > stackvector;
+typedef BinaryOp< Vector,Vector,Vector,VectorStack > stackvector;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(stackvector,vector,stack_vector,"Stack<vector>",else if( cmdLine=="selec1" ){ cmdArgs>>op.v1min>>op.v1max; } 
    else if( cmdLine=="selec2" ){ cmdArgs>>op.v2min>>op.v2max; } 
    else if( cmdLine=="print" ){ os<<"Stack ["<<op.v1min<<","<<op.v1max<<"] - ["<<op.v2min<<","<<op.v2max<<"] "<<std::endl; }, 
@@ -199,7 +199,7 @@ SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(stackvector,vector,stack_vector,"St
 /* -------------------------------------------------------------------------- */
 
 
-struct sotWeightedAdder
+struct WeightedAdder
 {
 public:
   double gain1,gain2;
@@ -209,7 +209,7 @@ public:
     res += gain2*v2;
   }
 };
-typedef BinaryOp< Vector,Vector,Vector,sotWeightedAdder > weightadd;
+typedef BinaryOp< Vector,Vector,Vector,WeightedAdder > weightadd;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(weightadd,vector,weight_add,"WeightAdd<vector>",else if( cmdLine=="gain1" ){ cmdArgs>>op.gain1; } 
    else if( cmdLine=="gain2" ){ cmdArgs>>op.gain2;}
    else if( cmdLine=="print" ){os<<"WeightAdd: "<<op.gain1<<" "<<op.gain2<<std::endl; }, 
@@ -217,7 +217,7 @@ SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(weightadd,vector,weight_add,"Weight
 
 /* -------------------------------------------------------------------------- */
 
-struct sotWeightedDirection
+struct WeightedDirection
 {
 public:
   void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const 
@@ -228,13 +228,13 @@ public:
     res*= (1/norm2);
   }
 };
-typedef BinaryOp< Vector,Vector,Vector,sotWeightedDirection > weightdir;
+typedef BinaryOp< Vector,Vector,Vector,WeightedDirection > weightdir;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(weightdir,vector,weight_dir,"WeightDir");
 
 
 /* -------------------------------------------------------------------------- */
 
-struct sotNullificator
+struct Nullificator
 {
 public:
   void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const 
@@ -249,7 +249,7 @@ public:
       }
   }
 };
-typedef BinaryOp< Vector,Vector,Vector,sotNullificator > vectNil;
+typedef BinaryOp< Vector,Vector,Vector,Nullificator > vectNil;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(vectNil,vector,vectnil_,"Nullificator");
 
 
@@ -260,7 +260,7 @@ SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(vectNil,vector,vectnil_,"Nullificator")
   cmdArgs>>std::ws; if(! cmdArgs.good() ) os << #varname" = " << varname << std::endl; \
   else cmdArgs >> varname
 
-struct sotVirtualSpring
+struct VirtualSpring
 {
 public:
   double spring;
@@ -275,7 +275,7 @@ public:
     res *= spring;
   }
 };
-typedef BinaryOp< Vector,Vector,Vector,sotVirtualSpring > virtspring;
+typedef BinaryOp< Vector,Vector,Vector,VirtualSpring > virtspring;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD
 (virtspring,vector,virtspring_,
  "VirtualSpring"
@@ -357,9 +357,9 @@ SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD
   }
 
 
-struct sotComposer
+struct Composer
 {
-  void operator() ( const ml::Matrix& R,const ml::Vector& t, sotMatrixHomogeneous& H ) const 
+  void operator() ( const ml::Matrix& R,const ml::Vector& t, MatrixHomogeneous& H ) const 
   { 
     for( int i=0;i<3;++i )
       {
@@ -371,11 +371,11 @@ struct sotComposer
     H(3,3)=1.;
   };
 };
-typedef BinaryOp<ml::Matrix,ml::Vector,sotMatrixHomogeneous,sotComposer > TandRtoH;
+typedef BinaryOp<ml::Matrix,ml::Vector,MatrixHomogeneous,Composer > TandRtoH;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(TandRtoH,matrix,vector,composeTR,"Compose<R+T>");
-struct sotVectorComposerPRPY
+struct VectorComposerPRPY
 {
-  void operator() ( const sotVectorRollPitchYaw& R,const ml::Vector& t, ml::Vector& H ) const 
+  void operator() ( const VectorRollPitchYaw& R,const ml::Vector& t, ml::Vector& H ) const 
   { 
     H.resize(6);
     for( int i=0;i<3;++i )
@@ -385,10 +385,10 @@ struct sotVectorComposerPRPY
       }
   };
 };
-typedef BinaryOp<sotVectorRollPitchYaw,ml::Vector,ml::Vector,sotVectorComposerPRPY > TandRPYtoV;
+typedef BinaryOp<VectorRollPitchYaw,ml::Vector,ml::Vector,VectorComposerPRPY > TandRPYtoV;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(TandRPYtoV,matrix,vector,composeTRPYV,"ComposeVector<RPY+T>");
 
-struct sotVectorScalarMultiplyer
+struct VectorScalarMultiplyer
 {
   void operator()(const ml::Vector& v, double a, ml::Vector& res)
   {
@@ -399,20 +399,20 @@ struct sotVectorScalarMultiplyer
     }
   }
 };
-typedef BinaryOp<ml::Vector,double,ml::Vector,sotVectorScalarMultiplyer> VAndScalToV;
+typedef BinaryOp<ml::Vector,double,ml::Vector,VectorScalarMultiplyer> VAndScalToV;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(VAndScalToV,vec,scal,newvec,"Multiply<vector,double>");
 
-struct sotMatrixHomeComposerPRPY
+struct MatrixHomeComposerPRPY
 {
-  void operator() ( const sotVectorRollPitchYaw& r,const ml::Vector& t, sotMatrixHomogeneous& Mres ) const 
+  void operator() ( const VectorRollPitchYaw& r,const ml::Vector& t, MatrixHomogeneous& Mres ) const 
   { 
-    sotMatrixRotation R;  r.toMatrix(R);
+    MatrixRotation R;  r.toMatrix(R);
     
     Mres.buildFrom(R,t);
 
   };
 };
-typedef BinaryOp<sotVectorRollPitchYaw,ml::Vector,sotMatrixHomogeneous,sotMatrixHomeComposerPRPY > TandRPYtoM;
+typedef BinaryOp<VectorRollPitchYaw,ml::Vector,MatrixHomogeneous,MatrixHomeComposerPRPY > TandRPYtoM;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_G(TandRPYtoM,vectorRPY,vector,matrixHomo,composeTRPYM,"Compose<RPY+T>");
 
 
@@ -422,17 +422,17 @@ SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_G(TandRPYtoM,vectorRPY,vector,matrixHomo,
  * The result is P.M.P' = [ P.R.P' P.t ].
  * Strange, isn't it?
  */
-struct sotEndomorphismBasis
+struct EndomorphismBasis
 {
-  void operator() ( const sotMatrixHomogeneous& M, 
-		    const sotMatrixRotation& P,
-		    sotMatrixHomogeneous& res ) const 
+  void operator() ( const MatrixHomogeneous& M, 
+		    const MatrixRotation& P,
+		    MatrixHomogeneous& res ) const 
   { 
-    sotMatrixRotation R; M.extract(R);
+    MatrixRotation R; M.extract(R);
     ml::Vector t(3); M.extract(t);
 
     ml::Vector tres(3); P.multiply(t,tres);
-    sotMatrixRotation PR,PRP;
+    MatrixRotation PR,PRP;
     P.multiply(R,PR);
     PR.multiply(P.transpose(),PRP);
 
@@ -442,28 +442,28 @@ struct sotEndomorphismBasis
 
 
 
-typedef BinaryOp<sotMatrixHomogeneous,sotMatrixRotation,sotMatrixHomogeneous,sotEndomorphismBasis > endoMRM;
+typedef BinaryOp<MatrixHomogeneous,MatrixRotation,MatrixHomogeneous,EndomorphismBasis > endoMRM;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(endoMRM,matrixhomo,matrixrotation,endoMRM_,"EndomorphismBasis");
 
 
 
 template< typename T1,typename T2 >
-struct sotMultiplierE_F
+struct MultiplierE_F
 {
   void operator()( const T1& v1,const T2& m2,T1& res ) const 
   { m2.multiply(v1,res); }
 };
 
-typedef BinaryOp<ml::Vector,ml::Matrix,ml::Vector,sotMultiplierE_F<ml::Vector,ml::Matrix> > multmatrixvector;
+typedef BinaryOp<ml::Vector,ml::Matrix,ml::Vector,MultiplierE_F<ml::Vector,ml::Matrix> > multmatrixvector;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(multmatrixvector,vector,matrix,multmatrixvector,"Multiply<vector,matrix>");
 
-typedef BinaryOp<ml::Vector,sotMatrixHomogeneous,ml::Vector,sotMultiplierE_F<ml::Vector,sotMatrixHomogeneous> > multmatrixhomovector;
+typedef BinaryOp<ml::Vector,MatrixHomogeneous,ml::Vector,MultiplierE_F<ml::Vector,MatrixHomogeneous> > multmatrixhomovector;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(multmatrixhomovector,vector,matrixHomo,multmatrixhomovector,"Multiply<vector,matrixHomo>");
 
 
 
 /* --- CONVOLUTION PRODUCT --- */
-struct sotConvolutionTemporal
+struct ConvolutionTemporal
 {
   typedef std::deque<ml::Vector> MemoryType;
   MemoryType memory;
@@ -502,7 +502,7 @@ struct sotConvolutionTemporal
 
 };
 
-typedef BinaryOp<ml::Vector,ml::Matrix,ml::Vector,sotConvolutionTemporal> convtemp;
+typedef BinaryOp<ml::Vector,ml::Matrix,ml::Vector,ConvolutionTemporal> convtemp;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(convtemp,vector,matrix,convtemp,"ConvolutionTemporal");
 
 } // namespace sot

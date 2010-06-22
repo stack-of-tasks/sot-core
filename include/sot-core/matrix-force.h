@@ -34,32 +34,32 @@ namespace ml = maal::boost;
 namespace sot {
 
 
-class sotMatrixHomogeneous;
-class sotMatrixTwist;
+class MatrixHomogeneous;
+class MatrixTwist;
 
 
-class SOT_CORE_EXPORT sotMatrixForce
+class SOT_CORE_EXPORT MatrixForce
 : public ml::Matrix
 {
 
  public: 
 
-  sotMatrixForce( void ) : ml::Matrix(6,6) { setIdentity(); }
-  ~sotMatrixForce( void ) { }
-  explicit sotMatrixForce( const sotMatrixHomogeneous& M ) 
+  MatrixForce( void ) : ml::Matrix(6,6) { setIdentity(); }
+  ~MatrixForce( void ) { }
+  explicit MatrixForce( const MatrixHomogeneous& M ) 
     : ml::Matrix(6,6) 
     { buildFrom(M); }
 
-  sotMatrixForce& buildFrom( const sotMatrixHomogeneous& trans );
+  MatrixForce& buildFrom( const MatrixHomogeneous& trans );
 
-  sotMatrixForce& operator=( const ml::Matrix& );
-  sotMatrixForce&
-    inverse( sotMatrixForce& invMatrix ) const ;
-  inline sotMatrixForce inverse( void )  const 
-    { sotMatrixForce Ainv; return inverse(Ainv); }
+  MatrixForce& operator=( const ml::Matrix& );
+  MatrixForce&
+    inverse( MatrixForce& invMatrix ) const ;
+  inline MatrixForce inverse( void )  const 
+    { MatrixForce Ainv; return inverse(Ainv); }
 
-  sotMatrixTwist& transpose( sotMatrixTwist& Vt ) const;
-  sotMatrixTwist transpose( void ) const;
+  MatrixTwist& transpose( MatrixTwist& Vt ) const;
+  MatrixTwist transpose( void ) const;
 
  };
 

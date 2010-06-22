@@ -50,11 +50,11 @@
 namespace sot {
 
 /*!
-  \class sotFeatureJointLimits
+  \class FeatureJointLimits
   \brief Class that defines gradient vector for jl avoidance.
 */
-class SOTFEATUREJOINTLIMITS_EXPORT sotFeatureJointLimits 
-: public sotFeatureAbstract
+class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits 
+: public FeatureAbstract
 {
 
  public: 
@@ -78,15 +78,15 @@ class SOTFEATUREJOINTLIMITS_EXPORT sotFeatureJointLimits
   SignalPtr< ml::Vector,int > lowerJlSIN;
   SignalTimeDependant< ml::Vector,int > widthJlSINTERN;
 
-  using sotFeatureAbstract::selectionSIN;
+  using FeatureAbstract::selectionSIN;
 
-  using sotFeatureAbstract::jacobianSOUT;
-  using sotFeatureAbstract::errorSOUT;
-  using sotFeatureAbstract::activationSOUT;
+  using FeatureAbstract::jacobianSOUT;
+  using FeatureAbstract::errorSOUT;
+  using FeatureAbstract::activationSOUT;
 
  public:
-  sotFeatureJointLimits( const std::string& name );
-  virtual ~sotFeatureJointLimits( void ) {}
+  FeatureJointLimits( const std::string& name );
+  virtual ~FeatureJointLimits( void ) {}
 
   virtual unsigned int& getDimension( unsigned int & dim, int time );
   
@@ -96,7 +96,7 @@ class SOTFEATUREJOINTLIMITS_EXPORT sotFeatureJointLimits
   ml::Vector& computeWidthJl( ml::Vector& res,const int& time );
 
   /** Static Feature selection. */
-  inline static sotFlags selectActuated( void ); 
+  inline static Flags selectActuated( void ); 
   
   virtual void display( std::ostream& os ) const;
   void commandLine( const std::string& cmdLine,

@@ -2,7 +2,7 @@
  * Copyright Projet Gepetto, LAAS, 2009
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotSOTH.cpp
+ * File:      SotH.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -44,24 +44,24 @@ sotSOTH__INIT sotSOTH_initiator;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-SOT_FACTORY_ENTITY_PLUGIN(sotSOTH,"SOTH");
+SOT_FACTORY_ENTITY_PLUGIN(SotH,"SOTH");
 
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-sotSOTH::
-sotSOTH( const std::string& name )
-  :sotSOT(name),Qh(nbJoints),Rh(nbJoints,nbJoints),constraintH()
+SotH::
+SotH( const std::string& name )
+  :Sot(name),Qh(nbJoints),Rh(nbJoints,nbJoints),constraintH()
   ,solverNorm(nbJoints,Qh,Rh,constraintH),solverPrec(NULL)
   ,fillMemorySignal(false)
 {
 }
 
 
-sotSOTH::
-~sotSOTH( void )
+SotH::
+~SotH( void )
 {
 
 
@@ -69,11 +69,11 @@ sotSOTH::
 }
 
 
-void sotSOTH::
+void SotH::
 defineNbDof( const unsigned int& nbDof )
 {
   sotDEBUGIN(15);
-  sotSOT::defineNbDof(nbDof);
+  Sot::defineNbDof(nbDof);
   for(StackType::iterator iter=stack.begin();stack.end()!=iter;++iter )
     {
       sotMemoryTaskSOTH * mem
@@ -84,7 +84,7 @@ defineNbDof( const unsigned int& nbDof )
   sotDEBUGOUT(15);
 }
 
-void sotSOTH::
+void SotH::
 commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 	     std::ostream& os )
 {
@@ -94,7 +94,7 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
     {
       os << "Stack of Tasks Inequality: "<<endl
 	 << " - fillMemorySignal [boolean] "<<endl;
-      sotSOT::commandLine( cmdLine,cmdArgs,os );
+      Sot::commandLine( cmdLine,cmdArgs,os );
     }
   else if( cmdLine == "fillMemorySignal")
     {
@@ -106,7 +106,7 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
     }
  else
    {
-     sotSOT::commandLine( cmdLine,cmdArgs,os );
+     Sot::commandLine( cmdLine,cmdArgs,os );
    }
 
 
@@ -129,7 +129,7 @@ void buildTaskVectors( const sotVectorMultiBound& err,
   unsigned int sizei=0,sizee=0;
   for( sotVectorMultiBound::const_iterator iter=err.begin();
        err.end()!=iter;++iter )
-    { if( iter->getMode()==sotMultiBound::MODE_SINGLE )
+    { if( iter->getMode()==MultiBound::MODE_SINGLE )
         sizee++; else sizei++; }
 
   Ji.resize(sizei,nJ); eiinf.resize(sizei),eisup.resize(sizei);
@@ -143,25 +143,25 @@ void buildTaskVectors( const sotVectorMultiBound& err,
     sotDEBUG(25) << "i = "<<i<< std::endl;
     switch( err[i].getMode() )
         {
-        case sotMultiBound::MODE_SINGLE:
+        case MultiBound::MODE_SINGLE:
           {
             ee(--sizee) = err[i].getSingleBound();
             for( unsigned int j=0;j<nJ;++j )
               { Je(sizee,j) = JK(i,j); }
             break;
           }
-        case sotMultiBound::MODE_DOUBLE:
+        case MultiBound::MODE_DOUBLE:
           {
             --sizei;
             bounds[sizei] = ConstraintMem::BOUND_VOID;
-            if( err[i].getDoubleBoundSetup( sotMultiBound::BOUND_INF ) )
+            if( err[i].getDoubleBoundSetup( MultiBound::BOUND_INF ) )
               {
-                eiinf(sizei) = err[i].getDoubleBound( sotMultiBound::BOUND_INF );
+                eiinf(sizei) = err[i].getDoubleBound( MultiBound::BOUND_INF );
                 bounds[sizei] = ConstraintMem::BOUND_INF;
               }
-            if( err[i].getDoubleBoundSetup( sotMultiBound::BOUND_SUP ) )
+            if( err[i].getDoubleBoundSetup( MultiBound::BOUND_SUP ) )
               {
-                eisup(sizei) = err[i].getDoubleBound( sotMultiBound::BOUND_SUP );
+                eisup(sizei) = err[i].getDoubleBound( MultiBound::BOUND_SUP );
                 if( bounds[sizei]==ConstraintMem::BOUND_INF )
                   bounds[sizei]= ConstraintMem::BOUND_BOTH;
                 else bounds[sizei]= ConstraintMem::BOUND_SUP;
@@ -212,14 +212,14 @@ void buildTaskVectors( const sotVectorMultiBound& err,
 
 SOT_DEFINE_CHRONO;
 
-ml::Vector& sotSOTH::
+ml::Vector& SotH::
 computeControlLaw( ml::Vector& control,const int& iterTime )
 {
   sotDEBUGIN(15);
 
   SOT_INIT_CHRONO;
 
-  sotSolverHierarchicalInequalities::THRESHOLD_ZERO = inversionThresholdSIN(iterTime);
+  SolverHierarchicalInequalities::THRESHOLD_ZERO = inversionThresholdSIN(iterTime);
   const ml::Matrix &K = constraintSOUT(iterTime);
   const unsigned int nJ = K.nbCols();
 
@@ -245,7 +245,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 //         {
 //           if(*iter==NULL)
 //             {
-//               (*iter)=new sotSolverHierarchicalInequalities(nJ,Qh,Rh,constraintH);
+//               (*iter)=new SolverHierarchicalInequalities(nJ,Qh,Rh,constraintH);
 //             }
 //           /* TODO: free memory */
 //         }
@@ -263,7 +263,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
   for( StackType::iterator iter = stack.begin(); iter!=stack.end();++iter,++iterTask )
     {
       sotDEBUGF(5,"Rank %d.",iterTask);
-      sotTaskAbstract & task = **iter;
+      TaskAbstract & task = **iter;
       sotDEBUG(15) << "Task: e_" << task.getName() << std::endl;
       const ml::Matrix &Jac = task.jacobianSOUT(iterTime);
       const sotVectorMultiBound &err = task.taskSOUT(iterTime);
@@ -285,7 +285,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
       mem->Jact.resize( ntask,nJ );
 
       sotDEBUG(25) << "/* --- COMPUTE JK --- */" << std::endl;
-      sotSOT::computeJacobianConstrained( Jac,K,mem->JK,mem->Jff,mem->Jact );
+      Sot::computeJacobianConstrained( Jac,K,mem->JK,mem->Jff,mem->Jact );
       if( fillMemorySignal )
         {
           mem->jacobianConstrainedSINOUT = mem->JK;
@@ -293,7 +293,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
         }
 
       sotDEBUG(25) << "/* Set initial conditions. */" << std::endl;
-      sotSolverHierarchicalInequalities & solver = mem->solver;
+      SolverHierarchicalInequalities & solver = mem->solver;
       if( NULL==solverPrec ) solver.setInitialConditionVoid();
       else
         { solver.setInitialCondition( solverPrec->u0,solverPrec->rankh ); }
@@ -372,7 +372,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
   if( fillMemorySignal )
     for( StackType::iterator iter = stack.begin(); iter!=stack.end();++iter,++iterTask )
       {
-        sotTaskAbstract & task = **iter;
+        TaskAbstract & task = **iter;
         sotMemoryTaskSOTH * mem = dynamic_cast<sotMemoryTaskSOTH *>( task.memoryInternal );
         if( mem == NULL ) continue;
         sotVectorMultiBound taskVector = task.taskSOUT(iterTime);
@@ -382,15 +382,15 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 
         for( unsigned int i=0;i<taskVector.size();++i )
           {
-            const sotMultiBound & Xi = taskVector[i];
+            const MultiBound & Xi = taskVector[i];
             switch( Xi.getMode() )
               {
-              case sotMultiBound::MODE_SINGLE:
+              case MultiBound::MODE_SINGLE:
                 diff(i) = Xi.getSingleBound()-JKu(i);
                 break;
-              case sotMultiBound::MODE_DOUBLE:
-                diff(i) = std::min( JKu(i)-Xi.getDoubleBound(sotMultiBound::BOUND_INF ),
-                                    Xi.getDoubleBound(sotMultiBound::BOUND_SUP)-JKu(i) );
+              case MultiBound::MODE_DOUBLE:
+                diff(i) = std::min( JKu(i)-Xi.getDoubleBound(MultiBound::BOUND_INF ),
+                                    Xi.getDoubleBound(MultiBound::BOUND_SUP)-JKu(i) );
                 break;
               }
           }
@@ -408,26 +408,26 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 /* --------------------------------------------------------------------- */
 
 
-const std::string sotSOTH::sotMemoryTaskSOTH::CLASS_NAME = "MemoryTaskSOTH";
+const std::string SotH::sotMemoryTaskSOTH::CLASS_NAME = "MemoryTaskSOTH";
 
-void sotSOTH::sotMemoryTaskSOTH::
+void SotH::sotMemoryTaskSOTH::
 commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
              std::ostream& os )
 {
   Entity::commandLine( cmdLine,cmdArgs,os );
 }
 
-void sotSOTH::sotMemoryTaskSOTH::
+void SotH::sotMemoryTaskSOTH::
 display( std::ostream& os ) const {} //TODO
 
 
-sotSOTH::sotMemoryTaskSOTH::
+SotH::sotMemoryTaskSOTH::
 sotMemoryTaskSOTH( const std::string & name,
-                   const sotSOTH * ref,
+                   const SotH * ref,
                    unsigned int nJ,
                    sotRotationComposedInExtenso& Qh,
                    bubMatrix &Rh,
-                   sotSolverHierarchicalInequalities::ConstraintList &cH )
+                   SolverHierarchicalInequalities::ConstraintList &cH )
   :Entity(name),referenceKey(ref),solver(nJ,Qh,Rh,cH)
   ,jacobianConstrainedSINOUT( "sotTaskAbstract("+name+")::inout(matrix)::JK" )
   ,diffErrorSINOUT( "sotTaskAbstract("+name+")::inout(vector)::diff" )

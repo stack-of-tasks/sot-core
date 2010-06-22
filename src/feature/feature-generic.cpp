@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotFeatureGeneric.cpp
+ * File:      FeatureGeneric.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -33,7 +33,7 @@ using namespace std;
 
 using namespace sot;
 
-SOT_FACTORY_FEATURE_PLUGIN(sotFeatureGeneric,"FeatureGeneric");
+SOT_FACTORY_FEATURE_PLUGIN(FeatureGeneric,"FeatureGeneric");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -41,15 +41,15 @@ SOT_FACTORY_FEATURE_PLUGIN(sotFeatureGeneric,"FeatureGeneric");
 
 
 
-sotFeatureGeneric::
-sotFeatureGeneric( const string& pointName )
-  : sotFeatureAbstract( pointName )
+FeatureGeneric::
+FeatureGeneric( const string& pointName )
+  : FeatureAbstract( pointName )
     ,dimensionDefault(0)
     ,errorSIN( NULL,"sotFeatureGeneric("+name+")::input(vector)::errorIN" )
     ,errordotSIN( NULL,"sotFeatureGeneric("+name+")::input(vector)::errordotIN" )
     ,jacobianSIN( NULL,"sotFeatureGeneric("+name+")::input(matrix)::jacobianIN" )
     ,activationSIN( NULL,"sotFeatureGeneric("+name+")::input(matrix)::activationIN" )
-    ,errordotSOUT(  boost::bind(&sotFeatureGeneric::computeErrorDot,this,_1,_2),
+    ,errordotSOUT(  boost::bind(&FeatureGeneric::computeErrorDot,this,_1,_2),
 		    selectionSIN<<desiredValueSIN,
 		    "sotFeatureAbstract("+name+")::output(vector)::errordot" )
 
@@ -66,12 +66,12 @@ sotFeatureGeneric( const string& pointName )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int& sotFeatureGeneric::
+unsigned int& FeatureGeneric::
 getDimension( unsigned int & dim, int time ) 
 {  
   sotDEBUG(25)<<"# In {"<<endl;
 
-  const sotFlags &fl = selectionSIN.access(time);
+  const Flags &fl = selectionSIN.access(time);
   
   if( dimensionDefault==0 )  dimensionDefault = errorSIN.access(time).size();
 
@@ -83,25 +83,25 @@ getDimension( unsigned int & dim, int time )
 }
 
 
-ml::Vector& sotFeatureGeneric::
+ml::Vector& FeatureGeneric::
 computeError( ml::Vector& res,int time )
 { 
   const ml::Vector& err = errorSIN.access(time);
-  const sotFlags &fl = selectionSIN.access(time);
+  const Flags &fl = selectionSIN.access(time);
   const unsigned int & dim = dimensionSOUT(time);
 
   unsigned int curr = 0;
   res.resize( dim );
   if( err.size()<dim )
-    { SOT_THROW sotExceptionFeature( sotExceptionFeature::UNCOMPATIBLE_SIZE,
+    { SOT_THROW ExceptionFeature( ExceptionFeature::UNCOMPATIBLE_SIZE,
 				     "Error: dimension uncompatible with des->errorIN size."
 				     " (while considering feature <%s>).",getName().c_str() ); }
 
-  sotFeatureGeneric * sdes = NULL;
+  FeatureGeneric * sdes = NULL;
   if( desiredValueSIN )
     {
-      sotFeatureAbstract* sdesAbs = desiredValueSIN(time);
-      sdes = dynamic_cast<sotFeatureGeneric*>(sdesAbs);
+      FeatureAbstract* sdesAbs = desiredValueSIN(time);
+      sdes = dynamic_cast<FeatureGeneric*>(sdesAbs);
     }
   
   sotDEBUG(15) << "Err = " << err;
@@ -112,7 +112,7 @@ computeError( ml::Vector& res,int time )
       const ml::Vector& errDes = sdes->errorSIN(time);
       sotDEBUG(15) << "Err* = " << errDes;
       if( errDes.size()<dim )
-	{ SOT_THROW sotExceptionFeature( sotExceptionFeature::UNCOMPATIBLE_SIZE,
+	{ SOT_THROW ExceptionFeature( ExceptionFeature::UNCOMPATIBLE_SIZE,
 					 "Error: dimension uncompatible with des->errorIN size."
 					 " (while considering feature <%s>).",getName().c_str() ); }
 
@@ -126,20 +126,20 @@ computeError( ml::Vector& res,int time )
 
 }
 
-ml::Vector& sotFeatureGeneric::
+ml::Vector& FeatureGeneric::
 computeErrorDot( ml::Vector& res,int time )
 { 
-  const sotFlags &fl = selectionSIN.access(time);
+  const Flags &fl = selectionSIN.access(time);
   const unsigned int & dim = dimensionSOUT(time);
 
   unsigned int curr = 0;
   res.resize( dim );
 
-  sotFeatureGeneric * sdes = NULL;
+  FeatureGeneric * sdes = NULL;
   if( desiredValueSIN )
     {
-      sotFeatureAbstract* sdesAbs = desiredValueSIN(time);
-      sdes = dynamic_cast<sotFeatureGeneric*>(sdesAbs);
+      FeatureAbstract* sdesAbs = desiredValueSIN(time);
+      sdes = dynamic_cast<FeatureGeneric*>(sdesAbs);
     }
   
   sotDEBUG(25) << "Dim = " << dim << endl;
@@ -149,7 +149,7 @@ computeErrorDot( ml::Vector& res,int time )
       const ml::Vector& errdotDes = sdes->errordotSIN(time);
       sotDEBUG(15) << "Err* = " << errdotDes;
       if( errdotDes.size()<dim )
-	{ SOT_THROW sotExceptionFeature( sotExceptionFeature::UNCOMPATIBLE_SIZE,
+	{ SOT_THROW ExceptionFeature( ExceptionFeature::UNCOMPATIBLE_SIZE,
 					 "Error: dimension uncompatible with des->errorIN size."
 					 " (while considering feature <%s>).",getName().c_str() ); }
 
@@ -164,13 +164,13 @@ computeErrorDot( ml::Vector& res,int time )
 }
 
 
-ml::Matrix& sotFeatureGeneric::
+ml::Matrix& FeatureGeneric::
 computeJacobian( ml::Matrix& res,int time )
 { 
   sotDEBUGIN(15);
 
   const ml::Matrix& Jac = jacobianSIN.access(time);
-  const sotFlags &fl = selectionSIN.access(time);
+  const Flags &fl = selectionSIN.access(time);
   const unsigned int &dim = dimensionSOUT(time);
 
   unsigned int curr = 0;
@@ -188,13 +188,13 @@ computeJacobian( ml::Matrix& res,int time )
   return res; 
 }
 
-ml::Vector& sotFeatureGeneric::
+ml::Vector& FeatureGeneric::
 computeActivation( ml::Vector& res,int time )
 { 
   if( activationSIN )
     {
       const ml::Vector& err = activationSIN.access(time);
-      const sotFlags &fl = selectionSIN.access(time);
+      const Flags &fl = selectionSIN.access(time);
       
       unsigned int curr = 0;
       res.resize( dimensionSOUT(time) );
@@ -213,7 +213,7 @@ computeActivation( ml::Vector& res,int time )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void sotFeatureGeneric::
+void FeatureGeneric::
 display( std::ostream& os ) const
 {
   os <<"Generic <"<<name<<">: " <<std::endl;
@@ -226,7 +226,7 @@ display( std::ostream& os ) const
 }
 
 
-void sotFeatureGeneric::
+void FeatureGeneric::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,
 	     std::ostream& os )

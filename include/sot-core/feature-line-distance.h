@@ -51,11 +51,11 @@
 namespace sot {
 
 /*!
-  \class sotFeatureLineDistance
+  \class FeatureLineDistance
   \brief Class that defines point-3d control feature
 */
-class SOTFEATURELINEDISTANCE_EXPORT sotFeatureLineDistance
-: public sotFeatureAbstract
+class SOTFEATURELINEDISTANCE_EXPORT FeatureLineDistance
+: public FeatureAbstract
 {
 
  public:
@@ -66,22 +66,22 @@ class SOTFEATURELINEDISTANCE_EXPORT sotFeatureLineDistance
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  SignalPtr< sotMatrixHomogeneous,int > positionSIN;
+  SignalPtr< MatrixHomogeneous,int > positionSIN;
   SignalPtr< ml::Matrix,int > articularJacobianSIN;
   SignalPtr< ml::Vector,int > positionRefSIN;
   SignalPtr< ml::Vector,int > vectorSIN;
   SignalTimeDependant<ml::Vector,int> lineSOUT;
 
-  using sotFeatureAbstract::desiredValueSIN;
-  using sotFeatureAbstract::selectionSIN;
+  using FeatureAbstract::desiredValueSIN;
+  using FeatureAbstract::selectionSIN;
 
-  using sotFeatureAbstract::jacobianSOUT;
-  using sotFeatureAbstract::errorSOUT;
-  using sotFeatureAbstract::activationSOUT;
+  using FeatureAbstract::jacobianSOUT;
+  using FeatureAbstract::errorSOUT;
+  using FeatureAbstract::activationSOUT;
 
  public:
-  sotFeatureLineDistance( const std::string& name );
-  virtual ~sotFeatureLineDistance( void ) {}
+  FeatureLineDistance( const std::string& name );
+  virtual ~FeatureLineDistance( void ) {}
 
   virtual unsigned int& getDimension( unsigned int & dim, int time );
 

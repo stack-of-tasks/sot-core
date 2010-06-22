@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotMatrixRotation.cpp
+ * File:      MatrixRotation.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -24,7 +24,7 @@ using namespace std;
 using namespace sot;
 
 
-void sotMatrixRotation::fromVector( sotVectorUTheta& vec )
+void MatrixRotation::fromVector( VectorUTheta& vec )
 {
   vec.toMatrix( *this );
 }

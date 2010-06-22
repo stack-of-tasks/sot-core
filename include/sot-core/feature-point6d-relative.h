@@ -52,12 +52,12 @@
 namespace sot {
 
 /*!
-  \class sotFeaturePoint6dRelative
+  \class FeaturePoint6dRelative
   \brief Class that defines the motion of a point of the body wrt. another
   point.
 */
-class SOTFEATUREPOINT6DRELATIVE_EXPORT sotFeaturePoint6dRelative 
-: public sotFeaturePoint6d
+class SOTFEATUREPOINT6DRELATIVE_EXPORT FeaturePoint6dRelative 
+: public FeaturePoint6d
 {
 
  public: 
@@ -71,7 +71,7 @@ class SOTFEATUREPOINT6DRELATIVE_EXPORT sotFeaturePoint6dRelative
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  SignalPtr< sotMatrixHomogeneous,int > positionReferenceSIN;
+  SignalPtr< MatrixHomogeneous,int > positionReferenceSIN;
   SignalPtr< ml::Matrix,int > articularJacobianReferenceSIN;
 
   /*! Signals related to the computation of the derivative of 
@@ -81,17 +81,17 @@ class SOTFEATUREPOINT6DRELATIVE_EXPORT sotFeaturePoint6dRelative
   /*! Signals giving the derivative of the input signals. 
     @{*/
   /*! Derivative of the relative position. */
-  SignalPtr< sotMatrixHomogeneous,int > dotpositionSIN;
+  SignalPtr< MatrixHomogeneous,int > dotpositionSIN;
   /*! Derivative of the reference position. */
-  SignalPtr< sotMatrixHomogeneous,int > dotpositionReferenceSIN;
+  SignalPtr< MatrixHomogeneous,int > dotpositionReferenceSIN;
   /*! @} */
   /*! The derivative of the error.*/
   SignalTimeDependant<ml::Vector,int> errordotSOUT;
   /*! @} */
 
  public:
-  sotFeaturePoint6dRelative( const std::string& name );
-  virtual ~sotFeaturePoint6dRelative( void ) {}
+  FeaturePoint6dRelative( const std::string& name );
+  virtual ~FeaturePoint6dRelative( void ) {}
   
   virtual ml::Vector& computeError( ml::Vector& res,int time ); 
   virtual ml::Vector& computeErrorDot( ml::Vector& res,int time ); 

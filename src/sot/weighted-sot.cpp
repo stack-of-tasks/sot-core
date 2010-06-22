@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotWeightedSOT.cpp
+ * File:      WeightedSot.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -38,21 +38,21 @@ using namespace sot;
 
 
 #include <sot-core/factory.h>
-SOT_FACTORY_ENTITY_PLUGIN(sotWeightedSOT,"WSOT");
+SOT_FACTORY_ENTITY_PLUGIN(WeightedSot,"WSOT");
 
 /* --------------------------------------------------------------------- */
 /* --- CONSTRUCTION ---------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-sotWeightedSOT::
-sotWeightedSOT( const std::string& name )
-  :sotSOT(name)
+WeightedSot::
+WeightedSot( const std::string& name )
+  :Sot(name)
    ,weightSIN( NULL,"sotWeightedSOT("+name+")::input(matrix)::weight" )
-   ,constrainedWeightSOUT( boost::bind(&sotWeightedSOT::computeConstrainedWeight,
+   ,constrainedWeightSOUT( boost::bind(&WeightedSot::computeConstrainedWeight,
 				       this,_1,_2),
 			   weightSIN<<constraintSOUT,
 			   "sotWeightedSOT("+name+")::input(matrix)::KweightOUT" )
    ,constrainedWeightSIN( NULL,"sotWeightedSOT("+name+")::input(matrix)::Kweight" )
-   ,squareRootInvWeightSOUT( boost::bind(&sotWeightedSOT::computeSquareRootInvWeight,this,_1,_2),
+   ,squareRootInvWeightSOUT( boost::bind(&WeightedSot::computeSquareRootInvWeight,this,_1,_2),
 			     weightSIN<<constrainedWeightSIN,
 			     "sotWeightedSOT("+name+")::output(matrix)::sqweight" )
    ,squareRootInvWeightSIN( &squareRootInvWeightSOUT,
@@ -62,7 +62,7 @@ sotWeightedSOT( const std::string& name )
   signalRegistration( weightSIN<<constrainedWeightSIN<<squareRootInvWeightSOUT
 		      << squareRootInvWeightSIN );
 
-  controlSOUT.setFunction( boost::bind(&sotWeightedSOT::computeWeightedControlLaw,
+  controlSOUT.setFunction( boost::bind(&WeightedSot::computeWeightedControlLaw,
 				       this,_1,_2) );
   controlSOUT.addDependancy( squareRootInvWeightSIN );
 
@@ -77,7 +77,7 @@ sotWeightedSOT( const std::string& name )
 
 #include <MatrixAbstractLayer/boostspecific.h>
 
-ml::Matrix& sotWeightedSOT::
+ml::Matrix& WeightedSot::
 computeSquareRootInvWeight( ml::Matrix& S5i,const int& time )
 {
   sotDEBUGIN(15);
@@ -85,7 +85,7 @@ computeSquareRootInvWeight( ml::Matrix& S5i,const int& time )
   const ml::Matrix& A = constrainedWeightSIN( time );
   if( A.nbCols()!= A.nbRows() )
     {
-      SOT_THROW sotExceptionTask( sotExceptionTask::MATRIX_SIZE,
+      SOT_THROW ExceptionTask( ExceptionTask::MATRIX_SIZE,
 				  "Weight matrix should be square.","" );
     }
   sotDEBUG(25) << "KA = " << A << endl;
@@ -151,7 +151,7 @@ computeSquareRootInvWeight( ml::Matrix& S5i,const int& time )
 /* --- CONTROL --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-ml::Matrix& sotWeightedSOT::
+ml::Matrix& WeightedSot::
 computeConstrainedWeight( ml::Matrix& KAK,const int& iterTime )
 {
   sotDEBUGIN(15);
@@ -235,7 +235,7 @@ computeConstrainedWeight( ml::Matrix& KAK,const int& iterTime )
 
 
 
-ml::Vector& sotWeightedSOT::
+ml::Vector& WeightedSot::
 computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
 {
   sotDEBUGIN(15);
@@ -283,18 +283,18 @@ computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
     {
       sotCOUNTER(0,0b); // Direct Dynamic
       sotDEBUGF(5,"Rank %d.",iterTask);
-      sotTaskAbstract & task = **iter;
+      TaskAbstract & task = **iter;
       const ml::Matrix &JacRO = task.jacobianSOUT(iterTime);
-      const ml::Vector err = sotSOT::taskVectorToMlVector(task.taskSOUT(iterTime));
+      const ml::Vector err = Sot::taskVectorToMlVector(task.taskSOUT(iterTime));
       const unsigned int nJ = JacRO.nbRows();
       sotCOUNTER(0b,1); // Direct Dynamic
 
       /* Init memory. */
-      sotMemoryTaskSOT * mem = dynamic_cast<sotMemoryTaskSOT *>( task.memoryInternal );
+      MemoryTaskSOT * mem = dynamic_cast<MemoryTaskSOT *>( task.memoryInternal );
       if( NULL==mem )
         {
           if( NULL!=task.memoryInternal ) delete task.memoryInternal;
-          mem = new sotMemoryTaskSOT( task.getName()+"_memSOT",nJ,mJ );
+          mem = new MemoryTaskSOT( task.getName()+"_memSOT",nJ,mJ );
           task.memoryInternal = mem;
         }
 
@@ -336,10 +336,10 @@ computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
 	
 	/* --- COMPUTE S --- */	
 	ml::Matrix Kact(mJ,mJ); Kact=S5i;
-	sotTask* taskSpec = dynamic_cast<sotTask*>( &task );
+	Task* taskSpec = dynamic_cast<Task*>( &task );
 	if( NULL!=taskSpec )
 	  {
-	    const sotFlags& controlSelec = taskSpec->controlSelectionSIN( iterTime );
+	    const Flags& controlSelec = taskSpec->controlSelectionSIN( iterTime );
 	    sotDEBUG(25) << "Control selection = " << controlSelec <<endl;
 	    if( controlSelec )
 	      {

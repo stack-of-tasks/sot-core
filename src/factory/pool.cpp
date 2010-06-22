@@ -35,8 +35,8 @@ using namespace sot;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-sotPoolStorage::
-~sotPoolStorage( void )
+PoolStorage::
+~PoolStorage( void )
 {
   sotDEBUGIN(15);
 
@@ -47,13 +47,13 @@ sotPoolStorage::
 
 
 /* --------------------------------------------------------------------- */
-void sotPoolStorage::
-registerTask( const std::string& entname,sotTaskAbstract* ent )
+void PoolStorage::
+registerTask( const std::string& entname,TaskAbstract* ent )
 {
   Tasks::iterator entkey = task.find(entname);
   if( entkey != task.end() ) // key does exist
     {
-      throw sotExceptionFactory( sotExceptionFactory::OBJECT_CONFLICT,
+      throw ExceptionFactory( ExceptionFactory::OBJECT_CONFLICT,
 				 "Another task already defined with the same name. ",
 				 "Task name is <%s>.",entname.c_str() );
     }
@@ -65,13 +65,13 @@ registerTask( const std::string& entname,sotTaskAbstract* ent )
     }
 }
 
-sotTaskAbstract& sotPoolStorage::
+TaskAbstract& PoolStorage::
 getTask( const std::string& name )
 {
   Tasks::iterator entPtr = task .find( name );
   if( entPtr == task.end() )
     {
-      SOT_THROW sotExceptionFactory( sotExceptionFactory::UNREFERED_OBJECT,
+      SOT_THROW ExceptionFactory( ExceptionFactory::UNREFERED_OBJECT,
 				     "Unknown task."," (while calling <%s>)",
 				     name.c_str() );
     }
@@ -81,13 +81,13 @@ getTask( const std::string& name )
 
 
 /* --------------------------------------------------------------------- */
-void sotPoolStorage::
-registerFeature( const std::string& entname,sotFeatureAbstract* ent )
+void PoolStorage::
+registerFeature( const std::string& entname,FeatureAbstract* ent )
 {
   Features::iterator entkey = feature.find(entname);
   if( entkey != feature.end() ) // key does exist
     {
-      throw sotExceptionFactory( sotExceptionFactory::OBJECT_CONFLICT,
+      throw ExceptionFactory( ExceptionFactory::OBJECT_CONFLICT,
 				 "Another feature already defined with the same name. ",
 				 "Feature name is <%s>.",entname.c_str() );
     }
@@ -99,13 +99,13 @@ registerFeature( const std::string& entname,sotFeatureAbstract* ent )
     }
 }
 
-sotFeatureAbstract& sotPoolStorage::
+FeatureAbstract& PoolStorage::
 getFeature( const std::string& name )
 {
   Features::iterator entPtr = feature .find( name );
   if( entPtr == feature.end() )
     {
-      SOT_THROW sotExceptionFactory( sotExceptionFactory::UNREFERED_OBJECT,
+      SOT_THROW ExceptionFactory( ExceptionFactory::UNREFERED_OBJECT,
 				     "Unknown feature."," (while calling <%s>)",
 				     name.c_str() );
     }
@@ -125,7 +125,7 @@ getFeature( const std::string& name )
 #include <time.h>
 #endif /*WIN32*/
 
-void sotPoolStorage::
+void PoolStorage::
 writeGraph(const std::string &aFileName)
 {
   size_t IdxPointFound = aFileName.rfind(".");
@@ -166,7 +166,7 @@ writeGraph(const std::string &aFileName)
   for( Tasks::iterator iter=task.begin();
        iter!=task.end();iter++ )
     {
-      sotTaskAbstract* ent = iter->second;
+      TaskAbstract* ent = iter->second;
       GraphFile << "\t\t" << ent->getName()
 		<<" [ label = \"" << ent->getName() << "\" ," << std::endl
 		<<"\t\t   fontcolor = black, color = black, fillcolor = magenta, style=filled, shape=box ]" << std::endl;
@@ -179,7 +179,7 @@ writeGraph(const std::string &aFileName)
   GraphFile.close();
 }
 
-void sotPoolStorage::
+void PoolStorage::
 writeCompletionList(std::ostream& os)
 {
 
@@ -187,7 +187,7 @@ writeCompletionList(std::ostream& os)
 }
 
 
-void sotPoolStorage::
+void PoolStorage::
 commandLine( const std::string& objectName,const std::string& functionName,
 	     std::istringstream& cmdArg, std::ostream& os )
 {
@@ -214,7 +214,7 @@ commandLine( const std::string& objectName,const std::string& functionName,
 	  for( Tasks::iterator iter=task.begin();
 	       iter!=task.end();iter++ )
 	    {
-	      sotTaskAbstract* ent = iter->second;
+	      TaskAbstract* ent = iter->second;
 	      os << ent->getName()
 		 <<" (" << ent->getClassName() << ")" << std::endl;
 	    }
@@ -225,7 +225,7 @@ commandLine( const std::string& objectName,const std::string& functionName,
 	  for( Features::iterator iter=feature.begin();
 	       iter!=feature.end();iter++ )
 	    {
-	      sotFeatureAbstract* ent = iter->second;
+	      FeatureAbstract* ent = iter->second;
 	      os << ent->getName()
 		 <<" (" << ent->getClassName() << ")" << std::endl;
 	    }
@@ -249,5 +249,5 @@ commandLine( const std::string& objectName,const std::string& functionName,
 
 /// The global sotPool object
 namespace sot {
-sotPoolStorage sotPool;
+PoolStorage sotPool;
 }

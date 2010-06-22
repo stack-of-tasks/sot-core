@@ -34,9 +34,9 @@
 
 namespace sot {
 
-/* \class sotExceptionFeature
+/* \class ExceptionFeature
  */
-class SOT_CORE_EXPORT sotExceptionFeature 
+class SOT_CORE_EXPORT ExceptionFeature 
 :public ExceptionAbstract
 
 {
@@ -50,15 +50,15 @@ public:
     };
 
   static const std::string EXCEPTION_NAME;
-  virtual const std::string& getExceptionName( void ) const { return sotExceptionFeature::EXCEPTION_NAME; }
+  virtual const std::string& getExceptionName( void ) const { return ExceptionFeature::EXCEPTION_NAME; }
 
-  sotExceptionFeature ( const sotExceptionFeature::ErrorCodeEnum& errcode,
+  ExceptionFeature ( const ExceptionFeature::ErrorCodeEnum& errcode,
 		     const std::string & msg = "" );
 
-  sotExceptionFeature ( const sotExceptionFeature::ErrorCodeEnum& errcode,
+  ExceptionFeature ( const ExceptionFeature::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... );
 
-  virtual ~sotExceptionFeature( void ){}
+  virtual ~ExceptionFeature( void ){}
 };
 
 

@@ -50,11 +50,11 @@
 namespace sot {
 
 /*!
-  \class sotFeatureVisualPoint
+  \class FeatureVisualPoint
   \brief Class that defines 2D visualPoint visual feature
 */
-class SOTFEATUREVISUALPOINT_EXPORT sotFeatureVisualPoint 
-: public sotFeatureAbstract
+class SOTFEATUREVISUALPOINT_EXPORT FeatureVisualPoint 
+: public FeatureAbstract
 {
 
  public: 
@@ -74,16 +74,16 @@ class SOTFEATUREVISUALPOINT_EXPORT sotFeatureVisualPoint
   SignalPtr< double,int > ZSIN;
   SignalPtr< ml::Matrix,int > articularJacobianSIN;
 
-  using sotFeatureAbstract::desiredValueSIN;
-  using sotFeatureAbstract::selectionSIN;
+  using FeatureAbstract::desiredValueSIN;
+  using FeatureAbstract::selectionSIN;
 
-  using sotFeatureAbstract::jacobianSOUT;
-  using sotFeatureAbstract::errorSOUT;
-  using sotFeatureAbstract::activationSOUT;
+  using FeatureAbstract::jacobianSOUT;
+  using FeatureAbstract::errorSOUT;
+  using FeatureAbstract::activationSOUT;
 
  public:
-  sotFeatureVisualPoint( const std::string& name );
-  virtual ~sotFeatureVisualPoint( void ) {}
+  FeatureVisualPoint( const std::string& name );
+  virtual ~FeatureVisualPoint( void ) {}
 
   virtual unsigned int& getDimension( unsigned int & dim, int time );
   
@@ -92,8 +92,8 @@ class SOTFEATUREVISUALPOINT_EXPORT sotFeatureVisualPoint
   virtual ml::Vector& computeActivation( ml::Vector& res,int time ); 
 
   /** Static Feature selection. */
-  inline static sotFlags selectX( void ) { return FLAG_LINE_1; }
-  inline static sotFlags selectY( void ) { return FLAG_LINE_2; }
+  inline static Flags selectX( void ) { return FLAG_LINE_1; }
+  inline static Flags selectY( void ) { return FLAG_LINE_2; }
 
   virtual void display( std::ostream& os ) const;
 

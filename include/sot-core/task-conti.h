@@ -60,8 +60,8 @@ namespace ml = maal::boost;
 
 namespace sot {
 
-class SOTTASKCONTI_EXPORT sotTaskConti
-: public sotTask
+class SOTTASKCONTI_EXPORT TaskConti
+: public Task
 {
  protected:
   enum TimeRefValues
@@ -80,7 +80,7 @@ class SOTTASKCONTI_EXPORT sotTaskConti
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
  public:
-  sotTaskConti( const std::string& n );
+  TaskConti( const std::string& n );
 
   void referenceTime( const unsigned int & t ) { timeRef = t; }
   const int &  referenceTime( void ) { return timeRef; }

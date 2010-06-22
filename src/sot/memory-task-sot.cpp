@@ -2,7 +2,7 @@
  * Copyright Projet Gepetto, LAAS, CNRS, 2009
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotMemoryTaskSOT.cpp
+ * File:      MemoryTaskSOT.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -24,11 +24,11 @@
 using namespace sot;
 
 
-const std::string sotMemoryTaskSOT::CLASS_NAME = "MemoryTaskSOT";
+const std::string MemoryTaskSOT::CLASS_NAME = "MemoryTaskSOT";
 
 
-sotMemoryTaskSOT::
-sotMemoryTaskSOT( const std::string & name
+MemoryTaskSOT::
+MemoryTaskSOT( const std::string & name
                   ,const unsigned int nJ
                   ,const unsigned int mJ
                   ,const unsigned int ffsize )
@@ -47,7 +47,7 @@ sotMemoryTaskSOT( const std::string & name
 }
 
 
-void sotMemoryTaskSOT::
+void MemoryTaskSOT::
 initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsize )
 {
    sotDEBUG(15) << "Task-mermory " << getName() << ": resize " 
@@ -70,7 +70,7 @@ initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsiz
  }
 
 
- void sotMemoryTaskSOT::
+ void MemoryTaskSOT::
  commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
               std::ostream& os )
  {
@@ -93,6 +93,6 @@ initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsiz
      }
  }
 
-void sotMemoryTaskSOT::
+void MemoryTaskSOT::
 display( std::ostream& os ) const {} //TODO
 

@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      sotFeatureVector3.cpp
+ * File:      FeatureVector3.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -38,15 +38,15 @@ using namespace sot;
 using namespace std;
 
 
-SOT_FACTORY_FEATURE_PLUGIN(sotFeatureVector3,"FeatureVector3");
+SOT_FACTORY_FEATURE_PLUGIN(FeatureVector3,"FeatureVector3");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-sotFeatureVector3::
-sotFeatureVector3( const string& pointName )
-  : sotFeatureAbstract( pointName )
+FeatureVector3::
+FeatureVector3( const string& pointName )
+  : FeatureAbstract( pointName )
     ,vectorSIN( NULL,"sotFeatureVector3("+name+")::input(vector3)::vector" )
     ,positionSIN( NULL,"sotFeaturePoint6d("+name+")::input(matrixHomo)::position" )
     ,articularJacobianSIN( NULL,"sotFeatureVector3("+name+")::input(matrix)::Jq" )
@@ -70,7 +70,7 @@ sotFeatureVector3( const string& pointName )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int& sotFeatureVector3::
+unsigned int& FeatureVector3::
 getDimension( unsigned int & dim, int time )
 {
   sotDEBUG(25)<<"# In {"<<endl;
@@ -84,15 +84,15 @@ getDimension( unsigned int & dim, int time )
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-ml::Matrix& sotFeatureVector3::
+ml::Matrix& FeatureVector3::
 computeJacobian( ml::Matrix& J,int time )
 {
   sotDEBUG(15)<<"# In {"<<endl;
 
   const ml::Matrix & Jq = articularJacobianSIN(time);
   const ml::Vector & vect = vectorSIN(time);
-  const sotMatrixHomogeneous & M = positionSIN(time);
-  sotMatrixRotation R; M.extract(R);
+  const MatrixHomogeneous & M = positionSIN(time);
+  MatrixRotation R; M.extract(R);
 
   ml::Matrix Skew(3,3);
   Skew( 0,0 ) = 0        ; Skew( 0,1 )=-vect( 2 );  Skew( 0,2 ) = vect( 1 );
@@ -118,11 +118,11 @@ computeJacobian( ml::Matrix& J,int time )
 *a the possible features.
  */
 ml::Vector&
-sotFeatureVector3::computeError( ml::Vector& Mvect3,int time )
+FeatureVector3::computeError( ml::Vector& Mvect3,int time )
 {
   sotDEBUGIN(15);
 
-  const sotMatrixHomogeneous & M = positionSIN(time);
+  const MatrixHomogeneous & M = positionSIN(time);
   const ml::Vector & vect = vectorSIN(time);
   const ml::Vector & vectdes = positionRefSIN(time);
 
@@ -130,7 +130,7 @@ sotFeatureVector3::computeError( ml::Vector& Mvect3,int time )
   sotDEBUG(15) << "v = " << vect << std::endl;
   sotDEBUG(15) << "vd = " << vectdes << std::endl;
 
-  sotMatrixRotation R; M.extract(R);
+  MatrixRotation R; M.extract(R);
   Mvect3.resize(3);
   R.multiply(vect,Mvect3);
   Mvect3 -= vectdes;
@@ -143,14 +143,14 @@ sotFeatureVector3::computeError( ml::Vector& Mvect3,int time )
 *a the possible features.
  */
 ml::Vector&
-sotFeatureVector3::computeActivation( ml::Vector& act,int time )
+FeatureVector3::computeActivation( ml::Vector& act,int time )
 {
   selectionSIN(time);
   act.resize(dimensionSOUT(time)) ; act.fill(1);
   return act ;
 }
 
-void sotFeatureVector3::
+void FeatureVector3::
 display( std::ostream& os ) const
 {
   os <<"Vector3 <"<<name<<">";
@@ -158,7 +158,7 @@ display( std::ostream& os ) const
 
 
 
-void sotFeatureVector3::
+void FeatureVector3::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,
 	     std::ostream& os )
@@ -168,7 +168,7 @@ commandLine( const std::string& cmdLine,
       os << "FeatureVector: "<<endl;
       Entity::commandLine( cmdLine,cmdArgs,os );
     }
-  else  //sotFeatureAbstract::
+  else  //FeatureAbstract::
     Entity::commandLine( cmdLine,cmdArgs,os );
 
 }

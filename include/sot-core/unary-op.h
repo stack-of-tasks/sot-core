@@ -49,7 +49,7 @@ namespace ml = maal::boost;
 namespace sot {
 
 template< class Tin,class Tout,typename Operator >
-class sotUnaryOp
+class UnaryOp
 :public Entity
 {
   Operator op;
@@ -60,17 +60,17 @@ class sotUnaryOp
   static std::string getTypeOutName( void ) { return "UnknownOut"; }
   static const std::string CLASS_NAME;
 
-  sotUnaryOp( const std::string& name )
+  UnaryOp( const std::string& name )
     : Entity(name)
-    ,SIN(NULL,sotUnaryOp::CLASS_NAME+"("+name+")::input("+getTypeInName()+")::in") 
-    ,SOUT( boost::bind(&sotUnaryOp<Tin,Tout,Operator>::computeOperation,this,_1,_2), 
+    ,SIN(NULL,UnaryOp::CLASS_NAME+"("+name+")::input("+getTypeInName()+")::in") 
+    ,SOUT( boost::bind(&UnaryOp<Tin,Tout,Operator>::computeOperation,this,_1,_2), 
 	   SIN,CLASS_NAME+"("+name+")::output("+getTypeOutName()+")::out") 
     {
       signalRegistration( SIN<<SOUT );
     }
 
 
-  virtual ~sotUnaryOp( void ) {};
+  virtual ~UnaryOp( void ) {};
 
  public: /* --- SIGNAL --- */
 

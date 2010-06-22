@@ -162,8 +162,8 @@ namespace sot
 	    ("failed to import module ``%1%'' (import paths: %2%).");
 	  fmt % module;
 	  fmt % scriptDirectories;
-	  SOT_THROW sotExceptionFactory
-	    (sotExceptionFactory::READ_FILE, fmt.str ());
+	  SOT_THROW ExceptionFactory
+	    (ExceptionFactory::READ_FILE, fmt.str ());
 	  return;
 	}
 

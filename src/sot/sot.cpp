@@ -49,17 +49,17 @@ using namespace sot;
 /* --------------------------------------------------------------------- */
 
 
-SOT_FACTORY_ENTITY_PLUGIN(sotSOT,"SOT");
+SOT_FACTORY_ENTITY_PLUGIN(Sot,"SOT");
 
 
-const double sotSOT::INVERSION_THRESHOLD_DEFAULT = 1e-4;
-const unsigned int sotSOT::NB_JOINTS_DEFAULT = 46;
+const double Sot::INVERSION_THRESHOLD_DEFAULT = 1e-4;
+const unsigned int Sot::NB_JOINTS_DEFAULT = 46;
 
 /* --------------------------------------------------------------------- */
 /* --- CONSTRUCTION ---------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-sotSOT::
-sotSOT( const std::string& name )
+Sot::
+Sot( const std::string& name )
   :Entity(name)
   ,stack()
   ,constraintList()
@@ -71,10 +71,10 @@ sotSOT( const std::string& name )
   ,recomputeEachTime(true)
   ,q0SIN( NULL,"sotSOT("+name+")::input(double)::q0" )
    ,inversionThresholdSIN( NULL,"sotSOT("+name+")::input(double)::damping" )
-   ,constraintSOUT( boost::bind(&sotSOT::computeConstraintProjector,this,_1,_2),
+   ,constraintSOUT( boost::bind(&Sot::computeConstraintProjector,this,_1,_2),
 		   sotNOSIGNAL,
 		    "sotSOT("+name+")::output(matrix)::constraint" )
-  ,controlSOUT( boost::bind(&sotSOT::computeControlLaw,this,_1,_2),
+  ,controlSOUT( boost::bind(&Sot::computeControlLaw,this,_1,_2),
 		constraintSOUT<<inversionThresholdSIN<<q0SIN,
 		"sotSOT("+name+")::output(vector)::control" )
 {
@@ -86,8 +86,8 @@ sotSOT( const std::string& name )
 /* --------------------------------------------------------------------- */
 /* --- STACK MANIPULATION --- */
 /* --------------------------------------------------------------------- */
-void sotSOT::
-push( sotTaskAbstract& task )
+void Sot::
+push( TaskAbstract& task )
 {
   stack.push_back( &task );
   controlSOUT.addDependancy( task.taskSOUT );
@@ -95,10 +95,10 @@ push( sotTaskAbstract& task )
   //controlSOUT.addDependancy( task.featureActivationSOUT );
   controlSOUT.setReady();
 }
-sotTaskAbstract& sotSOT::
+TaskAbstract& Sot::
 pop( void )
 {
-  sotTaskAbstract* res = stack.back();
+  TaskAbstract* res = stack.back();
   stack.pop_back();
   controlSOUT.removeDependancy( res->taskSOUT );
   controlSOUT.removeDependancy( res->jacobianSOUT );
@@ -106,20 +106,20 @@ pop( void )
   controlSOUT.setReady();
   return *res;
 }
-bool sotSOT::
-exist( const sotTaskAbstract& key )
+bool Sot::
+exist( const TaskAbstract& key )
 {
-  std::list<sotTaskAbstract*>::iterator it;
+  std::list<TaskAbstract*>::iterator it;
   for ( it=stack.begin();stack.end()!=it;++it )
     {
       if( *it == &key ) { return true; }
     }
   return false;
 }
-void sotSOT::
-remove( const sotTaskAbstract& key )
+void Sot::
+remove( const TaskAbstract& key )
 {
-  bool find =false; std::list<sotTaskAbstract*>::iterator it;
+  bool find =false; std::list<TaskAbstract*>::iterator it;
   for ( it=stack.begin();stack.end()!=it;++it )
     {
       if( *it == &key ) { find=true; break; }
@@ -130,8 +130,8 @@ remove( const sotTaskAbstract& key )
   removeDependancy( key );
 }
 
-void sotSOT::
-removeDependancy( const sotTaskAbstract& key )
+void Sot::
+removeDependancy( const TaskAbstract& key )
 {
   controlSOUT.removeDependancy( key.taskSOUT );
   controlSOUT.removeDependancy( key.jacobianSOUT );
@@ -139,10 +139,10 @@ removeDependancy( const sotTaskAbstract& key )
   controlSOUT.setReady();
 }
 
-void sotSOT::
-up( const sotTaskAbstract& key )
+void Sot::
+up( const TaskAbstract& key )
 {
-  bool find =false; std::list<sotTaskAbstract*>::iterator it;
+  bool find =false; std::list<TaskAbstract*>::iterator it;
   for ( it=stack.begin();stack.end()!=it;++it )
     {
       if( *it == &key ) { find=true; break; }
@@ -150,16 +150,16 @@ up( const sotTaskAbstract& key )
   if( stack.begin()==it ) { return; }
   if(! find ){ return; }
 
-  std::list<sotTaskAbstract*>::iterator pos=it; pos--;
-  sotTaskAbstract * task = *it;
+  std::list<TaskAbstract*>::iterator pos=it; pos--;
+  TaskAbstract * task = *it;
   stack.erase( it );
   stack.insert( pos,task );
   controlSOUT.setReady();
 }
-void sotSOT::
-down( const sotTaskAbstract& key )
+void Sot::
+down( const TaskAbstract& key )
 {
-  bool find =false; std::list<sotTaskAbstract*>::iterator it;
+  bool find =false; std::list<TaskAbstract*>::iterator it;
   for ( it=stack.begin();stack.end()!=it;++it )
     {
       if( *it == &key ) { find=true; break; }
@@ -167,8 +167,8 @@ down( const sotTaskAbstract& key )
   if( stack.end()==it ) { return; }
   if(! find ){ return; }
 
-  std::list<sotTaskAbstract*>::iterator pos=it; pos++;
-  sotTaskAbstract* task=*it;
+  std::list<TaskAbstract*>::iterator pos=it; pos++;
+  TaskAbstract* task=*it;
   stack.erase( it );
   if( stack.end()==pos ){ stack.push_back(task); }
   else
@@ -179,10 +179,10 @@ down( const sotTaskAbstract& key )
   controlSOUT.setReady();
 }
 
-void sotSOT::
+void Sot::
 clear( void )
 {
-  for (  std::list<sotTaskAbstract*>::iterator it=stack.begin();stack.end()!=it;++it )
+  for (  std::list<TaskAbstract*>::iterator it=stack.begin();stack.end()!=it;++it )
     {
       removeDependancy( **it );
     }
@@ -194,14 +194,14 @@ clear( void )
 /* --- CONSTRAINTS ----------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void sotSOT::
+void Sot::
 addConstraint( Constraint& constraint )
 {
   constraintList.push_back( &constraint );
   constraintSOUT.addDependancy( constraint.jacobianSOUT );
 }
 
-void sotSOT::
+void Sot::
 removeConstraint( const Constraint& key )
 {
   bool find =false; ConstraintListType::iterator it;
@@ -215,7 +215,7 @@ removeConstraint( const Constraint& key )
 
   constraintSOUT.removeDependancy( key.jacobianSOUT );
 }
-void sotSOT::
+void Sot::
 clearConstraint( void )
 {
   for (  ConstraintListType::iterator it=constraintList.begin();
@@ -226,7 +226,7 @@ clearConstraint( void )
   constraintList.clear();
 }
 
-void sotSOT::
+void Sot::
 defineFreeFloatingJoints( const unsigned int& first,const unsigned int& last )
 {
   ffJointIdFirst = first ;
@@ -234,7 +234,7 @@ defineFreeFloatingJoints( const unsigned int& first,const unsigned int& last )
   else ffJointIdLast=ffJointIdFirst+6;
 }
 
-void sotSOT::
+void Sot::
 defineNbDof( const unsigned int& nbDof )
 {
   nbJoints = nbDof;
@@ -246,7 +246,7 @@ defineNbDof( const unsigned int& nbDof )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-ml::Matrix & sotSOT::
+ml::Matrix & Sot::
 computeJacobianConstrained( const ml::Matrix& Jac,
                             const ml::Matrix& K,
                             ml::Matrix& JK,
@@ -270,12 +270,12 @@ computeJacobianConstrained( const ml::Matrix& Jac,
 }
 
 
-ml::Matrix & sotSOT::
-computeJacobianConstrained( const sotTaskAbstract& task,
+ml::Matrix & Sot::
+computeJacobianConstrained( const TaskAbstract& task,
                             const ml::Matrix& K )
 {
   const ml::Matrix &Jac = task.jacobianSOUT;
-  sotMemoryTaskSOT * mem = dynamic_cast<sotMemoryTaskSOT *>( task.memoryInternal );
+  MemoryTaskSOT * mem = dynamic_cast<MemoryTaskSOT *>( task.memoryInternal );
   if( NULL==mem ) throw; // TODO
   ml::Matrix &Jff = mem->Jff;
   ml::Matrix &Jact = mem->Jact;
@@ -283,13 +283,13 @@ computeJacobianConstrained( const sotTaskAbstract& task,
   return computeJacobianConstrained(Jac,K,JK,Jff,Jact);
 }
 
-static void computeJacobianActivated( sotTask* taskSpec,
+static void computeJacobianActivated( Task* taskSpec,
 				      ml::Matrix& Jt,
 				      const int& iterTime )
 {
   if( NULL!=taskSpec )
     {
-      const sotFlags& controlSelec = taskSpec->controlSelectionSIN( iterTime );
+      const Flags& controlSelec = taskSpec->controlSelectionSIN( iterTime );
       sotDEBUG(25) << "Control selection = " << controlSelec <<endl;
       if( controlSelec )
 	{
@@ -365,7 +365,7 @@ static void computeJacobianActivated( sotTask* taskSpec,
 #   define sotPRINTCOUNTER(nbc1)
 #endif // #ifdef  WITH_CHRONO
 
-ml::Vector sotSOT::
+ml::Vector Sot::
 taskVectorToMlVector( const sotVectorMultiBound& taskVector )
 {
   ml::Vector res(taskVector.size()); unsigned int i=0;
@@ -377,7 +377,7 @@ taskVectorToMlVector( const sotVectorMultiBound& taskVector )
   return res;
 }
 
-ml::Vector& sotSOT::
+ml::Vector& Sot::
 computeControlLaw( ml::Vector& control,const int& iterTime )
 {
   sotDEBUGIN(15);
@@ -410,7 +410,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
   for( StackType::iterator iter = stack.begin(); iter!=stack.end();++iter )
     {
       sotDEBUGF(5,"Rank %d.",iterTask);
-      sotTaskAbstract & task = **iter;
+      TaskAbstract & task = **iter;
       sotDEBUG(15) << "Task: e_" << task.getName() << std::endl;
       const ml::Matrix &Jac = task.jacobianSOUT(iterTime);
       const ml::Vector err = taskVectorToMlVector(task.taskSOUT(iterTime));
@@ -420,11 +420,11 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
       const unsigned int nJ = Jac.nbRows();
 
       /* Init memory. */
-      sotMemoryTaskSOT * mem = dynamic_cast<sotMemoryTaskSOT *>( task.memoryInternal );
+      MemoryTaskSOT * mem = dynamic_cast<MemoryTaskSOT *>( task.memoryInternal );
       if( NULL==mem )
         {
           if( NULL!=task.memoryInternal ) delete task.memoryInternal;
-          mem = new sotMemoryTaskSOT( task.getName()+"_memSOT",nJ,mJ );
+          mem = new MemoryTaskSOT( task.getName()+"_memSOT",nJ,mJ );
           task.memoryInternal = mem;
         }
 
@@ -477,7 +477,7 @@ sotDEBUG(1) << std::endl;
 	/***/sotCOUNTER(3,4); // compute Jt
 	
 	/* --- COMPUTE S --- */
-	computeJacobianActivated( dynamic_cast<sotTask*>( &task ),Jt,iterTime );
+	computeJacobianActivated( dynamic_cast<Task*>( &task ),Jt,iterTime );
 	/***/sotCOUNTER(4,5); // Jt*S
 	
 	/* --- PINV --- */
@@ -627,13 +627,13 @@ sotDEBUG(1) << std::endl;
 
       const unsigned int nJ = Jac.nbRows();
 
-      sotMemoryTaskSOT * mem
-        = dynamic_cast<sotMemoryTaskSOT *>( taskGradient->memoryInternal );
+      MemoryTaskSOT * mem
+        = dynamic_cast<MemoryTaskSOT *>( taskGradient->memoryInternal );
       if( NULL==mem )
         {
           if( NULL!=taskGradient->memoryInternal )
             { delete taskGradient->memoryInternal; }
-          mem = new sotMemoryTaskSOT( taskGradient->getName()+"_memSOT",nJ,mJ );
+          mem = new MemoryTaskSOT( taskGradient->getName()+"_memSOT",nJ,mJ );
           taskGradient->memoryInternal = mem;
         }
 
@@ -689,7 +689,7 @@ sotDEBUG(1) << std::endl;
 
 
 
-ml::Matrix& sotSOT::
+ml::Matrix& Sot::
 computeConstraintProjector( ml::Matrix& ProjK, const int& time )
 {
   sotDEBUGIN(15);
@@ -705,7 +705,7 @@ computeConstraintProjector( ml::Matrix& ProjK, const int& time )
     { Jptr = &(*constraintList.begin())->jacobianSOUT(time); }
   else
     {
-      SOT_THROW sotExceptionTask( sotExceptionTask::EMPTY_LIST,
+      SOT_THROW ExceptionTask( ExceptionTask::EMPTY_LIST,
 				  "Not implemented yet." );
     }
 
@@ -746,13 +746,13 @@ computeConstraintProjector( ml::Matrix& ProjK, const int& time )
 /* --------------------------------------------------------------------- */
 /* --- DISPLAY --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-void sotSOT::
+void Sot::
 display( std::ostream& os ) const
 {
 
   os << "+-----------------"<<std::endl<<"+   SOT     "
      << std::endl<< "+-----------------"<<std::endl;
-  for ( std::list<sotTaskAbstract*>::const_iterator it=this->stack.begin();
+  for ( std::list<TaskAbstract*>::const_iterator it=this->stack.begin();
 	this->stack.end()!=it;++it )
     {
       os << "| " << (*it)->getName() <<std::endl;
@@ -771,7 +771,7 @@ display( std::ostream& os ) const
 }
 
 std::ostream&
-operator<< ( std::ostream& os,const sotSOT& sot )
+operator<< ( std::ostream& os,const Sot& sot )
 {
   sot.display(os);
   return os;
@@ -781,7 +781,7 @@ operator<< ( std::ostream& os,const sotSOT& sot )
 /* --- COMMAND --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void sotSOT::
+void Sot::
 commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 	     std::ostream& os )
 {
@@ -820,7 +820,7 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
   else if( cmdLine == "push")
     {
       std::string tname; cmdArgs >> tname;
-      sotTaskAbstract & task = sotPool.getTask( tname );
+      TaskAbstract & task = sotPool.getTask( tname );
       push(task);
     }
   else if( cmdLine == "gradient")
@@ -833,7 +833,7 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 	    { taskGradient = 0; }
 	  else
 	    {
-	      sotTaskAbstract & task = sotPool.getTask( tname );
+	      TaskAbstract & task = sotPool.getTask( tname );
 	      taskGradient = &task;
 	    }
 	}
@@ -848,24 +848,24 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
   else if( cmdLine == "up")
     {
       std::string tname; cmdArgs >> tname;
-      sotTaskAbstract & task = sotPool.getTask( tname );
+      TaskAbstract & task = sotPool.getTask( tname );
       up(task);
     }
   else if( cmdLine == "down")
     {
       std::string tname; cmdArgs >> tname;
-      sotTaskAbstract & task = sotPool.getTask( tname );
+      TaskAbstract & task = sotPool.getTask( tname );
       down(task);
     }
   else if( cmdLine == "rm")
     {
       std::string tname; cmdArgs >> tname;
-      sotTaskAbstract & task = sotPool.getTask( tname );
+      TaskAbstract & task = sotPool.getTask( tname );
       remove(task);
     }
   else if( cmdLine == "pop")
     {
-      sotTaskAbstract& task = pop();
+      TaskAbstract& task = pop();
       os << "Remove : "<< task << std::endl;
     }
 
@@ -916,19 +916,19 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
   sotDEBUGOUT(15);
 }
 
-std::ostream& sotSOT::
+std::ostream& Sot::
 writeGraph( std::ostream& os ) const
 {
-  std::list<sotTaskAbstract *>::const_iterator iter;
+  std::list<TaskAbstract *>::const_iterator iter;
   for(  iter = stack.begin(); iter!=stack.end();++iter )
     {
-      const sotTaskAbstract & task = **iter;
-      std::list<sotTaskAbstract *>::const_iterator nextiter =iter;
+      const TaskAbstract & task = **iter;
+      std::list<TaskAbstract *>::const_iterator nextiter =iter;
       nextiter++;
 
       if (nextiter!=stack.end())
 	{
-	  sotTaskAbstract & nexttask = **nextiter;
+	  TaskAbstract & nexttask = **nextiter;
 	  os << "\t\t\t" << task.getName() << " -> " << nexttask.getName() << " [color=red]" << endl;
 	}
 
@@ -939,7 +939,7 @@ writeGraph( std::ostream& os ) const
   os << "\t\t\t\tcolor=lightsteelblue1; label=\"" << getName() <<"\"; style=filled;" << std::endl;
   for(  iter = stack.begin(); iter!=stack.end();++iter )
     {
-      const sotTaskAbstract & task = **iter;
+      const TaskAbstract & task = **iter;
       os << "\t\t\t\t" << task.getName()
 		<<" [ label = \"" << task.getName() << "\" ," << std::endl
 		<<"\t\t\t\t   fontcolor = black, color = black, fillcolor = magenta, style=filled, shape=box ]" << std::endl;

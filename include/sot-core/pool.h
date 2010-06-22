@@ -45,16 +45,16 @@
 namespace sot {
 
 // Preliminary declarations
-class sotFeatureAbstract;
-class sotTaskAbstract;
+class FeatureAbstract;
+class TaskAbstract;
 
 
 /*! @ingroup factory
   \brief This class keep tracks of all the objects in the stack of Tasks.
 
   Three kinds of objects are handled:
-  \li The controllers, i.e. the tasks which inherits from sotTaskAbstract.
-  \li The features, i.e. the information which inherits from sotFeatureAbstract.
+  \li The controllers, i.e. the tasks which inherits from TaskAbstract.
+  \li The features, i.e. the information which inherits from FeatureAbstract.
 
   \li Any object which need to be inside the SoT and which inherits from Entity.
 
@@ -71,17 +71,17 @@ class sotTaskAbstract;
 
   It also returns references to signals from their fully-qualified names.
  */
-class SOT_CORE_EXPORT sotPoolStorage
+class SOT_CORE_EXPORT PoolStorage
 {
  public:
   /*! \name Define types to simplify the writing
     @{
    */
   /*! \brief Sorted set of tasks with unique key (name). */
-  typedef std::map< std::string,sotTaskAbstract* > Tasks;
+  typedef std::map< std::string,TaskAbstract* > Tasks;
 
   /*! \brief Sorted set of features with unique key (name). */
-  typedef std::map< std::string,sotFeatureAbstract* > Features;
+  typedef std::map< std::string,FeatureAbstract* > Features;
   /*! @} */
 
  protected:
@@ -99,25 +99,25 @@ class SOT_CORE_EXPORT sotPoolStorage
 
  public:
   /*! \brief Default destructor */
-  ~sotPoolStorage( void );
+  ~PoolStorage( void );
 
   /*! \name Methods related to the handling of the features
     @{
    */
   /*! \brief Registering a feature. */
-  void registerFeature( const std::string& entname,sotFeatureAbstract* ent );
+  void registerFeature( const std::string& entname,FeatureAbstract* ent );
 
   /*! \brief Get a reference to a feature. */
-  sotFeatureAbstract& getFeature( const std::string& name );
+  FeatureAbstract& getFeature( const std::string& name );
   /*! @} */
 
   /*! \name Methods related to the handling of the tasks
     @{
    */
   /*! \brief Registering a task. */
-  void registerTask( const std::string& entname,sotTaskAbstract* ent );
+  void registerTask( const std::string& entname,TaskAbstract* ent );
   /*! \brief Get a reference to a task. */
-  sotTaskAbstract& getTask( const std::string& name );
+  TaskAbstract& getTask( const std::string& name );
   /*! @} */
 
   /*! \brief This method looks for the object named objectName,
@@ -139,7 +139,7 @@ class SOT_CORE_EXPORT sotPoolStorage
 };
 
 
-SOT_CORE_EXPORT extern sotPoolStorage sotPool;
+SOT_CORE_EXPORT extern PoolStorage sotPool;
 
 } // namespace sot
 

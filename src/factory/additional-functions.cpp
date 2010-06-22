@@ -129,11 +129,11 @@ cmdFlagSet( const std::string& cmdLine, istringstream& cmdArg, std::ostream& os 
     }
 
   try {
-    Signal<sotFlags,int> &sig1
-      = dynamic_cast< Signal<sotFlags,int>& >( pool.getSignal(cmdArg) );
+    Signal<Flags,int> &sig1
+      = dynamic_cast< Signal<Flags,int>& >( pool.getSignal(cmdArg) );
 
     dgDEBUG(25) << "set..."<<endl;
-    sotFlags fl; try { fl = sig1.accessCopy(); } catch(...) {}
+    Flags fl; try { fl = sig1.accessCopy(); } catch(...) {}
     cmdArg >> std::ws >> fl;
     dgDEBUG(15) << "Fl=" << fl <<std::endl;
     sig1 = fl;
