@@ -53,25 +53,25 @@ class SOT_CORE_EXPORT TaskAbstract
  public:
 
   /* Use a derivative of this class to store computational memory. */
-  class sotMemoryTaskAbstract
+  class MemoryTaskAbstract
   {
   public:
     int timeLastChange;
   public:
-  sotMemoryTaskAbstract( void ) : timeLastChange(0) {};
-    virtual ~sotMemoryTaskAbstract( void ) {};
+  MemoryTaskAbstract( void ) : timeLastChange(0) {};
+    virtual ~MemoryTaskAbstract( void ) {};
   public:
     virtual void commandLine( const std::string& cmdLine
                               ,std::istringstream& cmdArgs
                               ,std::ostream& os ) = 0;
     virtual void display( std::ostream& os ) const = 0;
     friend std::ostream&
-      operator<<( std::ostream& os,const sotMemoryTaskAbstract& tcm )
+      operator<<( std::ostream& os,const MemoryTaskAbstract& tcm )
       {tcm.display(os); return os;}
   };
 
  public:
-  sotMemoryTaskAbstract * memoryInternal;
+  MemoryTaskAbstract * memoryInternal;
 
  protected:
   void taskRegistration( void );

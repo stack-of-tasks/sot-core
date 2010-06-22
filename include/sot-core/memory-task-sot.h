@@ -47,7 +47,7 @@
 namespace sot {
 
 class SOTSOT_CORE_EXPORT MemoryTaskSOT
-: public TaskAbstract::sotMemoryTaskAbstract, public Entity
+: public TaskAbstract::MemoryTaskAbstract, public Entity
 {
  public://   protected:
   /* Internal memory to reduce the dynamic allocation at task resolution. */
@@ -65,7 +65,7 @@ class SOTSOT_CORE_EXPORT MemoryTaskSOT
  public:
   /* mJ is the number of actuated joints, nJ the number of feature in the task,
    * and ffsize the number of unactuated DOF. */
-  sotMemoryTaskSOT( const std::string & name,const unsigned int nJ=0,
+  MemoryTaskSOT( const std::string & name,const unsigned int nJ=0,
                     const unsigned int mJ=0,const unsigned int ffsize =0 );
 
   virtual void initMemory( const unsigned int nJ,

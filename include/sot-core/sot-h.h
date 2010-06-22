@@ -62,15 +62,15 @@ class SOTSOTH_EXPORT SotH
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
   /* --- SPECIFIC MEM -------------------------------------------------- */
-  class sotMemoryTaskSOTH
-    : public TaskAbstract::sotMemoryTaskAbstract,public Entity
+  class MemoryTaskSOTH
+    : public TaskAbstract::MemoryTaskAbstract,public Entity
     {
     public:
       const SotH * referenceKey;
       SolverHierarchicalInequalities solver;
       ml::Matrix JK,Jff,Jact;
     public:
-    sotMemoryTaskSOTH( const std::string & name,
+    MemoryTaskSOTH( const std::string & name,
                        const SotH * ref,
                        unsigned int nJ,
                        sotRotationComposedInExtenso& Qh,

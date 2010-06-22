@@ -76,8 +76,8 @@ defineNbDof( const unsigned int& nbDof )
   Sot::defineNbDof(nbDof);
   for(StackType::iterator iter=stack.begin();stack.end()!=iter;++iter )
     {
-      sotMemoryTaskSOTH * mem
-        = dynamic_cast<sotMemoryTaskSOTH *>( (*iter)->memoryInternal );
+      MemoryTaskSOTH * mem
+        = dynamic_cast<MemoryTaskSOTH *>( (*iter)->memoryInternal );
       if(NULL!=mem) mem->solver.setNbDof(nbDof);
     }
   solverNorm.setNbDof(nbDof-(ffJointIdLast-ffJointIdFirst));
@@ -270,11 +270,11 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
       unsigned int ntask=err.size();
 
       sotDEBUG(25) << "/* Init memory. */" << std::endl;
-      sotMemoryTaskSOTH * mem = dynamic_cast<sotMemoryTaskSOTH *>( task.memoryInternal );
+      MemoryTaskSOTH * mem = dynamic_cast<MemoryTaskSOTH *>( task.memoryInternal );
       if( (NULL==mem)||(mem->referenceKey!=this) )
         {
           if( NULL!=task.memoryInternal ) delete task.memoryInternal;
-          mem = new sotMemoryTaskSOTH(task.getName()+"_memSOTH",
+          mem = new MemoryTaskSOTH(task.getName()+"_memSOTH",
                                       this,nJ,Qh,Rh,constraintH);
           task.memoryInternal = mem;
         }
@@ -373,7 +373,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
     for( StackType::iterator iter = stack.begin(); iter!=stack.end();++iter,++iterTask )
       {
         TaskAbstract & task = **iter;
-        sotMemoryTaskSOTH * mem = dynamic_cast<sotMemoryTaskSOTH *>( task.memoryInternal );
+        MemoryTaskSOTH * mem = dynamic_cast<MemoryTaskSOTH *>( task.memoryInternal );
         if( mem == NULL ) continue;
         sotVectorMultiBound taskVector = task.taskSOUT(iterTime);
         const ml::Matrix JK = mem->jacobianConstrainedSINOUT.accessCopy();
@@ -408,21 +408,21 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 /* --------------------------------------------------------------------- */
 
 
-const std::string SotH::sotMemoryTaskSOTH::CLASS_NAME = "MemoryTaskSOTH";
+const std::string SotH::MemoryTaskSOTH::CLASS_NAME = "MemoryTaskSOTH";
 
-void SotH::sotMemoryTaskSOTH::
+void SotH::MemoryTaskSOTH::
 commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
              std::ostream& os )
 {
   Entity::commandLine( cmdLine,cmdArgs,os );
 }
 
-void SotH::sotMemoryTaskSOTH::
+void SotH::MemoryTaskSOTH::
 display( std::ostream& os ) const {} //TODO
 
 
-SotH::sotMemoryTaskSOTH::
-sotMemoryTaskSOTH( const std::string & name,
+SotH::MemoryTaskSOTH::
+MemoryTaskSOTH( const std::string & name,
                    const SotH * ref,
                    unsigned int nJ,
                    sotRotationComposedInExtenso& Qh,

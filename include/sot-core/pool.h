@@ -138,8 +138,7 @@ class SOT_CORE_EXPORT PoolStorage
   void writeCompletionList(std::ostream& os);
 };
 
-
-SOT_CORE_EXPORT extern PoolStorage sotPool;
+SOT_CORE_EXPORT extern sot::PoolStorage sotPool;
 
 } // namespace sot
 

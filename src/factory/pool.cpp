@@ -21,16 +21,20 @@
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
+#include <list>
+#ifdef WIN32
+#include <time.h>
+#endif /*WIN32*/
 
 /* --- SOT --- */
 #include <sot-core/pool.h>
 #include <sot-core/debug.h>
 #include <dynamic-graph/entity.h>
-#include <list>
+#include <sot-core/task-abstract.h>
+#include <sot-core/feature-abstract.h>
 
 using namespace sot;
-
-
+namespace sot {
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -111,19 +115,6 @@ getFeature( const std::string& name )
     }
   return *entPtr->second;
 }
-
-
-
-
-/* --------------------------------------------------------------------- */
-
-#include <dynamic-graph/entity.h>
-#include <sot-core/task-abstract.h>
-#include <sot-core/feature-abstract.h>
-
-#ifdef WIN32
-#include <time.h>
-#endif /*WIN32*/
 
 void PoolStorage::
 writeGraph(const std::string &aFileName)
@@ -248,6 +239,6 @@ commandLine( const std::string& objectName,const std::string& functionName,
 }
 
 /// The global sotPool object
-namespace sot {
+
 PoolStorage sotPool;
 }
