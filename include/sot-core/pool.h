@@ -3,7 +3,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      pool.h
+ * File:      g_pool.h
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -126,9 +126,9 @@ class SOT_CORE_EXPORT PoolStorage
     be done on os.
 
     The commands specific to the <b>pool<\b> object are:
-    \li <b>list</b> : List all the entities registered in the pool.
-    \li <b>listFeature</b> : List all the features registered in the pool.
-    \li <b>listTask</b> : List all the tasks registered in the pool.
+    \li <b>list</b> : List all the entities registered in the g_pool.
+    \li <b>listFeature</b> : List all the features registered in the g_pool.
+    \li <b>listTask</b> : List all the tasks registered in the g_pool.
   */
   void commandLine( const std::string& objectName,const std::string& functionName,
 		    std::istringstream& cmdArg, std::ostream& os );

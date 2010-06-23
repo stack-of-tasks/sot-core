@@ -302,7 +302,7 @@ commandLine( const std::string& cmdLine,
 	{
 	  std::string nameSdes; cmdArgs >> nameSdes;
 	  FeaturePoint6dRelative & sdes 
-	    = dynamic_cast< FeaturePoint6dRelative &> (pool.getEntity( nameSdes ));
+	    = dynamic_cast< FeaturePoint6dRelative &> (g_pool.getEntity( nameSdes ));
 	  const int timeCurr = positionSIN.getTime() +1;
 	  positionSIN.recompute( timeCurr );
 	  positionReferenceSIN.recompute( timeCurr );

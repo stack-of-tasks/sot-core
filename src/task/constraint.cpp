@@ -157,7 +157,7 @@ commandLine( const std::string& cmdLine
     }
   else if( cmdLine=="add" )
     {
-      SignalBase<int>* sigA = &pool.getSignal( cmdArgs );
+      SignalBase<int>* sigA = &g_pool.getSignal( cmdArgs );
       Signal< ml::Matrix,int >* sig 
 	= dynamic_cast< Signal<ml::Matrix,int>* >( sigA );
       if(! sig ) 

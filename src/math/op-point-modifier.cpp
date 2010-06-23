@@ -96,7 +96,7 @@ commandLine( const std::string& cmdLine,
     {
       Signal< MatrixHomogeneous,int > &sig 
 	= dynamic_cast< Signal< MatrixHomogeneous,int >& > 
-	(pool.getSignal( cmdArgs ));
+	(g_pool.getSignal( cmdArgs ));
       setTransformation(sig.accessCopy());
     }
   else if( cmdLine == "getTransfo" ) 

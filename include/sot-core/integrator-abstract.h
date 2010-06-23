@@ -84,7 +84,7 @@ class IntegratorAbstract
     {
       std::string objname, signame;
       Interpreter::objectNameParser(cmdArgs, objname, signame);
-      Entity& obj = pool.getEntity(objname);
+      Entity& obj = g_pool.getEntity(objname);
       SignalBase<int>& sig = obj.getSignal(signame);
       try {
 	Signal<coefT,int>& sigc = dynamic_cast<Signal<coefT,int>&>(sig);
@@ -99,7 +99,7 @@ class IntegratorAbstract
     {
       std::string objname, signame;
       Interpreter::objectNameParser(cmdArgs, objname, signame);
-      Entity& obj = pool.getEntity(objname);
+      Entity& obj = g_pool.getEntity(objname);
       SignalBase<int>& sig = obj.getSignal(signame);
       try {
 	Signal<coefT,int>& sigc = dynamic_cast<Signal<coefT,int>&>(sig);

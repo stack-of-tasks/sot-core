@@ -13,7 +13,7 @@
  *
  * Description
  * ============
- * SOT-specific functions for the shell
+ * SOT-specific functions for the g_shell
  *
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
@@ -24,22 +24,22 @@
 #include <sot-core/factory.h>
 #include <sot-core/additional-functions.h>
 #include <sot-core/signal-cast.h>
-#include <dynamic-graph/all-signals.h>
+#include <dynamic-graph/signal.h>
 #include <sot-core/flags.h>
 using namespace std;
 using namespace sot;
 
 /* \brief Constructor. At creation, overloads (deregisters-then registers
- * again) the 'new' function in the shell
+ * again) the 'new' function in the g_shell
  */
 AdditionalFunctions::AdditionalFunctions() {
 	// overload 'new'
-	Shell.deregisterFunction("new");
-	Shell.registerFunction("new", &AdditionalFunctions::cmdNew);
+	g_shell.deregisterFunction("new");
+	g_shell.registerFunction("new", &AdditionalFunctions::cmdNew);
 }
 
 AdditionalFunctions::~AdditionalFunctions() {
-	Shell.deregisterFunction("new");
+	g_shell.deregisterFunction("new");
 }
 
 void AdditionalFunctions::cmdNew( const std::string& cmdLine, istringstream& cmdArg, std::ostream& os )
@@ -54,10 +54,10 @@ void AdditionalFunctions::cmdNew( const std::string& cmdLine, istringstream& cmd
   string objName;
   cmdArg >> className >>objName;
   sotDEBUG(15) << "New <" << className<<"> requested."<<endl;
-  if( factory.existEntity( className ) )
+  if( g_factory.existEntity( className ) )
     {
       sotDEBUG(15) << "New entity<"<<className<<"> " <<objName<<std::endl;
-      factory.newEntity(className,objName);
+      g_factory.newEntity(className,objName);
     }
   else if( sotFactory.existFeature( className ) )
     {
@@ -130,7 +130,7 @@ cmdFlagSet( const std::string& cmdLine, istringstream& cmdArg, std::ostream& os 
 
   try {
     Signal<Flags,int> &sig1
-      = dynamic_cast< Signal<Flags,int>& >( pool.getSignal(cmdArg) );
+      = dynamic_cast< Signal<Flags,int>& >( g_pool.getSignal(cmdArg) );
 
     dgDEBUG(25) << "set..."<<endl;
     Flags fl; try { fl = sig1.accessCopy(); } catch(...) {}
