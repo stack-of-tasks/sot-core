@@ -4,7 +4,11 @@
 
 SET (tests
 	main
-	signal/test_signal)
+	signal/test_signal
+	signal/test_array
+	signal/test_depend
+	signal/test_ptr
+	signal/test_dep)
 
 FOREACH(test ${tests})
 	GET_FILENAME_COMPONENT(EXECUTABLE_NAME ${test} NAME)

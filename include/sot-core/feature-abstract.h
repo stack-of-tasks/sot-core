@@ -38,8 +38,9 @@ namespace ml = maal::boost;
 
 /* STD */
 #include <string>
-using namespace dynamicgraph;
+
 namespace sot {
+namespace dg = dynamicgraph;
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -150,13 +151,13 @@ class SOT_CORE_EXPORT FeatureAbstract
   /*! \name Input signals: 
    @{ */
   /*! \brief This signal specifies the desired value \f$ {\bf s}^*(t) \f$ */
-  SignalPtr< FeatureAbstract*,int > desiredValueSIN;
+  dg::SignalPtr< FeatureAbstract*,int > desiredValueSIN;
 
   /*! \brief This vector specifies which dimension are used to perform the computation.
    For instance let us assume that the feature is a 3D point. If only the Y-axis should
    be used for computing error, activation and Jacobian, then the vector to specify
    is \f$ [ 0 1 0] \f$.*/
-  SignalPtr< Flags,int > selectionSIN;
+  dg::SignalPtr< Flags,int > selectionSIN;
   /*! @} */
 
   /*! \name Output signals: 
@@ -164,17 +165,17 @@ class SOT_CORE_EXPORT FeatureAbstract
 
   /*! \brief This signal returns the error between the desired value and
     the current value : \f$ {\bf s}^*(t) - {\bf s}(t)\f$ */
-  SignalTimeDependant<ml::Vector,int> errorSOUT;
+  dg::SignalTimeDependant<ml::Vector,int> errorSOUT;
   
   /*! \brief This signal returns the Jacobian of the current value 
     according to the robot state: \f$ J(t) = \frac{\delta{\bf s}^*(t)}{\delta {\bf q}(t)}\f$ */
-  SignalTimeDependant<ml::Matrix,int> jacobianSOUT;
+  dg::SignalTimeDependant<ml::Matrix,int> jacobianSOUT;
   
   /*! \brief Compute the new value of the feature \f$ {\bf s}(t)\f$ */
-  SignalTimeDependant<ml::Vector,int> activationSOUT;
+  dg::SignalTimeDependant<ml::Vector,int> activationSOUT;
 
   /*! \brief Returns the dimension of the feature as an output signal. */
-  SignalTimeDependant<unsigned int,int> dimensionSOUT;
+  dg::SignalTimeDependant<unsigned int,int> dimensionSOUT;
 
   /*! \brief This method write a graph description on the file named FileName. */
   virtual std::ostream & writeGraph(std::ostream & os) const;

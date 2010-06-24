@@ -2,6 +2,9 @@
 #  Copyright 
 # 
 
+# The main library name
+SET(SOTCORE_LIB_NAME ${PROJECT_NAME})
+
 #This project will create many shared libraries as plugins, listed here
 SET(plugins 
 	sot/sot-qr
@@ -9,6 +12,8 @@ SET(plugins
 	sot/sot-h
 	sot/sot
 )
+
+SET(LIBRARY_NAME ${SOTCORE_LIB_NAME})
 
 #sot-core library sources
 SET(${PROJECT_NAME}_SOURCES
@@ -65,14 +70,9 @@ SET(${PROJECT_NAME}_SOURCES
 	task/task-abstract.cpp
 	
 	sot/flags.cpp
-	sot/sot-qr.cpp
 	sot/memory-task-sot.cpp
-	sot/sot.cpp
 	sot/rotation-simple.cpp
-	sot/weighted-sot.cpp
 	sot/solver-hierarchical-inequalities.cpp
-	
-	sot/sot-h.cpp
 	
 	factory/additional-functions.cpp
 	factory/factory.cpp
@@ -80,7 +80,6 @@ SET(${PROJECT_NAME}_SOURCES
 	factory/command/import.cpp
 )
 
-SET(LIBRARY_NAME ${PROJECT_NAME})
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
 
 ADD_DEFINITIONS(-DDEBUG=2)
@@ -147,6 +146,7 @@ SET_TARGET_PROPERTIES(${LIBRARY_NAME}
 
 INSTALL(TARGETS ${LIBRARY_NAME}
   DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+ 
 
 #Plugins compilation, link, and installation
 FOREACH(plugin ${plugins})
@@ -167,11 +167,19 @@ FOREACH(plugin ${plugins})
 	ADD_LIBRARY(${LIBRARY_NAME} 
 	  SHARED
 	  ${plugin}.cpp)
+	  
+	#remove the "lib" prefix from the plugin output name
+	SET_TARGET_PROPERTIES(${LIBRARY_NAME}
+		PROPERTIES
+		PREFIX "")
 	
 	SET_TARGET_PROPERTIES(${LIBRARY_NAME} 
 	  PROPERTIES 
 	  SOVERSION ${PROJECT_VERSION}
 	  INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/lib/plugin)
+	  
+	# Link with sot-core library
+	TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${SOTCORE_LIB_NAME})
 	
 	# Add lapack compilation flags and link to library libLapack.so
 	ADD_DEFINITIONS(${LAPACK_CFLAGS})
