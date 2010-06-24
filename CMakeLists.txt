@@ -35,6 +35,7 @@ ENDIF(
 	(NOT "${CMAKE_GENERATOR}" MATCHES "Visual Studio.*")
 )	
 
+enable_testing()
 
 #
 # Look for dependencies
@@ -138,6 +139,7 @@ INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(unitTesting)
+ADD_SUBDIRECTORY(tools)
 
 #
 # Documentation produced by doxygen

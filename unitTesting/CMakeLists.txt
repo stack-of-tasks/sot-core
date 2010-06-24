@@ -5,7 +5,6 @@
 SET (tests
 	main
 	signal/test_signal
-	signal/test_array
 	signal/test_depend
 	signal/test_ptr
 	signal/test_dep)
@@ -48,5 +47,7 @@ FOREACH(test ${tests})
 	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME}
 		dl)
 	ENDIF(UNIX)
+	
+	ADD_TEST(${test} ${EXECUTABLE_NAME})
 
 ENDFOREACH(test)

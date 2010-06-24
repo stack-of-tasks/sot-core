@@ -882,7 +882,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
       TaskAbstract & task = **iter;
       MemoryTaskSOT * mem = dynamic_cast<MemoryTaskSOT *>( task.memoryInternal );
       const ml::Matrix &Jac = mem->JK;
-      const ml::Vector &err = task.taskSOUT.accessCopy();
+      const ml::Vector &err = Sot::taskVectorToMlVector(task.taskSOUT.accessCopy());
 
       ml::Vector diffErr(err.size());
       Jac.multiply(control,diffErr);

@@ -19,7 +19,6 @@
 
 
 #include <sot-core/multi-bound.h>
-#define VP_DEBUG
 #define VP_DEBUG_MODE 25
 #include <sot-core/debug.h>
 

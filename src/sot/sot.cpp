@@ -29,7 +29,7 @@
 #ifdef VP_DEBUG
  class sotSOT__INIT
  {
- public:sotSOT__INIT( void ) { DebugTrace::openFile(); }
+ public:sotSOT__INIT( void ) { sot::DebugTrace::openFile(); }
  };
  sotSOT__INIT sotSOT_initiator;
 #endif //#ifdef VP_DEBUG

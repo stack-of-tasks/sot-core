@@ -5,12 +5,42 @@
 # The main library name
 SET(SOTCORE_LIB_NAME ${PROJECT_NAME})
 
-#This project will create many shared libraries as plugins, listed here
+#This project will create many plugins as shared libraries, listed here
 SET(plugins 
 	sot/sot-qr
 	sot/weighted-sot
 	sot/sot-h
 	sot/sot
+	
+	math/op-point-modifier
+	
+	matrix/binary-op
+	matrix/derivator
+	matrix/fir-filter
+	matrix/integrator-abstract
+	matrix/integrator-euler
+	matrix/matrix-constant
+	matrix/unary-op
+	matrix/vector-constant
+	matrix/vector-to-rotation
+
+	task/gain-adaptative
+	task/task-pd
+	task/constraint
+	task/gain-hyperbolic
+	task/task
+	task/task-conti
+	task/task-unilateral	
+	
+	feature/feature-point6d
+	feature/feature-vector3
+	feature/feature-generic
+	feature/feature-joint-limits
+	feature/feature-1d
+	feature/feature-point6d-relative
+	feature/feature-visual-point
+	feature/feature-task
+	feature/feature-line-distance
 )
 
 SET(LIBRARY_NAME ${SOTCORE_LIB_NAME})
@@ -29,45 +59,18 @@ SET(${PROJECT_NAME}_SOURCES
 	
 	signal/signal-cast.cpp
 	
-	matrix/binary-op.cpp
-	matrix/derivator.cpp
-	matrix/fir-filter.cpp
-	matrix/integrator-abstract.cpp
-	matrix/integrator-euler.cpp
-	matrix/matrix-constant.cpp
-	matrix/unary-op.cpp
-	matrix/vector-constant.cpp
-	matrix/vector-to-rotation.cpp
-	
 	math/matrix-force.cpp
 	math/matrix-homogeneous.cpp
 	math/matrix-rotation.cpp
 	math/matrix-twist.cpp
-	math/op-point-modifier.cpp
 	math/vector-quaternion.cpp
 	math/vector-roll-pitch-yaw.cpp
 	math/vector-utheta.cpp
 	
-	feature/feature-point6d.cpp
-	feature/feature-vector3.cpp
 	feature/feature-abstract.cpp
-	feature/feature-generic.cpp
-	feature/feature-joint-limits.cpp
-	feature/feature-1d.cpp
-	feature/feature-point6d-relative.cpp
-	feature/feature-visual-point.cpp
-	feature/feature-task.cpp
-	feature/feature-line-distance.cpp
 	
-	task/gain-adaptative.cpp
-	task/task-pd.cpp
-	task/constraint.cpp
-	task/gain-hyperbolic.cpp
-	task/task.cpp
-	task/multi-bound.cpp
-	task/task-conti.cpp
-	task/task-unilateral.cpp
 	task/task-abstract.cpp
+	task/multi-bound.cpp
 	
 	sot/flags.cpp
 	sot/memory-task-sot.cpp
@@ -82,6 +85,11 @@ SET(${PROJECT_NAME}_SOURCES
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
 
+#define VP_DEBUG if we're building in debug mode
+IF ( ${CMAKE_BUILD_TYPE} STREQUAL "DEBUG" )
+	ADD_DEFINITIONS(-DVP_DEBUG)
+ENDIF ( ${CMAKE_BUILD_TYPE} STREQUAL "DEBUG" )
+	
 ADD_DEFINITIONS(-DDEBUG=2)
 
 # provide path to library libMatrixAbstractLayer.so
@@ -154,6 +162,11 @@ FOREACH(plugin ${plugins})
 	GET_FILENAME_COMPONENT(LIBRARY_NAME ${plugin} NAME)
 	
 	INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
+	
+	#define VP_DEBUG if we're building in debug mode
+	IF ( ${CMAKE_BUILD_TYPE} STREQUAL "DEBUG" )
+		ADD_DEFINITIONS(-DVP_DEBUG)
+	ENDIF ( ${CMAKE_BUILD_TYPE} STREQUAL "DEBUG" )
 	
 	ADD_DEFINITIONS(-DDEBUG=2)
 	
