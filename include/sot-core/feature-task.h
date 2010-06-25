@@ -49,6 +49,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOTFEATURETASK_EXPORT FeatureTask 
 : public FeatureGeneric

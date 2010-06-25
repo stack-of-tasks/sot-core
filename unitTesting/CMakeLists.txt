@@ -2,12 +2,23 @@
 #  Copyright 
 # 
 
+#The sot-core plugin libraries that tests have to be linked against
+#the name of the variable for test EXECUTABLE_NAME is TEST_${EXECUTABLE_NAME}_LIBS
+SET(TEST_tsot_LIBS 
+	task
+	feature-visual-point
+	gain-adaptative
+)
+
+#test paths and names (without .cpp extension)
 SET (tests
 	main
 	signal/test_signal
 	signal/test_depend
 	signal/test_ptr
-	signal/test_dep)
+	signal/test_dep
+	sot/tsot
+	sot/test_solverSoth)
 
 FOREACH(test ${tests})
 	GET_FILENAME_COMPONENT(EXECUTABLE_NAME ${test} NAME)
@@ -46,6 +57,8 @@ FOREACH(test ${tests})
 	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME}
 		dl)
 	ENDIF(UNIX)
+	
+	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_LIBS})
 	
 	ADD_TEST(${test} ${EXECUTABLE_NAME})
 

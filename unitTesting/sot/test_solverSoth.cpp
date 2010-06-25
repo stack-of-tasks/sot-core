@@ -1,8 +1,7 @@
 //#define VP_DEBUG
 #define VP_DEBUG_MODE 45
-#include <sot/sotDebug.h>
-
-#include <sot/sotSolverHierarchicalInequalities.h>
+#include <sot-core/debug.h>
+#include <sot-core/solver-hierarchical-inequalities.h>
 #include <fstream>
 
 
@@ -11,10 +10,12 @@
 #else /*WIN32*/
 // When including Winsock2.h, the MAL must be included first
 //#include <MatrixAbstractLayer/boost.h>
-#  include <sot/sotUtilsWindows.h>
+#  include <sot-core/utils-windows.h>
 #  include <Winsock2.h>
 #endif /*WIN32*/
 //#define WITH_CHRONO
+
+using namespace sot;
 
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
@@ -27,26 +28,26 @@ void parseTest( const std::string filename )
   std::string bs;
 
   bubMatrix Rh;
-  sotSolverHierarchicalInequalities::ConstraintList constraintH;
+  SolverHierarchicalInequalities::ConstraintList constraintH;
   std::vector<bubMatrix> Jes;
   std::vector<bubVector> ees;
   std::vector<bubMatrix> Jis;
   std::vector<bubVector> eiInfs;
   std::vector<bubVector> eiSups;
-  std::vector<sotConstraintMem::BoundSideVector> bounds;
+  std::vector<ConstraintMem::BoundSideVector> bounds;
 
   int nJ;
   int me,mi;
   bubMatrix Je,Ji;
   bubVector ee,eiInf,eiSup;
-  sotConstraintMem::BoundSideVector eiBoundSide;
+  ConstraintMem::BoundSideVector eiBoundSide;
 
   off >> bs; if(bs!="variable") { cerr << "!! '" << bs << "'" << endl; return; }
   off >> bs; if(bs!="size") { cerr << "!! '" << bs << "'" << endl; return; }
   off >> nJ;
 
   sotRotationComposedInExtenso Qh(nJ);
-  std::deque<sotSolverHierarchicalInequalities*> solvers;
+  std::deque<SolverHierarchicalInequalities*> solvers;
 
   for( unsigned int level=0;;++level )
     {
@@ -75,19 +76,19 @@ void parseTest( const std::string filename )
             for( int j=0;j<nJ;++j )
               off >> Ji(i,j);
             std::string number;
-            eiBoundSide[i] = sotConstraintMem::BOUND_VOID;
+            eiBoundSide[i] = ConstraintMem::BOUND_VOID;
             off>>number;
             if( number!="X" )
               {
-                eiBoundSide[i] = (sotConstraintMem::BoundSideType)
-                  (eiBoundSide[i]|sotConstraintMem::BOUND_INF);
+                eiBoundSide[i] = (ConstraintMem::BoundSideType)
+                  (eiBoundSide[i]|ConstraintMem::BOUND_INF);
                 eiInf(i) = atof(number.c_str());
               } else { eiInf(i) = 1e-66; }
             off>>number;
             if( number!="X" )
               {
-                eiBoundSide[i] = (sotConstraintMem::BoundSideType)
-                  (eiBoundSide[i]|sotConstraintMem::BOUND_SUP);
+                eiBoundSide[i] = (ConstraintMem::BoundSideType)
+                  (eiBoundSide[i]|ConstraintMem::BOUND_SUP);
                 eiSup(i) = atof(number.c_str());
               } else { eiSup(i) = 1e-66; }
           }
@@ -113,13 +114,13 @@ void parseTest( const std::string filename )
       bounds.push_back(eiBoundSide);
 
       sotDEBUG(1) << "--- Level " << level << std::endl;
-      sotSolverHierarchicalInequalities * solver
-        = new sotSolverHierarchicalInequalities(nJ,Qh,Rh,constraintH);
+      SolverHierarchicalInequalities * solver
+        = new SolverHierarchicalInequalities(nJ,Qh,Rh,constraintH);
       solver->initConstraintSize(Je.size1()+Ji.size1());
       if( solvers.size()==0 ) solver->setInitialConditionVoid();
       else
         {
-          sotSolverHierarchicalInequalities * solverPrec
+          SolverHierarchicalInequalities * solverPrec
             = solvers.back();
           solver->setInitialCondition( solverPrec->u0,solverPrec->rankh );
         }
@@ -152,11 +153,11 @@ void parseTest( const std::string filename )
         {
           gettimeofday(&t0,NULL);
           sotDEBUG(1) << "--- Level " << level << std::endl;
-          sotSolverHierarchicalInequalities * solver = solvers[level];
+          SolverHierarchicalInequalities * solver = solvers[level];
           if( level==0 ) solver->setInitialConditionVoid();
           else
             {
-              sotSolverHierarchicalInequalities * solverPrec = solvers[level-1];
+              SolverHierarchicalInequalities * solverPrec = solvers[level-1];
               solver->setInitialCondition( solverPrec->u0,solverPrec->rankh );
             }
 
@@ -202,7 +203,7 @@ void parseTest( const std::string filename )
 /* ---------------------------------------------------------- */
 void deparse( std::vector<bubMatrix> Jes,std::vector<bubVector> ees,
               std::vector<bubMatrix> Jis,std::vector<bubVector> eiInfs,
-              std::vector<bubVector> eiSups,std::vector<sotConstraintMem::BoundSideVector> bounds )
+              std::vector<bubVector> eiSups,std::vector<ConstraintMem::BoundSideVector> bounds )
 {
   using namespace std;
   cout << "variable size " << Jes[0].size2() << endl;
@@ -214,7 +215,7 @@ void deparse( std::vector<bubMatrix> Jes,std::vector<bubVector> ees,
       bubVector & ee = ees[i];
       bubVector & eiInf = eiInfs[i];
       bubVector & eiSup = eiSups[i];
-      sotConstraintMem::BoundSideVector & boundSide = bounds[i];
+      ConstraintMem::BoundSideVector & boundSide = bounds[i];
 
       cout <<  endl << endl << "level" << endl << endl << "equalities " << ee.size() << endl;
       if(ee.size()>0)
@@ -228,21 +229,21 @@ void deparse( std::vector<bubMatrix> Jes,std::vector<bubVector> ees,
       unsigned int nbIneq = 0;
       for( unsigned int i=0;i<boundSide.size();++i )
         {
-          if( boundSide[i]&sotConstraintMem::BOUND_INF ) nbIneq++;
-          if( boundSide[i]&sotConstraintMem::BOUND_SUP ) nbIneq++;
+          if( boundSide[i]&ConstraintMem::BOUND_INF ) nbIneq++;
+          if( boundSide[i]&ConstraintMem::BOUND_SUP ) nbIneq++;
         }
 
       cout << endl << "inequalities " << nbIneq << endl;
       if(eiInf.size()>0)
         for( unsigned int i=0;i<eiInf.size();++i )
           {
-            if( boundSide[i]&sotConstraintMem::BOUND_INF )
+            if( boundSide[i]&ConstraintMem::BOUND_INF )
               {
                 for( unsigned int j=0;j<Ji.size2();++j )
                   cout << -Ji(i,j) << " ";
                 cout << "\t" << " X " <<  -eiInf(i) << endl;
               }
-            if( boundSide[i]&sotConstraintMem::BOUND_SUP )
+            if( boundSide[i]&ConstraintMem::BOUND_SUP )
               {
                 for( unsigned int j=0;j<Ji.size2();++j )
                   cout << Ji(i,j) << " ";
@@ -264,7 +265,7 @@ void convertDoubleToSingle( const std::string filename )
   int me,mi;
   bubMatrix Je,Ji;
   bubVector ee,eiInf,eiSup;
-  sotConstraintMem::BoundSideVector eiBoundSide;
+  ConstraintMem::BoundSideVector eiBoundSide;
 
   off >> bs; if(bs!="variable") { cerr << "!! '" << bs << "'" << endl; return; }
   off >> bs; if(bs!="size") { cerr << "!! '" << bs << "'" << endl; return; }
@@ -276,7 +277,7 @@ void convertDoubleToSingle( const std::string filename )
   std::vector<bubMatrix> Jis;
   std::vector<bubVector> eiInfs;
   std::vector<bubVector> eiSups;
-  std::vector<sotConstraintMem::BoundSideVector> bounds;
+  std::vector<ConstraintMem::BoundSideVector> bounds;
 
   for( unsigned int level=0;;++level )
     {
@@ -303,17 +304,17 @@ void convertDoubleToSingle( const std::string filename )
             for( int j=0;j<nJ;++j )
               off >> Ji(i,j);
             std::string number;
-            eiBoundSide[i] = sotConstraintMem::BOUND_VOID;
+            eiBoundSide[i] = ConstraintMem::BOUND_VOID;
             off>>number; // std::cout << "toto '" << number << "'" << std::endl;
             if( number!="X" )
               {
-                eiBoundSide[i] = (sotConstraintMem::BoundSideType)(eiBoundSide[i]|sotConstraintMem::BOUND_INF);
+                eiBoundSide[i] = (ConstraintMem::BoundSideType)(eiBoundSide[i]|ConstraintMem::BOUND_INF);
                 eiInf(i) = atof(number.c_str());
               } else { eiInf(i) = 1e-66; }
             off>>number;
             if( number!="X" )
               {
-                eiBoundSide[i] = (sotConstraintMem::BoundSideType)(eiBoundSide[i]|sotConstraintMem::BOUND_SUP);
+                eiBoundSide[i] = (ConstraintMem::BoundSideType)(eiBoundSide[i]|ConstraintMem::BOUND_SUP);
                 eiSup(i) = atof(number.c_str());
               } else { eiSup(i) = 1e-66; }
           }
@@ -334,14 +335,14 @@ void convertDoubleToSingle( const std::string filename )
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
-void randBound( sotConstraintMem::BoundSideVector& M,const unsigned int row)
+void randBound( ConstraintMem::BoundSideVector& M,const unsigned int row)
 {
   M.resize(row);
   for( unsigned int i=0;i<row;++i )
     {
       double c = ((rand()+0.0)/RAND_MAX*2)-1.;
-      if( c<0 ) M[i] = sotConstraintMem::BOUND_INF;
-      else M[i] = sotConstraintMem::BOUND_SUP;
+      if( c<0 ) M[i] = ConstraintMem::BOUND_INF;
+      else M[i] = ConstraintMem::BOUND_SUP;
     }
 }
 
@@ -349,7 +350,7 @@ void randTest( const unsigned int nJ,const bool enableSolve[]  )
 {
   bubVector eiInf0(nJ),ee0(1),eiSup0(nJ);
   bubMatrix Ji0(nJ,nJ),Je0(1,nJ);
-  sotConstraintMem::BoundSideVector bound0(nJ,sotConstraintMem::BOUND_INF);
+  ConstraintMem::BoundSideVector bound0(nJ,ConstraintMem::BOUND_INF);
   Ji0.assign( bub::identity_matrix<double>(nJ));
   eiInf0.assign( bub::zero_vector<double>(nJ));
   Je0.assign( bub::zero_matrix<double>(1,nJ));
@@ -358,7 +359,7 @@ void randTest( const unsigned int nJ,const bool enableSolve[]  )
 
   bubVector ee1,eiInf1,eiSup1;
   bubMatrix Je1,Ji1;
-  sotConstraintMem::BoundSideVector bound1;
+  ConstraintMem::BoundSideVector bound1;
   randVector(ee1,3); sotDEBUG(15) << "ee1 = " << (MATLAB)ee1 << std::endl;
   randVector(eiInf1,3); sotDEBUG(15) << "eiInf1 = " << (MATLAB)eiInf1 << std::endl;
   randVector(eiSup1,3); sotDEBUG(15) << "eiSup1 = " << (MATLAB)eiSup1 << std::endl;
@@ -375,7 +376,7 @@ void randTest( const unsigned int nJ,const bool enableSolve[]  )
 
   bubVector ee2,eiInf2,eiSup2;
   bubMatrix Je2,Ji2;
-  sotConstraintMem::BoundSideVector bound2;
+  ConstraintMem::BoundSideVector bound2;
   randVector(ee2,3); sotDEBUG(15) << "ee2 = " << (MATLAB)ee2 << std::endl;
   randVector(eiInf2,3); sotDEBUG(15) << "eiInf2 = " << (MATLAB)eiInf2 << std::endl;
   randVector(eiSup2,3); sotDEBUG(15) << "eiSup2 = " << (MATLAB)eiSup2 << std::endl;
@@ -385,7 +386,7 @@ void randTest( const unsigned int nJ,const bool enableSolve[]  )
 
   bubVector ee3,eiInf3,eiSup3;
   bubMatrix Je3,Ji3;
-  sotConstraintMem::BoundSideVector bound3;
+  ConstraintMem::BoundSideVector bound3;
   randVector(ee3,3); sotDEBUG(15) << "ee3 = " << (MATLAB)ee3 << std::endl;
   randVector(eiInf3,3); sotDEBUG(15) << "eiInf3 = " << (MATLAB)eiInf3 << std::endl;
   randVector(eiSup3,3); sotDEBUG(15) << "eiSup3 = " << (MATLAB)eiSup3 << std::endl;
@@ -395,7 +396,7 @@ void randTest( const unsigned int nJ,const bool enableSolve[]  )
 
   bubVector ee4(nJ),eiInf4(1),eiSup4(1);
   bubMatrix Je4(nJ,nJ),Ji4(1,nJ);
-  sotConstraintMem::BoundSideVector bound4(1,sotConstraintMem::BOUND_INF);
+  ConstraintMem::BoundSideVector bound4(1,ConstraintMem::BOUND_INF);
   Je4.assign( bub::identity_matrix<double>(nJ));
   ee4.assign( bub::zero_vector<double>(nJ));
   Ji4.assign( bub::zero_matrix<double>(1,nJ));
@@ -408,7 +409,7 @@ void randTest( const unsigned int nJ,const bool enableSolve[]  )
   std::vector<bubMatrix> Jis;
   std::vector<bubVector> eiInfs;
   std::vector<bubVector> eiSups;
-  std::vector<sotConstraintMem::BoundSideVector> bounds;
+  std::vector<ConstraintMem::BoundSideVector> bounds;
 
   if(enableSolve[0])
     {
@@ -460,8 +461,8 @@ void randTest( const unsigned int nJ,const bool enableSolve[]  )
 
   sotRotationComposedInExtenso Qh(nJ);
   bubMatrix Rh;
-  sotSolverHierarchicalInequalities::ConstraintList constraintH;
-  sotSolverHierarchicalInequalities solver(nJ,Qh,Rh,constraintH);
+  SolverHierarchicalInequalities::ConstraintList constraintH;
+  SolverHierarchicalInequalities solver(nJ,Qh,Rh,constraintH);
   solver.initConstraintSize((40+6+6+6+40)+2);
 
 
@@ -504,7 +505,7 @@ int main( void )
   for(int i=0;i<10;++i)
 #endif
 #endif
-      parseTest("/home/nmansard/src/StackOfTasks/tests/sot/t.txt");
+      parseTest("/home/nmansard/src/StackOfTasks/tests//t.txt");
 //   bool enable [5] ={ 1,1,0,0,0};
 //   randTest(9,enable );
 }

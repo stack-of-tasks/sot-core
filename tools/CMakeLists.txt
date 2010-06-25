@@ -3,6 +3,9 @@
 # 
 
 ### tools
+
+#The sot-core plugin libraries that tools have to be linked against
+#There is currently no way to define separate libraries for separate tools.
 SET(TEST_LINK_LIBRARIES 
 	task
 	feature-visual-point
@@ -10,7 +13,7 @@ SET(TEST_LINK_LIBRARIES
 )
 
 SET(tools
-	sot/tsot
+	""
 )
 
 FOREACH(tool_name ${tools})
