@@ -27,10 +27,10 @@
 
 using namespace std;
 using namespace sot;
+using namespace dynamicgraph;
 
-namespace sot {
+
 SOT_FACTORY_ENTITY_PLUGIN(OpPointModifior,"OpPointModifior");
-}
 
 
 /* --------------------------------------------------------------------- */

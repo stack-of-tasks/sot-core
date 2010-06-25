@@ -48,7 +48,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
-
+namespace dg = dynamicgraph;
 /*!
   \class Feature1D
   \brief Simple test: the task is defined to be e_2 = .5 . e'.e, with
@@ -77,13 +77,13 @@ class SOTFEATURE1D_EXPORT Feature1D
     @{
    */
   /*! \brief Input for the error. */
-  SignalPtr< ml::Vector,int > errorSIN;
+  dg::SignalPtr< ml::Vector,int > errorSIN;
 
   /*! \brief Input for the Jacobian. */
-  SignalPtr< ml::Matrix,int > jacobianSIN;
+  dg::SignalPtr< ml::Matrix,int > jacobianSIN;
 
   /*! \brief Input for the activation. */
-  SignalPtr< ml::Vector,int > activationSIN;
+  dg::SignalPtr< ml::Vector,int > activationSIN;
   /*! @} */
   
   /*! \name Output signals 

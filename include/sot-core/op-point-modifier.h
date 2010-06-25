@@ -21,7 +21,6 @@
 #define __SOT_OP_POINT_MODIFIOR_H__
 
 #include <dynamic-graph/entity.h>
-
 #include <dynamic-graph/all-signals.h>
 #include <sot-core/debug.h>
 #include <sot-core/matrix-homogeneous.h>
@@ -49,9 +48,10 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOTOPPOINTMODIFIOR_EXPORT OpPointModifior
-: public Entity
+: public dg::Entity
 {
  public:
   static const std::string CLASS_NAME;
@@ -61,11 +61,11 @@ class SOTOPPOINTMODIFIOR_EXPORT OpPointModifior
 
  public:
 
-  SignalPtr<ml::Matrix,int> jacobianSIN;
-  SignalPtr<MatrixHomogeneous,int> positionSIN;
+  dg::SignalPtr<ml::Matrix,int> jacobianSIN;
+  dg::SignalPtr<MatrixHomogeneous,int> positionSIN;
   
-  SignalTimeDependant<ml::Matrix,int> jacobianSOUT;
-  SignalTimeDependant<MatrixHomogeneous,int> positionSOUT;
+  dg::SignalTimeDependant<ml::Matrix,int> jacobianSOUT;
+  dg::SignalTimeDependant<MatrixHomogeneous,int> positionSOUT;
 
 public:
   OpPointModifior( const std::string& name );

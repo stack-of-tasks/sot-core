@@ -26,13 +26,11 @@
 #include <sot-core/debug.h>
 #include <sot-core/feature-generic.h>
 #include <sot-core/exception-feature.h>
-using namespace std;
-
 #include <sot-core/factory.h>
 
-
+using namespace std;
 using namespace sot;
-
+using namespace dynamicgraph;
 SOT_FACTORY_FEATURE_PLUGIN(FeatureGeneric,"FeatureGeneric");
 
 /* --------------------------------------------------------------------- */

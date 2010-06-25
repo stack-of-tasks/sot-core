@@ -45,9 +45,10 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOTSOT_CORE_EXPORT MemoryTaskSOT
-: public TaskAbstract::MemoryTaskAbstract, public Entity
+: public TaskAbstract::MemoryTaskAbstract, public dg::Entity
 {
  public://   protected:
   /* Internal memory to reduce the dynamic allocation at task resolution. */
@@ -78,11 +79,11 @@ class SOTSOT_CORE_EXPORT MemoryTaskSOT
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
  public: /* --- SIGNALS --- */
-  Signal< ml::Matrix,int > jacobianInvSINOUT;
-  Signal< ml::Matrix,int > jacobianConstrainedSINOUT;
-  Signal< ml::Matrix,int > jacobianProjectedSINOUT;
-  Signal< ml::Matrix,int > singularBaseImageSINOUT;
-  Signal< unsigned int,int > rankSINOUT;
+  dg::Signal< ml::Matrix,int > jacobianInvSINOUT;
+  dg::Signal< ml::Matrix,int > jacobianConstrainedSINOUT;
+  dg::Signal< ml::Matrix,int > jacobianProjectedSINOUT;
+  dg::Signal< ml::Matrix,int > singularBaseImageSINOUT;
+  dg::Signal< unsigned int,int > rankSINOUT;
 
  public: /* --- PARAMS --- */
   virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,

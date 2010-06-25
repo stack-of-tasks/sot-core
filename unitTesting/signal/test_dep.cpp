@@ -21,14 +21,12 @@
 /* -------------------------------------------------------------------------- */
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
-// #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/all-signals.h>
-//#include <sot/TimeDependancy.h>
 #include <iostream>
-
 #include <MatrixAbstractLayer/boost.h>
 
 using namespace std;
+using namespace dynamicgraph;
 
 namespace ml = maal::boost;
 

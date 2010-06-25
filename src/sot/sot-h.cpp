@@ -30,6 +30,7 @@
 
 using namespace std;
 using namespace sot;
+using namespace dynamicgraph;
 
 #ifdef VP_DEBUG
 class sotSOTH__INIT

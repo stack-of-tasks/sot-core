@@ -29,6 +29,7 @@
 #include <dynamic-graph/pool.h>
 using namespace std;
 using namespace sot;
+using namespace dynamicgraph;
 
 
 #include <sot-core/factory.h>

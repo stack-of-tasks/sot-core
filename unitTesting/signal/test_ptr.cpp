@@ -30,6 +30,7 @@
 
 using namespace std;
 using namespace sot;
+using namespace dynamicgraph;
 
 namespace ml = maal::boost;
 

@@ -30,7 +30,7 @@
 #include <sot-core/debug.h>
 using namespace std;
 using namespace sot;
-
+using namespace dynamicgraph;
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

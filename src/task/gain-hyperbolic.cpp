@@ -30,6 +30,7 @@
 #include <sot-core/exception-signal.h>
 
 using namespace sot;
+using namespace dynamicgraph;
 
 SOT_FACTORY_ENTITY_PLUGIN(GainHyperbolic,"GainHyperbolic");
 

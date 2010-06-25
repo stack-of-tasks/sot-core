@@ -83,6 +83,7 @@ namespace ml = maal::boost;
  */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOTTASK_EXPORT Task
 : public TaskAbstract
@@ -116,12 +117,12 @@ class SOTTASK_EXPORT Task
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  SignalPtr< double,int > controlGainSIN;
-  SignalPtr< double,int > dampingGainSINOUT;
-  SignalPtr< Flags,int > controlSelectionSIN; // At the task level or at the feature level?
+  dg::SignalPtr< double,int > controlGainSIN;
+  dg::SignalPtr< double,int > dampingGainSINOUT;
+  dg::SignalPtr< Flags,int > controlSelectionSIN; // At the task level or at the feature level?
 
  public:
-  SignalTimeDependant< ml::Vector,int > errorSOUT;
+  dg::SignalTimeDependant< ml::Vector,int > errorSOUT;
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display( std::ostream& os ) const;

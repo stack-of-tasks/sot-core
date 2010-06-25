@@ -50,6 +50,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 /*!
   \class FeaturePoint6dRelative
@@ -71,22 +72,22 @@ class SOTFEATUREPOINT6DRELATIVE_EXPORT FeaturePoint6dRelative
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  SignalPtr< MatrixHomogeneous,int > positionReferenceSIN;
-  SignalPtr< ml::Matrix,int > articularJacobianReferenceSIN;
+  dg::SignalPtr< MatrixHomogeneous,int > positionReferenceSIN;
+  dg::SignalPtr< ml::Matrix,int > articularJacobianReferenceSIN;
 
-  /*! Signals related to the computation of the derivative of 
+  /*! dg::Signals related to the computation of the derivative of
     the error 
   @{ */
 
-  /*! Signals giving the derivative of the input signals. 
+  /*! dg::Signals giving the derivative of the input signals.
     @{*/
   /*! Derivative of the relative position. */
-  SignalPtr< MatrixHomogeneous,int > dotpositionSIN;
+  dg::SignalPtr< MatrixHomogeneous,int > dotpositionSIN;
   /*! Derivative of the reference position. */
-  SignalPtr< MatrixHomogeneous,int > dotpositionReferenceSIN;
+  dg::SignalPtr< MatrixHomogeneous,int > dotpositionReferenceSIN;
   /*! @} */
   /*! The derivative of the error.*/
-  SignalTimeDependant<ml::Vector,int> errordotSOUT;
+  dg::SignalTimeDependant<ml::Vector,int> errordotSOUT;
   /*! @} */
 
  public:

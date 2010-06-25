@@ -47,10 +47,11 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 template< class Tin,class Tout,typename Operator >
 class UnaryOp
-:public Entity
+:public dg::Entity
 {
   Operator op;
 
@@ -61,7 +62,7 @@ class UnaryOp
   static const std::string CLASS_NAME;
 
   UnaryOp( const std::string& name )
-    : Entity(name)
+    : dg::Entity(name)
     ,SIN(NULL,UnaryOp::CLASS_NAME+"("+name+")::input("+getTypeInName()+")::in") 
     ,SOUT( boost::bind(&UnaryOp<Tin,Tout,Operator>::computeOperation,this,_1,_2), 
 	   SIN,CLASS_NAME+"("+name+")::output("+getTypeOutName()+")::out") 
@@ -74,8 +75,8 @@ class UnaryOp
 
  public: /* --- SIGNAL --- */
 
-  SignalPtr<Tin,int> SIN;
-  SignalTimeDependant<Tout,int> SOUT;
+  dg::SignalPtr<Tin,int> SIN;
+  dg::SignalTimeDependant<Tout,int> SOUT;
 
  protected:
   Tout& computeOperation( Tout& res,int time )

@@ -49,6 +49,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 /*!
   \class FeatureLineDistance
@@ -66,11 +67,11 @@ class SOTFEATURELINEDISTANCE_EXPORT FeatureLineDistance
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  SignalPtr< MatrixHomogeneous,int > positionSIN;
-  SignalPtr< ml::Matrix,int > articularJacobianSIN;
-  SignalPtr< ml::Vector,int > positionRefSIN;
-  SignalPtr< ml::Vector,int > vectorSIN;
-  SignalTimeDependant<ml::Vector,int> lineSOUT;
+  dg::SignalPtr< MatrixHomogeneous,int > positionSIN;
+  dg::SignalPtr< ml::Matrix,int > articularJacobianSIN;
+  dg::SignalPtr< ml::Vector,int > positionRefSIN;
+  dg::SignalPtr< ml::Vector,int > vectorSIN;
+  dg::SignalTimeDependant<ml::Vector,int> lineSOUT;
 
   using FeatureAbstract::desiredValueSIN;
   using FeatureAbstract::selectionSIN;

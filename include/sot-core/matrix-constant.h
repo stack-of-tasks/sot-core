@@ -31,9 +31,10 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 class MatrixConstant
-: public Entity
+: public dg::Entity
 {
  public: 
   static const std::string CLASS_NAME;
@@ -48,13 +49,13 @@ public:
     ,rows(0),cols(0),color(0.)
     ,SOUT( "sotMatrixConstant("+name+")::output(matrix)::out" )
     {
-      SOUT.setDependancyType( TimeDependancy<int>::BOOL_DEPENDANT );
+      SOUT.setDependancyType( dg::TimeDependancy<int>::BOOL_DEPENDANT );
       signalRegistration( SOUT );
     }
 
   virtual ~MatrixConstant( void ){}
 
-  SignalTimeDependant<ml::Matrix,int> SOUT;
+  dg::SignalTimeDependant<ml::Matrix,int> SOUT;
 
   virtual void commandLine( const std::string& cmdLine,
 			    std::istringstream& cmdArgs, 

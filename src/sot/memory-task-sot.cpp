@@ -22,6 +22,7 @@
 #include <sot-core/debug.h>
 
 using namespace sot;
+using namespace dynamicgraph;
 
 
 const std::string MemoryTaskSOT::CLASS_NAME = "MemoryTaskSOT";

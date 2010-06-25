@@ -21,6 +21,7 @@
 #include <sot-core/pool.h>
 
 using namespace sot;
+namespace dg = dynamicgraph;
 
 const std::string 
 FeatureAbstract::CLASS_NAME = "FeatureAbstract";
@@ -67,7 +68,7 @@ writeGraph( std::ostream& os ) const
   if( desiredValueSIN )
     {
       //      const SignalAbstract<int> & sdesAbs = desiredValueSIN;
-      const SignalPtr<FeatureAbstract *,int>  & sdesSig = desiredValueSIN;
+      const dg::SignalPtr<FeatureAbstract *,int>  & sdesSig = desiredValueSIN;
       
       if (sdesSig!=0)
 	{

@@ -68,9 +68,10 @@ namespace ml = maal::boost;
 */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOTSOTQR_EXPORT SotQr
-:public Entity
+:public dg::Entity
 {
  public:
   /*! \brief Specify the name of the class entity. */
@@ -226,14 +227,14 @@ class SOTSOTQR_EXPORT SotQr
    * the recurence of the SOT (e.g. velocity comming from the other
    * OpenHRP plugins).
    */
-  SignalPtr<ml::Vector,int> q0SIN;
+  dg::SignalPtr<ml::Vector,int> q0SIN;
   /*! \brief This signal allow to change the threshold for the damped pseudo-inverse
     on-line */
-  SignalPtr<double,int> inversionThresholdSIN;
+  dg::SignalPtr<double,int> inversionThresholdSIN;
   /*! \brief This signal allow to get the result of the Constraint projector. */
-  SignalTimeDependant<ml::Matrix,int> constraintSOUT;
+  dg::SignalTimeDependant<ml::Matrix,int> constraintSOUT;
   /*! \brief This signal allow to get the result of the computed control law. */
-  SignalTimeDependant<ml::Vector,int> controlSOUT;
+  dg::SignalTimeDependant<ml::Vector,int> controlSOUT;
   /*! @} */
 
  public: /* --- COMMANDS --- */

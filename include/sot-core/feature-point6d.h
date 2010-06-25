@@ -49,6 +49,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 /*!
   \class FeaturePoint6d
@@ -73,8 +74,8 @@ class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  SignalPtr< MatrixHomogeneous,int > positionSIN;
-  SignalPtr< ml::Matrix,int > articularJacobianSIN;
+  dg::SignalPtr< MatrixHomogeneous,int > positionSIN;
+  dg::SignalPtr< ml::Matrix,int > articularJacobianSIN;
 
   using FeatureAbstract::desiredValueSIN;
   using FeatureAbstract::selectionSIN;

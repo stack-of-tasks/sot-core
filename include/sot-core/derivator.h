@@ -41,13 +41,15 @@ namespace ml = maal::boost;
 #include <string>
 
 namespace sot {
+namespace dg = dynamicgraph;
+
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
 template< class T >
 class Derivator
-:public Entity
+:public dg::Entity
 {
  protected:
   T memory;
@@ -61,7 +63,7 @@ class Derivator
   static const std::string CLASS_NAME;
 
   Derivator( const std::string& name )
-    : Entity(name)
+    : dg::Entity(name)
     ,memory(),initialized(false)
     ,timestep(TIMESTEP_DEFAULT)
     ,SIN(NULL,"sotDerivator<"+getTypeName()+">("+name+")::input("+getTypeName()+")::in") 
@@ -79,9 +81,9 @@ class Derivator
 
  public: /* --- SIGNAL --- */
 
-  SignalPtr<T,int> SIN;
-  SignalTimeDependant<T,int> SOUT;
-  Signal<double,int> timestepSIN;
+  dg::SignalPtr<T,int> SIN;
+  dg::SignalTimeDependant<T,int> SOUT;
+  dg::Signal<double,int> timestepSIN;
 
  protected:
   T& computeDerivation( T& res,int time )

@@ -51,6 +51,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOTSOTH_EXPORT SotH
 :public Sot
@@ -81,8 +82,8 @@ class SOTSOTH_EXPORT SotH
       static const std::string CLASS_NAME;
       virtual void display( std::ostream& os ) const;
       virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
-      Signal< ml::Matrix,int > jacobianConstrainedSINOUT;
-      Signal< ml::Vector,int > diffErrorSINOUT;
+      dg::Signal< ml::Matrix,int > jacobianConstrainedSINOUT;
+      dg::Signal< ml::Vector,int > diffErrorSINOUT;
       virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
                                 std::ostream& os );
 

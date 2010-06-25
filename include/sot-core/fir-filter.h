@@ -33,6 +33,8 @@ namespace ml = maal::boost;
 
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
+namespace dg = dynamicgraph;
+
 
 namespace detail
 {
@@ -76,16 +78,16 @@ namespace detail
 
 template<class sigT, class coefT>
 class FIRFilter
-  : public Entity
+  : public dg::Entity
 {
 public:
-  virtual const std::string& getClassName() const { return Entity::getClassName(); }
+  virtual const std::string& getClassName() const { return dg::Entity::getClassName(); }
   static std::string getTypeName( void ) { return "Unknown"; }
   static const std::string CLASS_NAME;
 
 public:
   FIRFilter( const std::string& name )
-    : Entity(name)
+    : dg::Entity(name)
     , SIN(NULL,"sotFIRFilter("+name+")::input(T)::in")
     , SOUT(boost::bind(&FIRFilter::compute,this,_1,_2),
 	   SIN,
@@ -131,14 +133,14 @@ public:
     else if(cmdLine == "printBuffer") {
       for(size_t i = 0; i < data.size(); ++i){ os << data[i] << std::endl; }
     }
-    else { Entity::commandLine( cmdLine, cmdArgs, os); }
+    else { dg::Entity::commandLine( cmdLine, cmdArgs, os); }
   }
 
   static void reset_signal(sigT& res, const sigT& sample) { }
 
 public:
-  SignalPtr<sigT, int> SIN;
-  SignalTimeDependant<sigT, int> SOUT;
+  dg::SignalPtr<sigT, int> SIN;
+  dg::SignalTimeDependant<sigT, int> SOUT;
 
 private:
   std::vector<coefT> coefs;

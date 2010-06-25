@@ -34,6 +34,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 /*!
  * \class IntegratorEuler
@@ -50,7 +51,7 @@ class IntegratorEuler
 {
 
  public: 
-  virtual const std::string& getClassName( void ) const { return Entity::getClassName(); }
+  virtual const std::string& getClassName( void ) const { return dg::Entity::getClassName(); }
   static std::string getTypeName( void ) { return "Unknown"; }
   static const std::string CLASS_NAME;
 

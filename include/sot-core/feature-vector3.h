@@ -49,6 +49,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 /*!
   \class FeatureVector3
@@ -66,10 +67,10 @@ class SOTFEATUREVECTOR3_EXPORT FeatureVector3
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  SignalPtr< ml::Vector,int > vectorSIN;
-  SignalPtr< MatrixHomogeneous,int > positionSIN;
-  SignalPtr< ml::Matrix,int > articularJacobianSIN;
-  SignalPtr< ml::Vector,int > positionRefSIN;
+  dg::SignalPtr< ml::Vector,int > vectorSIN;
+  dg::SignalPtr< MatrixHomogeneous,int > positionSIN;
+  dg::SignalPtr< ml::Matrix,int > articularJacobianSIN;
+  dg::SignalPtr< ml::Vector,int > positionRefSIN;
 
   using FeatureAbstract::desiredValueSIN;
   using FeatureAbstract::selectionSIN;

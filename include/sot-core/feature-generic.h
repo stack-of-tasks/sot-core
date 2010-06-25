@@ -48,6 +48,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 /*!
   \class FeatureGeneric
@@ -77,23 +78,23 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  /*! \name Signals 
+  /*! \name dg::Signals
     @{
   */
   /*! \name Input signals 
     @{
    */
   /*! \brief Input for the error. */
-  SignalPtr< ml::Vector,int > errorSIN;
+  dg::SignalPtr< ml::Vector,int > errorSIN;
 
   /*! \brief Input for the errordot. */
-  SignalPtr< ml::Vector,int > errordotSIN;
+  dg::SignalPtr< ml::Vector,int > errordotSIN;
 
   /*! \brief Input for the Jacobian. */
-  SignalPtr< ml::Matrix,int > jacobianSIN;
+  dg::SignalPtr< ml::Matrix,int > jacobianSIN;
 
   /*! \brief Input for the activation. */
-  SignalPtr< ml::Vector,int > activationSIN;
+  dg::SignalPtr< ml::Vector,int > activationSIN;
   /*! @} */
   
   /*! \name Output signals 
@@ -109,7 +110,7 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   using FeatureAbstract::activationSOUT;
 
   /*! \brief New signal the errordot. */
-  SignalTimeDependant< ml::Vector,int > errordotSOUT;
+  dg::SignalTimeDependant< ml::Vector,int > errordotSOUT;
 
  public:
 

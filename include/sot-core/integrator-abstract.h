@@ -46,6 +46,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 /*! \brief integrates an ODE. If Y is the output and X the input, the
  * following equation is integrated:
@@ -55,16 +56,16 @@ namespace sot {
 */
 template<class sigT, class coefT>
 class IntegratorAbstract
-:public Entity
+:public dg::Entity
 {
  public:
-  virtual const std::string& getClassName() const { return Entity::getClassName(); }
+  virtual const std::string& getClassName() const { return dg::Entity::getClassName(); }
   static std::string getTypeName( void ) { return "Unknown"; }
   static const std::string CLASS_NAME;
 
  public:
   IntegratorAbstract ( const std::string& name )
-    :Entity(name)
+    :dg::Entity(name)
      ,SIN(NULL,"sotIntegratorAbstract("+name+")::input(vector)::in")
      ,SOUT(boost::bind(&IntegratorAbstract<sigT,coefT>::integrate,this,_1,_2),
 		 SIN,
@@ -83,11 +84,11 @@ class IntegratorAbstract
     if( cmdLine == "pushNumCoef" )
     {
       std::string objname, signame;
-      Interpreter::objectNameParser(cmdArgs, objname, signame);
-      Entity& obj = g_pool.getEntity(objname);
-      SignalBase<int>& sig = obj.getSignal(signame);
+      dg::Interpreter::objectNameParser(cmdArgs, objname, signame);
+      dg::Entity& obj = dg::g_pool.getEntity(objname);
+      dg::SignalBase<int>& sig = obj.getSignal(signame);
       try {
-	Signal<coefT,int>& sigc = dynamic_cast<Signal<coefT,int>&>(sig);
+	dg::Signal<coefT,int>& sigc = dynamic_cast<dg::Signal<coefT,int>&>(sig);
 	pushNumCoef(sigc.accessCopy());
       }
       catch(std::bad_cast& bc) {
@@ -98,11 +99,11 @@ class IntegratorAbstract
     else if( cmdLine == "pushDenomCoef" )
     {
       std::string objname, signame;
-      Interpreter::objectNameParser(cmdArgs, objname, signame);
-      Entity& obj = g_pool.getEntity(objname);
-      SignalBase<int>& sig = obj.getSignal(signame);
+      dg::Interpreter::objectNameParser(cmdArgs, objname, signame);
+      dg::Entity& obj = dg::g_pool.getEntity(objname);
+      dg::SignalBase<int>& sig = obj.getSignal(signame);
       try {
-	Signal<coefT,int>& sigc = dynamic_cast<Signal<coefT,int>&>(sig);
+	dg::Signal<coefT,int>& sigc = dynamic_cast<dg::Signal<coefT,int>&>(sig);
 	pushDenomCoef(sigc.accessCopy());
       }
       catch(std::bad_cast& bc) {
@@ -120,7 +121,7 @@ class IntegratorAbstract
     }
     else 
     {
-    	Entity::commandLine(cmdLine, cmdArgs, os);
+    	dg::Entity::commandLine(cmdLine, cmdArgs, os);
     }
   }
 
@@ -131,9 +132,9 @@ class IntegratorAbstract
   void popDenomCoef() { denominator.pop_back(); }
 
  public:
-  SignalPtr<sigT, int> SIN;
+  dg::SignalPtr<sigT, int> SIN;
 
-  SignalTimeDependant<sigT, int> SOUT;
+  dg::SignalTimeDependant<sigT, int> SOUT;
 
  protected:
   std::vector<coefT> numerator;

@@ -29,6 +29,7 @@
 #include <deque>
 
 namespace sot {
+using namespace dynamicgraph;
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(sotClassType,sotType,index,className,CMDLINE,CMDHELP)  \
   template<>                                                                            \
@@ -189,7 +190,7 @@ public:
   }
 };
 typedef BinaryOp< Vector,Vector,Vector,VectorStack > stackvector;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(stackvector,vector,stack_vector,"Stack<vector>",else if( cmdLine=="selec1" ){ cmdArgs>>op.v1min>>op.v1max; } 
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(stackvector,vector,stack_vector,"Stack<vector>",else if( cmdLine=="selec1" ){ cmdArgs>>op.v1min>>op.v1max; }
    else if( cmdLine=="selec2" ){ cmdArgs>>op.v2min>>op.v2max; } 
    else if( cmdLine=="print" ){ os<<"Stack ["<<op.v1min<<","<<op.v1max<<"] - ["<<op.v2min<<","<<op.v2max<<"] "<<std::endl; }, 
 "Stack<vector>: \n - select{1|2} index_min index_max.");
@@ -210,7 +211,7 @@ public:
   }
 };
 typedef BinaryOp< Vector,Vector,Vector,WeightedAdder > weightadd;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(weightadd,vector,weight_add,"WeightAdd<vector>",else if( cmdLine=="gain1" ){ cmdArgs>>op.gain1; } 
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(weightadd,vector,weight_add,"WeightAdd<vector>",else if( cmdLine=="gain1" ){ cmdArgs>>op.gain1; }
    else if( cmdLine=="gain2" ){ cmdArgs>>op.gain2;}
    else if( cmdLine=="print" ){os<<"WeightAdd: "<<op.gain1<<" "<<op.gain2<<std::endl; }, 
   "WeightAdd<vector>: \n - gain{1|2} gain.");

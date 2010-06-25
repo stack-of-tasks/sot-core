@@ -60,7 +60,7 @@ namespace dg = dynamicgraph;
   \f$ \frac{\delta {\bf s}(t)}{\delta {\bf q}(t)}\f$.
  */
 class SOT_CORE_EXPORT FeatureAbstract
-:public Entity
+:public dg::Entity
 {
  public:
   /*! \brief Store the name of the class. */

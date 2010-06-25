@@ -54,9 +54,10 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic
-: public Entity
+: public dg::Entity
 {
 
  public: /* --- CONSTANTS --- */
@@ -102,8 +103,8 @@ class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic
   void forceConstant( void );
     
  public:  /* --- SIGNALS --- */
-  SignalPtr<ml::Vector,int> errorSIN;
-  SignalTimeDependant<double,int> gainSOUT;
+  dg::SignalPtr<ml::Vector,int> errorSIN;
+  dg::SignalTimeDependant<double,int> gainSOUT;
  protected:
   double& computeGain( double& res,int t );
 

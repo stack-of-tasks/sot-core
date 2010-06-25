@@ -48,6 +48,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 /*!
   \class FeatureJointLimits
@@ -73,10 +74,10 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
 
-  SignalPtr< ml::Vector,int > jointSIN;
-  SignalPtr< ml::Vector,int > upperJlSIN;
-  SignalPtr< ml::Vector,int > lowerJlSIN;
-  SignalTimeDependant< ml::Vector,int > widthJlSINTERN;
+  dg::SignalPtr< ml::Vector,int > jointSIN;
+  dg::SignalPtr< ml::Vector,int > upperJlSIN;
+  dg::SignalPtr< ml::Vector,int > lowerJlSIN;
+  dg::SignalTimeDependant< ml::Vector,int > widthJlSINTERN;
 
   using FeatureAbstract::selectionSIN;
 

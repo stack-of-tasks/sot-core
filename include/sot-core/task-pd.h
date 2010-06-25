@@ -49,6 +49,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOTTASKPD_EXPORT TaskPD
 : public Task
@@ -71,8 +72,8 @@ class SOTTASKPD_EXPORT TaskPD
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  SignalTimeDependant< ml::Vector,int > errorDotSOUT;
-  SignalPtr< ml::Vector,int > errorDotSIN;
+  dg::SignalTimeDependant< ml::Vector,int > errorDotSOUT;
+  dg::SignalPtr< ml::Vector,int > errorDotSIN;
 
   /* --- PARAMS --- */
   virtual void commandLine( const std::string& cmdLine

@@ -48,6 +48,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 /*!
   \class FeatureVisualPoint
@@ -68,11 +69,11 @@ class SOTFEATUREVISUALPOINT_EXPORT FeatureVisualPoint
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  SignalPtr< ml::Vector,int > xySIN;
+  dg::SignalPtr< ml::Vector,int > xySIN;
   /** FeatureVisualPoint depth (required to compute the interaction matrix)
    * default Z = 1m. */
-  SignalPtr< double,int > ZSIN;
-  SignalPtr< ml::Matrix,int > articularJacobianSIN;
+  dg::SignalPtr< double,int > ZSIN;
+  dg::SignalPtr< ml::Matrix,int > articularJacobianSIN;
 
   using FeatureAbstract::desiredValueSIN;
   using FeatureAbstract::selectionSIN;

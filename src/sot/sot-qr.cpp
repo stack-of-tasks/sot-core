@@ -40,7 +40,7 @@
 #define FORTRAN_ID( id ) id##_
 using namespace std;
 using namespace sot;
-
+using namespace dynamicgraph;
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

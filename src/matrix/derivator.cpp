@@ -22,6 +22,7 @@
 
 using namespace sot;
 using namespace ml;
+using namespace dynamicgraph;
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotClassType,sotType,className)              \
   template<>                                                                            \

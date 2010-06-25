@@ -65,6 +65,7 @@ namespace ml = maal::boost;
 */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOTWEIGHTEDSOT_CORE_EXPORT WeightedSot
 :public Sot
@@ -98,11 +99,11 @@ class SOTWEIGHTEDSOT_CORE_EXPORT WeightedSot
   /*! \name Methods to handle signals
     @{
    */
-  SignalPtr<ml::Matrix,int> weightSIN;
-  SignalTimeDependant<ml::Matrix,int> constrainedWeightSOUT;
-  SignalPtr<ml::Matrix,int> constrainedWeightSIN;
-  SignalTimeDependant<ml::Matrix,int> squareRootInvWeightSOUT;
-  SignalPtr<ml::Matrix,int> squareRootInvWeightSIN;
+  dg::SignalPtr<ml::Matrix,int> weightSIN;
+  dg::SignalTimeDependant<ml::Matrix,int> constrainedWeightSOUT;
+  dg::SignalPtr<ml::Matrix,int> constrainedWeightSIN;
+  dg::SignalTimeDependant<ml::Matrix,int> squareRootInvWeightSOUT;
+  dg::SignalPtr<ml::Matrix,int> squareRootInvWeightSIN;
   /*! @} */
 
 };

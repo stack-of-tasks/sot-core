@@ -29,9 +29,10 @@ namespace ml = maal::boost;
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 namespace sot{
+namespace dg = dynamicgraph;
 
 class VectorConstant
-: public Entity
+: public dg::Entity
 {
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
@@ -45,13 +46,13 @@ public:
     ,rows(0),color(0.)
     ,SOUT( "sotVectorConstant("+name+")::output(vector)::out" )
     {
-      SOUT.setDependancyType( TimeDependancy<int>::BOOL_DEPENDANT );
+      SOUT.setDependancyType( dg::TimeDependancy<int>::BOOL_DEPENDANT );
       signalRegistration( SOUT );
     }
 
   virtual ~VectorConstant( void ){}
 
-  SignalTimeDependant<ml::Vector,int> SOUT;
+  dg::SignalTimeDependant<ml::Vector,int> SOUT;
 
   virtual void commandLine( const std::string& cmdLine,
 			    std::istringstream& cmdArgs, 

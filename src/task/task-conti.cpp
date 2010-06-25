@@ -30,6 +30,7 @@
 
 using namespace std;
 using namespace sot;
+using namespace dynamicgraph;
 
 SOT_FACTORY_TASK_PLUGIN(TaskConti,"TaskConti");
 

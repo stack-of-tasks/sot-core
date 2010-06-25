@@ -36,9 +36,10 @@ namespace ml = maal::boost;
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 namespace sot {
+namespace dg = dynamicgraph;
 
 class VectorToRotation
-: public Entity
+: public dg::Entity
 {
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
@@ -59,8 +60,8 @@ public:
 
   virtual ~VectorToRotation( void ){}
 
-  SignalPtr<ml::Vector,int> SIN;
-  SignalTimeDependant<MatrixRotation,int> SOUT;
+  dg::SignalPtr<ml::Vector,int> SIN;
+  dg::SignalTimeDependant<MatrixRotation,int> SOUT;
 
   MatrixRotation& computeRotation( const ml::Vector& angles,
 				      MatrixRotation& res );

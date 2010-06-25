@@ -59,6 +59,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOTTASKCONTI_EXPORT TaskConti
 : public Task
@@ -92,7 +93,7 @@ class SOTTASKCONTI_EXPORT TaskConti
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  SignalPtr< ml::Vector,int > controlPrevSIN;
+  dg::SignalPtr< ml::Vector,int > controlPrevSIN;
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display( std::ostream& os ) const;

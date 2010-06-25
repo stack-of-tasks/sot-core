@@ -32,6 +32,7 @@ using namespace sot;
 #include <sot-core/factory.h>
 SOT_FACTORY_TASK_PLUGIN(Constraint,"Constraint");
 
+using namespace dynamicgraph;
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

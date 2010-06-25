@@ -85,14 +85,14 @@ private:
  */
 
 #define SOT_SIGNAL_CAST_DECLARATION(TYPE) \
-		SignalCastRegisterer sotCastRegisterer_##TYPE \
+		dynamicgraph::SignalCastRegisterer sotCastRegisterer_##TYPE \
 				(typeid(TYPE), \
 				SignalCast<TYPE>::disp_, \
 				SignalCast<TYPE>::cast_, \
 				SignalCast<TYPE>::trace_);
 
 #define SOT_SIGNAL_CAST_DECLARATION_NAMED(TYPE,NAME) \
-		SignalCastRegisterer sotCastRegisterer_##NAME \
+		dynamicgraph::SignalCastRegisterer sotCastRegisterer_##NAME \
 				(typeid(TYPE), \
 				SignalCast<TYPE>::disp_, \
 				SignalCast<TYPE>::cast_, \

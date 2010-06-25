@@ -46,9 +46,10 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOT_CORE_EXPORT TaskAbstract
-: public Entity
+: public dg::Entity
 {
  public:
 
@@ -81,9 +82,9 @@ class SOT_CORE_EXPORT TaskAbstract
 
  public: /* --- SIGNALS --- */
 
-  SignalTimeDependant< sotVectorMultiBound,int > taskSOUT;
-  SignalTimeDependant< ml::Matrix,int > jacobianSOUT;
-  SignalTimeDependant< ml::Vector,int > featureActivationSOUT;
+  dg::SignalTimeDependant< sotVectorMultiBound,int > taskSOUT;
+  dg::SignalTimeDependant< ml::Matrix,int > jacobianSOUT;
+  dg::SignalTimeDependant< ml::Vector,int > featureActivationSOUT;
 
  public: /* --- PARAMS --- */
   virtual void commandLine( const std::string& cmdLine

@@ -34,7 +34,7 @@
 #include <sot-core/vector-utheta.h>
 
 using namespace std;
-
+using namespace dynamicgraph;
 using namespace sot;
 
 #include <sot-core/factory.h>

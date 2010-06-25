@@ -29,7 +29,7 @@
 
 
 using namespace sot;
-
+using namespace dynamicgraph;
 
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(sotClassType,sotType,index,className,CMDLINE,CMDHELP)    \

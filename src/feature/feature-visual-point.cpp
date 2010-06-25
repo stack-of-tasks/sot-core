@@ -29,7 +29,7 @@
 #include <sot-core/factory.h>
 using namespace std;
 using namespace sot;
-
+using namespace dynamicgraph;
 
 
 SOT_FACTORY_FEATURE_PLUGIN(FeatureVisualPoint,"FeatureVisualPoint");

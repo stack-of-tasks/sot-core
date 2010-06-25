@@ -57,6 +57,7 @@ namespace ml = maal::boost;
 
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -68,7 +69,7 @@ class SOTCONSTRAINT_EXPORT Constraint
 : public TaskAbstract
 {
  protected:
-  typedef std::list< Signal<ml::Matrix,int>* > JacobianList;
+  typedef std::list< dg::Signal<ml::Matrix,int>* > JacobianList;
   JacobianList jacobianList;
   
  public: 
@@ -78,7 +79,7 @@ class SOTCONSTRAINT_EXPORT Constraint
  public:
   Constraint( const std::string& n );
 
-  void addJacobian( Signal<ml::Matrix,int>& sig );
+  void addJacobian( dg::Signal<ml::Matrix,int>& sig );
   void clearJacobianList( void );
 
   void setControlSelection( const Flags& act );

@@ -35,7 +35,6 @@ namespace ml = maal::boost;
 #include <dynamic-graph/entity.h>
 #include <sot-core/pool.h>
 #include <dynamic-graph/all-signals.h>
-#include <dynamic-graph/all-signals.h>
 #include <sot-core/vector-quaternion.h>
 
 /* STD */
@@ -44,14 +43,14 @@ namespace ml = maal::boost;
 #include <boost/function.hpp>
 
 namespace sot {
-
+namespace dg = dynamicgraph;
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
 template< class Tin1,class Tin2,class Tout,typename Operator >
 class BinaryOp
-:public Entity
+:public dg::Entity
 {
   Operator op;
 
@@ -63,7 +62,7 @@ class BinaryOp
   static const std::string CLASS_NAME;
 
   BinaryOp( const std::string& name )
-    : Entity(name)
+    : dg::Entity(name)
     ,SIN1(NULL,BinaryOp::CLASS_NAME+"("+name+")::input("+getTypeIn1Name()+")::in1") 
     ,SIN2(NULL,CLASS_NAME+"("+name+")::input("+getTypeIn2Name()+")::in2") 
     ,SOUT( boost::bind(&BinaryOp<Tin1,Tin2,Tout,Operator>::computeOperation,this,_1,_2), 
@@ -77,9 +76,9 @@ class BinaryOp
 
  public: /* --- SIGNAL --- */
 
-  SignalPtr<Tin1,int> SIN1;
-  SignalPtr<Tin2,int> SIN2;
-  SignalTimeDependant<Tout,int> SOUT;
+  dg::SignalPtr<Tin1,int> SIN1;
+  dg::SignalPtr<Tin2,int> SIN2;
+  dg::SignalTimeDependant<Tout,int> SOUT;
 
  protected:
   Tout& computeOperation( Tout& res,int time )

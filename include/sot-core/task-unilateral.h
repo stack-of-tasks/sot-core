@@ -61,6 +61,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOTTASKUNILATERAL_EXPORT TaskUnilateral
 : public Task
@@ -82,10 +83,10 @@ class SOTTASKUNILATERAL_EXPORT TaskUnilateral
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
 
-  SignalPtr< ml::Vector,int > positionSIN;
-  SignalPtr< ml::Vector,int > referenceInfSIN;
-  SignalPtr< ml::Vector,int > referenceSupSIN;
-  SignalPtr< double,int > dtSIN;
+  dg::SignalPtr< ml::Vector,int > positionSIN;
+  dg::SignalPtr< ml::Vector,int > referenceInfSIN;
+  dg::SignalPtr< ml::Vector,int > referenceSupSIN;
+  dg::SignalPtr< double,int > dtSIN;
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display( std::ostream& os ) const;

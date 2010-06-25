@@ -30,6 +30,7 @@
 #include <MatrixAbstractLayer/boost.h>
 
 using namespace std;
+using namespace dynamicgraph;
 
 namespace ml = maal::boost;
 

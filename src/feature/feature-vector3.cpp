@@ -36,7 +36,7 @@
 
 using namespace sot;
 using namespace std;
-
+using namespace dynamicgraph;
 
 SOT_FACTORY_FEATURE_PLUGIN(FeatureVector3,"FeatureVector3");
 
