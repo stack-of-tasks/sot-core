@@ -2,6 +2,9 @@
 #  Copyright 
 # 
 
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/test-paths.h.cmake 
+			${CMAKE_CURRENT_SOURCE_DIR}/test-paths.h) 
+
 #The sot-core plugin libraries that tests have to be linked against
 #the name of the variable for test EXECUTABLE_NAME is TEST_${EXECUTABLE_NAME}_LIBS
 SET(TEST_tsot_LIBS 
@@ -12,13 +15,14 @@ SET(TEST_tsot_LIBS
 
 #test paths and names (without .cpp extension)
 SET (tests
-	main
+	link
 	signal/test_signal
 	signal/test_depend
 	signal/test_ptr
 	signal/test_dep
 	sot/tsot
-	sot/test_solverSoth)
+	sot/test_solverSoth
+	factory/test_factory)
 
 FOREACH(test ${tests})
 	GET_FILENAME_COMPONENT(EXECUTABLE_NAME ${test} NAME)
