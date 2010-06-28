@@ -72,7 +72,7 @@ class SOTTASKPD_EXPORT TaskPD
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dg::SignalTimeDependant< ml::Vector,int > errorDotSOUT;
+  dg::SignalTimeDependent< ml::Vector,int > errorDotSOUT;
   dg::SignalPtr< ml::Vector,int > errorDotSIN;
 
   /* --- PARAMS --- */

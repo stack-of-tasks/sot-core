@@ -122,7 +122,7 @@ class SOTTASK_EXPORT Task
   dg::SignalPtr< Flags,int > controlSelectionSIN; // At the task level or at the feature level?
 
  public:
-  dg::SignalTimeDependant< ml::Vector,int > errorSOUT;
+  dg::SignalTimeDependent< ml::Vector,int > errorSOUT;
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display( std::ostream& os ) const;

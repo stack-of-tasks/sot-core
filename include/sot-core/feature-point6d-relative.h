@@ -87,7 +87,7 @@ class SOTFEATUREPOINT6DRELATIVE_EXPORT FeaturePoint6dRelative
   dg::SignalPtr< MatrixHomogeneous,int > dotpositionReferenceSIN;
   /*! @} */
   /*! The derivative of the error.*/
-  dg::SignalTimeDependant<ml::Vector,int> errordotSOUT;
+  dg::SignalTimeDependent<ml::Vector,int> errordotSOUT;
   /*! @} */
 
  public:

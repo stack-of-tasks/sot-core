@@ -77,7 +77,7 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
   dg::SignalPtr< ml::Vector,int > jointSIN;
   dg::SignalPtr< ml::Vector,int > upperJlSIN;
   dg::SignalPtr< ml::Vector,int > lowerJlSIN;
-  dg::SignalTimeDependant< ml::Vector,int > widthJlSINTERN;
+  dg::SignalTimeDependent< ml::Vector,int > widthJlSINTERN;
 
   using FeatureAbstract::selectionSIN;
 

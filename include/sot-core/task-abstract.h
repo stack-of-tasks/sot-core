@@ -82,9 +82,9 @@ class SOT_CORE_EXPORT TaskAbstract
 
  public: /* --- SIGNALS --- */
 
-  dg::SignalTimeDependant< sotVectorMultiBound,int > taskSOUT;
-  dg::SignalTimeDependant< ml::Matrix,int > jacobianSOUT;
-  dg::SignalTimeDependant< ml::Vector,int > featureActivationSOUT;
+  dg::SignalTimeDependent< sotVectorMultiBound,int > taskSOUT;
+  dg::SignalTimeDependent< ml::Matrix,int > jacobianSOUT;
+  dg::SignalTimeDependent< ml::Vector,int > featureActivationSOUT;
 
  public: /* --- PARAMS --- */
   virtual void commandLine( const std::string& cmdLine

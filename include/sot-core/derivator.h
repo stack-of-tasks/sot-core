@@ -82,7 +82,7 @@ class Derivator
  public: /* --- SIGNAL --- */
 
   dg::SignalPtr<T,int> SIN;
-  dg::SignalTimeDependant<T,int> SOUT;
+  dg::SignalTimeDependent<T,int> SOUT;
   dg::Signal<double,int> timestepSIN;
 
  protected:

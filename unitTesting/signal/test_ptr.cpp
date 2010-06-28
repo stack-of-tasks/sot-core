@@ -49,21 +49,21 @@ public:
     appel++;  timedata=t; 
 
     sotDEBUG(5) << "Inside " << typeid(Res).name() <<endl;
-    for( list< SignalTimeDependant<double,int>* >::iterator it=inputsig.begin();
+    for( list< SignalTimeDependent<double,int>* >::iterator it=inputsig.begin();
 	 it!=inputsig.end();++it )
        { sotDEBUG(5) << *(*it) << endl; (*it)->access(timedata);}
-    for( list< SignalTimeDependant<ml::Vector,int>* >::iterator it=inputsigV.begin();
+    for( list< SignalTimeDependent<ml::Vector,int>* >::iterator it=inputsigV.begin();
 	 it!=inputsigV.end();++it )
       { sotDEBUG(5) << *(*it) << endl; (*it)->access(timedata);}
 
     return res=(*this)();
   }
 
-  list< SignalTimeDependant<double,int>* > inputsig;
-  list< SignalTimeDependant<ml::Vector,int>* > inputsigV;
+  list< SignalTimeDependent<double,int>* > inputsig;
+  list< SignalTimeDependent<ml::Vector,int>* > inputsigV;
 
-  void add( SignalTimeDependant<double,int>& sig ){ inputsig.push_back(&sig); }
-  void add( SignalTimeDependant<ml::Vector,int>& sig ){ inputsigV.push_back(&sig); }
+  void add( SignalTimeDependent<double,int>& sig ){ inputsig.push_back(&sig); }
+  void add( SignalTimeDependent<ml::Vector,int>& sig ){ inputsigV.push_back(&sig); }
 
   Res operator() ( void );
 
@@ -107,7 +107,7 @@ int main( void )
 {
    DummyClass<VectorUTheta> pro3;
 
-   SignalTimeDependant<VectorUTheta,int> sig3(sotNOSIGNAL,"Sig3");
+   SignalTimeDependent<VectorUTheta,int> sig3(sotNOSIGNAL,"Sig3");
    SignalPtr<ml::Vector,int> sigTo3( NULL,"SigTo3" );
 
    ml::Vector v;

@@ -247,9 +247,9 @@ class SOTSOT_CORE_EXPORT Sot
     on-line */
   dg::SignalPtr<double,int> inversionThresholdSIN;
   /*! \brief This signal allow to get the result of the Constraint projector. */
-  dg::SignalTimeDependant<ml::Matrix,int> constraintSOUT;
+  dg::SignalTimeDependent<ml::Matrix,int> constraintSOUT;
   /*! \brief This signal allow to get the result of the computed control law. */
-  dg::SignalTimeDependant<ml::Vector,int> controlSOUT;
+  dg::SignalTimeDependent<ml::Vector,int> controlSOUT;
   /*! @} */
 
  public: /* --- COMMANDS --- */

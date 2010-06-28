@@ -64,8 +64,8 @@ class SOTOPPOINTMODIFIOR_EXPORT OpPointModifior
   dg::SignalPtr<ml::Matrix,int> jacobianSIN;
   dg::SignalPtr<MatrixHomogeneous,int> positionSIN;
   
-  dg::SignalTimeDependant<ml::Matrix,int> jacobianSOUT;
-  dg::SignalTimeDependant<MatrixHomogeneous,int> positionSOUT;
+  dg::SignalTimeDependent<ml::Matrix,int> jacobianSOUT;
+  dg::SignalTimeDependent<MatrixHomogeneous,int> positionSOUT;
 
 public:
   OpPointModifior( const std::string& name );

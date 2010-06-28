@@ -76,7 +76,7 @@ class UnaryOp
  public: /* --- SIGNAL --- */
 
   dg::SignalPtr<Tin,int> SIN;
-  dg::SignalTimeDependant<Tout,int> SOUT;
+  dg::SignalTimeDependent<Tout,int> SOUT;
 
  protected:
   Tout& computeOperation( Tout& res,int time )

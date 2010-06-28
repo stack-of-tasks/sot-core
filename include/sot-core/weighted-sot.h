@@ -100,9 +100,9 @@ class SOTWEIGHTEDSOT_CORE_EXPORT WeightedSot
     @{
    */
   dg::SignalPtr<ml::Matrix,int> weightSIN;
-  dg::SignalTimeDependant<ml::Matrix,int> constrainedWeightSOUT;
+  dg::SignalTimeDependent<ml::Matrix,int> constrainedWeightSOUT;
   dg::SignalPtr<ml::Matrix,int> constrainedWeightSIN;
-  dg::SignalTimeDependant<ml::Matrix,int> squareRootInvWeightSOUT;
+  dg::SignalTimeDependent<ml::Matrix,int> squareRootInvWeightSOUT;
   dg::SignalPtr<ml::Matrix,int> squareRootInvWeightSIN;
   /*! @} */
 

@@ -46,13 +46,13 @@ public:
     ,rows(0),color(0.)
     ,SOUT( "sotVectorConstant("+name+")::output(vector)::out" )
     {
-      SOUT.setDependancyType( dg::TimeDependancy<int>::BOOL_DEPENDANT );
+      SOUT.setDependancyType( dg::TimeDependency<int>::BOOL_DEPENDANT );
       signalRegistration( SOUT );
     }
 
   virtual ~VectorConstant( void ){}
 
-  dg::SignalTimeDependant<ml::Vector,int> SOUT;
+  dg::SignalTimeDependent<ml::Vector,int> SOUT;
 
   virtual void commandLine( const std::string& cmdLine,
 			    std::istringstream& cmdArgs, 

@@ -71,7 +71,7 @@ class SOTFEATURELINEDISTANCE_EXPORT FeatureLineDistance
   dg::SignalPtr< ml::Matrix,int > articularJacobianSIN;
   dg::SignalPtr< ml::Vector,int > positionRefSIN;
   dg::SignalPtr< ml::Vector,int > vectorSIN;
-  dg::SignalTimeDependant<ml::Vector,int> lineSOUT;
+  dg::SignalTimeDependent<ml::Vector,int> lineSOUT;
 
   using FeatureAbstract::desiredValueSIN;
   using FeatureAbstract::selectionSIN;

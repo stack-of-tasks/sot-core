@@ -45,21 +45,21 @@ public:
     appel++;  timedata=t; 
 
     cout << "Inside " << endl;
-    for( list< SignalTimeDependant<double,int>* >::iterator it=inputsig.begin();
+    for( list< SignalTimeDependent<double,int>* >::iterator it=inputsig.begin();
 	 it!=inputsig.end();++it )
        { cout << *(*it) << endl; (*it)->access(timedata);}
-    for( list< SignalTimeDependant<ml::Vector,int>* >::iterator it=inputsigV.begin();
+    for( list< SignalTimeDependent<ml::Vector,int>* >::iterator it=inputsigV.begin();
 	 it!=inputsigV.end();++it )
       { cout << *(*it) << endl; (*it)->access(timedata);}
 
     return res=(*this)();
   }
 
-  list< SignalTimeDependant<double,int>* > inputsig;
-  list< SignalTimeDependant<ml::Vector,int>* > inputsigV;
+  list< SignalTimeDependent<double,int>* > inputsig;
+  list< SignalTimeDependent<ml::Vector,int>* > inputsigV;
 
-  void add( SignalTimeDependant<double,int>& sig ){ inputsig.push_back(&sig); }
-  void add( SignalTimeDependant<ml::Vector,int>& sig ){ inputsigV.push_back(&sig); }
+  void add( SignalTimeDependent<double,int>& sig ){ inputsig.push_back(&sig); }
+  void add( SignalTimeDependent<ml::Vector,int>& sig ){ inputsigV.push_back(&sig); }
 
   Res operator() ( void );
 
@@ -97,13 +97,13 @@ int main( void )
    DummyClass<double> pro1,pro3,pro5;
    DummyClass<ml::Vector> pro2,pro4,pro6;
 
-   SignalTimeDependant<double,int> sig5("Sig5");
-   SignalTimeDependant<ml::Vector,int> sig6("Sig6");
+   SignalTimeDependent<double,int> sig5("Sig5");
+   SignalTimeDependent<ml::Vector,int> sig6("Sig6");
    
-   SignalTimeDependant<ml::Vector,int> sig4(sig5,"Sig4");
-   SignalTimeDependant<ml::Vector,int> sig2(sig4<<sig4<<sig4<<sig6,"Sig2");
-   SignalTimeDependant<double,int> sig3(sig2<<sig5<<sig6,"Sig3");
-   SignalTimeDependant<double,int> sig1( boost::bind(&DummyClass<double>::fun,pro1,_1,_2),
+   SignalTimeDependent<ml::Vector,int> sig4(sig5,"Sig4");
+   SignalTimeDependent<ml::Vector,int> sig2(sig4<<sig4<<sig4<<sig6,"Sig2");
+   SignalTimeDependent<double,int> sig3(sig2<<sig5<<sig6,"Sig3");
+   SignalTimeDependent<double,int> sig1( boost::bind(&DummyClass<double>::fun,pro1,_1,_2),
 					   sig2<<sig3,"Sig1");
 
 //    cout << "--- Test Array ------ "<<endl;
@@ -144,8 +144,8 @@ int main( void )
    pro3.add(sig5);
    pro3.add(sig6);
    
-   //sig5.setDependancyType(TimeDependancy<int>::ALWAYS_READY);
-   //sig6.setDependancyType(TimeDependancy<int>::BOOL_DEPENDANT);
+   //sig5.setDependancyType(TimeDependency<int>::ALWAYS_READY);
+   //sig6.setDependancyType(TimeDependency<int>::BOOL_DEPENDANT);
 
     sig6.setReady();
 

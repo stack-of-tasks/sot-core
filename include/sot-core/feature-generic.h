@@ -110,7 +110,7 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   using FeatureAbstract::activationSOUT;
 
   /*! \brief New signal the errordot. */
-  dg::SignalTimeDependant< ml::Vector,int > errordotSOUT;
+  dg::SignalTimeDependent< ml::Vector,int > errordotSOUT;
 
  public:
 

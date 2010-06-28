@@ -61,7 +61,7 @@ public:
   virtual ~VectorToRotation( void ){}
 
   dg::SignalPtr<ml::Vector,int> SIN;
-  dg::SignalTimeDependant<MatrixRotation,int> SOUT;
+  dg::SignalTimeDependent<MatrixRotation,int> SOUT;
 
   MatrixRotation& computeRotation( const ml::Vector& angles,
 				      MatrixRotation& res );

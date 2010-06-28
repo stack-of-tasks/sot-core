@@ -78,7 +78,7 @@ class BinaryOp
 
   dg::SignalPtr<Tin1,int> SIN1;
   dg::SignalPtr<Tin2,int> SIN2;
-  dg::SignalTimeDependant<Tout,int> SOUT;
+  dg::SignalTimeDependent<Tout,int> SOUT;
 
  protected:
   Tout& computeOperation( Tout& res,int time )

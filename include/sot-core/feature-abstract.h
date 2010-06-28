@@ -165,17 +165,17 @@ class SOT_CORE_EXPORT FeatureAbstract
 
   /*! \brief This signal returns the error between the desired value and
     the current value : \f$ {\bf s}^*(t) - {\bf s}(t)\f$ */
-  dg::SignalTimeDependant<ml::Vector,int> errorSOUT;
+  dg::SignalTimeDependent<ml::Vector,int> errorSOUT;
   
   /*! \brief This signal returns the Jacobian of the current value 
     according to the robot state: \f$ J(t) = \frac{\delta{\bf s}^*(t)}{\delta {\bf q}(t)}\f$ */
-  dg::SignalTimeDependant<ml::Matrix,int> jacobianSOUT;
+  dg::SignalTimeDependent<ml::Matrix,int> jacobianSOUT;
   
   /*! \brief Compute the new value of the feature \f$ {\bf s}(t)\f$ */
-  dg::SignalTimeDependant<ml::Vector,int> activationSOUT;
+  dg::SignalTimeDependent<ml::Vector,int> activationSOUT;
 
   /*! \brief Returns the dimension of the feature as an output signal. */
-  dg::SignalTimeDependant<unsigned int,int> dimensionSOUT;
+  dg::SignalTimeDependent<unsigned int,int> dimensionSOUT;
 
   /*! \brief This method write a graph description on the file named FileName. */
   virtual std::ostream & writeGraph(std::ostream & os) const;

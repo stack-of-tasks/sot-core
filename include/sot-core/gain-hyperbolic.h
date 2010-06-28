@@ -104,7 +104,7 @@ class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic
     
  public:  /* --- SIGNALS --- */
   dg::SignalPtr<ml::Vector,int> errorSIN;
-  dg::SignalTimeDependant<double,int> gainSOUT;
+  dg::SignalTimeDependent<double,int> gainSOUT;
  protected:
   double& computeGain( double& res,int t );
 

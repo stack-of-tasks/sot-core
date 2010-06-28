@@ -140,7 +140,7 @@ public:
 
 public:
   dg::SignalPtr<sigT, int> SIN;
-  dg::SignalTimeDependant<sigT, int> SOUT;
+  dg::SignalTimeDependent<sigT, int> SOUT;
 
 private:
   std::vector<coefT> coefs;

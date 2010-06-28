@@ -49,13 +49,13 @@ public:
     ,rows(0),cols(0),color(0.)
     ,SOUT( "sotMatrixConstant("+name+")::output(matrix)::out" )
     {
-      SOUT.setDependancyType( dg::TimeDependancy<int>::BOOL_DEPENDANT );
+      SOUT.setDependancyType( dg::TimeDependency<int>::BOOL_DEPENDANT );
       signalRegistration( SOUT );
     }
 
   virtual ~MatrixConstant( void ){}
 
-  dg::SignalTimeDependant<ml::Matrix,int> SOUT;
+  dg::SignalTimeDependent<ml::Matrix,int> SOUT;
 
   virtual void commandLine( const std::string& cmdLine,
 			    std::istringstream& cmdArgs, 
