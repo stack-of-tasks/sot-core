@@ -48,9 +48,9 @@ Feature1D( const string& pointName )
     ,jacobianSIN( NULL,"sotFeature1D("+name+")::input(matrix)::jacobianIN" )
     ,activationSIN( NULL,"sotFeature1D("+name+")::input(matrix)::activationIN" )
 {
-  jacobianSOUT.addDependancy( jacobianSIN );
-  errorSOUT.addDependancy( errorSIN );
-  activationSOUT.addDependancy( activationSIN );
+  jacobianSOUT.addDependency( jacobianSIN );
+  errorSOUT.addDependency( errorSIN );
+  activationSOUT.addDependency( activationSIN );
 
   signalRegistration( errorSIN<<jacobianSIN<<activationSIN );
 }

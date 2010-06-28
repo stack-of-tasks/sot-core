@@ -54,10 +54,10 @@ Task( const std::string& n )
   jacobianSOUT.setFunction( boost::bind(&Task::computeJacobian,this,_1,_2) );
   featureActivationSOUT.setFunction( boost::bind(&Task::computeFeatureActivation,this,_1,_2) );
 
-  taskSOUT.addDependancy( controlGainSIN );
-  taskSOUT.addDependancy( errorSOUT );
+  taskSOUT.addDependency( controlGainSIN );
+  taskSOUT.addDependency( errorSOUT );
 
-  jacobianSOUT.addDependancy( controlSelectionSIN );
+  jacobianSOUT.addDependency( controlSelectionSIN );
 
   controlSelectionSIN = true;
 
@@ -71,9 +71,9 @@ void Task::
 addFeature( FeatureAbstract& s )
 {
   featureList.push_back(&s);
-  jacobianSOUT.addDependancy( s.jacobianSOUT );
-  errorSOUT.addDependancy( s.errorSOUT );
-  featureActivationSOUT.addDependancy( s.activationSOUT );
+  jacobianSOUT.addDependency( s.jacobianSOUT );
+  errorSOUT.addDependency( s.errorSOUT );
+  featureActivationSOUT.addDependency( s.activationSOUT );
 }
 void Task::
 clearFeatureList( void )
@@ -83,9 +83,9 @@ clearFeatureList( void )
 	 iter!=featureList.end(); ++iter )
     {
       FeatureAbstract & s = **iter;
-      jacobianSOUT.removeDependancy( s.jacobianSOUT );
-      errorSOUT.removeDependancy( s.errorSOUT );
-      featureActivationSOUT.removeDependancy( s.activationSOUT );
+      jacobianSOUT.removeDependency( s.jacobianSOUT );
+      errorSOUT.removeDependency( s.errorSOUT );
+      featureActivationSOUT.removeDependency( s.activationSOUT );
     }
 
   featureList.clear();

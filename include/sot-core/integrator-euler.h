@@ -65,7 +65,7 @@ class IntegratorEuler
   IntegratorEuler( const std::string& name )
     : IntegratorAbstract<sigT,coefT>( name )
   {
-    SOUT.addDependancy(SIN);
+    SOUT.addDependency(SIN);
   }
 
   virtual ~IntegratorEuler( void ) {}

@@ -56,7 +56,7 @@ addJacobian( Signal< ml::Matrix,int >& sig )
 {
   sotDEBUGIN(15);
   jacobianList.push_back(&sig);
-  jacobianSOUT.addDependancy( sig );
+  jacobianSOUT.addDependency( sig );
   sotDEBUGOUT(15);
 }
 void Constraint::
@@ -67,7 +67,7 @@ clearJacobianList( void )
 	 iter!=jacobianList.end(); ++iter )
     {
       Signal< ml::Matrix,int >& s = **iter;
-      jacobianSOUT.removeDependancy( s );
+      jacobianSOUT.removeDependency( s );
     }
 
   jacobianList.clear();

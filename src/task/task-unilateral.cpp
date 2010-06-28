@@ -53,11 +53,11 @@ TaskUnilateral( const std::string& n )
   ,dtSIN( NULL,"sotTaskUnilateral("+n+")::input(double)::dt" )
 {
   taskSOUT.setFunction( boost::bind(&TaskUnilateral::computeTaskUnilateral,this,_1,_2) );
-  taskSOUT.clearDependancies();
-  taskSOUT.addDependancy( referenceSupSIN );
-  taskSOUT.addDependancy( referenceInfSIN );
-  taskSOUT.addDependancy( dtSIN );
-  taskSOUT.addDependancy( positionSIN );
+  taskSOUT.clearDependencies();
+  taskSOUT.addDependency( referenceSupSIN );
+  taskSOUT.addDependency( referenceInfSIN );
+  taskSOUT.addDependency( dtSIN );
+  taskSOUT.addDependency( positionSIN );
 
   signalRegistration( referenceSupSIN<<dtSIN<<referenceInfSIN<<positionSIN );
 }

@@ -52,14 +52,14 @@ FeatureVector3( const string& pointName )
     ,articularJacobianSIN( NULL,"sotFeatureVector3("+name+")::input(matrix)::Jq" )
     ,positionRefSIN( NULL,"sotFeatureVector3("+name+")::input(vector)::positionRef" )
 {
-  jacobianSOUT.addDependancy( positionSIN );
-  jacobianSOUT.addDependancy( articularJacobianSIN );
+  jacobianSOUT.addDependency( positionSIN );
+  jacobianSOUT.addDependency( articularJacobianSIN );
 
-  errorSOUT.addDependancy( vectorSIN );
-  errorSOUT.addDependancy( positionSIN );
-  errorSOUT.addDependancy( positionRefSIN );
+  errorSOUT.addDependency( vectorSIN );
+  errorSOUT.addDependency( positionSIN );
+  errorSOUT.addDependency( positionRefSIN );
 
-  activationSOUT.removeDependancy( desiredValueSIN );
+  activationSOUT.removeDependency( desiredValueSIN );
 
   signalRegistration( vectorSIN<<positionSIN
                       <<articularJacobianSIN<<positionRefSIN );

@@ -167,7 +167,7 @@ class SOTSOT_CORE_EXPORT Sot
   virtual void remove( const TaskAbstract& task );
 
   /*! \brief This method removes the output signals depending on this task. */
-  virtual void removeDependancy( const TaskAbstract& key );
+  virtual void removeDependency( const TaskAbstract& key );
 
   /*! \brief This method makes the task to swap with the task having the 
     immediate superior priority. */

@@ -79,7 +79,7 @@ int main( void )
   task->controlSelectionSIN = Flags(true);
 
   task->jacobianSOUT.display(cout)<<endl;
-  task->jacobianSOUT.displayDependancies(cout)<<endl;
+  task->jacobianSOUT.displayDependencies(cout)<<endl;
 
   sotDEBUG(0) << "J"<< task->jacobianSOUT(2);
   sotDEBUG(0) <<"H"<< task->featureActivationSOUT(2)<<endl;

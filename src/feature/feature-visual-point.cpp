@@ -50,14 +50,14 @@ FeatureVisualPoint( const string& pointName )
 {
   ZSIN=1.;
 
-  jacobianSOUT.addDependancy( xySIN );
-  jacobianSOUT.addDependancy( ZSIN );
-  jacobianSOUT.addDependancy( articularJacobianSIN );
+  jacobianSOUT.addDependency( xySIN );
+  jacobianSOUT.addDependency( ZSIN );
+  jacobianSOUT.addDependency( articularJacobianSIN );
 
-  errorSOUT.addDependancy( xySIN );
-  errorSOUT.addDependancy( ZSIN );
+  errorSOUT.addDependency( xySIN );
+  errorSOUT.addDependency( ZSIN );
 
-  activationSOUT.removeDependancy( desiredValueSIN );
+  activationSOUT.removeDependency( desiredValueSIN );
 
   signalRegistration( xySIN<<ZSIN<<articularJacobianSIN );
 }

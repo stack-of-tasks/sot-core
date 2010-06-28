@@ -122,16 +122,16 @@ int main( void )
    sig5.setFunction( boost::bind(&DummyClass<double>::fun,pro5,_1,_2) );
    sig6.setFunction( boost::bind(&DummyClass<ml::Vector>::fun,pro6,_1,_2) );
 
-   //    sig1.addDependancy(sig2);   
-   //     sig1.addDependancy(sig3);   
-   //      sig2.addDependancy(sig4);   
-   //      sig2.addDependancy(sig4);   
-   //     sig2.addDependancy(sig4);   
-   //      sig3.addDependancy(sig2);   
-   //      sig4.addDependancy(sig5);   
-   //      sig2.addDependancy(sig6);   
-   //      sig3.addDependancy(sig5);   
-   //      sig3.addDependancy(sig6);   
+   //    sig1.addDependency(sig2);   
+   //     sig1.addDependency(sig3);   
+   //      sig2.addDependency(sig4);   
+   //      sig2.addDependency(sig4);   
+   //     sig2.addDependency(sig4);   
+   //      sig3.addDependency(sig2);   
+   //      sig4.addDependency(sig5);   
+   //      sig2.addDependency(sig6);   
+   //      sig3.addDependency(sig5);   
+   //      sig3.addDependency(sig6);   
 
    pro1.add(sig2);
    pro1.add(sig3);
@@ -144,20 +144,20 @@ int main( void )
    pro3.add(sig5);
    pro3.add(sig6);
    
-   //sig5.setDependancyType(TimeDependency<int>::ALWAYS_READY);
-   //sig6.setDependancyType(TimeDependency<int>::BOOL_DEPENDANT);
+   //sig5.setDependencyType(TimeDependency<int>::ALWAYS_READY);
+   //sig6.setDependencyType(TimeDependency<int>::BOOL_DEPENDENT);
 
     sig6.setReady();
 
-   sig1.displayDependancies(cout)<<endl;
+   sig1.displayDependencies(cout)<<endl;
  
    cout << "Needs update?"<< endl <<  sig1.needUpdate(2) << endl;
    sig1.access(2);
-   sig1.displayDependancies(cout)<<endl;
+   sig1.displayDependencies(cout)<<endl;
    sig2.access(4);
-   sig1.displayDependancies(cout)<<endl;
+   sig1.displayDependencies(cout)<<endl;
    sig1.access(4);
-   sig1.displayDependancies(cout)<<endl;
+   sig1.displayDependencies(cout)<<endl;
    sig1.needUpdate(6);
    sig1.needUpdate(6);
 

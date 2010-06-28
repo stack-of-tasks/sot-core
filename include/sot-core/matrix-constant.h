@@ -49,7 +49,7 @@ public:
     ,rows(0),cols(0),color(0.)
     ,SOUT( "sotMatrixConstant("+name+")::output(matrix)::out" )
     {
-      SOUT.setDependancyType( dg::TimeDependency<int>::BOOL_DEPENDANT );
+      SOUT.setDependencyType( dg::TimeDependency<int>::BOOL_DEPENDENT );
       signalRegistration( SOUT );
     }
 

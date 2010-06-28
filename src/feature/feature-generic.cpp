@@ -52,10 +52,10 @@ FeatureGeneric( const string& pointName )
 		    "sotFeatureAbstract("+name+")::output(vector)::errordot" )
 
 {
-  jacobianSOUT.addDependancy( jacobianSIN );
-  errorSOUT.addDependancy( errorSIN );
-  // errordotSOUT.addDependancy(errordotSIN);
-  activationSOUT.addDependancy( activationSIN );
+  jacobianSOUT.addDependency( jacobianSIN );
+  errorSOUT.addDependency( errorSIN );
+  // errordotSOUT.addDependency(errordotSIN);
+  activationSOUT.addDependency( activationSIN );
 
   signalRegistration( errorSIN<<jacobianSIN<<activationSIN << errordotSIN << errordotSOUT);
 }

@@ -54,12 +54,12 @@ FeatureLineDistance( const string& pointName )
              positionSIN<<positionRefSIN,
              "sotFeatureAbstract("+name+")::output(vector)::line" )
 {
-  jacobianSOUT.addDependancy( positionSIN );
-  jacobianSOUT.addDependancy( articularJacobianSIN );
+  jacobianSOUT.addDependency( positionSIN );
+  jacobianSOUT.addDependency( articularJacobianSIN );
 
-  errorSOUT.addDependancy( positionSIN );
+  errorSOUT.addDependency( positionSIN );
 
-  activationSOUT.removeDependancy( desiredValueSIN );
+  activationSOUT.removeDependency( desiredValueSIN );
 
   signalRegistration( positionSIN<<articularJacobianSIN
                       <<positionRefSIN<<lineSOUT<<vectorSIN );

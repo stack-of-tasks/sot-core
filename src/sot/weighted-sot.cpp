@@ -64,7 +64,7 @@ WeightedSot( const std::string& name )
 
   controlSOUT.setFunction( boost::bind(&WeightedSot::computeWeightedControlLaw,
 				       this,_1,_2) );
-  controlSOUT.addDependancy( squareRootInvWeightSIN );
+  controlSOUT.addDependency( squareRootInvWeightSIN );
 
   constrainedWeightSIN.plug(&constrainedWeightSOUT);
   sotDEBUGOUT(25);

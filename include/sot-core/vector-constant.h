@@ -46,7 +46,7 @@ public:
     ,rows(0),color(0.)
     ,SOUT( "sotVectorConstant("+name+")::output(vector)::out" )
     {
-      SOUT.setDependancyType( dg::TimeDependency<int>::BOOL_DEPENDANT );
+      SOUT.setDependencyType( dg::TimeDependency<int>::BOOL_DEPENDENT );
       signalRegistration( SOUT );
     }
 

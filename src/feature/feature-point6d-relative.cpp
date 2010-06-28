@@ -56,14 +56,14 @@ FeaturePoint6dRelative( const string& pointName )
 		selectionSIN<<desiredValueSIN,
 		"sotFeatureAbstract("+name+")::output(vector)::errordot" )
 {
-  jacobianSOUT.addDependancy( positionReferenceSIN );
-  jacobianSOUT.addDependancy( articularJacobianReferenceSIN );
+  jacobianSOUT.addDependency( positionReferenceSIN );
+  jacobianSOUT.addDependency( articularJacobianReferenceSIN );
 
-  errorSOUT.addDependancy( positionReferenceSIN );
+  errorSOUT.addDependency( positionReferenceSIN );
 
-  errordotSOUT.addDependancy(dotpositionReferenceSIN);
+  errordotSOUT.addDependency(dotpositionReferenceSIN);
 
-  activationSOUT.removeDependancy( desiredValueSIN );
+  activationSOUT.removeDependency( desiredValueSIN );
 
   signalRegistration( positionReferenceSIN<<articularJacobianReferenceSIN );
 

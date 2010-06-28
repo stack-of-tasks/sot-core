@@ -88,9 +88,9 @@ void SotQr::
 push( TaskAbstract& task )
 {
   stack.push_back( &task );
-  controlSOUT.addDependancy( task.taskSOUT );
-  controlSOUT.addDependancy( task.jacobianSOUT );
-  //controlSOUT.addDependancy( task.featureActivationSOUT );
+  controlSOUT.addDependency( task.taskSOUT );
+  controlSOUT.addDependency( task.jacobianSOUT );
+  //controlSOUT.addDependency( task.featureActivationSOUT );
   controlSOUT.setReady();
 }
 TaskAbstract& SotQr::
@@ -98,9 +98,9 @@ pop( void )
 {
   TaskAbstract* res = stack.back();
   stack.pop_back();
-  controlSOUT.removeDependancy( res->taskSOUT );
-  controlSOUT.removeDependancy( res->jacobianSOUT );
-  controlSOUT.removeDependancy( res->featureActivationSOUT );
+  controlSOUT.removeDependency( res->taskSOUT );
+  controlSOUT.removeDependency( res->jacobianSOUT );
+  controlSOUT.removeDependency( res->featureActivationSOUT );
   controlSOUT.setReady();
   return *res;
 }
@@ -125,15 +125,15 @@ remove( const TaskAbstract& key )
   if(! find ){ return; }
 
   stack.erase( it );
-  removeDependancy( key );
+  removeDependency( key );
 }
 
 void SotQr::
-removeDependancy( const TaskAbstract& key )
+removeDependency( const TaskAbstract& key )
 {
-  controlSOUT.removeDependancy( key.taskSOUT );
-  controlSOUT.removeDependancy( key.jacobianSOUT );
-  //controlSOUT.removeDependancy( key.featureActivationSOUT );
+  controlSOUT.removeDependency( key.taskSOUT );
+  controlSOUT.removeDependency( key.jacobianSOUT );
+  //controlSOUT.removeDependency( key.featureActivationSOUT );
   controlSOUT.setReady();
 }
 
@@ -182,7 +182,7 @@ clear( void )
 {
   for (  std::list<TaskAbstract*>::iterator it=stack.begin();stack.end()!=it;++it )
     {
-      removeDependancy( **it );
+      removeDependency( **it );
     }
   stack.clear();
   controlSOUT.setReady();
@@ -196,7 +196,7 @@ void SotQr::
 addConstraint( Constraint& constraint )
 {
   constraintList.push_back( &constraint );
-  constraintSOUT.addDependancy( constraint.jacobianSOUT );
+  constraintSOUT.addDependency( constraint.jacobianSOUT );
 }
 
 void SotQr::
@@ -211,7 +211,7 @@ removeConstraint( const Constraint& key )
 
   constraintList.erase( it );
 
-  constraintSOUT.removeDependancy( key.jacobianSOUT );
+  constraintSOUT.removeDependency( key.jacobianSOUT );
 }
 void SotQr::
 clearConstraint( void )
@@ -219,7 +219,7 @@ clearConstraint( void )
   for (  ConstraintListType::iterator it=constraintList.begin();
 	 constraintList.end()!=it;++it )
     {
-      constraintSOUT.removeDependancy( (*it)->jacobianSOUT );
+      constraintSOUT.removeDependency( (*it)->jacobianSOUT );
     }
   constraintList.clear();
 }

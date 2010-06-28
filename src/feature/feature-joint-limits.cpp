@@ -54,19 +54,19 @@ FeatureJointLimits( const string& fName )
 		     upperJlSIN<<lowerJlSIN,
 		     "sotFeatureJointLimits("+name+")::input(vector)::widthJl" )
 {
-  errorSOUT.addDependancy( jointSIN );
-  errorSOUT.addDependancy( upperJlSIN );
-  errorSOUT.addDependancy( lowerJlSIN );
+  errorSOUT.addDependency( jointSIN );
+  errorSOUT.addDependency( upperJlSIN );
+  errorSOUT.addDependency( lowerJlSIN );
 
-  activationSOUT.addDependancy( jointSIN );
-  activationSOUT.addDependancy( upperJlSIN );
-  activationSOUT.addDependancy( lowerJlSIN );
+  activationSOUT.addDependency( jointSIN );
+  activationSOUT.addDependency( upperJlSIN );
+  activationSOUT.addDependency( lowerJlSIN );
 
-  //jacobianSOUT.addDependancy( jointSIN );
+  //jacobianSOUT.addDependency( jointSIN );
 
-  errorSOUT.removeDependancy( desiredValueSIN );
-  jacobianSOUT.removeDependancy( desiredValueSIN );
-  activationSOUT.removeDependancy( desiredValueSIN );
+  errorSOUT.removeDependency( desiredValueSIN );
+  jacobianSOUT.removeDependency( desiredValueSIN );
+  activationSOUT.removeDependency( desiredValueSIN );
 
   signalRegistration( jointSIN<<upperJlSIN<<lowerJlSIN<<widthJlSINTERN );
 }

@@ -55,12 +55,12 @@ FeaturePoint6d( const string& pointName )
     ,positionSIN( NULL,"sotFeaturePoint6d("+name+")::input(matrixHomo)::position" )
     ,articularJacobianSIN( NULL,"sotFeaturePoint6d("+name+")::input(matrix)::Jq" )
 {
-  jacobianSOUT.addDependancy( positionSIN );
-  jacobianSOUT.addDependancy( articularJacobianSIN );
+  jacobianSOUT.addDependency( positionSIN );
+  jacobianSOUT.addDependency( articularJacobianSIN );
 
-  errorSOUT.addDependancy( positionSIN );
+  errorSOUT.addDependency( positionSIN );
 
-  activationSOUT.removeDependancy( desiredValueSIN );
+  activationSOUT.removeDependency( desiredValueSIN );
 
   signalRegistration( positionSIN<<articularJacobianSIN );
 }

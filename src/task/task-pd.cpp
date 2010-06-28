@@ -54,7 +54,7 @@ TaskPD( const std::string& n )
 		  "sotTaskPD("+n+")::input(vector)::errorDot" )
 {
   taskSOUT.setFunction( boost::bind(&TaskPD::computeTaskModif,this,_1,_2) );
-  taskSOUT.addDependancy( errorDotSOUT );
+  taskSOUT.addDependency( errorDotSOUT );
 
   signalRegistration( errorDotSOUT<<errorDotSIN );
   errorDotSIN.plug( &errorDotSOUT );
