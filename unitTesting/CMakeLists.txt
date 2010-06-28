@@ -10,7 +10,7 @@ CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/test-paths.h.cmake
 SET(TEST_tsot_LIBS 
 	task
 	feature-visual-point
-	gain-adaptative
+	gain-adaptive
 )
 
 #test paths and names (without .cpp extension)

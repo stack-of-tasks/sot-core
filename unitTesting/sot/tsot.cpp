@@ -71,7 +71,7 @@ int main( void )
   task->addFeature(*p1);
   task->addFeature(*p1);
 
-  GainAdaptative * lambda = new GainAdaptative("g");
+  GainAdaptive * lambda = new GainAdaptive("g");
   lambda->errorSIN.plug( &task->errorSOUT );
 
   task->controlGainSIN.plug( &lambda->gainSOUT );

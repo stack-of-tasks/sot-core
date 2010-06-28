@@ -24,7 +24,7 @@ SET(plugins
 	matrix/vector-constant
 	matrix/vector-to-rotation
 
-	task/gain-adaptative
+	task/gain-adaptive
 	task/task-pd
 	task/constraint
 	task/gain-hyperbolic

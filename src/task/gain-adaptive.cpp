@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      GainAdaptative.cpp
+ * File:      GainAdaptive.cpp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -32,13 +32,13 @@
 using namespace sot;
 using namespace dynamicgraph;
 
-SOT_FACTORY_ENTITY_PLUGIN(GainAdaptative,"GainAdaptative");
+SOT_FACTORY_ENTITY_PLUGIN(GainAdaptive,"GainAdaptive");
 
-const double GainAdaptative::
+const double GainAdaptive::
 ZERO_DEFAULT = .1;
-const double GainAdaptative::
+const double GainAdaptive::
 INFTY_DEFAULT = .1;
-const double GainAdaptative::
+const double GainAdaptive::
 TAN_DEFAULT = 1;
 
 /* --------------------------------------------------------------------- */
@@ -51,14 +51,14 @@ Entity(name) \
 ,coeff_a(0) \
 ,coeff_b(0) \
 ,coeff_c(0) \
-,errorSIN(NULL,"sotGainAdaptative("+name+")::input(vector)::error") \
-,gainSOUT( boost::bind(&GainAdaptative::computeGain,this,_1,_2), \
-	   errorSIN,"sotGainAdaptative("+name+")::output(double)::gain" )
+,errorSIN(NULL,"sotGainAdaptive("+name+")::input(vector)::error") \
+,gainSOUT( boost::bind(&GainAdaptive::computeGain,this,_1,_2), \
+	   errorSIN,"sotGainAdaptive("+name+")::output(double)::gain" )
 
 
 
-GainAdaptative::
-GainAdaptative( const std::string & name )
+GainAdaptive::
+GainAdaptive( const std::string & name )
   :__SOT_GAIN_ADAPTATIVE_INIT
 {
   sotDEBUG(15) << "New gain <"<<name<<">"<<std::endl;
@@ -67,16 +67,16 @@ GainAdaptative( const std::string & name )
 }
 
 
-GainAdaptative::
-GainAdaptative( const std::string & name,const double& lambda )
+GainAdaptive::
+GainAdaptive( const std::string & name,const double& lambda )
   :__SOT_GAIN_ADAPTATIVE_INIT
 {
   init(lambda);
   Entity::signalRegistration( gainSOUT );
 }
 
-GainAdaptative::
-GainAdaptative( const std::string & name,
+GainAdaptive::
+GainAdaptive( const std::string & name,
 		   const double& valueAt0,
 		   const double& valueAtInfty,
 		   const double& tanAt0 )
@@ -87,7 +87,7 @@ GainAdaptative( const std::string & name,
 }
 
 
-void GainAdaptative::
+void GainAdaptive::
 init( const double& valueAt0,
       const double& valueAtInfty,
       const double& tanAt0 )
@@ -100,7 +100,7 @@ init( const double& valueAt0,
   return;
 }
 
-void GainAdaptative::
+void GainAdaptive::
 forceConstant( void )
 {
   coeff_a = 0;
@@ -110,7 +110,7 @@ forceConstant( void )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void GainAdaptative::
+void GainAdaptive::
 display( std::ostream& os ) const
 {
   os << "Gain Adaptative "<<getName();
@@ -119,7 +119,7 @@ display( std::ostream& os ) const
 }
 
 #include <sot-core/exception-task.h>
-void GainAdaptative::
+void GainAdaptive::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,
 	     std::ostream& os )
@@ -140,7 +140,7 @@ commandLine( const std::string& cmdLine,
   else if( cmdLine == "forceConstant") forceConstant();
   else if( cmdLine == "help" )
     {
-      os << "GainAdaptative: \n"
+      os << "GainAdaptive: \n"
 	 << "\t- set gain_0=%f gain_inf=%f tan_0=%f\t<Set the gain parameters>\n"
 	 << "\t- setConstant gain=%f\t\t\t<Set the adaptative gain to a constant value>\n"
 	 << "\t- forceConstant\t\t\t\t<Set the gain to a constant value equals to gain_inf>"
@@ -154,7 +154,7 @@ commandLine( const std::string& cmdLine,
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-double& GainAdaptative::
+double& GainAdaptive::
 computeGain( double&res, int t )
 {
   sotDEBUGIN(15);

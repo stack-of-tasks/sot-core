@@ -135,7 +135,7 @@ if( NULL==dlib )
       exit(1);
     }
 
-  Entity* gain = g_factory.newEntity("GainAdaptative","Gain");
+  Entity* gain = g_factory.newEntity("GainAdaptive","Gain");
   FeatureAbstract* point = sotFactory.newFeature("FeatureVisualPoint","DynamicTest.");
   
   try {

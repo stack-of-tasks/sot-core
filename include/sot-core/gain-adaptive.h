@@ -39,7 +39,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (sotGainAdaptative_EXPORTS)
+#  if defined (sotGainAdaptive_EXPORTS)
 #    define SOTGAINADAPTATIVE_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTGAINADAPTATIVE_EXPORT  __declspec(dllimport)
@@ -55,7 +55,7 @@ namespace ml = maal::boost;
 namespace sot {
 namespace dg = dynamicgraph;
 
-class SOTGAINADAPTATIVE_EXPORT GainAdaptative
+class SOTGAINADAPTATIVE_EXPORT GainAdaptive
 : public dg::Entity
 {
 
@@ -82,9 +82,9 @@ class SOTGAINADAPTATIVE_EXPORT GainAdaptative
 
  public: /* --- CONSTRUCTORS ---- */
 
-  GainAdaptative( const std::string & name );
-  GainAdaptative( const std::string & name,const double& lambda );
-  GainAdaptative( const std::string & name,
+  GainAdaptive( const std::string & name );
+  GainAdaptive( const std::string & name,const double& lambda );
+  GainAdaptive( const std::string & name,
 		     const double& valueAt0, 
 		     const double& valueAtInfty,
 		     const double& tanAt0 );
