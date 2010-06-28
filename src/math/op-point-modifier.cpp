@@ -2,7 +2,7 @@
  * Copyright Projet JRL-Japan, 2007
  *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * File:      OpPointModifior.cp
+ * File:      OpPointModifier.cp
  * Project:   SOT
  * Author:    Nicolas Mansard
  *
@@ -30,23 +30,23 @@ using namespace sot;
 using namespace dynamicgraph;
 
 
-SOT_FACTORY_ENTITY_PLUGIN(OpPointModifior,"OpPointModifior");
+SOT_FACTORY_ENTITY_PLUGIN(OpPointModifier,"OpPointModifior");
 
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-OpPointModifior::
-OpPointModifior( const std::string& name )
+OpPointModifier::
+OpPointModifier( const std::string& name )
   :Entity( name )
    ,transformation()
    ,jacobianSIN(NULL,"OpPointModifior("+name+")::input(matrix)::jacobianIN")
    ,positionSIN(NULL,"OpPointModifior("+name+")::input(matrixhomo)::positionIN")
-   ,jacobianSOUT( boost::bind(&OpPointModifior::computeJacobian,this,_1,_2),
+   ,jacobianSOUT( boost::bind(&OpPointModifier::computeJacobian,this,_1,_2),
 		  jacobianSIN,
 		  "OpPointModifior("+name+")::output(matrix)::jacobian" )
-   ,positionSOUT( boost::bind(&OpPointModifior::computePosition,this,_1,_2),
+   ,positionSOUT( boost::bind(&OpPointModifier::computePosition,this,_1,_2),
 		  jacobianSIN,
 		  "OpPointModifior("+name+")::output(matrixhomo)::position" )
 
@@ -57,7 +57,7 @@ OpPointModifior( const std::string& name )
 }
 
 ml::Matrix&
-OpPointModifior::computeJacobian( ml::Matrix& res,const int& time )
+OpPointModifier::computeJacobian( ml::Matrix& res,const int& time )
 {
   const ml::Matrix& jacobian = jacobianSIN( time );
   MatrixTwist V( transformation );
@@ -66,7 +66,7 @@ OpPointModifior::computeJacobian( ml::Matrix& res,const int& time )
 }
 
 MatrixHomogeneous&
-OpPointModifior::computePosition( MatrixHomogeneous& res,const int& time )
+OpPointModifier::computePosition( MatrixHomogeneous& res,const int& time )
 {
   sotDEBUGIN(15);
   sotDEBUGIN(15) << time << " " << positionSIN.getTime() << positionSOUT.getTime() << endl;
@@ -77,11 +77,11 @@ OpPointModifior::computePosition( MatrixHomogeneous& res,const int& time )
 }
 
 void
-OpPointModifior::setTransformation( const MatrixHomogeneous& tr )
+OpPointModifier::setTransformation( const MatrixHomogeneous& tr )
 { transformation = tr; }
 
 
-void OpPointModifior::
+void OpPointModifier::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs, 
 	     std::ostream& os )

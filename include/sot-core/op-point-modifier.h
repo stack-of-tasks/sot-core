@@ -34,13 +34,13 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (sotOpPointModifior_EXPORTS)
-#    define SOTOPPOINTMODIFIOR_EXPORT __declspec(dllexport)
+#  if defined (OpPointModifier_EXPORTS)
+#    define SOTOPPOINTMODIFIER_EXPORT __declspec(dllexport)
 #  else  
-#    define SOTOPPOINTMODIFIOR_EXPORT __declspec(dllimport)
+#    define SOTOPPOINTMODIFIER_EXPORT __declspec(dllimport)
 #  endif 
 #else
-#  define SOTOPPOINTMODIFIOR_EXPORT
+#  define SOTOPPOINTMODIFIER_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
@@ -50,7 +50,7 @@ namespace ml = maal::boost;
 namespace sot {
 namespace dg = dynamicgraph;
 
-class SOTOPPOINTMODIFIOR_EXPORT OpPointModifior
+class SOTOPPOINTMODIFIER_EXPORT OpPointModifier
 : public dg::Entity
 {
  public:
@@ -68,9 +68,9 @@ class SOTOPPOINTMODIFIOR_EXPORT OpPointModifior
   dg::SignalTimeDependent<MatrixHomogeneous,int> positionSOUT;
 
 public:
-  OpPointModifior( const std::string& name );
+  OpPointModifier( const std::string& name );
 
-  virtual ~OpPointModifior( void ){}
+  virtual ~OpPointModifier( void ){}
 
   ml::Matrix& computeJacobian( ml::Matrix& res,const int& time );
   MatrixHomogeneous& computePosition( MatrixHomogeneous& res,const int& time );
