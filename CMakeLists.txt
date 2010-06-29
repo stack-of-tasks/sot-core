@@ -104,9 +104,9 @@ ENDIF(PACKAGE_REQUIREMENTS STREQUAL "")
 #
 # Boost
 #
-FIND_PACKAGE(Boost REQUIRED)
+FIND_PACKAGE(Boost COMPONENTS filesystem REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
-set(LIBS ${LIBS} ${Boost_LIBRARIES})
+LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
 #
 # pkg-config file

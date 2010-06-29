@@ -105,9 +105,9 @@ if( NULL==dlib )
 
 
 #ifndef WIN32
-	dlib = dlopen(PLUGIN_LIB_INSTALL_PATH "/gain-adaptative.so", RTLD_NOW);
+	dlib = dlopen(PLUGIN_LIB_INSTALL_PATH "/gain-adaptive.so", RTLD_NOW);
 #else
-	dlib = LoadLibrary (PLUGIN_LIB_INSTALL_PATH "/gain-adaptative.lib");
+	dlib = LoadLibrary (PLUGIN_LIB_INSTALL_PATH "/gain-adaptive.lib");
 #endif
   if( NULL==dlib ) 
     {

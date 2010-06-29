@@ -13,6 +13,14 @@ SET(TEST_tsot_LIBS
 	gain-adaptive
 )
 
+SET(TEST_files_LIBS
+	${Boost_LIBRARIES}
+)
+
+SET(TEST_traces_LIBS
+	${CMAKE_INSTALL_PREFIX}/lib/plugin/tracer.so
+)
+
 #test paths and names (without .cpp extension)
 SET (tests
 	link
@@ -22,7 +30,9 @@ SET (tests
 	signal/test_dep
 	sot/tsot
 	sot/test_solverSoth
-	factory/test_factory)
+	factory/test_factory
+	traces/files
+	traces/traces)
 
 FOREACH(test ${tests})
 	GET_FILENAME_COMPONENT(EXECUTABLE_NAME ${test} NAME)
