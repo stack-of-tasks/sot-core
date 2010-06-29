@@ -52,8 +52,8 @@ TaskConti( const std::string& n )
 }
 
 
-sotVectorMultiBound& TaskConti::
-computeContiDesiredVelocity( sotVectorMultiBound& desvel2b,const int & timecurr )
+VectorMultiBound& TaskConti::
+computeContiDesiredVelocity( VectorMultiBound& desvel2b,const int & timecurr )
 {
   sotDEBUG(15) << "# In {" << endl;
 

@@ -136,7 +136,7 @@ class SOTSOT_CORE_EXPORT Sot
                                            ml::Matrix& Jact );
   static ml::Matrix & computeJacobianConstrained( const TaskAbstract& task,
                                            const ml::Matrix& K );
-  static ml::Vector taskVectorToMlVector( const sotVectorMultiBound& taskVector );
+  static ml::Vector taskVectorToMlVector( const VectorMultiBound& taskVector );
 
  public:
   

@@ -67,7 +67,7 @@ class SOTTASKPD_EXPORT TaskPD
 
   /* --- COMPUTATION --- */
   ml::Vector& computeErrorDot( ml::Vector& error,int time );
-  sotVectorMultiBound& computeTaskModif( sotVectorMultiBound& error,int time );
+  VectorMultiBound& computeTaskModif( VectorMultiBound& error,int time );
 
 
   /* --- SIGNALS ------------------------------------------------------------ */

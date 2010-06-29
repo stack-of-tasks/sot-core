@@ -367,10 +367,10 @@ static void computeJacobianActivated( Task* taskSpec,
 #endif // #ifdef  WITH_CHRONO
 
 ml::Vector Sot::
-taskVectorToMlVector( const sotVectorMultiBound& taskVector )
+taskVectorToMlVector( const VectorMultiBound& taskVector )
 {
   ml::Vector res(taskVector.size()); unsigned int i=0;
-  for( sotVectorMultiBound::const_iterator iter=taskVector.begin();
+  for( VectorMultiBound::const_iterator iter=taskVector.begin();
        iter!=taskVector.end();++iter,++i )
     {
       res(i)=iter->getSingleBound();

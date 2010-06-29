@@ -21,6 +21,14 @@ SET(TEST_traces_LIBS
 	${CMAKE_INSTALL_PREFIX}/lib/plugin/tracer.so
 )
 
+SET(TEST_test_gain_LIBS
+	gain-adaptive feature-visual-point
+)
+
+SET(TEST_test_task_LIBS
+	gain-adaptive feature-visual-point task
+)
+
 #test paths and names (without .cpp extension)
 SET (tests
 	link
@@ -32,7 +40,11 @@ SET (tests
 	sot/test_solverSoth
 	factory/test_factory
 	traces/files
-	traces/traces)
+	traces/traces
+	task/test_flags
+	task/test_gain
+	task/test_multi_bound
+	task/test_task)
 
 FOREACH(test ${tests})
 	GET_FILENAME_COMPONENT(EXECUTABLE_NAME ${test} NAME)

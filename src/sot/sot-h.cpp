@@ -118,7 +118,7 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-void buildTaskVectors( const sotVectorMultiBound& err,
+void buildTaskVectors( const VectorMultiBound& err,
                        const ml::Matrix & JK,
                        bubVector & ee,bubVector & eiinf,bubVector & eisup,
                        ConstraintMem::BoundSideVector& bounds,
@@ -128,7 +128,7 @@ void buildTaskVectors( const sotVectorMultiBound& err,
 
   sotDEBUG(25) << "/* Compute the task sizes. */"<< std::endl;
   unsigned int sizei=0,sizee=0;
-  for( sotVectorMultiBound::const_iterator iter=err.begin();
+  for( VectorMultiBound::const_iterator iter=err.begin();
        err.end()!=iter;++iter )
     { if( iter->getMode()==MultiBound::MODE_SINGLE )
         sizee++; else sizei++; }
@@ -267,7 +267,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
       TaskAbstract & task = **iter;
       sotDEBUG(15) << "Task: e_" << task.getName() << std::endl;
       const ml::Matrix &Jac = task.jacobianSOUT(iterTime);
-      const sotVectorMultiBound &err = task.taskSOUT(iterTime);
+      const VectorMultiBound &err = task.taskSOUT(iterTime);
       unsigned int ntask=err.size();
 
       sotDEBUG(25) << "/* Init memory. */" << std::endl;
@@ -376,7 +376,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
         TaskAbstract & task = **iter;
         MemoryTaskSOTH * mem = dynamic_cast<MemoryTaskSOTH *>( task.memoryInternal );
         if( mem == NULL ) continue;
-        sotVectorMultiBound taskVector = task.taskSOUT(iterTime);
+        VectorMultiBound taskVector = task.taskSOUT(iterTime);
         const ml::Matrix JK = mem->jacobianConstrainedSINOUT.accessCopy();
         ml::Vector JKu(taskVector.size()); JKu = JK*control;
         ml::Vector diff(taskVector.size());

@@ -171,8 +171,8 @@ computeError( ml::Vector& error,int time )
   return error;
 }
 
-sotVectorMultiBound& Task::
-computeTaskExponentialDecrease( sotVectorMultiBound& errorRef,int time )
+VectorMultiBound& Task::
+computeTaskExponentialDecrease( VectorMultiBound& errorRef,int time )
 {
   sotDEBUG(15) << "# In {" << endl;
   const ml::Vector & errSingleBound = errorSOUT(time);

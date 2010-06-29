@@ -121,6 +121,59 @@ add( const int& c4 )
   for(unsigned int i=0;i<sizeof(int);++i) add(c4p[i]);
 }
  
+/* --------------------------------------------------------------------- */
+void Flags::
+set( const unsigned int & idx )
+{
+  unsigned int d= (idx/8), m=(idx%8);
+
+  char brik = (reverse)?(255-(1<<m)):(1<<m);
+
+  if( flags.size()>d )
+    {
+      sotDEBUG(45) << "List long enough. Modify." << std::endl;
+      char & el = flags[d];
+      if( reverse ) el &= brik; else el |= brik;
+    }
+  else
+    {
+      sotDEBUG(45) << "List not long enough. Add "
+		   << flags.size() <<" "<<d << std::endl;
+      if(! reverse )
+	{
+	  for( unsigned i=flags.size();i<d;++i ) add((char)0);
+	  add(brik);
+	}
+    }
+  sotDEBUG(45) << "New flag: "<< *this << endl;
+}
+
+void Flags::
+unset( const unsigned int & idx )
+{
+  unsigned int d= (idx/8), m=(idx%8);
+
+  char brik = (reverse)?(1<<m):(255-(1<<m));
+  if( flags.size()>d )
+    {
+      sotDEBUG(45) << "List long enough. Modify." << std::endl;
+      char & el = flags[d];
+      if( reverse ) el |= brik;  else el &= brik;
+    }
+  else
+    {
+      sotDEBUG(45) << "List not long enough. Add." << std::endl;
+     if( reverse )
+       {
+	 for( unsigned i=flags.size();i<d;++i ) add((char)255);
+	 add(brik);
+       }
+    }
+  sotDEBUG(45) << "New flag: "<< *this << endl;
+}
+
+
+namespace sot {
 
 /* --------------------------------------------------------------------- */
 Flags Flags::
@@ -185,61 +238,8 @@ operator&= ( const bool& b ){ if(!b) { flags.clear(); reverse=false; } return *t
 Flags& Flags::
 operator|= ( const bool& b ){ if(b) { flags.clear(); reverse=true; } return *this;}
 
-/* --------------------------------------------------------------------- */
-void Flags::
-set( const unsigned int & idx )
-{
-  unsigned int d= (idx/8), m=(idx%8);
-  
-  char brik = (reverse)?(255-(1<<m)):(1<<m);
-
-  if( flags.size()>d )
-    {
-      sotDEBUG(45) << "List long enough. Modify." << std::endl;
-      char & el = flags[d];
-      if( reverse ) el &= brik; else el |= brik;
-    }
-  else
-    {
-      sotDEBUG(45) << "List not long enough. Add " 
-		   << flags.size() <<" "<<d << std::endl;
-      if(! reverse )
-	{
-	  for( unsigned i=flags.size();i<d;++i ) add((char)0);
-	  add(brik);
-	}
-    }
-  sotDEBUG(45) << "New flag: "<< *this << endl;
-}
-
-void Flags::
-unset( const unsigned int & idx )
-{
-  unsigned int d= (idx/8), m=(idx%8);
-  
-  char brik = (reverse)?(1<<m):(255-(1<<m));
-  if( flags.size()>d )
-    {
-      sotDEBUG(45) << "List long enough. Modify." << std::endl;
-      char & el = flags[d];
-      if( reverse ) el |= brik;  else el &= brik;
-    }
-  else
-    {
-      sotDEBUG(45) << "List not long enough. Add." << std::endl;
-     if( reverse )
-       {
-	 for( unsigned i=flags.size();i<d;++i ) add((char)255);
-	 add(brik);
-       }
-    }
-  sotDEBUG(45) << "New flag: "<< *this << endl;
-}
-
-
 
 /* --------------------------------------------------------------------- */
-namespace sot {
 std::ostream& operator<< (std::ostream& os, const Flags& fl )
 {
   if( fl.reverse ) os << "...11111 ";
@@ -371,7 +371,6 @@ std::istream& operator>> (std::istream& is, Flags& fl )
   return is;
 }
 
-} // namespace sot
 
 /* --------------------------------------------------------------------- */
 const Flags FLAG_LINE_1( (char)0x1 );
@@ -382,6 +381,8 @@ const Flags FLAG_LINE_5( (char)0x10 );
 const Flags FLAG_LINE_6( (char)0x20 );
 const Flags FLAG_LINE_7( (char)0x40 );
 const Flags FLAG_LINE_8( (char)0x80 );
+
+} // namespace sot
 
 /* --------------------------------------------------------------------- */
 

@@ -76,9 +76,9 @@ class SOT_CORE_EXPORT MultiBound
 };
 
 /* --------------------------------------------------------------------- */
-typedef std::vector< MultiBound > sotVectorMultiBound;
-SOT_CORE_EXPORT std::ostream& operator<< (std::ostream& os, const sotVectorMultiBound& v );
-SOT_CORE_EXPORT std::istream& operator>> (std::istream& os, sotVectorMultiBound& v );
+typedef std::vector< MultiBound > VectorMultiBound;
+SOT_CORE_EXPORT std::ostream& operator<< (std::ostream& os, const VectorMultiBound& v );
+SOT_CORE_EXPORT std::istream& operator>> (std::istream& os, VectorMultiBound& v );
 
 } // namespace sot
 

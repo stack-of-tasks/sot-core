@@ -77,7 +77,7 @@ class SOTTASKUNILATERAL_EXPORT TaskUnilateral
   TaskUnilateral( const std::string& n );
 
   /* --- COMPUTATION --- */
-  sotVectorMultiBound& computeTaskUnilateral( sotVectorMultiBound& res,int time );
+  VectorMultiBound& computeTaskUnilateral( VectorMultiBound& res,int time );
 
 
   /* --- SIGNALS ------------------------------------------------------------ */

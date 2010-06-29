@@ -87,8 +87,8 @@ computeErrorDot( ml::Vector& errorDot,int time )
   return errorDot;
 }
 
-sotVectorMultiBound& TaskPD::
-computeTaskModif( sotVectorMultiBound& task,int time )
+VectorMultiBound& TaskPD::
+computeTaskModif( VectorMultiBound& task,int time )
 {
   sotDEBUG(15) << "# In {" << endl;
 

@@ -146,7 +146,7 @@ setSingleBound( double boundValue )
 
 inline static void SOT_MULTI_BOUND_CHECK_C(std::istream& is,
                                            char check,
-                                           sotVectorMultiBound& v)
+                                           VectorMultiBound& v)
 {
   char c;
   is.get(c);
@@ -238,16 +238,16 @@ std::istream& operator>> ( std::istream& is, MultiBound & m  )
   return is;
 }
 
-std::ostream& operator<< (std::ostream& os, const sotVectorMultiBound& v )
+std::ostream& operator<< (std::ostream& os, const VectorMultiBound& v )
 {
   os << "[" << v.size() << "](";
-  for( sotVectorMultiBound::const_iterator iter=v.begin();
+  for( VectorMultiBound::const_iterator iter=v.begin();
        iter!=v.end();++iter )
     { if(iter!=v.begin()) os<<","; os << (*iter); }
   return os<<")";
 }
 
-std::istream& operator>> (std::istream& is, sotVectorMultiBound& v )
+std::istream& operator>> (std::istream& is, VectorMultiBound& v )
 {
   unsigned int vali;
 

@@ -67,8 +67,8 @@ TaskUnilateral( const std::string& n )
 /* --- COMPUTATION ---------------------------------------------------------- */
 /* --- COMPUTATION ---------------------------------------------------------- */
 
-sotVectorMultiBound& TaskUnilateral::
-computeTaskUnilateral( sotVectorMultiBound& res,int time )
+VectorMultiBound& TaskUnilateral::
+computeTaskUnilateral( VectorMultiBound& res,int time )
 {
   sotDEBUG(45) << "# In " << getName() << " {" << endl;
   const ml::Vector & position = positionSIN(time);

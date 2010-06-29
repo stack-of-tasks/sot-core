@@ -87,7 +87,7 @@ class SOTTASKCONTI_EXPORT TaskConti
   const int &  referenceTime( void ) { return timeRef; }
 
   /* --- COMPUTATION --- */
-  sotVectorMultiBound& computeContiDesiredVelocity( sotVectorMultiBound &task,
+  VectorMultiBound& computeContiDesiredVelocity( VectorMultiBound &task,
                                                     const int & time );
 
 

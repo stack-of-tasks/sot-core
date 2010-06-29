@@ -162,7 +162,7 @@ public:            																\
 
 /* --- OTHER --- */
 SOT_SIGNAL_CAST_DEFINITION(Flags);
-SOT_SIGNAL_CAST_DEFINITION_TRACE(sotVectorMultiBound);
+SOT_SIGNAL_CAST_DEFINITION_TRACE(VectorMultiBound);
 
 typedef FeatureAbstract* SignalCast_sotFeatureAbstractPtr  ;
 

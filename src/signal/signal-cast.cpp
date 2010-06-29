@@ -65,10 +65,10 @@ disp( const struct timeval& t,std::ostream& os )
   os << t.tv_sec << "s "<< t.tv_usec << "ms";
 }
 
-void SignalCast<sotVectorMultiBound>::
-trace( const sotVectorMultiBound& t,std::ostream& os )
+void SignalCast<VectorMultiBound>::
+trace( const VectorMultiBound& t,std::ostream& os )
 {
-  for( sotVectorMultiBound::const_iterator iter=t.begin();t.end()!=iter;++iter )
+  for( VectorMultiBound::const_iterator iter=t.begin();t.end()!=iter;++iter )
     {
       switch( iter->mode )
         {
@@ -191,7 +191,7 @@ trace( const ml::Matrix& t,std::ostream& os )
 namespace {
 	SOT_SIGNAL_CAST_DECLARATION(SignalCast_sotFeatureAbstractPtr);
 	SOT_SIGNAL_CAST_DECLARATION(Flags);
-	SOT_SIGNAL_CAST_DECLARATION(sotVectorMultiBound);
+	SOT_SIGNAL_CAST_DECLARATION(VectorMultiBound);
 	SOT_SIGNAL_CAST_DECLARATION(timeval );
 	SOT_SIGNAL_CAST_DECLARATION_NAMED(maal::boost::Vector, maal_boost_Vector);
 	SOT_SIGNAL_CAST_DECLARATION_NAMED(maal::boost::Matrix, maal_boost_Matrix);

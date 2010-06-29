@@ -82,7 +82,7 @@ class SOT_CORE_EXPORT TaskAbstract
 
  public: /* --- SIGNALS --- */
 
-  dg::SignalTimeDependent< sotVectorMultiBound,int > taskSOUT;
+  dg::SignalTimeDependent< VectorMultiBound,int > taskSOUT;
   dg::SignalTimeDependent< ml::Matrix,int > jacobianSOUT;
   dg::SignalTimeDependent< ml::Vector,int > featureActivationSOUT;
 
