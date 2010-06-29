@@ -41,6 +41,8 @@ SET(plugins
 	feature/feature-visual-point
 	feature/feature-task
 	feature/feature-line-distance
+	
+	traces/reader
 )
 
 SET(LIBRARY_NAME ${SOTCORE_LIB_NAME})

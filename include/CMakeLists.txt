@@ -22,7 +22,6 @@ exception-feature.h
 exception-signal.h
 exception-task.h
 exception-tools.h
-exception-traces.h
 
 #signal
 signal-cast.h
@@ -88,6 +87,9 @@ sot.h
 rotation-simple.h
 weighted-sot.h
 solver-hierarchical-inequalities.h
+
+#reader
+reader.h
 )
 
 # Recreate correct path for the headers
