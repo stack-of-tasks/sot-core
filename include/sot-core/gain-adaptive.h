@@ -39,7 +39,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (sotGainAdaptive_EXPORTS)
+#  if defined (gain_adaptive_EXPORTS)
 #    define SOTGAINADAPTATIVE_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTGAINADAPTATIVE_EXPORT  __declspec(dllimport)

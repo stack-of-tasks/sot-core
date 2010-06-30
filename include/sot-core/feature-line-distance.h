@@ -35,7 +35,7 @@
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32)
-#  if defined (sotFeatureLineDistance_EXPORTS)
+#  if defined (feature_line_distance_EXPORTS)
 #    define SOTFEATURELINEDISTANCE_EXPORT __declspec(dllexport)
 #  else
 #    define SOTFEATURELINEDISTANCE_EXPORT __declspec(dllimport)

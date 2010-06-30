@@ -88,8 +88,14 @@ rotation-simple.h
 weighted-sot.h
 solver-hierarchical-inequalities.h
 
-#reader
+#traces
 reader.h
+
+#tools
+periodic-call.h
+utils-windows.h
+time-stamp.h
+timer.h
 )
 
 # Recreate correct path for the headers

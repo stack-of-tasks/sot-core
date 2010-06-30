@@ -44,7 +44,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32)
-#  if defined (sotSOTQr_EXPORTS)
+#  if defined (sot_qr_EXPORTS)
 #    define SOTSOTQR_EXPORT __declspec(dllexport)
 #  else
 #    define SOTSOTQR_EXPORT __declspec(dllimport)

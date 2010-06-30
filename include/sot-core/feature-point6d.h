@@ -35,7 +35,7 @@
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (sotFeaturePoint6d_EXPORTS)
+#  if defined (feature_point_6d_EXPORTS)
 #    define SOTFEATUREPOINT6D_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTFEATUREPOINT6D_EXPORT __declspec(dllimport)

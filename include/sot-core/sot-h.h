@@ -36,7 +36,7 @@
 
 #ifndef SOTSOTH_EXPORT 
 # if defined (WIN32)
-#  if defined (sotSOTH_EXPORTS)
+#  if defined (sot_h_EXPORTS)
 #    define SOTSOTH_EXPORT __declspec(dllexport)
 #  else
 #    define SOTSOTH_EXPORT __declspec(dllimport)

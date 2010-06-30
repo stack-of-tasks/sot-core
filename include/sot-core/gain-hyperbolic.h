@@ -40,7 +40,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (sotGainHyperbolic_EXPORTS)
+#  if defined (gain_hyperbolic_EXPORTS)
 #    define SOTGAINHYPERBOLIC_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTGAINHYPERBOLIC_EXPORT  __declspec(dllimport)

@@ -47,7 +47,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32)
-#  if defined (sotTaskUnilateral_EXPORTS)
+#  if defined (task_unilateral_EXPORTS)
 #    define SOTTASKUNILATERAL_EXPORT __declspec(dllexport)
 #  else
 #    define SOTTASKUNILATERAL_EXPORT __declspec(dllimport)

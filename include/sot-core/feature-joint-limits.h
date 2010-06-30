@@ -34,7 +34,7 @@
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (sotFeatureJointLimits_EXPORTS)
+#  if defined (feature_joint_limits_EXPORTS)
 #    define SOTFEATUREJOINTLIMITS_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTFEATUREJOINTLIMITS_EXPORT __declspec(dllimport)

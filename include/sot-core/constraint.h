@@ -46,7 +46,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (Constraint_EXPORTS)
+#  if defined (constraint_EXPORTS)
 #    define SOTCONSTRAINT_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTCONSTRAINT_EXPORT __declspec(dllimport)

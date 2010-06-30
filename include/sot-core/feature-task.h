@@ -35,7 +35,7 @@
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (sotFeatureTask_EXPORTS)
+#  if defined (feature_task_EXPORTS)
 #    define SOTFEATURETASK_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTFEATURETASK_EXPORT __declspec(dllimport)

@@ -44,7 +44,7 @@
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (Contiifstream_EXPORTS)
+#  if defined (contiifstream_EXPORTS)
 #    define SOTCONTIIFSTREAM_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTCONTIIFSTREAM_EXPORT __declspec(dllimport)

@@ -34,7 +34,7 @@
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (sotFeatureGeneric_EXPORTS)
+#  if defined (feature_generic_EXPORTS)
 #    define SOTFEATUREGENERIC_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTFEATUREGENERIC_EXPORT __declspec(dllimport)

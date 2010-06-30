@@ -34,7 +34,7 @@
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (sotFeatureVisualPoint_EXPORTS)
+#  if defined (feature_visual_point_EXPORTS)
 #    define SOTFEATUREVISUALPOINT_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTFEATUREVISUALPOINT_EXPORT __declspec(dllimport)

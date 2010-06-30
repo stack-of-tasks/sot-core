@@ -14,13 +14,13 @@
 
 #include < time.h >
 
-struct SOT_EXPORT timezone
+struct SOT_CORE_EXPORT timezone
 {
   int  tz_minuteswest; /* minutes W of Greenwich */
   int  tz_dsttime;     /* type of dst correction */
 };
 
-int SOT_EXPORT gettimeofday(struct timeval *tv, struct timezone *tz);
+int SOT_CORE_EXPORT gettimeofday(struct timeval *tv, struct timezone *tz);
 
 #endif /*WIN32*/
 

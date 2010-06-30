@@ -34,7 +34,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (OpPointModifier_EXPORTS)
+#  if defined (op_point_modifier_EXPORTS)
 #    define SOTOPPOINTMODIFIER_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTOPPOINTMODIFIER_EXPORT __declspec(dllimport)

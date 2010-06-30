@@ -41,7 +41,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32)
-#  if defined (sotWeightedSOT_CORE_EXPORTS)
+#  if defined (weighted_sot_EXPORTS)
 #    define SOTWEIGHTEDSOT_CORE_EXPORT __declspec(dllexport)
 #  else
 #    define SOTWEIGHTEDSOT_CORE_EXPORT __declspec(dllimport)

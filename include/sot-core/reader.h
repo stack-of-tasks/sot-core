@@ -50,7 +50,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (sotReader_EXPORTS)
+#  if defined (reader_EXPORTS)
 #    define SOTREADER_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTREADER_EXPORT __declspec(dllimport)

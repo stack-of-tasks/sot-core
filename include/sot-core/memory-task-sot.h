@@ -30,7 +30,7 @@
 
 #ifndef SOTSOT_CORE_EXPORT
 # if defined (WIN32) 
-#  if defined (sotSOT_CORE_EXPORTS) 
+#  if defined (sot_core_EXPORTS)
 #    define SOTSOT_CORE_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTSOT_CORE_EXPORT __declspec(dllimport)

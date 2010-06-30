@@ -82,6 +82,11 @@ SET(plugins
 	feature/feature-line-distance
 	
 	traces/reader
+	
+	tools/utils-windows
+	tools/periodic-call
+	tools/time-stamp
+	tools//timer
 )
 
 #Build sot-core

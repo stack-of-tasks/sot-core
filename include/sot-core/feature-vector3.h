@@ -35,7 +35,7 @@
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32)
-#  if defined (sotFeatureVector3_EXPORTS)
+#  if defined (feature_vector3_EXPORTS)
 #    define SOTFEATUREVECTOR3_EXPORT __declspec(dllexport)
 #  else
 #    define SOTFEATUREVECTOR3_EXPORT __declspec(dllimport)

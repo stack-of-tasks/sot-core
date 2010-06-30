@@ -35,7 +35,7 @@
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32)
-#  if defined (sotTaskPD_EXPORTS)
+#  if defined (task_pd_EXPORTS)
 #    define SOTTASKPD_EXPORT __declspec(dllexport)
 #  else
 #    define SOTTASKPD_EXPORT __declspec(dllimport)

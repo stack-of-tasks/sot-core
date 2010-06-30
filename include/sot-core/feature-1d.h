@@ -34,7 +34,7 @@
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (sotFeature1D_EXPORTS)
+#  if defined (feature_1d_EXPORTS)
 #    define SOTFEATURE1D_EXPORT __declspec(dllexport)
 #  else  
 #    define SOTFEATURE1D_EXPORT __declspec(dllimport)
