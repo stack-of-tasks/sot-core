@@ -2,6 +2,45 @@
 #  Copyright 
 # 
 
+# Libraries DEFINITIONS and INCLUDES
+
+# The main include dir
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
+
+#define VP_DEBUG if we're building in debug mode
+IF(${CMAKE_BUILD_TYPE} STREQUAL DEBUG)
+	#ADD_DEFINITIONS(-DVP_DEBUG)
+ENDIF (${CMAKE_BUILD_TYPE} STREQUAL DEBUG)
+	
+ADD_DEFINITIONS(-DDEBUG=2)
+
+# Add lapack compilation flags and link to library libLapack.so
+ADD_DEFINITIONS(${LAPACK_CFLAGS})
+
+# Add dynamic-graph compilation flags and link to library libdynamic-graph.so
+ADD_DEFINITIONS(${DYNAMIC_GRAPH_CFLAGS})
+
+# Add MatrixAbstractLayer compilation flags and link to library libMatrixAbstractLayer.so
+ADD_DEFINITIONS(${MATRIXABSTRACTLAYER_CFLAGS})
+
+# provide path to library libMatrixAbstractLayer.so
+LINK_DIRECTORIES(${MATRIXABSTRACTLAYER_LIBRARY_DIRS})
+
+# provide path to library libdynamic-graph.so
+LINK_DIRECTORIES(${DYNAMIC_GRAPH_LIBRARY_DIRS})
+
+IF(WIN32)
+foreach(dlink ${MATRIXABSTRACTLAYER_LDFLAGS})
+	SET ( ${PROJECT_NAME}_src_LDFLAGS "${${PROJECT_NAME}_src_LDFLAGS}  ${dlink}")
+endforeach(dlink)
+ENDIF(WIN32)
+
+IF(WIN32)
+foreach(dlink ${DYNAMIC_GRAPH_LDFLAGS})
+	SET ( ${PROJECT_NAME}_src_LDFLAGS "${${PROJECT_NAME}_src_LDFLAGS}  ${dlink}")
+endforeach(dlink)
+ENDIF(WIN32)
+
 # The main library name
 SET(SOTCORE_LIB_NAME ${PROJECT_NAME})
 
@@ -45,6 +84,7 @@ SET(plugins
 	traces/reader
 )
 
+#Build sot-core
 SET(LIBRARY_NAME ${SOTCORE_LIB_NAME})
 
 #sot-core library sources
@@ -85,21 +125,6 @@ SET(${PROJECT_NAME}_SOURCES
 	factory/command/import.cpp
 )
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
-
-#define VP_DEBUG if we're building in debug mode
-IF(${CMAKE_BUILD_TYPE} STREQUAL DEBUG)
-	ADD_DEFINITIONS(-DVP_DEBUG)
-ENDIF (${CMAKE_BUILD_TYPE} STREQUAL DEBUG)
-	
-ADD_DEFINITIONS(-DDEBUG=2)
-
-# provide path to library libMatrixAbstractLayer.so
-LINK_DIRECTORIES(${MATRIXABSTRACTLAYER_LIBRARY_DIRS})
-
-# provide path to library libdynamic-graph.so
-LINK_DIRECTORIES(${DYNAMIC_GRAPH_LIBRARY_DIRS})
-
 ADD_LIBRARY(${LIBRARY_NAME} 
   SHARED
   ${${LIBRARY_NAME}_SOURCES})
@@ -115,33 +140,15 @@ SET_TARGET_PROPERTIES(${LIBRARY_NAME}
   LINK_FLAGS "${${PROJECT_NAME}_src_LDFLAGS}"
 )
 
-# Add lapack compilation flags and link to library libLapack.so
-ADD_DEFINITIONS(${LAPACK_CFLAGS})
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${LAPACK_LIBRARIES})
 	
-# Add MatrixAbstractLayer compilation flags and link to library libMatrixAbstractLayer.so
-ADD_DEFINITIONS(${MATRIXABSTRACTLAYER_CFLAGS})
 IF(UNIX)
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${MATRIXABSTRACTLAYER_LIBRARIES})
 ENDIF(UNIX)
 
-IF(WIN32)
-foreach(dlink ${MATRIXABSTRACTLAYER_LDFLAGS})
-	SET ( ${PROJECT_NAME}_src_LDFLAGS "${${PROJECT_NAME}_src_LDFLAGS}  ${dlink}")
-endforeach(dlink)
-ENDIF(WIN32)
-
-# Add dynamic-graph compilation flags and link to library libdynamic-graph.so
-ADD_DEFINITIONS(${DYNAMIC_GRAPH_CFLAGS})
 IF(UNIX)
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${DYNAMIC_GRAPH_LIBRARIES})
 ENDIF(UNIX)
-
-IF(WIN32)
-foreach(dlink ${DYNAMIC_GRAPH_LDFLAGS})
-	SET ( ${PROJECT_NAME}_src_LDFLAGS "${${PROJECT_NAME}_src_LDFLAGS}  ${dlink}")
-endforeach(dlink)
-ENDIF(WIN32)
 
 # Linux dynamic loading library flags
 IF(UNIX)
@@ -155,33 +162,18 @@ SET_TARGET_PROPERTIES(${LIBRARY_NAME}
 
 INSTALL(TARGETS ${LIBRARY_NAME}
   DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
- 
 
 #Plugins compilation, link, and installation
+#Compiles a plugin. The plugin library is ${LIBRARY_NAME}
 FOREACH(plugin ${plugins})
 	#retrieve plugin name
 	GET_FILENAME_COMPONENT(LIBRARY_NAME ${plugin} NAME)
-	
-	INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
-	
-	#define VP_DEBUG if we're building in debug mode
-	IF(${CMAKE_BUILD_TYPE} STREQUAL DEBUG)
-		ADD_DEFINITIONS(-DVP_DEBUG)
-	ENDIF (${CMAKE_BUILD_TYPE} STREQUAL DEBUG)
-	
-	ADD_DEFINITIONS(-DDEBUG=2)
-	
-	# provide path to library libMatrixAbstractLayer.so
-	LINK_DIRECTORIES(${MATRIXABSTRACTLAYER_LIBRARY_DIRS})
-	
-	# provide path to library libdynamic-graph.so
-	LINK_DIRECTORIES(${DYNAMIC_GRAPH_LIBRARY_DIRS})
 	
 	# only one source file per plugin
 	ADD_LIBRARY(${LIBRARY_NAME} 
 	  SHARED
 	  ${plugin}.cpp)
-	  
+	
 	#remove the "lib" prefix from the plugin output name
 	SET_TARGET_PROPERTIES(${LIBRARY_NAME}
 		PROPERTIES
@@ -194,36 +186,14 @@ FOREACH(plugin ${plugins})
 	  
 	# Link with sot-core library
 	TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${SOTCORE_LIB_NAME})
-	
-	# Add lapack compilation flags and link to library libLapack.so
-	ADD_DEFINITIONS(${LAPACK_CFLAGS})
 	TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${LAPACK_LIBRARIES})
-		
-	# Add MatrixAbstractLayer compilation flags and link to library libMatrixAbstractLayer.so
-	ADD_DEFINITIONS(${MATRIXABSTRACTLAYER_CFLAGS})
+	# Linux dynamic loading library flags
 	IF(UNIX)
 	TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${MATRIXABSTRACTLAYER_LIBRARIES})
 	ENDIF(UNIX)
-	
-	IF(WIN32)
-	foreach(dlink ${MATRIXABSTRACTLAYER_LDFLAGS})
-		SET ( ${PROJECT_NAME}_src_LDFLAGS "${${PROJECT_NAME}_src_LDFLAGS}  ${dlink}")
-	endforeach(dlink)
-	ENDIF(WIN32)
-	
-	# Add dynamic-graph compilation flags and link to library libdynamic-graph.so
-	ADD_DEFINITIONS(${DYNAMIC_GRAPH_CFLAGS})
 	IF(UNIX)
 	TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${DYNAMIC_GRAPH_LIBRARIES})
 	ENDIF(UNIX)
-	
-	IF(WIN32)
-	foreach(dlink ${DYNAMIC_GRAPH_LDFLAGS})
-		SET ( ${PROJECT_NAME}_src_LDFLAGS "${${PROJECT_NAME}_src_LDFLAGS}  ${dlink}")
-	endforeach(dlink)
-	ENDIF(WIN32)
-	
-	# Linux dynamic loading library flags
 	IF(UNIX)
 		TARGET_LINK_LIBRARIES(${LIBRARY_NAME} dl)
 	ENDIF(UNIX)
