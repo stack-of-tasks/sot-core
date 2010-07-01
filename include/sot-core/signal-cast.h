@@ -34,7 +34,7 @@
 #include <sot-core/multi-bound.h>
 #include <sot-core/sot-core-api.h>
 #ifdef WIN32
-#include <sot-core/sotUtilsWindows.h>
+#include <sot-core/utils-windows.h>
 #endif
 #include <dynamic-graph/signal-caster.h>
 

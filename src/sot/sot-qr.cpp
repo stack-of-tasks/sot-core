@@ -621,10 +621,7 @@ unsigned int rankDetermination( const bubMatrix& A,
 	#ifndef WIN32
 	#include <sys/time.h>
 	#else /*WIN32*/
-	// When including Winsock2.h, the MAL must be included first
-	//#include <MatrixAbstractLayer/boost.h>
-	#include <sot-core/sotUtilsWindows.h>
-	#include <Winsock2.h>
+	#include <sot-core/utils-windows.h>
 	#endif /*WIN32*/
 #endif /*WITH_CHRONO*/
 

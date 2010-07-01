@@ -43,11 +43,7 @@ using namespace sot;
 //isnan
 # include <float.h>
 # define isnan _isnan
-
-// When including Winsock2.h, NOMINMAX must be define in order to use std::min
-#  include <sot/sotUtilsWindows.h>
-#  define NOMINMAX
-#  include <Winsock2.h>
+# include <sot-core/utils-windows.h>
 #endif /*WIN32*/
 #define FORTRAN_ID( id ) id##_
 

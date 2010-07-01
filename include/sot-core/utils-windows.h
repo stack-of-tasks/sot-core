@@ -13,6 +13,8 @@
 #include <sot-core/sot-core-api.h>
 
 #include < time.h >
+#define NOMINMAX
+#include <Winsock2.h>
 
 struct SOT_CORE_EXPORT timezone
 {

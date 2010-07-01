@@ -186,9 +186,7 @@ void buildTaskVectors( const VectorMultiBound& err,
 	#ifndef WIN32
 	#include <sys/time.h>
 	#else /*WIN32*/
-	#include <sot-core/sotUtilsWindows.h>
-	#define NOMINMAX
-	#include <Winsock2.h>
+	#include <sot-core/utils-windows.h>
 	#endif /*WIN32*/
 #endif /*WITH_CHRONO*/
 

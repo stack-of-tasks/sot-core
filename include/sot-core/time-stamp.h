@@ -35,8 +35,7 @@ namespace ml = maal::boost;
 #ifndef WIN32
 #include <sys/time.h>
 #else /*WIN32*/
-#include <Winsock2.h>
-#include <sot/utils-windows.h>
+#include <sot-core/utils-windows.h>
 #endif /*WIN32*/
 
 /* SOT */

@@ -25,11 +25,6 @@
 using namespace std;
 using namespace sot;
 
-
-#ifdef WIN32
-#include < Windows.h >
-#endif
-
 SignalCast_sotFeatureAbstractPtr SignalCast<SignalCast_sotFeatureAbstractPtr>::
 cast( std::istringstream& iss )
 {
