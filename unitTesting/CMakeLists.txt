@@ -17,9 +17,16 @@ SET(TEST_files_LIBS
 	${Boost_LIBRARIES}
 )
 
+IF(UNIX)
 SET(TEST_traces_LIBS
 	${CMAKE_INSTALL_PREFIX}/lib/plugin/tracer.so
 )
+ENDIF(UNIX)
+IF(WIN32)
+SET(TEST_traces_LIBS
+	${CMAKE_INSTALL_PREFIX}/lib/plugin/tracer.lib
+)
+ENDIF(WIN32)
 
 SET(TEST_test_gain_LIBS
 	gain-adaptive feature-visual-point
