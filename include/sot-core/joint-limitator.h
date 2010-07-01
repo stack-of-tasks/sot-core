@@ -33,20 +33,7 @@ namespace ml = maal::boost;
 #include <dynamic-graph/entity.h>
 #include <sot-core/exception-task.h>
 #include <dynamic-graph/all-signals.h>
-
-/* --------------------------------------------------------------------- */
-/* --- API ------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-#if defined (WIN32) 
-#  if defined (joint_limitator_EXPORTS)
-#    define SOTJOINTLIMITATOR_EXPORT __declspec(dllexport)
-#  else  
-#    define SOTJOINTLIMITATOR_EXPORT __declspec(dllimport)
-#  endif 
-#else
-#  define SOTJOINTLIMITATOR_EXPORT
-#endif
+#include <sot-core/sot-core-api.h>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -60,7 +47,7 @@ namespace dg = dynamicgraph;
 /*!
   \class JointLimitator
 */
-class SOTJOINTLIMITATOR_EXPORT JointLimitator
+class SOT_CORE_EXPORT JointLimitator
 : public dg::Entity
 {
 
