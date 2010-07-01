@@ -49,7 +49,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 #if defined (WIN32) 
-#  if defined (TimeStamp_EXPORTS)
+#  if defined (time_stamp_EXPORTS)
 #    define TimeStamp_EXPORT __declspec(dllexport)
 #  else  
 #    define TimeStamp_EXPORT __declspec(dllimport)
