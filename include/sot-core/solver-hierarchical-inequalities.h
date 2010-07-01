@@ -32,22 +32,7 @@
 
 
 #include <sot-core/rotation-simple.h>
-
-/* --------------------------------------------------------------------- */
-/* --- API ------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-#ifndef SOTSOTH_EXPORT 
-#  if defined (WIN32)
-#    if defined (sot_h_EXPORTS)
-#      define SOTSOTH_EXPORT __declspec(dllexport)
-#    else
-#      define SOTSOTH_EXPORT __declspec(dllimport)
-#    endif
-#  else
-#    define SOTSOTH_EXPORT
-#  endif
-#endif
+#include <sot-core/sot-core-api.h>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -55,7 +40,7 @@
 
 namespace sot {
 
-class SOTSOTH_EXPORT ConstraintMem
+class SOT_CORE_EXPORT ConstraintMem
 {
 public:
   enum BoundSideType
@@ -90,8 +75,8 @@ public:
     ,Ju(0),Jdu(0) {}
 
   ConstraintMem( const ConstraintMem& clone );
-  SOTSOTH_EXPORT friend std::ostream& operator<<( std::ostream& os,const BoundSideType& bs );
-  SOTSOTH_EXPORT friend std::ostream & operator<< (std::ostream& os,const ConstraintMem &c );
+  SOT_CORE_EXPORT friend std::ostream& operator<<( std::ostream& os,const BoundSideType& bs );
+  SOT_CORE_EXPORT friend std::ostream & operator<< (std::ostream& os,const ConstraintMem &c );
 };
 
 
@@ -99,7 +84,7 @@ public:
   /* ---------------------------------------------------------- */
   /* ---------------------------------------------------------- */
 
-class SOTSOTH_EXPORT ConstraintRef
+class SOT_CORE_EXPORT ConstraintRef
 {
 public:
   unsigned int id;
@@ -108,7 +93,7 @@ public:
                     const ConstraintMem::BoundSideType side_
                     =ConstraintMem::BOUND_VOID )
     :id(id_),side(side_) {}
-  SOTSOTH_EXPORT friend std::ostream & operator<< (std::ostream & os,
+  SOT_CORE_EXPORT friend std::ostream & operator<< (std::ostream & os,
                                     const ConstraintRef & cr )
   { return os << cr.side << cr.id; }
 };
@@ -118,7 +103,7 @@ public:
   /* ---------------------------------------------------------- */
   /* ---------------------------------------------------------- */
 
-class SOTSOTH_EXPORT SolverHierarchicalInequalities
+class SOT_CORE_EXPORT SolverHierarchicalInequalities
 {
 public: // protected:
   typedef bub::matrix<double,bub::column_major> bubMatrixQRWide;
