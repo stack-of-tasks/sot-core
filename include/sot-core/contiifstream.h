@@ -36,21 +36,9 @@
 #include <list>
 
 #include <dynamic-graph/interpreter.h>
+#include <sot-core/sot-core-api.h>
 #ifndef WIN32
 #include <pthread.h>
-#endif
-/* --------------------------------------------------------------------- */
-/* --- API ------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-#if defined (WIN32) 
-#  if defined (contiifstream_EXPORTS)
-#    define SOTCONTIIFSTREAM_EXPORT __declspec(dllexport)
-#  else  
-#    define SOTCONTIIFSTREAM_EXPORT __declspec(dllimport)
-#  endif 
-#else
-#  define SOTCONTIIFSTREAM_EXPORT
 #endif
 
 namespace sot {
@@ -58,7 +46,7 @@ namespace sot {
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-class SOTCONTIIFSTREAM_EXPORT Contiifstream
+class SOT_CORE_EXPORT Contiifstream
 {
 protected:
   std::string filename;
