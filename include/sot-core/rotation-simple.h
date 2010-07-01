@@ -8,25 +8,9 @@
 #include <boost/numeric/ublas/triangular.hpp>
 #include <boost/numeric/ublas/lu.hpp>
 #include <sot-core/debug.h>
+#include <sot-core/sot-core-api.h>
 
 #include <list>
-
-
-/* --------------------------------------------------------------------- */
-/* --- API ------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-#ifndef SOTSOTH_EXPORT 
-#  if defined (WIN32)
-#    if defined (sot_h_EXPORTS)
-#      define SOTSOTH_EXPORT __declspec(dllexport)
-#    else
-#      define SOTSOTH_EXPORT __declspec(dllimport)
-#    endif
-#  else
-#    define SOTSOTH_EXPORT
-#  endif
-#endif
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -53,7 +37,7 @@ void bubClearMatrix( const bubTemplateMatrix& m )
 /* --- DEBUG ---------------------------------------------------------------- */
 /* --- DEBUG ---------------------------------------------------------------- */
 class RotationSimple;
-class SOTSOTH_EXPORT MATLAB
+class SOT_CORE_EXPORT MATLAB
 {
  public:
   static bool fullPrec;
@@ -181,7 +165,7 @@ typedef bub::matrix_column<__SRS_matcolmaj> __SRS_col_matcolmaj;
 
 
   /* Virtual Pure. */
-class SOTSOTH_EXPORT RotationSimple
+class SOT_CORE_EXPORT RotationSimple
 {
  public:
   virtual ~RotationSimple( void ) {}
@@ -312,7 +296,7 @@ public:
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
 
-class SOTSOTH_EXPORT sotRotationSimpleHouseholder
+class SOT_CORE_EXPORT sotRotationSimpleHouseholder
   : public RotationSimple
 {
 public: // protected:
@@ -459,7 +443,7 @@ public:
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
 
-class SOTSOTH_EXPORT sotRotationSimpleGiven
+class SOT_CORE_EXPORT sotRotationSimpleGiven
   : public RotationSimple
 {
 public: // protected:
@@ -685,7 +669,7 @@ public: /* --- MULTIPLIERS -------------------------------------------------- */
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
-class SOTSOTH_EXPORT sotRotationComposed
+class SOT_CORE_EXPORT sotRotationComposed
   :public RotationSimple
 {
 public: // protected
@@ -969,7 +953,7 @@ sotDEBUG(1)<<std::endl;
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
-class SOTSOTH_EXPORT sotRotationComposedInExtenso
+class SOT_CORE_EXPORT sotRotationComposedInExtenso
   :public RotationSimple
 {
 public: // protected
