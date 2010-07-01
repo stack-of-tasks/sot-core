@@ -105,6 +105,7 @@ SET(${PROJECT_NAME}_SOURCES
 	exception/exception-feature.cpp
 	exception/exception-signal.cpp
 	exception/exception-task.cpp
+	exception/exception-tools.cpp
 	
 	signal/signal-cast.cpp
 	
@@ -133,6 +134,14 @@ SET(${PROJECT_NAME}_SOURCES
 	
 	tools/utils-windows
 	tools/periodic-call
+	tools/mailbox
+	tools/kalman
+	tools/joint-limitator
+	tools/gripper-control
+	tools/distant-shell
+	tools/com-freezer
+	tools/clamp-workspace
+	tools/binary-int-to-uint
 )
 
 ADD_LIBRARY(${LIBRARY_NAME} 
@@ -143,12 +152,6 @@ SET_TARGET_PROPERTIES(${LIBRARY_NAME}
   PROPERTIES 
   SOVERSION ${PROJECT_VERSION}
   INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/lib)
-
-#SET_TARGET_PROPERTIES(${LIBRARY_NAME}
-#  PROPERTIES
-  #COMPILE_FLAGS "${${PROJECT_NAME}_src_CXXFLAGS}"
-  #LINK_FLAGS "${${PROJECT_NAME}_src_LDFLAGS}"
-#)
 
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${LAPACK_LIBRARIES})
 	

@@ -17,16 +17,14 @@
  *
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-#include <sot/sotConfig.h>
 #ifdef  HAVE_LIBBOOST_THREAD
 
 /* --- SOT PLUGIN  --- */
-#include <sot/Mailbox.h>
+#include <sot-core/mailbox.h>
+#include <sot-core/debug.h>
+#include <sot-core/factory.h>
 
-#include <sot/sotDebug.h>
-
-#include <sot/sotFactory.h>
-
+using namespace sot;
 
 typedef Mailbox<maal::boost::Vector> mailvect;
 template<>SOT_FACTORY_ENTITY_PLUGIN(mailvect,"Mailbox<Vector>");
