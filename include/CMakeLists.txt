@@ -96,6 +96,20 @@ periodic-call.h
 utils-windows.h
 time-stamp.h
 timer.h
+periodic-call-entity.h
+neck-limitation.h
+motion-period.h
+binary-int-to-uint.h
+clamp-workspace.h
+com-freezer.h
+gripper-control.h
+joint-limitator.h
+kalman.h
+
+#these need the boost thread library - reminder
+mailbox.h
+mailbox.t.cpp
+distant-shell.h
 )
 
 # Recreate correct path for the headers
