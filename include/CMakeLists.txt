@@ -96,6 +96,9 @@ periodic-call.h
 utils-windows.h
 time-stamp.h
 timer.h
+periodic-call-entity.h
+neck-limitation.h
+motion-period.h
 )
 
 # Recreate correct path for the headers
