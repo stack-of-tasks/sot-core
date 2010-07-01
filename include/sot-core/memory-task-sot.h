@@ -23,22 +23,7 @@
 
 
 #include <sot-core/task-abstract.h>
-
-/* --------------------------------------------------------------------- */
-/* --- API ------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-#ifndef SOTSOT_CORE_EXPORT
-# if defined (WIN32) 
-#  if defined (sot_core_EXPORTS)
-#    define SOTSOT_CORE_EXPORT __declspec(dllexport)
-#  else  
-#    define SOTSOT_CORE_EXPORT __declspec(dllimport)
-#  endif 
-# else
-#  define SOTSOT_CORE_EXPORT
-# endif
-#endif
+#include <sot-core/sot-core-api.h>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -47,7 +32,7 @@
 namespace sot {
 namespace dg = dynamicgraph;
 
-class SOTSOT_CORE_EXPORT MemoryTaskSOT
+class SOT_CORE_EXPORT MemoryTaskSOT
 : public TaskAbstract::MemoryTaskAbstract, public dg::Entity
 {
  public://   protected:
