@@ -37,21 +37,7 @@ namespace ml = maal::boost;
 #include <sot-core/matrix-rotation.h>
 #include <sot-core/matrix-homogeneous.h>
 #include <sot-core/matrix-twist.h>
-
-
-/* --------------------------------------------------------------------- */
-/* --- API ------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-#if defined (WIN32) 
-#  if defined (clamp_workspace_EXPORTS)
-#    define SOTCLAMPWORKSPACE_EXPORT __declspec(dllexport)
-#  else  
-#    define SOTCLAMPWORKSPACE_EXPORT __declspec(dllimport)
-#  endif 
-#else
-#  define SOTCLAMPWORKSPACE_EXPORT
-#endif
+#include <sot-core/sot-core-api.h>
 
 namespace sot {
 namespace dg = dynamicgraph;
@@ -60,7 +46,7 @@ namespace dg = dynamicgraph;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace
+class SOT_CORE_EXPORT ClampWorkspace
   : public dg::Entity
 {
  public:
