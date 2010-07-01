@@ -88,6 +88,18 @@ SET(plugins
 	tools/robot-simu
 )
 
+set(ADDITIONAL_feature-task_LIBS feature-generic)
+set(ADDITIONAL_feature-point6d-relative_LIBS feature-point6d)
+
+set(ADDITIONAL_sot-h_LIBS sot)
+set(ADDITIONAL_sot-h_LIBS sot)
+set(ADDITIONAL_sot-qr_LIBS sot)
+set(ADDITIONAL_weighted-sot_LIBS sot)
+
+set(ADDITIONAL_task-conti_LIBS task)
+set(ADDITIONAL_task-pd_LIBS task)
+set(ADDITIONAL_task-unilateral_LIBS task)
+
 #Build sot-core
 SET(LIBRARY_NAME ${SOTCORE_LIB_NAME})
 
