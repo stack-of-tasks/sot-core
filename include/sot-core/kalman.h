@@ -34,7 +34,20 @@ namespace ml = maal::boost;
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
 #include <sot-core/constraint.h>
-#include <sot-core/sot-core-api.h>
+
+/* --------------------------------------------------------------------- */
+/* --- API ------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+
+#if defined (WIN32) 
+#  if defined (kalman_EXPORTS)
+#    define SOTKALMAN_EXPORT __declspec(dllexport)
+#  else  
+#    define SOTKALMAN_EXPORT __declspec(dllimport)
+#  endif 
+#else
+#  define SOTKALMAN_EXPORT
+#endif
 
 /* -------------------------------------------------------------------------- */
 /* --- CLASSE --------------------------------------------------------------- */
@@ -44,7 +57,7 @@ namespace sot {
 
 namespace dg = dynamicgraph;
 
-class SOT_CORE_EXPORT Kalman
+class SOTKALMAN_EXPORT Kalman
 :public dg::Entity
 {
  public: 
