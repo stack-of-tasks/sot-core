@@ -30,13 +30,27 @@
 #include <dynamic-graph/interpreter.h>
 #include <sot-core/contiifstream.h>
 #include <dynamic-graph/entity.h>
-#include <sot-core/sot-core-api.h>
 
 //#include <pthread.h>
 
 #ifdef HAVE_LIBBOOST_THREAD
 #include <boost/thread.hpp>
 #endif
+
+/* --------------------------------------------------------------------- */
+/* --- API ------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+
+#if defined (WIN32) 
+#  if defined (distant_shell_EXPORTS)
+#    define SOTDISTANTSHELL_EXPORT __declspec(dllexport)
+#  else  
+#    define SOTDISTANTSHELL_EXPORT __declspec(dllimport)
+#  endif 
+#else
+#  define SOTDISTANTSHELL_EXPORT
+#endif
+
 
 namespace sot {
 namespace dg = dynamicgraph;
@@ -45,7 +59,7 @@ namespace dg = dynamicgraph;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class SOT_CORE_EXPORT DistantShell
+class SOTDISTANTSHELL_EXPORT DistantShell
 {
  public:
   std::ofstream osOwn;
@@ -97,7 +111,7 @@ class SOT_CORE_EXPORT DistantShell
 };
 
 
-class SOT_CORE_EXPORT DistantShellPlugin
+class SOTDISTANTSHELL_EXPORT DistantShellPlugin
 : public dynamicgraph::Entity
 {
  protected:
