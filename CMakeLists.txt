@@ -110,6 +110,8 @@ IF(UNIX)
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 ENDIF(UNIX)
 
+INCLUDE_DIRECTORIES(${BoostNumericBindings_INCLUDE_DIR})
+  
 #
 # pkg-config file
 #

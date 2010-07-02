@@ -38,20 +38,30 @@ SET(TEST_test_task_LIBS
 
 #test paths and names (without .cpp extension)
 SET (tests
-	link
+	dummy
+	
 	signal/test_signal
 	signal/test_depend
 	signal/test_ptr
 	signal/test_dep
+	
 	sot/tsot
 	sot/test_solverSoth
+	
 	factory/test_factory
+	
 	traces/files
 	traces/traces
+	
 	task/test_flags
 	task/test_gain
 	task/test_multi_bound
-	task/test_task)
+	task/test_task
+	
+	tools/test_boost
+	tools/test_mailbox
+	tools/test_matrix
+	)
 
 	
 IF(WIN32)
