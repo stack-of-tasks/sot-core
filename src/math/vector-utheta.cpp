@@ -71,8 +71,8 @@ toMatrix( MatrixRotation& rot ) const
   double theta = sqrt( vector(0)*vector(0)+vector(1)*vector(1)+vector(2)*vector(2) );
   double si = sin(theta);
   double co = cos(theta);
-  double sinc = ( fabsf( theta )>SINC_MINIMUM ) ? (si/theta) : 1.; 
-  double mcosc = ( fabsf( theta )>COSC_MINIMUM ) ? ( (1-co)/(theta*theta) ) : .5;
+  double sinc = ( fabs( theta )>SINC_MINIMUM ) ? (si/theta) : 1.; 
+  double mcosc = ( fabs( theta )>COSC_MINIMUM ) ? ( (1-co)/(theta*theta) ) : .5;
 
   ml::Matrix &rotmat = rot;
 

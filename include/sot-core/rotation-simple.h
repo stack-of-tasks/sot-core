@@ -934,7 +934,7 @@ sotDEBUG(1)<<std::endl;
            * matrix. */
           Un.nullifyFromRight(bub::row(Rx,n-iter),orderCol(n-iter),xn);
 sotDEBUG(1)<<std::endl;
-          if(fabsf(Un.sinF)>1e-9)
+          if(fabs(Un.sinF)>1e-9)
             {
 sotDEBUG(1)<<std::endl;
               Un.multiplyLeft(Rx);
