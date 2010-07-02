@@ -89,6 +89,14 @@ SET(plugins
 	tools/periodic-call-entity
 	tools/motion-period
 	tools/neck-limitation
+	tools/mailbox
+	tools/kalman
+	tools/joint-limitator
+	tools/gripper-control
+	tools/distant-shell
+	tools/com-freezer
+	tools/clamp-workspace
+	tools/binary-int-to-uint
 )
 
 set(ADDITIONAL_feature-task_LIBS feature-generic)
@@ -143,17 +151,9 @@ SET(${PROJECT_NAME}_SOURCES
 	factory/factory.cpp
 	factory/pool.cpp
 	factory/command/import.cpp
-	
+
 	tools/utils-windows
 	tools/periodic-call
-	tools/mailbox
-	tools/kalman
-	tools/joint-limitator
-	tools/gripper-control
-	tools/distant-shell
-	tools/com-freezer
-	tools/clamp-workspace
-	tools/binary-int-to-uint
 )
 
 ADD_LIBRARY(${LIBRARY_NAME} 
