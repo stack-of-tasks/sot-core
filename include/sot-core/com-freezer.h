@@ -31,7 +31,21 @@ namespace ml = maal::boost;
 /* SOT */
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
-#include <sot-core/sot-core-api.h>
+
+/* --------------------------------------------------------------------- */
+/* --- API ------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+
+#if defined (WIN32)
+#  if defined (com_freezer_EXPORTS)
+#    define SOTCOMFREEZER_EXPORT __declspec(dllexport)
+#  else
+#    define SOTCOMFREEZER_EXPORT __declspec(dllimport)
+#  endif
+#else
+#  define SOTCOMFREEZER_EXPORT
+#endif
+
 
 namespace sot {
 
@@ -41,7 +55,7 @@ namespace dg = dynamicgraph;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class SOT_CORE_EXPORT CoMFreezer
+class SOTCOMFREEZER_EXPORT CoMFreezer
 : public dg::Entity
 {
   public:
