@@ -34,23 +34,10 @@ namespace ml = maal::boost;
 #include <dynamic-graph/entity.h>
 #include <sot-core/flags.h>
 #include <dynamic-graph/all-signals.h>
+#include <sot-core/sot-core-api.h>
 
 /* STD */
 #include <string>
-
-/* --------------------------------------------------------------------- */
-/* --- API ------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-#if defined (WIN32) 
-#  if defined (gripper_control_EXPORTS)
-#    define SOTGRIPPERCONTROL_EXPORT __declspec(dllexport)
-#  else  
-#    define SOTGRIPPERCONTROL_EXPORT __declspec(dllimport)
-#  endif 
-#else
-#  define SOTGRIPPERCONTROL_EXPORT
-#endif
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -60,7 +47,7 @@ namespace sot {
 
 namespace dg = dynamicgraph;
 
-class SOTGRIPPERCONTROL_EXPORT GripperControl
+class SOT_CORE_EXPORT GripperControl
 {
  protected:
   
@@ -101,7 +88,7 @@ class SOTGRIPPERCONTROL_EXPORT GripperControl
 /* --- PLUGIN ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
+class SOT_CORE_EXPORT GripperControlPlugin
 :public dg::Entity, public GripperControl
 {
  public:
