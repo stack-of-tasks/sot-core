@@ -61,7 +61,7 @@ ml::Vector & CoMFreezer::computeFreezedCoM(ml::Vector & freezedCoM, const int & 
   if(PGInProcess) /* CoM unfreezed */
   {
     m_lastCoM = CoMRefSIN(time);
-    m_previousPGInProcess = PGInProcess;
+    m_previousPGInProcess = (PGInProcess == 0);
   }
   else
   {
@@ -69,7 +69,7 @@ ml::Vector & CoMFreezer::computeFreezedCoM(ml::Vector & freezedCoM, const int & 
     {
       m_lastStopTime = time;
       m_lastCoM = CoMRefSIN(time);
-      m_previousPGInProcess = PGInProcess;
+      m_previousPGInProcess = (PGInProcess == 0);
     }
     else if(time < m_lastStopTime + 200) /* keep updating for 1s */
     {
