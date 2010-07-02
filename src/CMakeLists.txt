@@ -7,7 +7,7 @@
 # The main include dir
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
 
-#define VP_DEBUG if we're building in debug mode
+#define DEBUG=2 if we're building in debug mode (what for?)
 IF("${CMAKE_BUILD_TYPE}" STREQUAL DEBUG)
 	ADD_DEFINITIONS(-DDEBUG=2)
 ENDIF ("${CMAKE_BUILD_TYPE}" STREQUAL DEBUG)
