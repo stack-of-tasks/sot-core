@@ -23,7 +23,6 @@
 
 #include <MatrixAbstractLayer/boost.h>
 
-#include <boost/thread.hpp>
 #include <unistd.h>
 
 using namespace std;
@@ -41,6 +40,7 @@ using namespace dynamicgraph;
 using namespace sot;
 
 #ifdef  HAVE_LIBBOOST_THREAD
+#include <boost/thread.hpp>
 
 Mailbox<ml::Vector> mailbox("mail");
 
