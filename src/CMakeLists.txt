@@ -97,6 +97,9 @@ SET(plugins
 	tools/com-freezer
 	tools/clamp-workspace
 	tools/binary-int-to-uint
+	
+	control/control-gr
+	control/control-pd
 )
 
 set(ADDITIONAL_feature-task_LIBS feature-generic)
