@@ -23,7 +23,9 @@
 
 #include <MatrixAbstractLayer/boost.h>
 
+#ifndef WIN32
 #include <unistd.h>
+#endif
 
 using namespace std;
 namespace ml = maal::boost;

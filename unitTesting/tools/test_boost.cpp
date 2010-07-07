@@ -18,7 +18,9 @@
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 //#undef WITH_OPENHRP
 
+#ifndef WIN32
 #include <sys/time.h>
+#endif
 #include <iostream>
 #include <sot-core/debug.h>
 #include <sot-core/matrix-homogeneous.h>
@@ -26,7 +28,11 @@
 
 #include <MatrixAbstractLayer/boost.h>
 
+#ifndef WIN32
 #include <unistd.h>
+#else
+#include <sot-core/utils-windows.h>
+#endif
 #include <list>
 
 using namespace sot;
