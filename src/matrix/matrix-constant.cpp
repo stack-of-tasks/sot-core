@@ -24,7 +24,7 @@ using namespace std;
 using namespace sot;
 using namespace dynamicgraph;
 
-SOT_FACTORY_ENTITY_PLUGIN(MatrixConstant,"MatrixConstant");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MatrixConstant,"MatrixConstant");
 
 /* --------------------------------------------------------------------- */
 /* --- MATRIX ---------------------------------------------------------- */

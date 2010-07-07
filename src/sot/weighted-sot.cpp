@@ -38,7 +38,7 @@ using namespace dynamicgraph;
 
 
 #include <sot-core/factory.h>
-SOT_FACTORY_ENTITY_PLUGIN(WeightedSot,"WSOT");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(WeightedSot,"WSOT");
 
 /* --------------------------------------------------------------------- */
 /* --- CONSTRUCTION ---------------------------------------------------- */

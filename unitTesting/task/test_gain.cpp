@@ -74,7 +74,7 @@ int main( void )
   cout <<"Compute gain from Gain Signal and display."<< endl;
   cout << gainSig(0) << endl;
 
-//   sotSignalPtr<ml::Vector,int> sigPtr( &errSig );
+//   dg::SignalPtr<ml::Vector,int> sigPtr( &errSig );
 //   cout << errSig(0) <<endl;
 //   cout << (*sigPtr).access(0) <<endl;
   

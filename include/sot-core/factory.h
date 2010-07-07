@@ -98,9 +98,6 @@ SOT_CORE_EXPORT extern FactoryStorage sotFactory;
 /* -------------------------------------------------------------------------- */
 typedef dynamicgraph::EntityRegisterer sotEntityRegisterer;
 
-#define SOT_FACTORY_ENTITY_PLUGIN(sotClassType,className) \
-	DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(sotClassType, className)
-
 /* -------------------------------------------------------------------------- */
 /* --- FEATURE REGISTERER --------------------------------------------------- */
 /* -------------------------------------------------------------------------- */

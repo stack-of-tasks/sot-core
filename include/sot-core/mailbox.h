@@ -104,6 +104,7 @@ protected:
 
 #include <sot-core/mailbox.t.cpp>
 
+
 } // namespace sot
 
 #endif // #ifdef  HAVE_LIBBOOST_THREAD

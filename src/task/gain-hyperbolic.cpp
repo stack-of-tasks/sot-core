@@ -32,7 +32,7 @@
 using namespace sot;
 using namespace dynamicgraph;
 
-SOT_FACTORY_ENTITY_PLUGIN(GainHyperbolic,"GainHyperbolic");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(GainHyperbolic,"GainHyperbolic");
 
 const double GainHyperbolic::
 ZERO_DEFAULT = .1;

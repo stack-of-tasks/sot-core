@@ -25,13 +25,14 @@
 
 
 
-/* --- SOT PLUGIN  --- */
-#include <sot-core/mailbox.h>
+///* --- SOT PLUGIN  --- */
+//#include <sot-core/mailbox.h>
+//
+////#undef VP_TEMPLATE_DEBUG
+////#define VP_TEMPLATE_DEBUG_MODE             0
+//#include <sot-core/debug.h>
 
-//#undef VP_TEMPLATE_DEBUG
-//#define VP_TEMPLATE_DEBUG_MODE             0
-#include <sot-core/debug.h>
-
+namespace dg = dynamicgraph;
   
 /* -------------------------------------------------------------------------- */
 /* --- CONSTRUCTION --------------------------------------------------------- */
@@ -39,13 +40,13 @@
 template< class Object >
 Mailbox<Object>::
 Mailbox( const std::string& name )
-  :Entity(name)
+  :dg::Entity(name)
   ,mainObjectMutex()
   ,mainObject()
   ,update(false)
 
    ,SOUT( boost::bind(&Mailbox::get,this,_1,_2),
-	  sotNOSIGNAL,
+	  dg::sotNOSIGNAL,
 	  "Mailbox("+name+")::output(Object)::out" )
    ,objSOUT( boost::bind(&Mailbox::getObject,this,_1,_2),
 	     SOUT,
@@ -55,7 +56,7 @@ Mailbox( const std::string& name )
 	      "Mailbox("+name+")::output(Object)::timestamp" )
 {
   signalRegistration( SOUT<<objSOUT<<timeSOUT );
-  SOUT.setDependancyType( TimeDependancy<int>::BOOL_DEPENDANT );
+  SOUT.setDependencyType( dg::TimeDependency<int>::BOOL_DEPENDENT );
 }
 
 template< class Object >
@@ -74,7 +75,7 @@ hasBeenUpdated( void )
 {
   boost::timed_mutex::scoped_try_lock lockMain( this->mainObjectMutex );
   
-  if( lockMain.locked() )
+  if( lockMain.owns_lock() )
     {
       return update;
     }
@@ -92,7 +93,7 @@ get( typename Mailbox<Object>::sotTimestampedObject& res,const int& dummy )
 {
   boost::timed_mutex::scoped_try_lock lockMain( this->mainObjectMutex );
   
-  if( lockMain.locked() )
+  if( lockMain.owns_lock() )
     {
       res.timestamp.tv_sec=this->mainTimeStamp.tv_sec;
       res.timestamp.tv_usec=this->mainTimeStamp.tv_usec;

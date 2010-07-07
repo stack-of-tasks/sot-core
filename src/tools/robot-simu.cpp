@@ -145,7 +145,7 @@ void RobotSimu::display ( std::ostream& os ) const
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
-#include <sot/sotPool.h>
+#include <dynamic-graph/pool.h>
 
 void RobotSimu::
 commandLine( const std::string& cmdLine

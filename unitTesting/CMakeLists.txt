@@ -36,6 +36,10 @@ SET(TEST_test_task_LIBS
 	gain-adaptive feature-visual-point task
 )
 
+SET(TEST_test_mailbox_LIBS
+	mailbox
+)
+
 #test paths and names (without .cpp extension)
 SET (tests
 	dummy
@@ -103,18 +107,22 @@ FOREACH(test ${tests})
 	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME}
 	  ${PROJECT_NAME})
 	
-	# Add link to library libMatrixAbstractLayer.so
-	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${MATRIXABSTRACTLAYER_LIBRARIES})
 	
 	# Add link to library libLapack.so
 	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${LAPACK_LIBRARIES})
 
-	# Add link to library libdynamic-graph.so
-	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${DYNAMIC_GRAPH_LIBRARIES})
-	
+	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${Boost_THREAD_LIBRARY})
+
 	IF (UNIX)
-	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME}
-		dl)
+		# Add link to library libdynamic-graph.so
+		TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${DYNAMIC_GRAPH_LIBRARIES})
+		
+		TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME}
+			dl)
+	
+		# Add link to library libMatrixAbstractLayer.so
+		TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${MATRIXABSTRACTLAYER_LIBRARIES})
+	
 	ENDIF(UNIX)
 	
 	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_LIBS})

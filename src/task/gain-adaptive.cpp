@@ -32,7 +32,7 @@
 using namespace sot;
 using namespace dynamicgraph;
 
-SOT_FACTORY_ENTITY_PLUGIN(GainAdaptive,"GainAdaptive");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(GainAdaptive,"GainAdaptive");
 
 const double GainAdaptive::
 ZERO_DEFAULT = .1;

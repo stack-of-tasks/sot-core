@@ -41,9 +41,15 @@ enable_testing()
 # Look for dependencies
 #
 
+
+# where are use-specific cmake modules
+SET(CMAKE_MODULE_PATH ${${PROJECT_NAME}_SOURCE_DIR}/CMakeModules)
+
 # Load Pkgconfig macros
 INCLUDE(FindPkgConfig)
 SET(PACKAGE_REQUIREMENTS "")
+  
+  
 #enable_language(Fortran)
 # --- LAPACK --------------------------------------------------
 FIND_PACKAGE(LAPACK)
@@ -101,14 +107,58 @@ ELSE(PACKAGE_REQUIREMENTS STREQUAL "")
   SET(PACKAGE_REQUIREMENTS "${PACKAGE_REQUIREMENTS}, ${DYNAMIC_GRAPH_REQUIRED}")
 ENDIF(PACKAGE_REQUIREMENTS STREQUAL "")
 
-#
-# Boost
-#
-FIND_PACKAGE(Boost COMPONENTS filesystem system REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
-IF(UNIX)
+# --- BOOST ---------------------------------------------------
+SET(Boost_THREAD_FOUND 0)
+FIND_PACKAGE(Boost COMPONENTS thread REQUIRED filesystem system)
+IF(Boost_THREAD_FOUND)
+  ADD_DEFINITIONS(-DHAVE_LIBBOOST_THREAD)
+  
+  # Look for the type of pattern to find.
+  SET(BOOST_PATTERN_TOFIND "")
+  IF(${CMAKE_BUILD_TYPE} MATCHES RELEASE)
+    SET(BOOST_PATTERN_TOFIND optimized)
+  ENDIF(${CMAKE_BUILD_TYPE} MATCHES RELEASE)
+  IF(${CMAKE_BUILD_TYPE} MATCHES DEBUG)
+    SET(BOOST_PATTERN_TOFIND debug)
+  ENDIF(${CMAKE_BUILD_TYPE} MATCHES DEBUG)
+
+  IF(BOOST_PATTERN_TOFIND)
+    SET(BOOST_THREAD_LIST_LENGTH 0)
+    LIST(LENGTH Boost_THREAD_LIBRARY BOOST_THREAD_LIST_LENGTH)
+    # Debug or optimized library.
+    IF(${BOOST_THREAD_LIST_LENGTH} MATCHES 4)
+      LIST(FIND Boost_THREAD_LIBRARY ${BOOST_PATTERN_TOFIND} BTLB_index)
+      LIST(REMOVE_AT Boost_THREAD_LIBRARY ${BTLB_index})
+      LIST(GET Boost_THREAD_LIBRARY ${BTLB_index} BOOST_THREAD_LIB_NAME)
+    # Default strategy
+    ELSE(${BOOST_THREAD_LIST_LENGTH} MATCHES 4)
+      SET(BOOST_THREAD_LIB_NAME ${Boost_THREAD_LIBRARY})
+    ENDIF(${BOOST_THREAD_LIST_LENGTH} MATCHES 4)
+  # Default strategy
+  ELSE(BOOST_PATTERN_TOFIND)
+    SET(BOOST_THREAD_LIB_NAME  ${Boost_THREAD_LIBRARY})
+  ENDIF(BOOST_PATTERN_TOFIND)
+  
+  # --- PTHREAD -------------------------------------------------------
+  FIND_PACKAGE(PTHREAD)
+  IF(PTHREAD_FOUND)
+    ADD_DEFINITIONS(-DHAVE_PTHREAD)
+    INCLUDE_DIRECTORIES(${PTHREAD_INCLUDE_DIRS})
+	LINK_DIRECTORIES(${PTHREAD_LIBRARY_DIRS})
+  ENDIF(PTHREAD_FOUND)
+  
+ELSE(Boost_THREAD_FOUND)
+  MESSAGE("WARNING: Boost thread not found. Trying without the thread library")
+  FIND_PACKAGE(Boost REQUIRED filesystem system)
+  IF(NOT Boost_FOUND)
+	MESSAGE(SEND_ERROR "!! ERROR: Boost not found.")
+  ENDIF(NOT Boost_FOUND)
+ENDIF(Boost_THREAD_FOUND)
+MESSAGE(STATUS "Boost thread lib name: ${BOOST_THREAD_LIB_NAME} ${Boost_THREAD_LIBRARY}")
+
+INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
-ENDIF(UNIX)
+
 
 #
 # pkg-config file

@@ -50,7 +50,7 @@ using namespace dynamicgraph;
 /* --------------------------------------------------------------------- */
 
 
-SOT_FACTORY_ENTITY_PLUGIN(Sot,"SOT");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Sot,"SOT");
 
 
 const double Sot::INVERSION_THRESHOLD_DEFAULT = 1e-4;

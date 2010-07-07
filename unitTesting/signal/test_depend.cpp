@@ -24,7 +24,7 @@
 // #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/all-signals.h>
 //#include <sot/TimeDependency.h>
-#include <sot/sotDebug.h>
+#include <sot-core/debug.h>
 #include <iostream>
 
 #include <MatrixAbstractLayer/boost.h>

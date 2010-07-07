@@ -48,7 +48,7 @@ using namespace dynamicgraph;
 
 
 #include <sot-core/factory.h>
-SOT_FACTORY_ENTITY_PLUGIN(SotQr,"SOTQr");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SotQr,"SOTQr");
 
 
 const double SotQr::INVERSION_THRESHOLD_DEFAULT = 1e-4;

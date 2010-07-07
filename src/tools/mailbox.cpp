@@ -20,14 +20,16 @@
 #ifdef  HAVE_LIBBOOST_THREAD
 
 /* --- SOT PLUGIN  --- */
-#include <sot-core/mailbox.h>
+#include <MatrixAbstractLayer/boost.h>
 #include <sot-core/debug.h>
 #include <sot-core/factory.h>
+#include <sot-core/mailbox.h>
+
 
 using namespace sot;
-
+using namespace dynamicgraph;
 typedef Mailbox<maal::boost::Vector> mailvect;
-template<>SOT_FACTORY_ENTITY_PLUGIN(mailvect,"Mailbox<Vector>");
+template<>DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(mailvect,"Mailbox<Vector>");
 
 
 #endif // #ifdef  HAVE_LIBBOOST_THREAD
