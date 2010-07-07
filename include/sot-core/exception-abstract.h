@@ -95,7 +95,7 @@ public:
   
   /** Print the error structure. */
   SOT_CORE_EXPORT friend std::ostream & operator << (std::ostream & os,
-				     const sot::ExceptionAbstract & err);
+				     const ExceptionAbstract & err);
 
 #ifdef SOT_EXCEPTION_PASSING_PARAM 
  public:
