@@ -74,36 +74,42 @@ IF(UNIX)
 	LINK_DIRECTORIES(${${PROJECT_NAME}_BINARY_DIR}/src ${CMAKE_INSTALL_PREFIX}/lib/plugin)
 ENDIF(UNIX)
 
+
+	
+ADD_DEFINITIONS(-DDEBUG=2)
+
+# provide path to library libMatrixAbstractLayer.so
+LINK_DIRECTORIES(${MATRIXABSTRACTLAYER_LIBRARY_DIRS})
+
+# provide path to library libdynamic-graph.so
+LINK_DIRECTORIES(${DYNAMIC_GRAPH_LIBRARY_DIRS})
+
+# Add MatrixAbstractLayer compilation flags
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
+	
+# Add lapack compilation flags
+ADD_DEFINITIONS(${LAPACK_CFLAGS})
+
+# Add dynamic-graph compilation flags
+ADD_DEFINITIONS(${DYNAMIC_GRAPH_CFLAGS})
+	
 FOREACH(test ${tests})
 	GET_FILENAME_COMPONENT(EXECUTABLE_NAME ${test} NAME)
-	
-	ADD_DEFINITIONS(-DDEBUG=2)
-	
-	# provide path to library libMatrixAbstractLayer.so
-	LINK_DIRECTORIES(${MATRIXABSTRACTLAYER_LIBRARY_DIRS})
-	
-	# provide path to library libdynamic-graph.so
-	LINK_DIRECTORIES(${DYNAMIC_GRAPH_LIBRARY_DIRS})
-	
+
 	ADD_EXECUTABLE(${EXECUTABLE_NAME}
 	  ${test}.cpp
 	  )
-	
-	INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
-	
+		
 	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME}
 	  ${PROJECT_NAME})
 	
-	# Add MatrixAbstractLayer compilation flags and link to library libMatrixAbstractLayer.so
-	ADD_DEFINITIONS(${MATRIXABSTRACTLAYER_CFLAGS})
+	# Add link to library libMatrixAbstractLayer.so
 	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${MATRIXABSTRACTLAYER_LIBRARIES})
 	
-	# Add lapack compilation flags and link to library libLapack.so
-	ADD_DEFINITIONS(${LAPACK_CFLAGS})
+	# Add link to library libLapack.so
 	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${LAPACK_LIBRARIES})
 
-	# Add dynamic-graph compilation flags and link to library libdynamic-graph.so
-	ADD_DEFINITIONS(${DYNAMIC_GRAPH_CFLAGS})
+	# Add link to library libdynamic-graph.so
 	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${DYNAMIC_GRAPH_LIBRARIES})
 	
 	IF (UNIX)
