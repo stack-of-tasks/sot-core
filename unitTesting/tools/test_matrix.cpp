@@ -33,9 +33,7 @@ using namespace std;
 #ifndef WIN32
 #include <sys/time.h>
 #else /*WIN32*/
-#include <MatrixAbstractLayer/boost.h>
-#include <Winsock2.h>
-#include <sot/utils-windows.h>
+#include <sot-core/utils-windows.h>
 #endif /*WIN32*/
 
 #define sotCHRONO1 \
