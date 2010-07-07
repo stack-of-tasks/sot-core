@@ -40,10 +40,7 @@
 #ifndef WIN32
 #include <sys/time.h>
 #else
-// When including Winsock2.h, the MAL must be included first
-//#include <MatrixAbstractLayer/boost.h>
-#include <sot/utils-windows.h>
-#include <Winsock2.h>
+#include <sot-core/utils-windows.h>
 #endif /*WIN32*/
 #include <string>
 
