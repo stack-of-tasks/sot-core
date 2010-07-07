@@ -5,6 +5,10 @@
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/test-paths.h.cmake 
 			${CMAKE_CURRENT_SOURCE_DIR}/test-paths.h) 
 
+IF(UNIX)
+	ADD_DEFINITIONS(-pthread)
+ENDIF(UNIX)
+
 #The sot-core plugin libraries that tests have to be linked against
 #the name of the variable for test EXECUTABLE_NAME is TEST_${EXECUTABLE_NAME}_LIBS
 SET(TEST_tsot_LIBS 
@@ -21,6 +25,10 @@ IF(UNIX)
 SET(TEST_traces_LIBS
 	${CMAKE_INSTALL_PREFIX}/lib/plugin/tracer.so
 )
+ENDIF(UNIX)
+
+IF(UNIX)
+	ADD_DEFINITIONS(-pthread)
 ENDIF(UNIX)
 IF(WIN32)
 SET(TEST_traces_LIBS
