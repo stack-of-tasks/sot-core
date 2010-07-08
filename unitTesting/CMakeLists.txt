@@ -27,9 +27,6 @@ SET(TEST_traces_LIBS
 )
 ENDIF(UNIX)
 
-IF(UNIX)
-	ADD_DEFINITIONS(-pthread)
-ENDIF(UNIX)
 IF(WIN32)
 SET(TEST_traces_LIBS
 	${CMAKE_INSTALL_PREFIX}/lib/plugin/tracer.lib
