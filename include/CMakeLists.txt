@@ -107,8 +107,9 @@ joint-limitator.h
 kalman.h
 
 #these need the boost thread library - reminder
-mailbox.h
+mailbox.hxx
 mailbox.t.cpp
+mailbox-vector.h
 distant-shell.h
 )
 

@@ -23,14 +23,15 @@
 #include <MatrixAbstractLayer/boost.h>
 #include <sot-core/debug.h>
 #include <sot-core/factory.h>
-#include <sot-core/mailbox.h>
-
+#include <sot-core/mailbox.t.cpp>
+#include <sot-core/mailbox-vector.h>
 
 using namespace sot;
 using namespace dynamicgraph;
 typedef Mailbox<maal::boost::Vector> mailvect;
 template<>DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(mailvect,"Mailbox<Vector>");
 
+MailboxVector::MailboxVector( const std::string& name): Mailbox(name){}
 
 #endif // #ifdef  HAVE_LIBBOOST_THREAD
 

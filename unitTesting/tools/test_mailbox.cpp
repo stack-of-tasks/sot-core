@@ -35,7 +35,7 @@ namespace ml = maal::boost;
 #include <sot-core/feature-abstract.h>
 #include <dynamic-graph/plugin-loader.h>
 #include <dynamic-graph/interpreter.h>
-#include <sot-core/mailbox.h>
+#include <sot-core/mailbox-vector.h>
 #include <sstream>
 
 using namespace dynamicgraph;
@@ -44,7 +44,7 @@ using namespace sot;
 #ifdef  HAVE_LIBBOOST_THREAD
 #include <boost/thread.hpp>
 
-Mailbox<ml::Vector> mailbox("mail");
+sot::MailboxVector mailbox("mail");
 
 void f( void ) 
 { 

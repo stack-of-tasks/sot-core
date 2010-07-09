@@ -93,7 +93,7 @@ SET(plugins
 	tools/periodic-call-entity
 	tools/motion-period
 	tools/neck-limitation
-	tools/mailbox
+	tools/mailbox-vector
 	tools/kalman
 	tools/joint-limitator
 	tools/gripper-control

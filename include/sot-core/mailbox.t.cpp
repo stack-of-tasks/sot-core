@@ -23,7 +23,11 @@
 #ifndef __SOT_MAILBOX_T_CPP
 #define __SOT_MAILBOX_T_CPP
 
+#ifdef  HAVE_LIBBOOST_THREAD
 
+#include <sot-core/mailbox.hxx>
+
+namespace sot {
 
 ///* --- SOT PLUGIN  --- */
 //#include <sot-core/mailbox.h>
@@ -119,6 +123,8 @@ post( const Object& value )
   return;
 }
 
+}
 
+#endif // #ifdef HAVE_LIBBOOST_THREAD
 #endif // #ifdef __SOT_MAILBOX_T_CPP
 

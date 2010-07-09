@@ -42,7 +42,7 @@ SET(TEST_test_task_LIBS
 )
 
 SET(TEST_test_mailbox_LIBS
-	mailbox
+	mailbox-vector
 )
 
 #test paths and names (without .cpp extension)

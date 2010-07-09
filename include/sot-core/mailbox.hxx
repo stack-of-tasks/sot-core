@@ -102,8 +102,6 @@ protected:
 };
 
 
-#include <sot-core/mailbox.t.cpp>
-
 
 } // namespace sot
 
