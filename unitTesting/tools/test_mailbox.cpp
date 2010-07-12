@@ -49,11 +49,18 @@ sot::MailboxVector mailbox("mail");
 void f( void ) 
 { 
   ml::Vector vect(25);
+  ml::Vector vect2(25);
   for( int i=0;;++i )
     {
+	  std::cout << " iter  " << i << std::endl;
       for( int j=0;j<25;++j ) vect(j) = j+i*10;
       mailbox.post( vect );
-      //usleep( 1000*50 );
+      mailbox.getObject( vect2, 1 );
+	  std::cout << vect2 << std::endl;
+	  std::cout << " getClassName   " << mailbox.getClassName() << std::endl;
+	  std::cout << " getName        " << mailbox.getName() << std::endl;
+	  std::cout << " hasBeenUpdated " << mailbox.hasBeenUpdated() << std::endl;
+	  std::cout << std::endl;
     }
 }
 
@@ -62,6 +69,11 @@ int main( int argc,char** argv )
 {
   boost::thread th( f );
 
+#ifdef WIN32
+  Sleep( 100 );
+#else
+  usleep( 1000*100 );
+#endif
 
   return 0;
 }
