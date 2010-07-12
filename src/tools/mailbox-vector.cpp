@@ -31,7 +31,7 @@ using namespace dynamicgraph;
 typedef Mailbox<maal::boost::Vector> mailvect;
 template<>DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(mailvect,"Mailbox<Vector>");
 
-MailboxVector::MailboxVector( const std::string& name): Mailbox(name){}
+MailboxVector::MailboxVector( const std::string& name): Mailbox<maal::boost::Vector> (name){}
 
 #endif // #ifdef  HAVE_LIBBOOST_THREAD
 
