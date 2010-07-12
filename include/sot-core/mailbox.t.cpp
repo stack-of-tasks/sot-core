@@ -123,6 +123,24 @@ post( const Object& value )
   return;
 }
 
+template< class Object >
+Object& Mailbox<Object>::
+getObject( Object& res,const int& time )
+{ 
+	const sotTimestampedObject & data = SOUT(time);
+	res = data.obj; return res;
+}
+
+template< class Object >
+timeval& Mailbox<Object>::
+getTimestamp( struct timeval& res,const int& time )
+{ 
+	const sotTimestampedObject & data = SOUT(time);
+	res.tv_sec = data.timestamp.tv_sec ; 
+	res.tv_usec = data.timestamp.tv_usec ; 
+	return res;
+}
+
 }
 
 #endif // #ifdef HAVE_LIBBOOST_THREAD

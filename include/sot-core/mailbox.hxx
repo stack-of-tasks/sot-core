@@ -71,18 +71,8 @@ public:
   void post( const Object& obj );
   sotTimestampedObject& get( sotTimestampedObject& res,const int& dummy );
 
-  Object& getObject( Object& res,const int& time )
-    { 
-      const sotTimestampedObject & data = SOUT(time);
-      res = data.obj; return res;
-    }
-  struct timeval& getTimestamp( struct timeval& res,const int& time )
-    { 
-      const sotTimestampedObject & data = SOUT(time);
-      res.tv_sec = data.timestamp.tv_sec ; 
-      res.tv_usec = data.timestamp.tv_usec ; 
-      return res;
-    }
+  Object& getObject( Object& res,const int& time );
+  struct timeval& getTimestamp( struct timeval& res,const int& time );
 
   bool hasBeenUpdated( void );
   
