@@ -42,7 +42,7 @@
 #    define MAILBOX_VECTOR_EXPORT  __declspec(dllimport)
 #  endif 
 #else
-#  define MAILBOX_EXPORT 
+#  define MAILBOX_VECTOR_EXPORT 
 #endif
 
 /* --------------------------------------------------------------------- */
