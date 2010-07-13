@@ -28,10 +28,11 @@
 
 using namespace sot;
 using namespace dynamicgraph;
-typedef Mailbox<maal::boost::Vector> mailvect;
-template<>DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(mailvect,"Mailbox<Vector>");
 
-MailboxVector::MailboxVector( const std::string& name): Mailbox<maal::boost::Vector> (name){}
+// Explicit template specialization
+MAILBOX_TEMPLATE_SPE(maal::boost::Vector);
+
+template<>DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(mailvect,"Mailbox<Vector>");
 
 #endif // #ifdef  HAVE_LIBBOOST_THREAD
 

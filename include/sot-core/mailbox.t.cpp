@@ -37,7 +37,37 @@ namespace sot {
 //#include <sot-core/debug.h>
 
 namespace dg = dynamicgraph;
-  
+
+typedef Mailbox<maal::boost::Vector> mailvect;
+
+/*
+: public dg::Entity
+{
+ public:
+ static const std::string CLASS_NAME;
+
+ public:
+  struct sotTimestampedObject
+  {
+	maal::boost::Vector obj;
+	struct timeval timestamp;
+  };
+
+  virtual const std::string& getClassName( void );
+
+  Mailbox( const std::string& name );
+  ~Mailbox( void );
+
+  void post( const maal::boost::Vector& obj );
+  sotTimestampedObject& get( sotTimestampedObject& res,const int& dummy );
+
+  maal::boost::Vector& getObject( maal::boost::Vector& res,const int& time );
+  struct timeval& getTimestamp( struct timeval& res,const int& time );
+
+  bool hasBeenUpdated( void );
+};
+*/
+
 /* -------------------------------------------------------------------------- */
 /* --- CONSTRUCTION --------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
@@ -141,7 +171,18 @@ getTimestamp( struct timeval& res,const int& time )
 	return res;
 }
 
+/* Macro for template specialization */
+#define MAILBOX_TEMPLATE_SPE(S) \
+namespace sot { \
+template void Mailbox<S>::post(const S& obj ); \
+template maal::boost::Vector&  Mailbox<S>::getObject( S& res,const int& time ); \
+template bool Mailbox<S>::hasBeenUpdated(void); \
+template Mailbox<S>::~Mailbox(); \
+template Mailbox<S>::sotTimestampedObject& Mailbox<S>::get( Mailbox<S>::sotTimestampedObject& res,const int& dummy ); \
+template Mailbox<S>::Mailbox(const std::string& name); \
 }
+
+} // namespace sot
 
 #endif // #ifdef HAVE_LIBBOOST_THREAD
 #endif // #ifdef __SOT_MAILBOX_T_CPP

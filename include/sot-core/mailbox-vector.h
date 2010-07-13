@@ -30,7 +30,6 @@
 
 #include <MatrixAbstractLayer/boost.h>
 
-
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -50,11 +49,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
-	class MAILBOX_VECTOR_EXPORT MailboxVector : public Mailbox<maal::boost::Vector> 
-	{
-	public:
-		MailboxVector( const std::string& name );
-	};
+	typedef Mailbox<maal::boost::Vector> MailboxVector;
 }
 
 #endif // #ifdef  HAVE_LIBBOOST_THREAD

@@ -55,7 +55,7 @@ void f( void )
 	  std::cout << " iter  " << i << std::endl;
       for( int j=0;j<25;++j ) vect(j) = j+i*10;
       mailbox.post( vect );
-      mailbox.getObject( vect2, 1 );
+      maal::boost::Vector V = mailbox.getObject( vect2, 1 );
 	  std::cout << vect2 << std::endl;
 	  std::cout << " getClassName   " << mailbox.getClassName() << std::endl;
 	  std::cout << " getName        " << mailbox.getName() << std::endl;
