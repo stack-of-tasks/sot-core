@@ -49,7 +49,15 @@
 /* --------------------------------------------------------------------- */
 
 namespace sot {
+#ifdef WIN32
+	class MAILBOX_VECTOR_EXPORT MailboxVector : public Mailbox<maal::boost::Vector> 
+	{
+	public:
+		MailboxVector( const std::string& name );
+	};
+#else
 	typedef Mailbox<maal::boost::Vector> MailboxVector;
+#endif
 }
 
 #endif // #ifdef  HAVE_LIBBOOST_THREAD
