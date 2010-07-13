@@ -29,42 +29,7 @@
 
 namespace sot {
 
-///* --- SOT PLUGIN  --- */
-//#include <sot-core/mailbox.h>
-//
-////#undef VP_TEMPLATE_DEBUG
-////#define VP_TEMPLATE_DEBUG_MODE             0
-//#include <sot-core/debug.h>
-
 namespace dg = dynamicgraph;
-
-/*
-: public dg::Entity
-{
- public:
- static const std::string CLASS_NAME;
-
- public:
-  struct sotTimestampedObject
-  {
-	maal::boost::Vector obj;
-	struct timeval timestamp;
-  };
-
-  virtual const std::string& getClassName( void );
-
-  Mailbox( const std::string& name );
-  ~Mailbox( void );
-
-  void post( const maal::boost::Vector& obj );
-  sotTimestampedObject& get( sotTimestampedObject& res,const int& dummy );
-
-  maal::boost::Vector& getObject( maal::boost::Vector& res,const int& time );
-  struct timeval& getTimestamp( struct timeval& res,const int& time );
-
-  bool hasBeenUpdated( void );
-};
-*/
 
 /* -------------------------------------------------------------------------- */
 /* --- CONSTRUCTION --------------------------------------------------------- */
