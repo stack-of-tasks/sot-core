@@ -38,8 +38,6 @@ namespace sot {
 
 namespace dg = dynamicgraph;
 
-typedef Mailbox<maal::boost::Vector> mailvect;
-
 /*
 : public dg::Entity
 {

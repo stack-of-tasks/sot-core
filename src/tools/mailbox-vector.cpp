@@ -32,7 +32,7 @@ using namespace dynamicgraph;
 // Explicit template specialization
 MAILBOX_TEMPLATE_SPE(maal::boost::Vector);
 
-template<>DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(mailvect,"Mailbox<Vector>");
+template<>DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MailboxVector,"Mailbox<Vector>");
 
 #endif // #ifdef  HAVE_LIBBOOST_THREAD
 
