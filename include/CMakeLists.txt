@@ -110,7 +110,6 @@ kalman.h
 mailbox.hxx
 mailbox.t.cpp
 mailbox-vector.h
-distant-shell.h
 )
 
 # Recreate correct path for the headers
