@@ -30,17 +30,17 @@
 namespace sot {
 
 class SOT_CORE_EXPORT VectorQuaternion
-: public sotVectorRotation
+: public VectorRotation
 {
  public: 
 
-  VectorQuaternion( void ) : sotVectorRotation() { ml::Vector::resize(4); }
+  VectorQuaternion( void ) : VectorRotation() { ml::Vector::resize(4); }
   virtual ~VectorQuaternion( void ) { }
 
-  virtual sotVectorRotation& fromMatrix( const MatrixRotation& rot );
+  virtual VectorRotation& fromMatrix( const MatrixRotation& rot );
   virtual MatrixRotation& toMatrix( MatrixRotation& rot ) const;
 
-  sotVectorRotation& fromVector( const VectorUTheta& ut );
+  VectorRotation& fromVector( const VectorUTheta& ut );
 
   VectorQuaternion& conjugate(VectorQuaternion& res) const;
   VectorQuaternion& multiply(const VectorQuaternion& q2, VectorQuaternion& res) const;

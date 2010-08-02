@@ -30,14 +30,14 @@
 namespace sot {
 
 class SOT_CORE_EXPORT VectorRollPitchYaw
-: public sotVectorRotation
+: public VectorRotation
 {
  public: 
 
-  VectorRollPitchYaw( void ) : sotVectorRotation() { }
+  VectorRollPitchYaw( void ) : VectorRotation() { }
   virtual ~VectorRollPitchYaw( void ) { }
 
-  virtual sotVectorRotation& fromMatrix( const MatrixRotation& rot );
+  virtual VectorRotation& fromMatrix( const MatrixRotation& rot );
   virtual MatrixRotation& toMatrix( MatrixRotation& rot ) const;
 
 };

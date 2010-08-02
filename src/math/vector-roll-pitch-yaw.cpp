@@ -27,7 +27,7 @@ static const double ANGLE_MINIMUM = 0.0001;
 static const double SINC_MINIMUM = 1e-8;
 static const double COSC_MINIMUM = 2.5e-4;
 
-sotVectorRotation& VectorRollPitchYaw::
+VectorRotation& VectorRollPitchYaw::
 fromMatrix( const MatrixRotation& rot )
 {
   sotDEBUGIN(15) ;

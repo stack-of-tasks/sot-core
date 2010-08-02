@@ -26,7 +26,7 @@ static const double ANGLE_MINIMUM = 0.0001;
 static const double SINC_MINIMUM = 1e-8;
 static const double COSC_MINIMUM = 2.5e-4;
 
-sotVectorRotation& VectorQuaternion::
+VectorRotation& VectorQuaternion::
 fromMatrix( const MatrixRotation& rot )
 {
   sotDEBUGIN(15) ;
@@ -124,7 +124,7 @@ fromMatrix( const MatrixRotation& rot )
 
 #include <sot-core/vector-utheta.h>
 
-sotVectorRotation& VectorQuaternion::
+VectorRotation& VectorQuaternion::
 fromVector( const VectorUTheta& ut )
 {
   sotDEBUGIN(15) ;

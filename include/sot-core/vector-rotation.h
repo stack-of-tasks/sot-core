@@ -34,15 +34,15 @@ namespace ml = maal::boost;
 
 namespace sot {
 
-class SOT_CORE_EXPORT sotVectorRotation
+class SOT_CORE_EXPORT VectorRotation
 : public ml::Vector
 {
  public: 
 
-  sotVectorRotation( void ) : ml::Vector(3) { fill(0.); } 
-  virtual ~sotVectorRotation( void ) { }
+  VectorRotation( void ) : ml::Vector(3) { fill(0.); } 
+  virtual ~VectorRotation( void ) { }
 
-  virtual sotVectorRotation& fromMatrix( const MatrixRotation& rot ) = 0;
+  virtual VectorRotation& fromMatrix( const MatrixRotation& rot ) = 0;
   virtual MatrixRotation& toMatrix( MatrixRotation& rot ) const = 0;
 };
 
