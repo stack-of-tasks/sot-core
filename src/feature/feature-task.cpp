@@ -27,8 +27,6 @@
 #include <sot-core/feature-task.h>
 #include <sot-core/exception-feature.h>
 #include <dynamic-graph/pool.h>
-#include <sot-core/task.h>
-
 using namespace std;
 using namespace sot;
 using namespace dynamicgraph;
@@ -128,10 +126,10 @@ commandLine( const std::string& cmdLine,
       if( cmdArgs.good() )
 	{
 	  std::string name; cmdArgs >> name;
-	  Task& task = dynamic_cast< Task & > (g_pool .getEntity( name ));
+	  TaskAbstract& task = dynamic_cast< TaskAbstract & > (g_pool .getEntity( name ));
 	  taskPtr = &task;
 
-	  errorSIN.plug( &task.errorSOUT );
+	  errorSIN.plug( &task.taskSOUT );
 	  jacobianSIN.plug( &task.jacobianSOUT );
 	  activationSIN.plug( &task.featureActivationSOUT );
 	} else {
