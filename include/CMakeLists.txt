@@ -5,7 +5,7 @@
 # Generate header with default script directory.
 SET(SOT_IMPORT_DEFAULT_PATHS \"${CMAKE_INSTALL_PREFIX}/script\")
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/sot-core/import-default-paths.h.cmake
-		       ${${PROJECT_NAME}_BINARY_DIR}/include/sot/import-default-paths.h)
+		       ${CMAKE_CURRENT_SOURCE_DIR}/sot-core/import-default-paths.h)
 
 SET(${PROJECT_NAME}_HEADERS
 sot-core-api.h
