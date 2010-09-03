@@ -189,7 +189,7 @@ TARGET_LINK_LIBRARIES(${LIBRARY_NAME} gfortran)
 ENDIF(UNIX)
 
 INSTALL(TARGETS ${LIBRARY_NAME}
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+  DESTINATION lib)
 
 #Plugins compilation, link, and installation
 #Compiles a plugin. The plugin library is ${LIBRARY_NAME}
@@ -237,5 +237,5 @@ FOREACH(plugin ${plugins})
 	ENDIF(WIN32)
 
 	INSTALL(TARGETS ${LIBRARY_NAME}
-	  DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/plugin)
+	  DESTINATION lib/plugin)
 ENDFOREACH(plugin)
