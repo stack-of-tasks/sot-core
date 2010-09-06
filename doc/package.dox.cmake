@@ -93,7 +93,7 @@ CHM_FILE               =
 HHC_LOCATION           = 
 GENERATE_CHI           = NO
 BINARY_TOC             = NO
-TOC_EXPAND             = YES
+TOC_EXPAND             = NO
 DISABLE_INDEX          = NO
 ENUM_VALUES_PER_LINE   = 1
 GENERATE_TREEVIEW      = YES
@@ -158,12 +158,11 @@ SKIP_FUNCTION_MACROS   = YES
 # Configuration::additions related to external references   
 #---------------------------------------------------------------------------
 TAGFILES               = \
-	${MATRIXABSTRACTLAYER_DOCDIR}/html/MatrixAbstractLayer.doxytag=${MATRIXABSTRACTLAYER_DOCDIR}/html \
-	${DYNAMICSJRLJAPAN_DOCDIR}/html/dynamicsJRLJapan.doxytag=${DYNAMICSJRLJAPAN_DOCDIR}/html \
-	${HRP2DYNAMICS_DOCDIR}/html/hrp2Dynamics.doxytag=${HRP2DYNAMICS_DOCDIR}/html \
-	${WALKGENJRL_DOCDIR}/html/walkGenJrl.doxytag=${WALKGENJRL_DOCDIR}/html \
-	${DYNAMIC_GRAPH_DOCDIR}/html/dynamic-graph.doxytag=${DYNAMIC_GRAPH_DOCDIR}/html
-GENERATE_TAGFILE       = sot-core.doxytag
+	${_MatrixAbstractLayer_DOCDIR}/html/MatrixAbstractLayer.doxytag=${_MatrixAbstractLayer_DOCDIR}/html \
+	${_dynamicsJRLJapan_DOCDIR}/html/dynamicsJRLJapan.doxytag=${_dynamicsJRLJapan_DOCDIR}/html \
+	${_hrp2Dynamics_DOCDIR}/html/hrp2Dynamics.doxytag=${_hrp2Dynamics_DOCDIR}/html \
+	${_walkGenJrl_DOCDIR}/html/walkGenJrl.doxytag=${_walkGenJrl_DOCDIR}/html
+GENERATE_TAGFILE       = dynamic-graph.doxytag
 ALLEXTERNALS           = NO
 EXTERNAL_GROUPS        = YES
 PERL_PATH              = /usr/bin/perl
@@ -173,7 +172,7 @@ PERL_PATH              = /usr/bin/perl
 #---------------------------------------------------------------------------
 # Configuration::additions related to the search engine   
 #---------------------------------------------------------------------------
-SEARCHENGINE           = NO
+SEARCHENGINE           = YES
 
 
 
@@ -181,7 +180,7 @@ SEARCHENGINE           = NO
 #---------------------------------------------------------------------------
 # Project related configuration options
 #---------------------------------------------------------------------------
-PROJECT_NAME           = "${PROJECT_NAME} library documentation"
+PROJECT_NAME           = "${PROJECT_NAME} library"
 PROJECT_NUMBER         = ${PROJECT_VERSION}
 
 #---------------------------------------------------------------------------
@@ -209,7 +208,7 @@ SHOW_DIRECTORIES       = NO
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-FILE_PATTERNS          = *.hh *.idl
+FILE_PATTERNS          = *.h *.idl
 EXCLUDE_PATTERNS       = 
 INPUT                  = ${${PROJECT_NAME}_SOURCE_DIR}/include \
                          ${CMAKE_CURRENT_SOURCE_DIR}/additionalDoc
