@@ -1,6 +1,5 @@
 /* SOT */
-#define VP_DEBUG
-#define VP_DEBUG_MODE 15
+
 #include <sot-core/debug.h>
 class ControlGR__INIT
 {

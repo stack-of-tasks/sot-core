@@ -19,7 +19,7 @@
 
 
 #include <sot-core/multi-bound.h>
-#define VP_DEBUG_MODE 25
+//#define VP_DEBUG_MODE 25
 #include <sot-core/debug.h>
 
 using namespace sot;
