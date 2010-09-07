@@ -30,7 +30,7 @@
 #include <sot-core/debug.h>
  class sotIneq__INIT
  {
- public:sotIneq__INIT( void ) { DebugTrace::openFile();  }
+ public:sotIneq__INIT( void ) { sot::DebugTrace::openFile();  }
  };
  sotIneq__INIT sotIneq_initiator;
 
