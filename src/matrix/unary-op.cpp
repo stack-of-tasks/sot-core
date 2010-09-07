@@ -86,7 +86,7 @@ struct InverserRot
 };
 
 typedef UnaryOp<MatrixRotation,MatrixRotation,InverserRot > invMatRot;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMatRot,matrixRot,inv_matrot,"Inverse<matrixrotation>", ,"");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMatRot,matrixRotation,inv_matrot,"Inverse<matrixrotation>", ,"");
 
 struct InverserQuat
 {
@@ -362,7 +362,7 @@ struct ExtractRotation
 };
 
 typedef UnaryOp<MatrixHomogeneous,MatrixRotation,ExtractRotation> H2R;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(H2R,matrixHomo,matrixRot,H2R_,"HomoToRotation", ,"");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(H2R,matrixHomo,matrixRotation,H2R_,"HomoToRotation", ,"");
 
 struct RPYtoMatrix
 {
@@ -373,7 +373,7 @@ struct RPYtoMatrix
 };
 
 typedef UnaryOp<VectorRollPitchYaw,MatrixRotation,RPYtoMatrix> rpy2R;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(rpy2R,vectorRPY,matrixRot,rpy2R_,"RPYToMatrix", ,"");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(rpy2R,vectorRPY,matrixRotation,rpy2R_,"RPYToMatrix", ,"");
 
 struct MatrixToRPY
 {
@@ -384,7 +384,7 @@ struct MatrixToRPY
 };
 
 typedef UnaryOp<MatrixRotation,VectorRollPitchYaw,MatrixToRPY> R2rpy;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(R2rpy,matrixRot,vectorRPY,R2rpy_,"MatrixToRPY", ,"");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(R2rpy,matrixRotation,vectorRPY,R2rpy_,"MatrixToRPY", ,"");
 
 struct QuaterniontoMatrix
 {
@@ -395,7 +395,7 @@ struct QuaterniontoMatrix
 };
 
 typedef UnaryOp<VectorQuaternion,MatrixRotation,QuaterniontoMatrix> Quaternion2R;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(Quaternion2R,vectorQuaternion,matrixRot,Quaternion2R_,"QuaternionToMatrix", ,"");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(Quaternion2R,vectorQuaternion,matrixRotation,Quaternion2R_,"QuaternionToMatrix", ,"");
 
 struct MatrixToQuaternion
 {
@@ -407,7 +407,7 @@ struct MatrixToQuaternion
 
 
 typedef UnaryOp<MatrixRotation,VectorQuaternion,MatrixToQuaternion> R2Quaternion;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(R2Quaternion,matrixRot,vectorQuaternion,R2Quaternion_,"MatrixToQuaternion", ,"");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(R2Quaternion,matrixRotation,vectorQuaternion,R2Quaternion_,"MatrixToQuaternion", ,"");
 
 struct MatrixToUTheta
 {
@@ -419,7 +419,7 @@ struct MatrixToUTheta
 
 
 typedef UnaryOp<MatrixRotation,VectorUTheta,MatrixToUTheta> R2UTheta;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(R2UTheta,matrixRot,vectorUTheta,R2UTheta_,"MatrixToUTheta", ,"");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(R2UTheta,matrixRotation,vectorUTheta,R2UTheta_,"MatrixToUTheta", ,"");
 
 
 struct UThetaToQuaternion

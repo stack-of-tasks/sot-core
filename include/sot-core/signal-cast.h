@@ -26,6 +26,7 @@
 #include <sot-core/flags.h>
 #include <MatrixAbstractLayer/boost.h>
 #include <sot-core/matrix-homogeneous.h>
+#include <sot-core/matrix-rotation.h>
 #include <sot-core/matrix-twist.h>
 #include <sot-core/vector-utheta.h>
 #include <sot-core/vector-quaternion.h>
