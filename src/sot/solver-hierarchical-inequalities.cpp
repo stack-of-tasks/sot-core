@@ -28,11 +28,11 @@
 //#define VP_DEBUG
 //#define VP_DEBUG_MODE 45
 #include <sot-core/debug.h>
-// class sotIneq__INIT
-// {
-// public:sotIneq__INIT( void ) { DebugTrace::openFile();  }
-// };
-// sotIneq__INIT sotIneq_initiator;
+ class sotIneq__INIT
+ {
+ public:sotIneq__INIT( void ) { DebugTrace::openFile();  }
+ };
+ sotIneq__INIT sotIneq_initiator;
 
 #include <sot-core/solver-hierarchical-inequalities.h>
 using namespace sot;

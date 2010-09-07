@@ -23,11 +23,11 @@
 
 /* SOT */
 #include <sot-core/debug.h>
-//class sotSOTQr__INIT
-//{
-//public:sotSOTQr__INIT( void ) { DebugTrace::openFile(); }
-//};
-//sotSOTQr__INIT sotSOTQr_initiator;
+class sotSOTQr__INIT
+{
+public:sotSOTQr__INIT( void ) { DebugTrace::openFile(); }
+};
+sotSOTQr__INIT sotSOTQr_initiator;
 
 
 #include <sot-core/sot-qr.h>
