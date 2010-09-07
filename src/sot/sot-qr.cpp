@@ -25,7 +25,7 @@
 #include <sot-core/debug.h>
 class sotSOTQr__INIT
 {
-public:sotSOTQr__INIT( void ) { DebugTrace::openFile(); }
+public:sotSOTQr__INIT( void ) { sot::DebugTrace::openFile(); }
 };
 sotSOTQr__INIT sotSOTQr_initiator;
 
