@@ -50,6 +50,16 @@ extract( ml::Matrix& rot ) const
   return rot;
 }
 
+MatrixRotation& MatrixHomogeneous::
+extract( MatrixRotation& rot ) const
+{
+  for( int i=0;i<3;++i )
+    for( int j=0;j<3;++j )
+      rot( i,j ) = elementAt( i,j );
+
+  return rot;
+}
+
 ml::Vector& MatrixHomogeneous::
 extract( ml::Vector& trans ) const
 {
