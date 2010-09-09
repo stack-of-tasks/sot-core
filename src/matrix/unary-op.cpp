@@ -353,20 +353,6 @@ struct HomogeneousMatrixToTwist
 typedef UnaryOp<MatrixHomogeneous,MatrixTwist,HomogeneousMatrixToTwist> H2Tw;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(H2Tw,matrixHomo,matrixTwist,H2Tw_,"HomoToTwist", ,"");
 
-// Variation of the above, but output is a ml::Matrix (for type conversion errors)
-struct HomogeneousMatrixToTwist2
-{
-  void operator()( const MatrixHomogeneous& M,ml::Matrix& res )
-  {
-	  MatrixTwist temp;
-      temp.buildFrom( M );
-      res = temp;
-  }
-};
-
-typedef UnaryOp<MatrixHomogeneous,ml::Matrix,HomogeneousMatrixToTwist2> H2Tw2;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(H2Tw2,matrixHomo,matrix,H2Tw2_,"HomoToTwist2", ,"");
-
 
 struct ExtractRotation
 {
@@ -387,9 +373,6 @@ struct ExtractRotation2
     M.extract(res);
   }
 };
-
-typedef UnaryOp<MatrixHomogeneous,ml::Matrix,ExtractRotation2> H2R2;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(H2R2,matrixHomo,matrix,H2R2_,"HomoToRotation2", ,"");
 
 struct RPYtoMatrix
 {
@@ -495,17 +478,5 @@ res=r;
 
 typedef UnaryOp<ml::Vector,ml::Vector,DirtyMemory> v2mDirtyMemory;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(v2mDirtyMemory,vector,v2mDM_,"DirtyMemory", ,"");
-
-struct MRtoMatrix
-{
-  void operator()( const MatrixRotation& r,ml::Matrix& res )
-  {
-    res = r;
-  }
-};
-
-typedef UnaryOp<MatrixRotation,ml::Matrix,MRtoMatrix> MR2M;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(MR2M,matrixRotation,matrix,MR2M_,"MatrixRotToMatrix", ,"");
-
 
 } // namespace sot
