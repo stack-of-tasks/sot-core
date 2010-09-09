@@ -469,4 +469,17 @@ res=r;
 typedef UnaryOp<ml::Vector,ml::Vector,DirtyMemory> v2mDirtyMemory;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(v2mDirtyMemory,vector,v2mDM_,"DirtyMemory", ,"");
 
+struct MatrixRotToMatrix
+{
+public:
+MatrixRotToMatrix( void ) {}
+void operator()( const MatrixRotation& a,ml::Matrix& result )
+{
+	result = a;
+}
+};
+
+typedef UnaryOp<MatrixRotation,ml::Matrix,MatrixRotToMatrix> mrot2matrix;
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(mrot2matrix,matrixRotation,matrix,"MatrixRotToMatrix", ,"");
+
 } // namespace sot
