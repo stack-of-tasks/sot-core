@@ -53,6 +53,7 @@ SET (tests
 	signal/test_depend
 	signal/test_ptr
 	signal/test_dep
+	signal/test_ptrcast
 	
 	sot/tsot
 	sot/test_solverSoth

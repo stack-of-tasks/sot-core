@@ -43,7 +43,8 @@ class SOT_CORE_EXPORT MatrixHomogeneous
   ~MatrixHomogeneous( void ) { }
 
   MatrixHomogeneous& buildFrom( const MatrixRotation& rot, const ml::Vector& trans );
-  MatrixRotation& extract( MatrixRotation& rot ) const;
+  // extract(ml::Matrix): outputs a *rotation* matrix extracted from a homogeneous rotation matrix
+  ml::Matrix& extract( ml::Matrix& rot ) const;
   ml::Vector& extract( ml::Vector& trans ) const;
 
   MatrixHomogeneous& operator=( const ml::Matrix& );

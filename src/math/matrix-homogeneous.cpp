@@ -40,8 +40,8 @@ buildFrom( const MatrixRotation& rot, const ml::Vector& trans )
   return *this;
 }
 
-MatrixRotation& MatrixHomogeneous::
-extract( MatrixRotation& rot ) const
+ml::Matrix& MatrixHomogeneous::
+extract( ml::Matrix& rot ) const
 {
   for( int i=0;i<3;++i )
     for( int j=0;j<3;++j )
