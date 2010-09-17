@@ -74,7 +74,7 @@ int main()
 #ifndef WIN32
   sotPluginKey dlib = dlopen(PLUGIN_LIB_INSTALL_PATH "/feature-visual-point.so", RTLD_NOW);
 #else
-  sotPluginKey dlib = LoadLibrary (PLUGIN_LIB_INSTALL_PATH "/feature-visual-point.lib");
+  sotPluginKey dlib = LoadLibrary (PLUGIN_LIB_INSTALL_PATH "/feature-visual-point.dll");
 #endif
 if( NULL==dlib ) 
     {
@@ -107,7 +107,7 @@ if( NULL==dlib )
 #ifndef WIN32
 	dlib = dlopen(PLUGIN_LIB_INSTALL_PATH "/gain-adaptive.so", RTLD_NOW);
 #else
-	dlib = LoadLibrary (PLUGIN_LIB_INSTALL_PATH "/gain-adaptive.lib");
+	dlib = LoadLibrary (PLUGIN_LIB_INSTALL_PATH "/gain-adaptive.dll");
 #endif
   if( NULL==dlib ) 
     {
