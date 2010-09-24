@@ -58,7 +58,7 @@ public:
 		       const std::string & msg = "" );
   ExceptionTools( const ExceptionTools::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... );
-  virtual ~ExceptionTools( void ){}
+  virtual ~ExceptionTools( void ) throw() {}
 
 
 };

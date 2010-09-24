@@ -58,7 +58,7 @@ public:
   ExceptionFeature ( const ExceptionFeature::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... );
 
-  virtual ~ExceptionFeature( void ){}
+  virtual ~ExceptionFeature( void ) throw() {}
 };
 
 

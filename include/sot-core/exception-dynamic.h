@@ -61,7 +61,7 @@ public:
 		       const std::string & msg = "" );
   ExceptionDynamic( const ExceptionDynamic::ErrorCodeEnum& errcode,
 			const std::string & msg,const char* format, ... );
-  virtual ~ExceptionDynamic( void ){}
+  virtual ~ExceptionDynamic( void ) throw() {}
 
 
 };

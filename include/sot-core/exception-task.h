@@ -59,7 +59,7 @@ public:
 		     const std::string & msg = "" );
   ExceptionTask( const ExceptionTask::ErrorCodeEnum& errcode,
 		    const std::string & msg,const char* format, ... );
-  virtual ~ExceptionTask( void ){}
+  virtual ~ExceptionTask( void ) throw() {}
 
 };
 

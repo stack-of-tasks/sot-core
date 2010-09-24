@@ -30,6 +30,7 @@
 #include <iostream>                /* Classe ostream.    */
 #include <string>                  /* Classe string.     */
 #include <sot-core/sot-core-api.h>
+#include <exception>
 
 
 // Uncomment this macros to have lines parameter on the throw display
@@ -43,7 +44,7 @@ namespace sot {
 
 /* \class ExceptionAbstract
  */
-class SOT_CORE_EXPORT ExceptionAbstract 
+class SOT_CORE_EXPORT ExceptionAbstract : public std::exception
 {
 
  public:
@@ -79,7 +80,7 @@ private:
 public:
 
   ExceptionAbstract( const int& code, const std::string & msg = "" );
-  virtual ~ExceptionAbstract( void ){}
+  virtual ~ExceptionAbstract( void ) throw() {}
 
   /**  Access to the error code. */
   int getCode (void);
@@ -91,6 +92,7 @@ public:
    * Cannot be  \e NULL.
    */
   const char *getMessage (void);
+  const char* what	() 	 const throw ();
 
   
   /** Print the error structure. */

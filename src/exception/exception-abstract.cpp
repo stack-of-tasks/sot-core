@@ -66,6 +66,10 @@ getCode (void)
     return this->code;
 }
 
+const char* ExceptionAbstract::what() const throw() {
+	return message.c_str();
+}
+
 
 /* ------------------------------------------------------------------------- */
 /* --- MODIFIORS ----------------------------------------------------------- */
