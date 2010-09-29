@@ -34,6 +34,9 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: the hierarchichal task solver plug-in
  The stack of tasks provides a hierarchical task solver as a dynamic
  graph plug-in. It allows the realization of complex robotics tasks.
+ .
+ This package contains the dynamic graph plug-ins and versioned shared
+ libraries.
 
 
 Package: libsot-core-doc
