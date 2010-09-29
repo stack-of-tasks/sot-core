@@ -23,8 +23,8 @@ ABBREVIATE_BRIEF       = "The $name class" \
 ALWAYS_DETAILED_SEC    = YES
 INLINE_INHERITED_MEMB  = NO
 FULL_PATH_NAMES        = NO
-STRIP_FROM_PATH        = 
-STRIP_FROM_INC_PATH    = 
+STRIP_FROM_PATH        =
+STRIP_FROM_INC_PATH    =
 SHORT_NAMES            = NO
 JAVADOC_AUTOBRIEF      = YES
 MULTILINE_CPP_IS_BRIEF = NO
@@ -50,7 +50,7 @@ SORT_MEMBER_DOCS       = YES
 SORT_BRIEF_DOCS        = NO
 SORT_BY_SCOPE_NAME     = NO
 MAX_INITIALIZER_LINES  = 30
-FILE_VERSION_FILTER    = 
+FILE_VERSION_FILTER    =
 #---------------------------------------------------------------------------
 # configuration options related to warning and progress messages
 #---------------------------------------------------------------------------
@@ -60,18 +60,18 @@ WARN_IF_UNDOCUMENTED   = YES
 WARN_IF_DOC_ERROR      = YES
 WARN_NO_PARAMDOC       = NO
 WARN_FORMAT            = "$file:$line: $text"
-WARN_LOGFILE           = 
+WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
 RECURSIVE              = YES
-EXCLUDE                = 
+EXCLUDE                =
 EXCLUDE_SYMLINKS       = NO
-EXAMPLE_PATH           = 
+EXAMPLE_PATH           =
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = NO
-INPUT_FILTER           = 
-FILTER_PATTERNS        = 
+INPUT_FILTER           =
+FILTER_PATTERNS        =
 FILTER_SOURCE_FILES    = NO
 #---------------------------------------------------------------------------
 # configuration options related to source browsing
@@ -81,7 +81,7 @@ FILTER_SOURCE_FILES    = NO
 #---------------------------------------------------------------------------
 ALPHABETICAL_INDEX     = NO
 COLS_IN_ALPHA_INDEX    = 5
-IGNORE_PREFIX          = 
+IGNORE_PREFIX          =
 #---------------------------------------------------------------------------
 # configuration options related to the HTML output
 #---------------------------------------------------------------------------
@@ -89,8 +89,8 @@ GENERATE_HTML          = YES
 HTML_FILE_EXTENSION    = .html
 HTML_ALIGN_MEMBERS     = YES
 GENERATE_HTMLHELP      = NO
-CHM_FILE               = 
-HHC_LOCATION           = 
+CHM_FILE               =
+HHC_LOCATION           =
 GENERATE_CHI           = NO
 BINARY_TOC             = NO
 TOC_EXPAND             = NO
@@ -106,8 +106,8 @@ LATEX_CMD_NAME         = latex
 MAKEINDEX_CMD_NAME     = makeindex
 COMPACT_LATEX          = NO
 PAPER_TYPE             = a4wide
-EXTRA_PACKAGES         = 
-LATEX_HEADER           = 
+EXTRA_PACKAGES         = amssymb
+LATEX_HEADER           =
 PDF_HYPERLINKS         = NO
 USE_PDFLATEX           = NO
 LATEX_BATCHMODE        = NO
@@ -118,8 +118,8 @@ LATEX_HIDE_INDICES     = NO
 RTF_OUTPUT             = rtf
 COMPACT_RTF            = NO
 RTF_HYPERLINKS         = NO
-RTF_STYLESHEET_FILE    = 
-RTF_EXTENSIONS_FILE    = 
+RTF_STYLESHEET_FILE    =
+RTF_EXTENSIONS_FILE    =
 #---------------------------------------------------------------------------
 # configuration options related to the man page output
 #---------------------------------------------------------------------------
@@ -130,8 +130,8 @@ MAN_LINKS              = NO
 # configuration options related to the XML output
 #---------------------------------------------------------------------------
 XML_OUTPUT             = xml
-XML_SCHEMA             = 
-XML_DTD                = 
+XML_SCHEMA             =
+XML_DTD                =
 XML_PROGRAMLISTING     = YES
 #---------------------------------------------------------------------------
 # configuration options for the AutoGen Definitions output
@@ -142,20 +142,20 @@ GENERATE_AUTOGEN_DEF   = NO
 #---------------------------------------------------------------------------
 PERLMOD_LATEX          = NO
 PERLMOD_PRETTY         = YES
-PERLMOD_MAKEVAR_PREFIX = 
+PERLMOD_MAKEVAR_PREFIX =
 #---------------------------------------------------------------------------
-# Configuration options related to the preprocessor   
+# Configuration options related to the preprocessor
 #---------------------------------------------------------------------------
 ENABLE_PREPROCESSING   = YES
 MACRO_EXPANSION        = YES
 EXPAND_ONLY_PREDEF     = YES
 SEARCH_INCLUDES        = YES
-INCLUDE_PATH           = 
-INCLUDE_FILE_PATTERNS  = 
-EXPAND_AS_DEFINED      = 
+INCLUDE_PATH           =
+INCLUDE_FILE_PATTERNS  =
+EXPAND_AS_DEFINED      =
 SKIP_FUNCTION_MACROS   = YES
 #---------------------------------------------------------------------------
-# Configuration::additions related to external references   
+# Configuration::additions related to external references
 #---------------------------------------------------------------------------
 TAGFILES               = \
 	${_MatrixAbstractLayer_DOCDIR}/html/MatrixAbstractLayer.doxytag=${_MatrixAbstractLayer_DOCDIR}/html \
@@ -168,10 +168,10 @@ ALLEXTERNALS           = NO
 EXTERNAL_GROUPS        = YES
 PERL_PATH              = /usr/bin/perl
 #---------------------------------------------------------------------------
-# Configuration options related to the dot tool   
+# Configuration options related to the dot tool
 #---------------------------------------------------------------------------
 #---------------------------------------------------------------------------
-# Configuration::additions related to the search engine   
+# Configuration::additions related to the search engine
 #---------------------------------------------------------------------------
 SEARCHENGINE           = YES
 
@@ -200,7 +200,7 @@ GENERATE_TODOLIST      = YES
 GENERATE_TESTLIST      = NO
 GENERATE_BUGLIST       = NO
 GENERATE_DEPRECATEDLIST= YES
-ENABLED_SECTIONS       = 
+ENABLED_SECTIONS       =
 SHOW_USED_FILES        = NO
 SHOW_DIRECTORIES       = NO
 #---------------------------------------------------------------------------
@@ -210,7 +210,7 @@ SHOW_DIRECTORIES       = NO
 # configuration options related to the input files
 #---------------------------------------------------------------------------
 FILE_PATTERNS          = *.h *.idl
-EXCLUDE_PATTERNS       = 
+EXCLUDE_PATTERNS       =
 INPUT                  = ${${PROJECT_NAME}_SOURCE_DIR}/include/${PROJECT_NAME} \
                          ${CMAKE_CURRENT_SOURCE_DIR}/additionalDoc
 
@@ -264,13 +264,13 @@ GENERATE_AUTOGEN_DEF   = NO
 #---------------------------------------------------------------------------
 GENERATE_PERLMOD       = NO
 #---------------------------------------------------------------------------
-# Configuration options related to the preprocessor   
+# Configuration options related to the preprocessor
 #---------------------------------------------------------------------------
 #---------------------------------------------------------------------------
-# Configuration::additions related to external references   
+# Configuration::additions related to external references
 #---------------------------------------------------------------------------
 #---------------------------------------------------------------------------
-# Configuration options related to the dot tool   
+# Configuration options related to the dot tool
 #---------------------------------------------------------------------------
 CLASS_DIAGRAMS         = YES
 HIDE_UNDOC_RELATIONS   = YES
@@ -286,8 +286,8 @@ CALL_GRAPH             = NO
 GRAPHICAL_HIERARCHY    = YES
 DIRECTORY_GRAPH        = YES
 DOT_IMAGE_FORMAT       = png
-DOT_PATH               = 
-DOTFILE_DIRS           = 
+DOT_PATH               =
+DOTFILE_DIRS           =
 MAX_DOT_GRAPH_DEPTH    = 1000
 DOT_TRANSPARENT        = NO
 DOT_MULTI_TARGETS      = YES

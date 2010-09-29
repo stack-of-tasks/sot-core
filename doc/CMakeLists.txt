@@ -19,9 +19,7 @@ SET(DOCDIR share/doc/${PROJECT_NAME})
 SET(HTMLDIR ${DOCDIR}/html)
 
 # Add `doc' target.
-ADD_CUSTOM_TARGET(
-  doc ALL
-  DEPENDS html/index.html dg-coshell.1.gz)
+ADD_CUSTOM_TARGET(doc ALL DEPENDS html/index.html)
 
 
 # Generate Doxygen configuration file.
