@@ -15,20 +15,5 @@ export DEB_BUILD_OPTIONS=nocheck
 override_dh_auto_configure:
 	dh_auto_configure -- -DGENERATE_DOC=ON
 
-# Remove useless ldconfig call.
-override_dh_makeshlibs:
-	dh_makeshlibs --
-	rm debian/libdg-middleware1.0.0.99.postinst.debhelper
-	rm debian/libdg-middleware1.0.0.99.postrm.debhelper
-
-
-# FIXME: this is only necessary because some binaries are linked against
-# plug-ins.
-# Teach dh_shlibdeps where the plug-in are located.
-override_dh_shlibdeps:
-	export LD_LIBRARY_PATH=\
-debian/libsot-core1.0.0.99/usr/lib/plugin:$(LD_LIBRARY_PATH) \
-&& dh_shlibdeps --
-
 %:
 	dh  $@
