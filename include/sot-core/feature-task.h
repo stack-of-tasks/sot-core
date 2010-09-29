@@ -1,22 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-Japan, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      feature-task.h
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __SOT_FEATURE_TASK_HH__
 #define __SOT_FEATURE_TASK_HH__
@@ -34,12 +34,12 @@
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (feature_task_EXPORTS)
 #    define SOTFEATURETASK_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define SOTFEATURETASK_EXPORT __declspec(dllimport)
-#  endif 
+#  endif
 #else
 #  define SOTFEATURETASK_EXPORT
 #endif
@@ -51,11 +51,11 @@
 namespace sot {
 namespace dg = dynamicgraph;
 
-class SOTFEATURETASK_EXPORT FeatureTask 
+class SOTFEATURETASK_EXPORT FeatureTask
 : public FeatureGeneric
 {
 
- public: 
+ public:
   /*! Field storing the class name. */
   static const std::string CLASS_NAME;
   /*! Returns the name of the class. */
@@ -75,7 +75,7 @@ class SOTFEATURETASK_EXPORT FeatureTask
   /*! \brief Default destructor */
   virtual ~FeatureTask( void ) {}
 
-  /*! \name Methods to trigger computation related to this feature. 
+  /*! \name Methods to trigger computation related to this feature.
     @{
   */
 

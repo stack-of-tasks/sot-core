@@ -1,21 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-Japan, Tsukuba, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      test_task.cpp
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* -------------------------------------------------------------------------- */
 /* --- INCLUDES ------------------------------------------------------------- */
@@ -34,11 +35,11 @@ class DummyClass
 {
 public:
   ml::Vector err;
-  
-  ml::Vector& getError( ml::Vector& res,int t ) 
+
+  ml::Vector& getError( ml::Vector& res,int t )
   {
     cout << "Dummy::getError ["<< t<< "] "<<endl;
-    return res=err; 
+    return res=err;
   }
 
 };
@@ -53,8 +54,8 @@ DummyClass dummy;
 
 int main( void )
 {
-  dummy.err.resize(3); 
-  dummy.err.fill(3); 
+  dummy.err.resize(3);
+  dummy.err.fill(3);
 
   GainAdaptive * gain = new GainAdaptive("gain",4,1,5);
 
@@ -77,8 +78,8 @@ int main( void )
 //   dg::SignalPtr<ml::Vector,int> sigPtr( &errSig );
 //   cout << errSig(0) <<endl;
 //   cout << (*sigPtr).access(0) <<endl;
-  
+
   delete gain;
-  
+
   return 0;
 }

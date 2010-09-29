@@ -1,27 +1,26 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-JAPAN, Tsukuba, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      test_factory.cc
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* -------------------------------------------------------------------------- */
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
-
-
 #include <string>
 #include <iostream>
 
@@ -37,8 +36,8 @@ using namespace dg;
 
 #ifdef WIN32
 #include <Windows.h>
-#else 
-#include <dlfcn.h> 
+#else
+#include <dlfcn.h>
 #endif
 
 #ifdef WIN32
@@ -54,8 +53,8 @@ public:
   TestFeature( void ) : FeatureAbstract("") {}
   virtual ~TestFeature( void ) {}
   virtual unsigned int& getDimension( unsigned int& res,int time ) {return res;}
-  
-  virtual ml::Vector& computeError( ml::Vector& res,int time ) {return res;} 
+
+  virtual ml::Vector& computeError( ml::Vector& res,int time ) {return res;}
   virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time ) {return res;}
   virtual ml::Vector& computeActivation( ml::Vector& res,int time ) {return res;}
 };
@@ -63,7 +62,7 @@ public:
 
 int main()
 {
-  
+
   sotDEBUG(0) << "# In {"<<endl;
 //   Entity test("");
 //   ExceptionFeature t2(ExceptionFeature::BAD_INIT);
@@ -76,7 +75,7 @@ int main()
 #else
   sotPluginKey dlib = LoadLibrary (PLUGIN_LIB_INSTALL_PATH "/feature-visual-point.dll");
 #endif
-if( NULL==dlib ) 
+if( NULL==dlib )
     {
       cerr << " Error dl"<<endl;
 #ifndef WIN32
@@ -84,9 +83,9 @@ if( NULL==dlib )
 #else
     // Retrieve the system error message for the last-error code
     LPTSTR pszMessage;
-    DWORD dwLastError = GetLastError(); 
+    DWORD dwLastError = GetLastError();
     FormatMessage(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+        FORMAT_MESSAGE_ALLOCATE_BUFFER |
         FORMAT_MESSAGE_FROM_SYSTEM |
         FORMAT_MESSAGE_IGNORE_INSERTS,
         NULL,
@@ -109,7 +108,7 @@ if( NULL==dlib )
 #else
 	dlib = LoadLibrary (PLUGIN_LIB_INSTALL_PATH "/gain-adaptive.dll");
 #endif
-  if( NULL==dlib ) 
+  if( NULL==dlib )
     {
       cerr << " Error dl"<<endl;
 #ifndef WIN32
@@ -117,9 +116,9 @@ if( NULL==dlib )
 #else
     // Retrieve the system error message for the last-error code
     LPTSTR pszMessage;
-    DWORD dwLastError = GetLastError(); 
+    DWORD dwLastError = GetLastError();
     FormatMessage(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+        FORMAT_MESSAGE_ALLOCATE_BUFFER |
         FORMAT_MESSAGE_FROM_SYSTEM |
         FORMAT_MESSAGE_IGNORE_INSERTS,
         NULL,
@@ -137,7 +136,7 @@ if( NULL==dlib )
 
   Entity* gain = g_factory.newEntity("GainAdaptive","Gain");
   FeatureAbstract* point = sotFactory.newFeature("FeatureVisualPoint","DynamicTest.");
-  
+
   try {
   gain->display(cout); cout << endl;
   cout <<gain->getClassName(); cout << endl;

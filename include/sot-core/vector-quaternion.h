@@ -1,21 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-Japan, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      vector-quaternion.h
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __SOT_VECTOR_QUATERNION_H__
 #define __SOT_VECTOR_QUATERNION_H__
@@ -32,7 +33,7 @@ namespace sot {
 class SOT_CORE_EXPORT VectorQuaternion
 : public VectorRotation
 {
- public: 
+ public:
 
   VectorQuaternion( void ) : VectorRotation() { ml::Vector::resize(4); }
   virtual ~VectorQuaternion( void ) { }
@@ -46,7 +47,7 @@ class SOT_CORE_EXPORT VectorQuaternion
   VectorQuaternion& multiply(const VectorQuaternion& q2, VectorQuaternion& res) const;
 
 };
-    
+
 }
 
 

@@ -1,23 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-Japan, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      task.h
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __SOT_GAIN_ADAPTATIVE_HH__
 #define __SOT_GAIN_ADAPTATIVE_HH__
@@ -38,14 +37,14 @@ namespace ml = maal::boost;
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (gain_adaptive_EXPORTS)
 #    define SOTGAINADAPTATIVE_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define SOTGAINADAPTATIVE_EXPORT  __declspec(dllimport)
-#  endif 
+#  endif
 #else
-#  define SOTGAINADAPTATIVE_EXPORT 
+#  define SOTGAINADAPTATIVE_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
@@ -68,13 +67,13 @@ class SOTGAINADAPTATIVE_EXPORT GainAdaptive
 
  public: /* --- ENTITY INHERITANCE --- */
   static const std::string CLASS_NAME;
-  virtual void display( std::ostream& os ) const; 
+  virtual void display( std::ostream& os ) const;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
 
- protected: 
-  
-  /* Parameters of the adaptative-gain function: 
+ protected:
+
+  /* Parameters of the adaptative-gain function:
    * lambda (x) = a * exp (-b*x) + c. */
   double coeff_a;
   double coeff_b;
@@ -85,7 +84,7 @@ class SOTGAINADAPTATIVE_EXPORT GainAdaptive
   GainAdaptive( const std::string & name );
   GainAdaptive( const std::string & name,const double& lambda );
   GainAdaptive( const std::string & name,
-		     const double& valueAt0, 
+		     const double& valueAt0,
 		     const double& valueAtInfty,
 		     const double& tanAt0 );
 
@@ -93,11 +92,11 @@ class SOTGAINADAPTATIVE_EXPORT GainAdaptive
 
   inline void init( void ) { init( ZERO_DEFAULT,INFTY_DEFAULT,TAN_DEFAULT ); }
   inline void init( const double& lambda ) { init( lambda,lambda,1.); }
-  void init( const double& valueAt0, 
+  void init( const double& valueAt0,
 	     const double& valueAtInfty,
 	     const double& tanAt0 );
   void forceConstant( void );
-    
+
  public:  /* --- SIGNALS --- */
   dg::SignalPtr<ml::Vector,int> errorSIN;
   dg::SignalTimeDependent<double,int> gainSOUT;

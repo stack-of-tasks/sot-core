@@ -1,22 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-Japan, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      feature-1d.h
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __SOT_FEATURE_1D_HH__
 #define __SOT_FEATURE_1D_HH__
@@ -33,12 +33,12 @@
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (feature_1d_EXPORTS)
 #    define SOTFEATURE1D_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define SOTFEATURE1D_EXPORT __declspec(dllimport)
-#  endif 
+#  endif
 #else
 #  define SOTFEATURE1D_EXPORT
 #endif
@@ -54,13 +54,13 @@ namespace dg = dynamicgraph;
   \brief Simple test: the task is defined to be e_2 = .5 . e'.e, with
   e the mother task. The jacobian is then J_2 = e'.J, J being the jacobian
   of the mother task.
-  
+
 */
-class SOTFEATURE1D_EXPORT Feature1D 
+class SOTFEATURE1D_EXPORT Feature1D
 : public FeatureAbstract
 {
 
- public: 
+ public:
   /*! Field storing the class name. */
   static const std::string CLASS_NAME;
   /*! Returns the name of the class. */
@@ -70,10 +70,10 @@ class SOTFEATURE1D_EXPORT Feature1D
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  /*! \name Signals 
+  /*! \name Signals
     @{
   */
-  /*! \name Input signals 
+  /*! \name Input signals
     @{
    */
   /*! \brief Input for the error. */
@@ -85,8 +85,8 @@ class SOTFEATURE1D_EXPORT Feature1D
   /*! \brief Input for the activation. */
   dg::SignalPtr< ml::Vector,int > activationSIN;
   /*! @} */
-  
-  /*! \name Output signals 
+
+  /*! \name Output signals
     @{
   */
   /*! \brief Publish the jacobian of the feature according to the robot state. */
@@ -109,7 +109,7 @@ class SOTFEATURE1D_EXPORT Feature1D
   /*! \brief Get the dimension of the feature. */
   virtual unsigned int& getDimension( unsigned int & dim, int time );
 
-  /*! \name Methods to trigger computation related to this feature. 
+  /*! \name Methods to trigger computation related to this feature.
     @{
   */
 

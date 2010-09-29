@@ -1,38 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet Lagadic, 2005
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      debug.h
- * Project:   STack of Tasks
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- * Macro de trace et de debugage
- *
- *   - TRACAGE:    TRACE et ERROR_TRACE fonctionnent comme des printf
- * avec retour chariot en fin de fonction.
- *                 CERROR et CTRACE fonctionnent comme les flux de sortie
- * C++ cout et cerr.
- *   - DEBUGAGE:   DEBUG_TRACE(niv,  et DERROR_TRACE(niv, fonctionnent
- * comme des printf, n'imprimant que si le niveau de trace 'niv' est
- * superieur au mode de debugage VP_DEBUG_MODE.
- *                 CDEBUG(niv) fonctionne comme le flux de sortie C++ cout.
- *                 DEBUG_ENABLE(niv) vaut 1 ssi le niveau de tracage 'niv'
- * est superieur au  mode de debugage DEBUG_MODE. Il vaut 0 sinon.
- *   - PROG DEFENSIVE: DEFENSIF(a) vaut a ssi le mode defensif est active,
- * et vaut 0 sinon.
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-
-
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __VS_DEBUG_HH
 #define __VS_DEBUG_HH
@@ -46,7 +30,7 @@
 
 namespace sot {
 
- 
+
 /* -------------------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
@@ -55,7 +39,7 @@ namespace sot {
 
 #ifndef VP_DEBUG_MODE
 #define VP_DEBUG_MODE 0
-#endif 
+#endif
 #ifndef VP_TEMPLATE_DEBUG_MODE
 #define VP_TEMPLATE_DEBUG_MODE 0
 #endif
@@ -77,14 +61,14 @@ class SOT_CORE_EXPORT DebugTrace
     std::ostream& outputbuffer;
     char charbuffer[SIZE+1];
     int traceLevel;
-    int traceLevelTemplate; 
+    int traceLevelTemplate;
 
     DebugTrace( std::ostream& os ): outputbuffer(os) {}
 
     inline void trace( const int level,const char* format,...)
 	{ if( level<=traceLevel ) SOT_COMMON_TRACES; tmpbuffer.str(""); }
     inline void trace( const char* format,...){ SOT_COMMON_TRACES;  tmpbuffer.str(""); }
-    inline void trace( const int level=-1 ) 
+    inline void trace( const int level=-1 )
 	{ if( level<=traceLevel ) outputbuffer << tmpbuffer.str(); tmpbuffer.str("");  }
 
     inline void traceTemplate( const int level,const char* format,...)
@@ -93,7 +77,7 @@ class SOT_CORE_EXPORT DebugTrace
 	{ SOT_COMMON_TRACES; tmpbuffer.str("");  }
 
     inline DebugTrace& pre( const std::ostream& dummy ) { return *this; }
-    inline DebugTrace& pre( const std::ostream& dummy,int level ) 
+    inline DebugTrace& pre( const std::ostream& dummy,int level )
 	{ traceLevel = level; return *this; }
 /*     inline DebugTrace& preTemplate( const std::ostream& dummy,int level )  */
 /* 	{ traceLevelTemplate = level; return *this; } */
@@ -110,9 +94,9 @@ SOT_CORE_EXPORT extern DebugTrace sotERRORFLOW;
 
 #ifdef VP_DEBUG
 #define sotPREDEBUG  __FILE__ << ": " <<__FUNCTION__  \
-                              << "(#" << __LINE__ << ") :" 
+                              << "(#" << __LINE__ << ") :"
 #define sotPREERROR  "\t!! "<<__FILE__ << ": " <<__FUNCTION__  \
-                            << "(#" << __LINE__ << ") :" 
+                            << "(#" << __LINE__ << ") :"
 
 #  define sotDEBUG(level) if( (level>VP_DEBUG_MODE)||(!sot::sotDEBUGFLOW.outputbuffer.good()) ) ;\
     else sot::sotDEBUGFLOW.outputbuffer << sotPREDEBUG
@@ -131,16 +115,16 @@ inline bool sotTDEBUG_ENABLE( const int & level ) { return level<=VP_TEMPLATE_DE
 /* -------------------------------------------------------------------------- */
 #else // #ifdef VP_DEBUG
 #define sotPREERROR  "\t!! "<<__FILE__ << ": " <<__FUNCTION__  \
-                            << "(#" << __LINE__ << ") :" 
-#  define sotDEBUG(level) if( 1 ) ; else std::cout 
-#  define sotDEBUGMUTE(level) if( 1 ) ; else std::cout 
+                            << "(#" << __LINE__ << ") :"
+#  define sotDEBUG(level) if( 1 ) ; else std::cout
+#  define sotDEBUGMUTE(level) if( 1 ) ; else std::cout
 #  define sotERROR sotERRORFLOW.outputbuffer << sotPREERROR
 inline void sotDEBUGF( const int level,const char* format,...) { return; }
 inline void sotDEBUGF( const char* format,...) { return; }
 inline void sotERRORF( const int level,const char* format,...) { return; }
 inline void sotERRORF( const char* format,...) { return; }
 // TEMPLATE
-#  define sotTDEBUG(level) if( 1 ) ; else std::cout 
+#  define sotTDEBUG(level) if( 1 ) ; else std::cout
 inline void sotTDEBUGF( const int level,const char* format,...) { return; }
 inline void sotTDEBUGF( const char* format,...) { return; }
 #define sotDEBUG_ENABLE(level) false

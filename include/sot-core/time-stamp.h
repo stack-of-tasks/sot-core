@@ -1,23 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-Japan, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      TimeStamp.h
- * Project:   SOT
- * Author:    Paul Evrard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __SOT_TIME_STAMP__HH
 #define __SOT_TIME_STAMP__HH
@@ -47,12 +46,12 @@ namespace ml = maal::boost;
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (time_stamp_EXPORTS)
 #    define TimeStamp_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define TimeStamp_EXPORT __declspec(dllimport)
-#  endif 
+#  endif
 #else
 #  define TimeStamp_EXPORT
 #endif
@@ -76,9 +75,9 @@ class TimeStamp_EXPORT TimeStamp
   struct timeval val;
   unsigned int offsetValue;
   bool offsetSet;
- 
+
  public:
-  
+
   /* --- CONSTRUCTION --- */
   TimeStamp( const std::string& name );
 
@@ -87,7 +86,7 @@ class TimeStamp_EXPORT TimeStamp
 
  public: /* --- SIGNALS --- */
 
-  /* These signals can be called several time per period, given 
+  /* These signals can be called several time per period, given
    * each time a different results. Useful for chronos. */
   dg::Signal<ml::Vector,int> timeSOUT;
   dg::Signal<double,int> timeDoubleSOUT;
@@ -101,12 +100,12 @@ class TimeStamp_EXPORT TimeStamp
  protected: /* --- SIGNAL FUNCTIONS --- */
   ml::Vector& getTimeStamp( ml::Vector& res,const int& time );
   double& getTimeStampDouble( const ml::Vector& vect,double& res );
-    
+
  public: /* --- COMMANDS --- */
   virtual void commandLine( const std::string& cmdLine,
 			    std::istringstream& cmdArgs,
 			    std::ostream& os );
-    
+
 };
 
 

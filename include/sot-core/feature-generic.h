@@ -1,22 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-Japan, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      feature-generic.h
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __SOT_FEATURE_GENERIC_HH__
 #define __SOT_FEATURE_GENERIC_HH__
@@ -33,12 +33,12 @@
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (feature_generic_EXPORTS)
 #    define SOTFEATUREGENERIC_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define SOTFEATUREGENERIC_EXPORT __declspec(dllimport)
-#  endif 
+#  endif
 #else
 #  define SOTFEATUREGENERIC_EXPORT
 #endif
@@ -52,22 +52,22 @@ namespace dg = dynamicgraph;
 
 /*!
   \class FeatureGeneric
-  \brief Class that defines a generic implementation of the abstract interface for features. 
-  
+  \brief Class that defines a generic implementation of the abstract interface for features.
+
   This class is very useful if the feature can be easily computed using
   the basic operator provided. For instance a free space controller on a end-effector
   is basically directly computed from the Jacobian provided by dyn and some appropriate
   addition and soustraction.
   Instead of building a specific feature for this, it is possible to use the signals
-  and plug the computed error, Jacobian and activation to the input of this 
+  and plug the computed error, Jacobian and activation to the input of this
   generic feature implementation.
-  
+
 */
-class SOTFEATUREGENERIC_EXPORT FeatureGeneric 
+class SOTFEATUREGENERIC_EXPORT FeatureGeneric
 : public FeatureAbstract
 {
 
- public: 
+ public:
   /*! Field storing the class name. */
   static const std::string CLASS_NAME;
   /*! Returns the name of the class. */
@@ -81,7 +81,7 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   /*! \name dg::Signals
     @{
   */
-  /*! \name Input signals 
+  /*! \name Input signals
     @{
    */
   /*! \brief Input for the error. */
@@ -96,8 +96,8 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   /*! \brief Input for the activation. */
   dg::SignalPtr< ml::Vector,int > activationSIN;
   /*! @} */
-  
-  /*! \name Output signals 
+
+  /*! \name Output signals
     @{
   */
   /*! \brief Publish the jacobian of the feature according to the robot state. */
@@ -123,7 +123,7 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   /*! \brief Get the dimension of the feature. */
   virtual unsigned int& getDimension( unsigned int & dim, int time );
 
-  /*! \name Methods to trigger computation related to this feature. 
+  /*! \name Methods to trigger computation related to this feature.
     @{
   */
 

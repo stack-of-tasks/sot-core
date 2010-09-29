@@ -1,21 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-JAPAN, Tsukuba, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      test_ptr.cc
- * Project:   Stack Of Tasks
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* -------------------------------------------------------------------------- */
 /* --- INCLUDES ------------------------------------------------------------- */
@@ -44,9 +45,9 @@ class DummyClass
 public:
   DummyClass( void ) : res(),appel(0),timedata(0) {}
 
-  Res& fun( Res& res,int t) 
+  Res& fun( Res& res,int t)
   {
-    appel++;  timedata=t; 
+    appel++;  timedata=t;
 
     sotDEBUG(5) << "Inside " << typeid(Res).name() <<endl;
     for( list< SignalTimeDependent<double,int>* >::iterator it=inputsig.begin();
@@ -70,7 +71,7 @@ public:
   Res res;
   int appel;
   int timedata;
-  
+
 };
 
 template< class Res >
@@ -100,7 +101,7 @@ VectorUTheta DummyClass<VectorUTheta>::operator() (void)
 //   for( unsigned int i=0;i<ar.rank;++i ) sotDEBUG(5)<<*ar.array[i]<<endl;
 // }
 
-void funtest( ml::Vector& v ){ } 
+void funtest( ml::Vector& v ){ }
 
 #include <vector>
 int main( void )
@@ -116,12 +117,12 @@ int main( void )
    funtest(v3);
 
    sig3.setFunction( boost::bind(&DummyClass<VectorUTheta>::fun,pro3,_1,_2) );
-   try 
+   try
      {
        sigTo3.plug(&sig3);
      }
    catch( sot::ExceptionAbstract& e ) { cout << e << endl; exit(1); }
-   
+
    sig3.access(1); sig3.setReady();
    sigTo3.access(2);
    cout << sigTo3.access(2);

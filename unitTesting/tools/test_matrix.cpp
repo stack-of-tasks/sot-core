@@ -1,21 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-JAPAN, Tsukuba, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      test_chrono.cc
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* -------------------------------------------------------------------------- */
 /* --- INCLUDES ------------------------------------------------------------- */
@@ -40,7 +41,7 @@ using namespace std;
       gettimeofday(&t1,NULL);\
       dt = ( (t1.tv_sec-t0.tv_sec) * 1000.\
 	     + (t1.tv_usec-t0.tv_usec+0.) / 1000. );\
-      cout << "dt: "<< dt 
+      cout << "dt: "<< dt
 
 
 int main( int argc,char** argv )
@@ -48,30 +49,30 @@ int main( int argc,char** argv )
   sotDEBUGIN(15);
 
   struct timeval t0,t1; double dt;
-  
-  ublas::matrix<double> P(40,40); 
+
+  ublas::matrix<double> P(40,40);
   ublas::matrix<double> J(6,40);
   ublas::matrix<double> JK(6,40);
   for( unsigned int i=0;i<40;++i )
     for( unsigned int j=0;j<40;++j ) P(i,j) = (rand()+1.) / RAND_MAX;
   for( unsigned int i=0;i<J.size1();++i )
     for( unsigned int j=0;j<J.size2();++j ) J(i,j) = (rand()+1.) / RAND_MAX;
-  
+
   int nbIter = 100000;
   dt=0;
-  gettimeofday(&t0,NULL); 
+  gettimeofday(&t0,NULL);
   for( int iter=0;iter<nbIter;++iter )
     {
-      gettimeofday(&t0,NULL); 
+      gettimeofday(&t0,NULL);
       //J.multiply(P,JK);
       //prod(J.matrix,P.matrix,JK.matrix);
       prod(J,P,JK);
-      gettimeofday(&t1,NULL); 
-      dt += ( (t1.tv_sec-t0.tv_sec) 
+      gettimeofday(&t1,NULL);
+      dt += ( (t1.tv_sec-t0.tv_sec)
 	     + (t1.tv_usec-t0.tv_usec+0.)  / 1000. / 1000. );
-   
+
     }
-  //sotCHRONO1 <<endl; 
+  //sotCHRONO1 <<endl;
   cout<<dt/nbIter<<endl;
 
   sotDEBUGOUT(15);

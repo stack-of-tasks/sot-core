@@ -1,23 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-Japan, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      Sequencer.h
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __SOT_SOTSEQUENCER_H__
 #define __SOT_SOTSEQUENCER_H__
@@ -44,12 +43,12 @@ namespace ml = maal::boost;
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (sequencer_EXPORTS)
 #    define SOTSEQUENCER_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define SOTSEQUENCER_EXPORT __declspec(dllimport)
-#  endif 
+#  endif
 #else
 #  define SOTSEQUENCER_EXPORT
 #endif
@@ -95,11 +94,11 @@ class SOTSEQUENCER_EXPORT Sequencer
   Sot* sotPtr;
   typedef std::list< sotEventAbstract* > TaskList;
   typedef std::map< unsigned int,TaskList > TaskMap;
-  
+
   TaskMap taskMap;
   /* All the events are counting wrt to this t0. If t0 is -1, it
    * is set to the first time of trig.    */
-  int timeInit; 
+  int timeInit;
   bool playMode;
   std::ostream* outputStreamPtr;
   bool noOutput; /*! if true, display nothing standard output on except errors*/
@@ -121,13 +120,13 @@ class SOTSEQUENCER_EXPORT Sequencer
 
  public: /* --- FUNCTIONS --- */
   int& trigger( int& dummy,const int& time );
-  
+
  public: /* --- PARAMS --- */
-  virtual void display( std::ostream& os ) const; 
+  virtual void display( std::ostream& os ) const;
   virtual void commandLine( const std::string& cmdLine,
 			    std::istringstream& cmdArgs,
 			    std::ostream& os );
-  
+
 
 };
 

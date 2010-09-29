@@ -1,23 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-Japan, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      GripperControl.h
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __SOT_SOTGRIPPERCONTROL_H__
 #define __SOT_SOTGRIPPERCONTROL_H__
@@ -42,12 +41,12 @@ namespace ml = maal::boost;
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (gripper_control_EXPORTS)
 #    define SOTGRIPPERCONTROL_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define SOTGRIPPERCONTROL_EXPORT __declspec(dllimport)
-#  endif 
+#  endif
 #else
 #  define SOTGRIPPERCONTROL_EXPORT
 #endif
@@ -63,18 +62,18 @@ namespace dg = dynamicgraph;
 class SOTGRIPPERCONTROL_EXPORT GripperControl
 {
  protected:
-  
+
   double offset;
   static const double OFFSET_DEFAULT;
   ml::Vector factor;
 
  public:
   GripperControl( void );
-  
+
   void computeIncrement( const ml::Vector& torques,
 			 const ml::Vector& torqueLimits,
 			 const ml::Vector& currentNormPos );
-  
+
   static void computeNormalizedPosition( const ml::Vector& currentPos,
 					 const ml::Vector& upperLim,
 					 const ml::Vector& lowerLim,
@@ -83,18 +82,18 @@ class SOTGRIPPERCONTROL_EXPORT GripperControl
 					   const ml::Vector& upperLim,
 					   const ml::Vector& lowerLim,
 					   ml::Vector& currentPos );
-  
+
   ml::Vector& computeDesiredPosition( const ml::Vector& currentPos,
 				      const ml::Vector& torques,
 				      const ml::Vector& upperLim,
 				      const ml::Vector& lowerLim,
 				      const ml::Vector& torqueLimits,
 				      ml::Vector& desPos );
-					 
+
   static ml::Vector& selector( const ml::Vector& fullsize,
 			       const Flags& selec,
 			       ml::Vector& desPos );
-  
+
 };
 
 /* --------------------------------------------------------------------- */
@@ -135,10 +134,10 @@ class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
   dg::SignalTimeDependent<ml::Vector,int> torqueReduceSOUT;
   dg::SignalPtr<ml::Vector,int> torqueLimitFullSizeSIN;
   dg::SignalTimeDependent<ml::Vector,int> torqueLimitReduceSOUT;
- 
+
   /* --- OUTPUTS --- */
   dg::SignalTimeDependent<ml::Vector,int> desiredPositionSOUT;
-  
+
 
  public: /* --- COMMANDLINE --- */
 

@@ -1,23 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-Japan, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      SignalCast.h
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __SOT_SIGNAL_CAST_HH__
 #define __SOT_SIGNAL_CAST_HH__
@@ -130,7 +129,7 @@ public:            																\
  SOT_SIGNAL_CAST_FULL_DEFINITION(TYPE,;,;,{ disp(t,os); })
 
 /* Lazy definition: <cast> and <disp> are to proxys on the standard
- * std input (>>) and output (<<). The function <trace> has to be 
+ * std input (>>) and output (<<). The function <trace> has to be
  * implemented in the cpp.
  */
 #define SOT_SIGNAL_CAST_DEFINITION_TRACE_HPP(TYPE,TRACE)                 \
@@ -140,7 +139,7 @@ public:            																\
  TRACE )
 
 /* Lazy lazy definition: the three functions are implemented as
- * proxys on std::io operation. 
+ * proxys on std::io operation.
  */
 #define SOT_SIGNAL_CAST_DEFINITION(TYPE)                                 \
  SOT_SIGNAL_CAST_FULL_DEFINITION(TYPE,                                   \
@@ -149,7 +148,7 @@ public:            																\
  { disp(t,os); })
 
 /* Lazy definition of <cast> and <disp> with implementation of
- * <trace> in the cpp. 
+ * <trace> in the cpp.
  */
 #define SOT_SIGNAL_CAST_DEFINITION_TRACE(TYPE)         \
  SOT_SIGNAL_CAST_FULL_DEFINITION(TYPE,                                   \

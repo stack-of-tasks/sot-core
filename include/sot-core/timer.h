@@ -1,23 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-Japan, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      Timer.h
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __SOT_TIMER_HH
 #define __SOT_TIMER_HH
@@ -47,12 +46,12 @@
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (timer_EXPORTS)
 #    define Timer_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define Timer_EXPORT __declspec(dllimport)
-#  endif 
+#  endif
 #else
 #  define Timer_EXPORT
 #endif
@@ -71,12 +70,12 @@ class Timer_EXPORT Timer
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
  protected:
-  
+
   struct timeval t0,t1;
   double dt;
 
  public:
-  
+
   /* --- CONSTRUCTION --- */
   Timer( const std::string& name );
 
@@ -103,11 +102,11 @@ class Timer_EXPORT Timer
       sotDEBUGIN(15);
       gettimeofday(&t0,NULL);
       sotDEBUG(15) << "t0: "<< t0.tv_sec << " - " << t0.tv_usec << std::endl;
-      
+
       t = sigSIN( time );
 
       gettimeofday(&t1,NULL);
-      dt = ( (t1.tv_sec-t0.tv_sec) * 1000. 
+      dt = ( (t1.tv_sec-t0.tv_sec) * 1000.
 	     + (t1.tv_usec-t0.tv_usec+0.) / 1000. );
       sotDEBUG(15) << "t1: "<< t1.tv_sec << " - " << t1.tv_usec << std::endl;
 
@@ -118,8 +117,8 @@ class Timer_EXPORT Timer
     }
 
   double& getDt( double& res,const int& time )
-    { 
-      res=dt; 
+    {
+      res=dt;
       return res;
     }
 
@@ -157,7 +156,7 @@ Timer( const std::string& name )
 {
   sotDEBUGIN(15);
   timerSOUT.setFunction(  boost::bind(&Timer::getDt,this,_1,_2) );
-	      
+
   signalRegistration( sigSIN<<sigSOUT<<timerSOUT );
   sotDEBUGOUT(15);
 }
@@ -177,15 +176,15 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 {
   sotDEBUGIN(15);
 
-  if( cmdLine == "help") 
+  if( cmdLine == "help")
     {
       os << "Timer: "<<std::endl;
       Entity::commandLine( cmdLine,cmdArgs,os );
     }
   else
     Entity::commandLine( cmdLine,cmdArgs,os );
-  
-  
+
+
   sotDEBUGOUT(15);
 }
 

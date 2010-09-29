@@ -1,23 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-Japan, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      SeqPlay.h
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __SOT_SEQPLAY_HH
 #define __SOT_SEQPLAY_HH
@@ -39,12 +38,12 @@ namespace ml= maal::boost;
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (seq_play_EXPORTS)
 #    define SOTSEQPLAY_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define SOTSEQPLAY_EXPORT __declspec(dllimport)
-#  endif 
+#  endif
 #else
 #  define SOTSEQPLAY_EXPORT
 #endif
@@ -63,15 +62,15 @@ class SOTSEQPLAY_EXPORT SeqPlay
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
  protected:
-  
+
   typedef  std::list<ml::Vector> StateList;
   StateList stateList;
   StateList::iterator currPos; unsigned int currRank;
-  bool init; 
+  bool init;
   int time;
 
  public:
-  
+
   /* --- CONSTRUCTION --- */
   SeqPlay( const std::string& name );
   virtual ~SeqPlay( void ) { }

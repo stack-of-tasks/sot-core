@@ -1,23 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-Japan, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      RobotSimu.h
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __SOT_ROBOT_SIMU_HH
 #define __SOT_ROBOT_SIMU_HH
@@ -39,12 +38,12 @@ namespace ml= maal::boost;
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (robot_simu_EXPORTS)
 #    define SOTROBOTSIMU_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define SOTROBOTSIMU_EXPORT __declspec(dllimport)
-#  endif 
+#  endif
 #else
 #  define SOTROBOTSIMU_EXPORT
 #endif
@@ -72,21 +71,21 @@ class SOTROBOTSIMU_EXPORT RobotSimu
 
  protected:
   ml::Vector state;
-  
+
   PeriodicCall periodicCallBefore;
   PeriodicCall periodicCallAfter;
   bool withForceSignals[4];
 
 
  public:
-  
+
   /* --- CONSTRUCTION --- */
   RobotSimu( const std::string& name );
 
   void setStateSize( const unsigned int size );
   void setState( const ml::Vector st );
   void increment( const double dt = 5e-2 );
-  
+
 
 
  public: /* --- DISPLAY --- */

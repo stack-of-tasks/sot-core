@@ -1,23 +1,22 @@
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * Copyright Projet JRL-Japan, 2007
- *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+ * Copyright 2010,
+ * François Bleibel,
+ * Olivier Stasse,
  *
- * File:      feature-abstract.h
- * Project:   SOT
- * Author:    Nicolas Mansard
+ * CNRS/AIST
  *
- * Version control
- * ===============
- *
- *  $Id$
- *
- * Description
- * ============
- *
- *
- * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef __SOT_FEATURE_ABSTRACT_H__
 #define __SOT_FEATURE_ABSTRACT_H__
@@ -89,7 +88,7 @@ class SOT_CORE_EXPORT FeatureAbstract
    */
   virtual unsigned int& getDimension( unsigned int& res,int time ) = 0;
 
-  /*! \brief Short method 
+  /*! \brief Short method
     \par time: The time at which the feature should be considered.
     \return Dimension of the feature.
     \note Be careful with features changing their dimension according to time.
@@ -97,11 +96,11 @@ class SOT_CORE_EXPORT FeatureAbstract
   inline unsigned int getDimension( int time )
     {unsigned int res; getDimension(res,time); return res;}
 
-  /*! \brief Shortest method 
+  /*! \brief Shortest method
     \return Dimension of the feature.
     \note The feature is not changing its dimension according to time.
    */
-  inline unsigned int getDimension( void ) const 
+  inline unsigned int getDimension( void ) const
     { return dimensionSOUT; }
   /*! @} */
 
@@ -109,46 +108,46 @@ class SOT_CORE_EXPORT FeatureAbstract
     The main idea is that some feature may have a lower frequency
     than the internal control loop. In this case, the methods for
     computation are called only when needed.
-    
+
    @{*/
 
   /*! \brief Compute the error between the desired feature and
-   the current value of the feature measured or deduced from the robot state. 
+   the current value of the feature measured or deduced from the robot state.
 
    \par[out] res: The error will be set into res.
    \par[in] time: The time at which the error is computed.
    \return The vector res with the appropriate value.
   */
-  virtual ml::Vector& computeError( ml::Vector& res,int time ) = 0; 
+  virtual ml::Vector& computeError( ml::Vector& res,int time ) = 0;
 
-  /*! \brief Compute the Jacobian of the error according the robot state. 
+  /*! \brief Compute the Jacobian of the error according the robot state.
 
     \par[out] res: The matrix in which the error will be written.
     \par[in] time: The time at which the Jacobian is computed \f$ {\bf J}(q(t)) \f$.
-    \return The matrix res with the appropriate values. 
+    \return The matrix res with the appropriate values.
    */
-  virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time ) = 0; 
+  virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time ) = 0;
 
-  /*! \brief Reevaluate the current value of the feature 
+  /*! \brief Reevaluate the current value of the feature
     according to external measurement provided through a mailbox,
     or deduced from the estimated state of the robot at the time specified.
 
     \par[out] res: The vector in which the value will be written.
     \par[in] time: The time at which the feature is evaluated \f$ {\bf s}(t)) \f$.
-    \return The vector res with the appropriate values. 
-   */  
-  virtual ml::Vector& computeActivation( ml::Vector& res,int time ) = 0; 
+    \return The vector res with the appropriate values.
+   */
+  virtual ml::Vector& computeActivation( ml::Vector& res,int time ) = 0;
 
   /*! @} */
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  
-  /*! \name Signals 
+
+  /*! \name Signals
    @{
   */
 
-  /*! \name Input signals: 
+  /*! \name Input signals:
    @{ */
   /*! \brief This signal specifies the desired value \f$ {\bf s}^*(t) \f$ */
   dg::SignalPtr< FeatureAbstract*,int > desiredValueSIN;
@@ -160,17 +159,17 @@ class SOT_CORE_EXPORT FeatureAbstract
   dg::SignalPtr< Flags,int > selectionSIN;
   /*! @} */
 
-  /*! \name Output signals: 
+  /*! \name Output signals:
    @{ */
 
   /*! \brief This signal returns the error between the desired value and
     the current value : \f$ {\bf s}^*(t) - {\bf s}(t)\f$ */
   dg::SignalTimeDependent<ml::Vector,int> errorSOUT;
-  
-  /*! \brief This signal returns the Jacobian of the current value 
+
+  /*! \brief This signal returns the Jacobian of the current value
     according to the robot state: \f$ J(t) = \frac{\delta{\bf s}^*(t)}{\delta {\bf q}(t)}\f$ */
   dg::SignalTimeDependent<ml::Matrix,int> jacobianSOUT;
-  
+
   /*! \brief Compute the new value of the feature \f$ {\bf s}(t)\f$ */
   dg::SignalTimeDependent<ml::Vector,int> activationSOUT;
 
