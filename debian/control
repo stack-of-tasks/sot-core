@@ -8,7 +8,7 @@ Build-Depends: debhelper (>= 7.0.50~), cmake (>= 2.6),
 	       liblapack-dev (>= 1.2),
 	       gfortran (>= 4:4.4.3),
 	       libjrl-mal-dev (>= 1.9.0.99),
-	       libdynamic-graph-dev (>= 1.9.0.99)
+	       libdynamic-graph-dev (>= 1.0.0.99)
 Standards-Version: 3.8.4
 #Vcs-Git:
 #Vcs-browser:
