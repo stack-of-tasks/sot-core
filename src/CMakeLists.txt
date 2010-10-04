@@ -167,8 +167,7 @@ SET(${PROJECT_NAME}_SOURCES
 	factory/additional-functions.cpp
 	factory/factory.cpp
 	factory/pool.cpp
-	factory/command/import.cpp
-
+	
 	tools/utils-windows
 	tools/periodic-call
 )

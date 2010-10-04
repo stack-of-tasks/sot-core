@@ -2,11 +2,6 @@
 #  Copyright 
 # 
 
-# Generate header with default script directory.
-SET(SOT_IMPORT_DEFAULT_PATHS \"${CMAKE_INSTALL_PREFIX}/script\")
-CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/sot-core/import-default-paths.h.cmake
-		       ${CMAKE_CURRENT_SOURCE_DIR}/sot-core/import-default-paths.h)
-
 SET(${PROJECT_NAME}_HEADERS
 sot-core-api.h
 
@@ -42,7 +37,6 @@ additional-functions.h
 factory.h
 macros-signal.h
 pool.h
-import-default-paths.h
 
 #math
 matrix-force.h
