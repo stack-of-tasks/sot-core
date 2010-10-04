@@ -1,3 +1,9 @@
+sot-core (1.0.0.99-2) lucid; urgency=low
+
+  * Fix build requirement (missing Boost.Filesystem and Boost.System).
+
+ -- Thomas Moulard <thomas.moulard@gmail.com>  Wed, 29 Sep 2010 15:34:00 +0200
+
 sot-core (1.0.0.99-1) lucid; urgency=low
 
   * Initial work.
