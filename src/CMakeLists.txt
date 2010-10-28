@@ -128,8 +128,6 @@ set(ADDITIONAL_task-conti_LIBS task)
 set(ADDITIONAL_task-pd_LIBS task)
 set(ADDITIONAL_task-unilateral_LIBS task)
 
-set(ADDITIONAL_sequencer_LIBS sot)
-
 #Build sot-core
 SET(LIBRARY_NAME ${SOTCORE_LIB_NAME})
 
@@ -158,8 +156,6 @@ SET(${PROJECT_NAME}_SOURCES
 	
 	feature/feature-abstract.cpp
 	
-	task/task.cpp
-	task/constraint.cpp
 	task/task-abstract.cpp
 	task/multi-bound.cpp
 	
