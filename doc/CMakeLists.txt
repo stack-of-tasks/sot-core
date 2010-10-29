@@ -23,7 +23,7 @@ ADD_CUSTOM_TARGET(doc ALL DEPENDS html/index.html)
 
 
 # Generate Doxygen configuration file.
-CONFIGURE_FILE(package.dox.cmake package.dox)
+CONFIGURE_FILE(package.dox.cmake doc/package.dox)
 
 # Generating the Doxygen documentation
 ADD_CUSTOM_COMMAND(
