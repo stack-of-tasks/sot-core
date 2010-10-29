@@ -116,7 +116,7 @@ SET(plugins
 	control/control-pd
 )
 
-set(ADDITIONAL_feature-task_LIBS feature-generic)
+set(ADDITIONAL_feature-task_LIBS feature-generic task)
 set(ADDITIONAL_feature-point6d-relative_LIBS feature-point6d)
 
 set(ADDITIONAL_sot-h_LIBS sot)
