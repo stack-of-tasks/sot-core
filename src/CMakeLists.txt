@@ -30,16 +30,16 @@ ADD_DEFINITIONS(${LAPACK_CFLAGS})
 ADD_DEFINITIONS(${DYNAMIC_GRAPH_CFLAGS})
 
 # Add MatrixAbstractLayer compilation flags and link to library libMatrixAbstractLayer.so
-ADD_DEFINITIONS(${MATRIXABSTRACTLAYER_CFLAGS})
+ADD_DEFINITIONS(${JRL_MAL_CFLAGS})
 
 # provide path to library libMatrixAbstractLayer.so
-LINK_DIRECTORIES(${MATRIXABSTRACTLAYER_LIBRARY_DIRS})
+LINK_DIRECTORIES(${JRL_MAL_LIBRARY_DIRS})
 
 # provide path to library libdynamic-graph.so
 LINK_DIRECTORIES(${DYNAMIC_GRAPH_LIBRARY_DIRS})
 
 IF(WIN32)
-foreach(dlink ${MATRIXABSTRACTLAYER_LDFLAGS})
+foreach(dlink ${JRL_MAL_LDFLAGS})
 	SET ( ${PROJECT_NAME}_src_LDFLAGS "${${PROJECT_NAME}_src_LDFLAGS}  ${dlink}")
 endforeach(dlink)
 ENDIF(WIN32)
@@ -58,14 +58,14 @@ ENDIF(UNIX)
 SET(SOTCORE_LIB_NAME ${PROJECT_NAME})
 
 #This project will create many plugins as shared libraries, listed here
-SET(plugins 
+SET(plugins
 	sot/sot-qr
 	sot/weighted-sot
 	sot/sot-h
 	sot/sot
-	
+
 	math/op-point-modifier
-	
+
 	matrix/binary-op
 	matrix/derivator
 	matrix/fir-filter
@@ -82,8 +82,8 @@ SET(plugins
 	task/gain-hyperbolic
 	task/task
 	task/task-conti
-	task/task-unilateral	
-	
+	task/task-unilateral
+
 	feature/feature-point6d
 	feature/feature-vector3
 	feature/feature-generic
@@ -93,9 +93,9 @@ SET(plugins
 	feature/feature-visual-point
 	feature/feature-task
 	feature/feature-line-distance
-	
+
 	traces/reader
-	
+
 	tools/time-stamp
 	tools/timer
 	tools/seq-play
@@ -111,7 +111,7 @@ SET(plugins
 	tools/com-freezer
 	tools/clamp-workspace
 	tools/binary-int-to-uint
-	
+
 	control/control-gr
 	control/control-pd
 )
@@ -135,7 +135,7 @@ SET(LIBRARY_NAME ${SOTCORE_LIB_NAME})
 SET(${PROJECT_NAME}_SOURCES
 	debug/debug.cpp
 	debug/contiifstream.cpp
-	
+
 	exception/exception-abstract.cpp
 	exception/exception-dynamic.cpp
 	exception/exception-factory.cpp
@@ -143,9 +143,9 @@ SET(${PROJECT_NAME}_SOURCES
 	exception/exception-signal.cpp
 	exception/exception-task.cpp
 	exception/exception-tools.cpp
-	
+
 	signal/signal-cast.cpp
-	
+
 	math/matrix-force.cpp
 	math/matrix-homogeneous.cpp
 	math/matrix-rotation.cpp
@@ -153,31 +153,31 @@ SET(${PROJECT_NAME}_SOURCES
 	math/vector-quaternion.cpp
 	math/vector-roll-pitch-yaw.cpp
 	math/vector-utheta.cpp
-	
+
 	feature/feature-abstract.cpp
-	
+
 	task/task-abstract.cpp
 	task/multi-bound.cpp
-	
+
 	sot/flags.cpp
 	sot/memory-task-sot.cpp
 	sot/rotation-simple.cpp
 	sot/solver-hierarchical-inequalities.cpp
-	
+
 	factory/additional-functions.cpp
 	factory/factory.cpp
 	factory/pool.cpp
-	
+
 	tools/utils-windows
 	tools/periodic-call
 )
 
-ADD_LIBRARY(${LIBRARY_NAME} 
+ADD_LIBRARY(${LIBRARY_NAME}
   SHARED
   ${${LIBRARY_NAME}_SOURCES})
 
-SET_TARGET_PROPERTIES(${LIBRARY_NAME} 
-  PROPERTIES 
+SET_TARGET_PROPERTIES(${LIBRARY_NAME}
+  PROPERTIES
   SOVERSION ${PROJECT_VERSION}
   INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/lib)
 
@@ -189,9 +189,9 @@ SET_TARGET_PROPERTIES(${LIBRARY_NAME}
 ENDIF(WIN32)
 
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${LAPACK_LIBRARIES})
-	
+
 IF(UNIX)
-TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${MATRIXABSTRACTLAYER_LIBRARIES})
+TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${JRL_MAL_LIBRARIES})
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${DYNAMIC_GRAPH_LIBRARIES})
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${PTHREAD_LIBRARY})
 TARGET_LINK_LIBRARIES(${LIBRARY_NAME} dl)
@@ -206,39 +206,39 @@ INSTALL(TARGETS ${LIBRARY_NAME}
 FOREACH(plugin ${plugins})
 	#retrieve plugin name
 	GET_FILENAME_COMPONENT(LIBRARY_NAME ${plugin} NAME)
-	
+
 	# only one source file per plugin
-	ADD_LIBRARY(${LIBRARY_NAME} 
+	ADD_LIBRARY(${LIBRARY_NAME}
 	  SHARED
 	  ${plugin}.cpp)
-	
+
 	#remove the "lib" prefix from the plugin output name
 	SET_TARGET_PROPERTIES(${LIBRARY_NAME}
 		PROPERTIES
 		PREFIX "")
-	
-	SET_TARGET_PROPERTIES(${LIBRARY_NAME} 
-	  PROPERTIES 
+
+	SET_TARGET_PROPERTIES(${LIBRARY_NAME}
+	  PROPERTIES
 	  SOVERSION ${PROJECT_VERSION}
 	  INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/lib/plugin)
-	  
+
 	# Link with sot-core library
 	TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${SOTCORE_LIB_NAME})
 	TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${LAPACK_LIBRARIES})
 	# Linux dynamic loading library flags
 	IF(UNIX)
-		TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${MATRIXABSTRACTLAYER_LIBRARIES})
+		TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${JRL_MAL_LIBRARIES})
 		TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${DYNAMIC_GRAPH_LIBRARIES})
 		TARGET_LINK_LIBRARIES(${LIBRARY_NAME} dl)
 		TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${PTHREAD_LIBRARY})
 		TARGET_LINK_LIBRARIES(${LIBRARY_NAME} gfortran)
 	ENDIF(UNIX)
-	
+
 	IF(ADDITIONAL_${LIBRARY_NAME}_LIBS)
 	ADD_DEPENDENCIES(${LIBRARY_NAME} ${ADDITIONAL_${LIBRARY_NAME}_LIBS})
 	TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${ADDITIONAL_${LIBRARY_NAME}_LIBS})
 	ENDIF(ADDITIONAL_${LIBRARY_NAME}_LIBS)
-	
+
 	IF(WIN32)
 		SET_TARGET_PROPERTIES(${LIBRARY_NAME}
 		  PROPERTIES

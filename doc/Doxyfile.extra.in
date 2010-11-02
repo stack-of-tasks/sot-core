@@ -4,4 +4,6 @@ IMAGE_PATH             = @CMAKE_SOURCE_DIR@/doc/pictures
 
 FILE_PATTERNS          = *.cc *.cpp *.h *.hh *.hxx
 
-TAGFILES               = "@DYNAMIC_GRAPH_DOXYGENDOCDIR@/dynamic-graph.doxytag = http://jrl-umi3218.github.com/dynamic-graph/doxygen/HEAD/"
+TAGFILES               = \
+"@JRL_MAL_DOXYGENDOCDIR@/jrl-mal.doxytag = @JRL_MAL_DOXYGENDOCDIR@/jrl-mal.doxytag" \
+"@DYNAMIC_GRAPH_DOXYGENDOCDIR@/dynamic-graph.doxytag = @DYNAMIC_GRAPH_DOXYGENDOCDIR@/dynamic-graph.doxytag"
