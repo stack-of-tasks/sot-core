@@ -226,6 +226,7 @@ ADD_SUBDIRECTORY(tools)
 #
 # Documentation produced by doxygen
 #
+OPTION(GENERATE_DOC ON)
 IF(GENERATE_DOC)
   INCLUDE(FindDoxygen)
   IF(DOXYGEN_FOUND)
