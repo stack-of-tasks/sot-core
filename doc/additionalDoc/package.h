@@ -3,24 +3,28 @@
 
 This library implements a modular architecture to test and experiment
 controllers in the Stack of Tasks Framework as defined in \ref Mansard2007.
-It is specifically targeted to retain real-time capabilities while
-having high level software capabilities such as:
-\li On-line plugin loading and unloading,
-\li Scripting of the control,
-\li A strong software model which allow a clear identification
-of the library application field.
-
-\section sec_RequirementsInstallation Requirements and Installation
- The library assumes that Boost is installed.
+It is specifically targeted to retain real-time performance while
+having high level software capabilities, like plugins and scripts.
 
 \section sec_organization Organization of the code
 
-The code is divided mostly in two parts: the controller also called
-Tasks, and the signals providing the information necessary to compute
-the command.
+The code is based on the dynamic-graph package, which provides the
+framework from which sot-core relies. Hence most of the code in sot-core
+consists of classes that derive from entities. These entities are usually
+compiled and linked in their own dynamic library, as a "plugin"; hence
+you may choose to include (load) in your program only the functionallity you
+need.
+
+Aside from the entities, there is a code base to the library, libsot-core,
+that provides functions and code common to all modules. All plugins
+developed here link with libsot-core. For example, common mathematical
+entities, definitions and functions are in that library's base.
 
 \section subsec_Tasks Tasks
 They are a certain number of pre-written tasks that can be used.
+
+\section sec_RequirementsInstallation Requirements and Installation
+ The library assumes that Boost is installed.
 
 \section subsec_tools Tools
 
