@@ -15,231 +15,37 @@
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
+INCLUDE(cmake/base.cmake)
+INCLUDE(cmake/boost.cmake)
+INCLUDE(cmake/lapack.cmake)
+
 SET(PROJECT_NAME sot-core)
-project(${PROJECT_NAME})
-
 SET(PROJECT_VERSION 1.0.0.99)
+SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
+SET(PROJECT_URL "")
 
-SET(CMAKE_VERBOSE_MAKEFILE true)
+SET(CUSTOM_HEADER_DIR "${PROJECT_NAME}")
 
-IF(WIN32)
-  SET(LIBDIR_KW "/LIBPATH:")
-  SET(LIBINCL_KW "")
-  SET(LIB_EXT ".lib")
-ENDIF(WIN32)
+# Disable -Werror on Unix for now.
+SET(CXX_DISABLE_WERROR True)
 
-IF(UNIX)
-  SET(LIBDIR_KW "-L")
-  SET(LIBINCL_KW "-l")
-  SET(LIB_EXT "")
-ENDIF(UNIX)
+SET(PKG_CONFIG_ADDITIONAL_VARIABLES
+  ${PKG_CONFIG_ADDITIONAL_VARIABLES}
+  plugindirname
+  plugindir
+  )
 
-# Languages
-# Fortran has, sadly, to be used for LAPACK libraries
-# Visual Studio uses precompiled libs so there is no
-# need to enable the Fortran language.
-enable_language(CXX)
-IF( 
-	(NOT "${CMAKE_GENERATOR}" MATCHES "Visual Studio.*") )
-enable_language(Fortran)
-ENDIF( 
-	(NOT "${CMAKE_GENERATOR}" MATCHES "Visual Studio.*")
-)	
+SETUP_PROJECT()
 
-IF(WIN32)
-  # Enabling Fortran on Win32 causes the definition of variables 
-  #  that change the name of the library built, add the prefix 'lib'
-  # These commands are Counter CMake mesures:
-  SET(CMAKE_STATIC_LIBRARY_PREFIX "")
-  SET(CMAKE_SHARED_LIBRARY_PREFIX "")
-  SET(CMAKE_SHARED_MODULE_PREFIX "")
-ENDIF(WIN32)
+# Search for dependencies.
+SEARCH_FOR_BOOST(thread filesystem)
+SEARCH_FOR_LAPACK()
+ADD_REQUIRED_DEPENDENCY("MatrixAbstractLayer >= 1.8.0")
+ADD_REQUIRED_DEPENDENCY("dynamic-graph >= 1.0.0")
 
-enable_testing()
-
-#
-# Look for dependencies
-#
-
-
-# where are use-specific cmake modules
-SET(CMAKE_MODULE_PATH ${${PROJECT_NAME}_SOURCE_DIR}/CMakeModules)
-
-# Load Pkgconfig macros
-INCLUDE(FindPkgConfig)
-SET(PACKAGE_REQUIREMENTS "")
-  
-  
-#enable_language(Fortran)
-# --- LAPACK --------------------------------------------------
-FIND_PACKAGE(LAPACK)
-IF(LAPACK_FOUND)
-  foreach(lapack_lib ${LAPACK_LIBRARIES})
-    LIST(APPEND ${PROJECT_NAME}_LINK_SRC_FLAGS ${lapack_lib})
-    LIST(APPEND ${PROJECT_NAME}_LINK_FLAGS ${lapack_lib})
-  endforeach(lapack_lib)
-  IF (LINUX)
-    LIST(APPEND ${PROJECT_NAME}_LINK_FLAGS -lgfortran)
-  ENDIF(LINUX)
-  IF (WIN32)
-    LIST(APPEND ${PROJECT_NAME}_CXX_FLAGS "-DBOOST_NUMERIC_BINDINGS_USE_CLAPACK" )
-  ENDIF (WIN32)
-ENDIF(LAPACK_FOUND)
-
-#
-#  Dependency to package MatrixAbstractLayer
-#
-SET(MATRIXABSTRACTLAYER_FOUND 0)
-SET(MATRIXABSTRACTLAYER_REQUIRED "MatrixAbstractLayer >= 1.8.0")
-PKG_CHECK_MODULES(MATRIXABSTRACTLAYER REQUIRED ${MATRIXABSTRACTLAYER_REQUIRED})
-EXEC_PROGRAM(${PKG_CONFIG_EXECUTABLE} ARGS  --variable=docdir MatrixAbstractLayer
-  OUTPUT_VARIABLE MATRIXABSTRACTLAYER_DOCDIR)
-MESSAGE(STATUS "pkg-config: ${PKG_CONFIG_EXECUTABLE}")
-MESSAGE(STATUS "MATRIXABSTRACTLAYER_DOCDIR=${MATRIXABSTRACTLAYER_DOCDIR}")
-SET(MATRIXABSTRACTLAYER_FOUND 1)
-
-IF(NOT ${MATRIXABSTRACTLAYER_FOUND})
-  MESSAGE(FATAL_ERROR "Check that package MatrixAbstractLayer is installed in a directory pointed out by PKG_CONFIG_PATH.")
-ENDIF(NOT ${MATRIXABSTRACTLAYER_FOUND})
-  
-IF(PACKAGE_REQUIREMENTS STREQUAL "")
-  SET(PACKAGE_REQUIREMENTS ${MATRIXABSTRACTLAYER_REQUIRED})
-ELSE(PACKAGE_REQUIREMENTS STREQUAL "")
-  SET(PACKAGE_REQUIREMENTS "${PACKAGE_REQUIREMENTS}, ${MATRIXABSTRACTLAYER_REQUIRED}")
-ENDIF(PACKAGE_REQUIREMENTS STREQUAL "")
-
-#
-#  Dependency to package dynamic-graph
-#
-SET(DYNAMIC_GRAPH_FOUND 0)
-SET(DYNAMIC_GRAPH_REQUIRED "dynamic-graph >= 1.0.0")
-PKG_CHECK_MODULES(DYNAMIC_GRAPH REQUIRED ${DYNAMIC_GRAPH_REQUIRED})
-EXEC_PROGRAM(${PKG_CONFIG_EXECUTABLE} ARGS  --variable=docdir dynamic-graph
-  OUTPUT_VARIABLE DYNAMIC_GRAPH_DOCDIR)
-MESSAGE(STATUS "pkg-config: ${PKG_CONFIG_EXECUTABLE}")
-MESSAGE(STATUS "DYNAMIC_GRAPH_DOCDIR=${DYNAMIC_GRAPH_DOCDIR}")
-SET(DYNAMIC_GRAPH_FOUND 1)
-
-IF(NOT ${DYNAMIC_GRAPH_FOUND})
-  MESSAGE(FATAL_ERROR "Check that package dynamic-graph is installed in a directory pointed out by PKG_CONFIG_PATH.")
-ENDIF(NOT ${DYNAMIC_GRAPH_FOUND})
-  
-IF(PACKAGE_REQUIREMENTS STREQUAL "")
-  SET(PACKAGE_REQUIREMENTS ${DYNAMIC_GRAPH_REQUIRED})
-ELSE(PACKAGE_REQUIREMENTS STREQUAL "")
-  SET(PACKAGE_REQUIREMENTS "${PACKAGE_REQUIREMENTS}, ${DYNAMIC_GRAPH_REQUIRED}")
-ENDIF(PACKAGE_REQUIREMENTS STREQUAL "")
-
-# --- BOOST ---------------------------------------------------
-SET(Boost_THREAD_FOUND 0)
-FIND_PACKAGE(Boost COMPONENTS thread REQUIRED filesystem system)
-IF(Boost_THREAD_FOUND)
-  ADD_DEFINITIONS(-DHAVE_LIBBOOST_THREAD)
-  
-  # Look for the type of pattern to find.
-  SET(BOOST_PATTERN_TOFIND "")
-  IF(${CMAKE_BUILD_TYPE} MATCHES RELEASE)
-    SET(BOOST_PATTERN_TOFIND optimized)
-  ENDIF(${CMAKE_BUILD_TYPE} MATCHES RELEASE)
-  IF(${CMAKE_BUILD_TYPE} MATCHES DEBUG)
-    SET(BOOST_PATTERN_TOFIND debug)
-  ENDIF(${CMAKE_BUILD_TYPE} MATCHES DEBUG)
-
-  IF(BOOST_PATTERN_TOFIND)
-    SET(BOOST_THREAD_LIST_LENGTH 0)
-    LIST(LENGTH Boost_THREAD_LIBRARY BOOST_THREAD_LIST_LENGTH)
-    # Debug or optimized library.
-    IF(${BOOST_THREAD_LIST_LENGTH} MATCHES 4)
-      LIST(FIND Boost_THREAD_LIBRARY ${BOOST_PATTERN_TOFIND} BTLB_index)
-      LIST(REMOVE_AT Boost_THREAD_LIBRARY ${BTLB_index})
-      LIST(GET Boost_THREAD_LIBRARY ${BTLB_index} BOOST_THREAD_LIB_NAME)
-    # Default strategy
-    ELSE(${BOOST_THREAD_LIST_LENGTH} MATCHES 4)
-      SET(BOOST_THREAD_LIB_NAME ${Boost_THREAD_LIBRARY})
-    ENDIF(${BOOST_THREAD_LIST_LENGTH} MATCHES 4)
-  # Default strategy
-  ELSE(BOOST_PATTERN_TOFIND)
-    SET(BOOST_THREAD_LIB_NAME  ${Boost_THREAD_LIBRARY})
-  ENDIF(BOOST_PATTERN_TOFIND)
-  
-  # --- PTHREAD -------------------------------------------------------
-  FIND_PACKAGE(PTHREAD REQUIRED)
-  IF(PTHREAD_FOUND)
-    ADD_DEFINITIONS(-DHAVE_PTHREAD)
-    INCLUDE_DIRECTORIES(${PTHREAD_INCLUDE_DIRS})
-	LINK_DIRECTORIES(${PTHREAD_LIBRARY_DIRS})
-  ENDIF(PTHREAD_FOUND)
-  
-ELSE(Boost_THREAD_FOUND)
-  MESSAGE("WARNING: Boost thread not found. Trying without the thread library")
-  FIND_PACKAGE(Boost REQUIRED filesystem system)
-  IF(NOT Boost_FOUND)
-	MESSAGE(SEND_ERROR "!! ERROR: Boost not found.")
-  ENDIF(NOT Boost_FOUND)
-ENDIF(Boost_THREAD_FOUND)
-MESSAGE(STATUS "Boost thread lib name: ${BOOST_THREAD_LIB_NAME} ${Boost_THREAD_LIBRARY}")
-
-INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
-IF(UNIX)
-	LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
-ENDIF(UNIX)
-
-
-#
-# pkg-config file
-#
-
-SET(install_pkg_prefix "\${prefix}")
-SET(install_pkg_exec_prefix "\${exec_prefix}")
-SET(install_pkg_libdir "\${libdir}")
-SET(install_pkg_datarootdir "\${datarootdir}")
-SET(install_pkg_include_dir "\${includedir}")
-
-IF(UNIX)
-  SET (${PROJECT_NAME}_LDFLAGS "-Wl,-R${install_pkg_libdir} ${LIBINCL_KW}${PROJECT_NAME}${LIB_EXT} ${${PROJECT_NAME}_LDFLAGS}")
-ENDIF(UNIX)
-
-IF(WIN32)
-  SET (${PROJECT_NAME}_LDFLAGS "${LIBINCL_KW}${PROJECT_NAME}${LIB_EXT} ${${PROJECT_NAME}_LDFLAGS}")
-ENDIF(WIN32)
-
-# Install the file in the appropriate place.
-SET(install_libdir_pkgconfig ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
-
-CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.pc.cmake
-  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc)
-
-INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
-  DESTINATION ${install_libdir_pkgconfig}	
-  PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE)
-
-# Uninstall target.
-CONFIGURE_FILE(
-  "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-  IMMEDIATE @ONLY)
-
-ADD_CUSTOM_TARGET(uninstall
-  "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
-
-IF(WIN32)
-  ADD_DEFINITIONS("-D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS /wd4251 /wd4275 /wd4101 /wd4355")
-ENDIF(WIN32)
-
-ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(include)
-ADD_SUBDIRECTORY(unitTesting)
+ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(tools)
+ADD_SUBDIRECTORY(unitTesting)
 
-
-#
-# Documentation produced by doxygen
-#
-OPTION(GENERATE_DOC ON)
-IF(GENERATE_DOC)
-  INCLUDE(FindDoxygen)
-  IF(DOXYGEN_FOUND)
-    MESSAGE(STATUS "Doxygen found")
-    add_subdirectory(doc)
-  ENDIF(DOXYGEN_FOUND)
-ENDIF(GENERATE_DOC)
+SETUP_PROJECT_FINALIZE()

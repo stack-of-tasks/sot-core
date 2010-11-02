@@ -1,17 +1,35 @@
-# 
-#  Copyright 
-# 
+# Copyright 2010, François Bleibel, Olivier Stasse, JRL, CNRS/AIST
+#
+# This file is part of sot-core.
+# sot-core is free software: you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation, either version 3 of
+# the License, or (at your option) any later version.
+#
+# sot-core is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Lesser Public License for more details.  You should have
+# received a copy of the GNU Lesser General Public License along with
+# sot-core. If not, see <http://www.gnu.org/licenses/>.
 
-CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/test-paths.h.cmake 
-			${CMAKE_CURRENT_SOURCE_DIR}/test-paths.h) 
+# Relative plug-in directory (i.e. lib/plugin for instance)
+# as exposed by the dynamic-graph pkg-config file.
+SET(PLUGINDIR ${DYNAMIC_GRAPH_PLUGINDIRNAME})
+SET(FULLPLUGINDIR ${CMAKE_INSTALL_PREFIX}/${PLUGINDIR})
+
+CONFIGURE_FILE(
+  ${CMAKE_CURRENT_SOURCE_DIR}/test-paths.h.cmake
+  ${CMAKE_CURRENT_SOURCE_DIR}/test-paths.h)
 
 IF(UNIX)
-	ADD_DEFINITIONS(-pthread)
+  ADD_DEFINITIONS(-pthread)
 ENDIF(UNIX)
 
-#The sot-core plugin libraries that tests have to be linked against
-#the name of the variable for test EXECUTABLE_NAME is TEST_${EXECUTABLE_NAME}_LIBS
-SET(TEST_tsot_LIBS 
+# The sot-core plugin libraries that tests have to be linked against
+# the name of the variable for test EXECUTABLE_NAME is
+# TEST_${EXECUTABLE_NAME}_LIBS
+SET(TEST_tsot_LIBS
 	task
 	feature-visual-point
 	gain-adaptive
@@ -21,17 +39,9 @@ SET(TEST_files_LIBS
 	${Boost_LIBRARIES}
 )
 
-IF(UNIX)
 SET(TEST_traces_LIBS
-	${CMAKE_INSTALL_PREFIX}/lib/plugin/tracer.so
+	${DYNAMIC_GRAPH_PLUGINDIR}/tracer${CMAKE_SHARED_LIBRARY_SUFFIX}
 )
-ENDIF(UNIX)
-
-IF(WIN32)
-SET(TEST_traces_LIBS
-	${CMAKE_INSTALL_PREFIX}/lib/plugin/tracer.lib
-)
-ENDIF(WIN32)
 
 SET(TEST_test_gain_LIBS
 	gain-adaptive feature-visual-point
@@ -48,32 +58,32 @@ SET(TEST_test_mailbox_LIBS
 #test paths and names (without .cpp extension)
 SET (tests
 	dummy
-	
+
 	signal/test_signal
 	signal/test_depend
 	signal/test_ptr
 	signal/test_dep
 	signal/test_ptrcast
-	
+
 	sot/tsot
 	sot/test_solverSoth
-	
+
 	factory/test_factory
-	
+
 	traces/files
 	traces/traces
-	
+
 	task/test_flags
 	task/test_gain
 	task/test_multi_bound
 	task/test_task
-	
+
 	tools/test_boost
 	tools/test_mailbox
 	tools/test_matrix
 	)
 
-	
+
 IF(WIN32)
 foreach(dlink  ${MATRIXABSTRACTLAYER_LDFLAGS}  ${DYNAMIC_GRAPH_LDFLAGS})
 	SET ( ${PROJECT_NAME}_src_LDFLAGS "${${PROJECT_NAME}_src_LDFLAGS}  ${dlink}")
@@ -85,7 +95,7 @@ IF(UNIX)
 ENDIF(UNIX)
 
 
-	
+
 ADD_DEFINITIONS(-DDEBUG=2)
 
 # provide path to library libMatrixAbstractLayer.so
@@ -96,7 +106,7 @@ LINK_DIRECTORIES(${DYNAMIC_GRAPH_LIBRARY_DIRS})
 
 # Add MatrixAbstractLayer compilation flags
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
-	
+
 # Add lapack compilation flags
 ADD_DEFINITIONS(${LAPACK_CFLAGS})
 
@@ -105,37 +115,37 @@ ADD_DEFINITIONS(${DYNAMIC_GRAPH_CFLAGS})
 
 # Add mal compilation flags
 ADD_DEFINITIONS(${MATRIXABSTRACTLAYER_CFLAGS})
- 
+
 FOREACH(test ${tests})
 	GET_FILENAME_COMPONENT(EXECUTABLE_NAME ${test} NAME)
 
 	ADD_EXECUTABLE(${EXECUTABLE_NAME}
 	  ${test}.cpp
 	  )
-		
+
 	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME}
 	  ${PROJECT_NAME})
-	
-	
+
+
 	# Add link to library libLapack.so
 	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${LAPACK_LIBRARIES})
 
-	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${Boost_THREAD_LIBRARY})
+	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${Boost_LIBRARIES})
 
 	IF (UNIX)
 		# Add link to library libdynamic-graph.so
 		TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${DYNAMIC_GRAPH_LIBRARIES})
-		
+
 		TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME}
 			dl)
-	
+
 		# Add link to library libMatrixAbstractLayer.so
 		TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${MATRIXABSTRACTLAYER_LIBRARIES})
-	
+
 	ENDIF(UNIX)
-	
+
 	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_LIBS})
-	
+
 	IF(WIN32)
 	SET_TARGET_PROPERTIES(${EXECUTABLE_NAME}
 	 PROPERTIES
