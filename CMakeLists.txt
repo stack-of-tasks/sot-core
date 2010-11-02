@@ -46,6 +46,15 @@ ENDIF(
 	(NOT "${CMAKE_GENERATOR}" MATCHES "Visual Studio.*")
 )	
 
+IF(WIN32)
+  # Enabling Fortran on Win32 causes the definition of variables 
+  #  that change the name of the library built, add the prefix 'lib'
+  # These commands are Counter CMake mesures:
+  SET(CMAKE_STATIC_LIBRARY_PREFIX "")
+  SET(CMAKE_SHARED_LIBRARY_PREFIX "")
+  SET(CMAKE_SHARED_MODULE_PREFIX "")
+ENDIF(WIN32)
+
 enable_testing()
 
 #
