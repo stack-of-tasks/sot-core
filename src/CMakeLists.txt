@@ -119,10 +119,13 @@ SET(plugins
 set(ADDITIONAL_feature-task_LIBS feature-generic task)
 set(ADDITIONAL_feature-point6d-relative_LIBS feature-point6d)
 
+set(ADDITIONAL_sot_LIBS constraint task)
 set(ADDITIONAL_sot-h_LIBS sot)
 set(ADDITIONAL_sot-h_LIBS sot)
-set(ADDITIONAL_sot-qr_LIBS sot)
-set(ADDITIONAL_weighted-sot_LIBS sot)
+set(ADDITIONAL_sot-qr_LIBS sot constraint)
+set(ADDITIONAL_weighted-sot_LIBS sot task)
+
+set(ADDITIONAL_sequencer_LIBS sot)
 
 set(ADDITIONAL_task-conti_LIBS task)
 set(ADDITIONAL_task-pd_LIBS task)
