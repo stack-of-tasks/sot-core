@@ -22,7 +22,7 @@ INCLUDE(cmake/lapack.cmake)
 SET(PROJECT_NAME sot-core)
 SET(PROJECT_VERSION 1.0.0.99)
 SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
-SET(PROJECT_URL "")
+SET(PROJECT_URL "http://github.com/jrl-umi3218/sot-core")
 
 SET(CUSTOM_HEADER_DIR "${PROJECT_NAME}")
 
