@@ -21,14 +21,13 @@ SET(HTMLDIR ${DOCDIR}/html)
 # Add `doc' target.
 ADD_CUSTOM_TARGET(doc ALL DEPENDS html/index.html)
 
-
 # Generate Doxygen configuration file.
 CONFIGURE_FILE(package.dox.cmake doc/package.dox)
 
 # Generating the Doxygen documentation
 ADD_CUSTOM_COMMAND(
   OUTPUT html/index.html
-  COMMAND ${DOXYGEN_EXECUTABLE} package.dox
+  COMMAND ${DOXYGEN_EXECUTABLE} doc/package.dox
   COMMENT Generating Doxygen documentation
 )
 

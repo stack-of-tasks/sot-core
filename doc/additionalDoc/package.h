@@ -22,11 +22,11 @@ entities, definitions and functions are in that library's base.
 See \ref sot_core_base for a list of what's in this code base.
 
 This library implements
-\li A solver
+\li A solver for the control law using tasks and features: the stack of tasks
 \li The framework of Tasks and Features, as defined in \ref Mansard2007, that
 \li Base classes for working with tasks and features, such as special matrices
 (rotation, twist) and vectors (quaternions, etc.)
-\li A basic C++ "machinery"
+\li A basic C++ "machinery", the \ref factory, that "makes things work"
 
 \section using Using the Stack of Tasks
 Using dynamic-graph objects (pool and factory), either through C++ code
@@ -114,14 +114,14 @@ For developers, this is the base library that your project has to
 be linked with. It defines the related algorithms and entities
 using the dynamic-graph framework.
 
-\section What's in the box?
+\section presento What's in the box?
 
 All the C++ code is placed in the namespace "sot". In the base
 library, the following classes are present:
 
 \subsection subsec_sot Stack of Task solvers
-The class sot::Sot is the class where tasks can be pushed, moved up
-and down, and removed on the stack.
+A hierarchical inequality solver, sot::SolverHierarchicalInequalities, is
+present. For the maths, see \ref Mansard2007.
 
 \subsection subsec_exceptions Exceptions
 The library defines the following classes of exceptions that derive from std::exception:
@@ -172,6 +172,61 @@ See \ref factory for additional information.
 \defgroup plugins_list List of plugins
 These plugins are linked with the base library.
 
+	sot/sot-qr
+	sot/weighted-sot
+	sot/sot-h
+	sot/sot
+
+	math/op-point-modifier
+
+	matrix/binary-op
+	matrix/derivator
+	matrix/fir-filter
+	matrix/integrator-abstract
+	matrix/integrator-euler
+	matrix/matrix-constant
+	matrix/unary-op
+	matrix/vector-constant
+	matrix/vector-to-rotation
+
+	task/gain-adaptive
+	task/task-pd
+	task/constraint
+	task/gain-hyperbolic
+	task/task
+	task/task-conti
+	task/task-unilateral
+
+	feature/feature-point6d
+	feature/feature-vector3
+	feature/feature-generic
+	feature/feature-joint-limits
+	feature/feature-1d
+	feature/feature-point6d-relative
+	feature/feature-visual-point
+	feature/feature-task
+	feature/feature-line-distance
+
+	traces/reader
+
+	tools/time-stamp
+	tools/timer
+	tools/seq-play
+	tools/sequencer
+	tools/robot-simu
+	tools/periodic-call-entity
+	tools/motion-period
+	tools/neck-limitation
+	tools/mailbox-vector
+	tools/kalman
+	tools/joint-limitator
+	tools/gripper-control
+	tools/com-freezer
+	tools/clamp-workspace
+	tools/binary-int-to-uint
+
+	control/control-gr
+	control/control-pd
 
 @defgroup factory Factory
 
