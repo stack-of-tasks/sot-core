@@ -37,6 +37,8 @@ SET(PKG_CONFIG_ADDITIONAL_VARIABLES
 
 SETUP_PROJECT()
 
+PKG_CONFIG_APPEND_LIBS("sot-core")
+
 # Search for dependencies.
 SEARCH_FOR_BOOST(thread filesystem)
 SEARCH_FOR_LAPACK()
