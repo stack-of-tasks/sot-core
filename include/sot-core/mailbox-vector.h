@@ -26,7 +26,7 @@
 /* --- SOT PLUGIN  --- */
 #include <sot-core/mailbox.hxx>
 
-#include <MatrixAbstractLayer/boost.h>
+#include <jrl/mal/boost.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */

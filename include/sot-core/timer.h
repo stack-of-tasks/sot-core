@@ -31,7 +31,7 @@
 #include <sys/time.h>
 #else  /*WIN32*/
 // When including Winsock2.h, the MAL must be included first
-#include <MatrixAbstractLayer/boost.h>
+#include <jrl/mal/boost.hh>
 #include <sot-core/utils-windows.h>
 #include <Winsock2.h>
 #endif /*WIN32*/

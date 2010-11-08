@@ -21,7 +21,7 @@
 #include <iostream>
 #include <sot-core/debug.h>
 
-#include <MatrixAbstractLayer/boost.h>
+#include <jrl/mal/boost.hh>
 
 #ifndef WIN32
 #include <unistd.h>

@@ -24,7 +24,7 @@
 
 /* SOT */
 #include <sot-core/timer.h>
-#include <MatrixAbstractLayer/boost.h>
+#include <jrl/mal/boost.hh>
 #include <sot-core/matrix-homogeneous.h>
 #include <sot-core/factory.h>
 

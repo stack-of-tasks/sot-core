@@ -25,7 +25,7 @@
 #include <dynamic-graph/all-signals.h>
 #include <iostream>
 
-#include <MatrixAbstractLayer/boost.h>
+#include <jrl/mal/boost.hh>
 #include <sot-core/vector-utheta.h>
 #include <sot-core/exception-abstract.h>
 

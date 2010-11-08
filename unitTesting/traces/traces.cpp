@@ -25,7 +25,7 @@
 #include <dynamic-graph/signal.h>
 #include <dynamic-graph/signal-time-dependent.h>
 #include <dynamic-graph/tracer.h>
-#include <MatrixAbstractLayer/boost.h>
+#include <jrl/mal/boost.hh>
 namespace ml = maal::boost;
 
 using namespace std;

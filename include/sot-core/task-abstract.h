@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <MatrixAbstractLayer/boost.h>
-#include <MatrixAbstractLayer/boostMatrixSvd.h>
+#include <jrl/mal/boost.hh>
+#include <jrl/mal/boostmatrixsvd.hh>
 namespace ml = maal::boost;
 
 /* STD */

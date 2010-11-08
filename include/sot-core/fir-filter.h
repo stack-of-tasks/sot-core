@@ -29,7 +29,7 @@
 
 //#include <boost/circular_buffer.hpp>
 
-#include <MatrixAbstractLayer/boost.h>
+#include <jrl/mal/boost.hh>
 namespace ml = maal::boost;
 
 #include <dynamic-graph/entity.h>

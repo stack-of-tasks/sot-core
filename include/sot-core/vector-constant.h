@@ -23,7 +23,7 @@
 #include <dynamic-graph/all-signals.h>
 
 /* Matrix */
-#include <MatrixAbstractLayer/boost.h>
+#include <jrl/mal/boost.hh>
 namespace ml = maal::boost;
 
 /* --------------------------------------------------------------------- */

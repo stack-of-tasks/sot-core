@@ -21,7 +21,7 @@
 #ifdef  HAVE_LIBBOOST_THREAD
 
 /* --- SOT PLUGIN  --- */
-#include <MatrixAbstractLayer/boost.h>
+#include <jrl/mal/boost.hh>
 #include <sot-core/debug.h>
 #include <sot-core/factory.h>
 #include <sot-core/mailbox.t.cpp>

@@ -23,7 +23,7 @@
 /* -------------------------------------------------------------------------- */
 #include <dynamic-graph/all-signals.h>
 #include <iostream>
-#include <MatrixAbstractLayer/boost.h>
+#include <jrl/mal/boost.hh>
 
 using namespace std;
 using namespace dynamicgraph;

@@ -25,7 +25,7 @@
 /* SOT */
 #include <sot-core/task-conti.h>
 #include <sot-core/debug.h>
-#include <MatrixAbstractLayer/boostVector.h>
+#include <jrl/mal/boostvector.hh>
 #include <sot-core/factory.h>
 
 using namespace std;

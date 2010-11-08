@@ -23,7 +23,7 @@
 
 
 /* --- BOOST --- */
-#include <MatrixAbstractLayer/boost.h>
+#include <jrl/mal/boost.hh>
 #include <boost/numeric/ublas/triangular.hpp>
 #include <boost/numeric/ublas/lu.hpp>
 #include <sot-core/debug.h>

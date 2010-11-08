@@ -26,7 +26,7 @@
 /* --------------------------------------------------------------------- */
 
 /* -- MaaL --- */
-#include <MatrixAbstractLayer/boost.h>
+#include <jrl/mal/boost.hh>
 namespace ml= maal::boost;
 /* SOT */
 #include <dynamic-graph/entity.h>

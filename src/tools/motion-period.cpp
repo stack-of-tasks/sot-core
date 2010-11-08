@@ -28,7 +28,7 @@
 #include <sot-core/debug.h>
 #include <sot-core/factory.h>
 
-#include <MatrixAbstractLayer/MatrixAbstractLayer.h>
+#include <jrl/mal/matrixabstractlayer.hh>
 
 using namespace std;
 using namespace sot;

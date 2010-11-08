@@ -75,7 +75,7 @@ WeightedSot( const std::string& name )
 /* --- A inv ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#include <MatrixAbstractLayer/boostspecific.h>
+#include <jrl/mal/boostspecific.hh>
 
 ml::Matrix& WeightedSot::
 computeSquareRootInvWeight( ml::Matrix& S5i,const int& time )

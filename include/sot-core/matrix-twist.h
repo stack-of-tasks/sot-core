@@ -23,7 +23,7 @@
 
 
 /* --- Matrix --- */
-#include <MatrixAbstractLayer/boost.h>
+#include <jrl/mal/boost.hh>
 #include <sot-core/sot-core-api.h>
 
 namespace ml = maal::boost;

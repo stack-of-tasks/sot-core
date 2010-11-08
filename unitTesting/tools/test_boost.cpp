@@ -26,7 +26,7 @@
 #include <sot-core/matrix-homogeneous.h>
 #include <sot-core/matrix-twist.h>
 
-#include <MatrixAbstractLayer/boost.h>
+#include <jrl/mal/boost.hh>
 
 #ifndef WIN32
 #include <unistd.h>
@@ -129,7 +129,7 @@ double timerCounter;
 /* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
-#include <MatrixAbstractLayer/MatrixAbstractLayerBoost.h>
+#include <jrl/mal/matrixabstractlayerboost.hh>
 
 int main( int argc,char** argv )
 {
