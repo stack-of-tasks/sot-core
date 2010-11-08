@@ -1,0 +1,30 @@
+\form#0:${\bf x}_{k \mid k} $
+\form#1:${\bf x}_{k \mid k} = {\bf x}_{k \mid k-1} + {\bf W}_k \left[ {\bf z}_k - {\bf H x}_{k \mid k-1} \right]$
+\form#2:${\bf x}_{k \mid k-1} $
+\form#3:$ {{\bf x}}_{k|k-1} = {\bf A}_{k-1} {\bf x}_{k-1\mid k-1}$
+\form#4:${\bf P}_{k \mid k-1} $
+\form#5:$ {\bf A}_{k-1} {\bf P}_{k-1 \mid k-1} {\bf A}^T_{k-1} + {\bf Q}_k$
+\form#6:${\bf P}_{k \mid k}$
+\form#7:${\bf P}_{k \mid k} = \left({\bf I - W}_k {\bf H} \right) {\bf P}_{k \mid k-1}$
+\form#8:${\bf W}_k$
+\form#9:$ {\bf W}_k = {\bf P}_{k \mid k-1} {\bf H}^T \left[ {\bf H P}_{k \mid k-1} {\bf H}^T + {\bf R}_k \right]^{-1}$
+\form#10:$ \bf I$
+\form#11:$ {\bf s} ={\bf e}({\bf q}) $
+\form#12:${\bf s} $
+\form#13:${\bf q}$
+\form#14:$ {\bf e} = - \lambda \dot{\bf e} $
+\form#15:$ {\bf J} = \frac{\delta f}{\delta {\bf q}} $
+\form#16:$ \dot{\bf q} = -\lambda {\bf J}^{\#} \dot{\bf e}$
+\form#17:$ \dot{\bf e} = {\bf s}^{des} - {\bf s}^* $
+\form#18:$ {\bf s}^{des}$
+\form#19:$ {\bf s}^* $
+\form#20:${\bf s}(t) \in \mathbb{R}^n $
+\form#21:$ t $
+\form#22:${\bf s}^*(t) $
+\form#23:$ e(t) = {\bf s}^*(t) - {\bf s}(t) $
+\form#24:$ \frac{\delta {\bf s}(t)}{\delta {\bf q}(t)}$
+\form#25:$ {\bf s}^*(t) $
+\form#26:$ [ 0 1 0] $
+\form#27:$ {\bf s}^*(t) - {\bf s}(t)$
+\form#28:$ J(t) = \frac{\delta{\bf s}^*(t)}{\delta {\bf q}(t)}$
+\form#29:$ {\bf s}(t)$
