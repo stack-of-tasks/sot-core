@@ -85,18 +85,18 @@ private:
  */
 
 #define SOT_SIGNAL_CAST_DECLARATION(TYPE) \
-		dynamicgraph::SignalCastRegisterer sotCastRegisterer_##TYPE \
-				(typeid(TYPE), \
-				SignalCast<TYPE>::disp_, \
-				SignalCast<TYPE>::cast_, \
-				SignalCast<TYPE>::trace_);
+  dynamicgraph::SignalCastRegisterer sotCastRegisterer_##TYPE	\
+    (typeid(TYPE),						\
+     SignalCast<TYPE>::disp_,					\
+     SignalCast<TYPE>::cast_,					\
+     SignalCast<TYPE>::trace_)
 
-#define SOT_SIGNAL_CAST_DECLARATION_NAMED(TYPE,NAME) \
-		dynamicgraph::SignalCastRegisterer sotCastRegisterer_##NAME \
-				(typeid(TYPE), \
-				SignalCast<TYPE>::disp_, \
-				SignalCast<TYPE>::cast_, \
-				SignalCast<TYPE>::trace_);
+#define SOT_SIGNAL_CAST_DECLARATION_NAMED(TYPE,NAME)			\
+  dynamicgraph::SignalCastRegisterer sotCastRegisterer_##NAME		\
+    (typeid(TYPE),							\
+     SignalCast<TYPE>::disp_,						\
+     SignalCast<TYPE>::cast_,						\
+     SignalCast<TYPE>::trace_)
 
 /* Standard definition macros: the three functions can be specified
  * in the macros. To define then in the cpp, just put ';' in the args.

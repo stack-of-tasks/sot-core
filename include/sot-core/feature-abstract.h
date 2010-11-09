@@ -123,7 +123,6 @@ class SOT_CORE_EXPORT FeatureAbstract
   /*! \brief Compute the Jacobian of the error according the robot state.
 
     \par[out] res: The matrix in which the error will be written.
-    \par[in] time: The time at which the Jacobian is computed \f$ {\bf J}(q(t)) \f$.
     \return The matrix res with the appropriate values.
    */
   virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time ) = 0;
@@ -133,7 +132,6 @@ class SOT_CORE_EXPORT FeatureAbstract
     or deduced from the estimated state of the robot at the time specified.
 
     \par[out] res: The vector in which the value will be written.
-    \par[in] time: The time at which the feature is evaluated \f$ {\bf s}(t)) \f$.
     \return The vector res with the appropriate values.
    */
   virtual ml::Vector& computeActivation( ml::Vector& res,int time ) = 0;

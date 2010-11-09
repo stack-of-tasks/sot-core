@@ -27,48 +27,52 @@ using namespace sot;
 namespace sot {
 #ifdef WIN32
 const char * DebugTrace::DEBUG_FILENAME_DEFAULT = "c:/tmp/sot-core-traces.txt";
-#else	/*WIN32*/
+#else	// WIN32
 const char * DebugTrace::DEBUG_FILENAME_DEFAULT = "/tmp/sot-core-traces.txt";
-#endif	/*WIN32*/
+#endif	// WIN32
 
 #ifdef VP_DEBUG
- #ifdef WIN32
-  std::ofstream debugfile( "C:/tmp/sot-core-traces.txt", std::ios::trunc&std::ios::out );
- #else	/*WIN32*/
-  std::ofstream debugfile( "/tmp/sot-core-traces.txt", std::ios::trunc&std::ios::out );
- #endif	/*WIN32*/
+# ifdef WIN32
+  std::ofstream debugfile("C:/tmp/sot-core-traces.txt",
+			  std::ios::trunc&std::ios::out);
+# else	// WIN32
+  std::ofstream debugfile("/tmp/sot-core-traces.txt",
+			  std::ios::trunc&std::ios::out);
+# endif	// WIN32
+#else // VP_DEBUG
 
-#else
+  std::ofstream debugfile;
 
-std::ofstream debugfile; //( "/dev/null", std::ios::trunc&std::ios::out );
+  class __sotDebug_init
+  {
+  public:
+    __sotDebug_init()
+    {
+      debugfile.setstate (std::ios::failbit);
+    }
+  };
+  __sotDebug_init __sotDebug_initialisator;
 
- class __sotDebug_init
- {
- public:
-   __sotDebug_init( void ) {
-     debugfile.setstate( std::ios::failbit ) ; /* debugfile.close(); */ }
- };
- __sotDebug_init __sotDebug_initialisator;
-
-#endif
+#endif // VP_DEBUG
 
 } // namespace sot
 
-void DebugTrace::openFile( const char * filename )
+void DebugTrace::openFile(const char * filename)
 {
-  if( debugfile.good()&&debugfile.is_open() ) debugfile.close();
-  debugfile.clear();
-  debugfile.open( filename, std::ios::trunc&std::ios::out );
-  //std::cout << filename << debugfile.good() << debugfile.is_open() << std::endl;
+  if (debugfile.good () && debugfile.is_open ())
+    debugfile.close ();
+  debugfile.clear ();
+  debugfile.open (filename, std::ios::trunc&std::ios::out);
 }
 
-void DebugTrace::closeFile( const char * filename )
+void DebugTrace::closeFile(const char *)
 {
-  if( debugfile.good()&&debugfile.is_open() ) { debugfile.close(); }
-  debugfile.setstate( std::ios::failbit ) ;
+  if (debugfile.good () && debugfile.is_open ())
+    debugfile.close();
+  debugfile.setstate (std::ios::failbit);
 }
 
 namespace sot {
-	DebugTrace sotDEBUGFLOW(debugfile);
-	DebugTrace sotERRORFLOW(debugfile);
-}
+  DebugTrace sotDEBUGFLOW(debugfile);
+  DebugTrace sotERRORFLOW(debugfile);
+} // end of namespace sot.
