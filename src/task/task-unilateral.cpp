@@ -35,7 +35,7 @@ using namespace dynamicgraph;
 
 
 #include <sot-core/factory.h>
-SOT_FACTORY_TASK_PLUGIN(TaskUnilateral,"TaskUnilateral");
+SOT_FACTORY_TASK_PLUGIN(TaskUnilateral,"TaskUnilateral")
 
 
 /* --------------------------------------------------------------------- */

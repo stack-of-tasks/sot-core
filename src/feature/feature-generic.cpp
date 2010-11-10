@@ -31,7 +31,7 @@
 using namespace std;
 using namespace sot;
 using namespace dynamicgraph;
-SOT_FACTORY_FEATURE_PLUGIN(FeatureGeneric,"FeatureGeneric");
+SOT_FACTORY_FEATURE_PLUGIN(FeatureGeneric,"FeatureGeneric")
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

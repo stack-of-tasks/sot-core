@@ -55,7 +55,7 @@ extern "C" {
                       double* tau, double* work, const int* lwork, int* info );
   void LAPACK_DGEQPF( const int* m, const int* n, double* a, const int* lda, int * jpvt,
                       double* tau, double* work, int* info );
-};
+}
 
 namespace boost { namespace numeric { namespace bindings { namespace lapack
       {
@@ -782,7 +782,7 @@ forceDowndateHierachic( ConstraintRefList& toDowndate )
 
 /* ---------------------------------------------------------- */
 
-SOT_DEFINE_CHRONO;
+SOT_DEFINE_CHRONO
 void SolverHierarchicalInequalities::
 solve( const bubMatrix& Jse, const bubVector& ese,
        const bubMatrix& Jsi, const bubVector& esiInf, const bubVector& esiSup,

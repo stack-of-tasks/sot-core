@@ -44,10 +44,10 @@ using namespace dynamicgraph;
   }
 
 namespace sot {
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,double,"Derivator");
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,Vector,"Derivator");
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,Matrix,"Derivator");
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,VectorQuaternion,"Derivator");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,double,"Derivator")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,Vector,"Derivator")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,Matrix,"Derivator")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,VectorQuaternion,"Derivator")
 }
 
 //SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,double,"T");

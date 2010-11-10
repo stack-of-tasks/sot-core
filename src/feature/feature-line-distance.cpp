@@ -37,7 +37,7 @@ using namespace sot;
 using namespace dynamicgraph;
 
 #include <sot-core/factory.h>
-SOT_FACTORY_FEATURE_PLUGIN(FeatureLineDistance,"FeatureLineDistance");
+SOT_FACTORY_FEATURE_PLUGIN(FeatureLineDistance,"FeatureLineDistance")
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

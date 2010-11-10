@@ -38,8 +38,8 @@ using namespace dynamicgraph;
 
 using namespace ml;
 namespace sot {
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,double,double,"integratorAbstract");
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,Vector,Matrix,"integratorAbstract");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,double,double,"integratorAbstract")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,Vector,Matrix,"integratorAbstract")
 }
 
 #if 0

@@ -34,7 +34,7 @@ using namespace dynamicgraph;
 
 #include <sot-core/factory.h>
 
-SOT_FACTORY_TASK_PLUGIN(TaskPD,"TaskPD");
+SOT_FACTORY_TASK_PLUGIN(TaskPD,"TaskPD")
 
 
 /* --------------------------------------------------------------------- */

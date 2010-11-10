@@ -289,7 +289,7 @@ extern "C" {
                       double* tau, double* work, const int* lwork, int* info );
   void LAPACK_DGEQPF( const int* m, const int* n, double* a, const int* lda, int * jpvt,
                       double* tau, double* work, int* info );
-};
+}
 
 namespace boost { namespace numeric { namespace bindings { namespace lapack
 {

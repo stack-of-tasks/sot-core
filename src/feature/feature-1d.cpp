@@ -33,7 +33,7 @@ using namespace std;
 
 using namespace sot;
 using namespace dynamicgraph;
-SOT_FACTORY_FEATURE_PLUGIN(Feature1D,"Feature1D");
+SOT_FACTORY_FEATURE_PLUGIN(Feature1D,"Feature1D")
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

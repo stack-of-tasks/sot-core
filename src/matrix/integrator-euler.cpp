@@ -47,5 +47,5 @@ using namespace dynamicgraph;
 using namespace ml;
 using namespace std;
 namespace sot {
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorEuler,Vector,Matrix,"integratorEuler");
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorEuler,Vector,Matrix,"integratorEuler")
 }

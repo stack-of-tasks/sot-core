@@ -178,9 +178,9 @@ typedef bub::triangular_matrix<double,bub::upper> __SRS_triup ;
 typedef bub::matrix_column<__SRS_matcolmaj> __SRS_col_matcolmaj;
 
 #define SOT_ROTATION_SIMPLE_TEMPLATE_VECTOR_LIST(A) \
-  A(bubVector); A(bub::vector_range<bubVector>) ; A(bub::matrix_column<bubMatrix>); A(bub::vector_range<bub::matrix_column<bubMatrix> >);  A(__SRS_col_matcolmaj);
+  A(bubVector)  A(bub::vector_range<bubVector>)   A(bub::matrix_column<bubMatrix>)  A(bub::vector_range<bub::matrix_column<bubMatrix> >)   A(__SRS_col_matcolmaj) 
 #define SOT_ROTATION_SIMPLE_TEMPLATE_MATRIX_LIST(A) \
-  A(bubMatrix); A(bub::matrix_range<bubMatrix>);A(__SRS_matcolmaj);A( __SRS_rang_matcolmaj);A( __SRS_triadup_rang_matcolmaj);A( __SRS_triadup_rang_mat); A(__SRS_triadup_rang_triup ); A(__SRS_triup);
+  A(bubMatrix)  A(bub::matrix_range<bubMatrix>) A(__SRS_matcolmaj) A( __SRS_rang_matcolmaj) A( __SRS_triadup_rang_matcolmaj) A( __SRS_triadup_rang_mat)  A(__SRS_triadup_rang_triup )  A(__SRS_triup) 
 
 
   /* Virtual Pure. */
@@ -192,10 +192,10 @@ class SOT_CORE_EXPORT RotationSimple
  public:
   /* --- STANDARD (FULL-RANGE) MULTIPLICATIONS. */
   /* Vector multiplications */
-  SOT_ROTATION_SIMPLE_TEMPLATE_VECTOR_LIST(SOT_ROTATION_SIMPLE_MULTIPLY);
+  SOT_ROTATION_SIMPLE_TEMPLATE_VECTOR_LIST(SOT_ROTATION_SIMPLE_MULTIPLY)
   /* Matrix multiplications */
-  SOT_ROTATION_SIMPLE_TEMPLATE_MATRIX_LIST(SOT_ROTATION_SIMPLE_MULTIPLY);
-  SOT_ROTATION_SIMPLE_TEMPLATE_MATRIX_LIST(SOT_ROTATION_SIMPLE_MULTIPLY_TRANSPOSE);
+  SOT_ROTATION_SIMPLE_TEMPLATE_MATRIX_LIST(SOT_ROTATION_SIMPLE_MULTIPLY)
+  SOT_ROTATION_SIMPLE_TEMPLATE_MATRIX_LIST(SOT_ROTATION_SIMPLE_MULTIPLY_TRANSPOSE)
 
   /* --- (LIMITED-)RANGE MULTIPLICATIONS. */
   /* Vector multiplications */
