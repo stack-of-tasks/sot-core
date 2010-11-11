@@ -35,9 +35,15 @@ SET(TEST_tsot_LIBS
 	gain-adaptive
 )
 
+IF(WIN32)
 SET(TEST_traces_EXT_LIBS
 	${DYNAMIC_GRAPH_PLUGINDIR}/tracer${CMAKE_LINK_LIBRARY_SUFFIX}
 )
+ELSE(WIN32)
+SET(TEST_traces_EXT_LIBS
+	${DYNAMIC_GRAPH_PLUGINDIR}/tracer${CMAKE_SHARED_LIBRARY_SUFFIX}
+)
+ENDIF(WIN32)
 
 SET(TEST_test_gain_LIBS
 	gain-adaptive feature-visual-point
