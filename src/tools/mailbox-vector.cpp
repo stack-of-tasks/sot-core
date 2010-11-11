@@ -32,7 +32,7 @@ using namespace dynamicgraph;
 #ifdef WIN32
 MailboxVector::MailboxVector( const std::string& name): Mailbox<maal::boost::Vector> (name){}
 #else
-MAILBOX_TEMPLATE_SPE(maal::boost::Vector);
+MAILBOX_TEMPLATE_SPE(maal::boost::Vector)
 #endif
 
 template<>DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MailboxVector,"Mailbox<Vector>");
