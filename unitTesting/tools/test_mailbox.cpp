@@ -49,7 +49,7 @@ void f( void )
 { 
   ml::Vector vect(25);
   ml::Vector vect2(25);
-  for( int i=0;;++i )
+  for( int i=0; i < 250 ; ++i )
     {
 	  std::cout << " iter  " << i << std::endl;
       for( int j=0;j<25;++j ) vect(j) = j+i*10;
@@ -68,11 +68,7 @@ int main( int argc,char** argv )
 {
   boost::thread th( f );
 
-#ifdef WIN32
-  Sleep( 100 );
-#else
-  usleep( 1000*100 );
-#endif
+  th.join();
 
   return 0;
 }
