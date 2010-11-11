@@ -64,7 +64,7 @@ void f( void )
 }
 
 
-int main( int argc,char** argv )
+int main( int ,char** )
 {
   boost::thread th( f );
 

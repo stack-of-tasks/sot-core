@@ -401,18 +401,23 @@ rankDetermination( const bubTemplateMatrix& A,
 }
 
 /* ---------------------------------------------------------- */
+#ifdef VP_DEBUG
 void SolverHierarchicalInequalities::
 displayConstraint( ConstraintList & cs )
 {
-#ifdef VP_DEBUG
   for( ConstraintList::iterator iter=cs.begin();
        iter!=cs.end();++iter )
     {
       ConstraintMem & ci = *iter;
       sotDEBUG(25) << ci << std::endl;
     }
-#endif //#ifdef VP_DEBUG
 }
+#else
+void SolverHierarchicalInequalities::
+displayConstraint( ConstraintList & )
+{
+}
+#endif //#ifdef VP_DEBUG
 
 
 

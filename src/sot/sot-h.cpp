@@ -418,7 +418,7 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 }
 
 void SotH::MemoryTaskSOTH::
-display( std::ostream& os ) const {} //TODO
+display( std::ostream& /*os*/ ) const {} //TODO
 
 
 SotH::MemoryTaskSOTH::

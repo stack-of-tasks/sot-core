@@ -622,7 +622,7 @@ public: /* --- MULTIPLIERS -------------------------------------------------- */
         R1 = r1*cosF-r2*sinF;         R2 = r1*sinF+r2*cosF;
       }
   }
-  void multiplyRightTransposeMatrixTemplate( bub::triangular_matrix<double,bub::upper> & M ) const
+  void multiplyRightTransposeMatrixTemplate( bub::triangular_matrix<double,bub::upper> & /*M*/ ) const
   {
 /*     const unsigned int m = std::min( std::min(idx1,idx2),M.size2()); */
 /*     for( unsigned int col=0;col<m;++col ) */
@@ -636,7 +636,7 @@ public: /* --- MULTIPLIERS -------------------------------------------------- */
     throw  "Not implemented yet.";
   }
   template< typename bubTemplateMatrix >  // M <- M.U'
-  void multiplyRightTransposeMatrixTemplate( bub::triangular_adaptor<bubTemplateMatrix,bub::upper> & M ) const
+  void multiplyRightTransposeMatrixTemplate( bub::triangular_adaptor<bubTemplateMatrix,bub::upper> & /*M*/ ) const
   {
 /*     const unsigned int m1 = std::min(idx1,idx2); */
 /*     for( unsigned int col=m1;col<M.size2();++col ) */

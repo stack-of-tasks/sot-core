@@ -101,7 +101,7 @@ VectorUTheta DummyClass<VectorUTheta>::operator() (void)
 //   for( unsigned int i=0;i<ar.rank;++i ) sotDEBUG(5)<<*ar.array[i]<<endl;
 // }
 
-void funtest( ml::Vector& v ){ }
+void funtest( ml::Vector& /*v*/ ){ }
 
 #include <vector>
 int main( void )

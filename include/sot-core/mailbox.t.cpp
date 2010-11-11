@@ -82,7 +82,7 @@ hasBeenUpdated( void )
 /* -------------------------------------------------------------------------- */
 template< class Object >
 typename Mailbox<Object>::sotTimestampedObject& Mailbox<Object>::
-get( typename Mailbox<Object>::sotTimestampedObject& res,const int& dummy )
+get( typename Mailbox<Object>::sotTimestampedObject& res,const int& /*dummy*/ )
 {
   boost::timed_mutex::scoped_try_lock lockMain( this->mainObjectMutex );
   

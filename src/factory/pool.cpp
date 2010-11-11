@@ -171,7 +171,7 @@ writeGraph(const std::string &aFileName)
 }
 
 void PoolStorage::
-writeCompletionList(std::ostream& os)
+writeCompletionList(std::ostream& /*os*/ )
 {
 
 

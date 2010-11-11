@@ -71,7 +71,7 @@ FeatureVector3( const string& pointName )
 /* --------------------------------------------------------------------- */
 
 unsigned int& FeatureVector3::
-getDimension( unsigned int & dim, int time )
+getDimension( unsigned int & dim, int /*time*/ )
 {
   sotDEBUG(25)<<"# In {"<<endl;
 

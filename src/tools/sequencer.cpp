@@ -175,7 +175,7 @@ public:
   {	return cmd; }
   virtual void display( std::ostream& os ) const 
   { os << "Run: " << cmd; }
-  virtual void operator() ( Sot* sotPtr )
+  virtual void operator() ( Sot* /*sotPtr*/ )
   { 
     std::ostringstream onull; onull.clear( std::ios::failbit );
     std::istringstream iss( cmd );

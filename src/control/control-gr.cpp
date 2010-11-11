@@ -109,7 +109,6 @@ computeControl( ml::Vector &tau, int t )
   const ml::Matrix& matrixA = matrixASIN(t);	  
   const ml::Vector& acceleration = accelerationSIN(t);
   const ml::Vector& gravity = gravitySIN(t);		  
-  double tp = 0.0;		  
   unsigned size = acceleration.size();		
   tau.resize(size); 
   //tau*=0;

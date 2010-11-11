@@ -81,7 +81,7 @@ display( std::ostream& os ) const
 /* --------------------------------------------------------------------- */
 
 ml::Vector& TimeStamp::
-getTimeStamp( ml::Vector& res,const int& time )
+getTimeStamp( ml::Vector& res,const int& /*time*/ )
 { 
   sotDEBUGIN(15);
   gettimeofday( &val,NULL );

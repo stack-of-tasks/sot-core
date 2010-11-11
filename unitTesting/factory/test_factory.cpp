@@ -52,11 +52,11 @@ class TestFeature
 public:
   TestFeature( void ) : FeatureAbstract("") {}
   virtual ~TestFeature( void ) {}
-  virtual unsigned int& getDimension( unsigned int& res,int time ) {return res;}
+  virtual unsigned int& getDimension( unsigned int& res,int /*time*/ ) {return res;}
 
-  virtual ml::Vector& computeError( ml::Vector& res,int time ) {return res;}
-  virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time ) {return res;}
-  virtual ml::Vector& computeActivation( ml::Vector& res,int time ) {return res;}
+  virtual ml::Vector& computeError( ml::Vector& res, int /*time*/ ) {return res;}
+  virtual ml::Matrix& computeJacobian( ml::Matrix& res, int /*time*/ ) {return res;}
+  virtual ml::Vector& computeActivation( ml::Vector& res, int /*time*/ ) {return res;}
 };
 
 

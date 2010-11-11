@@ -22,7 +22,7 @@
 using namespace std;
 #include <sot-core/debug.h>
 
-int main (int argc, char** argv)
+int main (int , char** )
 {
 	sot::sotDEBUGFLOW.openFile();
 	sot::sotDEBUGFLOW.trace("test test test");

@@ -116,7 +116,7 @@ class Timer_EXPORT Timer
       return t;
     }
 
-  double& getDt( double& res,const int& time )
+  double& getDt( double& res,const int& /*time*/ )
     {
       res=dt;
       return res;

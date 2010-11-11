@@ -63,7 +63,7 @@ SeqPlay( const std::string& n )
 /* --- COMPUTE ----------------------------------------------------------- */
 /* --- COMPUTE ----------------------------------------------------------- */
 ml::Vector& SeqPlay::
-getNextPosition( ml::Vector& pos, const int& time )
+getNextPosition( ml::Vector& pos, const int& /*time*/ )
 {
   sotDEBUGIN(15);
   if( !init ) 

@@ -137,7 +137,7 @@ public:
     else { dg::Entity::commandLine( cmdLine, cmdArgs, os); }
   }
 
-  static void reset_signal(sigT& res, const sigT& sample) { }
+  static void reset_signal(sigT& /*res*/, const sigT& /*sample*/ ) { }
 
 public:
   dg::SignalPtr<sigT, int> SIN;

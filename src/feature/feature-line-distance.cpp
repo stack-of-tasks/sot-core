@@ -71,7 +71,7 @@ FeatureLineDistance( const string& pointName )
 /* --------------------------------------------------------------------- */
 
 unsigned int& FeatureLineDistance::
-getDimension( unsigned int & dim, int time )
+getDimension( unsigned int & dim, int /*time*/ )
 {
   sotDEBUG(25)<<"# In {"<<endl;
 

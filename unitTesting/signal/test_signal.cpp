@@ -43,7 +43,7 @@ ml::Vector data(6);
 Signal<ml::Vector,double> sig("sigtest");
 DummyClass dummy;
 
-ml::Vector& fun( ml::Vector& res,double j ) { return res=data; }
+ml::Vector& fun( ml::Vector& res,double /*j*/ ) { return res=data; }
 
 int main( void )
 {

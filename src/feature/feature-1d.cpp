@@ -60,7 +60,7 @@ Feature1D( const string& pointName )
 /* --------------------------------------------------------------------- */
 
 unsigned int& Feature1D::
-getDimension( unsigned int & dim, int time ) 
+getDimension( unsigned int & dim, int /*time*/ ) 
 {  
   sotDEBUG(25)<<"# In {"<<endl;
 

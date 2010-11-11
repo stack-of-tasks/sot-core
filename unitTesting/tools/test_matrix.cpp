@@ -44,7 +44,7 @@ using namespace std;
       cout << "dt: "<< dt
 
 
-int main( int argc,char** argv )
+int main( int ,char** )
 {
   sotDEBUGIN(15);
 

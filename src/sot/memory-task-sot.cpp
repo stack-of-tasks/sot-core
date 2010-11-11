@@ -95,5 +95,5 @@ initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsiz
  }
 
 void MemoryTaskSOT::
-display( std::ostream& os ) const {} //TODO
+display( std::ostream& /*os*/ ) const {} //TODO
 
