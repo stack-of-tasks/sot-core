@@ -65,7 +65,7 @@ commandLine( const std::string& cmdLine,
       unsigned int i; double v;
       cmdArgs >> i;
       ml::Vector m = SOUT.accessCopy();
-      if( cmdArgs.good()&&(i>=0)&&i<m.size() )
+      if( cmdArgs.good()&&i<m.size() )
 	{
 	  cmdArgs >> v; m(i) = v; /* TODO verif about v? */
 	  SOUT.setConstant(m);

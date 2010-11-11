@@ -701,7 +701,7 @@ public:
     :listRotationSimple(0),listHouseholder(0),listGivenRotation(0) {}
 
   sotRotationComposed( const sotRotationComposed& clone )
-    :listRotationSimple(0),listHouseholder(0),listGivenRotation(0)
+    :RotationSimple(),listRotationSimple(0),listHouseholder(0),listGivenRotation(0)
     {
       pushBack(clone);
     }
@@ -983,7 +983,7 @@ public:
     :Q(bub::identity_matrix<double>(nJ,nJ)) {}
 
   sotRotationComposedInExtenso( const sotRotationComposedInExtenso& clone )
-    :Q(clone.Q)
+    :RotationSimple(),Q(clone.Q)
     {
     }
   virtual ~sotRotationComposedInExtenso( void )

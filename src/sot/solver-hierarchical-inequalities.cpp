@@ -967,7 +967,7 @@ initializeConstraintMemory( const bubMatrix& Jse, const bubVector& ese,
       cs.Ji.resize(nJ,false);
       cs.constraintRow=row;
       cs.active=false;
-      cs.range = -1;  cs.rankIncreaser = false;
+      cs.range = 0;  cs.rankIncreaser = false;
       if( row<sizee )
         {
           cs.Ji.assign(bub::row(Jse,row)); cs.eiInf=ese(row); cs.equality=true;

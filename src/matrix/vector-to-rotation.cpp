@@ -111,7 +111,7 @@ commandLine( const std::string& cmdLine,
   else if( cmdLine == "axis" ) 
     {
       unsigned int i; cmdArgs >> i >> std::ws;
-      if( (i>=0)&&i<size )
+      if( i<size )
 	{
 	  if( cmdArgs.good() )
 	    {

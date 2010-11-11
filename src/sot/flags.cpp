@@ -252,7 +252,7 @@ std::ostream& operator<< (std::ostream& os, const Flags& fl )
   return os;
 }
 
-static char MASK [] = { 0,1,3,7,15,31,63,127,255 };
+static unsigned char MASK [] = { 0,1,3,7,15,31,63,127,255 };
 
 std::istream& operator>> (std::istream& is, Flags& fl )
 {
