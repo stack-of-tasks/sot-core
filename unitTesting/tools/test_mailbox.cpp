@@ -41,7 +41,6 @@ namespace ml = maal::boost;
 using namespace dynamicgraph;
 using namespace sot;
 
-#ifdef  HAVE_LIBBOOST_THREAD
 #include <boost/thread.hpp>
 
 sot::MailboxVector mailbox("mail");
@@ -77,10 +76,3 @@ int main( int argc,char** argv )
 
   return 0;
 }
-#else
-	int main()
-	{
-		cout << "This test cannot be run without LIBBOOST_THREAD" << endl;
-		return 0;
-	}
-#endif

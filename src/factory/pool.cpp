@@ -140,7 +140,7 @@ writeGraph(const std::string &aFileName)
 
   /* Opening the file and writing the first comment. */
   std::ofstream GraphFile;
-  GraphFile.open((char *)aFileName.c_str(),std::ofstream::out);
+  GraphFile.open(aFileName.c_str(),std::ofstream::out);
   GraphFile << "/* This graph has been automatically generated. " << std::endl;
   GraphFile << "   " << 1900+ltimeformatted.tm_year
 	    << " Month: " << 1+ltimeformatted.tm_mon
