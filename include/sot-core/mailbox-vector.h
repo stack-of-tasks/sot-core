@@ -21,8 +21,6 @@
 #ifndef __SOT_MAILBOX_VECTOR_HH
 #define __SOT_MAILBOX_VECTOR_HH
 
-#ifdef  HAVE_LIBBOOST_THREAD
-
 /* --- SOT PLUGIN  --- */
 #include <sot-core/mailbox.hxx>
 
@@ -58,7 +56,6 @@ namespace sot {
 #endif
 }
 
-#endif // #ifdef  HAVE_LIBBOOST_THREAD
 #endif // #ifndef  __SOT_MAILBOX_HH
 
 

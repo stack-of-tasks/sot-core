@@ -18,8 +18,6 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifdef  HAVE_LIBBOOST_THREAD
-
 /* --- SOT PLUGIN  --- */
 #include <jrl/mal/boost.hh>
 #include <sot-core/debug.h>
@@ -38,7 +36,4 @@ MAILBOX_TEMPLATE_SPE(maal::boost::Vector);
 #endif
 
 template<>DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MailboxVector,"Mailbox<Vector>");
-
-#endif // #ifdef  HAVE_LIBBOOST_THREAD
-
 

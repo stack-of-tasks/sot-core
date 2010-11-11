@@ -21,8 +21,6 @@
 #ifndef __SOT_MAILBOX_HH
 #define __SOT_MAILBOX_HH
 
-#ifdef  HAVE_LIBBOOST_THREAD
-
 
 /* --- SOT PLUGIN  --- */
 #include <dynamic-graph/entity.h>
@@ -93,7 +91,6 @@ protected:
 
 } // namespace sot
 
-#endif // #ifdef  HAVE_LIBBOOST_THREAD
 #endif // #ifndef  __SOT_MAILBOX_HH
 
 

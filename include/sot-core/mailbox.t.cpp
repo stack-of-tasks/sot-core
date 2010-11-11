@@ -21,8 +21,6 @@
 #ifndef __SOT_MAILBOX_T_CPP
 #define __SOT_MAILBOX_T_CPP
 
-#ifdef  HAVE_LIBBOOST_THREAD
-
 #include <sot-core/mailbox.hxx>
 
 namespace sot {
@@ -145,6 +143,5 @@ template Mailbox<S>::Mailbox(const std::string& name); \
 
 } // namespace sot
 
-#endif // #ifdef HAVE_LIBBOOST_THREAD
 #endif // #ifdef __SOT_MAILBOX_T_CPP
 
