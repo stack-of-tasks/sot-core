@@ -39,7 +39,10 @@ SETUP_PROJECT()
 PKG_CONFIG_APPEND_LIBS("sot-core")
 
 # Search for dependencies.
-SEARCH_FOR_BOOST(thread filesystem)
+# Boost
+SET(BOOST_COMPONENTS thread filesystem)
+SEARCH_FOR_BOOST()
+
 ADD_REQUIRED_DEPENDENCY("jrl-mal >= 1.8.0")
 ADD_REQUIRED_DEPENDENCY("dynamic-graph >= 1.0.0")
 
