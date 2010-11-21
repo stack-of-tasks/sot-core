@@ -18,6 +18,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 INCLUDE(cmake/base.cmake)
 INCLUDE(cmake/boost.cmake)
 INCLUDE(cmake/lapack.cmake)
+INCLUDE(cmake/cpack.cmake)
 
 SET(PROJECT_NAME sot-core)
 SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
@@ -51,3 +52,4 @@ ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(unitTesting)
 
 SETUP_PROJECT_FINALIZE()
+SETUP_PROJECT_CPACK()
