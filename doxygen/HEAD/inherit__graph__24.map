@@ -1,3 +1,4 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_pool_storage.html" title="This class keep tracks of all the objects in the stack of Tasks." alt="" coords="5,5,123,35"/>
+<area shape="rect" href="$classsot_1_1_integrator_abstract.html" title="integrates an ODE. If Y is the output and X the input, the following equation is integrated: a_p * d(..." alt="" coords="5,5,269,32"/>
+<area shape="rect" href="$classsot_1_1_integrator_euler.html" title="integrates an ODE using a naive Euler integration. TODO: change the integration method. For the moment, the highest derivative of the output signal is computed using the previous values of the other derivatives and the input signal, then integrated n times, which will most certainly induce a huge drift for ODEs with a high order at the denominator." alt="" coords="319,5,559,32"/>
 </map>

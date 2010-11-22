@@ -1,15 +1,4 @@
 <map id="G" name="G">
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1508,487,1649,516"/>
-<area shape="rect" href="dynamic-graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="225,420,319,449"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="452,561,665,591"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="445,387,672,416"/>
-<area shape="rect" title="STL class." alt="" coords="232,575,312,604"/>
-<area shape="rect" title="STL class." alt="" coords="7,575,172,604"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; ml::Vector, int \&gt;" alt="" coords="867,171,1117,200"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="885,339,1099,368"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; double, int \&gt;" alt="" coords="1155,403,1384,432"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_time_dependency.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="860,225,1124,255"/>
-<area shape="rect" href="jrl-mal.doxytag$classmaal_1_1boost_1_1_vector.html" title="maal::boost::Vector" alt="" coords="492,43,625,72"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; double, int \&gt;" alt="" coords="1419,345,1739,375"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Vector, int \&gt;" alt="" coords="1408,292,1749,321"/>
+<area shape="rect" title="STL class." alt="" coords="55,86,140,113"/>
+<area shape="rect" title="STL class." alt="" coords="5,6,189,33"/>
 </map>

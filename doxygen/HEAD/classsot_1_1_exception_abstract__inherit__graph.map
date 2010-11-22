@@ -1,9 +1,9 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_exception_dynamic.html" title="sot::ExceptionDynamic" alt="" coords="361,5,516,35"/>
-<area shape="rect" href="$classsot_1_1_exception_factory.html" title="sot::ExceptionFactory" alt="" coords="364,59,513,88"/>
-<area shape="rect" href="$classsot_1_1_exception_feature.html" title="sot::ExceptionFeature" alt="" coords="364,112,513,141"/>
-<area shape="rect" href="$classsot_1_1_exception_signal.html" title="sot::ExceptionSignal" alt="" coords="368,165,509,195"/>
-<area shape="rect" href="$classsot_1_1_exception_task.html" title="sot::ExceptionTask" alt="" coords="372,219,505,248"/>
-<area shape="rect" href="$classsot_1_1_exception_tools.html" title="sot::ExceptionTools" alt="" coords="371,272,507,301"/>
-<area shape="rect" title="STL class." alt="" coords="5,139,109,168"/>
+<area shape="rect" href="$classsot_1_1_exception_dynamic.html" title="sot::ExceptionDynamic" alt="" coords="379,6,547,32"/>
+<area shape="rect" href="$classsot_1_1_exception_factory.html" title="sot::ExceptionFactory" alt="" coords="384,56,541,83"/>
+<area shape="rect" href="$classsot_1_1_exception_feature.html" title="sot::ExceptionFeature" alt="" coords="383,107,543,134"/>
+<area shape="rect" href="$classsot_1_1_exception_signal.html" title="sot::ExceptionSignal" alt="" coords="388,158,537,184"/>
+<area shape="rect" href="$classsot_1_1_exception_task.html" title="sot::ExceptionTask" alt="" coords="393,208,532,235"/>
+<area shape="rect" href="$classsot_1_1_exception_tools.html" title="sot::ExceptionTools" alt="" coords="392,259,533,286"/>
+<area shape="rect" title="STL class." alt="" coords="5,132,117,159"/>
 </map>

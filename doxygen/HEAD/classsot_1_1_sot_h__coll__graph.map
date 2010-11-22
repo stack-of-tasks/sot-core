@@ -1,29 +1,16 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_sot.html" title="This class implements the Stack of Task. It allows to deal with the priority of the controllers throu..." alt="" coords="3569,485,3636,515"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1420,512,1561,541"/>
-<area shape="rect" href="$classsot_1_1_task_abstract.html" title="sot::TaskAbstract" alt="" coords="2069,445,2192,475"/>
-<area shape="rect" href="dynamic-graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="225,472,319,501"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="452,611,665,640"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="445,472,672,501"/>
-<area shape="rect" title="STL class." alt="" coords="232,671,312,700"/>
-<area shape="rect" href="$classsot_1_1_constraint.html" title="sot::Constraint" alt="" coords="2637,605,2744,635"/>
-<area shape="rect" title="STL class." alt="" coords="7,671,172,700"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Matrix, int \&gt;" alt="" coords="1321,299,1660,328"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="885,205,1099,235"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; ml::Vector, int \&gt;" alt="" coords="1708,172,1975,201"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Vector, int \&gt;" alt="" coords="1320,239,1661,268"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; VectorMultiBound, int \&gt;" alt="" coords="1299,372,1683,401"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; double, int \&gt;" alt="" coords="2287,117,2532,147"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; ml::Matrix, int \&gt;" alt="" coords="1367,608,1615,637"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_time_dependency.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="860,305,1124,335"/>
-<area shape="rect" href="$classsot_1_1_task_abstract_1_1_memory_task_abstract.html" title="sot::TaskAbstract::MemoryTaskAbstract" alt="" coords="1363,459,1619,488"/>
-<area shape="rect" href="jrl-mal.doxytag$classmaal_1_1boost_1_1_matrix.html" title="maal::boost::Matrix" alt="" coords="925,671,1059,700"/>
-<area shape="rect" href="$classsot_1_1_solver_hierarchical_inequalities.html" title="sot::SolverHierarchicalInequalities" alt="" coords="3493,1075,3712,1104"/>
-<area shape="rect" href="$classsot_1_1_constraint_ref.html" title="sot::ConstraintRef" alt="" coords="2628,1243,2753,1272"/>
-<area shape="rect" href="$classsot_1_1_constraint_mem.html" title="sot::ConstraintMem" alt="" coords="2623,947,2759,976"/>
-<area shape="rect" href="$classsot_rotation_composed.html" title="sotRotationComposed" alt="" coords="3121,1104,3271,1133"/>
-<area shape="rect" href="$class_rotation_simple.html" title="RotationSimple" alt="" coords="1436,1136,1545,1165"/>
-<area shape="rect" href="$classsot_rotation_simple_given.html" title="sotRotationSimpleGiven" alt="" coords="2051,1136,2211,1165"/>
-<area shape="rect" href="$classsot_rotation_simple_householder.html" title="sotRotationSimpleHouseholder" alt="" coords="2031,1189,2231,1219"/>
-<area shape="rect" href="$classsot_rotation_composed_in_extenso.html" title="sotRotationComposedInExtenso" alt="" coords="3092,1295,3300,1324"/>
+<area shape="rect" href="$classsot_1_1_sot.html" title="This class implements the Stack of Task. It allows to deal with the priority of the controllers throu..." alt="" coords="2067,156,2139,183"/>
+<area shape="rect" href="$classsot_1_1_task_abstract.html" title="sot::TaskAbstract" alt="" coords="505,76,636,103"/>
+<area shape="rect" href="$classsot_1_1_constraint.html" title="sot::Constraint" alt="" coords="1059,156,1173,183"/>
+<area shape="rect" href="$classsot_1_1_task_abstract_1_1_memory_task_abstract.html" title="sot::TaskAbstract::MemoryTaskAbstract" alt="" coords="5,76,277,103"/>
+<area shape="rect" title="STL class." alt="" coords="528,247,613,274"/>
+<area shape="rect" title="STL class." alt="" coords="49,247,233,274"/>
+<area shape="rect" href="$classsot_1_1_solver_hierarchical_inequalities.html" title="sot::SolverHierarchicalInequalities" alt="" coords="1985,523,2220,550"/>
+<area shape="rect" href="$classsot_1_1_constraint_ref.html" title="sot::ConstraintRef" alt="" coords="1049,750,1183,776"/>
+<area shape="rect" href="$classsot_1_1_constraint_mem.html" title="sot::ConstraintMem" alt="" coords="1043,412,1189,439"/>
+<area shape="rect" href="$classsot_rotation_composed.html" title="sotRotationComposed" alt="" coords="1581,598,1744,624"/>
+<area shape="rect" href="$class_rotation_simple.html" title="RotationSimple" alt="" coords="83,598,200,624"/>
+<area shape="rect" href="$classsot_rotation_simple_given.html" title="sotRotationSimpleGiven" alt="" coords="484,648,657,675"/>
+<area shape="rect" href="$classsot_rotation_simple_householder.html" title="sotRotationSimpleHouseholder" alt="" coords="461,488,680,515"/>
+<area shape="rect" href="$classsot_rotation_composed_in_extenso.html" title="sotRotationComposedInExtenso" alt="" coords="1551,699,1775,726"/>
 </map>

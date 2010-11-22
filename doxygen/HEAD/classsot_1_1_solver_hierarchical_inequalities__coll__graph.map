@@ -1,9 +1,9 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_constraint_ref.html" title="sot::ConstraintRef" alt="" coords="721,31,847,60"/>
-<area shape="rect" href="$classsot_1_1_constraint_mem.html" title="sot::ConstraintMem" alt="" coords="716,125,852,155"/>
-<area shape="rect" href="$classsot_rotation_composed.html" title="sotRotationComposed" alt="" coords="1247,251,1396,280"/>
-<area shape="rect" href="$class_rotation_simple.html" title="RotationSimple" alt="" coords="5,304,115,333"/>
-<area shape="rect" href="$classsot_rotation_simple_given.html" title="sotRotationSimpleGiven" alt="" coords="236,251,396,280"/>
-<area shape="rect" href="$classsot_rotation_simple_householder.html" title="sotRotationSimpleHouseholder" alt="" coords="216,304,416,333"/>
-<area shape="rect" href="$classsot_rotation_composed_in_extenso.html" title="sotRotationComposedInExtenso" alt="" coords="941,409,1149,439"/>
+<area shape="rect" href="$classsot_1_1_constraint_ref.html" title="sot::ConstraintRef" alt="" coords="785,25,919,52"/>
+<area shape="rect" href="$classsot_1_1_constraint_mem.html" title="sot::ConstraintMem" alt="" coords="779,112,925,138"/>
+<area shape="rect" href="$classsot_rotation_composed.html" title="sotRotationComposed" alt="" coords="1352,233,1515,260"/>
+<area shape="rect" href="$class_rotation_simple.html" title="RotationSimple" alt="" coords="5,284,123,310"/>
+<area shape="rect" href="$classsot_rotation_simple_given.html" title="sotRotationSimpleGiven" alt="" coords="255,233,428,260"/>
+<area shape="rect" href="$classsot_rotation_simple_householder.html" title="sotRotationSimpleHouseholder" alt="" coords="232,284,451,310"/>
+<area shape="rect" href="$classsot_rotation_composed_in_extenso.html" title="sotRotationComposedInExtenso" alt="" coords="1024,385,1248,412"/>
 </map>

@@ -1,32 +1,7 @@
 <map id="G" name="G">
-<area shape="rect" href="jrl-mal.doxytag$boost_8hh.html" title="jrl/mal/boost.hh" alt="" coords="229,83,339,112"/>
-<area shape="rect" href="$flags_8h.html" title="sot&#45;core/flags.h" alt="" coords="499,547,611,576"/>
-<area shape="rect" href="dynamic-graph.doxytag$entity_8h.html" title="dynamic&#45;graph/entity.h" alt="" coords="1517,237,1669,267"/>
-<area shape="rect" href="$pool_8h.html" title="sot&#45;core/pool.h" alt="" coords="808,237,915,267"/>
-<area shape="rect" href="dynamic-graph.doxytag$all-signals_8h.html" title="dynamic&#45;graph/all&#45;signals.h" alt="" coords="1053,83,1229,112"/>
-<area shape="rect" href="jrl-mal.doxytag$boostmacros_8hh.html" title="jrl/mal/boostmacros.hh" alt="" coords="173,237,325,267"/>
-<area shape="rect" href="jrl-mal.doxytag$boostvector_8hh.html" title="jrl/mal/boostvector.hh" alt="" coords="176,160,323,189"/>
-<area shape="rect" href="jrl-mal.doxytag$boostmatrix_8hh.html" title="jrl/mal/boostmatrix.hh" alt="" coords="5,160,152,189"/>
-<area shape="rect" href="jrl-mal.doxytag$boostsvd_8hh.html" title="jrl/mal/boostsvd.hh" alt="" coords="13,237,144,267"/>
-<area shape="rect" href="$sot-core-api_8h.html" title="sot&#45;core/sot&#45;core&#45;api.h" alt="" coords="643,624,792,653"/>
-<area shape="rect" href="dynamic-graph.doxytag$signal-base_8h.html" title="dynamic&#45;graph/signal&#45;base.h" alt="" coords="1147,392,1331,421"/>
-<area shape="rect" href="dynamic-graph.doxytag$dynamic-graph-api_8h.html" title="dynamic&#45;graph/dynamic&#45;graph&#45;api.h" alt="" coords="1637,624,1859,653"/>
-<area shape="rect" href="$exception-factory_8h.html" title="dynamic&#45;graph/exception&#45;factory.h" alt="" coords="752,392,971,421"/>
-<area shape="rect" href="dynamic-graph.doxytag$exception-factory_8h.html" title="dynamic&#45;graph/exception&#45;factory.h" alt="" coords="1300,469,1519,499"/>
-<area shape="rect" href="dynamic-graph.doxytag$signal-array_8h.html" title="dynamic&#45;graph/signal&#45;array.h" alt="" coords="1727,315,1911,344"/>
-<area shape="rect" href="$exception-signal_8h.html" title="dynamic&#45;graph/exception&#45;signal.h" alt="" coords="729,469,940,499"/>
-<area shape="rect" href="dynamic-graph.doxytag$exception-signal_8h.html" title="dynamic&#45;graph/exception&#45;signal.h" alt="" coords="1065,469,1276,499"/>
-<area shape="rect" href="$exception-abstract_8h.html" title="sot&#45;core/exception&#45;abstract.h" alt="" coords="801,547,991,576"/>
-<area shape="rect" href="dynamic-graph.doxytag$exception-abstract_8h.html" title="dynamic&#45;graph/exception&#45;abstract.h" alt="" coords="1297,547,1521,576"/>
-<area shape="rect" href="dynamic-graph.doxytag$pool_8h.html" title="dynamic&#45;graph/pool.h" alt="" coords="1004,315,1148,344"/>
-<area shape="rect" href="dynamic-graph.doxytag$signal_8h.html" title="dynamic&#45;graph/signal.h" alt="" coords="1204,237,1356,267"/>
-<area shape="rect" href="dynamic-graph.doxytag$signal-ptr_8h.html" title="dynamic&#45;graph/signal&#45;ptr.h" alt="" coords="1368,160,1539,189"/>
-<area shape="rect" href="dynamic-graph.doxytag$signal-time-dependent_8h.html" title="dynamic&#45;graph/signal&#45;time&#45;dependent.h" alt="" coords="1099,160,1344,189"/>
-<area shape="rect" href="dynamic-graph.doxytag$signal_8t_8cpp.html" title="dynamic&#45;graph/signal.t.cpp" alt="" coords="1476,315,1652,344"/>
-<area shape="rect" href="dynamic-graph.doxytag$signal-caster_8h.html" title="dynamic&#45;graph/signal&#45;caster.h" alt="" coords="1460,392,1652,421"/>
-<area shape="rect" href="$debug_8h.html" title="dynamic&#45;graph/debug.h" alt="" coords="1737,392,1892,421"/>
-<area shape="rect" href="dynamic-graph.doxytag$debug_8h.html" title="dynamic&#45;graph/debug.h" alt="" coords="2148,392,2303,421"/>
-<area shape="rect" href="dynamic-graph.doxytag$signal-ptr_8t_8cpp.html" title="dynamic&#45;graph/signal&#45;ptr.t.cpp" alt="" coords="2249,315,2441,344"/>
-<area shape="rect" href="dynamic-graph.doxytag$time-dependency_8h.html" title="dynamic&#45;graph/time&#45;dependency.h" alt="" coords="1709,237,1928,267"/>
-<area shape="rect" href="dynamic-graph.doxytag$time-dependency_8t_8cpp.html" title="dynamic&#45;graph/time&#45;dependency.t.cpp" alt="" coords="1985,315,2225,344"/>
+<area shape="rect" href="$flags_8h.html" title="sot&#45;core/flags.h" alt="" coords="509,238,629,265"/>
+<area shape="rect" href="$pool_8h.html" title="sot&#45;core/pool.h" alt="" coords="832,84,949,110"/>
+<area shape="rect" href="$sot&#45;core&#45;api_8h.html" title="sot&#45;core/sot&#45;core&#45;api.h" alt="" coords="701,316,869,342"/>
+<area shape="rect" href="$exception&#45;factory_8h.html" title="sot&#45;core/exception&#45;factory.h" alt="" coords="200,161,400,188"/>
+<area shape="rect" href="$exception&#45;abstract_8h.html" title="sot&#45;core/exception&#45;abstract.h" alt="" coords="827,238,1037,265"/>
 </map>

@@ -33,25 +33,25 @@
 <h1>debug.h File Reference</h1>  </div>
 </div>
 <div class="contents">
-<code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &lt;cstdio&gt;</code><br/>
+<code>#include &lt;cstdarg&gt;</code><br/>
 <code>#include &lt;iostream&gt;</code><br/>
 <code>#include &lt;fstream&gt;</code><br/>
 <code>#include &lt;sstream&gt;</code><br/>
-<code>#include &lt;stdarg.h&gt;</code><br/>
 <code>#include &lt;<a class="el" href="sot-core-api_8h.html">sot-core/sot-core-api.h</a>&gt;</code><br/>
 <!-- startSectionHeader --><div class="dynheader">
 Include dependency graph for debug.h:<!-- endSectionHeader --></div>
 <!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
 <div class="center"><img src="debug_8h__incl.png" border="0" usemap="#debug_8h" alt=""/></div>
 <map name="debug_8h" id="debug_8h">
-<area shape="rect" href="sot-core-api_8h.html" title="sot&#45;core/sot&#45;core&#45;api.h" alt="" coords="453,83,603,112"/></map>
+<area shape="rect" href="sot&#45;core&#45;api_8h.html" title="sot&#45;core/sot&#45;core&#45;api.h" alt="" coords="477,84,645,110"/></map>
 <!-- endSectionContent --></div>
 <!-- startSectionHeader --><div class="dynheader">
 This graph shows which files directly or indirectly include this file:<!-- endSectionHeader --></div>
 <!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
 <div class="center"><img src="debug_8h__dep__incl.png" border="0" usemap="#debug_8hdep" alt=""/></div>
 <map name="debug_8hdep" id="debug_8hdep">
-<area shape="rect" href="integrator-abstract_8h.html" title="integrator&#45;abstract.h" alt="" coords="5,83,141,112"/><area shape="rect" href="op-point-modifier_8h.html" title="op&#45;point&#45;modifier.h" alt="" coords="165,83,291,112"/><area shape="rect" href="rotation-simple_8h.html" title="rotation&#45;simple.h" alt="" coords="315,83,429,112"/><area shape="rect" href="time-stamp_8h.html" title="time&#45;stamp.h" alt="" coords="453,83,549,112"/><area shape="rect" href="timer_8h.html" title="timer.h" alt="" coords="573,83,635,112"/><area shape="rect" href="integrator-euler_8h.html" title="integrator&#45;euler.h" alt="" coords="15,160,132,189"/><area shape="rect" href="solver-hierarchical-inequalities_8h.html" title="solver&#45;hierarchical&#45;inequalities.h" alt="" coords="269,160,475,189"/><area shape="rect" href="sot-h_8h.html" title="sot&#45;h.h" alt="" coords="341,237,403,267"/></map>
+<area shape="rect" href="integrator&#45;abstract_8h.html" title="integrator&#45;abstract.h" alt="" coords="5,84,157,111"/><area shape="rect" href="op&#45;point&#45;modifier_8h.html" title="op&#45;point&#45;modifier.h" alt="" coords="181,84,323,111"/><area shape="rect" href="rotation&#45;simple_8h.html" title="rotation&#45;simple.h" alt="" coords="347,84,477,111"/><area shape="rect" href="time&#45;stamp_8h.html" title="time&#45;stamp.h" alt="" coords="501,84,608,111"/><area shape="rect" href="timer_8h.html" title="timer.h" alt="" coords="632,84,699,111"/><area shape="rect" href="integrator&#45;euler_8h.html" title="integrator&#45;euler.h" alt="" coords="16,161,147,188"/><area shape="rect" href="solver&#45;hierarchical&#45;inequalities_8h.html" title="solver&#45;hierarchical&#45;inequalities.h" alt="" coords="300,161,524,188"/><area shape="rect" href="sot&#45;h_8h.html" title="sot&#45;h.h" alt="" coords="379,239,445,265"/></map>
 <!-- endSectionContent --></div>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="nested-classes"></a>
@@ -68,7 +68,9 @@ Namespaces</h2></td></tr>
 Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8h.html#a6dd3437819a217fef90ef973cf9364ca">VP_DEBUG_MODE</a>&#160;&#160;&#160;0</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8h.html#a99bf14cae76d8d5cbfe574d6ae62f30d">VP_TEMPLATE_DEBUG_MODE</a>&#160;&#160;&#160;0</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">VP_DEBUG_MODE.  <a href="#a99bf14cae76d8d5cbfe574d6ae62f30d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8h.html#ad89639e740c7378ecffe092fff3d5738">SOT_COMMON_TRACES</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">VP_TEMPLATE_DEBUG_MODE.  <a href="#ad89639e740c7378ecffe092fff3d5738"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8h.html#a302ec9d8dff7e7b7d9e724276b6be247">sotPREERROR</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8h.html#a9af76fcc29a2a86b5c0c2be484bddbbe">sotDEBUG</a>(level)&#160;&#160;&#160;if( 1 ) ; else std::cout</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8h.html#a02873d880abbd8d284792e38c216dc66">sotDEBUGMUTE</a>(level)&#160;&#160;&#160;if( 1 ) ; else std::cout</td></tr>
@@ -84,12 +86,12 @@ Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="debug_8h.html#a21b3d8d74fa69ce943a89ee63c2bc776">sotTDEBUGINOUT</a>(level)&#160;&#160;&#160;sotTDEBUG(level) &lt;&lt; &quot;# In/Out { }&quot; &lt;&lt; std::endl</td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#aacc2abe238b0903170603679f9f44cd1">sot::sotDEBUGF</a> (const int level, const char *format,...)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#ab84a456a518c350045a959a0b00fea46">sot::sotDEBUGF</a> (const char *format,...)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a07208243dbb08b41ce83502ebe295125">sot::sotERRORF</a> (const int level, const char *format,...)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a0e482b1cbcdddc243061e5414b66fbda">sot::sotERRORF</a> (const char *format,...)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a224c40e39e21017225a3ef679beae146">sot::sotTDEBUGF</a> (const int level, const char *format,...)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a314463fa20aaf0057301dc263aa8eccb">sot::sotTDEBUGF</a> (const char *format,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a8027b791ea16decf233fdfc345823b38">sot::sotDEBUGF</a> (const int, const char *,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a92507a09ce1a0b474d3478dbf2ddf7b4">sot::sotDEBUGF</a> (const char *,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a520a7faa9cb7e2dfb84a3eeccb4779ac">sot::sotERRORF</a> (const int, const char *,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a3cbcfb9103fc4e74830c9fc3a763b59e">sot::sotERRORF</a> (const char *,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#aca38a5673cb6776071bf4b21b62d7c05">sot::sotTDEBUGF</a> (const int, const char *,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a572631b5885caa2413eba250a2a0f324">sot::sotTDEBUGF</a> (const char *,...)</td></tr>
 <tr><td colspan="2"><h2><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">SOT_CORE_EXPORT DebugTrace&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a9330135842d57dfae016bce504907a75">sot::sotDEBUGFLOW</a></td></tr>
@@ -106,14 +108,16 @@ Variables</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<b>Value:</b><div class="fragment"><pre class="fragment"><span class="keywordflow">do</span> {  \
-        va_list arg; \
-        va_start(arg,format); \
-        vsnprintf( charbuffer,SIZE,format,arg ); \
-        va_end(arg); \
-        outputbuffer &lt;&lt; tmpbuffer.str() &lt;&lt; charbuffer &lt;&lt;std::endl; \
+<b>Value:</b><div class="fragment"><pre class="fragment"><span class="keywordflow">do</span> {                \
+  va_list arg;              \
+  va_start(arg,format);           \
+  vsnprintf( charbuffer,SIZE,format,arg );      \
+  va_end(arg);              \
+  outputbuffer &lt;&lt; tmpbuffer.str() &lt;&lt; charbuffer &lt;&lt;std::endl;  \
     } <span class="keywordflow">while</span>(0)
 </pre></div>
+<p>VP_TEMPLATE_DEBUG_MODE. </p>
+
 <p>Referenced by <a class="el" href="classsot_1_1_debug_trace.html#a1713e9ad4e5357db6e41ead335d9c0c2">sot::DebugTrace::trace()</a>, and <a class="el" href="classsot_1_1_debug_trace.html#a020b2d173fd40c17968565aed1179c4c">sot::DebugTrace::traceTemplate()</a>.</p>
 
 </div>
@@ -250,7 +254,7 @@ Variables</h2></td></tr>
 </div>
 <div class="memdoc">
 <b>Value:</b><div class="fragment"><pre class="fragment"><span class="stringliteral">&quot;\t!! &quot;</span>&lt;&lt;__FILE__ &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt;__FUNCTION__  \
-                            &lt;&lt; <span class="stringliteral">&quot;(#&quot;</span> &lt;&lt; __LINE__ &lt;&lt; <span class="stringliteral">&quot;) :&quot;</span>
+  &lt;&lt; <span class="stringliteral">&quot;(#&quot;</span> &lt;&lt; __LINE__ &lt;&lt; <span class="stringliteral">&quot;) :&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -362,6 +366,8 @@ Variables</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+
+<p>VP_DEBUG_MODE. </p>
 
 </div>
 </div>

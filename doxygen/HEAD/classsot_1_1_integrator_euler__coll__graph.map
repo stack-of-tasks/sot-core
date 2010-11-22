@@ -1,13 +1,5 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_integrator_abstract.html" title="integrates an ODE. If Y is the output and X the input, the following equation is integrated: a_p * d(..." alt="" coords="1956,276,2196,305"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1609,255,1751,284"/>
-<area shape="rect" href="dynamic-graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="304,287,397,316"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="705,235,919,264"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="699,355,925,384"/>
-<area shape="rect" title="STL class." alt="" coords="311,144,391,173"/>
-<area shape="rect" title="STL class." alt="" coords="7,144,172,173"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; sigT, int \&gt;" alt="" coords="1527,340,1833,369"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="1144,416,1357,445"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; sigT, int \&gt;" alt="" coords="1564,393,1796,423"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_time_dependency.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="680,444,944,473"/>
+<area shape="rect" href="$classsot_1_1_integrator_abstract.html" title="integrates an ODE. If Y is the output and X the input, the following equation is integrated: a_p * d(..." alt="" coords="159,199,423,225"/>
+<area shape="rect" title="STL class." alt="" coords="55,87,140,113"/>
+<area shape="rect" title="STL class." alt="" coords="5,7,189,33"/>
 </map>

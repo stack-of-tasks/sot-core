@@ -51,7 +51,7 @@ Here are the classes, structs, unions and interfaces with brief descriptions:<ta
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_exception_signal.html">sot::ExceptionSignal</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_exception_task.html">sot::ExceptionTask</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_exception_tools.html">sot::ExceptionTools</a></td><td class="indexvalue"></td></tr>
-  <tr><td class="indexkey"><a class="el" href="classsot_1_1_factory_storage.html">sot::FactoryStorage</a></td><td class="indexvalue">This class implements the factory that allows creation of objects loaded from dynamic link libraries. Objects are referenced by their class names, and can be created by passing this string to one of the three public "new" methods (newEntity, newFeature or newTask). The factory instance (singleton) is publicly available under the name sotFactory (include factory.h). A task, feature or entity can register itself by using the SOT_FACTORY_{ENTITY,TASK,FEATURE}_PLUGIN macro. See Task.cpp for an example </td></tr>
+  <tr><td class="indexkey"><a class="el" href="classsot_1_1_factory_storage.html">sot::FactoryStorage</a></td><td class="indexvalue">This class implements the factory that allows creation of objects loaded from dynamic link libraries. Objects are referenced by their class names, and can be created by passing this string to one of the three public "new" methods (newEntity, newFeature or newTask). The factory instance (singleton) is publicly available under the name sotFactory (include <a class="el" href="factory_8h.html">factory.h</a>). A task, feature or entity can register itself by using the SOT_FACTORY_{ENTITY,TASK,FEATURE}_PLUGIN macro. See Task.cpp for an example </td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_feature1_d.html">sot::Feature1D</a></td><td class="indexvalue">Simple test: the task is defined to be e_2 = .5 . e'.e, with e the mother task. The jacobian is then J_2 = e'.J, J being the jacobian of the mother task </td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_feature_abstract.html">sot::FeatureAbstract</a></td><td class="indexvalue">This class gives the abstract definition of a feature </td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_feature_generic.html">sot::FeatureGeneric</a></td><td class="indexvalue">Class that defines a generic implementation of the abstract interface for features </td></tr>
@@ -72,6 +72,7 @@ Here are the classes, structs, unions and interfaces with brief descriptions:<ta
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_integrator_euler.html">sot::IntegratorEuler&lt; sigT, coefT &gt;</a></td><td class="indexvalue">Integrates an ODE using a naive Euler integration. TODO: change the integration method. For the moment, the highest derivative of the output signal is computed using the previous values of the other derivatives and the input signal, then integrated n times, which will most certainly induce a huge drift for ODEs with a high order at the denominator </td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_joint_limitator.html">sot::JointLimitator</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_kalman.html">sot::Kalman</a></td><td class="indexvalue"></td></tr>
+  <tr><td class="indexkey"><a class="el" href="classsot_1_1_mailbox.html">sot::Mailbox&lt; Object &gt;</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="class_m_a_t_l_a_b.html">MATLAB</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_matrix_constant.html">sot::MatrixConstant</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_matrix_force.html">sot::MatrixForce</a></td><td class="indexvalue"></td></tr>
@@ -81,8 +82,8 @@ Here are the classes, structs, unions and interfaces with brief descriptions:<ta
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_task_abstract_1_1_memory_task_abstract.html">sot::TaskAbstract::MemoryTaskAbstract</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_memory_task_s_o_t.html">sot::MemoryTaskSOT</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_sot_h_1_1_memory_task_s_o_t_h.html">sot::SotH::MemoryTaskSOTH</a></td><td class="indexvalue"></td></tr>
-  <tr><td class="indexkey"><a class="el" href="classsot_1_1_motion_period.html">sot::MotionPeriod</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="class_motion_period.html">MotionPeriod</a></td><td class="indexvalue"></td></tr>
+  <tr><td class="indexkey"><a class="el" href="classsot_1_1_motion_period.html">sot::MotionPeriod</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_multi_bound.html">sot::MultiBound</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_neck_limitation.html">sot::NeckLimitation</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_op_point_modifier.html">sot::OpPointModifier</a></td><td class="indexvalue"></td></tr>
@@ -107,6 +108,7 @@ Here are the classes, structs, unions and interfaces with brief descriptions:<ta
   <tr><td class="indexkey"><a class="el" href="classsot_rotation_simple_given.html">sotRotationSimpleGiven</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_rotation_simple_householder.html">sotRotationSimpleHouseholder</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1sot_task_registerer.html">sot::sotTaskRegisterer</a></td><td class="indexvalue"></td></tr>
+  <tr><td class="indexkey"><a class="el" href="structsot_1_1_mailbox_1_1sot_timestamped_object.html">sot::Mailbox&lt; Object &gt;::sotTimestampedObject</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_task.html">sot::Task</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_task_abstract.html">sot::TaskAbstract</a></td><td class="indexvalue"></td></tr>
   <tr><td class="indexkey"><a class="el" href="classsot_1_1_task_conti.html">sot::TaskConti</a></td><td class="indexvalue"></td></tr>

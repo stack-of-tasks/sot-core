@@ -1,6 +1,5 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_vector_quaternion.html" title="sot::VectorQuaternion" alt="" coords="5,160,152,189"/>
-<area shape="rect" href="$classsot_1_1_vector_roll_pitch_yaw.html" title="sot::VectorRollPitchYaw" alt="" coords="176,160,336,189"/>
-<area shape="rect" href="$classsot_1_1_vector_u_theta.html" title="sot::VectorUTheta" alt="" coords="360,160,485,189"/>
-<area shape="rect" href="jrl-mal.doxytag$classmaal_1_1boost_1_1_vector.html" title="maal::boost::Vector" alt="" coords="189,5,323,35"/>
+<area shape="rect" href="$classsot_1_1_vector_quaternion.html" title="sot::VectorQuaternion" alt="" coords="5,84,165,110"/>
+<area shape="rect" href="$classsot_1_1_vector_roll_pitch_yaw.html" title="sot::VectorRollPitchYaw" alt="" coords="189,84,352,110"/>
+<area shape="rect" href="$classsot_1_1_vector_u_theta.html" title="sot::VectorUTheta" alt="" coords="376,84,512,110"/>
 </map>

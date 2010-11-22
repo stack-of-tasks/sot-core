@@ -24,15 +24,32 @@
 </div>
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Defines</a>  </div>
   <div class="headertitle">
 <h1>mailbox.t.cpp File Reference</h1>  </div>
 </div>
 <div class="contents">
+<code>#include &lt;<a class="el" href="mailbox_8hxx.html">sot-core/mailbox.hxx</a>&gt;</code><br/>
+<!-- startSectionHeader --><div class="dynheader">
+Include dependency graph for mailbox.t.cpp:<!-- endSectionHeader --></div>
+<!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
+<div class="center"><img src="mailbox_8t_8cpp__incl.png" border="0" usemap="#mailbox_8t_8cpp" alt=""/></div>
+<map name="mailbox_8t_8cpp" id="mailbox_8t_8cpp">
+<area shape="rect" href="mailbox_8hxx.html" title="sot&#45;core/mailbox.hxx" alt="" coords="725,84,880,111"/></map>
+<!-- endSectionContent --></div>
 <table class="memberdecls">
+<tr><td colspan="2"><h2><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html">sot</a></td></tr>
+
+<p><tr><td class="mdescLeft">&#160;</td><td class="mdescRight"><p>This class implements the Stack of <a class="el" href="classsot_1_1_task.html">Task</a>. It allows to deal with the priority of the controllers through the shell. The controllers can be either constraints either tasks. </p>
+<br/></td></tr>
+</p>
 <tr><td colspan="2"><h2><a name="define-members"></a>
 Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mailbox_8t_8cpp.html#a9fb1d03289af90906081e2ff750177b7">__SOT_MAILBOX_T_CPP</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mailbox_8t_8cpp.html#a68a574d92da4d70001bfb4968fede923">MAILBOX_TEMPLATE_SPE</a>(S)</td></tr>
 </table>
 <hr/><h2>Define Documentation</h2>
 <a class="anchor" id="a9fb1d03289af90906081e2ff750177b7"></a><!-- doxytag: member="mailbox.t.cpp::__SOT_MAILBOX_T_CPP" ref="a9fb1d03289af90906081e2ff750177b7" args="" -->
@@ -46,6 +63,31 @@ Defines</h2></td></tr>
 </div>
 <div class="memdoc">
 
+</div>
+</div>
+<a class="anchor" id="a68a574d92da4d70001bfb4968fede923"></a><!-- doxytag: member="mailbox.t.cpp::MAILBOX_TEMPLATE_SPE" ref="a68a574d92da4d70001bfb4968fede923" args="(S)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAILBOX_TEMPLATE_SPE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">S&#160;)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<b>Value:</b><div class="fragment"><pre class="fragment"><span class="keyword">namespace </span>sot { \
+<span class="keyword">template</span> <span class="keywordtype">void</span> <a class="code" href="classsot_1_1_mailbox.html#ad129a8b837e70c644a53df870b4bd210">Mailbox&lt;S&gt;::post</a>(<span class="keyword">const</span> S&amp; obj ); \
+<span class="keyword">template</span> maal::boost::Vector&amp;  <a class="code" href="classsot_1_1_mailbox.html#a7bddd9866b1e6b2d540b25874644e930">Mailbox&lt;S&gt;::getObject</a>( S&amp; res,<span class="keyword">const</span> <span class="keywordtype">int</span>&amp; time ); \
+<span class="keyword">template</span> <span class="keywordtype">bool</span> <a class="code" href="classsot_1_1_mailbox.html#ae3b77a0328e789fd071f9a3214993759">Mailbox&lt;S&gt;::hasBeenUpdated</a>(<span class="keywordtype">void</span>); \
+<span class="keyword">template</span> <a class="code" href="classsot_1_1_mailbox.html#aebce694d2301ac1e378acec759e78ba3">Mailbox&lt;S&gt;::~Mailbox</a>(); \
+<span class="keyword">template</span> Mailbox&lt;S&gt;::sotTimestampedObject&amp; <a class="code" href="classsot_1_1_mailbox.html#ab61c0116c9e4b132c1e7e6c535a80e78">Mailbox&lt;S&gt;::get</a>( Mailbox&lt;S&gt;::sotTimestampedObject&amp; res,<span class="keyword">const</span> <span class="keywordtype">int</span>&amp; dummy ); \
+<span class="keyword">template</span> <a class="code" href="classsot_1_1_mailbox.html#a9403fdb2a9faf3cc6d1e0780de20cb56">Mailbox&lt;S&gt;::Mailbox</a>(<span class="keyword">const</span> std::string&amp; name); \
+}
+</pre></div>
 </div>
 </div>
 </div>

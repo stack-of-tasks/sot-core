@@ -1,16 +1,16 @@
 <map id="G" name="G">
-<area shape="rect" href="$constraint_8h.html" title="constraint.h" alt="" coords="132,83,220,112"/>
-<area shape="rect" href="$sot_8h.html" title="sot.h" alt="" coords="64,160,115,189"/>
-<area shape="rect" href="$sot-qr_8h.html" title="sot&#45;qr.h" alt="" coords="237,160,301,189"/>
-<area shape="rect" href="$feature-task_8h.html" title="feature&#45;task.h" alt="" coords="295,83,393,112"/>
-<area shape="rect" href="$memory-task-sot_8h.html" title="memory&#45;task&#45;sot.h" alt="" coords="417,83,545,112"/>
-<area shape="rect" href="$neck-limitation_8h.html" title="neck&#45;limitation.h" alt="" coords="569,83,684,112"/>
-<area shape="rect" href="$sequencer_8h.html" title="sequencer.h" alt="" coords="708,83,799,112"/>
-<area shape="rect" href="$task_8h.html" title="task.h" alt="" coords="823,83,879,112"/>
-<area shape="rect" href="$kalman_8h.html" title="kalman.h" alt="" coords="139,160,213,189"/>
-<area shape="rect" href="$sot-h_8h.html" title="sot&#45;h.h" alt="" coords="5,237,67,267"/>
-<area shape="rect" href="$weighted-sot_8h.html" title="weighted&#45;sot.h" alt="" coords="91,237,195,267"/>
-<area shape="rect" href="$task-conti_8h.html" title="task&#45;conti.h" alt="" coords="701,160,789,189"/>
-<area shape="rect" href="$task-pd_8h.html" title="task&#45;pd.h" alt="" coords="813,160,888,189"/>
-<area shape="rect" href="$task-unilateral_8h.html" title="task&#45;unilateral.h" alt="" coords="912,160,1024,189"/>
+<area shape="rect" href="$constraint_8h.html" title="constraint.h" alt="" coords="139,84,235,111"/>
+<area shape="rect" href="$sot_8h.html" title="sot.h" alt="" coords="69,161,123,188"/>
+<area shape="rect" href="$sot&#45;qr_8h.html" title="sot&#45;qr.h" alt="" coords="251,161,320,188"/>
+<area shape="rect" href="$feature&#45;task_8h.html" title="feature&#45;task.h" alt="" coords="309,84,421,111"/>
+<area shape="rect" href="$memory&#45;task&#45;sot_8h.html" title="memory&#45;task&#45;sot.h" alt="" coords="445,84,589,111"/>
+<area shape="rect" href="$neck&#45;limitation_8h.html" title="neck&#45;limitation.h" alt="" coords="613,84,741,111"/>
+<area shape="rect" href="$sequencer_8h.html" title="sequencer.h" alt="" coords="765,84,864,111"/>
+<area shape="rect" href="$task_8h.html" title="task.h" alt="" coords="888,84,947,111"/>
+<area shape="rect" href="$kalman_8h.html" title="kalman.h" alt="" coords="147,161,227,188"/>
+<area shape="rect" href="$sot&#45;h_8h.html" title="sot&#45;h.h" alt="" coords="5,239,72,265"/>
+<area shape="rect" href="$weighted&#45;sot_8h.html" title="weighted&#45;sot.h" alt="" coords="96,239,211,265"/>
+<area shape="rect" href="$task&#45;conti_8h.html" title="task&#45;conti.h" alt="" coords="757,161,853,188"/>
+<area shape="rect" href="$task&#45;pd_8h.html" title="task&#45;pd.h" alt="" coords="877,161,957,188"/>
+<area shape="rect" href="$task&#45;unilateral_8h.html" title="task&#45;unilateral.h" alt="" coords="981,161,1104,188"/>
 </map>

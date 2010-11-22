@@ -58,7 +58,7 @@ Classes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_exception_task.html">ExceptionTask</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_exception_tools.html">ExceptionTools</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_factory_storage.html">FactoryStorage</a></td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements the factory that allows creation of objects loaded from dynamic link libraries. Objects are referenced by their class names, and can be created by passing this string to one of the three public "new" methods (newEntity, newFeature or newTask). The factory instance (singleton) is publicly available under the name sotFactory (include factory.h). A task, feature or entity can register itself by using the SOT_FACTORY_{ENTITY,TASK,FEATURE}_PLUGIN macro. See Task.cpp for an example.  <a href="classsot_1_1_factory_storage.html#_details">More...</a><br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This class implements the factory that allows creation of objects loaded from dynamic link libraries. Objects are referenced by their class names, and can be created by passing this string to one of the three public "new" methods (newEntity, newFeature or newTask). The factory instance (singleton) is publicly available under the name sotFactory (include <a class="el" href="factory_8h.html">factory.h</a>). A task, feature or entity can register itself by using the SOT_FACTORY_{ENTITY,TASK,FEATURE}_PLUGIN macro. See Task.cpp for an example.  <a href="classsot_1_1_factory_storage.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1sot_feature_registerer.html">sotFeatureRegisterer</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1sot_task_registerer.html">sotTaskRegisterer</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature1_d.html">Feature1D</a></td></tr>
@@ -91,6 +91,7 @@ Classes</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">integrates an ODE using a naive Euler integration. TODO: change the integration method. For the moment, the highest derivative of the output signal is computed using the previous values of the other derivatives and the input signal, then integrated n times, which will most certainly induce a huge drift for ODEs with a high order at the denominator.  <a href="classsot_1_1_integrator_euler.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html">JointLimitator</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_kalman.html">Kalman</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_mailbox.html">Mailbox</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_matrix_constant.html">MatrixConstant</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_matrix_force.html">MatrixForce</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_matrix_homogeneous.html">MatrixHomogeneous</a></td></tr>
@@ -133,25 +134,27 @@ Classes</h2></td></tr>
 <tr><td colspan="2"><h2><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef <br class="typebreak"/>
-<a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity_registerer.html">dynamicgraph::EntityRegisterer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#af62a7f711035f0c4dd2304351a6400ca">sotEntityRegisterer</a></td></tr>
+dynamicgraph::EntityRegisterer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#af62a7f711035f0c4dd2304351a6400ca">sotEntityRegisterer</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classsot_1_1_mailbox.html">Mailbox</a><br class="typebreak"/>
+&lt; maal::boost::Vector &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a32ba7d03bd1f5e0f4a8359530363e2d7">MailboxVector</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; <a class="el" href="classsot_1_1_multi_bound.html">MultiBound</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a5b4fb8dbc1314ecf650db1426db4bcbb">VectorMultiBound</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classsot_1_1_feature_abstract.html">FeatureAbstract</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#ae1970872985c223e419fbd3eb1bfd05c">SignalCast_sotFeatureAbstractPtr</a></td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#aacc2abe238b0903170603679f9f44cd1">sotDEBUGF</a> (const int level, const char *format,...)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#ab84a456a518c350045a959a0b00fea46">sotDEBUGF</a> (const char *format,...)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a07208243dbb08b41ce83502ebe295125">sotERRORF</a> (const int level, const char *format,...)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a0e482b1cbcdddc243061e5414b66fbda">sotERRORF</a> (const char *format,...)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a224c40e39e21017225a3ef679beae146">sotTDEBUGF</a> (const int level, const char *format,...)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a314463fa20aaf0057301dc263aa8eccb">sotTDEBUGF</a> (const char *format,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a8027b791ea16decf233fdfc345823b38">sotDEBUGF</a> (const int, const char *,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a92507a09ce1a0b474d3478dbf2ddf7b4">sotDEBUGF</a> (const char *,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a520a7faa9cb7e2dfb84a3eeccb4779ac">sotERRORF</a> (const int, const char *,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a3cbcfb9103fc4e74830c9fc3a763b59e">sotERRORF</a> (const char *,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#aca38a5673cb6776071bf4b21b62d7c05">sotTDEBUGF</a> (const int, const char *,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a572631b5885caa2413eba250a2a0f324">sotTDEBUGF</a> (const char *,...)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">SOT_CORE_EXPORT std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#acd3584d13e6ba871e4d6501b611c178f">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="namespacesot.html#a5b4fb8dbc1314ecf650db1426db4bcbb">VectorMultiBound</a> &amp;v)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">SOT_CORE_EXPORT std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#ac3fea35aee11aa6b84af861c68982868">operator&gt;&gt;</a> (std::istream &amp;os, <a class="el" href="namespacesot.html#a5b4fb8dbc1314ecf650db1426db4bcbb">VectorMultiBound</a> &amp;v)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a3b658e583566bc86b9ae4cae5f2d63f1">SOT_SIGNAL_CAST_DEFINITION</a> (<a class="el" href="classsot_1_1_flags.html">Flags</a>)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#af3c762273a56785ef4584988567d3e97">SOT_SIGNAL_CAST_DEFINITION_TRACE</a> (<a class="el" href="namespacesot.html#a5b4fb8dbc1314ecf650db1426db4bcbb">VectorMultiBound</a>)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a072009c330232a1a6cbf50938d5489be">SOT_SIGNAL_CAST_DEFINITION_HPP</a> (<a class="el" href="classsot_1_1_feature_abstract.html">SignalCast_sotFeatureAbstractPtr</a>)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#ad739ae59c1f0d6c6aaff8018eed1cd1b">SOT_SIGNAL_CAST_DEFINITION_HPP</a> (struct timeval)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#aeccd6de6ddce8bce408023daf28b5541">SOT_SIGNAL_CAST_FULL_DEFINITION</a> (<a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">maal::boost::Vector</a>,;SOT_CORE_EXPORT static <a class="elRef" doxygen="jrl-mal.doxytag:" href="namespacemaal_1_1boost.html#a94cc5b5ffc326eaa8103d8745db2a57e">maal::boost::DisplayType</a> displayType;,;,;)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a1a99fc92ab6e6c5408d1f45ba3d6c431">SOT_SIGNAL_CAST_FULL_DEFINITION</a> (<a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_matrix.html">maal::boost::Matrix</a>,;,;,;)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#aeccd6de6ddce8bce408023daf28b5541">SOT_SIGNAL_CAST_FULL_DEFINITION</a> (maal::boost::Vector,;SOT_CORE_EXPORT static maal::boost::DisplayType displayType;,;,;)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a1a99fc92ab6e6c5408d1f45ba3d6c431">SOT_SIGNAL_CAST_FULL_DEFINITION</a> (maal::boost::Matrix,;,;,;)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a63f1e88696ac6ff705948d96eed569a9">SOT_SIGNAL_CAST_DEFINITION_VECTOR</a> (<a class="el" href="classsot_1_1_vector_u_theta.html">VectorUTheta</a>)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#abb5453b81cb8ba7fbc12d6a9c0c0e7b2">SOT_SIGNAL_CAST_DEFINITION_VECTOR</a> (<a class="el" href="classsot_1_1_vector_quaternion.html">VectorQuaternion</a>)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesot.html#a98c2a59f24d18dee1ddbc9cc890a2b8c">SOT_SIGNAL_CAST_DEFINITION_VECTOR</a> (<a class="el" href="classsot_1_1_vector_roll_pitch_yaw.html">VectorRollPitchYaw</a>)</td></tr>
@@ -176,10 +179,23 @@ Variables</h2></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>This class implements the Stack of <a class="el" href="classsot_1_1_task.html">Task</a>. It allows to deal with the priority of the controllers through the shell. The controllers can be either constraints either tasks. </p>
-<p>This class defines the basic elements of a task. A task is defined as <img class="formulaInl" alt="$ {\bf s} ={\bf e}({\bf q}) $" src="form_11.png"/> where <img class="formulaInl" alt="${\bf s} $" src="form_12.png"/> is a set of features and <img class="formulaInl" alt="${\bf q}$" src="form_13.png"/> the actuated joints of the robot. <br/>
- It is assume that <img class="formulaInl" alt="$ {\bf e} = - \lambda \dot{\bf e} $" src="form_14.png"/>. Moreover as it assumed that this task can provide: <img class="formulaInl" alt="$ {\bf J} = \frac{\delta f}{\delta {\bf q}} $" src="form_15.png"/> It then possible to compute <img class="formulaInl" alt="$ \dot{\bf q} = -\lambda {\bf J}^{\#} \dot{\bf e}$" src="form_16.png"/> with <img class="formulaInl" alt="$ \dot{\bf e} = {\bf s}^{des} - {\bf s}^* $" src="form_17.png"/>, and <img class="formulaInl" alt="$ {\bf s}^{des}$" src="form_18.png"/> the desired feature and <img class="formulaInl" alt="$ {\bf s}^* $" src="form_19.png"/> the one currently measured.</p>
+<p>This class defines the basic elements of a task. A task is defined as <img class="formulaInl" alt="$ {\bf s} ={\bf e}({\bf q}) $" src="form_21.png"/> where <img class="formulaInl" alt="${\bf s} $" src="form_22.png"/> is a set of features and <img class="formulaInl" alt="${\bf q}$" src="form_23.png"/> the actuated joints of the robot. <br/>
+ It is assume that <img class="formulaInl" alt="$ {\bf e} = - \lambda \dot{\bf e} $" src="form_24.png"/>. Moreover as it assumed that this task can provide: <img class="formulaInl" alt="$ {\bf J} = \frac{\delta f}{\delta {\bf q}} $" src="form_25.png"/> It then possible to compute <img class="formulaInl" alt="$ \dot{\bf q} = -\lambda {\bf J}^{\#} \dot{\bf e}$" src="form_26.png"/> with <img class="formulaInl" alt="$ \dot{\bf e} = {\bf s}^{des} - {\bf s}^* $" src="form_27.png"/>, and <img class="formulaInl" alt="$ {\bf s}^{des}$" src="form_28.png"/> the desired feature and <img class="formulaInl" alt="$ {\bf s}^* $" src="form_29.png"/> the one currently measured.</p>
 <p>It is possible to add features or clear the list of features. This class makes also possible to select some of the listed of features to compute the control law through setControlSelection, addControlSelection, clearControlSelection. </p>
 <hr/><h2>Typedef Documentation</h2>
+<a class="anchor" id="a32ba7d03bd1f5e0f4a8359530363e2d7"></a><!-- doxytag: member="sot::MailboxVector" ref="a32ba7d03bd1f5e0f4a8359530363e2d7" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="classsot_1_1_mailbox.html">Mailbox</a>&lt;maal::boost::Vector&gt; <a class="el" href="classsot_1_1_mailbox.html">sot::MailboxVector</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="ae1970872985c223e419fbd3eb1bfd05c"></a><!-- doxytag: member="sot::SignalCast_sotFeatureAbstractPtr" ref="ae1970872985c223e419fbd3eb1bfd05c" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -198,7 +214,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity_registerer.html">dynamicgraph::EntityRegisterer</a> <a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity_registerer.html">sot::sotEntityRegisterer</a></td>
+          <td class="memname">typedef dynamicgraph::EntityRegisterer <a class="el" href="namespacesot.html#af62a7f711035f0c4dd2304351a6400ca">sot::sotEntityRegisterer</a></td>
         </tr>
       </table>
 </div>
@@ -468,13 +484,13 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">sot::SOT_SIGNAL_CAST_FULL_DEFINITION </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">maal::boost::Vector</a>&#160;</td>
+          <td class="paramtype">maal::boost::Vector&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">;SOT_CORE_EXPORT static <a class="elRef" doxygen="jrl-mal.doxytag:" href="namespacemaal_1_1boost.html#a94cc5b5ffc326eaa8103d8745db2a57e">maal::boost::DisplayType</a> displayType;&#160;</td>
+          <td class="paramtype">;SOT_CORE_EXPORT static maal::boost::DisplayType displayType;&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
@@ -507,7 +523,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">sot::SOT_SIGNAL_CAST_FULL_DEFINITION </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_matrix.html">maal::boost::Matrix</a>&#160;</td>
+          <td class="paramtype">maal::boost::Matrix&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
@@ -539,21 +555,21 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aacc2abe238b0903170603679f9f44cd1"></a><!-- doxytag: member="sot::sotDEBUGF" ref="aacc2abe238b0903170603679f9f44cd1" args="(const int level, const char *format,...)" -->
+<a class="anchor" id="a8027b791ea16decf233fdfc345823b38"></a><!-- doxytag: member="sot::sotDEBUGF" ref="a8027b791ea16decf233fdfc345823b38" args="(const int, const char *,...)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void sot::sotDEBUGF </td>
           <td>(</td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"> <em>level</em>, </td>
+          <td class="paramtype">const &#160;</td>
+          <td class="paramname"> <em>int</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"> <em>format</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -572,7 +588,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab84a456a518c350045a959a0b00fea46"></a><!-- doxytag: member="sot::sotDEBUGF" ref="ab84a456a518c350045a959a0b00fea46" args="(const char *format,...)" -->
+<a class="anchor" id="a92507a09ce1a0b474d3478dbf2ddf7b4"></a><!-- doxytag: member="sot::sotDEBUGF" ref="a92507a09ce1a0b474d3478dbf2ddf7b4" args="(const char *,...)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -580,7 +596,7 @@ Variables</h2></td></tr>
           <td class="memname">void sot::sotDEBUGF </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"> <em>format</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -599,21 +615,21 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a07208243dbb08b41ce83502ebe295125"></a><!-- doxytag: member="sot::sotERRORF" ref="a07208243dbb08b41ce83502ebe295125" args="(const int level, const char *format,...)" -->
+<a class="anchor" id="a520a7faa9cb7e2dfb84a3eeccb4779ac"></a><!-- doxytag: member="sot::sotERRORF" ref="a520a7faa9cb7e2dfb84a3eeccb4779ac" args="(const int, const char *,...)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void sot::sotERRORF </td>
           <td>(</td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"> <em>level</em>, </td>
+          <td class="paramtype">const &#160;</td>
+          <td class="paramname"> <em>int</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"> <em>format</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -632,7 +648,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0e482b1cbcdddc243061e5414b66fbda"></a><!-- doxytag: member="sot::sotERRORF" ref="a0e482b1cbcdddc243061e5414b66fbda" args="(const char *format,...)" -->
+<a class="anchor" id="a3cbcfb9103fc4e74830c9fc3a763b59e"></a><!-- doxytag: member="sot::sotERRORF" ref="a3cbcfb9103fc4e74830c9fc3a763b59e" args="(const char *,...)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -640,7 +656,7 @@ Variables</h2></td></tr>
           <td class="memname">void sot::sotERRORF </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"> <em>format</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -659,21 +675,21 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a224c40e39e21017225a3ef679beae146"></a><!-- doxytag: member="sot::sotTDEBUGF" ref="a224c40e39e21017225a3ef679beae146" args="(const int level, const char *format,...)" -->
+<a class="anchor" id="aca38a5673cb6776071bf4b21b62d7c05"></a><!-- doxytag: member="sot::sotTDEBUGF" ref="aca38a5673cb6776071bf4b21b62d7c05" args="(const int, const char *,...)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void sot::sotTDEBUGF </td>
           <td>(</td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"> <em>level</em>, </td>
+          <td class="paramtype">const &#160;</td>
+          <td class="paramname"> <em>int</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"> <em>format</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -692,7 +708,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a314463fa20aaf0057301dc263aa8eccb"></a><!-- doxytag: member="sot::sotTDEBUGF" ref="a314463fa20aaf0057301dc263aa8eccb" args="(const char *format,...)" -->
+<a class="anchor" id="a572631b5885caa2413eba250a2a0f324"></a><!-- doxytag: member="sot::sotTDEBUGF" ref="a572631b5885caa2413eba250a2a0f324" args="(const char *,...)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -700,7 +716,7 @@ Variables</h2></td></tr>
           <td class="memname">void sot::sotTDEBUGF </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"> <em>format</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

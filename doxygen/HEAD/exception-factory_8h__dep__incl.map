@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" href="$additional-functions_8h.html" title="additional&#45;functions.h" alt="" coords="5,160,149,189"/>
-<area shape="rect" href="$pool_8h.html" title="pool.h" alt="" coords="188,83,244,112"/>
-<area shape="rect" href="$factory_8h.html" title="factory.h" alt="" coords="268,83,340,112"/>
-<area shape="rect" href="$binary-op_8h.html" title="binary&#45;op.h" alt="" coords="173,160,259,189"/>
-<area shape="rect" href="$derivator_8h.html" title="derivator.h" alt="" coords="283,160,365,189"/>
-<area shape="rect" href="$unary-op_8h.html" title="unary&#45;op.h" alt="" coords="389,160,472,189"/>
+<area shape="rect" href="$additional&#45;functions_8h.html" title="additional&#45;functions.h" alt="" coords="5,162,163,188"/>
+<area shape="rect" href="$pool_8h.html" title="pool.h" alt="" coords="204,84,263,111"/>
+<area shape="rect" href="$factory_8h.html" title="factory.h" alt="" coords="287,84,361,111"/>
+<area shape="rect" href="$binary&#45;op_8h.html" title="binary&#45;op.h" alt="" coords="187,162,280,188"/>
+<area shape="rect" href="$derivator_8h.html" title="derivator.h" alt="" coords="304,162,392,188"/>
+<area shape="rect" href="$unary&#45;op_8h.html" title="unary&#45;op.h" alt="" coords="416,162,507,188"/>
 </map>

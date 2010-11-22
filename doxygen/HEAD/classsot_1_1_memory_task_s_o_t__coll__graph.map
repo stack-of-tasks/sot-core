@@ -1,14 +1,5 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_task_abstract_1_1_memory_task_abstract.html" title="sot::TaskAbstract::MemoryTaskAbstract" alt="" coords="1384,7,1640,36"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1441,131,1583,160"/>
-<area shape="rect" href="dynamic-graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="225,327,319,356"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="440,236,653,265"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="433,491,660,520"/>
-<area shape="rect" title="STL class." alt="" coords="232,161,312,191"/>
-<area shape="rect" title="STL class." alt="" coords="7,161,172,191"/>
-<area shape="rect" href="jrl-mal.doxytag$classmaal_1_1boost_1_1_matrix_svd.html" title="maal::boost::MatrixSvd" alt="" coords="1435,184,1589,213"/>
-<area shape="rect" href="jrl-mal.doxytag$classmaal_1_1boost_1_1_matrix.html" title="maal::boost::Matrix" alt="" coords="869,353,1003,383"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; ml::Matrix, int \&gt;" alt="" coords="1388,451,1636,480"/>
-<area shape="rect" href="dynamic-graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; unsigned int, int \&gt;" alt="" coords="1099,561,1360,591"/>
-<area shape="rect" href="jrl-mal.doxytag$classmaal_1_1boost_1_1_vector.html" title="maal::boost::Vector" alt="" coords="1445,504,1579,533"/>
+<area shape="rect" href="$classsot_1_1_task_abstract_1_1_memory_task_abstract.html" title="sot::TaskAbstract::MemoryTaskAbstract" alt="" coords="5,86,277,113"/>
+<area shape="rect" title="STL class." alt="" coords="301,86,387,113"/>
+<area shape="rect" title="STL class." alt="" coords="252,6,436,33"/>
 </map>

@@ -39,7 +39,7 @@ Inheritance diagram for RotationSimple:<!-- endSectionHeader --></div>
 <!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
 <div class="center"><img src="class_rotation_simple__inherit__graph.png" border="0" usemap="#_rotation_simple_inherit__map" alt="Inheritance graph"/></div>
 <map name="_rotation_simple_inherit__map" id="_rotation_simple_inherit__map">
-<area shape="rect" href="classsot_rotation_composed.html" title="sotRotationComposed" alt="" coords="192,5,341,35"/><area shape="rect" href="classsot_rotation_composed_in_extenso.html" title="sotRotationComposedInExtenso" alt="" coords="163,59,371,88"/><area shape="rect" href="classsot_rotation_simple_given.html" title="sotRotationSimpleGiven" alt="" coords="187,112,347,141"/><area shape="rect" href="classsot_rotation_simple_householder.html" title="sotRotationSimpleHouseholder" alt="" coords="167,165,367,195"/></map>
+<area shape="rect" href="classsot_rotation_composed.html" title="sotRotationComposed" alt="" coords="201,5,364,32"/><area shape="rect" href="classsot_rotation_composed_in_extenso.html" title="sotRotationComposedInExtenso" alt="" coords="171,56,395,82"/><area shape="rect" href="classsot_rotation_simple_given.html" title="sotRotationSimpleGiven" alt="" coords="196,106,369,133"/><area shape="rect" href="classsot_rotation_simple_householder.html" title="sotRotationSimpleHouseholder" alt="" coords="173,157,392,184"/></map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center><!-- endSectionContent --></div>
 
 <p><a href="class_rotation_simple-members.html">List of all members.</a></p>
@@ -47,9 +47,6 @@ Inheritance diagram for RotationSimple:<!-- endSectionHeader --></div>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rotation_simple.html#ad89e2ac1961dbdc0fae398044b96df1f">~RotationSimple</a> (void)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rotation_simple.html#a9bc15962632c7feefda87e7ef14c1b51">SOT_ROTATION_SIMPLE_TEMPLATE_VECTOR_LIST</a> (SOT_ROTATION_SIMPLE_MULTIPLY)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rotation_simple.html#a07aaab8bb1a4a5e5efac74443bbbd2ae">SOT_ROTATION_SIMPLE_TEMPLATE_MATRIX_LIST</a> (SOT_ROTATION_SIMPLE_MULTIPLY)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rotation_simple.html#a5b98813d08b84f6297c8bd2439c8d0fc">SOT_ROTATION_SIMPLE_TEMPLATE_MATRIX_LIST</a> (SOT_ROTATION_SIMPLE_MULTIPLY_TRANSPOSE)</td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;typename bubTemplateVectorIN , typename bubTemplateVectorOUT &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_rotation_simple.html#a29959d136c27ba50ddcd8976a90c097b">multiplyRangeRight</a> (const bubTemplateVectorIN &amp;M, bubTemplateVectorOUT &amp;res, const unsigned int zeroBefore, const unsigned int zeroAfter) const </td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;typename bubTemplateVector &gt; </td></tr>
@@ -104,6 +101,43 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a5678e6f78ac96673c921edfedb933c34"></a><!-- doxytag: member="RotationSimple::multiplyRangeLeft" ref="a5678e6f78ac96673c921edfedb933c34" args="(bubTemplateVector &amp;m, const unsigned int zeroBefore, const unsigned int zeroAfter) const " -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename bubTemplateVector &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bub::vector_range&lt;bubTemplateVector&gt; RotationSimple::multiplyRangeLeft </td>
+          <td>(</td>
+          <td class="paramtype">bubTemplateVector &amp;&#160;</td>
+          <td class="paramname"> <em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const unsigned int&#160;</td>
+          <td class="paramname"> <em>zeroBefore</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const unsigned int&#160;</td>
+          <td class="paramname"> <em>zeroAfter</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const<code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="classsot_rotation_composed_in_extenso.html#a1a16a5f324ba5ec30e2de050d38e89c6">sotRotationComposedInExtenso</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="afcadc7637d2e5b69f52efdd50f6634bb"></a><!-- doxytag: member="RotationSimple::multiplyRangeLeft" ref="afcadc7637d2e5b69f52efdd50f6634bb" args="(const bubTemplateVectorIN &amp;M, bubTemplateVectorOUT &amp;res, const unsigned int zeroBefore, const unsigned int zeroAfter) const " -->
 <div class="memitem">
 <div class="memproto">
@@ -147,43 +181,6 @@ template&lt;typename bubTemplateVectorIN , typename bubTemplateVectorOUT &gt; </
 
 </div>
 </div>
-<a class="anchor" id="a5678e6f78ac96673c921edfedb933c34"></a><!-- doxytag: member="RotationSimple::multiplyRangeLeft" ref="a5678e6f78ac96673c921edfedb933c34" args="(bubTemplateVector &amp;m, const unsigned int zeroBefore, const unsigned int zeroAfter) const " -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename bubTemplateVector &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">bub::vector_range&lt;bubTemplateVector&gt; RotationSimple::multiplyRangeLeft </td>
-          <td>(</td>
-          <td class="paramtype">bubTemplateVector &amp;&#160;</td>
-          <td class="paramname"> <em>m</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const unsigned int&#160;</td>
-          <td class="paramname"> <em>zeroBefore</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const unsigned int&#160;</td>
-          <td class="paramname"> <em>zeroAfter</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const<code> [inline]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Reimplemented in <a class="el" href="classsot_rotation_composed_in_extenso.html#a1a16a5f324ba5ec30e2de050d38e89c6">sotRotationComposedInExtenso</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a693e9ed6d491d7c258f4fd1362621d10"></a><!-- doxytag: member="RotationSimple::multiplyRangeRight" ref="a693e9ed6d491d7c258f4fd1362621d10" args="(const bubMatrix &amp;M, bubMatrix &amp;res, const unsigned int zeroBefore, const unsigned int zeroAfter) const " -->
 <div class="memitem">
 <div class="memproto">
@@ -199,39 +196,6 @@ template&lt;typename bubTemplateVector &gt; </div>
           <td></td>
           <td class="paramtype"><a class="el" href="rotation-simple_8h.html#ab2bf3dd9d46dc69c603bc3d1e2d6f2a4">bubMatrix</a> &amp;&#160;</td>
           <td class="paramname"> <em>res</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const unsigned int&#160;</td>
-          <td class="paramname"> <em>zeroBefore</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const unsigned int&#160;</td>
-          <td class="paramname"> <em>zeroAfter</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const<code> [inline, virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a749e14d58a01e0f5a979ecfd75d892be"></a><!-- doxytag: member="RotationSimple::multiplyRangeRight" ref="a749e14d58a01e0f5a979ecfd75d892be" args="(bubMatrix &amp;M, const unsigned int zeroBefore, const unsigned int zeroAfter) const " -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void RotationSimple::multiplyRangeRight </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="rotation-simple_8h.html#ab2bf3dd9d46dc69c603bc3d1e2d6f2a4">bubMatrix</a> &amp;&#160;</td>
-          <td class="paramname"> <em>M</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -293,6 +257,39 @@ template&lt;typename bubTemplateVector &gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a749e14d58a01e0f5a979ecfd75d892be"></a><!-- doxytag: member="RotationSimple::multiplyRangeRight" ref="a749e14d58a01e0f5a979ecfd75d892be" args="(bubMatrix &amp;M, const unsigned int zeroBefore, const unsigned int zeroAfter) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void RotationSimple::multiplyRangeRight </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="rotation-simple_8h.html#ab2bf3dd9d46dc69c603bc3d1e2d6f2a4">bubMatrix</a> &amp;&#160;</td>
+          <td class="paramname"> <em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const unsigned int&#160;</td>
+          <td class="paramname"> <em>zeroBefore</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const unsigned int&#160;</td>
+          <td class="paramname"> <em>zeroAfter</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const<code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a29959d136c27ba50ddcd8976a90c097b"></a><!-- doxytag: member="RotationSimple::multiplyRangeRight" ref="a29959d136c27ba50ddcd8976a90c097b" args="(const bubTemplateVectorIN &amp;M, bubTemplateVectorOUT &amp;res, const unsigned int zeroBefore, const unsigned int zeroAfter) const " -->
 <div class="memitem">
 <div class="memproto">
@@ -335,57 +332,6 @@ template&lt;typename bubTemplateVectorIN , typename bubTemplateVectorOUT &gt; </
 <p>Reimplemented in <a class="el" href="classsot_rotation_composed_in_extenso.html#a74dcd9100bae5afa974aad5dc9334c51">sotRotationComposedInExtenso</a>.</p>
 
 <p>References <a class="el" href="rotation-simple_8h.html#a68d03aedc7e06e1b69acae336ec3a364">bubClear()</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a5b98813d08b84f6297c8bd2439c8d0fc"></a><!-- doxytag: member="RotationSimple::SOT_ROTATION_SIMPLE_TEMPLATE_MATRIX_LIST" ref="a5b98813d08b84f6297c8bd2439c8d0fc" args="(SOT_ROTATION_SIMPLE_MULTIPLY_TRANSPOSE)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">RotationSimple::SOT_ROTATION_SIMPLE_TEMPLATE_MATRIX_LIST </td>
-          <td>(</td>
-          <td class="paramtype">SOT_ROTATION_SIMPLE_MULTIPLY_TRANSPOSE&#160;</td>
-          <td class="paramname">&#160;)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a07aaab8bb1a4a5e5efac74443bbbd2ae"></a><!-- doxytag: member="RotationSimple::SOT_ROTATION_SIMPLE_TEMPLATE_MATRIX_LIST" ref="a07aaab8bb1a4a5e5efac74443bbbd2ae" args="(SOT_ROTATION_SIMPLE_MULTIPLY)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">RotationSimple::SOT_ROTATION_SIMPLE_TEMPLATE_MATRIX_LIST </td>
-          <td>(</td>
-          <td class="paramtype">SOT_ROTATION_SIMPLE_MULTIPLY&#160;</td>
-          <td class="paramname">&#160;)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a9bc15962632c7feefda87e7ef14c1b51"></a><!-- doxytag: member="RotationSimple::SOT_ROTATION_SIMPLE_TEMPLATE_VECTOR_LIST" ref="a9bc15962632c7feefda87e7ef14c1b51" args="(SOT_ROTATION_SIMPLE_MULTIPLY)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">RotationSimple::SOT_ROTATION_SIMPLE_TEMPLATE_VECTOR_LIST </td>
-          <td>(</td>
-          <td class="paramtype">SOT_ROTATION_SIMPLE_MULTIPLY&#160;</td>
-          <td class="paramname">&#160;)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
 
 </div>
 </div>
