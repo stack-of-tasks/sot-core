@@ -139,7 +139,7 @@ computeJacobian( ml::Matrix& J,int time )
 	{for(unsigned int j=0;j<3;j++)
             {
               if( i==j) { Lx(i,j)=-1; } else { Lx(i,j)=0; }
-              Lx(i,j+3)=0;
+              Lx(i+3,j)=0;
               Lx(i+3,j+3)=-hdRh(i,j);
             }
         }
