@@ -138,14 +138,15 @@ computeJacobian( ml::Matrix& J,int time )
       for(unsigned int i=0;i<3;i++)
 	{for(unsigned int j=0;j<3;j++)
             {
-              if( i==j) { Lx(i,j)=-1; Lx(i,j+3)=0; } else { Lx(i,j)=0; }
+              if( i==j) { Lx(i,j)=-1; } else { Lx(i,j)=0; }
               Lx(i,j+3)=0;
               Lx(i+3,j+3)=-hdRh(i,j);
             }
         }
       const double & X=Rhdth(0), &Y=Rhdth(1), &Z=Rhdth(2);
-      Lx(0,4) = -Z ;      Lx(0,5) = Y ;       Lx(1,3) = Z ;
-      Lx(1,5) = -X ;      Lx(2,3) = -Y ;      Lx(2,4) = X ;
+      Lx(0,4) = -Z ;      Lx(0,5) =  Y ;       Lx(1,3) = Z ;
+      Lx(1,5) = -X ;      Lx(2,3) = -Y ;       Lx(2,4) = X ;
+      Lx(0,3) =  0 ;      Lx(1,4) =  0 ;       Lx(2,5) = 0 ;
       sotDEBUG(15) << "Lx= "<<Lx<<endl;
 
       Lx.multiply(Jq,LJq);
