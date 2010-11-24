@@ -80,11 +80,11 @@ Public Member Functions</h2></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Methods to control internal computation.</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p>The main idea is that some feature may have a lower frequency than the internal control loop. In this case, the methods for computation are called only when needed. </p>
 </div></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual ml::Vector &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_abstract.html#a49cf2c4a71477c7c4756cb5aeadabf86">computeError</a> (ml::Vector &amp;res, int time)=0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_abstract.html#a49cf2c4a71477c7c4756cb5aeadabf86">computeError</a> (<a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a> &amp;res, int time)=0</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the error between the desired feature and the current value of the feature measured or deduced from the robot state.  <a href="#a49cf2c4a71477c7c4756cb5aeadabf86"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual ml::Matrix &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_abstract.html#a5439f98714e2457cc7b8cfbdad58c943">computeJacobian</a> (ml::Matrix &amp;res, int time)=0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_matrix.html">ml::Matrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_abstract.html#a5439f98714e2457cc7b8cfbdad58c943">computeJacobian</a> (<a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_matrix.html">ml::Matrix</a> &amp;res, int time)=0</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the Jacobian of the error according the robot state.  <a href="#a5439f98714e2457cc7b8cfbdad58c943"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual ml::Vector &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_abstract.html#a612c3308947d63fa55b10cec8f86b6ab">computeActivation</a> (ml::Vector &amp;res, int time)=0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_abstract.html#a612c3308947d63fa55b10cec8f86b6ab">computeActivation</a> (<a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a> &amp;res, int time)=0</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Reevaluate the current value of the feature according to external measurement provided through a mailbox, or deduced from the estimated state of the robot at the time specified.  <a href="#a612c3308947d63fa55b10cec8f86b6ab"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -101,13 +101,13 @@ Static Public Attributes</h2></td></tr>
 <tr><td colspan="2"><h2><a name="member-group"></a>
 Output signals:</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a><br class="typebreak"/>
-&lt; ml::Vector, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_abstract.html#a30a9a959c48ab7c699169ccc60855766">errorSOUT</a></td></tr>
+&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_abstract.html#a30a9a959c48ab7c699169ccc60855766">errorSOUT</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This signal returns the error between the desired value and the current value : <img class="formulaInl" alt="$ {\bf s}^*(t) - {\bf s}(t)$" src="form_7.png"/>.  <a href="#a30a9a959c48ab7c699169ccc60855766"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a><br class="typebreak"/>
-&lt; ml::Matrix, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_abstract.html#a82f4c7e91bfe4a350d05c9c021f10452">jacobianSOUT</a></td></tr>
+&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_matrix.html">ml::Matrix</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_abstract.html#a82f4c7e91bfe4a350d05c9c021f10452">jacobianSOUT</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This signal returns the Jacobian of the current value according to the robot state: <img class="formulaInl" alt="$ J(t) = \frac{\delta{\bf s}^*(t)}{\delta {\bf q}(t)}$" src="form_8.png"/>.  <a href="#a82f4c7e91bfe4a350d05c9c021f10452"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a><br class="typebreak"/>
-&lt; ml::Vector, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_abstract.html#a42e765b591ed15caaf419aed258cdaff">activationSOUT</a></td></tr>
+&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_abstract.html#a42e765b591ed15caaf419aed258cdaff">activationSOUT</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the new value of the feature <img class="formulaInl" alt="$ {\bf s}(t)$" src="form_9.png"/>.  <a href="#a42e765b591ed15caaf419aed258cdaff"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a><br class="typebreak"/>
 &lt; unsigned int, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_abstract.html#a0791531358f98cc4c27392594e14b4d3">dimensionSOUT</a></td></tr>
@@ -163,9 +163,9 @@ Output signals:</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual ml::Vector&amp; sot::FeatureAbstract::computeActivation </td>
+          <td class="memname">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a>&amp; sot::FeatureAbstract::computeActivation </td>
           <td>(</td>
-          <td class="paramtype">ml::Vector &amp;&#160;</td>
+          <td class="paramtype"><a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a> &amp;&#160;</td>
           <td class="paramname"> <em>res</em>, </td>
         </tr>
         <tr>
@@ -196,9 +196,9 @@ Output signals:</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual ml::Vector&amp; sot::FeatureAbstract::computeError </td>
+          <td class="memname">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a>&amp; sot::FeatureAbstract::computeError </td>
           <td>(</td>
-          <td class="paramtype">ml::Vector &amp;&#160;</td>
+          <td class="paramtype"><a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a> &amp;&#160;</td>
           <td class="paramname"> <em>res</em>, </td>
         </tr>
         <tr>
@@ -230,9 +230,9 @@ Output signals:</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual ml::Matrix&amp; sot::FeatureAbstract::computeJacobian </td>
+          <td class="memname">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_matrix.html">ml::Matrix</a>&amp; sot::FeatureAbstract::computeJacobian </td>
           <td>(</td>
-          <td class="paramtype">ml::Matrix &amp;&#160;</td>
+          <td class="paramtype"><a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_matrix.html">ml::Matrix</a> &amp;&#160;</td>
           <td class="paramname"> <em>res</em>, </td>
         </tr>
         <tr>
@@ -409,7 +409,7 @@ Output signals:</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a>&lt;ml::Vector,int&gt; <a class="el" href="classsot_1_1_feature_abstract.html#a42e765b591ed15caaf419aed258cdaff">sot::FeatureAbstract::activationSOUT</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a>&lt;<a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a>,int&gt; <a class="el" href="classsot_1_1_feature_abstract.html#a42e765b591ed15caaf419aed258cdaff">sot::FeatureAbstract::activationSOUT</a></td>
         </tr>
       </table>
 </div>
@@ -473,7 +473,7 @@ Output signals:</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a>&lt;ml::Vector,int&gt; <a class="el" href="classsot_1_1_feature_abstract.html#a30a9a959c48ab7c699169ccc60855766">sot::FeatureAbstract::errorSOUT</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a>&lt;<a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a>,int&gt; <a class="el" href="classsot_1_1_feature_abstract.html#a30a9a959c48ab7c699169ccc60855766">sot::FeatureAbstract::errorSOUT</a></td>
         </tr>
       </table>
 </div>
@@ -488,7 +488,7 @@ Output signals:</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a>&lt;ml::Matrix,int&gt; <a class="el" href="classsot_1_1_feature_abstract.html#a82f4c7e91bfe4a350d05c9c021f10452">sot::FeatureAbstract::jacobianSOUT</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a>&lt;<a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_matrix.html">ml::Matrix</a>,int&gt; <a class="el" href="classsot_1_1_feature_abstract.html#a82f4c7e91bfe4a350d05c9c021f10452">sot::FeatureAbstract::jacobianSOUT</a></td>
         </tr>
       </table>
 </div>

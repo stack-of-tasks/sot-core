@@ -1,3 +1,7 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_constraint_mem.html" title="sot::ConstraintMem" alt="" coords="7,5,153,32"/>
+<area shape="rect" href="$class_rotation_simple.html" title="RotationSimple" alt="" coords="5,81,123,108"/>
+<area shape="rect" href="$classsot_rotation_composed.html" title="sotRotationComposed" alt="" coords="201,5,364,32"/>
+<area shape="rect" href="$classsot_rotation_composed_in_extenso.html" title="sotRotationComposedInExtenso" alt="" coords="171,56,395,82"/>
+<area shape="rect" href="$classsot_rotation_simple_given.html" title="sotRotationSimpleGiven" alt="" coords="196,106,369,133"/>
+<area shape="rect" href="$classsot_rotation_simple_householder.html" title="sotRotationSimpleHouseholder" alt="" coords="173,157,392,184"/>
 </map>

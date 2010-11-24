@@ -1,14 +1,16 @@
 <map id="G" name="G">
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1732,423,1887,450"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="241,338,343,364"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="469,452,707,479"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="463,259,713,286"/>
-<area shape="rect" title="STL class." alt="" coords="249,504,335,531"/>
-<area shape="rect" title="STL class." alt="" coords="5,504,189,531"/>
-<area shape="rect" href="$classsot_1_1_periodic_call.html" title="sot::PeriodicCall" alt="" coords="1748,544,1871,571"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; ml::Vector, int \&gt;" alt="" coords="1661,132,1957,159"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="1012,106,1247,132"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; ml::Vector, int \&gt;" alt="" coords="1359,295,1636,322"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; MatrixRotation, int \&gt;" alt="" coords="977,212,1281,239"/>
-<area shape="rect" href="$classsot_1_1_matrix_rotation.html" title="sot::MatrixRotation" alt="" coords="519,208,657,235"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1620,326,1775,353"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="261,381,363,408"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="509,301,747,328"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="503,521,753,548"/>
+<area shape="rect" title="STL class." alt="" coords="269,176,355,202"/>
+<area shape="rect" title="STL class." alt="" coords="5,176,189,202"/>
+<area shape="rect" href="$classsot_1_1_periodic_call.html" title="sot::PeriodicCall" alt="" coords="1636,224,1759,250"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; ml::Vector, int \&gt;" alt="" coords="1549,421,1845,448"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="1052,470,1287,497"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; ml::Vector, int \&gt;" alt="" coords="1559,596,1836,622"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; MatrixRotation, int \&gt;" alt="" coords="1017,530,1321,557"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$classmaal_1_1boost_1_1_vector.html" title="maal::boost::Vector" alt="" coords="1096,708,1243,734"/>
+<area shape="rect" href="$classsot_1_1_matrix_rotation.html" title="sot::MatrixRotation" alt="" coords="559,685,697,712"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$classmaal_1_1boost_1_1_matrix.html" title="maal::boost::Matrix" alt="" coords="240,685,384,712"/>
 </map>

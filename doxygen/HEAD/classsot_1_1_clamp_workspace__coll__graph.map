@@ -1,15 +1,17 @@
 <map id="G" name="G">
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1485,357,1640,384"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="241,256,343,282"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="483,337,720,364"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="476,185,727,212"/>
-<area shape="rect" title="STL class." alt="" coords="249,416,335,442"/>
-<area shape="rect" title="STL class." alt="" coords="5,416,189,442"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Matrix, int \&gt;" alt="" coords="1373,270,1752,297"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="955,170,1189,197"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; MatrixHomogeneous, int \&gt;" alt="" coords="1381,145,1744,172"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; MatrixHomogeneous, int \&gt;" alt="" coords="1339,204,1787,230"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_time_dependency.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="927,226,1217,253"/>
-<area shape="rect" href="$classsot_1_1_matrix_rotation.html" title="sot::MatrixRotation" alt="" coords="1493,553,1632,580"/>
-<area shape="rect" href="$classsot_1_1_matrix_homogeneous.html" title="sot::MatrixHomogeneous" alt="" coords="1472,610,1653,637"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1485,203,1640,230"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="241,263,343,290"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="483,190,720,216"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="476,296,727,323"/>
+<area shape="rect" title="STL class." alt="" coords="249,103,335,130"/>
+<area shape="rect" title="STL class." alt="" coords="5,103,189,130"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Matrix, int \&gt;" alt="" coords="1373,320,1752,347"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="955,320,1189,347"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; MatrixHomogeneous, int \&gt;" alt="" coords="1381,267,1744,294"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; MatrixHomogeneous, int \&gt;" alt="" coords="1339,371,1787,398"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_time_dependency.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="927,428,1217,455"/>
+<area shape="rect" href="$classsot_1_1_matrix_rotation.html" title="sot::MatrixRotation" alt="" coords="1493,422,1632,448"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$classmaal_1_1boost_1_1_matrix.html" title="maal::boost::Matrix" alt="" coords="1000,492,1144,519"/>
+<area shape="rect" href="$classsot_1_1_matrix_homogeneous.html" title="sot::MatrixHomogeneous" alt="" coords="1472,554,1653,580"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$classmaal_1_1boost_1_1_vector.html" title="maal::boost::Vector" alt="" coords="1489,604,1636,631"/>
 </map>

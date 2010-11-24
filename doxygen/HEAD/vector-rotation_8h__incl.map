@@ -1,4 +1,9 @@
 <map id="G" name="G">
-<area shape="rect" href="$matrix&#45;rotation_8h.html" title="sot&#45;core/matrix&#45;rotation.h" alt="" coords="80,84,267,111"/>
-<area shape="rect" href="$sot&#45;core&#45;api_8h.html" title="sot&#45;core/sot&#45;core&#45;api.h" alt="" coords="196,162,364,188"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$boost_8hh.html" title="jrl/mal/boost.hh" alt="" coords="55,161,175,188"/>
+<area shape="rect" href="$matrix&#45;rotation_8h.html" title="sot&#45;core/matrix&#45;rotation.h" alt="" coords="129,84,316,110"/>
+<area shape="rect" href="$sot&#45;core&#45;api_8h.html" title="sot&#45;core/sot&#45;core&#45;api.h" alt="" coords="245,161,413,188"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$boostmacros_8hh.html" title="jrl/mal/boostmacros.hh" alt="" coords="31,316,199,342"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$boostvector_8hh.html" title="jrl/mal/boostvector.hh" alt="" coords="35,238,195,265"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$boostmatrix_8hh.html" title="jrl/mal/boostmatrix.hh" alt="" coords="219,238,379,265"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$boostsvd_8hh.html" title="jrl/mal/boostsvd.hh" alt="" coords="228,316,369,342"/>
 </map>
