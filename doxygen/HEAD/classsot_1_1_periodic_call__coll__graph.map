@@ -1,4 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" title="STL class." alt="" coords="240,32,325,59"/>
-<area shape="rect" title="STL class." alt="" coords="5,32,189,59"/>
+<area shape="rect" title="STL class." alt="" coords="249,85,335,112"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="453,32,691,59"/>
+<area shape="rect" title="STL class." alt="" coords="5,85,189,112"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="241,5,343,32"/>
 </map>

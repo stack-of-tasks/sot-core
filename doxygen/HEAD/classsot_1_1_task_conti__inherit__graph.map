@@ -1,4 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_task.html" title="sot::Task" alt="" coords="33,84,108,111"/>
-<area shape="rect" href="$classsot_1_1_task_abstract.html" title="sot::TaskAbstract" alt="" coords="5,7,136,34"/>
+<area shape="rect" href="$classsot_1_1_task.html" title="sot::Task" alt="" coords="45,238,120,265"/>
+<area shape="rect" href="$classsot_1_1_task_abstract.html" title="sot::TaskAbstract" alt="" coords="17,161,148,188"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="5,84,160,110"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="32,6,133,33"/>
 </map>

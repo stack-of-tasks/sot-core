@@ -1,5 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_periodic_call.html" title="sot::PeriodicCall" alt="" coords="979,37,1101,64"/>
-<area shape="rect" title="STL class." alt="" coords="240,37,325,64"/>
-<area shape="rect" title="STL class." alt="" coords="5,37,189,64"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1612,256,1767,283"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="241,130,343,156"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="469,244,707,271"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="463,58,713,84"/>
+<area shape="rect" title="STL class." alt="" coords="249,296,335,323"/>
+<area shape="rect" title="STL class." alt="" coords="5,296,189,323"/>
+<area shape="rect" href="$classsot_1_1_periodic_call.html" title="sot::PeriodicCall" alt="" coords="1628,336,1751,363"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; int, int \&gt;" alt="" coords="1357,84,1587,111"/>
 </map>

@@ -1,4 +1,13 @@
 <map id="G" name="G">
-<area shape="rect" title="STL class." alt="" coords="55,86,140,113"/>
-<area shape="rect" title="STL class." alt="" coords="5,6,189,33"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1879,115,2033,141"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="329,5,431,32"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="740,32,977,59"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="733,259,984,285"/>
+<area shape="rect" title="STL class." alt="" coords="337,152,423,179"/>
+<area shape="rect" title="STL class." alt="" coords="5,152,189,179"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; double, int \&gt;" alt="" coords="1515,255,1771,281"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="1219,337,1453,364"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_time_dependency.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="713,444,1004,471"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; T, int \&gt;" alt="" coords="1795,364,2117,391"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; T, int \&gt;" alt="" coords="1837,313,2075,340"/>
 </map>

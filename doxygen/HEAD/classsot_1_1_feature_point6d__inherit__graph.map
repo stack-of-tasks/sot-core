@@ -1,4 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_feature_point6d_relative.html" title="Class that defines the motion of a point of the body wrt. another point." alt="" coords="5,162,200,188"/>
-<area shape="rect" href="$classsot_1_1_feature_abstract.html" title="This class gives the abstract definition of a feature." alt="" coords="27,7,179,34"/>
+<area shape="rect" href="$classsot_1_1_feature_point6d_relative.html" title="Class that defines the motion of a point of the body wrt. another point." alt="" coords="5,316,200,342"/>
+<area shape="rect" href="$classsot_1_1_feature_abstract.html" title="This class gives the abstract definition of a feature." alt="" coords="27,161,179,188"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="25,84,180,110"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="52,6,153,33"/>
 </map>

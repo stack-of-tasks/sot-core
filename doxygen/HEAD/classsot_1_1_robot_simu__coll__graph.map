@@ -1,5 +1,14 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_periodic_call.html" title="sot::PeriodicCall" alt="" coords="979,40,1101,67"/>
-<area shape="rect" title="STL class." alt="" coords="240,37,325,64"/>
-<area shape="rect" title="STL class." alt="" coords="5,37,189,64"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1732,423,1887,450"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="241,338,343,364"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="469,452,707,479"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="463,259,713,286"/>
+<area shape="rect" title="STL class." alt="" coords="249,504,335,531"/>
+<area shape="rect" title="STL class." alt="" coords="5,504,189,531"/>
+<area shape="rect" href="$classsot_1_1_periodic_call.html" title="sot::PeriodicCall" alt="" coords="1748,544,1871,571"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; ml::Vector, int \&gt;" alt="" coords="1661,132,1957,159"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="1012,106,1247,132"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; ml::Vector, int \&gt;" alt="" coords="1359,295,1636,322"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; MatrixRotation, int \&gt;" alt="" coords="977,212,1281,239"/>
+<area shape="rect" href="$classsot_1_1_matrix_rotation.html" title="sot::MatrixRotation" alt="" coords="519,208,657,235"/>
 </map>

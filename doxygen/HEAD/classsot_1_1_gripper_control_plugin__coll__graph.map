@@ -1,5 +1,14 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_gripper_control.html" title="sot::GripperControl" alt="" coords="5,86,147,113"/>
-<area shape="rect" title="STL class." alt="" coords="171,86,256,113"/>
-<area shape="rect" title="STL class." alt="" coords="121,6,305,33"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1716,79,1871,106"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="329,198,431,224"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="740,80,977,107"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="733,362,984,388"/>
+<area shape="rect" title="STL class." alt="" coords="337,80,423,107"/>
+<area shape="rect" title="STL class." alt="" coords="5,80,189,107"/>
+<area shape="rect" href="$classsot_1_1_gripper_control.html" title="sot::GripperControl" alt="" coords="1723,182,1864,208"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; ml::Vector, int \&gt;" alt="" coords="1645,371,1941,398"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="1219,371,1453,398"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; Flags, int \&gt;" alt="" coords="1661,536,1925,563"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Vector, int \&gt;" alt="" coords="1604,479,1983,506"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_time_dependency.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="713,479,1004,506"/>
 </map>

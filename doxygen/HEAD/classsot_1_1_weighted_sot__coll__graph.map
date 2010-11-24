@@ -1,8 +1,21 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_sot.html" title="This class implements the Stack of Task. It allows to deal with the priority of the controllers throu..." alt="" coords="428,394,500,420"/>
-<area shape="rect" href="$classsot_1_1_task_abstract.html" title="sot::TaskAbstract" alt="" coords="76,100,207,127"/>
-<area shape="rect" href="$classsot_1_1_constraint.html" title="sot::Constraint" alt="" coords="361,194,476,220"/>
-<area shape="rect" href="$classsot_1_1_task_abstract_1_1_memory_task_abstract.html" title="sot::TaskAbstract::MemoryTaskAbstract" alt="" coords="5,7,277,34"/>
-<area shape="rect" title="STL class." alt="" coords="545,100,631,127"/>
-<area shape="rect" title="STL class." alt="" coords="496,7,680,34"/>
+<area shape="rect" href="$classsot_1_1_sot.html" title="This class implements the Stack of Task. It allows to deal with the priority of the controllers throu..." alt="" coords="3429,322,3501,349"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1500,154,1655,181"/>
+<area shape="rect" href="$classsot_1_1_task_abstract.html" title="sot::TaskAbstract" alt="" coords="2136,445,2267,472"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="241,365,343,392"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="483,233,720,260"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="476,504,727,530"/>
+<area shape="rect" title="STL class." alt="" coords="249,172,335,198"/>
+<area shape="rect" href="$classsot_1_1_constraint.html" title="sot::Constraint" alt="" coords="2591,530,2705,557"/>
+<area shape="rect" title="STL class." alt="" coords="5,172,189,198"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Matrix, int \&gt;" alt="" coords="1388,509,1767,536"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="955,356,1189,382"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; ml::Vector, int \&gt;" alt="" coords="1816,273,2112,300"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Vector, int \&gt;" alt="" coords="1388,357,1767,384"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; VectorMultiBound, int \&gt;" alt="" coords="1364,458,1791,485"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; double, int \&gt;" alt="" coords="2291,238,2565,265"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; ml::Matrix, int \&gt;" alt="" coords="2732,132,3025,158"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; ml::Matrix, int \&gt;" alt="" coords="935,629,1209,656"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_time_dependency.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="927,456,1217,482"/>
+<area shape="rect" href="$classsot_1_1_task_abstract_1_1_memory_task_abstract.html" title="sot::TaskAbstract::MemoryTaskAbstract" alt="" coords="1441,408,1713,434"/>
 </map>

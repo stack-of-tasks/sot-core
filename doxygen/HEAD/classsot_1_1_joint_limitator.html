@@ -41,14 +41,21 @@
 <h1>sot::JointLimitator Class Reference</h1>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="sot::JointLimitator" -->
+<!-- doxytag: class="sot::JointLimitator" --><!-- doxytag: inherits="dynamicgraph::Entity" -->
 <p><code>#include &lt;sot-core/joint-limitator.h&gt;</code></p>
+<!-- startSectionHeader --><div class="dynheader">
+Inheritance diagram for sot::JointLimitator:<!-- endSectionHeader --></div>
+<!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
+<div class="center"><img src="classsot_1_1_joint_limitator__inherit__graph.png" border="0" usemap="#sot_1_1_joint_limitator_inherit__map" alt="Inheritance graph"/></div>
+<map name="sot_1_1_joint_limitator_inherit__map" id="sot_1_1_joint_limitator_inherit__map">
+<area shape="rect" href="classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="5,84,160,111"/><area shape="rect" href="classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="32,7,133,34"/></map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center><!-- endSectionContent --></div>
 <!-- startSectionHeader --><div class="dynheader">
 Collaboration diagram for sot::JointLimitator:<!-- endSectionHeader --></div>
 <!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
 <div class="center"><img src="classsot_1_1_joint_limitator__coll__graph.png" border="0" usemap="#sot_1_1_joint_limitator_coll__map" alt="Collaboration graph"/></div>
 <map name="sot_1_1_joint_limitator_coll__map" id="sot_1_1_joint_limitator_coll__map">
-<area shape="rect" title="STL class." alt="" coords="55,86,140,113"/><area shape="rect" title="STL class." alt="" coords="5,6,189,33"/></map>
+<area shape="rect" href="classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1716,80,1871,107"/><area shape="rect" href="classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="329,192,431,219"/><area shape="rect" href="classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="740,80,977,107"/><area shape="rect" href="classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="733,257,984,284"/><area shape="rect" title="STL class." alt="" coords="337,80,423,107"/><area shape="rect" title="STL class." alt="" coords="5,80,189,107"/><area shape="rect" href="classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; ml::Vector, int \&gt;" alt="" coords="1645,225,1941,252"/><area shape="rect" href="classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="1219,263,1453,289"/><area shape="rect" href="classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Vector, int \&gt;" alt="" coords="1604,283,1983,309"/><area shape="rect" href="classdynamicgraph_1_1_time_dependency.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="713,396,1004,423"/></map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center><!-- endSectionContent --></div>
 
 <p><a href="classsot_1_1_joint_limitator-members.html">List of all members.</a></p>
@@ -56,7 +63,7 @@ Collaboration diagram for sot::JointLimitator:<!-- endSectionHeader --></div>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#aa5d0daa9a32bc1789a59e83ce2b1b44f">getClassName</a> (void) const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#aef929b39d1c11c3e3e08d6c5598ae9eb">JointLimitator</a> (const std::string &amp;name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#aef929b39d1c11c3e3e08d6c5598ae9eb">JointLimitator</a> (const std::string &amp;<a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity.html#a8828fb6d5270786dc7a12705cff62fdc">name</a>)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#ac26674dc6aaeb269bd229e70f6d810fe">~JointLimitator</a> (void)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual ml::Vector &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#a152fc19f6bfa1d75c13d2a5b5d235f66">computeControl</a> (ml::Vector &amp;res, int time)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">ml::Vector &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#a6402ff20d4d9605e2935bff905239f59">computeWidthJl</a> (ml::Vector &amp;res, const int &amp;time)</td></tr>
@@ -64,13 +71,13 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#a6ae5f44e013293833cf6d617313d5cab">commandLine</a> (const std::string &amp;cmdLine, std::istringstream &amp;cmdArgs, std::ostream &amp;os)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">dg::SignalPtr&lt; ml::Vector, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#a1dab7124b84c7d4c3aa68c43337a847f">jointSIN</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">dg::SignalPtr&lt; ml::Vector, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#ad843908a5614ad7dfba2bfe8176dcff9">upperJlSIN</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">dg::SignalPtr&lt; ml::Vector, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#a8843e79d1036dfeebc483f6089acace8">lowerJlSIN</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">dg::SignalPtr&lt; ml::Vector, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#aa95d55d0e46d5acf05d920f1b2911050">controlSIN</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">dg::SignalTimeDependent<br class="typebreak"/>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; ml::Vector, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#a1dab7124b84c7d4c3aa68c43337a847f">jointSIN</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; ml::Vector, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#ad843908a5614ad7dfba2bfe8176dcff9">upperJlSIN</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; ml::Vector, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#a8843e79d1036dfeebc483f6089acace8">lowerJlSIN</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; ml::Vector, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#aa95d55d0e46d5acf05d920f1b2911050">controlSIN</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a><br class="typebreak"/>
 &lt; ml::Vector, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#a3392d4a21b99d41cc15e948aea47addf">controlSOUT</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">dg::SignalTimeDependent<br class="typebreak"/>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a><br class="typebreak"/>
 &lt; ml::Vector, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_joint_limitator.html#a291a7516cfd125a853141bf4079e239c">widthJlSINTERN</a></td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -143,11 +150,13 @@ Static Protected Attributes</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td><code> [virtual]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Reimplemented from <a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity.html#aac17d397ff8f7c33c9e3b0434417f614">dynamicgraph::Entity</a>.</p>
 
 </div>
 </div>
@@ -220,6 +229,8 @@ Static Protected Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
+<p>Reimplemented from <a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity.html#a9766ac602d5b6d16b227597b4f4a674c">dynamicgraph::Entity</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="aa5d0daa9a32bc1789a59e83ce2b1b44f"></a><!-- doxytag: member="sot::JointLimitator::getClassName" ref="aa5d0daa9a32bc1789a59e83ce2b1b44f" args="(void) const " -->
@@ -237,6 +248,8 @@ Static Protected Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
+<p>Reimplemented from <a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity.html#ad95898b9794eb574f21414e11d6d846d">dynamicgraph::Entity</a>.</p>
+
 </div>
 </div>
 <hr/><h2>Member Data Documentation</h2>
@@ -251,6 +264,8 @@ Static Protected Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
+<p>Reimplemented from <a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity.html#a180f250500aafef008ec1c4d5ccc9ed0">dynamicgraph::Entity</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="aa95d55d0e46d5acf05d920f1b2911050"></a><!-- doxytag: member="sot::JointLimitator::controlSIN" ref="aa95d55d0e46d5acf05d920f1b2911050" args="" -->
@@ -258,7 +273,7 @@ Static Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">dg::SignalPtr&lt; ml::Vector,int &gt; <a class="el" href="classsot_1_1_joint_limitator.html#aa95d55d0e46d5acf05d920f1b2911050">sot::JointLimitator::controlSIN</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; ml::Vector,int &gt; <a class="el" href="classsot_1_1_joint_limitator.html#aa95d55d0e46d5acf05d920f1b2911050">sot::JointLimitator::controlSIN</a></td>
         </tr>
       </table>
 </div>
@@ -271,7 +286,7 @@ Static Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">dg::SignalTimeDependent&lt; ml::Vector,int &gt; <a class="el" href="classsot_1_1_joint_limitator.html#a3392d4a21b99d41cc15e948aea47addf">sot::JointLimitator::controlSOUT</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a>&lt; ml::Vector,int &gt; <a class="el" href="classsot_1_1_joint_limitator.html#a3392d4a21b99d41cc15e948aea47addf">sot::JointLimitator::controlSOUT</a></td>
         </tr>
       </table>
 </div>
@@ -284,7 +299,7 @@ Static Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">dg::SignalPtr&lt; ml::Vector,int &gt; <a class="el" href="classsot_1_1_joint_limitator.html#a1dab7124b84c7d4c3aa68c43337a847f">sot::JointLimitator::jointSIN</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; ml::Vector,int &gt; <a class="el" href="classsot_1_1_joint_limitator.html#a1dab7124b84c7d4c3aa68c43337a847f">sot::JointLimitator::jointSIN</a></td>
         </tr>
       </table>
 </div>
@@ -297,7 +312,7 @@ Static Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">dg::SignalPtr&lt; ml::Vector,int &gt; <a class="el" href="classsot_1_1_joint_limitator.html#a8843e79d1036dfeebc483f6089acace8">sot::JointLimitator::lowerJlSIN</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; ml::Vector,int &gt; <a class="el" href="classsot_1_1_joint_limitator.html#a8843e79d1036dfeebc483f6089acace8">sot::JointLimitator::lowerJlSIN</a></td>
         </tr>
       </table>
 </div>
@@ -336,7 +351,7 @@ Static Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">dg::SignalPtr&lt; ml::Vector,int &gt; <a class="el" href="classsot_1_1_joint_limitator.html#ad843908a5614ad7dfba2bfe8176dcff9">sot::JointLimitator::upperJlSIN</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; ml::Vector,int &gt; <a class="el" href="classsot_1_1_joint_limitator.html#ad843908a5614ad7dfba2bfe8176dcff9">sot::JointLimitator::upperJlSIN</a></td>
         </tr>
       </table>
 </div>
@@ -349,7 +364,7 @@ Static Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">dg::SignalTimeDependent&lt; ml::Vector,int &gt; <a class="el" href="classsot_1_1_joint_limitator.html#a291a7516cfd125a853141bf4079e239c">sot::JointLimitator::widthJlSINTERN</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a>&lt; ml::Vector,int &gt; <a class="el" href="classsot_1_1_joint_limitator.html#a291a7516cfd125a853141bf4079e239c">sot::JointLimitator::widthJlSINTERN</a></td>
         </tr>
       </table>
 </div>

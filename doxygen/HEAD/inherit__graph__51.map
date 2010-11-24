@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_task_abstract.html" title="sot::TaskAbstract" alt="" coords="5,31,136,58"/>
-<area shape="rect" href="$classsot_1_1_constraint.html" title="sot::Constraint" alt="" coords="185,6,300,32"/>
-<area shape="rect" href="$classsot_1_1_task.html" title="sot::Task" alt="" coords="205,56,280,83"/>
-<area shape="rect" href="$classsot_1_1_task_conti.html" title="sot::TaskConti" alt="" coords="364,6,473,32"/>
-<area shape="rect" href="$classsot_1_1_task_p_d.html" title="sot::TaskPD" alt="" coords="372,56,465,83"/>
-<area shape="rect" href="$classsot_1_1_task_unilateral.html" title="sot::TaskUnilateral" alt="" coords="351,107,487,134"/>
-</map>

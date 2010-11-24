@@ -38,28 +38,35 @@
 <h1>sot::VectorToRotation Class Reference</h1>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="sot::VectorToRotation" -->
+<!-- doxytag: class="sot::VectorToRotation" --><!-- doxytag: inherits="dynamicgraph::Entity" -->
 <p><code>#include &lt;sot-core/vector-to-rotation.h&gt;</code></p>
+<!-- startSectionHeader --><div class="dynheader">
+Inheritance diagram for sot::VectorToRotation:<!-- endSectionHeader --></div>
+<!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
+<div class="center"><img src="classsot_1_1_vector_to_rotation__inherit__graph.png" border="0" usemap="#sot_1_1_vector_to_rotation_inherit__map" alt="Inheritance graph"/></div>
+<map name="sot_1_1_vector_to_rotation_inherit__map" id="sot_1_1_vector_to_rotation_inherit__map">
+<area shape="rect" href="classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="5,84,160,111"/><area shape="rect" href="classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="32,7,133,34"/></map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center><!-- endSectionContent --></div>
 <!-- startSectionHeader --><div class="dynheader">
 Collaboration diagram for sot::VectorToRotation:<!-- endSectionHeader --></div>
 <!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
 <div class="center"><img src="classsot_1_1_vector_to_rotation__coll__graph.png" border="0" usemap="#sot_1_1_vector_to_rotation_coll__map" alt="Collaboration graph"/></div>
 <map name="sot_1_1_vector_to_rotation_coll__map" id="sot_1_1_vector_to_rotation_coll__map">
-<area shape="rect" title="STL class." alt="" coords="195,86,280,113"/><area shape="rect" title="STL class." alt="" coords="145,6,329,33"/></map>
+<area shape="rect" href="classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1729,127,1884,154"/><area shape="rect" href="classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="329,6,431,32"/><area shape="rect" href="classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="740,51,977,78"/><area shape="rect" href="classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="733,267,984,294"/><area shape="rect" title="STL class." alt="" coords="337,166,423,192"/><area shape="rect" title="STL class." alt="" coords="5,166,189,192"/><area shape="rect" href="classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; ml::Vector, int \&gt;" alt="" coords="1659,267,1955,294"/><area shape="rect" href="classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="1219,307,1453,334"/><area shape="rect" href="classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; MatrixRotation, int \&gt;" alt="" coords="1604,368,2009,395"/><area shape="rect" href="classdynamicgraph_1_1_time_dependency.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="713,412,1004,439"/></map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center><!-- endSectionContent --></div>
 
 <p><a href="classsot_1_1_vector_to_rotation-members.html">List of all members.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_vector_to_rotation.html#abfad718307439aa4a30994c314d4898c">VectorToRotation</a> (const std::string &amp;name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_vector_to_rotation.html#abfad718307439aa4a30994c314d4898c">VectorToRotation</a> (const std::string &amp;<a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity.html#a8828fb6d5270786dc7a12705cff62fdc">name</a>)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_vector_to_rotation.html#a53e69a6984871c62f20dcc3d14637d64">~VectorToRotation</a> (void)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsot_1_1_matrix_rotation.html">MatrixRotation</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_vector_to_rotation.html#aa8c7bd99448f47cac5b20b1519b80ca8">computeRotation</a> (const ml::Vector &amp;angles, <a class="el" href="classsot_1_1_matrix_rotation.html">MatrixRotation</a> &amp;res)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_vector_to_rotation.html#ab1b3f9d9def556566bb4bbac37d44f99">commandLine</a> (const std::string &amp;cmdLine, std::istringstream &amp;cmdArgs, std::ostream &amp;os)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">dg::SignalPtr&lt; ml::Vector, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_vector_to_rotation.html#a84be112f43d3e40a93e0a64526c157c5">SIN</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">dg::SignalTimeDependent<br class="typebreak"/>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; ml::Vector, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_vector_to_rotation.html#a84be112f43d3e40a93e0a64526c157c5">SIN</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a><br class="typebreak"/>
 &lt; <a class="el" href="classsot_1_1_matrix_rotation.html">MatrixRotation</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_vector_to_rotation.html#ae97110fe26199107a7209cbfe901236b">SOUT</a></td></tr>
 </table>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
@@ -129,6 +136,8 @@ Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 
+<p>Reimplemented from <a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity.html#aac17d397ff8f7c33c9e3b0434417f614">dynamicgraph::Entity</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="aa8c7bd99448f47cac5b20b1519b80ca8"></a><!-- doxytag: member="sot::VectorToRotation::computeRotation" ref="aa8c7bd99448f47cac5b20b1519b80ca8" args="(const ml::Vector &amp;angles, MatrixRotation &amp;res)" -->
@@ -164,7 +173,7 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">dg::SignalPtr&lt;ml::Vector,int&gt; <a class="el" href="classsot_1_1_vector_to_rotation.html#a84be112f43d3e40a93e0a64526c157c5">sot::VectorToRotation::SIN</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt;ml::Vector,int&gt; <a class="el" href="classsot_1_1_vector_to_rotation.html#a84be112f43d3e40a93e0a64526c157c5">sot::VectorToRotation::SIN</a></td>
         </tr>
       </table>
 </div>
@@ -177,7 +186,7 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">dg::SignalTimeDependent&lt;<a class="el" href="classsot_1_1_matrix_rotation.html">MatrixRotation</a>,int&gt; <a class="el" href="classsot_1_1_vector_to_rotation.html#ae97110fe26199107a7209cbfe901236b">sot::VectorToRotation::SOUT</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a>&lt;<a class="el" href="classsot_1_1_matrix_rotation.html">MatrixRotation</a>,int&gt; <a class="el" href="classsot_1_1_vector_to_rotation.html#ae97110fe26199107a7209cbfe901236b">sot::VectorToRotation::SOUT</a></td>
         </tr>
       </table>
 </div>

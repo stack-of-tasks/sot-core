@@ -36,14 +36,21 @@
 <h1>Timer&lt; T &gt; Class Template Reference</h1>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="Timer" -->
+<!-- doxytag: class="Timer" --><!-- doxytag: inherits="dynamicgraph::Entity" -->
 <p><code>#include &lt;sot-core/timer.h&gt;</code></p>
+<!-- startSectionHeader --><div class="dynheader">
+Inheritance diagram for Timer&lt; T &gt;:<!-- endSectionHeader --></div>
+<!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
+<div class="center"><img src="class_timer__inherit__graph.png" border="0" usemap="#_timer_3_01_t_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="_timer_3_01_t_01_4_inherit__map" id="_timer_3_01_t_01_4_inherit__map">
+<area shape="rect" href="classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="5,84,160,111"/><area shape="rect" href="classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="32,7,133,34"/></map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center><!-- endSectionContent --></div>
 <!-- startSectionHeader --><div class="dynheader">
 Collaboration diagram for Timer&lt; T &gt;:<!-- endSectionHeader --></div>
 <!-- startSectionSummary --><!-- endSectionSummary --><!-- startSectionContent --><div class="dyncontent">
 <div class="center"><img src="class_timer__coll__graph.png" border="0" usemap="#_timer_3_01_t_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="_timer_3_01_t_01_4_coll__map" id="_timer_3_01_t_01_4_coll__map">
-<area shape="rect" title="STL class." alt="" coords="55,86,140,113"/><area shape="rect" title="STL class." alt="" coords="5,6,189,33"/></map>
+<area shape="rect" href="classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1879,115,2033,141"/><area shape="rect" href="classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="329,5,431,32"/><area shape="rect" href="classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="740,32,977,59"/><area shape="rect" href="classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="733,259,984,285"/><area shape="rect" title="STL class." alt="" coords="337,152,423,179"/><area shape="rect" title="STL class." alt="" coords="5,152,189,179"/><area shape="rect" href="classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; double, int \&gt;" alt="" coords="1515,255,1771,281"/><area shape="rect" href="classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="1219,337,1453,364"/><area shape="rect" href="classdynamicgraph_1_1_time_dependency.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="713,444,1004,471"/><area shape="rect" href="classdynamicgraph_1_1_signal_time_dependent.html" title="dynamicgraph::SignalTimeDependent\&lt; T, int \&gt;" alt="" coords="1795,364,2117,391"/><area shape="rect" href="classdynamicgraph_1_1_signal_ptr.html" title="dynamicgraph::SignalPtr\&lt; T, int \&gt;" alt="" coords="1837,313,2075,340"/></map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center><!-- endSectionContent --></div>
 
 <p><a href="class_timer-members.html">List of all members.</a></p>
@@ -51,20 +58,20 @@ Collaboration diagram for Timer&lt; T &gt;:<!-- endSectionHeader --></div>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#ab6eac94fc0843b7c3a018bfb67af21fa">getClassName</a> (void) const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#a543c90c7bf3e418c0aea797b1a62cc16">Timer</a> (const std::string &amp;name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#a543c90c7bf3e418c0aea797b1a62cc16">Timer</a> (const std::string &amp;<a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity.html#a8828fb6d5270786dc7a12705cff62fdc">name</a>)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#aebb9619fe1b29638e8c58497d1f2be50">display</a> (std::ostream &amp;os) const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#a72fe80f69d3806436154611de12cd870">commandLine</a> (const std::string &amp;cmdLine, std::istringstream &amp;cmdArgs, std::ostream &amp;os)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">dg::SignalPtr&lt; T, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#a7bd9f98507dbb2fb57fa14cab483b0d5">sigSIN</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">dg::SignalTimeDependent&lt; T, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#aadc3acba6a4ddb782d16f86c5278e6b7">sigSOUT</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">dg::Signal&lt; double, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#a800deb219d1c74ed77624b22e08513e1">timerSOUT</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; T, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#a7bd9f98507dbb2fb57fa14cab483b0d5">sigSIN</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a>&lt; T, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#aadc3acba6a4ddb782d16f86c5278e6b7">sigSOUT</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal.html">dg::Signal</a>&lt; double, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#a800deb219d1c74ed77624b22e08513e1">timerSOUT</a></td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#a98c6feebf455aaa4afc41a21f113a65e">CLASS_NAME</a></td></tr>
 <tr><td colspan="2"><h2><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#ae9be017942e0318125150d9439250df1">plug</a> (dg::Signal&lt; T, int &gt; &amp;sig)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#ae9be017942e0318125150d9439250df1">plug</a> (<a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal.html">dg::Signal</a>&lt; T, int &gt; &amp;sig)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#a294ffadf3c3f516eed4ecfd55f77ca2e">compute</a> (T &amp;t, const int &amp;time)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_timer.html#affa1c192637ab498e626a186b1bd6edd">getDt</a> (double &amp;res, const int &amp;)</td></tr>
 <tr><td colspan="2"><h2><a name="pro-attribs"></a>
@@ -96,7 +103,7 @@ template&lt;class T &gt; </div>
 </div>
 <div class="memdoc">
 
-<p>References <a class="el" href="class_timer.html#affa1c192637ab498e626a186b1bd6edd">Timer&lt; T &gt;::getDt()</a>, <a class="el" href="class_timer.html#a7bd9f98507dbb2fb57fa14cab483b0d5">Timer&lt; T &gt;::sigSIN</a>, <a class="el" href="class_timer.html#aadc3acba6a4ddb782d16f86c5278e6b7">Timer&lt; T &gt;::sigSOUT</a>, <a class="el" href="debug_8h.html#a39c5cc0f04ee446ea336599a9acfefdb">sotDEBUGIN</a>, <a class="el" href="debug_8h.html#a084d3e973de6249efbe5df11c5417e61">sotDEBUGOUT</a>, and <a class="el" href="class_timer.html#a800deb219d1c74ed77624b22e08513e1">Timer&lt; T &gt;::timerSOUT</a>.</p>
+<p>References <a class="el" href="class_timer.html#affa1c192637ab498e626a186b1bd6edd">Timer&lt; T &gt;::getDt()</a>, <a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal.html#a098d47013d96bce67b017a0db30707c2">dynamicgraph::Signal&lt; T, Time &gt;::setFunction()</a>, <a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity.html#a72def88a3dd29e124f80603506c73a7e">dynamicgraph::Entity::signalRegistration()</a>, <a class="el" href="class_timer.html#a7bd9f98507dbb2fb57fa14cab483b0d5">Timer&lt; T &gt;::sigSIN</a>, <a class="el" href="class_timer.html#aadc3acba6a4ddb782d16f86c5278e6b7">Timer&lt; T &gt;::sigSOUT</a>, <a class="el" href="debug_8h.html#a39c5cc0f04ee446ea336599a9acfefdb">sotDEBUGIN</a>, <a class="el" href="debug_8h.html#a084d3e973de6249efbe5df11c5417e61">sotDEBUGOUT</a>, and <a class="el" href="class_timer.html#a800deb219d1c74ed77624b22e08513e1">Timer&lt; T &gt;::timerSOUT</a>.</p>
 
 </div>
 </div>
@@ -133,6 +140,8 @@ template&lt;class T &gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Reimplemented from <a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity.html#aac17d397ff8f7c33c9e3b0434417f614">dynamicgraph::Entity</a>.</p>
 
 <p>References <a class="el" href="debug_8h.html#a39c5cc0f04ee446ea336599a9acfefdb">sotDEBUGIN</a>, and <a class="el" href="debug_8h.html#a084d3e973de6249efbe5df11c5417e61">sotDEBUGOUT</a>.</p>
 
@@ -186,6 +195,8 @@ template&lt;class T &gt; </div>
 </div>
 <div class="memdoc">
 
+<p>Reimplemented from <a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity.html#a9766ac602d5b6d16b227597b4f4a674c">dynamicgraph::Entity</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="ab6eac94fc0843b7c3a018bfb67af21fa"></a><!-- doxytag: member="Timer::getClassName" ref="ab6eac94fc0843b7c3a018bfb67af21fa" args="(void) const " -->
@@ -204,6 +215,8 @@ template&lt;class T &gt; </div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Reimplemented from <a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity.html#ad95898b9794eb574f21414e11d6d846d">dynamicgraph::Entity</a>.</p>
 
 </div>
 </div>
@@ -247,7 +260,7 @@ template&lt;class T &gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="class_timer.html">Timer</a>&lt; T &gt;::plug </td>
           <td>(</td>
-          <td class="paramtype">dg::Signal&lt; T, int &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal.html">dg::Signal</a>&lt; T, int &gt; &amp;&#160;</td>
           <td class="paramname"> <em>sig</em>&#160;)</td>
           <td><code> [inline, protected]</code></td>
         </tr>
@@ -301,6 +314,8 @@ template&lt;class T &gt; </div>
 </div>
 <div class="memdoc">
 
+<p>Reimplemented from <a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_entity.html#a180f250500aafef008ec1c4d5ccc9ed0">dynamicgraph::Entity</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="ae401afd41a8118ade75e365446311a75"></a><!-- doxytag: member="Timer::dt" ref="ae401afd41a8118ade75e365446311a75" args="" -->
@@ -325,7 +340,7 @@ template&lt;class T &gt; </div>
 template&lt;class T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">dg::SignalPtr&lt;T,int&gt; <a class="el" href="class_timer.html">Timer</a>&lt; T &gt;::<a class="el" href="class_timer.html#a7bd9f98507dbb2fb57fa14cab483b0d5">sigSIN</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt;T,int&gt; <a class="el" href="class_timer.html">Timer</a>&lt; T &gt;::<a class="el" href="class_timer.html#a7bd9f98507dbb2fb57fa14cab483b0d5">sigSIN</a></td>
         </tr>
       </table>
 </div>
@@ -342,7 +357,7 @@ template&lt;class T &gt; </div>
 template&lt;class T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">dg::SignalTimeDependent&lt;T,int&gt; <a class="el" href="class_timer.html">Timer</a>&lt; T &gt;::<a class="el" href="class_timer.html#aadc3acba6a4ddb782d16f86c5278e6b7">sigSOUT</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_time_dependent.html">dg::SignalTimeDependent</a>&lt;T,int&gt; <a class="el" href="class_timer.html">Timer</a>&lt; T &gt;::<a class="el" href="class_timer.html#aadc3acba6a4ddb782d16f86c5278e6b7">sigSOUT</a></td>
         </tr>
       </table>
 </div>
@@ -374,7 +389,7 @@ template&lt;class T &gt; </div>
 template&lt;class T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">dg::Signal&lt;double,int&gt; <a class="el" href="class_timer.html">Timer</a>&lt; T &gt;::<a class="el" href="class_timer.html#a800deb219d1c74ed77624b22e08513e1">timerSOUT</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal.html">dg::Signal</a>&lt;double,int&gt; <a class="el" href="class_timer.html">Timer</a>&lt; T &gt;::<a class="el" href="class_timer.html#a800deb219d1c74ed77624b22e08513e1">timerSOUT</a></td>
         </tr>
       </table>
 </div>

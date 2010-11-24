@@ -1,5 +1,11 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_task_abstract_1_1_memory_task_abstract.html" title="sot::TaskAbstract::MemoryTaskAbstract" alt="" coords="5,86,277,113"/>
-<area shape="rect" title="STL class." alt="" coords="301,86,387,113"/>
-<area shape="rect" title="STL class." alt="" coords="252,6,436,33"/>
+<area shape="rect" href="$classsot_1_1_task_abstract_1_1_memory_task_abstract.html" title="sot::TaskAbstract::MemoryTaskAbstract" alt="" coords="1501,6,1773,32"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1560,174,1715,200"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="241,302,343,328"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="469,223,707,250"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="463,343,713,370"/>
+<area shape="rect" title="STL class." alt="" coords="249,142,335,168"/>
+<area shape="rect" title="STL class." alt="" coords="5,142,189,168"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; unsigned int, int \&gt;" alt="" coords="1185,371,1476,398"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; ml::Matrix, int \&gt;" alt="" coords="1193,330,1468,356"/>
 </map>

@@ -1,7 +1,9 @@
 <map id="G" name="G">
-<area shape="rect" href="$classsot_1_1_constraint.html" title="sot::Constraint" alt="" coords="9,84,124,111"/>
-<area shape="rect" href="$classsot_1_1_task.html" title="sot::Task" alt="" coords="148,84,223,111"/>
-<area shape="rect" href="$classsot_1_1_task_conti.html" title="sot::TaskConti" alt="" coords="5,162,115,188"/>
-<area shape="rect" href="$classsot_1_1_task_p_d.html" title="sot::TaskPD" alt="" coords="139,162,232,188"/>
-<area shape="rect" href="$classsot_1_1_task_unilateral.html" title="sot::TaskUnilateral" alt="" coords="256,162,392,188"/>
+<area shape="rect" href="$classsot_1_1_constraint.html" title="sot::Constraint" alt="" coords="9,238,124,265"/>
+<area shape="rect" href="$classsot_1_1_task.html" title="sot::Task" alt="" coords="148,238,223,265"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="48,84,203,110"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="75,6,176,33"/>
+<area shape="rect" href="$classsot_1_1_task_conti.html" title="sot::TaskConti" alt="" coords="5,316,115,342"/>
+<area shape="rect" href="$classsot_1_1_task_p_d.html" title="sot::TaskPD" alt="" coords="139,316,232,342"/>
+<area shape="rect" href="$classsot_1_1_task_unilateral.html" title="sot::TaskUnilateral" alt="" coords="256,316,392,342"/>
 </map>

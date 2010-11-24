@@ -1,15 +1,20 @@
 <map id="G" name="G">
-<area shape="rect" href="$flags_8h.html" title="sot&#45;core/flags.h" alt="" coords="5,84,125,110"/>
-<area shape="rect" href="$sot&#45;core&#45;api_8h.html" title="sot&#45;core/sot&#45;core&#45;api.h" alt="" coords="603,316,771,342"/>
-<area shape="rect" href="$matrix&#45;homogeneous_8h.html" title="sot&#45;core/matrix&#45;homogeneous.h" alt="" coords="1228,238,1455,265"/>
-<area shape="rect" href="$matrix&#45;rotation_8h.html" title="sot&#45;core/matrix&#45;rotation.h" alt="" coords="825,238,1012,265"/>
-<area shape="rect" href="$matrix&#45;twist_8h.html" title="sot&#45;core/matrix&#45;twist.h" alt="" coords="1529,238,1695,265"/>
-<area shape="rect" href="$vector&#45;utheta_8h.html" title="sot&#45;core/vector&#45;utheta.h" alt="" coords="776,84,952,110"/>
-<area shape="rect" href="$vector&#45;quaternion_8h.html" title="sot&#45;core/vector&#45;quaternion.h" alt="" coords="976,84,1179,110"/>
-<area shape="rect" href="$vector&#45;roll&#45;pitch&#45;yaw_8h.html" title="sot&#45;core/vector&#45;roll&#45;pitch&#45;yaw.h" alt="" coords="536,84,752,110"/>
-<area shape="rect" href="$matrix&#45;force_8h.html" title="sot&#45;core/matrix&#45;force.h" alt="" coords="1036,238,1204,265"/>
-<area shape="rect" href="$multi&#45;bound_8h.html" title="sot&#45;core/multi&#45;bound.h" alt="" coords="199,84,367,110"/>
-<area shape="rect" href="$vector&#45;rotation_8h.html" title="sot&#45;core/vector&#45;rotation.h" alt="" coords="724,161,908,188"/>
-<area shape="rect" href="$exception&#45;task_8h.html" title="sot&#45;core/exception&#45;task.h" alt="" coords="256,161,440,188"/>
-<area shape="rect" href="$exception&#45;abstract_8h.html" title="sot&#45;core/exception&#45;abstract.h" alt="" coords="185,238,396,265"/>
+<area shape="rect" href="$flags_8h.html" title="sot&#45;core/flags.h" alt="" coords="1192,84,1312,110"/>
+<area shape="rect" href="$sot&#45;core&#45;api_8h.html" title="sot&#45;core/sot&#45;core&#45;api.h" alt="" coords="975,316,1143,342"/>
+<area shape="rect" href="$matrix&#45;homogeneous_8h.html" title="sot&#45;core/matrix&#45;homogeneous.h" alt="" coords="215,238,441,265"/>
+<area shape="rect" href="$matrix&#45;rotation_8h.html" title="sot&#45;core/matrix&#45;rotation.h" alt="" coords="708,238,895,265"/>
+<area shape="rect" href="$matrix&#45;twist_8h.html" title="sot&#45;core/matrix&#45;twist.h" alt="" coords="25,238,191,265"/>
+<area shape="rect" href="$vector&#45;utheta_8h.html" title="sot&#45;core/vector&#45;utheta.h" alt="" coords="941,84,1117,110"/>
+<area shape="rect" href="$vector&#45;quaternion_8h.html" title="sot&#45;core/vector&#45;quaternion.h" alt="" coords="475,84,677,110"/>
+<area shape="rect" href="$vector&#45;roll&#45;pitch&#45;yaw_8h.html" title="sot&#45;core/vector&#45;roll&#45;pitch&#45;yaw.h" alt="" coords="701,84,917,110"/>
+<area shape="rect" href="$matrix&#45;force_8h.html" title="sot&#45;core/matrix&#45;force.h" alt="" coords="465,238,633,265"/>
+<area shape="rect" href="$multi&#45;bound_8h.html" title="sot&#45;core/multi&#45;bound.h" alt="" coords="1337,84,1505,110"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$signal&#45;caster_8h.html" title="dynamic&#45;graph/signal&#45;caster.h" alt="" coords="1836,84,2049,110"/>
+<area shape="rect" href="$vector&#45;rotation_8h.html" title="sot&#45;core/vector&#45;rotation.h" alt="" coords="812,161,996,188"/>
+<area shape="rect" href="$exception&#45;task_8h.html" title="sot&#45;core/exception&#45;task.h" alt="" coords="1460,161,1644,188"/>
+<area shape="rect" href="$exception&#45;abstract_8h.html" title="sot&#45;core/exception&#45;abstract.h" alt="" coords="1579,238,1789,265"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$dynamic&#45;graph&#45;api_8h.html" title="dynamic&#45;graph/dynamic&#45;graph&#45;api.h" alt="" coords="2031,316,2284,342"/>
+<area shape="rect" href="$exception&#45;signal_8h.html" title="dynamic&#45;graph/exception&#45;signal.h" alt="" coords="1668,161,1905,188"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$exception&#45;signal_8h.html" title="dynamic&#45;graph/exception&#45;signal.h" alt="" coords="1980,161,2217,188"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$exception&#45;abstract_8h.html" title="dynamic&#45;graph/exception&#45;abstract.h" alt="" coords="2031,238,2284,265"/>
 </map>
