@@ -19,7 +19,7 @@
 <area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; ml::Matrix, int \&gt;" alt="" coords="1480,304,1755,331"/>
 <area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; ml::Vector, int \&gt;" alt="" coords="933,76,1211,103"/>
 <area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_time_dependency.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="927,510,1217,536"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$classmaal_1_1boost_1_1_matrix.html" title="maal::boost::Matrix" alt="" coords="1000,200,1144,227"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00002.html" title="maal::boost::Matrix" alt="" coords="1000,200,1144,227"/>
 <area shape="rect" href="$classsot_1_1_solver_hierarchical_inequalities.html" title="sot::SolverHierarchicalInequalities" alt="" coords="3804,1234,4039,1260"/>
 <area shape="rect" href="$classsot_1_1_constraint_ref.html" title="sot::ConstraintRef" alt="" coords="2868,1367,3001,1394"/>
 <area shape="rect" href="$classsot_1_1_constraint_mem.html" title="sot::ConstraintMem" alt="" coords="2861,1308,3008,1335"/>
@@ -28,5 +28,5 @@
 <area shape="rect" href="$classsot_rotation_simple_given.html" title="sotRotationSimpleGiven" alt="" coords="2233,1140,2407,1167"/>
 <area shape="rect" href="$classsot_rotation_simple_householder.html" title="sotRotationSimpleHouseholder" alt="" coords="2211,1191,2429,1218"/>
 <area shape="rect" href="$classsot_rotation_composed_in_extenso.html" title="sotRotationComposedInExtenso" alt="" coords="3369,1459,3593,1486"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$classmaal_1_1boost_1_1_vector.html" title="maal::boost::Vector" alt="" coords="528,76,675,103"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00006.html" title="maal::boost::Vector" alt="" coords="528,76,675,103"/>
 </map>

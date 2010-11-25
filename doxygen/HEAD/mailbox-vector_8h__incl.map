@@ -1,6 +1,6 @@
 <map id="G" name="G">
 <area shape="rect" href="$mailbox_8hxx.html" title="sot&#45;core/mailbox.hxx" alt="" coords="653,84,808,111"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boost_8hh.html" title="jrl/mal/boost.hh" alt="" coords="1929,84,2049,111"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00010.html" title="jrl/mal/boost.hh" alt="" coords="1929,84,2049,111"/>
 <area shape="rect" href="dynamic&#45;graph.doxytag$entity_8h.html" title="dynamic&#45;graph/entity.h" alt="" coords="259,316,427,343"/>
 <area shape="rect" href="dynamic&#45;graph.doxytag$all&#45;signals_8h.html" title="dynamic&#45;graph/all&#45;signals.h" alt="" coords="979,161,1173,188"/>
 <area shape="rect" href="dynamic&#45;graph.doxytag$signal&#45;base_8h.html" title="dynamic&#45;graph/signal&#45;base.h" alt="" coords="475,471,680,497"/>
@@ -23,8 +23,8 @@
 <area shape="rect" href="dynamic&#45;graph.doxytag$signal&#45;ptr_8t_8cpp.html" title="dynamic&#45;graph/signal&#45;ptr.t.cpp" alt="" coords="1189,393,1405,420"/>
 <area shape="rect" href="dynamic&#45;graph.doxytag$time&#45;dependency_8h.html" title="dynamic&#45;graph/time&#45;dependency.h" alt="" coords="591,316,833,343"/>
 <area shape="rect" href="dynamic&#45;graph.doxytag$time&#45;dependency_8t_8cpp.html" title="dynamic&#45;graph/time&#45;dependency.t.cpp" alt="" coords="579,393,845,420"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boostmacros_8hh.html" title="jrl/mal/boostmacros.hh" alt="" coords="1997,239,2165,265"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boostvector_8hh.html" title="jrl/mal/boostvector.hh" alt="" coords="2001,161,2161,188"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boostmatrix_8hh.html" title="jrl/mal/boostmatrix.hh" alt="" coords="1817,161,1977,188"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boostsvd_8hh.html" title="jrl/mal/boostsvd.hh" alt="" coords="1827,239,1968,265"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00011.html" title="jrl/mal/boostmacros.hh" alt="" coords="1997,239,2165,265"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00016.html" title="jrl/mal/boostvector.hh" alt="" coords="2001,161,2161,188"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00012.html" title="jrl/mal/boostmatrix.hh" alt="" coords="1817,161,1977,188"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00015.html" title="jrl/mal/boostsvd.hh" alt="" coords="1827,239,1968,265"/>
 </map>

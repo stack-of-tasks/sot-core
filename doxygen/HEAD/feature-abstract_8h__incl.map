@@ -1,13 +1,13 @@
 <map id="G" name="G">
-<area shape="rect" href="jrl&#45;mal.doxytag$boost_8hh.html" title="jrl/mal/boost.hh" alt="" coords="245,84,365,111"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00010.html" title="jrl/mal/boost.hh" alt="" coords="245,84,365,111"/>
 <area shape="rect" href="$flags_8h.html" title="sot&#45;core/flags.h" alt="" coords="331,548,451,575"/>
 <area shape="rect" href="$sot&#45;core&#45;api_8h.html" title="sot&#45;core/sot&#45;core&#45;api.h" alt="" coords="709,626,877,652"/>
 <area shape="rect" href="dynamic&#45;graph.doxytag$all&#45;signals_8h.html" title="dynamic&#45;graph/all&#45;signals.h" alt="" coords="940,84,1135,111"/>
 <area shape="rect" href="dynamic&#45;graph.doxytag$entity_8h.html" title="dynamic&#45;graph/entity.h" alt="" coords="1953,239,2121,266"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boostmacros_8hh.html" title="jrl/mal/boostmacros.hh" alt="" coords="185,239,353,266"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boostvector_8hh.html" title="jrl/mal/boostvector.hh" alt="" coords="189,162,349,188"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boostmatrix_8hh.html" title="jrl/mal/boostmatrix.hh" alt="" coords="5,162,165,188"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boostsvd_8hh.html" title="jrl/mal/boostsvd.hh" alt="" coords="15,239,156,266"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00011.html" title="jrl/mal/boostmacros.hh" alt="" coords="185,239,353,266"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00016.html" title="jrl/mal/boostvector.hh" alt="" coords="189,162,349,188"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00012.html" title="jrl/mal/boostmatrix.hh" alt="" coords="5,162,165,188"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00015.html" title="jrl/mal/boostsvd.hh" alt="" coords="15,239,156,266"/>
 <area shape="rect" href="dynamic&#45;graph.doxytag$signal_8h.html" title="dynamic&#45;graph/signal.h" alt="" coords="1165,239,1336,266"/>
 <area shape="rect" href="dynamic&#45;graph.doxytag$signal&#45;ptr_8h.html" title="dynamic&#45;graph/signal&#45;ptr.h" alt="" coords="875,162,1067,188"/>
 <area shape="rect" href="dynamic&#45;graph.doxytag$signal&#45;time&#45;dependent_8h.html" title="dynamic&#45;graph/signal&#45;time&#45;dependent.h" alt="" coords="1141,162,1419,188"/>

@@ -1,16 +1,16 @@
 <map id="G" name="G">
 <area shape="rect" href="$sot_8h.html" title="sot&#45;core/sot.h" alt="" coords="1995,84,2104,111"/>
 <area shape="rect" href="$solver&#45;hierarchical&#45;inequalities_8h.html" title="sot&#45;core/solver&#45;hierarchical&#45;inequalities.h" alt="" coords="2536,162,2819,188"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boost_8hh.html" title="jrl/mal/boost.hh" alt="" coords="1775,316,1895,343"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00010.html" title="jrl/mal/boost.hh" alt="" coords="1775,316,1895,343"/>
 <area shape="rect" href="$task&#45;abstract_8h.html" title="sot&#45;core/task&#45;abstract.h" alt="" coords="1113,239,1289,266"/>
 <area shape="rect" href="dynamic&#45;graph.doxytag$entity_8h.html" title="dynamic&#45;graph/entity.h" alt="" coords="235,471,403,498"/>
 <area shape="rect" href="$flags_8h.html" title="sot&#45;core/flags.h" alt="" coords="2041,548,2161,575"/>
 <area shape="rect" href="$constraint_8h.html" title="sot&#45;core/constraint.h" alt="" coords="1435,162,1589,188"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boostmacros_8hh.html" title="jrl/mal/boostmacros.hh" alt="" coords="1747,471,1915,498"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boostvector_8hh.html" title="jrl/mal/boostvector.hh" alt="" coords="1751,394,1911,420"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boostmatrix_8hh.html" title="jrl/mal/boostmatrix.hh" alt="" coords="1567,394,1727,420"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boostsvd_8hh.html" title="jrl/mal/boostsvd.hh" alt="" coords="1580,471,1721,498"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$boostmatrixsvd_8hh.html" title="jrl/mal/boostmatrixsvd.hh" alt="" coords="1516,316,1700,343"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00011.html" title="jrl/mal/boostmacros.hh" alt="" coords="1747,471,1915,498"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00016.html" title="jrl/mal/boostvector.hh" alt="" coords="1751,394,1911,420"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00012.html" title="jrl/mal/boostmatrix.hh" alt="" coords="1567,394,1727,420"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00015.html" title="jrl/mal/boostsvd.hh" alt="" coords="1580,471,1721,498"/>
+<area shape="rect" href="jrl&#45;mal.doxytag$a00013.html" title="jrl/mal/boostmatrixsvd.hh" alt="" coords="1516,316,1700,343"/>
 <area shape="rect" href="$sot&#45;core&#45;api_8h.html" title="sot&#45;core/sot&#45;core&#45;api.h" alt="" coords="1540,858,1708,884"/>
 <area shape="rect" href="dynamic&#45;graph.doxytag$all&#45;signals_8h.html" title="dynamic&#45;graph/all&#45;signals.h" alt="" coords="1125,316,1320,343"/>
 <area shape="rect" href="$multi&#45;bound_8h.html" title="sot&#45;core/multi&#45;bound.h" alt="" coords="1536,626,1704,652"/>

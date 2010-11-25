@@ -69,21 +69,21 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#a70309b7d9a7148c20850d40885452726">~FeatureVector3</a> (void)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual unsigned int &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#a532074b9c857b851ef096be33ee0d3e1">getDimension</a> (unsigned int &amp;dim, int time)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Verbose method.  <a href="#a532074b9c857b851ef096be33ee0d3e1"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#a8ede112fb7b8dfda8d9435a61abe921d">computeError</a> (<a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a> &amp;res, int time)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="a00006.html">ml::Vector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#a8ede112fb7b8dfda8d9435a61abe921d">computeError</a> (<a class="elRef" doxygen="jrl-mal.doxytag:" href="a00006.html">ml::Vector</a> &amp;res, int time)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the error between the desired feature and the current value of the feature measured or deduced from the robot state.  <a href="#a8ede112fb7b8dfda8d9435a61abe921d"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_matrix.html">ml::Matrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#a920851ebc9f23c6707fd7aabcb9fa087">computeJacobian</a> (<a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_matrix.html">ml::Matrix</a> &amp;res, int time)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="a00002.html">ml::Matrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#a920851ebc9f23c6707fd7aabcb9fa087">computeJacobian</a> (<a class="elRef" doxygen="jrl-mal.doxytag:" href="a00002.html">ml::Matrix</a> &amp;res, int time)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the Jacobian of the error according the robot state.  <a href="#a920851ebc9f23c6707fd7aabcb9fa087"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#a7c22b653de795df4d8fcc51ce02c699e">computeActivation</a> (<a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a> &amp;res, int time)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="a00006.html">ml::Vector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#a7c22b653de795df4d8fcc51ce02c699e">computeActivation</a> (<a class="elRef" doxygen="jrl-mal.doxytag:" href="a00006.html">ml::Vector</a> &amp;res, int time)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Reevaluate the current value of the feature according to external measurement provided through a mailbox, or deduced from the estimated state of the robot at the time specified.  <a href="#a7c22b653de795df4d8fcc51ce02c699e"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#ad60065ac1273fa06277936701c40ae34">display</a> (std::ostream &amp;os) const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#a805d323d47e6fd4db5e99393bfe8ec1a">commandLine</a> (const std::string &amp;cmdLine, std::istringstream &amp;cmdArgs, std::ostream &amp;os)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#a17fef27ba2219984291a6f43e874778b">vectorSIN</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="a00006.html">ml::Vector</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#a17fef27ba2219984291a6f43e874778b">vectorSIN</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a><br class="typebreak"/>
 &lt; <a class="el" href="classsot_1_1_matrix_homogeneous.html">MatrixHomogeneous</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#a63824867cd33552837896b7d2cf09bc9">positionSIN</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_matrix.html">ml::Matrix</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#aba3871d82b3460c22e5a080ea88f488f">articularJacobianSIN</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#a8d4fab780fd7fda5c59484398e69751f">positionRefSIN</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="a00002.html">ml::Matrix</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#aba3871d82b3460c22e5a080ea88f488f">articularJacobianSIN</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="a00006.html">ml::Vector</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#a8d4fab780fd7fda5c59484398e69751f">positionRefSIN</a></td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsot_1_1_feature_vector3.html#acbfc713b40656b315652c8982e104d85">CLASS_NAME</a></td></tr>
@@ -167,9 +167,9 @@ Static Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a>&amp; sot::FeatureVector3::computeActivation </td>
+          <td class="memname">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="a00006.html">ml::Vector</a>&amp; sot::FeatureVector3::computeActivation </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="elRef" doxygen="jrl-mal.doxytag:" href="a00006.html">ml::Vector</a> &amp;&#160;</td>
           <td class="paramname"> <em>res</em>, </td>
         </tr>
         <tr>
@@ -200,9 +200,9 @@ Static Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a>&amp; sot::FeatureVector3::computeError </td>
+          <td class="memname">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="a00006.html">ml::Vector</a>&amp; sot::FeatureVector3::computeError </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="elRef" doxygen="jrl-mal.doxytag:" href="a00006.html">ml::Vector</a> &amp;&#160;</td>
           <td class="paramname"> <em>res</em>, </td>
         </tr>
         <tr>
@@ -234,9 +234,9 @@ Static Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_matrix.html">ml::Matrix</a>&amp; sot::FeatureVector3::computeJacobian </td>
+          <td class="memname">virtual <a class="elRef" doxygen="jrl-mal.doxytag:" href="a00002.html">ml::Matrix</a>&amp; sot::FeatureVector3::computeJacobian </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_matrix.html">ml::Matrix</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="elRef" doxygen="jrl-mal.doxytag:" href="a00002.html">ml::Matrix</a> &amp;&#160;</td>
           <td class="paramname"> <em>res</em>, </td>
         </tr>
         <tr>
@@ -343,7 +343,7 @@ Static Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_matrix.html">ml::Matrix</a>,int &gt; <a class="el" href="classsot_1_1_feature_vector3.html#aba3871d82b3460c22e5a080ea88f488f">sot::FeatureVector3::articularJacobianSIN</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="a00002.html">ml::Matrix</a>,int &gt; <a class="el" href="classsot_1_1_feature_vector3.html#aba3871d82b3460c22e5a080ea88f488f">sot::FeatureVector3::articularJacobianSIN</a></td>
         </tr>
       </table>
 </div>
@@ -373,7 +373,7 @@ Static Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a>,int &gt; <a class="el" href="classsot_1_1_feature_vector3.html#a8d4fab780fd7fda5c59484398e69751f">sot::FeatureVector3::positionRefSIN</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="a00006.html">ml::Vector</a>,int &gt; <a class="el" href="classsot_1_1_feature_vector3.html#a8d4fab780fd7fda5c59484398e69751f">sot::FeatureVector3::positionRefSIN</a></td>
         </tr>
       </table>
 </div>
@@ -399,7 +399,7 @@ Static Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="classmaal_1_1boost_1_1_vector.html">ml::Vector</a>,int &gt; <a class="el" href="classsot_1_1_feature_vector3.html#a17fef27ba2219984291a6f43e874778b">sot::FeatureVector3::vectorSIN</a></td>
+          <td class="memname"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="classdynamicgraph_1_1_signal_ptr.html">dg::SignalPtr</a>&lt; <a class="elRef" doxygen="jrl-mal.doxytag:" href="a00006.html">ml::Vector</a>,int &gt; <a class="el" href="classsot_1_1_feature_vector3.html#a17fef27ba2219984291a6f43e874778b">sot::FeatureVector3::vectorSIN</a></td>
         </tr>
       </table>
 </div>
