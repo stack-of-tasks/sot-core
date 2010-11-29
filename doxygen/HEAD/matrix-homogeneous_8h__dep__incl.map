@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$clamp&#45;workspace_8h.html" title="clamp&#45;workspace.h" alt="" coords="5,84,149,111"/>
-<area shape="rect" href="$feature&#45;line&#45;distance_8h.html" title="feature&#45;line&#45;distance.h" alt="" coords="173,84,339,111"/>
-<area shape="rect" href="$feature&#45;point6d_8h.html" title="feature&#45;point6d.h" alt="" coords="363,84,493,111"/>
-<area shape="rect" href="$feature&#45;vector3_8h.html" title="feature&#45;vector3.h" alt="" coords="517,84,648,111"/>
-<area shape="rect" href="$op&#45;point&#45;modifier_8h.html" title="op&#45;point&#45;modifier.h" alt="" coords="672,84,813,111"/>
-<area shape="rect" href="$signal&#45;cast_8h.html" title="signal&#45;cast.h" alt="" coords="837,84,939,111"/>
-<area shape="rect" href="$feature&#45;point6d&#45;relative_8h.html" title="feature&#45;point6d&#45;relative.h" alt="" coords="336,162,520,188"/>
-</map>
