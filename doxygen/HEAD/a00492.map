@@ -1,14 +1,14 @@
 <map id="G" name="G">
 <area shape="rect" href="$a00060.html" title="sot::TaskAbstract::MemoryTaskAbstract" alt="" coords="1504,15,1776,42"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_entity.html" title="dynamicgraph::Entity" alt="" coords="1563,138,1717,164"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classboost_1_1noncopyable.html" title="noncopyable" alt="" coords="241,328,343,355"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="469,240,707,267"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal_base.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="463,475,713,502"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$a00009.html" title="dynamicgraph::Entity" alt="" coords="1563,138,1717,164"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$a00019.html" title="noncopyable" alt="" coords="241,328,343,355"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$a00030.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="469,240,707,267"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$a00030.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="463,475,713,502"/>
 <area shape="rect" title="STL class." alt="" coords="249,168,335,195"/>
 <area shape="rect" title="STL class." alt="" coords="5,168,189,195"/>
 <area shape="rect" href="jrl&#45;mal.doxytag$a00004.html" title="maal::boost::MatrixSvd" alt="" coords="1556,188,1724,215"/>
 <area shape="rect" href="jrl&#45;mal.doxytag$a00002.html" title="maal::boost::Matrix" alt="" coords="933,344,1077,371"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; ml::Matrix, int \&gt;" alt="" coords="1503,436,1777,463"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$classdynamicgraph_1_1_signal.html" title="dynamicgraph::Signal\&lt; unsigned int, int \&gt;" alt="" coords="1185,543,1476,570"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$a00027.html" title="dynamicgraph::Signal\&lt; ml::Matrix, int \&gt;" alt="" coords="1503,436,1777,463"/>
+<area shape="rect" href="dynamic&#45;graph.doxytag$a00027.html" title="dynamicgraph::Signal\&lt; unsigned int, int \&gt;" alt="" coords="1185,543,1476,570"/>
 <area shape="rect" href="jrl&#45;mal.doxytag$a00006.html" title="maal::boost::Vector" alt="" coords="1567,487,1713,514"/>
 </map>
