@@ -297,7 +297,7 @@ namespace boost { namespace numeric { namespace bindings { namespace lapack
   inline int geqp (bub::matrix<double,bub::column_major> &A,
 		   bub::vector< int >& jp, bubVector& tau)
   {
-    #ifdef DEBUG
+    #ifndef NDEBUG
     const int m = A.size1();
     #endif
     const int n = A.size2();
