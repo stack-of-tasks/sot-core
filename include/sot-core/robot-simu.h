@@ -82,8 +82,8 @@ class SOTROBOTSIMU_EXPORT RobotSimu
   /* --- CONSTRUCTION --- */
   RobotSimu( const std::string& name );
 
-  void setStateSize( const unsigned int size );
-  void setState( const ml::Vector st );
+  void setStateSize( const unsigned int& size );
+  void setState( const ml::Vector& st );
   void increment( const double dt = 5e-2 );
 
 

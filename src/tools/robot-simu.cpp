@@ -31,6 +31,8 @@ using namespace std;
 using namespace sot;
 using namespace dynamicgraph;
 
+#include "tools/robot-simu-command.h"
+
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(RobotSimu,"RobotSimu");
 
 
@@ -72,6 +74,34 @@ RobotSimu( const std::string& n )
 		      <<previousControlSOUT <<pseudoTorqueSOUT
 		      << motorcontrolSOUT << ZMPPreviousControllerSOUT );
   state.fill(.0); stateSOUT.setConstant( state );
+  //
+  // Commands
+  //
+  std::string docstring;
+  // Increment
+    "\n"
+    "    Integrate dynamics for time step provided as input\n"
+    "\n"
+    "      take one floating point number as input\n"
+    "\n";
+  addCommand(std::string("increment"),
+	     new command::Increment(*this, docstring));
+  // setStateSize
+  docstring =
+    "\n"
+    "    Set size of state vector\n"
+    "\n";
+  addCommand("resize",
+	     new ::dynamicgraph::command::Setter<RobotSimu, unsigned>
+	     (*this, &RobotSimu::setStateSize, docstring);
+  // set
+  docstring =
+    "\n"
+    "    Set state vector value\n"
+    "\n";
+  addCommand("set",
+	     new ::dynamicgraph::command::Setter<RobotSimu, Vector>
+	     (*this, &RobotSimu::set, docstring);
 }
 
 void RobotSimu::
@@ -88,7 +118,7 @@ setStateSize( const unsigned int size )
 }
 
 void RobotSimu::
-setState( const ml::Vector st )
+setState( const ml::Vector& st )
 {
   state = st; 
   stateSOUT .setConstant( state );
