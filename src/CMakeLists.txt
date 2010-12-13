@@ -208,3 +208,10 @@ FOREACH(plugin ${plugins})
 	INSTALL(TARGETS ${LIBRARY_NAME}
 	  DESTINATION lib/plugin)
 ENDFOREACH(plugin)
+
+# Bindings Python
+SET(NEW_ENTITY_CLASS
+  RobotSimu
+  )
+
+DYNAMIC_GRAPH_PYTHON_MODULE("sot")
