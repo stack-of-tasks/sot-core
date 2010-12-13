@@ -69,8 +69,8 @@ RobotSimu( const std::string& n )
   forcesSOUT[3] =
     new Signal<ml::Vector, int>("OpenHRP::output(vector6)::forceLARM");
 
-  signalRegistration( controlSIN<<stateSOUT<<attitudeSOUT<<attitudeSIN<<zmpSIN  
-		      <<*forcesSOUT[0]<<*forcesSOUT[1]<<*forcesSOUT[2]<<*forcesSOUT[3] 
+  signalRegistration( controlSIN<<stateSOUT<<attitudeSOUT<<attitudeSIN<<zmpSIN
+		      <<*forcesSOUT[0]<<*forcesSOUT[1]<<*forcesSOUT[2]<<*forcesSOUT[3]
 		      <<previousControlSOUT <<pseudoTorqueSOUT
 		      << motorcontrolSOUT << ZMPPreviousControllerSOUT );
   state.fill(.0); stateSOUT.setConstant( state );
@@ -107,12 +107,12 @@ RobotSimu( const std::string& n )
 void RobotSimu::
 setStateSize( const unsigned int size )
 {
-  state.resize(size); state.fill( .0 ); 
+  state.resize(size); state.fill( .0 );
   stateSOUT .setConstant( state );
   previousControlSOUT.setConstant( state );
   pseudoTorqueSOUT.setConstant( state );
   motorcontrolSOUT .setConstant( state );
-  
+
   ml::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
 }
@@ -120,7 +120,7 @@ setStateSize( const unsigned int size )
 void RobotSimu::
 setState( const ml::Vector& st )
 {
-  state = st; 
+  state = st;
   stateSOUT .setConstant( state );
   motorcontrolSOUT .setConstant( state );
 }
@@ -133,7 +133,7 @@ increment( const double dt )
    periodicCallBefore.runSignals( controlSIN.getTime()+1 );
    periodicCallBefore.runCmds();
 
-   stateSOUT .setConstant( state ); 
+   stateSOUT .setConstant( state );
   const ml::Vector control = controlSIN( controlSIN.getTime()+1 );
 
   sotDEBUG(25) << "Cl" <<controlSIN.getTime()<<" = "
@@ -147,12 +147,12 @@ increment( const double dt )
 
 
    ml::Vector forceNull(6); forceNull.fill(0);
-   for( int i=0;i<4;++i ){ 
-     if(  withForceSignals[i] ) forcesSOUT[i]->setConstant(forceNull); 
+   for( int i=0;i<4;++i ){
+     if(  withForceSignals[i] ) forcesSOUT[i]->setConstant(forceNull);
    }
 
   motorcontrolSOUT .setConstant( state );
-  
+
   ml::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
 
@@ -193,7 +193,7 @@ commandLine( const std::string& cmdLine
   else if( cmdLine=="resize" )
     {
       unsigned int size; cmdArgs >> size;
-      setStateSize( size ); 
+      setStateSize( size );
     }
   else if( cmdLine=="set" )
     {
@@ -214,18 +214,18 @@ commandLine( const std::string& cmdLine
 	  {
 	    withForceSignals[index] = true;
 	    ml::Vector forceNull(6); forceNull.fill(0);
-	    forcesSOUT[index]->setConstant(forceNull); 
+	    forcesSOUT[index]->setConstant(forceNull);
 	  } else withForceSignals[index] = false;
       }
   }
   else if( cmdLine == "whichForces" )
   {
-    os << "Force signals: " << endl; 
+    os << "Force signals: " << endl;
     for( unsigned int i=0;i<4;++i )
       {
 	os << "\t- Force " << i << ": ";
 	if( withForceSignals[i] )
-	  { os << "Active";	  } else { os << "Inactive"; } 
+	  { os << "Active";	  } else { os << "Inactive"; }
 	os << endl;
       }
   }
@@ -252,7 +252,7 @@ commandLine( const std::string& cmdLine
       string cmd2; cmdArgs >> cmd2;
       periodicCallBefore .commandLine( cmd2,cmdArgs,os );
     }
-  else  
+  else
     {
       Entity::commandLine( cmdLine,cmdArgs,os );
     }
