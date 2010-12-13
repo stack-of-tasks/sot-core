@@ -27,31 +27,33 @@
  #include <dynamic-graph/command-getter.h>
 
 namespace sot {
-  using ::dynamicgraph::command::Command;
-  using ::dynamicgraph::command::Value;
+  namespace command {
+    using ::dynamicgraph::command::Command;
+    using ::dynamicgraph::command::Value;
   
-  // Command Increment
-  class Increment : public Command
-  {
-  public:
-    virtual ~Increment() {}
-    /// Create command and store it in Entity
-    /// \param entity instance of Entity owning this command
-    /// \param docstring documentation of the command
-    Increment(RobotSimu& entity, const std::string& docstring) :
-      command(entity, boost::assign::list_of(Value::DOUBLE), docstring)
+    // Command Increment
+    class Increment : public Command
     {
-    }
-    virtual Value doExecute()
-    {
-      RobotSimu& rs = static_cast<RobotSimu&>(owner());
-      std::vector<Value> values = getParameterValues();
-      double timeStep = values[0].value();
-      rs.increment(timeStep);
-      // return void
-      return Value();
-    }
-  }; // class Increment
+    public:
+      virtual ~Increment() {}
+      /// Create command and store it in Entity
+      /// \param entity instance of Entity owning this command
+      /// \param docstring documentation of the command
+      Increment(RobotSimu& entity, const std::string& docstring) :
+	command(entity, boost::assign::list_of(Value::DOUBLE), docstring)
+      {
+      }
+      virtual Value doExecute()
+      {
+	RobotSimu& rs = static_cast<RobotSimu&>(owner());
+	std::vector<Value> values = getParameterValues();
+	double timeStep = values[0].value();
+	rs.increment(timeStep);
+	// return void
+	return Value();
+      }
+    }; // class Increment
+  } // namespace command
 } //namespace sot
 
 #endif //ROBOT_SIMU_COMMAND_H
