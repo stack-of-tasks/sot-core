@@ -31,7 +31,7 @@ using namespace std;
 using namespace sot;
 using namespace dynamicgraph;
 
-#include "tools/robot-simu-command.h"
+#include "../src/tools/robot-simu-command.h"
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(RobotSimu,"RobotSimu");
 
@@ -79,12 +79,13 @@ RobotSimu( const std::string& n )
   //
   std::string docstring;
   // Increment
+  docstring =
     "\n"
     "    Integrate dynamics for time step provided as input\n"
     "\n"
     "      take one floating point number as input\n"
     "\n";
-  addCommand(std::string("increment"),
+  addCommand("increment",
 	     new command::Increment(*this, docstring));
   // setStateSize
   docstring =
@@ -93,7 +94,7 @@ RobotSimu( const std::string& n )
     "\n";
   addCommand("resize",
 	     new ::dynamicgraph::command::Setter<RobotSimu, unsigned>
-	     (*this, &RobotSimu::setStateSize, docstring);
+	     (*this, &RobotSimu::setStateSize, docstring));
   // set
   docstring =
     "\n"
@@ -101,11 +102,11 @@ RobotSimu( const std::string& n )
     "\n";
   addCommand("set",
 	     new ::dynamicgraph::command::Setter<RobotSimu, Vector>
-	     (*this, &RobotSimu::set, docstring);
+	     (*this, &RobotSimu::setState, docstring));
 }
 
 void RobotSimu::
-setStateSize( const unsigned int size )
+setStateSize( const unsigned int& size )
 {
   state.resize(size); state.fill( .0 );
   stateSOUT .setConstant( state );

@@ -40,7 +40,7 @@ namespace sot {
       /// \param entity instance of Entity owning this command
       /// \param docstring documentation of the command
       Increment(RobotSimu& entity, const std::string& docstring) :
-	command(entity, boost::assign::list_of(Value::DOUBLE), docstring)
+	Command(entity, boost::assign::list_of(Value::DOUBLE), docstring)
       {
       }
       virtual Value doExecute()
