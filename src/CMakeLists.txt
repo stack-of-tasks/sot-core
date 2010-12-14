@@ -13,7 +13,7 @@
 # received a copy of the GNU Lesser General Public License along with
 # sot-core. If not, see <http://www.gnu.org/licenses/>.
 
-# Libraries DEFINITIONS and INCLUDES
+INCLUDE(../cmake/python.cmake)
 
 # The main include dir
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
@@ -108,7 +108,7 @@ set(ADDITIONAL_task-unilateral_LIBS task)
 SET(LIBRARY_NAME ${SOTCORE_LIB_NAME})
 
 #sot-core library sources
-SET(${PROJECT_NAME}_SOURCES
+SET(${LIBRARY_NAME}_SOURCES
 	debug/debug.cpp
 	debug/contiifstream.cpp
 
@@ -205,13 +205,32 @@ FOREACH(plugin ${plugins})
 	PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} jrl-mal)
 	PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} dynamic-graph)
 
+	# build python submodule
+	STRING(REPLACE - _ PYTHON_LIBRARY_NAME ${LIBRARY_NAME})
+	ADD_DEPENDENCIES(${LIBRARY_NAME} MKDIR_${PYTHON_LIBRARY_NAME})
+	ADD_CUSTOM_TARGET(MKDIR_${PYTHON_LIBRARY_NAME}
+	  mkdir -p ${PYTHON_LIBRARY_NAME}
+	  )
+	DYNAMIC_GRAPH_PYTHON_MODULE("sot/core/${PYTHON_LIBRARY_NAME}"
+	  ${LIBRARY_NAME}
+	  ${PYTHON_LIBRARY_NAME}/wrap
+	  )
+	# Install plugins
 	INSTALL(TARGETS ${LIBRARY_NAME}
 	  DESTINATION lib/plugin)
 ENDFOREACH(plugin)
 
 # Bindings Python
-SET(NEW_ENTITY_CLASS
-  RobotSimu
+DYNAMIC_GRAPH_PYTHON_MODULE("sot/core" ${SOTCORE_LIB_NAME} wrap)
+
+EXEC_PROGRAM(${PYTHON_EXECUTABLE} ARGS "-c \"from distutils import sysconfig; print sysconfig.get_python_lib(0,0,prefix='')\""
+  OUTPUT_VARIABLE PYTHON_SITELIB
   )
 
-DYNAMIC_GRAPH_PYTHON_MODULE("sot")
+# Install empty __init__.py files in intermediate directories.
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/__init__.py
+  DESTINATION ${PYTHON_SITELIB}/dynamic_graph/sot
+  )
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/__init__.py
+  DESTINATION ${PYTHON_SITELIB}/dynamic_graph/sot/core
+  )
