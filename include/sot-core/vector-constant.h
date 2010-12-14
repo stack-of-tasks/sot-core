@@ -32,9 +32,14 @@ namespace ml = maal::boost;
 namespace sot{
 namespace dg = dynamicgraph;
 
+  namespace command {
+    class Resize;
+  }
+
 class VectorConstant
 : public dg::Entity
 {
+  friend class command::Resize;
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
@@ -42,14 +47,7 @@ class VectorConstant
   double color;
 
 public:
-  VectorConstant( const std::string& name )
-    :Entity( name )
-    ,rows(0),color(0.)
-    ,SOUT( "sotVectorConstant("+name+")::output(vector)::out" )
-    {
-      SOUT.setDependencyType( dg::TimeDependency<int>::BOOL_DEPENDENT );
-      signalRegistration( SOUT );
-    }
+  VectorConstant( const std::string& name );
 
   virtual ~VectorConstant( void ){}
 

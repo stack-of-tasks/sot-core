@@ -21,6 +21,8 @@
 #include <sot-core/vector-constant.h>
 #include <sot-core/factory.h>
 
+#include "../src/matrix/vector-constant-command.h"
+
 using namespace std;
 using namespace sot;
 using namespace dynamicgraph;
@@ -32,6 +34,29 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(VectorConstant,"VectorConstant");
 /* --------------------------------------------------------------------- */
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
+VectorConstant::
+VectorConstant( const std::string& name )
+  :Entity( name )
+  ,rows(0),color(0.)
+  ,SOUT( "sotVectorConstant("+name+")::output(vector)::out" )
+{
+  SOUT.setDependencyType( dg::TimeDependency<int>::BOOL_DEPENDENT );
+  signalRegistration( SOUT );
+
+  //
+  // Commands
+  //
+  // Resize
+  std::string docstring;
+  docstring = "    \n"
+    "    Resize the vector and fill with value stored in color field.\n"
+    "      Input\n"
+    "        unsigned size.\n"
+    "\n";
+  addCommand("resize",
+	     new command::Resize(*this, docstring));
+}
+
 void VectorConstant::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs, 
