@@ -53,6 +53,9 @@ public:
 
   dg::SignalTimeDependent<ml::Vector,int> SOUT;
 
+  /// \brief Set value of vector (and therefore of output signal)
+  void setValue(const ml::Vector& inValue);
+
   virtual void commandLine( const std::string& cmdLine,
 			    std::istringstream& cmdArgs,
 			    std::ostream& os );

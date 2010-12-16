@@ -55,7 +55,24 @@ VectorConstant( const std::string& name )
     "\n";
   addCommand("resize",
 	     new command::Resize(*this, docstring));
+  // set
+  docstring = "    \n"
+    "    Set value of output signal\n"
+    "    \n"
+    "      input:\n"
+    "        - a vector\n"
+    "    \n";
+  addCommand("set",
+	     new ::dynamicgraph::command::Setter<VectorConstant, ml::Vector>
+	     (*this, &VectorConstant::setValue, docstring));
 }
+
+void VectorConstant::
+setValue(const ml::Vector& inValue)
+{
+  SOUT.setConstant(inValue);
+}
+
 
 void VectorConstant::
 commandLine( const std::string& cmdLine,
