@@ -39,7 +39,7 @@ using namespace dynamicgraph;
     {                                                                                   \
       return new sotClassType<sotType>( objname );                                      \
     }                                                                                   \
-  EntityRegisterer regObj##_##sotType##_##sotClassType( std::string(className)+"<"+#sotType+">",      \
+  EntityRegisterer regObj##_##sotType##_##sotClassType( std::string(className)+"_of_"+#sotType,      \
 					  &regFunction##_##sotType##_##sotClassType );                   \
   }
 

@@ -374,7 +374,7 @@ struct Composer
   };
 };
 typedef BinaryOp<ml::Matrix,ml::Vector,MatrixHomogeneous,Composer > TandRtoH;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(TandRtoH,matrix,vector,composeTR,"Compose<R+T>")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(TandRtoH,matrix,vector,composeTR,"Compose_R_and_T")
 struct VectorComposerPRPY
 {
   void operator() ( const VectorRollPitchYaw& R,const ml::Vector& t, ml::Vector& H ) const 
@@ -415,7 +415,7 @@ struct MatrixHomeComposerPRPY
   };
 };
 typedef BinaryOp<VectorRollPitchYaw,ml::Vector,MatrixHomogeneous,MatrixHomeComposerPRPY > TandRPYtoM;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_G(TandRPYtoM,vectorRPY,vector,matrixHomo,composeTRPYM,"Compose<RPY+T>")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_G(TandRPYtoM,vectorRPY,vector,matrixHomo,composeTRPYM,"Compose_RPY_and_T")
 
 
 /* This one is really awkward. It is to change the basis of the 
