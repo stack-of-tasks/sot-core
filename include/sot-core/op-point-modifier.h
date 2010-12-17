@@ -51,6 +51,12 @@ namespace ml = maal::boost;
 namespace sot {
 namespace dg = dynamicgraph;
 
+///
+/// \brief Compute position and jacobian of a local frame attached to a joint.
+///
+/// The position of the local frame in the frame of the joint is represented by
+/// transformation.
+///
 class SOTOPPOINTMODIFIER_EXPORT OpPointModifier
 : public dg::Entity
 {

@@ -71,8 +71,6 @@ SET (tests
 	sot/tsot
 	sot/test_solverSoth
 
-	factory/test_factory
-
 	traces/files
 	traces/traces
 

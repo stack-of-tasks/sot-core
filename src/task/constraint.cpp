@@ -30,7 +30,7 @@ using namespace std;
 using namespace sot;
 
 #include <sot-core/factory.h>
-SOT_FACTORY_TASK_PLUGIN(Constraint,"Constraint")
+SOT_FACTORY_TASK_PLUGIN(Constraint,"Constraint");
 
 using namespace dynamicgraph;
 

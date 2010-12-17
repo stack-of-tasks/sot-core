@@ -141,7 +141,6 @@ SET(${LIBRARY_NAME}_SOURCES
 	sot/solver-hierarchical-inequalities.cpp
 
 	factory/additional-functions.cpp
-	factory/factory.cpp
 	factory/pool.cpp
 
 	tools/utils-windows

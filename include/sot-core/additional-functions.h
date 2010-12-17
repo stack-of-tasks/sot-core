@@ -45,8 +45,6 @@ class AdditionalFunctions
 public:
 	AdditionalFunctions();
 	~AdditionalFunctions();
-	static void cmdNew( const std::string& cmd,std::istringstream& args,
-						   std::ostream& os );
 	static void cmdMatrixDisplay( const std::string& cmd,std::istringstream& args,
 						   std::ostream& os );
 	static void cmdFlagSet( const std::string& cmd,std::istringstream& args,

@@ -32,7 +32,7 @@ using namespace sot;
 using namespace dynamicgraph;
 
 
-SOT_FACTORY_FEATURE_PLUGIN(FeatureVisualPoint,"FeatureVisualPoint")
+SOT_FACTORY_FEATURE_PLUGIN(FeatureVisualPoint,"FeatureVisualPoint");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

@@ -34,7 +34,7 @@ using namespace dynamicgraph;
 
 
 #include <sot-core/factory.h>
-SOT_FACTORY_FEATURE_PLUGIN(FeatureTask,"FeatureTask")
+SOT_FACTORY_FEATURE_PLUGIN(FeatureTask,"FeatureTask");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

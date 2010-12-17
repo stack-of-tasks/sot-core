@@ -33,43 +33,9 @@ using namespace dynamicgraph;
  * again) the 'new' function in the g_shell
  */
 AdditionalFunctions::AdditionalFunctions() {
-	// overload 'new'
-	g_shell.deregisterFunction("new");
-	g_shell.registerFunction("new", &AdditionalFunctions::cmdNew);
 }
 
 AdditionalFunctions::~AdditionalFunctions() {
-	g_shell.deregisterFunction("new");
-}
-
-void AdditionalFunctions::cmdNew( const std::string& cmdLine, istringstream& cmdArg, std::ostream& os )
-{
-  if( cmdLine == "help" )
-    {
-      os << "  - new <class> <object>"
-	 << "\t\t\tCreate a new object (entity, task, or feature)." <<endl;
-      return;
-    }
-  string className;
-  string objName;
-  cmdArg >> className >>objName;
-  sotDEBUG(15) << "New <" << className<<"> requested."<<endl;
-  if( g_factory.existEntity( className ) )
-    {
-      sotDEBUG(15) << "New entity<"<<className<<"> " <<objName<<std::endl;
-      g_factory.newEntity(className,objName);
-    }
-  else if( sotFactory.existFeature( className ) )
-    {
-      sotDEBUG(15) << "New feature<"<<className<<"> " <<objName<<std::endl;
-      sotFactory.newFeature(className,objName);
-    }
-  else if( sotFactory.existTask( className ) )
-    {
-      sotDEBUG(15) << "New Task<"<<className<<"> " <<objName<<std::endl;
-      sotFactory.newTask(className,objName);
-    }
-  else os << "  !! Class <" << className << "> does not exist."<<endl;
 }
 
 void AdditionalFunctions::
