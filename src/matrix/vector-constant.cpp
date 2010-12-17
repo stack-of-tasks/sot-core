@@ -54,7 +54,7 @@ VectorConstant( const std::string& name )
     "        unsigned size.\n"
     "\n";
   addCommand("resize",
-	     new command::Resize(*this, docstring));
+	     new command::vectorConstant::Resize(*this, docstring));
   // set
   docstring = "    \n"
     "    Set value of output signal\n"

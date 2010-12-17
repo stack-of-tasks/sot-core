@@ -33,13 +33,15 @@ namespace sot{
 namespace dg = dynamicgraph;
 
   namespace command {
-    class Resize;
+    namespace vectorConstant {
+      class Resize;
+    }
   }
 
 class VectorConstant
 : public dg::Entity
 {
-  friend class command::Resize;
+  friend class command::vectorConstant::Resize;
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
