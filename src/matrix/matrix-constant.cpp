@@ -21,6 +21,8 @@
 #include <sot-core/matrix-constant.h>
 #include <sot-core/factory.h>
 
+#include "../src/matrix/matrix-constant-command.h"
+
 using namespace std;
 using namespace sot;
 using namespace dynamicgraph;
@@ -30,6 +32,47 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MatrixConstant,"MatrixConstant");
 /* --------------------------------------------------------------------- */
 /* --- MATRIX ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
+
+MatrixConstant::
+MatrixConstant( const std::string& name )
+  :Entity( name )
+  ,rows(0),cols(0),color(0.)
+  ,SOUT( "sotMatrixConstant("+name+")::output(matrix)::out" )
+{
+  SOUT.setDependencyType( dg::TimeDependency<int>::BOOL_DEPENDENT );
+  signalRegistration( SOUT );
+  //
+  // Commands
+
+  // Resize
+  std::string docstring;
+  docstring = "    \n"
+    "    Resize the matrix and fill with value stored in color field.\n"
+    "      Input\n"
+    "        - unsigned int: number of lines.\n"
+    "        - unsigned int: number of columns.\n"
+    "\n";
+  addCommand("resize",
+	     new command::matrixConstant::Resize(*this, docstring));
+  // set
+  docstring = "    \n"
+    "    Set value of output signal\n"
+    "    \n"
+    "      input:\n"
+    "        - a matrix\n"
+    "    \n";
+  addCommand("set",
+	     new ::dynamicgraph::command::Setter<MatrixConstant, ml::Matrix>
+	     (*this, &MatrixConstant::setValue, docstring));
+}
+
+void MatrixConstant::
+setValue(const ml::Matrix& inValue)
+{
+  SOUT.setConstant(inValue);
+}
+
+
 void MatrixConstant::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs, 
