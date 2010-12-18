@@ -39,52 +39,6 @@ AdditionalFunctions::~AdditionalFunctions() {
 }
 
 void AdditionalFunctions::
-cmdMatrixDisplay( const std::string& cmdLine, std::istringstream& cmdArg, std::ostream& os )
-{
-   if( cmdLine == "help" )
-    {
-      os << "  - dispmat {simple|complet|matlab}"
-	 << "\t\tChange the display of matrix." <<endl;
-      return;
-    }
-
-   std::string arg;
-   cmdArg >> arg;
-//    dgDEBUG(15) << "Display matrix: arg = \""<< arg
-// 		<<"\" old="<<0+maal::boost::getDisplayType()<<endl;
-//    maal::boost::Vector trojan(3);
-
-//    if( ("simple"==arg)||(arg[0]=='s') )
-//       { trojan.setDisplayType( maal::boost::SIMPLE ); }
-//    else if( ("matlab"==arg)||(arg[0]=='m') )
-//      {
-//        trojan.setDisplayType( maal::boost::MATLAB );
-//        dgDEBUG(15) << "Display matrix: curr = \""
-// 		    <<0+maal::boost::MATLAB<<endl;
-//      }
-//    else if( "cpp"==arg ) { trojan.setDisplayType( maal::boost::CPP ); }
-//    else if( ("complet"==arg)||(arg[0]=='c') )
-//      { trojan.setDisplayType( maal::boost::COMPLET ); }
-//    else { os << "Arg <" << arg << "> is not a valid option."<<endl; }
-
-//    dgDEBUG(15) << "Display matrix: curr = \""
-// 		<<0+maal::boost::getDisplayType()<<endl;
-//    dgDEBUGF(15,"Ptr fun: %p.", maal::boost::getDisplayType);
-   //   dgDEBUG(15) << trojan<<std::endl;
-
-   if( ("simple"==arg)||(arg[0]=='s') )
-     SignalCast<ml::Vector>::displayType = maal::boost::SIMPLE;
-   else if( ("matlab"==arg)||(arg[0]=='m') )
-     SignalCast<ml::Vector>::displayType = maal::boost::MATLAB;
-   else if( "cpp"==arg )
-     SignalCast<ml::Vector>::displayType = maal::boost::CPP;
-   else if( ("complet"==arg)||(arg[0]=='c') )
-     SignalCast<ml::Vector>::displayType = maal::boost::COMPLET;
-   else { os << "Arg <" << arg << "> is not a valid option."<<endl; }
-
-}
-
-void AdditionalFunctions::
 cmdFlagSet( const std::string& cmdLine, istringstream& cmdArg, std::ostream& os )
 {
   if( cmdLine == "help" )
@@ -117,6 +71,4 @@ namespace {
 	AdditionalFunctions functions;
 	ShellFunctionRegisterer regFun18
    ( "setflag",boost::bind(AdditionalFunctions::cmdFlagSet,_1,_2,_3) );
-    ShellFunctionRegisterer regFun6
-    ( "dispmat",boost::bind(AdditionalFunctions::cmdMatrixDisplay,_1,_2,_3) );
 }
