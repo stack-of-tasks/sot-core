@@ -23,14 +23,6 @@
 
 
 #include <sot-core/flags.h>
-#include <jrl/mal/boost.hh>
-#include <sot-core/matrix-homogeneous.h>
-#include <sot-core/matrix-rotation.h>
-#include <sot-core/matrix-twist.h>
-#include <sot-core/vector-utheta.h>
-#include <sot-core/vector-quaternion.h>
-#include <sot-core/vector-roll-pitch-yaw.h>
-#include <sot-core/matrix-force.h>
 #include <sot-core/multi-bound.h>
 #include <sot-core/sot-core-api.h>
 #ifdef WIN32
@@ -168,33 +160,6 @@ typedef FeatureAbstract* SignalCast_sotFeatureAbstractPtr  ;
 
 SOT_SIGNAL_CAST_DEFINITION_HPP( SignalCast_sotFeatureAbstractPtr );
 SOT_SIGNAL_CAST_DEFINITION_HPP( struct timeval );
-
-/* --- Matrices and Vectors --- */
-#define SOT_SIGNAL_CAST_DEFINITION_MATRIX(TYPE)         \
-SOT_SIGNAL_CAST_FULL_DEFINITION(TYPE,{TYPE res; iss >> res; return res; }, \
-                                { SignalCast<ml::Matrix>::disp(t,os); }, \
-                                { SignalCast<ml::Matrix>::trace(t,os); })
-//SOT_SIGNAL_CAST_DEFINITION_TRACE_HPP(TYPE,{ SignalCast<ml::Matrix>::trace(t,os); })
-
-#define SOT_SIGNAL_CAST_DEFINITION_VECTOR(TYPE)         \
-SOT_SIGNAL_CAST_FULL_DEFINITION(TYPE,{TYPE res; iss >> res; return res; }, \
-                                { SignalCast<ml::Vector>::disp(t,os); }, \
-                                { SignalCast<ml::Vector>::trace(t,os); })
-//SOT_SIGNAL_CAST_DEFINITION_TRACE_HPP(TYPE,{ SignalCast<ml::Vector>::trace(t,os); })
-
-SOT_SIGNAL_CAST_FULL_DEFINITION(maal::boost::Vector,; SOT_CORE_EXPORT static maal::boost::DisplayType displayType;,;,;);
-SOT_SIGNAL_CAST_FULL_DEFINITION(maal::boost::Matrix,;,;,;);
-
-/* All the followings are defined with proxys on the equivalent
- * functions ml:: based.
- */
-SOT_SIGNAL_CAST_DEFINITION_VECTOR(VectorUTheta);
-SOT_SIGNAL_CAST_DEFINITION_VECTOR(VectorQuaternion);
-SOT_SIGNAL_CAST_DEFINITION_VECTOR(VectorRollPitchYaw);
-SOT_SIGNAL_CAST_DEFINITION_MATRIX(MatrixRotation);
-SOT_SIGNAL_CAST_DEFINITION_MATRIX(MatrixHomogeneous);
-SOT_SIGNAL_CAST_DEFINITION_MATRIX(MatrixTwist);
-SOT_SIGNAL_CAST_DEFINITION_MATRIX(MatrixForce);
 
 } // namespace sot
 
