@@ -37,7 +37,7 @@ using namespace sot;
 using namespace dynamicgraph;
 
 #include <sot-core/factory.h>
-SOT_FACTORY_FEATURE_PLUGIN(FeaturePoint6dRelative,"FeaturePoint6dRelative");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePoint6dRelative,"FeaturePoint6dRelative");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

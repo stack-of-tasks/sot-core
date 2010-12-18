@@ -35,7 +35,8 @@ using namespace std;
 /* --------------------------------------------------------------------- */
 
 using namespace sot;
-SOT_FACTORY_FEATURE_PLUGIN(FeatureJointLimits,"FeatureJointLimits");
+using namespace dynamicgraph;
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureJointLimits,"FeatureJointLimits");
 
 const double FeatureJointLimits::THRESHOLD_DEFAULT = .9;
 
