@@ -25,10 +25,13 @@
 /* SOT */
 #include <sot-core/task.h>
 #include <sot-core/debug.h>
+
+#include <sot-core/pool.h>
+#include "../src/task/task-command.h"
+
 using namespace std;
 using namespace sot;
 using namespace dynamicgraph;
-
 
 #include <sot-core/factory.h>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Task,"Task");
@@ -63,6 +66,21 @@ Task( const std::string& n )
 
   signalRegistration( controlGainSIN<<dampingGainSINOUT
 		      <<controlSelectionSIN<<errorSOUT );
+
+  //
+  // Commands
+  //
+  std::string docstring;
+  // AddFeature
+  docstring = "    \n"
+    "    \n"
+    "    Add a feature to the task\n"
+    "    \n"
+    "      Input:\n"
+    "        - name of the feature\n"
+    "    \n";
+  addCommand("add",
+	     new command::task::AddFeature(*this, docstring));
 }
 
 
@@ -307,7 +325,6 @@ display( std::ostream& os ) const
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
-#include <sot-core/pool.h>
 
 static void readListIdx( std::istringstream& cmdArgs,
 			 unsigned int & idx_beg,unsigned int &idx_end,
