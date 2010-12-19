@@ -29,6 +29,8 @@
 #include <sot-core/factory.h>
 #include <sot-core/exception-signal.h>
 
+#include "../src/task/gain-adaptive-command.h"
+
 using namespace sot;
 using namespace dynamicgraph;
 
@@ -55,7 +57,31 @@ Entity(name) \
 ,gainSOUT( boost::bind(&GainAdaptive::computeGain,this,_1,_2), \
 	   errorSIN,"sotGainAdaptive("+name+")::output(double)::gain" )
 
+void GainAdaptive::addCommands()
+{
+  std::string docstring;
+  // Command SetConstant
+  docstring = "    \n"
+    "    setConstant\n"
+    "      Input:\n"
+    "        floating point value: value at 0. Other values are set to"
+    "default.\n"
+    "    \n";
+  addCommand("setConstant",
+	     new command::gainAdaptive::SetConstant(*this, docstring));
 
+  // Command Set
+  docstring = "    \n"
+    "    set\n"
+    "      Input:\n"
+    "        floating point value: value at 0,\n"
+    "        floating point value: value at infinity,\n"
+    "        floating point value: value at slope,\n"
+    "    \n";
+  addCommand("set",
+	     new command::gainAdaptive::SetConstant(*this, docstring));
+
+}
 
 GainAdaptive::
 GainAdaptive( const std::string & name )
@@ -64,6 +90,7 @@ GainAdaptive( const std::string & name )
   sotDEBUG(15) << "New gain <"<<name<<">"<<std::endl;
   init();
   Entity::signalRegistration( gainSOUT<<errorSIN );
+  addCommands();
 }
 
 
@@ -73,6 +100,7 @@ GainAdaptive( const std::string & name,const double& lambda )
 {
   init(lambda);
   Entity::signalRegistration( gainSOUT );
+  addCommands();
 }
 
 GainAdaptive::
@@ -84,6 +112,7 @@ GainAdaptive( const std::string & name,
 {
   init(valueAt0,valueAtInfty,tanAt0);
   Entity::signalRegistration( gainSOUT );
+  addCommands();
 }
 
 

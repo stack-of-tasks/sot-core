@@ -106,6 +106,8 @@ class SOTGAINADAPTATIVE_EXPORT GainAdaptive
  public: /* --- PARAMS --- */
   virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 			    std::ostream& os );
+ private:
+  void addCommands();
 };
 
 } // namespace sot
