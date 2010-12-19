@@ -18,10 +18,13 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <dynamic-graph/signal-caster.h>
 #include <sot-core/pool.h>
 #include <sot-core/signal-cast.h>
 #include <iomanip>
 #include <sot-core/feature-abstract.h>
+
+#include "sot-core/matrix-homogeneous.h"
 
 using namespace std;
 using namespace sot;
@@ -88,4 +91,6 @@ namespace {
 	SOT_SIGNAL_CAST_DECLARATION(Flags);
 	SOT_SIGNAL_CAST_DECLARATION(VectorMultiBound);
 	SOT_SIGNAL_CAST_DECLARATION(timeval );
+  dynamicgraph::DefaultCastRegisterer <sot::MatrixHomogeneous>
+  matrixHomegeneousCastRegisterer;
 }
