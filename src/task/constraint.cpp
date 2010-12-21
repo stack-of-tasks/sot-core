@@ -30,7 +30,9 @@ using namespace std;
 using namespace sot;
 
 #include <sot-core/factory.h>
+
 using namespace dynamicgraph;
+#include "../src/task/constraint-command.h"
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Constraint,"Constraint");
 
 /* --------------------------------------------------------------------- */
@@ -46,6 +48,21 @@ Constraint( const std::string& n )
   
   signalDeregistration( "task" );
   signalDeregistration( "activation" );
+
+  //
+  // Commands
+  //
+  std::string docstring;
+  // Addjacobian
+  docstring = "    \n"
+    "    \n"
+    "    Add a Jacobian to the constraint\n"
+    "    \n"
+    "      Input:\n"
+    "        - name of the signal conveying the Jacobian.\n"
+    "    \n";
+  addCommand("addJacobian",
+	     new command::constraint::AddJacobian(*this, docstring));
 }
 
 
