@@ -25,6 +25,10 @@
 /* --- SOT --- */
 //#define VP_DEBUG
 //#define VP_DEBUG_MODE 45
+#include <dynamic-graph/command.h>
+#include <dynamic-graph/command-setter.h>
+#include <dynamic-graph/command-getter.h>
+
 #include <sot-core/debug.h>
 #include <sot-core/feature-point6d.h>
 #include <sot-core/exception-feature.h>
@@ -51,7 +55,7 @@ COMPUTATION_FRAME_DEFAULT = FRAME_DESIRED;
 FeaturePoint6d::
 FeaturePoint6d( const string& pointName )
   : FeatureAbstract( pointName )
-    ,computationFrame( COMPUTATION_FRAME_DEFAULT )
+    ,computationFrame_( COMPUTATION_FRAME_DEFAULT )
     ,positionSIN( NULL,"sotFeaturePoint6d("+name+")::input(matrixHomo)::position" )
     ,articularJacobianSIN( NULL,"sotFeaturePoint6d("+name+")::input(matrix)::Jq" )
 {
@@ -63,6 +67,20 @@ FeaturePoint6d( const string& pointName )
   activationSOUT.removeDependency( desiredValueSIN );
 
   signalRegistration( positionSIN<<articularJacobianSIN );
+
+  // Commands
+  //
+  std::string docstring;
+  // Set computation frame
+  docstring = "    \n"
+    "    Set computation frame\n"
+    "    \n"
+    "      Input:\n"
+    "        a string: 'current' or 'desired'\n"
+    "    \n";
+  addCommand("frame",
+	     new dynamicgraph::command::Setter<FeaturePoint6d, std::string>
+	     (*this, &FeaturePoint6d::computationFrame, docstring));
 }
 
 
@@ -108,7 +126,7 @@ computeJacobian( ml::Matrix& J,int time )
   J.resize(dim,cJ) ;
   ml::Matrix LJq(6,cJ);
 
-  if( FRAME_CURRENT==computationFrame )
+  if( FRAME_CURRENT==computationFrame_ )
     {
       /* The Jacobian on rotation is equal to Jr = - hdRh Jr6d.
        * The Jacobian in translation is equalt to Jt = [hRw(wthd-wth)]x Jr - Jt. */
@@ -232,7 +250,7 @@ FeaturePoint6d::computeError( ml::Vector& error,int time )
     {
       const MatrixHomogeneous& wMhd = sdes->positionSIN(time);
       sotDEBUG(15)<<"wMhd = "<<wMhd<<endl;
-      switch(computationFrame)
+      switch(computationFrame_)
         {
         case FRAME_CURRENT:
           SOT_COMPUTE_H1MH2(wMh,wMhd,hMhd); break;
@@ -242,7 +260,7 @@ FeaturePoint6d::computeError( ml::Vector& error,int time )
     }
   else
     {
-      switch(computationFrame)
+      switch(computationFrame_)
         {
         case FRAME_CURRENT:
           hMhd=wMh.inverse(); break;
@@ -330,13 +348,13 @@ commandLine( const std::string& cmdLine,
       if(cmdArgs.good())
 	{
 	  std::string frameStr; cmdArgs >> frameStr;
-	  if( frameStr =="current" ) { computationFrame = FRAME_CURRENT; }
-	  else { computationFrame = FRAME_DESIRED; }
+	  if( frameStr =="current" ) { computationFrame_ = FRAME_CURRENT; }
+	  else { computationFrame_ = FRAME_DESIRED; }
 	}
       else {
 	os << "frame = ";
-	if( FRAME_DESIRED==computationFrame ) os << "desired" << std::endl;
-	else if( FRAME_CURRENT==computationFrame ) os << "current" << std::endl;
+	if( FRAME_DESIRED==computationFrame_ ) os << "desired" << std::endl;
+	else if( FRAME_CURRENT==computationFrame_ ) os << "current" << std::endl;
       }
     }
   else  //FeatureAbstract::

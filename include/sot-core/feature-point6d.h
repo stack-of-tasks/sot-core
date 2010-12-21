@@ -29,6 +29,7 @@
 #include <sot-core/feature-abstract.h>
 #include <sot-core/exception-task.h>
 #include <sot-core/matrix-homogeneous.h>
+#include "sot-core/exception-feature.h"
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -70,7 +71,39 @@ class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
       ,FRAME_CURRENT
     };
   static const ComputationFrameType COMPUTATION_FRAME_DEFAULT;
-  ComputationFrameType computationFrame;
+
+ public:
+  /// \brief Set computation frame
+  void computationFrame(const std::string& inFrame)
+  {
+    if (inFrame == "current")
+      computationFrame_ = FRAME_CURRENT;
+    else if (inFrame == "desired")
+      computationFrame_ = FRAME_DESIRED;
+    else {
+      std::string msg("FeaturePoint6d::computationFrame: "
+		      + inFrame + ": invalid argument,\n"
+		      "expecting 'current' or 'desired'");
+      throw ExceptionFeature(ExceptionFeature::GENERIC, msg);
+    }
+  }
+
+  /// \brief Get computation frame
+  std::string computationFrame() const 
+  {
+    switch(computationFrame_) {
+    case FRAME_CURRENT:
+      return "current";
+    case FRAME_DESIRED:
+      return "desired";
+    default:
+      return "";
+    }
+    return "";
+  }
+
+ private:
+  ComputationFrameType computationFrame_;
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
