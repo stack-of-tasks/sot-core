@@ -29,6 +29,7 @@
 using namespace std;
 
 #include <sot-core/factory.h>
+#include <../src/feature/feature-joint-limits-command.h>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -70,6 +71,16 @@ FeatureJointLimits( const string& fName )
   activationSOUT.removeDependency( desiredValueSIN );
 
   signalRegistration( jointSIN<<upperJlSIN<<lowerJlSIN<<widthJlSINTERN );
+
+  // Commands
+  //
+  std::string docstring;
+  // Actuate
+  docstring = "    \n"
+    "    Actuate\n"
+    "    \n";
+  addCommand("actuate",
+	     new command::featureJointLimits::Actuate(*this, docstring));
 }
 
 
@@ -256,7 +267,7 @@ commandLine( const std::string& cmdLine,
     }
   else if( cmdLine == "actuate" )
     {
-      Flags fl( 63 );
+      Flags fl( 63 ); //0x0000003f = 00000000000000000000000000111111
       selectionSIN =  (! fl);
     }
   else { FeatureAbstract::commandLine( cmdLine,cmdArgs,os ); }
