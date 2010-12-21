@@ -45,6 +45,7 @@ using namespace std;
 using namespace sot;
 using namespace dynamicgraph;
 
+#include "../src/sot/sot-command.h"
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -83,6 +84,39 @@ Sot( const std::string& name )
   inversionThresholdSIN = INVERSION_THRESHOLD_DEFAULT;
 
   signalRegistration( inversionThresholdSIN<<controlSOUT<<constraintSOUT<<q0SIN );
+
+  // Commands
+  //
+  std::string docstring;
+  // addConstraint
+  docstring ="    \n"
+    "    AddConstraint\n"
+    "    \n"
+    "      Input:\n"
+    "        - a string: name of the constraint object\n"
+    "    \n";
+  addCommand("addConstraint",
+	     new command::classSot::AddConstraint(*this, docstring));
+  
+  docstring ="    \n"
+    "    setNumberDofs.\n"
+    "    \n"
+    "      Input:\n"
+    "        - a positive integer : number of degrees of freedom of the robot.\n"
+    "    \n";
+  addCommand("setNumberDofs",
+	     new dynamicgraph::command::Setter<Sot, unsigned int>
+	     (*this, &Sot::defineNbDof, docstring));
+
+  docstring ="    \n"
+    "    push a task into the stack.\n"
+    "    \n"
+    "      Input:\n"
+    "        - a string : Name of the task.\n"
+    "    \n";
+  addCommand("push",
+	     new command::classSot::Push(*this, docstring));
+
 }
 
 /* --------------------------------------------------------------------- */
