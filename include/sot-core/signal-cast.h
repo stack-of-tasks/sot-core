@@ -163,9 +163,9 @@ public:
     SOT_CORE_EXPORT static FeatureAbstract*
       cast( std::istringstream& iss );
     SOT_CORE_EXPORT static void
-      disp( const FeatureAbstract*& t,std::ostream& os );
+    disp( FeatureAbstract* t,std::ostream& os );
     SOT_CORE_EXPORT static void
-    trace( const FeatureAbstract*& t, std::ostream& os ) {
+    trace( FeatureAbstract* t, std::ostream& os ) {
       disp(t,os);
     }
 public:

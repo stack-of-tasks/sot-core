@@ -43,7 +43,7 @@ cast( std::istringstream& iss )
 }
 
 void SignalCast<FeatureAbstract*>::
-disp(  const FeatureAbstract* & t,std::ostream& os )
+disp( FeatureAbstract* t,std::ostream& os )
 {
   if( t ) { t->display(os); os<<std::endl; }
   else { os << "NULL" << std::endl; }
