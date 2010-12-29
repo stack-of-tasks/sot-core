@@ -156,11 +156,50 @@ public:            																\
 SOT_SIGNAL_CAST_DEFINITION(Flags);
 SOT_SIGNAL_CAST_DEFINITION_TRACE(VectorMultiBound);
 
-typedef FeatureAbstract* SignalCast_sotFeatureAbstractPtr  ;
+template<>
+class SignalCast<FeatureAbstract*>
+{
+public:
+    SOT_CORE_EXPORT static FeatureAbstract*
+      cast( std::istringstream& iss );
+    SOT_CORE_EXPORT static void
+      disp( const FeatureAbstract*& t,std::ostream& os );
+    SOT_CORE_EXPORT static void
+    trace( const FeatureAbstract*& t, std::ostream& os ) {
+      disp(t,os);
+    }
+public:
+  static boost::any cast_( std::istringstream& stringValue ) {
+    return boost::any_cast<FeatureAbstract*>(cast(stringValue));
+  }
+  static void disp_( const boost::any& t,std::ostream& os )  {
+    disp(boost::any_cast<FeatureAbstract*>(t), os);
+  }
+  static void trace_( const boost::any& t,std::ostream& os ) {
+    trace(boost::any_cast<FeatureAbstract*>(t),os);
+  }
+}
 
-SOT_SIGNAL_CAST_DEFINITION_HPP( SignalCast_sotFeatureAbstractPtr );
-SOT_SIGNAL_CAST_DEFINITION_HPP( struct timeval );
-
+  template<>
+  class SignalCast<struct timeval>
+  {
+  public:
+    SOT_CORE_EXPORT static struct timeval cast( std::istringstream& iss );
+    SOT_CORE_EXPORT static void disp( const struct timeval& t,
+				      std::ostream& os );
+    SOT_CORE_EXPORT static void trace( const struct timeval& t,
+				       std::ostream& os ) { disp(t,os); }
+  public:
+    static boost::any cast_( std::istringstream& stringValue ) {
+      return boost::any_cast<struct timeval>(cast(stringValue));
+    }
+    static void disp_( const boost::any& t,std::ostream& os )  {
+      disp(boost::any_cast<struct timeval>(t), os);
+    }
+    static void trace_( const boost::any& t,std::ostream& os ) {
+      trace(boost::any_cast<struct timeval>(t),os);
+    }
+  };
 } // namespace sot
 
 

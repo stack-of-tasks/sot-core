@@ -29,21 +29,21 @@
 using namespace std;
 using namespace sot;
 
-SignalCast_sotFeatureAbstractPtr SignalCast<SignalCast_sotFeatureAbstractPtr>::
+FeatureAbstract* SignalCast<FeatureAbstract*>::
 cast( std::istringstream& iss )
 {
-  SignalCast_sotFeatureAbstractPtr ref; 
-  std::string name; iss >> name; 
+  FeatureAbstract* ref;
+  std::string name; iss >> name;
   if( name.length())
     {
-      ref = &sotPool.getFeature(name); 
+      ref = &sotPool.getFeature(name);
     }
   else { ref = NULL; }
   return ref;
 }
 
-void SignalCast<SignalCast_sotFeatureAbstractPtr>::
-disp(  const SignalCast_sotFeatureAbstractPtr & t,std::ostream& os )
+void SignalCast<FeatureAbstract*>::
+disp(  const FeatureAbstract* & t,std::ostream& os )
 {
   if( t ) { t->display(os); os<<std::endl; }
   else { os << "NULL" << std::endl; }
@@ -87,10 +87,30 @@ trace( const VectorMultiBound& t,std::ostream& os )
 }
 
 namespace {
-	SOT_SIGNAL_CAST_DECLARATION(SignalCast_sotFeatureAbstractPtr);
-	SOT_SIGNAL_CAST_DECLARATION(Flags);
-	SOT_SIGNAL_CAST_DECLARATION(VectorMultiBound);
-	SOT_SIGNAL_CAST_DECLARATION(timeval );
+  dynamicgraph::SignalCastRegisterer sotCastRegisterer_FeatureAbstractPtr
+  (typeid(FeatureAbstract*),
+   SignalCast<FeatureAbstract*>::disp_,
+   SignalCast<FeatureAbstract*>::cast_,
+   SignalCast<FeatureAbstract*>::trace_);
+
+  dynamicgraph::SignalCastRegisterer sotCastRegisterer_Flags
+    (typeid(Flags),
+     SignalCast<Flags>::disp_,
+     SignalCast<Flags>::cast_,
+     SignalCast<Flags>::trace_);
+
+  dynamicgraph::SignalCastRegisterer sotCastRegisterer_VectorMultiBound
+    (typeid(VectorMultiBound),
+     SignalCast<VectorMultiBound>::disp_,
+     SignalCast<VectorMultiBound>::cast_,
+     SignalCast<VectorMultiBound>::trace_);
+
+  dynamicgraph::SignalCastRegisterer sotCastRegisterer_timeval
+    (typeid(timeval),
+     SignalCast<timeval>::disp_,
+     SignalCast<timeval>::cast_,
+     SignalCast<timeval>::trace_);
+
   dynamicgraph::DefaultCastRegisterer <sot::MatrixHomogeneous>
   matrixHomegeneousCastRegisterer;
 }
