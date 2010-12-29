@@ -156,29 +156,29 @@ public:            																\
 SOT_SIGNAL_CAST_DEFINITION(Flags);
 SOT_SIGNAL_CAST_DEFINITION_TRACE(VectorMultiBound);
 
-template<>
-class SignalCast<FeatureAbstract*>
-{
-public:
+  template<>
+  class SignalCast<FeatureAbstract*>
+  {
+  public:
     SOT_CORE_EXPORT static FeatureAbstract*
-      cast( std::istringstream& iss );
+    cast( std::istringstream& iss );
     SOT_CORE_EXPORT static void
     disp( FeatureAbstract* t,std::ostream& os );
     SOT_CORE_EXPORT static void
     trace( FeatureAbstract* t, std::ostream& os ) {
       disp(t,os);
     }
-public:
-  static boost::any cast_( std::istringstream& stringValue ) {
-    return boost::any_cast<FeatureAbstract*>(cast(stringValue));
-  }
-  static void disp_( const boost::any& t,std::ostream& os )  {
-    disp(boost::any_cast<FeatureAbstract*>(t), os);
-  }
-  static void trace_( const boost::any& t,std::ostream& os ) {
-    trace(boost::any_cast<FeatureAbstract*>(t),os);
-  }
-}
+  public:
+    static boost::any cast_( std::istringstream& stringValue ) {
+      return boost::any_cast<FeatureAbstract*>(cast(stringValue));
+    }
+    static void disp_( const boost::any& t,std::ostream& os )  {
+      disp(boost::any_cast<FeatureAbstract*>(t), os);
+    }
+    static void trace_( const boost::any& t,std::ostream& os ) {
+      trace(boost::any_cast<FeatureAbstract*>(t),os);
+    }
+  };
 
   template<>
   class SignalCast<struct timeval>
