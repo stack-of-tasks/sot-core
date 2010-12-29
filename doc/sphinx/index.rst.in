@@ -16,6 +16,21 @@ Entities
 .. automodule:: dynamic_graph.sot.core
    :members:
 
+.. autoclass:: dynamic_graph.sot.core.robot_simu.RobotSimu
+   :members:
+
+.. autoclass:: dynamic_graph.sot.core.vector_constant.VectorConstant
+   :members:
+
+.. autoclass:: dynamic_graph.sot.core.matrix_constant.MatrixConstant
+   :members:
+
+.. autoclass:: dynamic_graph.sot.core.unary_op.RPYToMatrix
+   :members:
+
+.. autoclass:: dynamic_graph.sot.core.derivator.Derivator_of_Vector
+   :members:
+
 .. autoclass:: dynamic_graph.sot.core.feature_point6d.FeaturePoint6d
    :members:
 
