@@ -66,9 +66,3 @@ cmdFlagSet( const std::string& cmdLine, istringstream& cmdArg, std::ostream& os 
   }
 
 }
-
-namespace {
-	AdditionalFunctions functions;
-	ShellFunctionRegisterer regFun18
-   ( "setflag",boost::bind(AdditionalFunctions::cmdFlagSet,_1,_2,_3) );
-}
