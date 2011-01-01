@@ -25,6 +25,7 @@
 #include <sot-core/feature-abstract.h>
 
 #include "sot-core/matrix-homogeneous.h"
+#include "sot-core/matrix-rotation.h"
 
 using namespace std;
 using namespace sot;
@@ -113,4 +114,7 @@ namespace {
 
   dynamicgraph::DefaultCastRegisterer <sot::MatrixHomogeneous>
   matrixHomegeneousCastRegisterer;
+
+  dynamicgraph::DefaultCastRegisterer <sot::MatrixRotation>
+  matrixRotationCastRegisterer;
 }
