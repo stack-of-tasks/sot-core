@@ -227,7 +227,9 @@ EXEC_PROGRAM(${PYTHON_EXECUTABLE} ARGS "-c \"from distutils import sysconfig; pr
   )
 
 # Install empty __init__.py files in intermediate directories.
-INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/__init__.py
+INSTALL(FILES
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/__init__.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/se3.py
   DESTINATION ${PYTHON_SITELIB}/dynamic_graph/sot
   )
 INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/__init__.py

@@ -11,11 +11,26 @@ sot-core: python bindings documentation
 
 Python module dynamic_graph.sot implements bindings for sot-core_ library. To each main C++ class is associated a Python class. Main classes, defined in submodules and are listed below.
 
-Entities
---------
+.. automodule:: dynamic_graph.sot
+   :members:
+
 .. automodule:: dynamic_graph.sot.core
    :members:
 
+Homogeneous matrix
+------------------
+.. autoclass:: dynamic_graph.sot.R3
+   :members:
+
+.. autoclass:: dynamic_graph.sot.SO3
+   :members:
+
+.. autoclass:: dynamic_graph.sot.SE3
+   :members:
+
+
+Entities
+--------
 .. autoclass:: dynamic_graph.sot.core.robot_simu.RobotSimu
    :members:
 
