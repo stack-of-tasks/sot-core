@@ -28,6 +28,9 @@ Entities
 .. autoclass:: dynamic_graph.sot.core.unary_op.RPYToMatrix
    :members:
 
+.. autoclass:: dynamic_graph.sot.core.unary_op.MatrixHomoToPoseRollPitchYaw
+   :members:
+
 .. autoclass:: dynamic_graph.sot.core.derivator.Derivator_of_Vector
    :members:
 
