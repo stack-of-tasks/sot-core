@@ -22,6 +22,9 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+/* jrl-mathtools */
+#include <jrl/mathtools/vector3.hh>
+
 /* SOT */
 #include <sot-core/robot-simu.h>
 #include <sot-core/debug.h>
@@ -40,6 +43,60 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(RobotSimu,"RobotSimu");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+static void integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
+				  double dt)
+{
+  jrlMathTools::Vector3D<double> omega;
+  // Translation part
+  for (unsigned int i=0; i<3; i++) {
+    state(i) += control(i)*dt;
+    omega(i) = control(i+3);
+  }
+  // Rotation part
+  double roll = state(3);
+  double pitch = state(4);
+  double yaw = state(5);
+  std::vector<jrlMathTools::Vector3D<double> > column;
+
+  // Build rotation matrix as a vector of colums
+  jrlMathTools::Vector3D<double> e1;
+  e1(0) = cos(pitch)*cos(yaw);
+  e1(1) = cos(pitch)*sin(yaw);
+  e1(2) = -sin(pitch);
+  column.push_back(e1);
+
+  jrlMathTools::Vector3D<double> e2;
+  e2(0) = sin(roll)*sin(pitch)*cos(yaw) - cos(roll)*sin(yaw);
+  e2(1) = sin(roll)*sin(pitch)*sin(yaw) + cos(roll)*cos(yaw);
+  e2(2) = sin(roll)*cos(pitch);
+  column.push_back(e2);
+
+  jrlMathTools::Vector3D<double> e3;
+  e3(0) = cos(roll)*sin(pitch)*cos(yaw) + sin(roll)*sin(yaw);
+  e3(1) = cos(roll)*sin(pitch)*sin(yaw) - sin(roll)*cos(yaw);
+  e3(2) = cos(roll)*cos(pitch);
+  column.push_back(e3);
+
+  // Apply Rodrigues (1795–1851) formula for rotation about omega vector
+  double angle = dt*omega.norm();
+  if (angle == 0) {
+    return;
+  }
+  jrlMathTools::Vector3D<double> k = omega/omega.norm();
+  // ei <- ei cos(angle) + sin(angle)(k ^ ei) + (k.ei)(1-cos(angle))k
+  for (unsigned int i=0; i<3; i++) {
+    jrlMathTools::Vector3D<double> ei = column[i];
+    column[i] = ei*cos(angle) + (k^ei)*sin(angle) + k*((k*ei)*(1-cos(angle)));
+  }
+  const double & nx = column[2](2);
+  const double & ny = column[1](2);
+
+  state(3) = atan2(ny,nx);
+  state(4) = atan2(-column[0](2),
+		    sqrt(ny*ny+nx*nx));
+  state(5) = atan2(column[0](1),column[0](0));
+
+}
 
 RobotSimu::
 RobotSimu( const std::string& n )
@@ -141,8 +198,16 @@ increment( const double dt )
 	       << control*dt << ": " << control << endl;
 
   sotDEBUG(25) << "St"<<state.size() << controlSIN.getTime() << ": " << state << endl;
+  // If control size is state size - 6, integrate joint angles,
+  // if control and state are of same size, integrate 6 first degrees of
+  // freedom as a translation and roll pitch yaw.
+  unsigned int offset = 6;
+  if (control.size() == state.size()) {
+    offset = 0;
+    integrateRollPitchYaw(state, control, dt);
+  }
   for( unsigned int i=6;i<state.size();++i )
-    { state(i) += (control(i-6)*dt); }
+    { state(i) += (control(i-offset)*dt); }
 
   sotDEBUG(25) << "St"<<state.size() << controlSIN.getTime() << ": " << state << endl;
 

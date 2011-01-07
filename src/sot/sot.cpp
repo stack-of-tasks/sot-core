@@ -291,13 +291,17 @@ computeJacobianConstrained( const ml::Matrix& Jac,
 {
   const unsigned int nJ = Jac.nbRows();
   const unsigned int mJ = K.nbCols();
-  const unsigned int FF_SIZE = Jac.nbCols() - mJ;
+  const unsigned int nbConstraints = Jac.nbCols() - mJ;
 
+  if (nbConstraints == 0) {
+    JK = Jac;
+    return JK;
+  }
   for( unsigned int i=0;i<nJ;++i )
     {
-      for( unsigned int j=0;j<FF_SIZE;++j ) Jff(i,j)=Jac(i,j);
-      for( unsigned int j=FF_SIZE;j<Jac.nbCols();++j )
-	Jact(i,j-FF_SIZE)=Jac(i,j);
+      for( unsigned int j=0;j<nbConstraints;++j ) Jff(i,j)=Jac(i,j);
+      for( unsigned int j=nbConstraints;j<Jac.nbCols();++j )
+	Jact(i,j-nbConstraints)=Jac(i,j);
     }
   Jff.multiply(K,JK);
   JK+=Jact;
@@ -729,8 +733,7 @@ computeConstraintProjector( ml::Matrix& ProjK, const int& time )
   const ml::Matrix *Jptr;
   if( 0==constraintList.size() )
     {
-      const unsigned int FF_SIZE = ffJointIdLast-ffJointIdFirst;
-      ProjK.resize( FF_SIZE,nbJoints-FF_SIZE ); ProjK.fill(.0);
+      ProjK.resize( 0, nbJoints );
       sotDEBUGOUT(15);
       return ProjK;
     }
