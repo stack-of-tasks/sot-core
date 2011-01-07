@@ -190,6 +190,11 @@ class SE3 (object):
             matrix = args[0]
             self.rotation = SO3(tuple(map(lambda row: row[:3], matrix[:3])))
             self.translation = R3(tuple(map(lambda row: row[3], matrix[:3])))
+        elif len(args) == 0:
+            self.rotation = SO3(((1.,0.,0.),(0.,1.,0.),(0.,0.,1.)),)
+            self.translation = R3(0.,0.,0.)
+        else:
+            raise (ArgumentError("two many arguments."))
 
     def __str__(self):
         """
