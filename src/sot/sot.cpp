@@ -424,7 +424,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 
   const double &th = inversionThresholdSIN(iterTime);
   const ml::Matrix &K = constraintSOUT(iterTime);
-  const unsigned int mJ = K.nbCols();
+  const unsigned int mJ = K.nbCols(); // number dofs - number constraints
 
   try {
     control = q0SIN( iterTime );
@@ -450,7 +450,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
       sotCOUNTER(0,1); // Direct Dynamic
 
       unsigned int rankJ;
-      const unsigned int nJ = Jac.nbRows();
+      const unsigned int nJ = Jac.nbRows(); // number dofs
 
       /* Init memory. */
       MemoryTaskSOT * mem = dynamic_cast<MemoryTaskSOT *>( task.memoryInternal );
@@ -491,7 +491,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 sotDEBUG(1) << std::endl;
 	S.resize( min(nJ,mJ) );
 sotDEBUG(1) << nJ << " " << Jac.nbCols() <<" "<<mJ<<std::endl;
-	mem->Jff.resize( nJ,Jac.nbCols()-mJ );
+ mem->Jff.resize( nJ,Jac.nbCols()-mJ ); // number dofs, number constraints
 sotDEBUG(1) << std::endl;
 	mem->Jact.resize( nJ,mJ );
 sotDEBUG(1) << std::endl;
