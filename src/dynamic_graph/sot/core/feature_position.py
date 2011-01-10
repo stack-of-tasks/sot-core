@@ -36,7 +36,5 @@ class FeaturePosition (object):
         plug(signalJacobian, self.feature.signal('Jq'))
         plug(signalPosition, self.feature.signal('position'))
         self.feature.signal('sdes').value = self.reference
-        self.feature.signal('selec').value = '000111'
+        self.feature.signal('selec').value = '111111'
         self.feature.frame('current')
-        
-
