@@ -48,7 +48,7 @@ OpPointModifier( const std::string& name )
 		  jacobianSIN,
 		  "OpPointModifior("+name+")::output(matrix)::jacobian" )
    ,positionSOUT( boost::bind(&OpPointModifier::computePosition,this,_1,_2),
-		  jacobianSIN,
+		  positionSIN,
 		  "OpPointModifior("+name+")::output(matrixhomo)::position" )
 
 
