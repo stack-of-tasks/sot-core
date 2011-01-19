@@ -27,14 +27,31 @@ class FeaturePosition (object):
         a signal<Matrix>: defining the jacobian of the feature with respect
                           to the robot configuration,
         an homogeneous matrix: defining the reference value of the feature.
+
+      Members containing a signal:
+        position:  position input signal (MatrixHomo),
+        reference: reference position input signal (MatrixHomo),
+        Jq:        Jacobian input signal (Matrix),
+        select:    selection flag "RzRyRxTzTyTx" (string).
         """
-    def __init__(self, name, signalPosition, signalJacobian, referencePosition):
+    def __init__(self, name, signalPosition=None, signalJacobian = None,
+                 referencePosition = None):
         self.name = name
         self.feature = FeaturePoint6d(self.name)
         self.reference = FeaturePoint6d(self.name + '.ref')
-        self.reference.signal('position').value = tuple(referencePosition)
-        plug(signalJacobian, self.feature.signal('Jq'))
-        plug(signalPosition, self.feature.signal('position'))
+        if referencePosition:
+            self.reference.signal('position').value = tuple(referencePosition)
+        if signalPosition:
+            plug(signalPosition, self.feature.signal('position'))
+        if signalJacobian:
+            plug(signalJacobian, self.feature.signal('Jq'))
         self.feature.signal('sdes').value = self.reference
         self.feature.signal('selec').value = '111111'
         self.feature.frame('current')
+
+        # Signals stored in members
+        self.position = self.feature.signal('position')
+        self.reference = self.reference.signal('position')
+        self.Jq = self.feature.signal('Jq')
+        self.error = self.feature.signal('error')
+        self.select = self.feature.signal('selec')

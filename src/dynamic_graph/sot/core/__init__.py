@@ -4,6 +4,7 @@ from matrix_constant import MatrixConstant
 from unary_op import RPYToMatrix, MatrixHomoToPoseRollPitchYaw
 from derivator import Derivator_of_Vector
 from feature_point6d import FeaturePoint6d
+from feature_position import FeaturePosition
 from feature_point6d_relative import FeaturePoint6dRelative
 from feature_generic import FeatureGeneric
 from feature_joint_limits import FeatureJointLimits

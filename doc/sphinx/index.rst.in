@@ -76,6 +76,12 @@ Entities
 .. autoclass:: dynamic_graph.sot.core.sot.SOT
    :members:
 
+Others
+------
+
+.. autoclass:: dynamic_graph.sot.core.feature_position.FeaturePosition
+   :members:
+
 Indices and tables
 ==================
 
