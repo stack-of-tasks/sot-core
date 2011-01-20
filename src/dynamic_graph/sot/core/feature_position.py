@@ -16,8 +16,9 @@
 
 from dynamic_graph.sot.core import FeaturePoint6d
 from dynamic_graph import plug
+from dynamic_graph.entity import Entity
 
-class FeaturePosition (object):
+class FeaturePosition (Entity):
     """
     Position of a rigid-body in space as a feature
 
@@ -36,22 +37,56 @@ class FeaturePosition (object):
         """
     def __init__(self, name, signalPosition=None, signalJacobian = None,
                  referencePosition = None):
-        self.name = name
-        self.feature = FeaturePoint6d(self.name)
-        self.reference = FeaturePoint6d(self.name + '.ref')
+        self._feature = FeaturePoint6d(name)
+        self.obj = self._feature.obj
+        self._reference = FeaturePoint6d(name + '.ref')
         if referencePosition:
-            self.reference.signal('position').value = tuple(referencePosition)
+            self._reference.signal('position').value = tuple(referencePosition)
         if signalPosition:
-            plug(signalPosition, self.feature.signal('position'))
+            plug(signalPosition, self._feature.signal('position'))
         if signalJacobian:
-            plug(signalJacobian, self.feature.signal('Jq'))
-        self.feature.signal('sdes').value = self.reference
-        self.feature.signal('selec').value = '111111'
-        self.feature.frame('current')
+            plug(signalJacobian, self._feature.signal('Jq'))
+        self._feature.signal('sdes').value = self._reference
+        self._feature.signal('selec').value = '111111'
+        self._feature.frame('current')
 
         # Signals stored in members
-        self.position = self.feature.signal('position')
-        self.reference = self.reference.signal('position')
-        self.Jq = self.feature.signal('Jq')
-        self.error = self.feature.signal('error')
-        self.select = self.feature.signal('selec')
+        self.position = self._feature.signal('position')
+        self.reference = self._reference.signal('position')
+        self.Jq = self._feature.signal('Jq')
+        self.error = self._feature.signal('error')
+        self.select = self._feature.signal('selec')
+
+        self.signalMap = {'position':self.position,
+                          'reference':self.reference,
+                          'Jq':self.Jq,
+                          'error':self.error,
+                          'selec':self.select}
+
+    @property
+    def name(self) :
+        return self._feature.name
+
+    def signal (self, name):
+        """
+        Get a signal of the entity from signal name
+        """
+        if name in self.signalMap.keys():
+            return self.signalMap[name]
+        else:
+            raise RunTimeError('No signal with this name')
+
+    def signals(self) :
+        """
+        Return the list of signals
+        """
+        return self.signalMap.values()
+
+    def commands(self):
+        """
+        Return the list of commands.
+        """
+        return self._feature.commands()
+
+    def frame(self, f):
+        return self._feature.frame(f)
