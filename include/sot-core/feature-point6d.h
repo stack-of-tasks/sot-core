@@ -143,6 +143,8 @@ class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
   virtual void commandLine( const std::string& cmdLine,
 			    std::istringstream& cmdArgs,
 			    std::ostream& os );
+ public:
+  void servoCurrentPosition( void );
 
 } ;
 

@@ -28,6 +28,7 @@
 #include <dynamic-graph/command.h>
 #include <dynamic-graph/command-setter.h>
 #include <dynamic-graph/command-getter.h>
+#include <dynamic-graph/command-bind.h>
 
 #include <sot-core/debug.h>
 #include <sot-core/feature-point6d.h>
@@ -70,17 +71,25 @@ FeaturePoint6d( const string& pointName )
 
   // Commands
   //
-  std::string docstring;
-  // Set computation frame
-  docstring = "    \n"
-    "    Set computation frame\n"
-    "    \n"
-    "      Input:\n"
-    "        a string: 'current' or 'desired'\n"
-    "    \n";
-  addCommand("frame",
-	     new dynamicgraph::command::Setter<FeaturePoint6d, std::string>
-	     (*this, &FeaturePoint6d::computationFrame, docstring));
+  {
+    using namespace dynamicgraph::command;
+    std::string docstring;
+    // Set computation frame
+    docstring = "    \n"
+      "    Set computation frame\n"
+      "    \n"
+      "      Input:\n"
+      "        a string: 'current' or 'desired'\n"
+      "    \n";
+    addCommand("frame",
+	       new dynamicgraph::command::Setter<FeaturePoint6d, std::string>
+	       (*this, &FeaturePoint6d::computationFrame, docstring));
+    addCommand("keep",
+	       makeCommandVoid0(*this,&FeaturePoint6d::servoCurrentPosition,
+				docCommandVoid0("modify the desired position to servo at current pos.")));
+  }
+
+
 }
 
 
@@ -291,6 +300,22 @@ FeaturePoint6d::computeError( ml::Vector& error,int time )
   return error ;
 }
 
+/* Modify the value of the reference (sdes) so that it corresponds
+ * to the current position. The effect on the servo is to maintain the
+ * current position and correct any drift. */
+void FeaturePoint6d::
+servoCurrentPosition( void )
+{
+  sotDEBUGIN(15);
+  FeatureAbstract * sdesAbs = desiredValueSIN.accessCopy();
+  FeaturePoint6d * sdes = dynamic_cast<FeaturePoint6d*>(sdesAbs);
+
+  if( NULL!=sdes )
+    {
+      sdes->positionSIN = positionSIN.accessCopy();
+    }
+  sotDEBUGOUT(15);
+}
 
 /** Compute the error between two visual features from a subset
  * a the possible features.
@@ -339,7 +364,8 @@ commandLine( const std::string& cmdLine,
   if( cmdLine=="help" )
     {
       os << "FeaturePoint: "<<endl
-	 << "  - frame [{desired|current}]: get/set the computation frame."<<endl;
+	 << "  - frame [{desired|current}]: get/set the computation frame."<<endl
+	 << "  - keep: modify the desired position to servo at current pos."<<endl;
       Entity::commandLine( cmdLine,cmdArgs,os );
     }
   else if( cmdLine=="frame" )
@@ -356,6 +382,10 @@ commandLine( const std::string& cmdLine,
 	if( FRAME_DESIRED==computationFrame_ ) os << "desired" << std::endl;
 	else if( FRAME_CURRENT==computationFrame_ ) os << "current" << std::endl;
       }
+    }
+  else if( cmdLine=="keep" )
+    {
+      servoCurrentPosition();
     }
   else  //FeatureAbstract::
     Entity::commandLine( cmdLine,cmdArgs,os );
