@@ -85,10 +85,11 @@ namespace dg = dynamicgraph;
 class SOTTASK_EXPORT Task
 : public TaskAbstract
 {
- protected:
-  std::list< FeatureAbstract* > featureList;
-
  public:
+  typedef std::list< FeatureAbstract* > FeatureList_t;
+ protected:
+  FeatureList_t featureList;
+
  private: //HACK
   static const std::string CLASS_NAME;
  public: //HACK
@@ -99,6 +100,7 @@ class SOTTASK_EXPORT Task
 
   void addFeature( FeatureAbstract& s );
   void clearFeatureList( void );
+  FeatureList_t & getFeatureList( void ) { return featureList; }
 
   void setControlSelection( const Flags& act );
   void addControlSelection( const Flags& act );
