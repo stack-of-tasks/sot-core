@@ -31,7 +31,7 @@ using namespace sot;
 using namespace dynamicgraph;
 
 
-DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(OpPointModifier,"OpPointModifior");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(OpPointModifier,"OpPointModifier");
 
 
 /* --------------------------------------------------------------------- */
