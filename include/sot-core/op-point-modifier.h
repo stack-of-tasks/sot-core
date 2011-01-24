@@ -64,8 +64,6 @@ class SOTOPPOINTMODIFIER_EXPORT OpPointModifier
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
-  MatrixHomogeneous transformation;
-
  public:
 
   dg::SignalPtr<ml::Matrix,int> jacobianSIN;
@@ -76,17 +74,20 @@ class SOTOPPOINTMODIFIER_EXPORT OpPointModifier
 
 public:
   OpPointModifier( const std::string& name );
-
   virtual ~OpPointModifier( void ){}
 
-  ml::Matrix& computeJacobian( ml::Matrix& res,const int& time );
-  MatrixHomogeneous& computePosition( MatrixHomogeneous& res,const int& time );
+  ml::Matrix& jacobianSOUT_function( ml::Matrix& res,const int& time );
+  MatrixHomogeneous& positionSOUT_function( MatrixHomogeneous& res,const int& time );
   void setTransformation( const MatrixHomogeneous& tr );
+  void setTransformationBySignalName( std::istringstream& cmdArgs );
 
   virtual void commandLine( const std::string& cmdLine,
 			    std::istringstream& cmdArgs,
 			    std::ostream& os );
 
+ private:
+  MatrixHomogeneous transformation;
+  const MatrixHomogeneous& getTransformation( void );
 };
 
 } // namespace sot

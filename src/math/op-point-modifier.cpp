@@ -18,13 +18,13 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <dynamic-graph/factory.h>
 #include <dynamic-graph/all-signals.h>
+#include <dynamic-graph/all-commands.h>
 
 #include <sot-core/op-point-modifier.h>
 #include <sot-core/matrix-twist.h>
 
-#include <dynamic-graph/pool.h>
-#include <sot-core/factory.h>
 
 using namespace std;
 using namespace sot;
@@ -41,37 +41,49 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(OpPointModifier,"OpPointModifier");
 OpPointModifier::
 OpPointModifier( const std::string& name )
   :Entity( name )
-   ,transformation()
    ,jacobianSIN(NULL,"OpPointModifior("+name+")::input(matrix)::jacobianIN")
    ,positionSIN(NULL,"OpPointModifior("+name+")::input(matrixhomo)::positionIN")
-   ,jacobianSOUT( boost::bind(&OpPointModifier::computeJacobian,this,_1,_2),
+   ,jacobianSOUT( boost::bind(&OpPointModifier::jacobianSOUT_function,this,_1,_2),
 		  jacobianSIN,
 		  "OpPointModifior("+name+")::output(matrix)::jacobian" )
-   ,positionSOUT( boost::bind(&OpPointModifier::computePosition,this,_1,_2),
+   ,positionSOUT( boost::bind(&OpPointModifier::positionSOUT_function,this,_1,_2),
 		  positionSIN,
 		  "OpPointModifior("+name+")::output(matrixhomo)::position" )
-
-
+   ,transformation()
 {
+  sotDEBUGIN(15);
+
   signalRegistration( jacobianSIN<<positionSIN<<jacobianSOUT<<positionSOUT );
-  sotDEBUGINOUT(15);
+
+  {
+    using namespace dynamicgraph::command;
+    addCommand("getTransformation",
+	       makeDirectGetter(*this,&(ml::Matrix&)transformation,
+				docDirectGetter("transformation","matrix 4x4 homo")));
+    addCommand("setTransformation",
+	       makeDirectSetter(*this, &(ml::Matrix&)transformation,
+				docDirectSetter("dimension","matrix 4x4 homo")));
+  }
+
+  sotDEBUGOUT(15);
 }
 
 ml::Matrix&
-OpPointModifier::computeJacobian( ml::Matrix& res,const int& time )
+OpPointModifier::jacobianSOUT_function( ml::Matrix& res,const int& iter )
 {
-  const ml::Matrix& jacobian = jacobianSIN( time );
+  const ml::Matrix& jacobian = jacobianSIN( iter );
   MatrixTwist V( transformation );
   res = V*jacobian;
   return res;
 }
 
 MatrixHomogeneous&
-OpPointModifier::computePosition( MatrixHomogeneous& res,const int& time )
+OpPointModifier::positionSOUT_function( MatrixHomogeneous& res,const int& iter )
 {
   sotDEBUGIN(15);
-  sotDEBUGIN(15) << time << " " << positionSIN.getTime() << positionSOUT.getTime() << endl;
-  const MatrixHomogeneous& position = positionSIN( time );
+  sotDEBUGIN(15) << iter << " " << positionSIN.getTime()
+		 << positionSOUT.getTime() << endl;
+  const MatrixHomogeneous& position = positionSIN( iter );
   position.multiply(transformation,res);
   sotDEBUGOUT(15);
   return res;
@@ -80,7 +92,26 @@ OpPointModifier::computePosition( MatrixHomogeneous& res,const int& time )
 void
 OpPointModifier::setTransformation( const MatrixHomogeneous& tr )
 { transformation = tr; }
+const MatrixHomogeneous&
+OpPointModifier::getTransformation( void )
+{ return transformation; }
 
+
+/* The following function needs an access to a specific signal via
+ * the pool, using the signal path <entity.signal>. this functionnality
+ * is deprecated, and the following function will have to be removed
+ * in a near future. A similar functionality is available using
+ * the <setTransformation> mthod, bound in python.
+ */
+#include <dynamic-graph/pool.h>
+void
+OpPointModifier::setTransformationBySignalName( std::istringstream& cmdArgs )
+{
+  Signal< MatrixHomogeneous,int > &sig
+    = dynamic_cast< Signal< MatrixHomogeneous,int >& >
+    (g_pool.getSignal( cmdArgs ));
+  setTransformation(sig.accessCopy());
+}
 
 void OpPointModifier::
 commandLine( const std::string& cmdLine,
@@ -95,10 +126,7 @@ commandLine( const std::string& cmdLine,
     }
   else if( cmdLine == "transfoSignal" )
     {
-      Signal< MatrixHomogeneous,int > &sig
-	= dynamic_cast< Signal< MatrixHomogeneous,int >& >
-	(g_pool.getSignal( cmdArgs ));
-      setTransformation(sig.accessCopy());
+      setTransformationBySignalName(cmdArgs);
     }
   else if( cmdLine == "getTransfo" )
     {
