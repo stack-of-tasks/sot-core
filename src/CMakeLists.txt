@@ -143,6 +143,7 @@ SET(${LIBRARY_NAME}_SOURCES
 	factory/pool.cpp
 
 	tools/utils-windows
+	tools/periodic-call
 )
 
 ADD_LIBRARY(${LIBRARY_NAME}
