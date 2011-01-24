@@ -84,23 +84,23 @@ OpPointModifier::setTransformation( const MatrixHomogeneous& tr )
 
 void OpPointModifier::
 commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs, 
+	     std::istringstream& cmdArgs,
 	     std::ostream& os )
 {
-  if( cmdLine == "transfo" ) 
+  if( cmdLine == "transfo" )
     {
       MatrixHomogeneous tr;
       cmdArgs >> tr;
       setTransformation(tr);
     }
-  else if( cmdLine == "transfoSignal" ) 
+  else if( cmdLine == "transfoSignal" )
     {
-      Signal< MatrixHomogeneous,int > &sig 
-	= dynamic_cast< Signal< MatrixHomogeneous,int >& > 
+      Signal< MatrixHomogeneous,int > &sig
+	= dynamic_cast< Signal< MatrixHomogeneous,int >& >
 	(g_pool.getSignal( cmdArgs ));
       setTransformation(sig.accessCopy());
     }
-  else if( cmdLine == "getTransfo" ) 
+  else if( cmdLine == "getTransfo" )
     {
       os << "Transformation: " << endl << transformation <<endl;
     }
