@@ -33,8 +33,6 @@ namespace ml = maal::boost;
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/entity.h>
 #include <sot-core/feature-abstract.h>
-#include <dynamic-graph/plugin-loader.h>
-#include <dynamic-graph/interpreter.h>
 #include <sot-core/mailbox-vector.h>
 #include <sstream>
 

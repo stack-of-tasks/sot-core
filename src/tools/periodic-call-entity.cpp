@@ -25,7 +25,6 @@
 /* --- SOT --- */
 #include <sot-core/periodic-call-entity.h>
 #include <dynamic-graph/pool.h>
-#include <dynamic-graph/interpreter.h>
 #include <sot-core/debug.h>
 #include <sot-core/factory.h>
 

@@ -40,7 +40,6 @@
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
 #include <sot-core/debug.h>
-#include <dynamic-graph/interpreter.h>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */

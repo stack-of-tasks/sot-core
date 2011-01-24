@@ -34,7 +34,6 @@
 #endif
 #include <list>
 
-#include <dynamic-graph/interpreter.h>
 #include <sot-core/sot-core-api.h>
 #ifndef WIN32
 #include <pthread.h>

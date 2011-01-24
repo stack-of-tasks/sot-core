@@ -174,21 +174,6 @@ commandLine( const std::string& cmdLine
     }
   else if( cmdLine=="add" )
     {
-      SignalBase<int>* sigA = &g_pool.getSignal( cmdArgs );
-      Signal< ml::Matrix,int >* sig 
-	= dynamic_cast< Signal<ml::Matrix,int>* >( sigA );
-      if(! sig ) 
-	{
-    	  if ( sigA )
-			  SOT_THROW ExceptionSignal( ExceptionSignal::BAD_CAST,
-							"Not a Matrix signal",
-							": while casting signal <%s> (signal type is %s).",
-							sigA->getName().c_str(), typeid(*sigA).name() );
-    	  else
-    		  SOT_THROW ExceptionSignal( ExceptionSignal::NOT_INITIALIZED,
-    				  "Could not get a reference to requested signal");
-	}
-      addJacobian( *sig );
     }
   else if( cmdLine=="clear" )
     {

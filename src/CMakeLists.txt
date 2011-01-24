@@ -140,11 +140,9 @@ SET(${LIBRARY_NAME}_SOURCES
 	sot/rotation-simple.cpp
 	sot/solver-hierarchical-inequalities.cpp
 
-	factory/additional-functions.cpp
 	factory/pool.cpp
 
 	tools/utils-windows
-	tools/periodic-call
 )
 
 ADD_LIBRARY(${LIBRARY_NAME}

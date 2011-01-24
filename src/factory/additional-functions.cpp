@@ -18,7 +18,6 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <dynamic-graph/interpreter.h>
 #include <sot-core/debug.h>
 #include <sot-core/factory.h>
 #include <sot-core/additional-functions.h>

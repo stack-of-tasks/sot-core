@@ -25,7 +25,6 @@
 /* --- SOT --- */
 #include <sot-core/periodic-call.h>
 #include <dynamic-graph/pool.h>
-#include <dynamic-graph/interpreter.h>
 #include <sot-core/debug.h>
 
 using namespace std;
@@ -152,7 +151,8 @@ runCmds( void )
     {
       istringstream iss( *iter );
       string cmdName; iss >> cmdName;
-      g_shell.cmd( cmdName,iss,onull );
+      // Florent: remove reference to g_shell
+      //g_shell.cmd( cmdName,iss,onull );
     }
   return ;
 }
