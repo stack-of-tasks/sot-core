@@ -34,12 +34,12 @@ namespace ml = maal::boost;
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (op_point_modifier_EXPORTS)
 #    define SOTOPPOINTMODIFIER_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define SOTOPPOINTMODIFIER_EXPORT __declspec(dllimport)
-#  endif 
+#  endif
 #else
 #  define SOTOPPOINTMODIFIER_EXPORT
 #endif
@@ -63,14 +63,14 @@ class SOTOPPOINTMODIFIER_EXPORT OpPointModifier
  public:
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
-  
+
   MatrixHomogeneous transformation;
 
  public:
 
   dg::SignalPtr<ml::Matrix,int> jacobianSIN;
   dg::SignalPtr<MatrixHomogeneous,int> positionSIN;
-  
+
   dg::SignalTimeDependent<ml::Matrix,int> jacobianSOUT;
   dg::SignalTimeDependent<MatrixHomogeneous,int> positionSOUT;
 
@@ -84,11 +84,11 @@ public:
   void setTransformation( const MatrixHomogeneous& tr );
 
   virtual void commandLine( const std::string& cmdLine,
-			    std::istringstream& cmdArgs, 
+			    std::istringstream& cmdArgs,
 			    std::ostream& os );
 
 };
 
 } // namespace sot
 
-#endif //  __SOT_OP_POINT_MODIFIOR_H__ 
+#endif //  __SOT_OP_POINT_MODIFIOR_H__
