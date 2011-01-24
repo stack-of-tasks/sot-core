@@ -24,7 +24,6 @@
 #include <sot-core/exception-tools.h>
 #include <sot-core/sot.h>
 #include <dynamic-graph/pool.h>
-#include <dynamic-graph/interpreter.h>
 
 using namespace sot;
 using namespace dynamicgraph;

@@ -35,7 +35,6 @@ namespace ml = maal::boost;
 #include <dynamic-graph/pool.h>
 #include <dynamic-graph/all-signals.h>
 #include <sot-core/debug.h>
-#include <dynamic-graph/interpreter.h>
 
 /* STD */
 #include <string>
@@ -83,7 +82,8 @@ class IntegratorAbstract
     if( cmdLine == "pushNumCoef" )
     {
       std::string objname, signame;
-      dg::Interpreter::objectNameParser(cmdArgs, objname, signame);
+      // Florent: remove reference to g_shell
+      //dg::Interpreter::objectNameParser(cmdArgs, objname, signame);
       dg::Entity& obj = dg::g_pool.getEntity(objname);
       dg::SignalBase<int>& sig = obj.getSignal(signame);
       try {
@@ -98,7 +98,8 @@ class IntegratorAbstract
     else if( cmdLine == "pushDenomCoef" )
     {
       std::string objname, signame;
-      dg::Interpreter::objectNameParser(cmdArgs, objname, signame);
+      // Florent: remove reference to g_shell
+      //dg::Interpreter::objectNameParser(cmdArgs, objname, signame);
       dg::Entity& obj = dg::g_pool.getEntity(objname);
       dg::SignalBase<int>& sig = obj.getSignal(signame);
       try {

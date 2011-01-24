@@ -75,7 +75,8 @@ cmdChrono( const std::string& cmdLine,
   
   std::string cmdLine2;  cmdArg>>cmdLine2;
   sotDEBUG(5)<<"Chrono <" <<cmdLine2<<">"<<std::endl;
-  g_shell.cmd(cmdLine2,cmdArg,os);
+  // Florent: remove reference to g_shell
+  //g_shell.cmd(cmdLine2,cmdArg,os);
 
   gettimeofday(&t1,NULL);
   dt = ( (t1.tv_sec-t0.tv_sec) * 1000. 
@@ -86,14 +87,6 @@ cmdChrono( const std::string& cmdLine,
 
   sotDEBUGOUT(15);
 }
-
-
-
-extern "C" {
-  ShellFunctionRegisterer regTimer1
-  ( "chrono",boost::bind(cmdChrono,_1,_2,_3) );
-}
-
 
 /* --------------------------------------------------------------------- */
 /* --- CONTROL --------------------------------------------------------- */

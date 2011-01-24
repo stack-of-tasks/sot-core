@@ -23,7 +23,6 @@
 #include <sot-core/exception-tools.h>
 #include <sot-core/sot.h>
 #include <dynamic-graph/pool.h>
-#include <dynamic-graph/interpreter.h>
 #include <dynamic-graph/factory.h>
 
 using namespace sot;
@@ -180,7 +179,8 @@ public:
     std::ostringstream onull; onull.clear( std::ios::failbit );
     std::istringstream iss( cmd );
     std::string cmdName; iss >> cmdName;
-    g_shell.cmd( cmdName,iss,onull );
+    // Florent: remove reference to g_shell
+    //g_shell.cmd( cmdName,iss,onull );
   } ;
 };
 
