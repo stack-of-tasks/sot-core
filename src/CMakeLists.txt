@@ -74,7 +74,6 @@ SET(plugins
 	tools/seq-play
 	tools/sequencer
 	tools/robot-simu
-	tools/periodic-call-entity
 	tools/motion-period
 	tools/neck-limitation
 	tools/mailbox-vector
