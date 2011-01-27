@@ -522,7 +522,7 @@ public: /* --- MULTIPLIERS -------------------------------------------------- */
   }
   void multiplyLeftMatrixTemplate( bub::triangular_matrix<double,bub::upper> & M ) const
   {
-    const unsigned int n = std::min( std::min(idx1,idx2),M.size1());
+    const unsigned int n = std::min( std::min(idx1,idx2), (unsigned) M.size1());
     for( unsigned int row=0;row<n;++row )
       {
         double & R1 =  M(row,idx1);  double & R2 =  M(row,idx2);
@@ -533,7 +533,7 @@ public: /* --- MULTIPLIERS -------------------------------------------------- */
   template< typename bubTemplateMatrix > // M <- M.U
   void multiplyLeftMatrixTemplate( bub::triangular_adaptor<bubTemplateMatrix,bub::upper> & M ) const
   {
-    const unsigned int n = std::min( std::min(idx1,idx2)+1,M.size1());
+    const unsigned int n = std::min( std::min(idx1,idx2)+1,(unsigned) M.size1());
     for( unsigned int row=0;row<n;++row )
       {
         double & R1 =  M(row,idx1);  double & R2 =  M(row,idx2);
@@ -556,7 +556,7 @@ public: /* --- MULTIPLIERS -------------------------------------------------- */
   }
   void multiplyRightMatrixTemplate( bub::triangular_matrix<double,bub::upper> & M ) const
   {
-    const unsigned int m = std::min( std::min(idx1,idx2),M.size2());
+    const unsigned int m = std::min( std::min(idx1,idx2), (unsigned) M.size2());
     for( unsigned int col=0;col<m;++col )
       {
         double & R1 =  M(idx1,col);  double & R2 =  M(idx2,col);
@@ -567,7 +567,7 @@ public: /* --- MULTIPLIERS -------------------------------------------------- */
   template< typename bubTemplateMatrix >  // M <- M.U'
   void multiplyRightMatrixTemplate( bub::triangular_adaptor<bubTemplateMatrix,bub::upper> & M ) const
   {
-    const unsigned int m = std::min( std::min(idx1,idx2)+1,M.size2());
+    const unsigned int m = std::min( std::min(idx1,idx2)+1, (unsigned) M.size2());
     for( unsigned int col=0;col<m;++col )
       {
         double & R1 =  M(idx1,col);  double & R2 =  M(idx2,col);
@@ -590,7 +590,7 @@ public: /* --- MULTIPLIERS -------------------------------------------------- */
   }
   void multiplyLeftTransposeMatrixTemplate( bub::triangular_matrix<double,bub::upper> & M ) const
   {
-    const unsigned int n = std::min( std::min(idx1,idx2),M.size1());
+    const unsigned int n = std::min( std::min(idx1,idx2),(unsigned) M.size1());
     for( unsigned int row=0;row<n;++row )
       {
         double & R1 =  M(row,idx1);  double & R2 =  M(row,idx2);
@@ -601,7 +601,7 @@ public: /* --- MULTIPLIERS -------------------------------------------------- */
   template< typename bubTemplateMatrix > // M <- M.U
   void multiplyLeftTransposeMatrixTemplate( bub::triangular_adaptor<bubTemplateMatrix,bub::upper> & M ) const
   {
-    const unsigned int n = std::min( std::min(idx1,idx2)+1,M.size1());
+    const unsigned int n = std::min( std::min(idx1,idx2)+1, (unsigned) M.size1());
     for( unsigned int row=0;row<n;++row )
       {
         double & R1 =  M(row,idx1);  double & R2 =  M(row,idx2);
