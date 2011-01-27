@@ -35,15 +35,21 @@ using namespace sot;
 
 #ifndef WIN32
 #  include <sys/time.h>
-#else /*WIN32*/
-//isnan
-# include <float.h>
-# define isnan _isnan
+#else
 # include <sot-core/utils-windows.h>
 #endif /*WIN32*/
+
+//define isnan for  windows and mac users 
+#ifdef WIN32
+# include <float.h>
+# define isnan _isnan
+#elif defined(__APPLE__)
+inline bool isnan(double x) {
+	return x != x;
+}
+#endif 
+
 #define FORTRAN_ID( id ) id##_
-
-
 
 /* ---------------------------------------------------------- */
 /* --- BINDING FORTRAN -------------------------------------- */
