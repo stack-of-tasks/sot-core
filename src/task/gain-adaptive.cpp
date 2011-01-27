@@ -29,7 +29,9 @@
 #include <sot-core/factory.h>
 #include <sot-core/exception-signal.h>
 
-#include "../src/task/gain-adaptive-command.h"
+#include <sot-core/debug.h>
+
+#include <dynamic-graph/command-bind.h>
 
 using namespace sot;
 using namespace dynamicgraph;
@@ -59,6 +61,7 @@ Entity(name) \
 
 void GainAdaptive::addCommands()
 {
+  using namespace ::dynamicgraph::command;
   std::string docstring;
   // Command SetConstant
   docstring = "    \n"
@@ -68,7 +71,8 @@ void GainAdaptive::addCommands()
     "default.\n"
     "    \n";
   addCommand("setConstant",
-	     new command::gainAdaptive::SetConstant(*this, docstring));
+	     makeCommandVoid1(*this,&GainAdaptive::init,
+			      docstring));
 
   // Command Set
   docstring = "    \n"
@@ -79,8 +83,8 @@ void GainAdaptive::addCommands()
     "        floating point value: value at slope,\n"
     "    \n";
   addCommand("set",
-	     new command::gainAdaptive::SetConstant(*this, docstring));
-
+	     makeCommandVoid3(*this,&GainAdaptive::init,
+			      docstring));
 }
 
 GainAdaptive::
@@ -156,8 +160,8 @@ commandLine( const std::string& cmdLine,
   if( cmdLine == "set" )
     {
       double c0(ZERO_DEFAULT);
-	  double cinf(INFTY_DEFAULT);
-	  double p0(TAN_DEFAULT);
+      double cinf(INFTY_DEFAULT);
+      double p0(TAN_DEFAULT);
       cmdArgs >> c0>>cinf>>p0;
       init(c0,cinf,p0);
     }
