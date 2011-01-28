@@ -64,7 +64,7 @@ using namespace dynamicgraph;
   }
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(sotClassType,sotType,index,className)  \
- SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(sotClassType,sotType,index,className, ,"No help")
+  SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(sotClassType,sotType,index,className,else if( 0 ) {},"No help")
 
 using namespace ml;
 

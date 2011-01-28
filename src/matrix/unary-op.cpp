@@ -61,6 +61,8 @@ using namespace dynamicgraph;
 					  &regFunction##_##index );                     \
   }
 
+#define VOID_COMMAND_LINE  else if(0);
+
 using namespace ml;
 
 namespace sot {
@@ -72,13 +74,13 @@ struct Inverser
 };
 
 typedef UnaryOp<Matrix,Matrix,Inverser<Matrix> > invMat;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMat,matrix,inv_mat,"Inverse<matrix>", ,"")
+  SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMat,matrix,inv_mat,"Inverse<matrix>",VOID_COMMAND_LINE ,"")
 
 typedef UnaryOp<MatrixHomogeneous,MatrixHomogeneous,Inverser<MatrixHomogeneous> > invMatHomo;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMatHomo,matrixHomo,inv_mathomo,"Inverse<matrixhomo>", ,"")
+  SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMatHomo,matrixHomo,inv_mathomo,"Inverse<matrixhomo>",VOID_COMMAND_LINE ,"")
 
 typedef UnaryOp<MatrixTwist,MatrixTwist,Inverser<MatrixTwist> > invMatTwist;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMatTwist,matrixTwist,inv_mattwist,"Inverse<matrixtwist>", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMatTwist,matrixTwist,inv_mattwist,"Inverse<matrixtwist>",VOID_COMMAND_LINE ,"")
 
 
 struct InverserRot
@@ -87,7 +89,7 @@ struct InverserRot
 };
 
 typedef UnaryOp<MatrixRotation,MatrixRotation,InverserRot > invMatRot;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMatRot,matrixRotation,inv_matrot,"Inverse<matrixrotation>", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMatRot,matrixRotation,inv_matrot,"Inverse<matrixrotation>", VOID_COMMAND_LINE,"")
 
 struct InverserQuat
 {
@@ -98,7 +100,7 @@ struct InverserQuat
 };
 
 typedef UnaryOp<VectorQuaternion,VectorQuaternion,InverserQuat> invQuat;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invQuat,q,qstar,"Inverse<unitquat>", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invQuat,q,qstar,"Inverse<unitquat>",VOID_COMMAND_LINE ,"")
 
 struct VectorSelector
 {
@@ -214,7 +216,7 @@ struct HomogeneousMatrixToVector
 };
 
 typedef UnaryOp<MatrixHomogeneous,Vector,HomogeneousMatrixToVector> RT2V;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(RT2V,matrixHomo,matrix,RT2V_,"MatrixHomoToPoseUTheta", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(RT2V,matrixHomo,matrix,RT2V_,"MatrixHomoToPoseUTheta",VOID_COMMAND_LINE ,"")
 
 
 struct SkewSymToVector
@@ -229,7 +231,7 @@ struct SkewSymToVector
 };
 
 typedef UnaryOp<Matrix,Vector,SkewSymToVector> SS2V;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(SS2V,matrix,vector,SS2V_,"SkewSymToVector", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(SS2V,matrix,vector,SS2V_,"SkewSymToVector",VOID_COMMAND_LINE ,"")
 
 struct VectorUThetaToHomogeneousMatrix
 {
@@ -248,7 +250,7 @@ struct VectorUThetaToHomogeneousMatrix
 };
 
 typedef UnaryOp<Vector,MatrixHomogeneous,VectorUThetaToHomogeneousMatrix> PUTH2M;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(PUTH2M,vector6,matrixhome,PUTH2M_,"PoseUThetaToMatrixHomo", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(PUTH2M,vector6,matrixhome,PUTH2M_,"PoseUThetaToMatrixHomo",VOID_COMMAND_LINE ,"")
 
 struct HomogeneousMatrixToVectorQuaternion
 {
@@ -264,7 +266,7 @@ struct HomogeneousMatrixToVectorQuaternion
 };
 
 typedef UnaryOp<MatrixHomogeneous,Vector,HomogeneousMatrixToVectorQuaternion> RT2VQ;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(RT2VQ,matrixHomo,matrix,RT2VQ_,"MatrixHomoToPoseQuaternion", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(RT2VQ,matrixHomo,matrix,RT2VQ_,"MatrixHomoToPoseQuaternion",VOID_COMMAND_LINE ,"")
 
 struct HomogeneousMatrixToVectorRPY
 {
@@ -280,7 +282,7 @@ struct HomogeneousMatrixToVectorRPY
 };
 
 typedef UnaryOp<MatrixHomogeneous,Vector,HomogeneousMatrixToVectorRPY> RT2VRPY;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(RT2VRPY,matrixHomo,matrix,RT2VRPY_,"MatrixHomoToPoseRollPitchYaw", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(RT2VRPY,matrixHomo,matrix,RT2VRPY_,"MatrixHomoToPoseRollPitchYaw",VOID_COMMAND_LINE ,"")
 
 struct VectorRPYToHomogeneousMatrix
 {
@@ -298,7 +300,7 @@ struct VectorRPYToHomogeneousMatrix
 };
 
 typedef UnaryOp<Vector,MatrixHomogeneous,VectorRPYToHomogeneousMatrix> VRPY2RT;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(VRPY2RT,vector,matrixHomo,VRPY2RT_,"PoseRollPitchYawToMatrixHomo", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(VRPY2RT,vector,matrixHomo,VRPY2RT_,"PoseRollPitchYawToMatrixHomo",VOID_COMMAND_LINE ,"")
 
 struct VectorRPYToVector6D
 {
@@ -321,7 +323,7 @@ struct VectorRPYToVector6D
 };
 
 typedef UnaryOp<Vector,Vector,VectorRPYToVector6D> VRPY2VRUT;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(VRPY2VRUT,vector,vector,VRPY2RUT_,"PoseRollPitchYawToPoseUTheta", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(VRPY2VRUT,vector,vector,VRPY2RUT_,"PoseRollPitchYawToPoseUTheta",VOID_COMMAND_LINE ,"")
 
 struct HomoToMatrix
 {
@@ -330,7 +332,7 @@ struct HomoToMatrix
 };
 
 typedef UnaryOp<MatrixHomogeneous,Matrix,HomoToMatrix> H2M;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(H2M,matrixHomo,matrix,H2M_,"HomoToMatrix", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(H2M,matrixHomo,matrix,H2M_,"HomoToMatrix",VOID_COMMAND_LINE ,"")
 
 struct MatrixToHomo
 {
@@ -339,7 +341,7 @@ struct MatrixToHomo
 };
 
 typedef UnaryOp<Matrix,MatrixHomogeneous,MatrixToHomo> M2H;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(M2H,matrixHomo,matrix,M2H_,"MatrixToHomo", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(M2H,matrixHomo,matrix,M2H_,"MatrixToHomo",VOID_COMMAND_LINE ,"")
 
 
 
@@ -352,7 +354,7 @@ struct HomogeneousMatrixToTwist
 };
 
 typedef UnaryOp<MatrixHomogeneous,MatrixTwist,HomogeneousMatrixToTwist> H2Tw;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(H2Tw,matrixHomo,matrixTwist,H2Tw_,"HomoToTwist", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(H2Tw,matrixHomo,matrixTwist,H2Tw_,"HomoToTwist",VOID_COMMAND_LINE ,"")
 
 
 struct ExtractRotation
@@ -364,7 +366,7 @@ struct ExtractRotation
 };
 
 typedef UnaryOp<MatrixHomogeneous,MatrixRotation,ExtractRotation> H2R;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(H2R,matrixHomo,matrixRotation,H2R_,"HomoToRotation", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(H2R,matrixHomo,matrixRotation,H2R_,"HomoToRotation",VOID_COMMAND_LINE ,"")
 
 // Variation of the above, with the output being
 struct ExtractRotation2
@@ -384,7 +386,7 @@ struct RPYtoMatrix
 };
 
 typedef UnaryOp<VectorRollPitchYaw,MatrixRotation,RPYtoMatrix> rpy2R;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(rpy2R,vectorRPY,matrixRotation,rpy2R_,"RPYToMatrix", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(rpy2R,vectorRPY,matrixRotation,rpy2R_,"RPYToMatrix",VOID_COMMAND_LINE ,"")
 
 struct MatrixToRPY
 {
@@ -395,7 +397,7 @@ struct MatrixToRPY
 };
 
 typedef UnaryOp<MatrixRotation,VectorRollPitchYaw,MatrixToRPY> R2rpy;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(R2rpy,matrixRotation,vectorRPY,R2rpy_,"MatrixToRPY", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(R2rpy,matrixRotation,vectorRPY,R2rpy_,"MatrixToRPY",VOID_COMMAND_LINE ,"")
 
 struct QuaterniontoMatrix
 {
@@ -406,7 +408,7 @@ struct QuaterniontoMatrix
 };
 
 typedef UnaryOp<VectorQuaternion,MatrixRotation,QuaterniontoMatrix> Quaternion2R;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(Quaternion2R,vectorQuaternion,matrixRotation,Quaternion2R_,"QuaternionToMatrix", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(Quaternion2R,vectorQuaternion,matrixRotation,Quaternion2R_,"QuaternionToMatrix",VOID_COMMAND_LINE ,"")
 
 struct MatrixToQuaternion
 {
@@ -418,7 +420,7 @@ struct MatrixToQuaternion
 
 
 typedef UnaryOp<MatrixRotation,VectorQuaternion,MatrixToQuaternion> R2Quaternion;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(R2Quaternion,matrixRotation,vectorQuaternion,R2Quaternion_,"MatrixToQuaternion", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(R2Quaternion,matrixRotation,vectorQuaternion,R2Quaternion_,"MatrixToQuaternion",VOID_COMMAND_LINE ,"")
 
 struct MatrixToUTheta
 {
@@ -430,7 +432,7 @@ struct MatrixToUTheta
 
 
 typedef UnaryOp<MatrixRotation,VectorUTheta,MatrixToUTheta> R2UTheta;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(R2UTheta,matrixRotation,vectorUTheta,R2UTheta_,"MatrixToUTheta", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(R2UTheta,matrixRotation,vectorUTheta,R2UTheta_,"MatrixToUTheta",VOID_COMMAND_LINE ,"")
 
 
 struct UThetaToQuaternion
@@ -442,7 +444,7 @@ struct UThetaToQuaternion
 };
 
 typedef UnaryOp<VectorUTheta,VectorQuaternion,UThetaToQuaternion> UT2Quaternion;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(UT2Quaternion,vectorQuaternion,vectorUTheta,UT2Quaternion_,"UThetaToQuaternion", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(UT2Quaternion,vectorQuaternion,vectorUTheta,UT2Quaternion_,"UThetaToQuaternion",VOID_COMMAND_LINE ,"")
 
 struct Diagonalizer
 {
@@ -478,6 +480,6 @@ res=r;
 };
 
 typedef UnaryOp<ml::Vector,ml::Vector,DirtyMemory> v2mDirtyMemory;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(v2mDirtyMemory,vector,v2mDM_,"DirtyMemory", ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(v2mDirtyMemory,vector,v2mDM_,"DirtyMemory",VOID_COMMAND_LINE ,"")
 
 } // namespace sot
