@@ -74,13 +74,13 @@ struct Inverser
 };
 
 typedef UnaryOp<Matrix,Matrix,Inverser<Matrix> > invMat;
-  SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMat,matrix,inv_mat,"Inverse<matrix>",VOID_COMMAND_LINE ,"")
+  SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMat,matrix,inv_mat,"Inverse_of_matrix",VOID_COMMAND_LINE ,"")
 
 typedef UnaryOp<MatrixHomogeneous,MatrixHomogeneous,Inverser<MatrixHomogeneous> > invMatHomo;
-  SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMatHomo,matrixHomo,inv_mathomo,"Inverse<matrixhomo>",VOID_COMMAND_LINE ,"")
+  SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMatHomo,matrixHomo,inv_mathomo,"Inverse_of_matrixhomo",VOID_COMMAND_LINE ,"")
 
 typedef UnaryOp<MatrixTwist,MatrixTwist,Inverser<MatrixTwist> > invMatTwist;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMatTwist,matrixTwist,inv_mattwist,"Inverse<matrixtwist>",VOID_COMMAND_LINE ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMatTwist,matrixTwist,inv_mattwist,"Inverse_of_matrixtwist",VOID_COMMAND_LINE ,"")
 
 
 struct InverserRot
@@ -89,7 +89,7 @@ struct InverserRot
 };
 
 typedef UnaryOp<MatrixRotation,MatrixRotation,InverserRot > invMatRot;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMatRot,matrixRotation,inv_matrot,"Inverse<matrixrotation>", VOID_COMMAND_LINE,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invMatRot,matrixRotation,inv_matrot,"Inverse_of_matrixrotation", VOID_COMMAND_LINE,"")
 
 struct InverserQuat
 {
@@ -100,7 +100,7 @@ struct InverserQuat
 };
 
 typedef UnaryOp<VectorQuaternion,VectorQuaternion,InverserQuat> invQuat;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invQuat,q,qstar,"Inverse<unitquat>",VOID_COMMAND_LINE ,"")
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(invQuat,q,qstar,"Inverse_of_unitquat",VOID_COMMAND_LINE ,"")
 
 struct VectorSelector
 {
@@ -115,7 +115,7 @@ public:
 };
 
 typedef UnaryOp<Vector,Vector,VectorSelector > selcVec;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(selcVec,vector,sec_vec,"Selec<vector>",   
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(selcVec,vector,sec_vec,"Selec_of_vector",   
   else if( cmdLine == "selec" ) 
     {  cmdArgs >> op.imin >> op.imax; },
   "Selec<vector>\n  - selec min max\t\t")
@@ -137,7 +137,7 @@ public:
 };
 
 typedef UnaryOp<Matrix,Matrix,MatrixSelector > selcMat;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(selcMat,matrix,sec_mat,"Selec<matrix>",   
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(selcMat,matrix,sec_mat,"Selec_of_matrix",   
   else if( cmdLine == "iselec" ) 
     {  cmdArgs >> op.imin >> op.imax; }
   else if( cmdLine == "jselec" ) 
@@ -193,12 +193,12 @@ public:
 };
 
 typedef UnaryOp<Matrix,Vector,MatrixColumnSelector > selcMatCol;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(selcMatCol,matrix,vector,sec_mat_col,"Selec<matrix,column>",   
+SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_F(selcMatCol,matrix,vector,sec_mat_col,"Selec_column_of_matrix",
   else if( cmdLine == "iselec" ) 
     {  cmdArgs >> op.imin >> op.imax; }
   else if( cmdLine == "jselec" ) 
     {  cmdArgs >> op.jcol; },
-  "Selec<matrix,column>\n  - iselec min max\t\t:Selec rows indices.\n - jselec\t\t:Selec column.")
+  "Selec_column_of_matrix\n  - iselec min max\t\t:Selec rows indices.\n - jselec\t\t:Selec column.")
 
 
 
