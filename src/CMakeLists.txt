@@ -233,6 +233,7 @@ INSTALL(FILES
   )
 INSTALL(FILES
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/__init__.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/math_small_entities.py
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/feature_position.py
   DESTINATION ${PYTHON_SITELIB}/dynamic_graph/sot/core
   )

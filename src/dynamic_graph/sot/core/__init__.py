@@ -1,8 +1,5 @@
 from robot_simu import RobotSimu
-from vector_constant import VectorConstant
-from matrix_constant import MatrixConstant
 from unary_op import RPYToMatrix, MatrixHomoToPoseRollPitchYaw
-from derivator import Derivator_of_Vector
 from feature_point6d import FeaturePoint6d
 from feature_position import FeaturePosition
 from feature_point6d_relative import FeaturePoint6dRelative
@@ -15,11 +12,8 @@ from gain_adaptive import GainAdaptive
 from sot import SOT
 
 RobotSimu('')
-VectorConstant('')
-MatrixConstant('')
 RPYToMatrix('')
 MatrixHomoToPoseRollPitchYaw('')
-Derivator_of_Vector('')
 FeaturePoint6d('')
 FeaturePoint6dRelative('')
 FeatureGeneric('')
@@ -33,8 +27,7 @@ SOT('')
 from op_point_modifier import OpPointModifier
 OpPointModifier('')
 
-
-
+from math_small_entities import *
 
 
 
