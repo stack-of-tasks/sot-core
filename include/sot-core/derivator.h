@@ -65,8 +65,8 @@ class Derivator
     : dg::Entity(name)
     ,memory(),initialized(false)
     ,timestep(TIMESTEP_DEFAULT)
-    ,SIN(NULL,"sotDerivator<"+getTypeName()+">("+name+")::input("+getTypeName()+")::sin") 
-    ,SOUT( boost::bind(&Derivator<T>::computeDerivation,this,_1,_2), 
+    ,SIN(NULL,"sotDerivator<"+getTypeName()+">("+name+")::input("+getTypeName()+")::sin")
+    ,SOUT( boost::bind(&Derivator<T>::computeDerivation,this,_1,_2),
 	   SIN,"sotDerivator<"+getTypeName()+">("+name+")::output("+getTypeName()+")::sout")
     ,timestepSIN("sotDerivator<"+getTypeName()+">("+name+")::input(double)::dt")
     {
@@ -94,10 +94,10 @@ class Derivator
 	  res += memory;
 	  if( timestep!=1. ) res*=timestep;
 	} else {
-	  initialized = true; 
-	  memory = SIN(time); 
-	  res = memory; 
-	  res *= 0; 
+	  initialized = true;
+	  memory = SIN(time);
+	  res = memory;
+	  res *= 0;
 	}
       return res;
     }
@@ -105,7 +105,6 @@ class Derivator
  public: /* --- PARAMS --- */
 /*   virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs, */
 /* 			    std::ostream& os ) {} */
-    
 
 };
 
