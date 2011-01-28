@@ -65,9 +65,9 @@ class Derivator
     : dg::Entity(name)
     ,memory(),initialized(false)
     ,timestep(TIMESTEP_DEFAULT)
-    ,SIN(NULL,"sotDerivator<"+getTypeName()+">("+name+")::input("+getTypeName()+")::in") 
+    ,SIN(NULL,"sotDerivator<"+getTypeName()+">("+name+")::input("+getTypeName()+")::sin") 
     ,SOUT( boost::bind(&Derivator<T>::computeDerivation,this,_1,_2), 
-	   SIN,"sotDerivator<"+getTypeName()+">("+name+")::output("+getTypeName()+")::out")
+	   SIN,"sotDerivator<"+getTypeName()+">("+name+")::output("+getTypeName()+")::sout")
     ,timestepSIN("sotDerivator<"+getTypeName()+">("+name+")::input(double)::dt")
     {
       signalRegistration( SIN<<SOUT<<timestepSIN );
