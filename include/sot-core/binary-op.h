@@ -62,10 +62,10 @@ class BinaryOp
 
   BinaryOp( const std::string& name )
     : dg::Entity(name)
-    ,SIN1(NULL,BinaryOp::CLASS_NAME+"("+name+")::input("+getTypeIn1Name()+")::in1") 
-    ,SIN2(NULL,CLASS_NAME+"("+name+")::input("+getTypeIn2Name()+")::in2") 
+    ,SIN1(NULL,BinaryOp::CLASS_NAME+"("+name+")::input("+getTypeIn1Name()+")::sin1") 
+    ,SIN2(NULL,CLASS_NAME+"("+name+")::input("+getTypeIn2Name()+")::sin2") 
     ,SOUT( boost::bind(&BinaryOp<Tin1,Tin2,Tout,Operator>::computeOperation,this,_1,_2), 
-	   SIN1<<SIN2,CLASS_NAME+"("+name+")::output("+getTypeOutName()+")::out") 
+	   SIN1<<SIN2,CLASS_NAME+"("+name+")::output("+getTypeOutName()+")::sout") 
     {
       signalRegistration( SIN1<<SIN2<<SOUT );
     }

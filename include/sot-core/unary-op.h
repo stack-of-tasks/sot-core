@@ -62,9 +62,9 @@ class UnaryOp
 
   UnaryOp( const std::string& name )
     : dg::Entity(name)
-    ,SIN(NULL,UnaryOp::CLASS_NAME+"("+name+")::input("+getTypeInName()+")::in")
+    ,SIN(NULL,UnaryOp::CLASS_NAME+"("+name+")::input("+getTypeInName()+")::sin")
     ,SOUT( boost::bind(&UnaryOp<Tin,Tout,Operator>::computeOperation,this,_1,_2),
-	   SIN,CLASS_NAME+"("+name+")::output("+getTypeOutName()+")::out")
+	   SIN,CLASS_NAME+"("+name+")::output("+getTypeOutName()+")::sout")
     {
       signalRegistration( SIN<<SOUT );
     }
