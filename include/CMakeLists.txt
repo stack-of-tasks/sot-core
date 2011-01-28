@@ -97,11 +97,9 @@ solver-hierarchical-inequalities.h
 reader.h
 
 #tools
-periodic-call.h
 utils-windows.h
 time-stamp.h
 timer.h
-periodic-call-entity.h
 neck-limitation.h
 motion-period.h
 binary-int-to-uint.h

@@ -99,11 +99,17 @@ static void integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
 }
 
 RobotSimu::
+~RobotSimu( )
+{
+  for( unsigned int i=0; i<4; ++i ) {
+    delete forcesSOUT[i];
+  }
+}
+
+RobotSimu::
 RobotSimu( const std::string& n )
   :Entity(n)
    ,state(6)
-   ,periodicCallBefore( )
-   ,periodicCallAfter( )
    ,controlSIN( NULL,"RobotSimu("+n+")::input(double)::control" )
   //,attitudeSIN(NULL,"RobotSimu::input(matrixRot)::attitudeIN")
    ,attitudeSIN(NULL,"RobotSimu::input(vector3)::attitudeIN")
@@ -188,9 +194,6 @@ increment( const double dt )
 {
   sotDEBUG(25) << "Time : " << controlSIN.getTime()+1 << std::endl;
 
-   periodicCallBefore.runSignals( controlSIN.getTime()+1 );
-   periodicCallBefore.runCmds();
-
    stateSOUT .setConstant( state );
   const ml::Vector control = controlSIN( controlSIN.getTime()+1 );
 
@@ -222,9 +225,6 @@ increment( const double dt )
   ml::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
 
-
-   periodicCallAfter.runSignals( controlSIN.getTime() );
-   periodicCallAfter.runCmds();
 
 }
 
@@ -310,13 +310,9 @@ commandLine( const std::string& cmdLine
     }
   else if(( cmdLine=="periodicCall" )||( cmdLine=="periodicCallAfter" ))
     {
-      string cmd2; cmdArgs >> cmd2;
-      periodicCallAfter .commandLine( cmd2,cmdArgs,os );
     }
   else if( cmdLine=="periodicCallBefore" )
     {
-      string cmd2; cmdArgs >> cmd2;
-      periodicCallBefore .commandLine( cmd2,cmdArgs,os );
     }
   else
     {

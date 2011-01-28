@@ -32,7 +32,6 @@ namespace ml= maal::boost;
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
 #include <sot-core/vector-roll-pitch-yaw.h>
-#include <sot-core/periodic-call.h>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -72,8 +71,6 @@ class SOTROBOTSIMU_EXPORT RobotSimu
  protected:
   ml::Vector state;
 
-  PeriodicCall periodicCallBefore;
-  PeriodicCall periodicCallAfter;
   bool withForceSignals[4];
 
 
@@ -81,6 +78,8 @@ class SOTROBOTSIMU_EXPORT RobotSimu
 
   /* --- CONSTRUCTION --- */
   RobotSimu( const std::string& name );
+  /* --- DESTRUCTION --- */
+  ~RobotSimu( );
 
   void setStateSize( const unsigned int& size );
   void setState( const ml::Vector& st );
