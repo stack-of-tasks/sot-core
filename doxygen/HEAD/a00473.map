@@ -1,13 +1,12 @@
 <map id="G" name="G">
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00009.html" title="dynamicgraph::Entity" alt="" coords="1515,201,1669,228"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00019.html" title="noncopyable" alt="" coords="241,234,343,261"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00030.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="483,184,720,210"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00030.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="476,288,727,314"/>
-<area shape="rect" title="STL class." alt="" coords="249,121,335,148"/>
-<area shape="rect" title="STL class." alt="" coords="5,121,189,148"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; struct timeval, int \&gt;" alt="" coords="1391,318,1793,345"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00027.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="955,301,1189,328"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; struct sotTimestampedObject, int \&gt;" alt="" coords="1340,401,1844,428"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; Object, int \&gt;" alt="" coords="1415,268,1769,294"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00035.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="927,432,1217,458"/>
+<area shape="rect" href="$a00050.html" title="integrates an ODE. If Y is the output and X the input, the following equation is..." alt="" coords="2104,247,2368,273"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00008.html" title="dynamicgraph::Entity" alt="" coords="1725,275,1880,301"/>
+<area shape="rect" title="STL class." alt="" coords="337,316,423,343"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00030.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="743,289,980,316"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00030.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="736,173,987,200"/>
+<area shape="rect" title="STL class." alt="" coords="5,316,189,343"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; sigT, int \&gt;" alt="" coords="1633,173,1972,200"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00027.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="1224,173,1459,200"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00033.html" title="dynamicgraph::SignalPtr\&lt; sigT, int \&gt;" alt="" coords="1675,224,1931,251"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00035.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="716,20,1007,47"/>
 </map>

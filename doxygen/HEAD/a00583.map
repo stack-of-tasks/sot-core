@@ -1,5 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" href="$a00077.html" title="This class implements the Stack of Task. It allows to deal with the priority of the controllers throu..." alt="" coords="47,161,119,188"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00009.html" title="dynamicgraph::Entity" alt="" coords="5,84,160,111"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00019.html" title="noncopyable" alt="" coords="32,7,133,33"/>
+<area shape="rect" href="$a00100.html" title="sot::VectorQuaternion" alt="" coords="5,161,165,188"/>
+<area shape="rect" href="$a00101.html" title="sot::VectorRollPitchYaw" alt="" coords="189,161,352,188"/>
+<area shape="rect" href="$a00104.html" title="sot::VectorUTheta" alt="" coords="376,161,512,188"/>
+<area shape="rect" href="jrl-mal.doxytag$a00006.html" title="maal::boost::Vector" alt="" coords="197,7,344,33"/>
 </map>

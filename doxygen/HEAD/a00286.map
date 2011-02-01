@@ -1,5 +1,31 @@
 <map id="G" name="G">
-<area shape="rect" href="$a00168.html" title="task&#45;conti.h" alt="" coords="5,84,101,110"/>
-<area shape="rect" href="$a00169.html" title="task&#45;pd.h" alt="" coords="125,84,205,110"/>
-<area shape="rect" href="$a00170.html" title="task&#45;unilateral.h" alt="" coords="229,84,352,110"/>
+<area shape="rect" href="jrl-mal.doxytag$a00010.html" title="jrl/mal/boost.hh" alt="" coords="1635,161,1755,188"/>
+<area shape="rect" href="$a00167.html" title="sot&#45;core/task&#45;abstract.h" alt="" coords="1509,84,1685,111"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00043.html" title="dynamic&#45;graph/entity.h" alt="" coords="73,316,241,343"/>
+<area shape="rect" href="$a00131.html" title="sot&#45;core/flags.h" alt="" coords="2495,161,2615,188"/>
+<area shape="rect" href="$a00111.html" title="sot&#45;core/constraint.h" alt="" coords="1984,84,2139,111"/>
+<area shape="rect" href="jrl-mal.doxytag$a00011.html" title="jrl/mal/boostmacros.hh" alt="" coords="1685,316,1853,343"/>
+<area shape="rect" href="jrl-mal.doxytag$a00013.html" title="jrl/mal/boostmatrixsvd.hh" alt="" coords="1853,161,2037,188"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00038.html" title="dynamic&#45;graph/all&#45;signals.h" alt="" coords="1001,161,1196,188"/>
+<area shape="rect" href="$a00150.html" title="sot&#45;core/multi&#45;bound.h" alt="" coords="2061,161,2229,188"/>
+<area shape="rect" href="$a00163.html" title="sot&#45;core/sot&#45;core&#45;api.h" alt="" coords="2108,393,2276,420"/>
+<area shape="rect" href="jrl-mal.doxytag$a00012.html" title="jrl/mal/boostmatrix.hh" alt="" coords="1799,239,1959,265"/>
+<area shape="rect" href="jrl-mal.doxytag$a00015.html" title="jrl/mal/boostsvd.hh" alt="" coords="1877,316,2019,343"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00050.html" title="dynamic&#45;graph/fwd.hh" alt="" coords="224,703,387,729"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00042.html" title="dynamic&#45;graph/dynamic&#45;graph&#45;api.h" alt="" coords="808,703,1061,729"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00045.html" title="dynamic&#45;graph/exception&#45;factory.h" alt="" coords="317,548,560,575"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00059.html" title="dynamic&#45;graph/signal&#45;array.h" alt="" coords="397,393,603,420"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00060.html" title="dynamic&#45;graph/signal&#45;base.h" alt="" coords="397,471,603,497"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00044.html" title="dynamic&#45;graph/exception&#45;abstract.h" alt="" coords="419,625,672,652"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00046.html" title="dynamic&#45;graph/exception&#45;signal.h" alt="" coords="635,548,872,575"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00065.html" title="dynamic&#45;graph/signal.h" alt="" coords="947,316,1117,343"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00040.html" title="dynamic&#45;graph/debug.h" alt="" coords="1285,471,1459,497"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00062.html" title="dynamic&#45;graph/signal&#45;ptr.h" alt="" coords="1069,239,1261,265"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00067.html" title="dynamic&#45;graph/time&#45;dependency.h" alt="" coords="599,316,841,343"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00066.html" title="dynamic&#45;graph/signal.t.cpp" alt="" coords="1069,393,1264,420"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00061.html" title="dynamic&#45;graph/signal&#45;caster.h" alt="" coords="997,471,1211,497"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00063.html" title="dynamic&#45;graph/signal&#45;ptr.t.cpp" alt="" coords="1192,316,1408,343"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00068.html" title="dynamic&#45;graph/time&#45;dependency.t.cpp" alt="" coords="677,393,944,420"/>
+<area shape="rect" href="$a00117.html" title="sot&#45;core/exception&#45;task.h" alt="" coords="2084,239,2268,265"/>
+<area shape="rect" href="$a00004.html" title="sot&#45;core/exception&#45;abstract.h" alt="" coords="2259,316,2469,343"/>
 </map>

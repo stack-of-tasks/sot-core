@@ -1,4 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" href="$a00002.html" title="sot&#45;core/exception&#45;abstract.h" alt="" coords="123,84,333,111"/>
-<area shape="rect" href="$a00163.html" title="sot&#45;core/sot&#45;core&#45;api.h" alt="" coords="293,162,461,188"/>
+<area shape="rect" href="$a00106.html" title="additional&#45;functions.h" alt="" coords="5,84,163,111"/>
+<area shape="rect" href="$a00119.html" title="factory.h" alt="" coords="211,84,285,111"/>
+<area shape="rect" href="$a00006.html" title="pool.h" alt="" coords="309,84,368,111"/>
+<area shape="rect" href="$a00108.html" title="binary&#45;op.h" alt="" coords="153,161,247,188"/>
+<area shape="rect" href="$a00114.html" title="derivator.h" alt="" coords="295,161,383,188"/>
+<area shape="rect" href="$a00174.html" title="unary&#45;op.h" alt="" coords="407,161,497,188"/>
 </map>

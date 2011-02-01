@@ -1,13 +1,3 @@
 <map id="G" name="G">
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00009.html" title="dynamicgraph::Entity" alt="" coords="1696,101,1851,128"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00019.html" title="noncopyable" alt="" coords="329,183,431,209"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00030.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="740,132,977,159"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00030.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="733,308,984,335"/>
-<area shape="rect" title="STL class." alt="" coords="337,69,423,96"/>
-<area shape="rect" title="STL class." alt="" coords="5,69,189,96"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; Tout, int \&gt;" alt="" coords="1603,332,1944,359"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00027.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="1219,281,1453,308"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00033.html" title="dynamicgraph::SignalPtr\&lt; Tin2, int \&gt;" alt="" coords="1645,281,1901,308"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00033.html" title="dynamicgraph::SignalPtr\&lt; Tin1, int \&gt;" alt="" coords="1645,231,1901,257"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00035.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="713,389,1004,416"/>
+<area shape="rect" href="$a00077.html" title="sot::SolverHierarchicalInequalities" alt="" coords="7,5,241,32"/>
 </map>

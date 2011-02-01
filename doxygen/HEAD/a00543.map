@@ -1,14 +1,31 @@
 <map id="G" name="G">
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00009.html" title="dynamicgraph::Entity" alt="" coords="1476,133,1631,160"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00019.html" title="noncopyable" alt="" coords="241,5,343,32"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00030.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="483,50,720,77"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00030.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="476,312,727,338"/>
-<area shape="rect" title="STL class." alt="" coords="249,142,335,169"/>
-<area shape="rect" title="STL class." alt="" coords="5,142,189,169"/>
-<area shape="rect" href="$a00060.html" title="sot::TaskAbstract::MemoryTaskAbstract" alt="" coords="1417,200,1689,226"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Matrix, int \&gt;" alt="" coords="1364,301,1743,328"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00027.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="955,284,1189,310"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Vector, int \&gt;" alt="" coords="1364,250,1743,277"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; VectorMultiBound, int \&gt;" alt="" coords="1340,352,1767,378"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00035.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="927,400,1217,426"/>
+<area shape="rect" href="$a00061.html" title="sot::TaskAbstract::MemoryTaskAbstract" alt="" coords="1468,409,1740,436"/>
+<area shape="rect" href="$a00092.html" title="sot::TaskAbstract" alt="" coords="2241,561,2372,588"/>
+<area shape="rect" href="$a00081.html" title="sot::SotH" alt="" coords="4151,949,4231,976"/>
+<area shape="rect" href="$a00078.html" title="This class implements the Stack of Task. It allows to deal with the priority of the..." alt="" coords="3872,680,3944,707"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00008.html" title="dynamicgraph::Entity" alt="" coords="1527,852,1681,879"/>
+<area shape="rect" title="STL class." alt="" coords="240,771,325,797"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00030.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="464,807,701,833"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00030.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="457,339,708,365"/>
+<area shape="rect" href="$a00018.html" title="sot::Constraint" alt="" coords="2864,623,2979,649"/>
+<area shape="rect" title="STL class." alt="" coords="5,771,189,797"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Matrix, int \&gt;" alt="" coords="1415,488,1793,515"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00027.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="939,640,1173,667"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00033.html" title="dynamicgraph::SignalPtr\&lt; ml::Vector, int \&gt;" alt="" coords="1843,796,2139,823"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Vector, int \&gt;" alt="" coords="1415,613,1793,640"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; VectorMultiBound, int \&gt;" alt="" coords="1391,553,1817,580"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00033.html" title="dynamicgraph::SignalPtr\&lt; double, int \&gt;" alt="" coords="2475,728,2749,755"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00027.html" title="dynamicgraph::Signal\&lt; ml::Matrix, int \&gt;" alt="" coords="1467,344,1741,371"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00027.html" title="dynamicgraph::Signal\&lt; ml::Vector, int \&gt;" alt="" coords="917,77,1195,104"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00035.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="911,489,1201,516"/>
+<area shape="rect" href="jrl-mal.doxytag$a00002.html" title="maal::boost::Matrix" alt="" coords="984,241,1128,268"/>
+<area shape="rect" href="$a00077.html" title="sot::SolverHierarchicalInequalities" alt="" coords="3791,1119,4025,1145"/>
+<area shape="rect" href="$a00020.html" title="sot::ConstraintRef" alt="" coords="2855,1244,2988,1271"/>
+<area shape="rect" href="$a00019.html" title="sot::ConstraintMem" alt="" coords="2848,1320,2995,1347"/>
+<area shape="rect" href="$a00085.html" title="sotRotationComposed" alt="" coords="3387,1060,3549,1087"/>
+<area shape="rect" href="$a00073.html" title="RotationSimple" alt="" coords="1545,1060,1663,1087"/>
+<area shape="rect" href="$a00087.html" title="sotRotationSimpleGiven" alt="" coords="2220,1009,2393,1036"/>
+<area shape="rect" href="$a00088.html" title="sotRotationSimpleHouseholder" alt="" coords="2197,1060,2416,1087"/>
+<area shape="rect" href="$a00086.html" title="sotRotationComposedInExtenso" alt="" coords="3356,959,3580,985"/>
+<area shape="rect" href="jrl-mal.doxytag$a00006.html" title="maal::boost::Vector" alt="" coords="509,77,656,104"/>
 </map>

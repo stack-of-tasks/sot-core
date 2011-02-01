@@ -1,18 +1,12 @@
 <map id="G" name="G">
-<area shape="rect" href="$a00167.html" title="task&#45;abstract.h" alt="" coords="383,84,500,110"/>
-<area shape="rect" href="$a00161.html" title="signal&#45;cast.h" alt="" coords="524,84,625,110"/>
-<area shape="rect" href="$a00110.html" title="constraint.h" alt="" coords="139,161,235,188"/>
-<area shape="rect" href="$a00166.html" title="sot.h" alt="" coords="69,238,123,265"/>
-<area shape="rect" href="$a00165.html" title="sot&#45;qr.h" alt="" coords="251,238,320,265"/>
-<area shape="rect" href="$a00127.html" title="feature&#45;task.h" alt="" coords="309,161,421,188"/>
-<area shape="rect" href="$a00148.html" title="memory&#45;task&#45;sot.h" alt="" coords="445,161,589,188"/>
-<area shape="rect" href="$a00151.html" title="neck&#45;limitation.h" alt="" coords="613,161,741,188"/>
-<area shape="rect" href="$a00160.html" title="sequencer.h" alt="" coords="765,161,864,188"/>
-<area shape="rect" href="$a00171.html" title="task.h" alt="" coords="888,161,947,188"/>
-<area shape="rect" href="$a00138.html" title="kalman.h" alt="" coords="147,238,227,265"/>
-<area shape="rect" href="$a00164.html" title="sot&#45;h.h" alt="" coords="5,316,72,342"/>
-<area shape="rect" href="$a00182.html" title="weighted&#45;sot.h" alt="" coords="96,316,211,342"/>
-<area shape="rect" href="$a00168.html" title="task&#45;conti.h" alt="" coords="757,238,853,265"/>
-<area shape="rect" href="$a00169.html" title="task&#45;pd.h" alt="" coords="877,238,957,265"/>
-<area shape="rect" href="$a00170.html" title="task&#45;unilateral.h" alt="" coords="981,238,1104,265"/>
+<area shape="rect" href="$a00109.html" title="clamp&#45;workspace.h" alt="" coords="5,161,149,188"/>
+<area shape="rect" href="$a00161.html" title="signal&#45;cast.h" alt="" coords="384,239,485,265"/>
+<area shape="rect" href="$a00179.html" title="vector&#45;rotation.h" alt="" coords="445,84,573,111"/>
+<area shape="rect" href="$a00180.html" title="vector&#45;to&#45;rotation.h" alt="" coords="979,84,1123,111"/>
+<area shape="rect" href="$a00125.html" title="feature&#45;point6d&#45;relative.h" alt="" coords="696,161,880,188"/>
+<area shape="rect" href="$a00177.html" title="vector&#45;quaternion.h" alt="" coords="197,161,344,188"/>
+<area shape="rect" href="$a00178.html" title="vector&#45;roll&#45;pitch&#45;yaw.h" alt="" coords="512,161,672,188"/>
+<area shape="rect" href="$a00181.html" title="vector&#45;utheta.h" alt="" coords="368,161,488,188"/>
+<area shape="rect" href="$a00114.html" title="derivator.h" alt="" coords="227,239,315,265"/>
+<area shape="rect" href="$a00157.html" title="robot&#45;simu.h" alt="" coords="540,239,644,265"/>
 </map>

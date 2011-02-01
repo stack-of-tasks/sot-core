@@ -1,27 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" href="jrl&#45;mal.doxytag$a00010.html" title="jrl/mal/boost.hh" alt="" coords="149,84,269,111"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00043.html" title="dynamic&#45;graph/entity.h" alt="" coords="393,239,561,266"/>
-<area shape="rect" href="$a00117.html" title="sot&#45;core/exception&#45;task.h" alt="" coords="1543,84,1727,111"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00038.html" title="dynamic&#45;graph/all&#45;signals.h" alt="" coords="895,84,1089,111"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$a00011.html" title="jrl/mal/boostmacros.hh" alt="" coords="33,239,201,266"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$a00016.html" title="jrl/mal/boostvector.hh" alt="" coords="37,162,197,188"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$a00012.html" title="jrl/mal/boostmatrix.hh" alt="" coords="221,162,381,188"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$a00015.html" title="jrl/mal/boostsvd.hh" alt="" coords="228,239,369,266"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00059.html" title="dynamic&#45;graph/signal&#45;base.h" alt="" coords="715,394,920,420"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00042.html" title="dynamic&#45;graph/dynamic&#45;graph&#45;api.h" alt="" coords="553,626,807,652"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00045.html" title="dynamic&#45;graph/exception&#45;factory.h" alt="" coords="339,471,581,498"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00058.html" title="dynamic&#45;graph/signal&#45;array.h" alt="" coords="444,316,649,343"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00046.html" title="dynamic&#45;graph/exception&#45;signal.h" alt="" coords="771,471,1008,498"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00044.html" title="dynamic&#45;graph/exception&#45;abstract.h" alt="" coords="389,548,643,575"/>
-<area shape="rect" href="$a00002.html" title="sot&#45;core/exception&#45;abstract.h" alt="" coords="1529,162,1740,188"/>
-<area shape="rect" href="$a00163.html" title="sot&#45;core/sot&#45;core&#45;api.h" alt="" coords="1768,239,1936,266"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00064.html" title="dynamic&#45;graph/signal.h" alt="" coords="995,239,1165,266"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00061.html" title="dynamic&#45;graph/signal&#45;ptr.h" alt="" coords="1201,162,1393,188"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00063.html" title="dynamic&#45;graph/signal&#45;time&#45;dependent.h" alt="" coords="765,162,1043,188"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00065.html" title="dynamic&#45;graph/signal.t.cpp" alt="" coords="1116,316,1311,343"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00060.html" title="dynamic&#45;graph/signal&#45;caster.h" alt="" coords="995,394,1208,420"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00040.html" title="dynamic&#45;graph/debug.h" alt="" coords="1232,394,1405,420"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00062.html" title="dynamic&#45;graph/signal&#45;ptr.t.cpp" alt="" coords="1189,239,1405,266"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00066.html" title="dynamic&#45;graph/time&#45;dependency.h" alt="" coords="728,239,971,266"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00067.html" title="dynamic&#45;graph/time&#45;dependency.t.cpp" alt="" coords="724,316,991,343"/>
+<area shape="rect" href="$a00124.html" title="feature&#45;line&#45;distance.h" alt="" coords="5,84,171,111"/>
+<area shape="rect" href="$a00125.html" title="feature&#45;point6d&#45;relative.h" alt="" coords="195,84,379,111"/>
+<area shape="rect" href="$a00126.html" title="feature&#45;point6d.h" alt="" coords="427,84,557,111"/>
+<area shape="rect" href="$a00128.html" title="feature&#45;vector3.h" alt="" coords="581,84,712,111"/>
+<area shape="rect" href="$a00152.html" title="op&#45;point&#45;modifier.h" alt="" coords="736,84,877,111"/>
+<area shape="rect" href="$a00161.html" title="signal&#45;cast.h" alt="" coords="901,84,1003,111"/>
 </map>

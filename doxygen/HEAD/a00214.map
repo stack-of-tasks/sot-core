@@ -1,31 +1,4 @@
 <map id="G" name="G">
-<area shape="rect" href="$a00106.html" title="binary&#45;int&#45;to&#45;uint.h" alt="" coords="16,84,155,111"/>
-<area shape="rect" href="$a00108.html" title="clamp&#45;workspace.h" alt="" coords="179,84,323,111"/>
-<area shape="rect" href="$a00150.html" title="multi&#45;bound.h" alt="" coords="527,84,636,111"/>
-<area shape="rect" href="$a00110.html" title="constraint.h" alt="" coords="37,239,133,266"/>
-<area shape="rect" href="$a00127.html" title="feature&#45;task.h" alt="" coords="701,239,813,266"/>
-<area shape="rect" href="$a00171.html" title="task.h" alt="" coords="837,239,896,266"/>
-<area shape="rect" href="$a00168.html" title="task&#45;conti.h" alt="" coords="819,316,915,343"/>
-<area shape="rect" href="$a00170.html" title="task&#45;unilateral.h" alt="" coords="939,316,1061,343"/>
-<area shape="rect" href="$a00120.html" title="feature&#45;1d.h" alt="" coords="1021,84,1120,111"/>
-<area shape="rect" href="$a00122.html" title="feature&#45;generic.h" alt="" coords="664,162,795,188"/>
-<area shape="rect" href="$a00123.html" title="feature&#45;joint&#45;limits.h" alt="" coords="1144,84,1293,111"/>
-<area shape="rect" href="$a00124.html" title="feature&#45;line&#45;distance.h" alt="" coords="1317,84,1483,111"/>
-<area shape="rect" href="$a00126.html" title="feature&#45;point6d.h" alt="" coords="1557,84,1688,111"/>
-<area shape="rect" href="$a00125.html" title="feature&#45;point6d&#45;relative.h" alt="" coords="1479,162,1663,188"/>
-<area shape="rect" href="$a00128.html" title="feature&#45;vector3.h" alt="" coords="1712,84,1843,111"/>
-<area shape="rect" href="$a00129.html" title="feature&#45;visual&#45;point.h" alt="" coords="1867,84,2024,111"/>
-<area shape="rect" href="$a00137.html" title="joint&#45;limitator.h" alt="" coords="2048,84,2165,111"/>
-<area shape="rect" href="$a00149.html" title="motion&#45;period.h" alt="" coords="2189,84,2312,111"/>
-<area shape="rect" href="$a00167.html" title="task&#45;abstract.h" alt="" coords="523,162,640,188"/>
-<area shape="rect" href="$a00161.html" title="signal&#45;cast.h" alt="" coords="397,162,499,188"/>
-<area shape="rect" href="$a00166.html" title="sot.h" alt="" coords="109,316,163,343"/>
-<area shape="rect" href="$a00165.html" title="sot&#45;qr.h" alt="" coords="187,316,256,343"/>
-<area shape="rect" href="$a00148.html" title="memory&#45;task&#45;sot.h" alt="" coords="259,239,403,266"/>
-<area shape="rect" href="$a00151.html" title="neck&#45;limitation.h" alt="" coords="427,239,555,266"/>
-<area shape="rect" href="$a00160.html" title="sequencer.h" alt="" coords="579,239,677,266"/>
-<area shape="rect" href="$a00138.html" title="kalman.h" alt="" coords="5,316,85,343"/>
-<area shape="rect" href="$a00164.html" title="sot&#45;h.h" alt="" coords="45,394,112,420"/>
-<area shape="rect" href="$a00182.html" title="weighted&#45;sot.h" alt="" coords="136,394,251,420"/>
-<area shape="rect" href="$a00169.html" title="task&#45;pd.h" alt="" coords="715,316,795,343"/>
+<area shape="rect" href="$a00004.html" title="sot&#45;core/exception&#45;abstract.h" alt="" coords="123,84,333,111"/>
+<area shape="rect" href="$a00163.html" title="sot&#45;core/sot&#45;core&#45;api.h" alt="" coords="293,161,461,188"/>
 </map>

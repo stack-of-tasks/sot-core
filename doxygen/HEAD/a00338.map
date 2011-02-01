@@ -1,3 +1,7 @@
 <map id="G" name="G">
-<area shape="rect" href="$a00023.html" title="sot::DebugTrace" alt="" coords="7,5,129,32"/>
+<area shape="rect" href="jrl-mal.doxytag$a00002.html" title="maal::boost::Matrix" alt="" coords="5,81,149,108"/>
+<area shape="rect" href="$a00057.html" title="sot::MatrixForce" alt="" coords="228,5,351,32"/>
+<area shape="rect" href="$a00058.html" title="sot::MatrixHomogeneous" alt="" coords="199,56,380,83"/>
+<area shape="rect" href="$a00059.html" title="sot::MatrixRotation" alt="" coords="220,107,359,133"/>
+<area shape="rect" href="$a00060.html" title="sot::MatrixTwist" alt="" coords="231,157,348,184"/>
 </map>

@@ -1,23 +1,5 @@
 <map id="G" name="G">
-<area shape="rect" href="$a00090.html" title="sot::Task" alt="" coords="2975,454,3049,481"/>
-<area shape="rect" href="$a00091.html" title="sot::TaskAbstract" alt="" coords="2101,580,2232,606"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00009.html" title="dynamicgraph::Entity" alt="" coords="1476,261,1631,288"/>
-<area shape="rect" href="$a00034.html" title="This class gives the abstract definition of a feature." alt="" coords="2091,258,2243,285"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00019.html" title="noncopyable" alt="" coords="241,328,343,354"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00030.html" title="dynamicgraph::SignalBase\&lt; int \&gt;" alt="" coords="483,226,720,253"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00030.html" title="dynamicgraph::SignalBase\&lt; Time \&gt;" alt="" coords="476,480,727,506"/>
-<area shape="rect" title="STL class." alt="" coords="249,164,335,190"/>
-<area shape="rect" title="STL class." alt="" coords="5,164,189,190"/>
-<area shape="rect" href="$a00060.html" title="sot::TaskAbstract::MemoryTaskAbstract" alt="" coords="1417,596,1689,622"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Matrix, int \&gt;" alt="" coords="1364,530,1743,557"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00027.html" title="dynamicgraph::Signal\&lt; T, Time \&gt;" alt="" coords="955,480,1189,506"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; ml::Vector, int \&gt;" alt="" coords="1364,646,1743,673"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; VectorMultiBound, int \&gt;" alt="" coords="1340,697,1767,724"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00033.html" title="dynamicgraph::SignalPtr\&lt; double, int \&gt;" alt="" coords="1792,424,2067,450"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00033.html" title="dynamicgraph::SignalPtr\&lt; Flags, int \&gt;" alt="" coords="1421,413,1685,440"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00034.html" title="dynamicgraph::SignalTimeDependent\&lt; unsigned int, int \&gt;" alt="" coords="1357,362,1749,389"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00033.html" title="dynamicgraph::SignalPtr\&lt; FeatureAbstract *, int \&gt;" alt="" coords="1381,312,1725,338"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00033.html" title="dynamicgraph::SignalPtr\&lt; ml::Vector, int \&gt;" alt="" coords="2267,782,2563,809"/>
-<area shape="rect" href="dynamic&#45;graph.doxytag$a00035.html" title="dynamicgraph::TimeDependency\&lt; Time \&gt;" alt="" coords="927,598,1217,625"/>
-<area shape="rect" href="jrl&#45;mal.doxytag$a00006.html" title="maal::boost::Vector" alt="" coords="2939,833,3085,860"/>
+<area shape="rect" href="$a00081.html" title="sot::SotH" alt="" coords="5,161,85,188"/>
+<area shape="rect" href="$a00105.html" title="sot::WeightedSot" alt="" coords="109,161,237,188"/>
+<area shape="rect" href="dynamic-graph.doxytag$a00008.html" title="dynamicgraph::Entity" alt="" coords="32,7,187,33"/>
 </map>
