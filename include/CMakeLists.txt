@@ -30,7 +30,6 @@ exception-task.h
 exception-tools.h
 
 #signal
-signal-cast.h
 
 #matrix
 binary-op.h
