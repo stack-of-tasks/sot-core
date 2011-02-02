@@ -9,59 +9,59 @@ from matrix_constant import MatrixConstant
 MatrixConstant('')
 
 
-from unitary_op import Inverse_of_matrix
+from unary_op import Inverse_of_matrix
 Inverse_of_matrix('')
-from unitary_op import Inverse_of_matrixhomo
+from unary_op import Inverse_of_matrixhomo
 Inverse_of_matrixhomo('')
-from unitary_op import Inverse_of_matrixtwist
+from unary_op import Inverse_of_matrixtwist
 Inverse_of_matrixtwist('')
-from unitary_op import Inverse_of_matrixrotation
+from unary_op import Inverse_of_matrixrotation
 Inverse_of_matrixrotation('')
-from unitary_op import Inverse_of_unitquat
+from unary_op import Inverse_of_unitquat
 Inverse_of_unitquat('')
-from unitary_op import Selec_of_vector
+from unary_op import Selec_of_vector
 Selec_of_vector('')
-from unitary_op import Selec_of_matrix
+from unary_op import Selec_of_matrix
 Selec_of_matrix('')
-from unitary_op import Selec_column_of_matrix
+from unary_op import Selec_column_of_matrix
 Selec_column_of_matrix('')
-from Unitary_Op Import MatrixHomoToPoseUTheta
+from unary_op import MatrixHomoToPoseUTheta
 MatrixHomoToPoseUTheta('')
-from Unitary_Op Import SkewSymToVector
+from unary_op import SkewSymToVector
 SkewSymToVector('')
-from Unitary_Op Import PoseUThetaToMatrixHomo
+from unary_op import PoseUThetaToMatrixHomo
 PoseUThetaToMatrixHomo('')
-from Unitary_Op Import MatrixHomoToPoseQuaternion
+from unary_op import MatrixHomoToPoseQuaternion
 MatrixHomoToPoseQuaternion('')
-from Unitary_Op Import MatrixHomoToPoseRollPitchYaw
+from unary_op import MatrixHomoToPoseRollPitchYaw
 MatrixHomoToPoseRollPitchYaw('')
-from Unitary_Op Import PoseRollPitchYawToMatrixHomo
+from unary_op import PoseRollPitchYawToMatrixHomo
 PoseRollPitchYawToMatrixHomo('')
-from Unitary_Op Import PoseRollPitchYawToPoseUTheta
+from unary_op import PoseRollPitchYawToPoseUTheta
 PoseRollPitchYawToPoseUTheta('')
-from Unitary_Op Import HomoToMatrix
+from unary_op import HomoToMatrix
 HomoToMatrix('')
-from Unitary_Op Import MatrixToHomo
+from unary_op import MatrixToHomo
 MatrixToHomo('')
-from Unitary_Op Import HomoToTwist
+from unary_op import HomoToTwist
 HomoToTwist('')
-from Unitary_Op Import HomoToRotation
+from unary_op import HomoToRotation
 HomoToRotation('')
-from Unitary_Op Import RPYToMatrix
+from unary_op import RPYToMatrix
 RPYToMatrix('')
-from Unitary_Op Import MatrixToRPY
+from unary_op import MatrixToRPY
 MatrixToRPY('')
-from Unitary_Op Import QuaternionToMatrix
+from unary_op import QuaternionToMatrix
 QuaternionToMatrix('')
-from Unitary_Op Import MatrixToQuaternion
+from unary_op import MatrixToQuaternion
 MatrixToQuaternion('')
-from Unitary_Op Import MatrixToUTheta
+from unary_op import MatrixToUTheta
 MatrixToUTheta('')
-from Unitary_Op Import UThetaToQuaternion
+from unary_op import UThetaToQuaternion
 UThetaToQuaternion('')
-from Unitary_Op Import MatrixDiagonal
+from unary_op import MatrixDiagonal
 MatrixDiagonal('')
-from Unitary_Op Import DirtyMemory
+from unary_op import DirtyMemory
 DirtyMemory('')
 
 
@@ -93,23 +93,24 @@ from binary_op import Stack_of_vector
 Stack_of_vector('')
 from binary_op import WeightAdd_of_vector
 WeightAdd_of_vector('')
-from Binary_Op Import WeightDir
+from binary_op import WeightDir
 WeightDir('')
-from Binary_Op Import Nullificator
+from binary_op import Nullificator
 Nullificator('')
 from binary_op import Compose_R_and_T
 Compose_R_and_T('')
-from Binary_Op Import ComposeVector_RPY_T
+from binary_op import ComposeVector_RPY_T
 ComposeVector_RPY_T('')
 from binary_op import Multiply_vector_double
 Multiply_vector_double('')
 from binary_op import Compose_RPY_and_T
 Compose_RPY_and_T('')
-from Binary_Op Import EndomorphismBasis
+from binary_op import EndomorphismBasis
 EndomorphismBasis('')
 from binary_op import Multiply_vector_matrix
 Multiply_vector_matrix('')
 from binary_op import Multiply_vector_matrixHomo
 Multiply_vector_matrixHomo('')
-from Binary_Op Import ConvolutionTemporal
+from binary_op import ConvolutionTemporal
 ConvolutionTemporal('')
+
