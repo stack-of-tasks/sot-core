@@ -31,11 +31,10 @@
 using namespace std;
 
 #include <dynamic-graph/factory.h>
-#include <dynamic-graph/command-bind.h>
+#include <dynamic-graph/all-commands.h>
 using namespace sot;
 using namespace dynamicgraph;
 
-#include "../src/tools/robot-simu-command.h"
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(RobotSimu,"RobotSimu");
 
@@ -140,32 +139,35 @@ RobotSimu( const std::string& n )
   state.fill(.0); stateSOUT.setConstant( state );
 
   /* --- Commands --- */
-  std::string docstring;
-  /* Command increment. */
-  docstring =
-    "\n"
-    "    Integrate dynamics for time step provided as input\n"
-    "\n"
-    "      take one floating point number as input\n"
-    "\n";
-  addCommand("increment",
-	     ::dynamicgraph::command::makeCommandVoid1( *this,&RobotSimu::increment,docstring));
-  /* Command setStateSize. */
-  docstring =
-    "\n"
-    "    Set size of state vector\n"
-    "\n";
-  addCommand("resize",
-	     new ::dynamicgraph::command::Setter<RobotSimu, unsigned int>
-	     (*this, &RobotSimu::setStateSize, docstring));
-  /* Command set. */
-  docstring =
-    "\n"
-    "    Set state vector value\n"
-    "\n";
-  addCommand("set",
-	     new ::dynamicgraph::command::Setter<RobotSimu, Vector>
-	     (*this, &RobotSimu::setState, docstring));
+  {
+    using namespace dynamicgraph::command;
+    std::string docstring;
+    /* Command increment. */
+    docstring =
+      "\n"
+      "    Integrate dynamics for time step provided as input\n"
+      "\n"
+      "      take one floating point number as input\n"
+      "\n";
+    addCommand("increment",
+	       makeCommandVoid1( *this,&RobotSimu::increment,docstring));
+    /* Command setStateSize. */
+    docstring =
+      "\n"
+      "    Set size of state vector\n"
+      "\n";
+    addCommand("resize",
+	       new Setter<RobotSimu, unsigned int>
+	       (*this, &RobotSimu::setStateSize, docstring));
+    /* Command set. */
+    docstring =
+      "\n"
+      "    Set state vector value\n"
+      "\n";
+    addCommand("set",
+	       new Setter<RobotSimu, Vector>
+	       (*this, &RobotSimu::setState, docstring));
+  }
 }
 
 void RobotSimu::
