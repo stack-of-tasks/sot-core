@@ -31,6 +31,7 @@
 using namespace std;
 
 #include <dynamic-graph/factory.h>
+#include <dynamic-graph/command-bind.h>
 using namespace sot;
 using namespace dynamicgraph;
 
@@ -121,7 +122,7 @@ RobotSimu( const std::string& n )
    ,motorcontrolSOUT( "RobotSimu("+n+")::output(vector)::motorcontrol" )
    ,ZMPPreviousControllerSOUT( "RobotSimu("+n+")::output(vector)::zmppreviouscontroller" )
 {
-  /* --- FORCES --- */
+  /* --- SIGNALS --- */
   for( int i=0;i<4;++i ){ withForceSignals[i] = false; }
   forcesSOUT[0] =
     new Signal<ml::Vector, int>("OpenHRP::output(vector6)::forceRLEG");
@@ -137,11 +138,10 @@ RobotSimu( const std::string& n )
 		      <<previousControlSOUT <<pseudoTorqueSOUT
 		      << motorcontrolSOUT << ZMPPreviousControllerSOUT );
   state.fill(.0); stateSOUT.setConstant( state );
-  //
-  // Commands
-  //
+
+  /* --- Commands --- */
   std::string docstring;
-  // Increment
+  /* Command increment. */
   docstring =
     "\n"
     "    Integrate dynamics for time step provided as input\n"
@@ -149,16 +149,16 @@ RobotSimu( const std::string& n )
     "      take one floating point number as input\n"
     "\n";
   addCommand("increment",
-	     new command::Increment(*this, docstring));
-  // setStateSize
+	     ::dynamicgraph::command::makeCommandVoid1( *this,&RobotSimu::increment,docstring));
+  /* Command setStateSize. */
   docstring =
     "\n"
     "    Set size of state vector\n"
     "\n";
   addCommand("resize",
-	     new ::dynamicgraph::command::Setter<RobotSimu, unsigned>
+	     new ::dynamicgraph::command::Setter<RobotSimu, unsigned int>
 	     (*this, &RobotSimu::setStateSize, docstring));
-  // set
+  /* Command set. */
   docstring =
     "\n"
     "    Set state vector value\n"
@@ -190,7 +190,7 @@ setState( const ml::Vector& st )
 }
 
 void RobotSimu::
-increment( const double dt )
+increment( const double & dt )
 {
   sotDEBUG(25) << "Time : " << controlSIN.getTime()+1 << std::endl;
 
