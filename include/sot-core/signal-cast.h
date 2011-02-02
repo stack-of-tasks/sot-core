@@ -93,24 +93,24 @@ private:
 /* Standard definition macros: the three functions can be specified
  * in the macros. To define then in the cpp, just put ';' in the args.
  */
-#define SOT_SIGNAL_CAST_FULL_DEFINITION(TYPE,CAST,DISP,TRACE)            \
-template<>                                                               \
-class SignalCast<TYPE>												\
-{                                                                        \
-public:                                                                  \
-    SOT_CORE_EXPORT static TYPE cast( std::istringstream& iss )         CAST         \
-    SOT_CORE_EXPORT static void disp( const TYPE& t,std::ostream& os )  DISP         \
-    SOT_CORE_EXPORT static void trace( const TYPE& t,std::ostream& os ) TRACE        \
-public:            																\
-	static boost::any cast_( std::istringstream& stringValue ) {           		\
-		  return boost::any_cast<TYPE>(cast(stringValue));           			\
-	}            																\
-	static void disp_( const boost::any& t,std::ostream& os )  {       			\
-	  disp(boost::any_cast<TYPE>(t), os);         								\
-	}            																\
+#define SOT_SIGNAL_CAST_FULL_DEFINITION(TYPE,CAST,DISP,TRACE)                                   \
+template<>                                                                                      \
+class SignalCast<TYPE>									        \
+{                                                                                               \
+public:                                                                                         \
+    SOT_CORE_EXPORT static TYPE cast( std::istringstream& iss )         CAST                    \
+    SOT_CORE_EXPORT static void disp( const TYPE& t,std::ostream& os )  DISP                    \
+    SOT_CORE_EXPORT static void trace( const TYPE& t,std::ostream& os ) TRACE                   \
+public:            		                                                                \
+	static boost::any cast_( std::istringstream& stringValue ) {           	                \
+		  return boost::any_cast<TYPE>(cast(stringValue));           	                \
+	}                                                                                       \
+	static void disp_( const boost::any& t,std::ostream& os )  {       	                \
+	  disp(boost::any_cast<TYPE>(t), os);         				                \
+	}            										\
 	static void trace_( const boost::any& t,std::ostream& os ) {      			\
-		  trace(boost::any_cast<TYPE>(t),os);      							    \
-	}          																	\
+		  trace(boost::any_cast<TYPE>(t),os);      					\
+	}          										\
 }
 
 /* Standard definition macros: the functions <cast> and <disp> have
