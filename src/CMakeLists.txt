@@ -83,6 +83,7 @@ SET(plugins
 	tools/com-freezer
 	tools/clamp-workspace
 	tools/binary-int-to-uint
+	tools/periodic-call-entity
 
 	control/control-gr
 	control/control-pd
@@ -142,6 +143,7 @@ SET(${LIBRARY_NAME}_SOURCES
 	factory/pool.cpp
 
 	tools/utils-windows
+	tools/periodic-call
 )
 
 ADD_LIBRARY(${LIBRARY_NAME}
@@ -155,6 +157,7 @@ SET_TARGET_PROPERTIES(${LIBRARY_NAME}
 
 PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} jrl-mal)
 PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} dynamic-graph)
+PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} dynamic-graph-python)
 
 IF(UNIX)
   TARGET_LINK_LIBRARIES(${LIBRARY_NAME} dl pthread gfortran)

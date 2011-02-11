@@ -107,6 +107,8 @@ com-freezer.h
 gripper-control.h
 joint-limitator.h
 kalman.h
+periodic-call.h
+periodic-call-entity.h
 
 #these need the boost thread library - reminder
 mailbox.hxx

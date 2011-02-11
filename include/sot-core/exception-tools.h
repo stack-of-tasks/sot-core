@@ -47,6 +47,7 @@ class SOT_CORE_EXPORT ExceptionTools
 
       ,CORBA
       ,KALMAN_SIZE
+      ,PY_SHELL_PTR
     };
 
   static const std::string EXCEPTION_NAME;
