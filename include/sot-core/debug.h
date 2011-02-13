@@ -121,48 +121,48 @@ namespace sot
   << "(#" << __LINE__ << ") :"
 
 #  define sotDEBUG(level)						\
-  if ((level>VP_DEBUG_MODE) || (!sot::sotDEBUGFLOW.outputbuffer.good()) ) \
+  if ((level>VP_DEBUG_MODE) || (!::sot::sotDEBUGFLOW.outputbuffer.good()) ) \
     ;									\
   else									\
-    sot::sotDEBUGFLOW.outputbuffer << sotPREDEBUG
+    ::sot::sotDEBUGFLOW.outputbuffer << sotPREDEBUG
 
 #  define sotDEBUGMUTE(level)						\
-  if( (level>VP_DEBUG_MODE)||(!sot::sotDEBUGFLOW.outputbuffer.good()) )	\
+  if( (level>VP_DEBUG_MODE)||(!::sot::sotDEBUGFLOW.outputbuffer.good()) )	\
     ;									\
   else									\
-    sot::sotDEBUGFLOW.outputbuffer
+    ::sot::sotDEBUGFLOW.outputbuffer
 
 #  define sotERROR							\
-  if(!sot::sotDEBUGFLOW.outputbuffer.good())				\
+  if(!::sot::sotDEBUGFLOW.outputbuffer.good())				\
     ;									\
   else sot::sotERRORFLOW.outputbuffer << sotPREERROR
 
 #  define sotDEBUGF							\
-  if(!sot::sotDEBUGFLOW.outputbuffer.good())				\
+  if(!::sot::sotDEBUGFLOW.outputbuffer.good())				\
     ;									\
   else									\
-    sot::sotDEBUGFLOW.pre						\
-      (sot::sotDEBUGFLOW.tmpbuffer<<sotPREDEBUG,VP_DEBUG_MODE).trace
+    ::sot::sotDEBUGFLOW.pre						\
+      (::sot::sotDEBUGFLOW.tmpbuffer<<sotPREDEBUG,VP_DEBUG_MODE).trace
 
 #  define sotERRORF\
-  if(!sot::sotDEBUGFLOW.outputbuffer.good())				\
+  if(!::sot::sotDEBUGFLOW.outputbuffer.good())				\
     ;									\
   else									\
     sot::sotERRORFLOW.pre(sot::sotERRORFLOW.tmpbuffer<<sotPREERROR).trace
 
   // TEMPLATE
 #  define sotTDEBUG(level)						\
-  if((level>VP_TEMPLATE_DEBUG_MODE)||(!sot::sotDEBUGFLOW.outputbuffer.good())) \
+  if((level>VP_TEMPLATE_DEBUG_MODE)||(!::sot::sotDEBUGFLOW.outputbuffer.good())) \
     ;									\
   else									\
-    sot::sotDEBUGFLOW.outputbuffer << sotPREDEBUG
+    ::sot::sotDEBUGFLOW.outputbuffer << sotPREDEBUG
 
 #  define sotTDEBUGF							\
-  if(!sot::sotDEBUGFLOW.outputbuffer.good())				\
+  if(!::sot::sotDEBUGFLOW.outputbuffer.good())				\
     ;									\
   else									\
-    sot::sotDEBUGFLOW.pre						\
-      (sot::sotDEBUGFLOW.tmpbuffer<<sotPREDEBUG,VP_TEMPLATE_DEBUG_MODE).trace
+    ::sot::sotDEBUGFLOW.pre						\
+      (::sot::sotDEBUGFLOW.tmpbuffer<<sotPREDEBUG,VP_TEMPLATE_DEBUG_MODE).trace
 
 namespace sot
 {
