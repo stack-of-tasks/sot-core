@@ -13,6 +13,7 @@
 # received a copy of the GNU Lesser General Public License along with
 # sot-core. If not, see <http://www.gnu.org/licenses/>.
 
+<<<<<<< HEAD
 SET(${PROJECT_NAME}_HEADERS
 #debug
 contiifstream.h
@@ -101,8 +102,6 @@ com-freezer.h
 gripper-control.h
 joint-limitator.h
 kalman.h
-periodic-call.h
-periodic-call-entity.h
 
 #these need the boost thread library - reminder
 mailbox.hxx
@@ -130,13 +129,87 @@ INSTALL(FILES ${fullpath_${PROJECT_NAME}_HEADERS}
         PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE
 )
 
+=======
+>>>>>>> Move headers in include/sot/core and rename .h into .hh.
 SET(NEWHEADERS 
   sot/core/api.hh
   sot/core/device.hh
+  sot/core/robot-simu.hh
   sot/core/matrix-homogeneous.hh
   sot/core/matrix-rotation.hh
   sot/core/vector-utheta.hh
   sot/core/vector-rotation.hh
+  sot/core/contiifstream.hh
+  sot/core/debug.hh
+  sot/core/exception-abstract.hh
+  sot/core/exception-dynamic.hh
+  sot/core/exception-factory.hh
+  sot/core/exception-feature.hh
+  sot/core/exception-signal.hh
+  sot/core/exception-task.hh
+  sot/core/exception-tools.hh
+  sot/core/binary-op.hh
+  sot/core/derivator.hh
+  sot/core/fir-filter.hh
+  sot/core/integrator-abstract.hh
+  sot/core/integrator-euler.hh
+  sot/core/matrix-constant.hh
+  sot/core/unary-op.hh
+  sot/core/vector-constant.hh
+  sot/core/vector-to-rotation.hh
+  sot/core/additional-functions.hh
+  sot/core/factory.hh
+  sot/core/macros-signal.hh
+  sot/core/pool.hh
+  sot/core/matrix-force.hh
+  sot/core/matrix-twist.hh
+  sot/core/op-point-modifier.hh
+  sot/core/vector-quaternion.hh
+  sot/core/vector-roll-pitch-yaw.hh
+  sot/core/feature-point6d.hh
+  sot/core/feature-vector3.hh
+  sot/core/feature-abstract.hh
+  sot/core/feature-generic.hh
+  sot/core/feature-joint-limits.hh
+  sot/core/feature-1d.hh
+  sot/core/feature-point6d-relative.hh
+  sot/core/feature-visual-point.hh
+  sot/core/feature-task.hh
+  sot/core/feature-line-distance.hh
+  sot/core/task-abstract.hh
+  sot/core/task-unilateral.hh
+  sot/core/task-pd.hh
+  sot/core/task-conti.hh
+  sot/core/multi-bound.hh
+  sot/core/constraint.hh
+  sot/core/gain-adaptive.hh
+  sot/core/task.hh
+  sot/core/gain-hyperbolic.hh
+  sot/core/flags.hh
+  sot/core/sot-qr.hh
+  sot/core/memory-task-sot.hh
+  sot/core/sot-h.hh
+  sot/core/sot.hh
+  sot/core/rotation-simple.hh
+  sot/core/weighted-sot.hh
+  sot/core/solver-hierarchical-inequalities.hh
+  sot/core/reader.hh
+  sot/core/utils-windows.hh
+  sot/core/time-stamp.hh
+  sot/core/timer.hh
+  sot/core/neck-limitation.hh
+  sot/core/motion-period.hh
+  sot/core/binary-int-to-uint.hh
+  sot/core/clamp-workspace.hh
+  sot/core/com-freezer.hh
+  sot/core/gripper-control.hh
+  sot/core/joint-limitator.hh
+  sot/core/kalman.hh
+  sot/core/mailbox-vector.hh
+  sot/core/mailbox.hh
+  sot/core/mailbox.hxx
+  sot/core/periodic-call.hh
+  sot/core/periodic-call-entity.hh
   )
 INSTALL(FILES ${NEWHEADERS}
   DESTINATION include/sot/core

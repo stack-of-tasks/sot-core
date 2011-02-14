@@ -18,14 +18,14 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/binary-op.h>
+#include <sot/core/binary-op.hh>
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 #include <sot/core/matrix-homogeneous.hh>
-#include <sot-core/vector-roll-pitch-yaw.h>
+#include <sot/core/vector-roll-pitch-yaw.hh>
 #include <sot/core/matrix-rotation.hh>
-#include <sot-core/matrix-twist.h>
-#include <sot-core/debug.h>
+#include <sot/core/matrix-twist.hh>
+#include <sot/core/debug.hh>
 
 #include <deque>
 

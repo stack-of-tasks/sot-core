@@ -23,8 +23,8 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <sot-core/debug.h>
-#include <sot-core/factory.h>
+#include <sot/core/debug.hh>
+#include <sot/core/factory.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;

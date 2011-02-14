@@ -20,7 +20,7 @@
 
 /* SOT */
 
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 class ControlGR__INIT
 {
 public:
@@ -30,8 +30,8 @@ ControlGR__INIT ControlGR_initiator;
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-#include <sot-core/control-gr.h>
-#include <sot-core/binary-op.h>
+#include <sot/core/control-gr.hh>
+#include <sot/core/binary-op.hh>
 #include <dynamic-graph/factory.h>
 
 using namespace dynamicgraph;

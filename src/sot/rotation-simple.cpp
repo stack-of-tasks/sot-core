@@ -18,7 +18,7 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/rotation-simple.h>
+#include <sot/core/rotation-simple.hh>
 
 
 bool MATLAB::fullPrec = false;

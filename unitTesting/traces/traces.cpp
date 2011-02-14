@@ -20,7 +20,7 @@
 
 #include <iostream>
 
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 #include <dynamic-graph/signal-base.h>
 #include <dynamic-graph/signal.h>
 #include <dynamic-graph/signal-time-dependent.h>

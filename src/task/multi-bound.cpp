@@ -18,9 +18,9 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/multi-bound.h>
+#include <sot/core/multi-bound.hh>
 //#define VP_DEBUG_MODE 25
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 
 using namespace dynamicgraph::sot;
 

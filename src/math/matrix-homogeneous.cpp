@@ -20,7 +20,7 @@
 
 #include <sot/core/matrix-homogeneous.hh>
 #include <sot/core/matrix-rotation.hh>
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 
 using namespace dynamicgraph::sot;
 

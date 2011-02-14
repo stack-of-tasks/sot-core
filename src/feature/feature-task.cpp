@@ -23,17 +23,17 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <sot-core/debug.h>
-#include <sot-core/feature-task.h>
-#include <sot-core/exception-feature.h>
-#include <sot-core/task.h>
+#include <sot/core/debug.hh>
+#include <sot/core/feature-task.hh>
+#include <sot/core/exception-feature.hh>
+#include <sot/core/task.hh>
 #include <dynamic-graph/pool.h>
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureTask,"FeatureTask");
 
 /* --------------------------------------------------------------------- */

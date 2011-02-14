@@ -18,8 +18,8 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/matrix-constant.h>
-#include <sot-core/factory.h>
+#include <sot/core/matrix-constant.hh>
+#include <sot/core/factory.hh>
 
 #include "../src/matrix/matrix-constant-command.h"
 

@@ -19,14 +19,14 @@
  */
 
 #include <dynamic-graph/signal-caster.h>
-#include <sot-core/pool.h>
+#include <sot/core/pool.hh>
 #include <iomanip>
 
-#include <sot-core/feature-abstract.h>
+#include <sot/core/feature-abstract.hh>
 #include "sot/core/matrix-homogeneous.hh"
 #include "sot/core/matrix-rotation.hh"
-#include <sot-core/flags.h>
-#include <sot-core/multi-bound.h>
+#include <sot/core/flags.hh>
+#include <sot/core/multi-bound.hh>
 #include <dynamic-graph/signal-caster.h>
 #include <dynamic-graph/signal-cast-helper.h>
 

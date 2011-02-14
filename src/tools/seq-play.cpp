@@ -23,8 +23,8 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot-core/seq-play.h>
-#include <sot-core/debug.h>
+#include <sot/core/seq-play.hh>
+#include <sot/core/debug.hh>
 using namespace std;
 
 #include <fstream>

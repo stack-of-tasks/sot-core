@@ -19,12 +19,12 @@
  */
 
 /* SOT */
-#include <sot-core/control-pd.h>
+#include <sot/core/control-pd.hh>
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 #include <dynamic-graph/factory.h>
 
 using namespace dynamicgraph::sot;

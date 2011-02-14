@@ -24,7 +24,7 @@
 
 //#define VP_DEBUG
 //#define VP_DEBUG_MODE 45
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 
 /* SOT */
 #ifdef VP_DEBUG
@@ -35,11 +35,11 @@
  sotSOT__INIT sotSOT_initiator;
 #endif //#ifdef VP_DEBUG
 
-#include <sot-core/sot.h>
-#include <sot-core/pool.h>
-#include <sot-core/task.h>
-#include <sot-core/memory-task-sot.h>
-#include <sot-core/factory.h>
+#include <sot/core/sot.hh>
+#include <sot/core/pool.hh>
+#include <sot/core/task.hh>
+#include <sot/core/memory-task-sot.hh>
+#include <sot/core/factory.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;
@@ -369,7 +369,7 @@ static void computeJacobianActivated( Task* taskSpec,
 	#ifndef WIN32
 	#include <sys/time.h>
 	#else /*WIN32*/
-	#include <sot-core/utils-windows.h>
+	#include <sot/core/utils-windows.hh>
 	#endif /*WIN32*/
 #endif /*WITH_CHRONO*/
 

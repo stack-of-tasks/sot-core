@@ -18,7 +18,7 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/exception-tools.h>
+#include <sot/core/exception-tools.hh>
 #include <stdarg.h>
 #include <cstdio>
 

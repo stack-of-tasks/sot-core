@@ -23,10 +23,10 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <sot-core/feature-visual-point.h>
-#include <sot-core/exception-feature.h>
-#include <sot-core/debug.h>
-#include <sot-core/factory.h>
+#include <sot/core/feature-visual-point.hh>
+#include <sot/core/exception-feature.hh>
+#include <sot/core/debug.hh>
+#include <sot/core/factory.hh>
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;

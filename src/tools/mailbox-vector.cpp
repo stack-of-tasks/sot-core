@@ -20,10 +20,10 @@
 
 /* --- SOT PLUGIN  --- */
 #include <jrl/mal/boost.hh>
-#include <sot-core/debug.h>
-#include <sot-core/factory.h>
-#include <sot-core/mailbox.t.cpp>
-#include <sot-core/mailbox-vector.h>
+#include <sot/core/debug.hh>
+#include <sot/core/factory.hh>
+#include <sot/core/mailbox.hxx>
+#include <sot/core/mailbox-vector.hh>
 
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;

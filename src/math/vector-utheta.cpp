@@ -19,7 +19,7 @@
  */
 
 #include <sot/core/vector-utheta.hh>
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 using namespace std;
 using namespace dynamicgraph::sot;
 

@@ -18,11 +18,11 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/neck-limitation.h>
-#include <sot-core/debug.h>
-#include <sot-core/factory.h>
-#include <sot-core/exception-tools.h>
-#include <sot-core/sot.h>
+#include <sot/core/neck-limitation.hh>
+#include <sot/core/debug.hh>
+#include <sot/core/factory.hh>
+#include <sot/core/exception-tools.hh>
+#include <sot/core/sot.hh>
 #include <dynamic-graph/pool.h>
 
 using namespace dynamicgraph::sot;

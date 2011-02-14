@@ -30,9 +30,9 @@
 #include <dynamic-graph/command-getter.h>
 #include <dynamic-graph/command-bind.h>
 
-#include <sot-core/debug.h>
-#include <sot-core/feature-point6d.h>
-#include <sot-core/exception-feature.h>
+#include <sot/core/debug.hh>
+#include <sot/core/feature-point6d.hh>
+#include <sot/core/exception-feature.hh>
 
 #include <sot/core/matrix-homogeneous.hh>
 #include <sot/core/matrix-rotation.hh>
@@ -42,7 +42,7 @@ using namespace std;
 using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePoint6d,"FeaturePoint6d");
 
 /* --------------------------------------------------------------------- */

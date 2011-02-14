@@ -20,7 +20,7 @@
 
 #include <cmath>
 
-#include <sot-core/clamp-workspace.h>
+#include <sot/core/clamp-workspace.hh>
 
 using namespace std;
 

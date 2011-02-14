@@ -23,8 +23,8 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot-core/task-pd.h>
-#include <sot-core/debug.h>
+#include <sot/core/task-pd.hh>
+#include <sot/core/debug.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;
@@ -32,7 +32,7 @@ using namespace dynamicgraph;
 
 
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(TaskPD,"TaskPD");
 
@@ -111,7 +111,7 @@ computeTaskModif( VectorMultiBound& task,int time )
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
-#include <sot-core/pool.h>
+#include <sot/core/pool.hh>
 
 void TaskPD::
 commandLine( const std::string& cmdLine

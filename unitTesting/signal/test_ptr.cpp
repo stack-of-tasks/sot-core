@@ -21,13 +21,13 @@
 /* -------------------------------------------------------------------------- */
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 #include <dynamic-graph/all-signals.h>
 #include <iostream>
 
 #include <jrl/mal/boost.hh>
 #include <sot/core/vector-utheta.hh>
-#include <sot-core/exception-abstract.h>
+#include <sot/core/exception-abstract.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;

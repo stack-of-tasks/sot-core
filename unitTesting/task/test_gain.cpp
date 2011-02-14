@@ -23,7 +23,7 @@
 /* -------------------------------------------------------------------------- */
 
 #include <dynamic-graph/signal.h>
-#include <sot-core/gain-adaptive.h>
+#include <sot/core/gain-adaptive.hh>
 #include <iostream>
 using namespace std;
 using namespace dynamicgraph::sot;

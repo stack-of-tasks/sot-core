@@ -27,11 +27,11 @@
 #endif /*WIN32*/
 
 /* --- SOT --- */
-#include <sot-core/pool.h>
-#include <sot-core/debug.h>
+#include <sot/core/pool.hh>
+#include <sot/core/debug.hh>
 #include <dynamic-graph/entity.h>
-#include <sot-core/task-abstract.h>
-#include <sot-core/feature-abstract.h>
+#include <sot/core/task-abstract.hh>
+#include <sot/core/feature-abstract.hh>
 
 namespace dynamicgraph {
   namespace sot {

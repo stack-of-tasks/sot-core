@@ -18,7 +18,7 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 #include <fstream>
 #include <ios>
 

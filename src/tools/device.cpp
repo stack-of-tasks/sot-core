@@ -26,7 +26,7 @@
 
 /* SOT */
 #include "sot/core/device.hh"
-#include "sot-core/debug.h"
+#include "sot/core/debug.hh"
 using namespace std;
 
 #include <dynamic-graph/factory.h>

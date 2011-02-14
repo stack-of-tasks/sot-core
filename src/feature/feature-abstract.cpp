@@ -18,8 +18,8 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/feature-abstract.h>
-#include <sot-core/pool.h>
+#include <sot/core/feature-abstract.hh>
+#include <sot/core/pool.hh>
 
 using namespace dynamicgraph::sot;
 namespace dg = dynamicgraph;

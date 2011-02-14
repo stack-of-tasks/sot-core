@@ -18,11 +18,11 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/debug.h>
-#include <sot-core/factory.h>
-#include <sot-core/additional-functions.h>
+#include <sot/core/debug.hh>
+#include <sot/core/factory.hh>
+#include <sot/core/additional-functions.hh>
 #include <dynamic-graph/signal.h>
-#include <sot-core/flags.h>
+#include <sot/core/flags.hh>
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;

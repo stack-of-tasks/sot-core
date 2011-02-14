@@ -19,10 +19,10 @@
  */
 
 /* --- SOT --- */
-#include <sot-core/pool.h>
-#include <sot-core/binary-int-to-uint.h>
-#include <sot-core/exception-feature.h>
-#include <sot-core/debug.h>
+#include <sot/core/pool.hh>
+#include <sot/core/binary-int-to-uint.hh>
+#include <sot/core/exception-feature.hh>
+#include <sot/core/debug.hh>
 using namespace std;
 
 #include <dynamic-graph/factory.h>

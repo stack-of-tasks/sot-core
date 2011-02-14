@@ -18,8 +18,8 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/integrator-abstract.h>
-#include <sot-core/factory.h>
+#include <sot/core/integrator-abstract.hh>
+#include <sot/core/factory.hh>
 
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;

@@ -23,10 +23,10 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot-core/task-conti.h>
-#include <sot-core/debug.h>
+#include <sot/core/task-conti.hh>
+#include <sot/core/debug.hh>
 #include <jrl/mal/boostvector.hh>
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;

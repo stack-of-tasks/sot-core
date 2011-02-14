@@ -18,7 +18,7 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/exception-task.h>
+#include <sot/core/exception-task.hh>
 #include <stdarg.h>
 #include <cstdio>
 

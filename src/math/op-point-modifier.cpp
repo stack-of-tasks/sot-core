@@ -22,8 +22,8 @@
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/all-commands.h>
 
-#include <sot-core/op-point-modifier.h>
-#include <sot-core/matrix-twist.h>
+#include <sot/core/op-point-modifier.hh>
+#include <sot/core/matrix-twist.hh>
 
 
 using namespace std;

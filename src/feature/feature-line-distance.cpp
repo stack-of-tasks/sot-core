@@ -23,9 +23,9 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <sot-core/debug.h>
-#include <sot-core/feature-line-distance.h>
-#include <sot-core/exception-feature.h>
+#include <sot/core/debug.hh>
+#include <sot/core/feature-line-distance.hh>
+#include <sot/core/exception-feature.hh>
 
 #include <sot/core/matrix-homogeneous.hh>
 #include <sot/core/matrix-rotation.hh>
@@ -36,7 +36,7 @@ using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureLineDistance,"FeatureLineDistance");
 
 /* --------------------------------------------------------------------- */

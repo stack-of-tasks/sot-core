@@ -22,12 +22,12 @@
 #define WITH_CHRONO
 //#define VP_DEBUG
 //#define VP_DEBUG_MODE 45
-#include <sot-core/debug.h>
-#include <sot-core/sot-h.h>
-#include <sot-core/pool.h>
-#include <sot-core/task.h>
-#include <sot-core/task-unilateral.h>
-#include <sot-core/factory.h>
+#include <sot/core/debug.hh>
+#include <sot/core/sot-h.hh>
+#include <sot/core/pool.hh>
+#include <sot/core/task.hh>
+#include <sot/core/task-unilateral.hh>
+#include <sot/core/factory.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;
@@ -187,7 +187,7 @@ void buildTaskVectors( const VectorMultiBound& err,
 	#ifndef WIN32
 	#include <sys/time.h>
 	#else /*WIN32*/
-	#include <sot-core/utils-windows.h>
+	#include <sot/core/utils-windows.hh>
 	#endif /*WIN32*/
 #endif /*WITH_CHRONO*/
 

@@ -18,8 +18,8 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/com-freezer.h>
-#include <sot-core/debug.h>
+#include <sot/core/com-freezer.hh>
+#include <sot/core/debug.hh>
 #include <dynamic-graph/factory.h>
 
 

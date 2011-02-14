@@ -19,15 +19,15 @@
  */
 
 #define VP_DEBUG_MODE 45
-#include <sot-core/debug.h>
-#include <sot-core/solver-hierarchical-inequalities.h>
+#include <sot/core/debug.hh>
+#include <sot/core/solver-hierarchical-inequalities.hh>
 #include <fstream>
 
 
 #ifndef WIN32
 #  include <sys/time.h>
 #else /*WIN32*/
-#  include <sot-core/utils-windows.h>
+#  include <sot/core/utils-windows.hh>
 #endif /*WIN32*/
 //#define WITH_CHRONO
 

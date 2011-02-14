@@ -19,7 +19,7 @@
  */
 
 #include <iostream>
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 
 int main (int , char** )
 {

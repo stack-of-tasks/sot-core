@@ -18,7 +18,7 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/exception-signal.h>
+#include <sot/core/exception-signal.hh>
 #include <stdarg.h>
 #include <cstdio>
 

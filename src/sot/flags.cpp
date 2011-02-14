@@ -27,8 +27,8 @@
 #include <list>
 
 /*! Local Framework */
-#include <sot-core/flags.h>
-#include <sot-core/debug.h>
+#include <sot/core/flags.hh>
+#include <sot/core/debug.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;

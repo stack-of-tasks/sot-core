@@ -30,7 +30,7 @@ namespace ml= maal::boost;
 /* SOT */
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
-#include <sot-core/vector-roll-pitch-yaw.h>
+#include <sot/core/vector-roll-pitch-yaw.hh>
 #include "sot/core/api.hh"
 
 namespace dynamicgraph {

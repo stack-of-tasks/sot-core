@@ -18,8 +18,8 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/contiifstream.h>
-#include <sot-core/debug.h>
+#include <sot/core/contiifstream.hh>
+#include <sot/core/debug.hh>
 
 using namespace dynamicgraph::sot;
 

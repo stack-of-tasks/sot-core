@@ -28,9 +28,9 @@
 
 //#define VP_DEBUG
 //#define VP_DEBUG_MODE 45
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 
-#include <sot-core/solver-hierarchical-inequalities.h>
+#include <sot/core/solver-hierarchical-inequalities.hh>
 using namespace dynamicgraph::sot;
 
 #ifndef WIN32
@@ -39,7 +39,7 @@ using namespace dynamicgraph::sot;
 //isnan
 # include <float.h>
 # define isnan _isnan
-# include <sot-core/utils-windows.h>
+# include <sot/core/utils-windows.hh>
 #endif /*WIN32*/
 #define FORTRAN_ID( id ) id##_
 

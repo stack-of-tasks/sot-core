@@ -19,7 +19,7 @@
  */
 
 #include <iostream>
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 
 #include <jrl/mal/boost.hh>
 
@@ -32,8 +32,8 @@ namespace ml = maal::boost;
 
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/entity.h>
-#include <sot-core/feature-abstract.h>
-#include <sot-core/mailbox-vector.h>
+#include <sot/core/feature-abstract.hh>
+#include <sot/core/mailbox-vector.hh>
 #include <sstream>
 
 using namespace dynamicgraph;

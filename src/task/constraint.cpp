@@ -23,13 +23,13 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot-core/constraint.h>
-#include <sot-core/debug.h>
+#include <sot/core/constraint.hh>
+#include <sot/core/debug.hh>
 #include <dynamic-graph/pool.h>
 using namespace std;
 using namespace dynamicgraph::sot;
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 
 using namespace dynamicgraph;
 #include "../src/task/constraint-command.h"

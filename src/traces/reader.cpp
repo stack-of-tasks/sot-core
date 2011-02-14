@@ -23,8 +23,8 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot-core/reader.h>
-#include <sot-core/debug.h>
+#include <sot/core/reader.hh>
+#include <sot/core/debug.hh>
 
 #include <boost/bind.hpp>
 #include <sstream>

@@ -23,12 +23,12 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <sot-core/debug.h>
-#include <sot-core/feature-1d.h>
-#include <sot-core/exception-feature.h>
+#include <sot/core/debug.hh>
+#include <sot/core/feature-1d.hh>
+#include <sot/core/exception-feature.hh>
 using namespace std;
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 
 
 using namespace dynamicgraph::sot;

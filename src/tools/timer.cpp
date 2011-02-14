@@ -23,10 +23,10 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot-core/timer.h>
+#include <sot/core/timer.hh>
 #include <jrl/mal/boost.hh>
 #include <sot/core/matrix-homogeneous.hh>
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;

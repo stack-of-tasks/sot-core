@@ -18,11 +18,11 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/matrix-force.h>
+#include <sot/core/matrix-force.hh>
 #include <sot/core/matrix-homogeneous.hh>
 #include <sot/core/matrix-rotation.hh>
-#include <sot-core/matrix-twist.h>
-#include <sot-core/debug.h>
+#include <sot/core/matrix-twist.hh>
+#include <sot/core/debug.hh>
 
 using namespace dynamicgraph::sot;
 

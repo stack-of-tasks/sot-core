@@ -18,8 +18,8 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/vector-constant.h>
-#include <sot-core/factory.h>
+#include <sot/core/vector-constant.hh>
+#include <sot/core/factory.hh>
 
 #include "../src/matrix/vector-constant-command.h"
 

@@ -19,15 +19,15 @@
  */
 
 /* SOT */
-#include <sot-core/gain-hyperbolic.h>
+#include <sot/core/gain-hyperbolic.hh>
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#include <sot-core/factory.h>
-#include <sot-core/debug.h>
-#include <sot-core/exception-signal.h>
+#include <sot/core/factory.hh>
+#include <sot/core/debug.hh>
+#include <sot/core/exception-signal.hh>
 
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
@@ -123,7 +123,7 @@ display( std::ostream& os ) const
   os <<" ("<<coeff_a<<".exp(-"<<coeff_b<<"(x-" << coeff_d << "))+" <<coeff_c;
 }
 
-#include <sot-core/exception-task.h>
+#include <sot/core/exception-task.hh>
 void GainHyperbolic::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,

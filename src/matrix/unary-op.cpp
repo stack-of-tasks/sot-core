@@ -18,15 +18,15 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/unary-op.h>
+#include <sot/core/unary-op.hh>
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 
 #include <sot/core/matrix-homogeneous.hh>
-#include <sot-core/matrix-twist.h>
+#include <sot/core/matrix-twist.hh>
 #include <sot/core/vector-utheta.hh>
-#include <sot-core/vector-roll-pitch-yaw.h>
-#include <sot-core/vector-quaternion.h>
+#include <sot/core/vector-roll-pitch-yaw.hh>
+#include <sot/core/vector-quaternion.hh>
 
 
 using namespace dynamicgraph::sot;

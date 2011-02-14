@@ -22,19 +22,19 @@
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
-#include <sot-core/feature-abstract.h>
-#include <sot-core/debug.h>
+#include <sot/core/feature-abstract.hh>
+#include <sot/core/debug.hh>
 
 
 #include <iostream>
 using namespace std;
 
-#include <sot-core/sot.h>
+#include <sot/core/sot.hh>
 
 #ifndef WIN32
 #include <sys/time.h>
 #else /*WIN32*/
-#include <sot-core/utils-windows.h>
+#include <sot/core/utils-windows.hh>
 #endif /*WIN32*/
 
 #define sotCHRONO1 \
