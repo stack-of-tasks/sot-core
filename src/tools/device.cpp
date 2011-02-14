@@ -1,9 +1,8 @@
 /*
  * Copyright 2010,
- * François Bleibel,
- * Olivier Stasse,
+ * Florent Lamiraux
  *
- * CNRS/AIST
+ * CNRS
  *
  * This file is part of sot-core.
  * sot-core is free software: you can redistribute it and/or
@@ -26,7 +25,7 @@
 #include <jrl/mathtools/vector3.hh>
 
 /* SOT */
-#include <sot-core/robot-simu.h>
+#include <sot-core/device.h>
 #include <sot-core/debug.h>
 using namespace std;
 
@@ -36,7 +35,7 @@ using namespace sot;
 using namespace dynamicgraph;
 
 
-DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(RobotSimu,"RobotSimu");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Device,"Device");
 
 
 /* --------------------------------------------------------------------- */
@@ -98,28 +97,28 @@ static void integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
 
 }
 
-RobotSimu::
-~RobotSimu( )
+Device::
+~Device( )
 {
   for( unsigned int i=0; i<4; ++i ) {
     delete forcesSOUT[i];
   }
 }
 
-RobotSimu::
-RobotSimu( const std::string& n )
+Device::
+Device( const std::string& n )
   :Entity(n)
    ,state(6)
-   ,controlSIN( NULL,"RobotSimu("+n+")::input(double)::control" )
-  //,attitudeSIN(NULL,"RobotSimu::input(matrixRot)::attitudeIN")
-   ,attitudeSIN(NULL,"RobotSimu::input(vector3)::attitudeIN")
-   ,zmpSIN(NULL,"RobotSimu::input(vector3)::zmp")
-   ,stateSOUT( "RobotSimu("+n+")::output(vector)::state" )
-   ,attitudeSOUT( "RobotSimu("+n+")::output(matrixRot)::attitude" )
-   ,pseudoTorqueSOUT( "RobotSimu::output(vector)::ptorque" )
-   ,previousControlSOUT( "RobotSimu("+n+")::output(vector)::previousControl" )
-   ,motorcontrolSOUT( "RobotSimu("+n+")::output(vector)::motorcontrol" )
-   ,ZMPPreviousControllerSOUT( "RobotSimu("+n+")::output(vector)::zmppreviouscontroller" )
+   ,controlSIN( NULL,"Device("+n+")::input(double)::control" )
+  //,attitudeSIN(NULL,"Device::input(matrixRot)::attitudeIN")
+   ,attitudeSIN(NULL,"Device::input(vector3)::attitudeIN")
+   ,zmpSIN(NULL,"Device::input(vector3)::zmp")
+   ,stateSOUT( "Device("+n+")::output(vector)::state" )
+   ,attitudeSOUT( "Device("+n+")::output(matrixRot)::attitude" )
+   ,pseudoTorqueSOUT( "Device::output(vector)::ptorque" )
+   ,previousControlSOUT( "Device("+n+")::output(vector)::previousControl" )
+   ,motorcontrolSOUT( "Device("+n+")::output(vector)::motorcontrol" )
+   ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" )
 {
   /* --- SIGNALS --- */
   for( int i=0;i<4;++i ){ withForceSignals[i] = false; }
@@ -150,27 +149,27 @@ RobotSimu( const std::string& n )
       "      take one floating point number as input\n"
       "\n";
     addCommand("increment",
-	       makeCommandVoid1( *this,&RobotSimu::increment,docstring));
+	       makeCommandVoid1( *this,&Device::increment,docstring));
     /* Command setStateSize. */
     docstring =
       "\n"
       "    Set size of state vector\n"
       "\n";
     addCommand("resize",
-	       new Setter<RobotSimu, unsigned int>
-	       (*this, &RobotSimu::setStateSize, docstring));
+	       new Setter<Device, unsigned int>
+	       (*this, &Device::setStateSize, docstring));
     /* Command set. */
     docstring =
       "\n"
       "    Set state vector value\n"
       "\n";
     addCommand("set",
-	       new Setter<RobotSimu, Vector>
-	       (*this, &RobotSimu::setState, docstring));
+	       new Setter<Device, Vector>
+	       (*this, &Device::setState, docstring));
   }
 }
 
-void RobotSimu::
+void Device::
 setStateSize( const unsigned int& size )
 {
   state.resize(size); state.fill( .0 );
@@ -183,7 +182,7 @@ setStateSize( const unsigned int& size )
   ZMPPreviousControllerSOUT .setConstant( zmp );
 }
 
-void RobotSimu::
+void Device::
 setState( const ml::Vector& st )
 {
   state = st;
@@ -191,7 +190,7 @@ setState( const ml::Vector& st )
   motorcontrolSOUT .setConstant( state );
 }
 
-void RobotSimu::
+void Device::
 increment( const double & dt )
 {
   sotDEBUG(25) << "Time : " << controlSIN.getTime()+1 << std::endl;
@@ -233,91 +232,6 @@ increment( const double & dt )
 
 
 /* --- DISPLAY ------------------------------------------------------------ */
-/* --- DISPLAY ------------------------------------------------------------ */
-/* --- DISPLAY ------------------------------------------------------------ */
 
-void RobotSimu::display ( std::ostream& os ) const
+void Device::display ( std::ostream& os ) const
 {os <<name<<": "<<state<<endl; }
-
-
-/* --- PARAMS --------------------------------------------------------------- */
-/* --- PARAMS --------------------------------------------------------------- */
-/* --- PARAMS --------------------------------------------------------------- */
-#include <dynamic-graph/pool.h>
-
-void RobotSimu::
-commandLine( const std::string& cmdLine
-	     ,std::istringstream& cmdArgs
-	     ,std::ostream& os )
-{
-  if( cmdLine=="help" )
-    {
-      os << "RobotSimu: "<<endl
-	 << "  - resize <uint size>"<<endl
-	 << "  - set <vector>"<<endl
-	 << "  - inc [<dt>]"<<endl;
-	Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-  else if( cmdLine=="resize" )
-    {
-      unsigned int size; cmdArgs >> size;
-      setStateSize( size );
-    }
-  else if( cmdLine=="set" )
-    {
-      ml::Vector q; cmdArgs >> q;
-      setState( q );
-    }
-  else if( cmdLine == "pause" ) { os << "Not valid in simu" << endl; }
-  else if( cmdLine == "play" )  { os << "Not valid in simu" << endl; }
-  else if( cmdLine == "withForces" )
-  {
-    int index;
-    cmdArgs >> index;
-    if((index >= 0) && (index < 4))
-      {
-	std::string val;
-	cmdArgs >> val;
-	if ( ("1"==val)||("true"==val) )
-	  {
-	    withForceSignals[index] = true;
-	    ml::Vector forceNull(6); forceNull.fill(0);
-	    forcesSOUT[index]->setConstant(forceNull);
-	  } else withForceSignals[index] = false;
-      }
-  }
-  else if( cmdLine == "whichForces" )
-  {
-    os << "Force signals: " << endl;
-    for( unsigned int i=0;i<4;++i )
-      {
-	os << "\t- Force " << i << ": ";
-	if( withForceSignals[i] )
-	  { os << "Active";	  } else { os << "Inactive"; }
-	os << endl;
-      }
-  }
-  else if( (cmdLine == "withPreviousControl")||(cmdLine == "withPseudoTorque") )
-  {
-    // Just for compatibility.
-  }
-  else if( cmdLine=="inc" )
-    {
-	increment();
-
-    }
-  else if( cmdLine=="time" )
-    {
-      os << "control.time = " << controlSIN.getTime() << endl;
-    }
-  else if(( cmdLine=="periodicCall" )||( cmdLine=="periodicCallAfter" ))
-    {
-    }
-  else if( cmdLine=="periodicCallBefore" )
-    {
-    }
-  else
-    {
-      Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-}
