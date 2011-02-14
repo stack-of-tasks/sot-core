@@ -31,20 +31,7 @@ namespace ml= maal::boost;
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
 #include <sot-core/vector-roll-pitch-yaw.h>
-
-/* --------------------------------------------------------------------- */
-/* --- API ------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-#if defined(WIN32)
-#  if defined(robot_simu_EXPORTS)
-#    define SOTDEVICE_EXPORT __declspec(dllexport)
-#  else
-#    define SOTDEVICE_EXPORT __declspec(dllimport)
-#  endif
-#else
-#  define SOTDEVICE_EXPORT
-#endif
+#include "sot/core/api.hh"
 
 namespace dynamicgraph {
   namespace sot {
@@ -53,7 +40,7 @@ namespace dynamicgraph {
     /* --- CLASS ----------------------------------------------------------- */
     /* --------------------------------------------------------------------- */
 
-    class SOTDEVICE_EXPORT Device
+    class SOT_CORE_EXPORT Device
       :public Entity
     {
     public:
@@ -86,7 +73,7 @@ namespace dynamicgraph {
       
     public: /* --- DISPLAY --- */
       virtual void display(std::ostream& os) const;
-      SOTDEVICE_EXPORT friend std::ostream&
+      SOT_CORE_EXPORT friend std::ostream&
 	operator<<(std::ostream& os,const Device& r) {
 	r.display(os); return os;
       }
