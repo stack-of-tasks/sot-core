@@ -97,8 +97,8 @@ namespace dynamicgraph {
       dynamicgraph::Signal<ml::Vector,int> ZMPPreviousControllerSOUT;
 
     public: /* --- COMMANDS --- */
-      void commandLine(const std::string& cmdLine,std::istringstream& cmdArgs,
-		       std::ostream& os){}
+      void commandLine(const std::string&, std::istringstream&,
+		       std::ostream&){}
 
     };
   } // namespace sot

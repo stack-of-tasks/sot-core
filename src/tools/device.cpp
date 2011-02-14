@@ -31,12 +31,11 @@ using namespace std;
 
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/all-commands.h>
+
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
-
-DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Device, "Device");
-
+const std::string Device::CLASS_NAME = "Device";
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -139,24 +138,14 @@ Device( const std::string& n )
 
   /* --- Commands --- */
   {
-    using namespace dynamicgraph::command;
     std::string docstring;
-    /* Command increment. */
-    docstring =
-      "\n"
-      "    Integrate dynamics for time step provided as input\n"
-      "\n"
-      "      take one floating point number as input\n"
-      "\n";
-    addCommand("increment",
-	       makeCommandVoid1( *this,&Device::increment,docstring));
     /* Command setStateSize. */
     docstring =
       "\n"
       "    Set size of state vector\n"
       "\n";
     addCommand("resize",
-	       new Setter<Device, unsigned int>
+	       new command::Setter<Device, unsigned int>
 	       (*this, &Device::setStateSize, docstring));
     /* Command set. */
     docstring =
@@ -164,7 +153,7 @@ Device( const std::string& n )
       "    Set state vector value\n"
       "\n";
     addCommand("set",
-	       new Setter<Device, Vector>
+	       new command::Setter<Device, Vector>
 	       (*this, &Device::setState, docstring));
   }
 }
@@ -225,11 +214,7 @@ increment( const double & dt )
 
   ml::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
-
-
 }
-
-
 
 /* --- DISPLAY ------------------------------------------------------------ */
 

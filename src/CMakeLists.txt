@@ -73,7 +73,7 @@ SET(plugins
 	tools/timer
 	tools/seq-play
 	tools/sequencer
-	tools/device
+	tools/robot-simu
 	tools/motion-period
 	tools/neck-limitation
 	tools/mailbox-vector
@@ -144,6 +144,7 @@ SET(${LIBRARY_NAME}_SOURCES
 
 	tools/utils-windows
 	tools/periodic-call
+	tools/device
 )
 
 ADD_LIBRARY(${LIBRARY_NAME}
