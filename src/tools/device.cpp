@@ -107,7 +107,7 @@ Device::
 Device::
 Device( const std::string& n )
   :Entity(n)
-   ,state(6)
+   ,state_(6)
    ,controlSIN( NULL,"Device("+n+")::input(double)::control" )
   //,attitudeSIN(NULL,"Device::input(matrixRot)::attitudeIN")
    ,attitudeSIN(NULL,"Device::input(vector3)::attitudeIN")
@@ -134,7 +134,7 @@ Device( const std::string& n )
 		      <<*forcesSOUT[0]<<*forcesSOUT[1]<<*forcesSOUT[2]<<*forcesSOUT[3]
 		      <<previousControlSOUT <<pseudoTorqueSOUT
 		      << motorcontrolSOUT << ZMPPreviousControllerSOUT );
-  state.fill(.0); stateSOUT.setConstant( state );
+  state_.fill(.0); stateSOUT.setConstant( state_ );
 
   /* --- Commands --- */
   {
@@ -161,11 +161,11 @@ Device( const std::string& n )
 void Device::
 setStateSize( const unsigned int& size )
 {
-  state.resize(size); state.fill( .0 );
-  stateSOUT .setConstant( state );
-  previousControlSOUT.setConstant( state );
-  pseudoTorqueSOUT.setConstant( state );
-  motorcontrolSOUT .setConstant( state );
+  state_.resize(size); state_.fill( .0 );
+  stateSOUT .setConstant( state_ );
+  previousControlSOUT.setConstant( state_ );
+  pseudoTorqueSOUT.setConstant( state_ );
+  motorcontrolSOUT .setConstant( state_ );
 
   ml::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
@@ -174,9 +174,9 @@ setStateSize( const unsigned int& size )
 void Device::
 setState( const ml::Vector& st )
 {
-  state = st;
-  stateSOUT .setConstant( state );
-  motorcontrolSOUT .setConstant( state );
+  state_ = st;
+  stateSOUT .setConstant( state_ );
+  motorcontrolSOUT .setConstant( state_ );
 }
 
 void Device::
@@ -184,25 +184,25 @@ increment( const double & dt )
 {
   sotDEBUG(25) << "Time : " << controlSIN.getTime()+1 << std::endl;
 
-   stateSOUT .setConstant( state );
+   stateSOUT .setConstant( state_ );
   const ml::Vector control = controlSIN( controlSIN.getTime()+1 );
 
   sotDEBUG(25) << "Cl" <<controlSIN.getTime()<<" = "
 	       << control*dt << ": " << control << endl;
 
-  sotDEBUG(25) << "St"<<state.size() << controlSIN.getTime() << ": " << state << endl;
+  sotDEBUG(25) << "St"<<state_.size() << controlSIN.getTime() << ": " << state_ << endl;
   // If control size is state size - 6, integrate joint angles,
   // if control and state are of same size, integrate 6 first degrees of
   // freedom as a translation and roll pitch yaw.
   unsigned int offset = 6;
-  if (control.size() == state.size()) {
+  if (control.size() == state_.size()) {
     offset = 0;
-    integrateRollPitchYaw(state, control, dt);
+    integrateRollPitchYaw(state_, control, dt);
   }
-  for( unsigned int i=6;i<state.size();++i )
-    { state(i) += (control(i-offset)*dt); }
+  for( unsigned int i=6;i<state_.size();++i )
+    { state_(i) += (control(i-offset)*dt); }
 
-  sotDEBUG(25) << "St"<<state.size() << controlSIN.getTime() << ": " << state << endl;
+  sotDEBUG(25) << "St"<<state_.size() << controlSIN.getTime() << ": " << state_ << endl;
 
 
    ml::Vector forceNull(6); forceNull.fill(0);
@@ -210,7 +210,7 @@ increment( const double & dt )
      if(  withForceSignals[i] ) forcesSOUT[i]->setConstant(forceNull);
    }
 
-  motorcontrolSOUT .setConstant( state );
+  motorcontrolSOUT .setConstant( state_ );
 
   ml::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
@@ -219,4 +219,4 @@ increment( const double & dt )
 /* --- DISPLAY ------------------------------------------------------------ */
 
 void Device::display ( std::ostream& os ) const
-{os <<name<<": "<<state<<endl; }
+{os <<name<<": "<<state_<<endl; }

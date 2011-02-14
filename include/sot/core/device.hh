@@ -58,7 +58,7 @@ namespace dynamicgraph {
       };
       
     protected:
-      ml::Vector state;
+      ml::Vector state_;
       bool withForceSignals[4];
     public:
       
