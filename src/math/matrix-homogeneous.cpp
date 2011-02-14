@@ -18,11 +18,11 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/matrix-homogeneous.h>
-#include <sot-core/matrix-rotation.h>
+#include <sot/core/matrix-homogeneous.hh>
+#include <sot/core/matrix-rotation.hh>
 #include <sot-core/debug.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 
 MatrixHomogeneous& MatrixHomogeneous::

@@ -26,7 +26,7 @@
 #include <sot-core/gain-adaptive.h>
 #include <iostream>
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 namespace ml = maal::boost;

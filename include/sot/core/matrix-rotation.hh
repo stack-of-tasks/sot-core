@@ -24,30 +24,31 @@
 
 /* --- Matrix --- */
 
-#include <sot-core/sot-core-api.h>
+#include "sot/core/api.hh"
 #include <jrl/mal/boost.hh>
 namespace ml = maal::boost;
 
-namespace sot {
-class VectorUTheta;
-
-/* --------------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-class SOT_CORE_EXPORT MatrixRotation
-: public ml::Matrix
-{
-
- public: 
-
-  MatrixRotation( void ) : ml::Matrix(3,3) { setIdentity(); }
-  ~MatrixRotation( void ) { }
-
-  void fromVector( VectorUTheta& );
-  MatrixRotation& operator= ( VectorUTheta&th ) { fromVector(th); return *this; } 
-};
+namespace dynamicgraph {
+  namespace sot {
+    class VectorUTheta;
     
-} // namespace sot
+    /* --------------------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
+    class SOT_CORE_EXPORT MatrixRotation
+      : public ml::Matrix
+    {
+      
+    public: 
+      
+      MatrixRotation( void ) : ml::Matrix(3,3) { setIdentity(); }
+      ~MatrixRotation( void ) { }
+      
+      void fromVector( VectorUTheta& );
+      MatrixRotation& operator= ( VectorUTheta&th ) { fromVector(th); return *this; } 
+    };
+  } // namespace sot
+} // namespace dynamicgraph
 #endif /* #ifndef __SOT_MATRIX_ROTATION_H__ */
 
 

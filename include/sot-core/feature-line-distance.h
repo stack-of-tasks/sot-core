@@ -28,7 +28,7 @@
 /* SOT */
 #include <sot-core/feature-abstract.h>
 #include <sot-core/exception-task.h>
-#include <sot-core/matrix-homogeneous.h>
+#include <sot/core/matrix-homogeneous.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -48,7 +48,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 /*!
@@ -100,7 +100,7 @@ class SOTFEATURELINEDISTANCE_EXPORT FeatureLineDistance
 } ;
 
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_FEATURE_LINEDISTANCE_HH__
 

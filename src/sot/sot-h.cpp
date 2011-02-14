@@ -30,7 +30,7 @@
 #include <sot-core/factory.h>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 #ifdef VP_DEBUG

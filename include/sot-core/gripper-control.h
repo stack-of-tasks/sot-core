@@ -55,7 +55,7 @@ namespace ml = maal::boost;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 namespace dg = dynamicgraph;
 
@@ -148,7 +148,7 @@ class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
 };
 
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 #endif // #ifndef __SOT_SOTGRIPPERCONTROL_H__

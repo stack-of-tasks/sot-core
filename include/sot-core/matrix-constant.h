@@ -25,48 +25,44 @@
 #include <jrl/mal/boost.hh>
 namespace ml = maal::boost;
 
-  namespace command {
-    namespace matrixConstant {
-      class Resize;
-    }
-  }
-
 /* --------------------------------------------------------------------- */
 /* --- MATRIX ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
-namespace dg = dynamicgraph;
+namespace dynamicgraph {
+  namespace sot {
+    namespace command {
+      namespace matrixConstant {
+	class Resize;
+      }
+    }
 
-class MatrixConstant
-: public dg::Entity
-{
-  friend class command::matrixConstant::Resize;
- public: 
-  static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
-  int rows,cols;
-  double color;
+    class MatrixConstant
+      : public Entity
+    {
+      friend class command::matrixConstant::Resize;
+    public: 
+      static const std::string CLASS_NAME;
+      virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
-  void setValue(const ml::Matrix& inValue);
+      int rows,cols;
+      double color;
 
-public:
-  MatrixConstant( const std::string& name );
+      void setValue(const ml::Matrix& inValue);
 
-  virtual ~MatrixConstant( void ){}
+    public:
+      MatrixConstant( const std::string& name );
 
-  dg::SignalTimeDependent<ml::Matrix,int> SOUT;
+      virtual ~MatrixConstant( void ){}
 
-  virtual void commandLine( const std::string& cmdLine,
-			    std::istringstream& cmdArgs, 
-			    std::ostream& os );
+      SignalTimeDependent<ml::Matrix,int> SOUT;
 
-};
+      virtual void commandLine( const std::string& cmdLine,
+				std::istringstream& cmdArgs, 
+				std::ostream& os );
+
+    };
     
-} // namespace sot
-
-
-
-
-
+  } // namespace sot
+} // namespace dynamicgraph

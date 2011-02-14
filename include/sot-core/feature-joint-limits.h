@@ -47,7 +47,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 /*!
@@ -107,7 +107,7 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
 
 } ;
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_FEATURE_JOINTLIMITS_HH__
 

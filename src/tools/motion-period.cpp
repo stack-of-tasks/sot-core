@@ -31,7 +31,7 @@
 #include <jrl/mal/matrixabstractlayer.hh>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 

@@ -21,7 +21,7 @@
 #include <sot-core/feature-abstract.h>
 #include <sot-core/pool.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 namespace dg = dynamicgraph;
 
 const std::string 

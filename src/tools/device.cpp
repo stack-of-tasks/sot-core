@@ -1,6 +1,6 @@
 /*
  * Copyright 2010,
- * Florent Lamiraux
+ * Nicolas Mansard, Olivier Stasse, François Bleibel, Florent Lamiraux
  *
  * CNRS
  *
@@ -25,17 +25,17 @@
 #include <jrl/mathtools/vector3.hh>
 
 /* SOT */
-#include <sot-core/device.h>
-#include <sot-core/debug.h>
+#include "sot/core/device.hh"
+#include "sot-core/debug.h"
 using namespace std;
 
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/all-commands.h>
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 
-DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Device,"Device");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Device, "Device");
 
 
 /* --------------------------------------------------------------------- */

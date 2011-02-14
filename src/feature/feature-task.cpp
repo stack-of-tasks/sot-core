@@ -29,7 +29,7 @@
 #include <sot-core/task.h>
 #include <dynamic-graph/pool.h>
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 

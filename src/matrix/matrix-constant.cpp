@@ -24,7 +24,7 @@
 #include "../src/matrix/matrix-constant-command.h"
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MatrixConstant,"MatrixConstant");
@@ -39,7 +39,7 @@ MatrixConstant( const std::string& name )
   ,rows(0),cols(0),color(0.)
   ,SOUT( "sotMatrixConstant("+name+")::output(matrix)::out" )
 {
-  SOUT.setDependencyType( dg::TimeDependency<int>::BOOL_DEPENDENT );
+  SOUT.setDependencyType( TimeDependency<int>::BOOL_DEPENDENT );
   signalRegistration( SOUT );
   //
   // Commands

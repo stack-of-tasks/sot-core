@@ -26,7 +26,7 @@
 #include <sot-core/debug.h>
 class sotSOTQr__INIT
 {
-public:sotSOTQr__INIT( void ) { sot::DebugTrace::openFile(); }
+public:sotSOTQr__INIT( void ) { dynamicgraph::sot::DebugTrace::openFile(); }
 };
 sotSOTQr__INIT sotSOTQr_initiator;
 
@@ -40,7 +40,7 @@ sotSOTQr__INIT sotSOTQr_initiator;
 
 #define FORTRAN_ID( id ) id##_
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 /* --------------------------------------------------------------------- */

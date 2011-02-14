@@ -18,6 +18,9 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef DYNAMICGRAPH_SOT_VECTOR_CONSTANT_H
+#define DYNAMICGRAPH_SOT_VECTOR_CONSTANT_H
+
 #include <dynamic-graph/entity.h>
 
 #include <dynamic-graph/all-signals.h>
@@ -29,44 +32,42 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-namespace sot{
-namespace dg = dynamicgraph;
+namespace dynamicgraph {
+  namespace sot {
 
-  namespace command {
-    namespace vectorConstant {
-      class Resize;
+    namespace command {
+      namespace vectorConstant {
+	class Resize;
+      }
     }
-  }
 
-class VectorConstant
-: public dg::Entity
-{
-  friend class command::vectorConstant::Resize;
-  static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+    class VectorConstant
+      : public Entity
+    {
+      friend class command::vectorConstant::Resize;
+      static const std::string CLASS_NAME;
+      virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
-  int rows;
-  double color;
+      int rows;
+      double color;
 
-public:
-  VectorConstant( const std::string& name );
+    public:
+      VectorConstant( const std::string& name );
 
-  virtual ~VectorConstant( void ){}
+      virtual ~VectorConstant( void ){}
 
-  dg::SignalTimeDependent<ml::Vector,int> SOUT;
+      SignalTimeDependent<ml::Vector,int> SOUT;
 
-  /// \brief Set value of vector (and therefore of output signal)
-  void setValue(const ml::Vector& inValue);
+      /// \brief Set value of vector (and therefore of output signal)
+      void setValue(const ml::Vector& inValue);
 
-  virtual void commandLine( const std::string& cmdLine,
-			    std::istringstream& cmdArgs,
-			    std::ostream& os );
+      virtual void commandLine( const std::string& cmdLine,
+				std::istringstream& cmdArgs,
+				std::ostream& os );
 
-};
+    };
 
-} // namespace sot
+  } // namespace sot
+} // namespace dynamicgraph
 
-
-
-
-
+#endif //DYNAMICGRAPH_SOT_VECTOR_CONSTANT_H

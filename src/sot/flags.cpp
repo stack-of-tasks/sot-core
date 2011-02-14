@@ -31,7 +31,7 @@
 #include <sot-core/debug.h>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -89,7 +89,7 @@ operator[] (const unsigned int& i) const
   return res;
 }
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 char operator>> (const Flags& f,const int& i)
 {
   const div_t q = div(i,8); 
@@ -99,7 +99,7 @@ char operator>> (const Flags& f,const int& i)
   
   return res;
 }
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 bool Flags::
 operator() (const int& i) const
@@ -172,7 +172,7 @@ unset( const unsigned int & idx )
 }
 
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 /* --------------------------------------------------------------------- */
 Flags Flags::
@@ -381,7 +381,7 @@ const Flags FLAG_LINE_6( (char)0x20 );
 const Flags FLAG_LINE_7( (char)0x40 );
 const Flags FLAG_LINE_8( (char)0x80 );
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 /* --------------------------------------------------------------------- */
 

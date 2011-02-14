@@ -25,7 +25,7 @@
 #include <sot-core/mailbox.t.cpp>
 #include <sot-core/mailbox-vector.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 // Explicit template specialization

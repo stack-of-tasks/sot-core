@@ -20,8 +20,9 @@
 
 #include <sot-core/vector-quaternion.h>
 #include <sot-core/debug.h>
+
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 static const double ANGLE_MINIMUM = 0.0001;
 static const double SINC_MINIMUM = 1e-8;
@@ -123,7 +124,7 @@ fromMatrix( const MatrixRotation& rot )
 }
 
 
-#include <sot-core/vector-utheta.h>
+#include <sot/core/vector-utheta.hh>
 
 VectorRotation& VectorQuaternion::
 fromVector( const VectorUTheta& ut )

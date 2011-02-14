@@ -24,7 +24,7 @@
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/all-signals.h>
-#include <sot-core/matrix-rotation.h>
+#include <sot/core/matrix-rotation.hh>
 
 /* Matrix */
 #include <jrl/mal/boost.hh>
@@ -36,7 +36,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 class VectorToRotation
@@ -74,7 +74,7 @@ public:
 
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

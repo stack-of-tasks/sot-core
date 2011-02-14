@@ -33,13 +33,13 @@
 
 
 #include <sot-core/rotation-simple.h>
-#include <sot-core/sot-core-api.h>
+#include "sot/core/api.hh"
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 class SOT_CORE_EXPORT ConstraintMem
 {
@@ -281,7 +281,7 @@ public:
 };
 
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

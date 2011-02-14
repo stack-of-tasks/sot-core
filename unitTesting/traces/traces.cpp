@@ -30,7 +30,7 @@ namespace ml = maal::boost;
 
 using namespace std;
 using namespace dynamicgraph;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 double& f( double& res,const int& /*t*/ ) { cout << "SIGM!"<<endl; return res; }
 

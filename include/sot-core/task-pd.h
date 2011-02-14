@@ -47,7 +47,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 class SOTTASKPD_EXPORT TaskPD
@@ -82,7 +82,7 @@ class SOTTASKPD_EXPORT TaskPD
 
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

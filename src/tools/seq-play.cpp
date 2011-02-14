@@ -32,7 +32,7 @@ using namespace std;
 
 #include <dynamic-graph/factory.h>
 using namespace dynamicgraph;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SeqPlay,"SeqPlay");
 

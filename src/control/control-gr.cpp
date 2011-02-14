@@ -23,7 +23,8 @@
 #include <sot-core/debug.h>
 class ControlGR__INIT
 {
-public:ControlGR__INIT( void ) { sot::DebugTrace::openFile(); }
+public:
+  ControlGR__INIT( void ) { dynamicgraph::sot::DebugTrace::openFile(); }
 };
 ControlGR__INIT ControlGR_initiator;
 /* --------------------------------------------------------------------- */
@@ -34,7 +35,7 @@ ControlGR__INIT ControlGR_initiator;
 #include <dynamic-graph/factory.h>
 
 using namespace dynamicgraph;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(ControlGR,"ControlGR");
 

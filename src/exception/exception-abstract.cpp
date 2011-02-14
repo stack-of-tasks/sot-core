@@ -22,7 +22,7 @@
 #include <sot-core/debug.h>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 /* ------------------------------------------------------------------------- */
 /* --- CONSTRUCTORS -------------------------------------------------------- */
@@ -104,23 +104,23 @@ Param( const int& _line, const char * _function, const char * _file )
 /* ------------------------------------------------------------------------- */
 
 
-namespace sot {
-ostream &
-operator << (ostream & os,
-	     const ExceptionAbstract & error)
-{
-    os << error.getExceptionName()<<"Error [#" << error.code << "]:  " << error.message << endl;
-
+namespace dynamicgraph {
+  namespace sot {
+    ostream &
+    operator << (ostream & os,
+		 const ExceptionAbstract & error) {
+      os << error.getExceptionName()<<"Error [#" << error.code << "]:  "
+	 << error.message << endl;
+      
 #ifdef SOT_EXCEPTION_PASSING_PARAM 
-    if( error.p.set )
+      if( error.p.set )
 	os << "Thrown from "<<error.p.file << ": "<<error.p.function
 	   <<" (#"<<error.p.line << ")"<<endl;
 #endif //#ifdef SOT_EXCEPTION_PASSING_PARAM 
-
-    return os;
-}
-
-}
+      return os;
+    }
+  } // namespace sot
+} // namespace dynamicgraph
 
 
 
@@ -130,6 +130,6 @@ operator << (ostream & os,
 
 /*
  * Local variables:
- * c-basic-offset: 4
+ * c-basic-offset: 2
  * End:
  */

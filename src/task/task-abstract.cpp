@@ -26,7 +26,7 @@
 #include <sot-core/task-abstract.h>
 #include <sot-core/pool.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 

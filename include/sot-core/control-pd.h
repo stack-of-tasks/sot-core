@@ -49,63 +49,64 @@ namespace ml = maal::boost;
 #  define ControlPD_EXPORT
 #endif
 
-namespace sot{
-namespace dg = dynamicgraph;
+namespace dynamicgraph {
+  namespace sot {
 
-/* --------------------------------------------------------------------- */
-/* --- CLASS ----------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
+  /* --------------------------------------------------------------------- */
+  /* --- CLASS ----------------------------------------------------------- */
+  /* --------------------------------------------------------------------- */
 
-class ControlPD_EXPORT ControlPD
-: public dg::Entity
-{
+  class ControlPD_EXPORT ControlPD
+    : public Entity
+    {
 
- public: /* --- CONSTRUCTOR ---- */
+    public: /* --- CONSTRUCTOR ---- */
 
-  ControlPD( const std::string & name );
+      ControlPD( const std::string & name );
 
- public: /* --- INIT --- */
+    public: /* --- INIT --- */
 
-  void init( const double& step);
+      void init( const double& step);
 
- public: /* --- CONSTANTS --- */
+    public: /* --- CONSTANTS --- */
 
-  /* Default values. */
-  static const double TIME_STEP_DEFAULT;   // = 0.001
+      /* Default values. */
+      static const double TIME_STEP_DEFAULT;   // = 0.001
 
- public: /* --- ENTITY INHERITANCE --- */
-  static const std::string CLASS_NAME;
-  virtual void display( std::ostream& os ) const; 
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+    public: /* --- ENTITY INHERITANCE --- */
+      static const std::string CLASS_NAME;
+      virtual void display( std::ostream& os ) const; 
+      virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
 
- protected: 
+    protected: 
   
-  /* Parameters of the torque-control function: 
-   * tau = kp * (qd-q) + kd* (dqd-dq) */
-  double TimeStep;
-  double _dimension;
+      /* Parameters of the torque-control function: 
+       * tau = kp * (qd-q) + kd* (dqd-dq) */
+      double TimeStep;
+      double _dimension;
 
- public:  /* --- SIGNALS --- */
+    public:  /* --- SIGNALS --- */
 
-  dg::SignalPtr<ml::Vector,int> KpSIN;
-  dg::SignalPtr<ml::Vector,int> KdSIN;
-  dg::SignalPtr<ml::Vector,int> positionSIN;
-  dg::SignalPtr<ml::Vector,int> desiredpositionSIN;
-  dg::SignalPtr<ml::Vector,int> velocitySIN;
-  dg::SignalPtr<ml::Vector,int> desiredvelocitySIN;
-  dg::SignalTimeDependent<ml::Vector,int> controlSOUT;
+      SignalPtr<ml::Vector,int> KpSIN;
+      SignalPtr<ml::Vector,int> KdSIN;
+      SignalPtr<ml::Vector,int> positionSIN;
+      SignalPtr<ml::Vector,int> desiredpositionSIN;
+      SignalPtr<ml::Vector,int> velocitySIN;
+      SignalPtr<ml::Vector,int> desiredvelocitySIN;
+      SignalTimeDependent<ml::Vector,int> controlSOUT;
 
- protected:
+    protected:
 
-  double& setsize(int dimension);
-  ml::Vector& computeControl( ml::Vector& tau,int t );
+      double& setsize(int dimension);
+      ml::Vector& computeControl( ml::Vector& tau,int t );
 
-};
+    };
 
 
 
 } // namespace sot
+} // namespace dynamicgraph
 
 
 

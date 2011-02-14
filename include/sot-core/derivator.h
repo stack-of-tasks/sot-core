@@ -39,7 +39,7 @@ namespace ml = maal::boost;
 /* STD */
 #include <string>
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 /* --------------------------------------------------------------------- */
@@ -108,7 +108,7 @@ class Derivator
 
 };
 
-} // using namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

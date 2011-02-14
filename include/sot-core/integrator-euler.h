@@ -32,7 +32,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 /*!
@@ -129,7 +129,7 @@ public:
   }
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

@@ -24,7 +24,7 @@
 #include <dynamic-graph/signal.h>
 #include <sot-core/flags.h>
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 /* \brief Constructor. At creation, overloads (deregisters-then registers

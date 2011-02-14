@@ -31,7 +31,7 @@
 #include <sot-core/exception-feature.h>
 #include <sot-core/debug.h>
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dg;
 
 #ifdef WIN32

@@ -21,7 +21,7 @@
 #include <sot-core/contiifstream.h>
 #include <sot-core/debug.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 Contiifstream::
 Contiifstream( const std::string& n )

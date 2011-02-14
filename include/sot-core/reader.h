@@ -62,10 +62,13 @@ namespace ml = maal::boost;
 /* --- TRACER ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace dg = dynamicgraph;
+using dynamicgraph::Entity;
+using dynamicgraph::SignalPtr;
+using dynamicgraph::SignalTimeDependent;
+using dynamicgraph::sot::Flags;
 
 class SOTREADER_EXPORT sotReader
-: public dg::Entity
+: public Entity
 {
  public: 
   static const std::string CLASS_NAME;
@@ -73,9 +76,9 @@ class SOTREADER_EXPORT sotReader
 
  public: 
 
-  dg::SignalPtr< sot::Flags,int > selectionSIN;
-  dg::SignalTimeDependent<ml::Vector,int> vectorSOUT;
-  dg::SignalTimeDependent<ml::Matrix,int> matrixSOUT;
+  SignalPtr< Flags,int > selectionSIN;
+  SignalTimeDependent<ml::Vector,int> vectorSOUT;
+  SignalTimeDependent<ml::Matrix,int> matrixSOUT;
 
  public:
   sotReader( const std::string n );

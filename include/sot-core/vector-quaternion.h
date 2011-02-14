@@ -22,33 +22,35 @@
 #define __SOT_VECTOR_QUATERNION_H__
 
 /* --- SOT --- */
-#include <sot-core/vector-rotation.h>
-#include <sot-core/sot-core-api.h>
+#include "sot/core/vector-rotation.hh"
+#include "sot/core/api.hh"
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-namespace sot {
+namespace dynamicgraph {
+  namespace sot {
+    
+    class SOT_CORE_EXPORT VectorQuaternion
+      : public VectorRotation
+    {
+    public:
+      
+    VectorQuaternion( void ) : VectorRotation() { ml::Vector::resize(4); }
+      virtual ~VectorQuaternion( void ) { }
+      
+      virtual VectorRotation& fromMatrix( const MatrixRotation& rot );
+      virtual MatrixRotation& toMatrix( MatrixRotation& rot ) const;
+      
+      VectorRotation& fromVector( const VectorUTheta& ut );
+      
+      VectorQuaternion& conjugate(VectorQuaternion& res) const;
+      VectorQuaternion& multiply(const VectorQuaternion& q2, VectorQuaternion& res) const;
+      
+    };
 
-class SOT_CORE_EXPORT VectorQuaternion
-: public VectorRotation
-{
- public:
-
-  VectorQuaternion( void ) : VectorRotation() { ml::Vector::resize(4); }
-  virtual ~VectorQuaternion( void ) { }
-
-  virtual VectorRotation& fromMatrix( const MatrixRotation& rot );
-  virtual MatrixRotation& toMatrix( MatrixRotation& rot ) const;
-
-  VectorRotation& fromVector( const VectorUTheta& ut );
-
-  VectorQuaternion& conjugate(VectorQuaternion& res) const;
-  VectorQuaternion& multiply(const VectorQuaternion& q2, VectorQuaternion& res) const;
-
-};
-
-}
+  } // namespace sot
+} // namespace dynamicgraph
 
 
 #endif /* #ifndef __SOT_VECTOR_QUATERNION_H__ */

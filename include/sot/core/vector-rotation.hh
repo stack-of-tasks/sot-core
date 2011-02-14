@@ -26,14 +26,15 @@
 namespace ml = maal::boost;
 
 /* --- SOT --- */
-#include <sot-core/matrix-rotation.h>
-#include <sot-core/sot-core-api.h>
+#include <sot/core/matrix-rotation.hh>
+#include "sot/core/api.hh"
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph {
+  namespace sot {
 
 class SOT_CORE_EXPORT VectorRotation
 : public ml::Vector
@@ -47,7 +48,7 @@ class SOT_CORE_EXPORT VectorRotation
   virtual MatrixRotation& toMatrix( MatrixRotation& rot ) const = 0;
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif /* #ifndef __SOT_VECTOR_ROTATION_H__ */
 

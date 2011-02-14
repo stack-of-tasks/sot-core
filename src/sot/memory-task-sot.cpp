@@ -21,7 +21,7 @@
 #include <sot-core/memory-task-sot.h>
 #include <sot-core/debug.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 

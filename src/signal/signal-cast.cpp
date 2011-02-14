@@ -23,8 +23,8 @@
 #include <iomanip>
 
 #include <sot-core/feature-abstract.h>
-#include "sot-core/matrix-homogeneous.h"
-#include "sot-core/matrix-rotation.h"
+#include "sot/core/matrix-homogeneous.hh"
+#include "sot/core/matrix-rotation.hh"
 #include <sot-core/flags.h>
 #include <sot-core/multi-bound.h>
 #include <dynamic-graph/signal-caster.h>
@@ -36,7 +36,7 @@
 namespace dynamicgraph
 {
   using namespace std;
-  using namespace sot;
+  using namespace dynamicgraph::sot;
 
   /* --- CASTER IMPLEMENTATION ------------------------------------------------ */
   /* --- CASTER IMPLEMENTATION ------------------------------------------------ */

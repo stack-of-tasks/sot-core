@@ -25,7 +25,7 @@
 #include <sot-core/sot.h>
 #include <dynamic-graph/pool.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(NeckLimitation,"NeckLimitation");

@@ -22,13 +22,13 @@
 #define __SOT_VECTOR_ROLLPITCHYAW_H__
 
 /* --- SOT --- */
-#include <sot-core/vector-rotation.h>
-#include <sot-core/sot-core-api.h>
+#include <sot/core/vector-rotation.hh>
+#include "sot/core/api.hh"
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 class SOT_CORE_EXPORT VectorRollPitchYaw
 : public VectorRotation
@@ -43,6 +43,6 @@ class SOT_CORE_EXPORT VectorRollPitchYaw
 
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif /* #ifndef __SOT_VECTOR_ROLLPITCHYAW_H__ */

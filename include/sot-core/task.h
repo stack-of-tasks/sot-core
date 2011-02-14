@@ -79,7 +79,7 @@ namespace ml = maal::boost;
 
  */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 class SOTTASK_EXPORT Task
@@ -135,7 +135,7 @@ class SOTTASK_EXPORT Task
   virtual std::ostream& writeGraph( std::ostream& os ) const;
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

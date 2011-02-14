@@ -33,7 +33,7 @@
 
 #include <dynamic-graph/command-bind.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(GainAdaptive,"GainAdaptive");

@@ -60,7 +60,7 @@ namespace ml = maal::boost;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 class TimeStamp_EXPORT TimeStamp
@@ -109,7 +109,7 @@ class TimeStamp_EXPORT TimeStamp
 };
 
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 #endif /* #ifndef __SOT_SOT_HH */

@@ -29,7 +29,7 @@
 #include <sot-core/debug.h>
 #include <sot-core/exception-signal.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(GainHyperbolic,"GainHyperbolic");

@@ -53,84 +53,83 @@ namespace ml = maal::boost;
 #  define SOTSEQUENCER_EXPORT
 #endif
 
-namespace sot {
+namespace dynamicgraph {
+  namespace sot {
 
-/* --------------------------------------------------------------------- */
-/* --- CLASS ----------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
+    /* --- CLASS ----------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
 
-class Sot;
+    class Sot;
 
-class SOTSEQUENCER_EXPORT Sequencer
-:public dynamicgraph::Entity
-{
- public:
-  static const std::string CLASS_NAME;
+    class SOTSEQUENCER_EXPORT Sequencer
+      :public dynamicgraph::Entity
+      {
+      public:
+	static const std::string CLASS_NAME;
 
- public:
-  class sotEventAbstract
-    {
-    public:
-      enum sotEventType
+      public:
+	class sotEventAbstract
 	{
-	  EVENT_ADD
-	  ,EVENT_RM
-	  ,EVENT_CMD
+	public:
+	  enum sotEventType
+	  {
+	    EVENT_ADD
+	    ,EVENT_RM
+	    ,EVENT_CMD
+	  };
+	protected:
+	  std::string name;
+	  void setName( const std::string& name_ ) { name = name_; }
+	  int eventType;
+	public:
+	sotEventAbstract( const std::string & name ) : name(name) {};
+	  virtual ~sotEventAbstract( void ) {}
+	  virtual const std::string& getName() const { return name; }
+	  int getEventType(  ) const { return eventType; }
+	  virtual void operator() ( Sot* sotPtr ) = 0;
+	  virtual void display( std::ostream& os ) const { os << name; }
 	};
-    protected:
-      std::string name;
-      void setName( const std::string& name_ ) { name = name_; }
-      int eventType;
-    public:
-      sotEventAbstract( const std::string & name ) : name(name) {};
-      virtual ~sotEventAbstract( void ) {}
-      virtual const std::string& getName() const { return name; }
-      int getEventType(  ) const { return eventType; }
-      virtual void operator() ( Sot* sotPtr ) = 0;
-      virtual void display( std::ostream& os ) const { os << name; }
-    };
 
- protected:
-  Sot* sotPtr;
-  typedef std::list< sotEventAbstract* > TaskList;
-  typedef std::map< unsigned int,TaskList > TaskMap;
+      protected:
+	Sot* sotPtr;
+	typedef std::list< sotEventAbstract* > TaskList;
+	typedef std::map< unsigned int,TaskList > TaskMap;
 
-  TaskMap taskMap;
-  /* All the events are counting wrt to this t0. If t0 is -1, it
-   * is set to the first time of trig.    */
-  int timeInit;
-  bool playMode;
-  std::ostream* outputStreamPtr;
-  bool noOutput; /*! if true, display nothing standard output on except errors*/
+	TaskMap taskMap;
+	/* All the events are counting wrt to this t0. If t0 is -1, it
+	 * is set to the first time of trig.    */
+	int timeInit;
+	bool playMode;
+	std::ostream* outputStreamPtr;
+	bool noOutput; /*! if true, display nothing standard output on except errors*/
 
- public: /* --- CONSTRUCTION --- */
+      public: /* --- CONSTRUCTION --- */
 
-  Sequencer( const std::string& name );
-  virtual ~Sequencer( void );
+	Sequencer( const std::string& name );
+	virtual ~Sequencer( void );
 
- public: /* --- TASK MANIP --- */
+      public: /* --- TASK MANIP --- */
 
-  void setSotRef( Sot* sot ) { sotPtr = sot; }
-  void addTask( sotEventAbstract* task,const unsigned int time );
-  void rmTask( int eventType, const std::string& name,const unsigned int time );
-  void clearAll( );
+	void setSotRef( Sot* sot ) { sotPtr = sot; }
+	void addTask( sotEventAbstract* task,const unsigned int time );
+	void rmTask( int eventType, const std::string& name,const unsigned int time );
+	void clearAll( );
 
- public: /* --- SIGNAL --- */
-  dynamicgraph::SignalTimeDependent<int,int> triggerSOUT;
+      public: /* --- SIGNAL --- */
+	dynamicgraph::SignalTimeDependent<int,int> triggerSOUT;
 
- public: /* --- FUNCTIONS --- */
-  int& trigger( int& dummy,const int& time );
+      public: /* --- FUNCTIONS --- */
+	int& trigger( int& dummy,const int& time );
 
- public: /* --- PARAMS --- */
-  virtual void display( std::ostream& os ) const;
-  virtual void commandLine( const std::string& cmdLine,
-			    std::istringstream& cmdArgs,
-			    std::ostream& os );
+      public: /* --- PARAMS --- */
+	virtual void display( std::ostream& os ) const;
+	virtual void commandLine( const std::string& cmdLine,
+				  std::istringstream& cmdArgs,
+				  std::ostream& os );
 
-
-};
-
-
+      };
+  } // namespace sot
 } // namespace dynamicgraph
 
 

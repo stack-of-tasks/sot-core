@@ -31,7 +31,7 @@
 #include <dynamic-graph/factory.h>
 
 using namespace dynamicgraph;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace std;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(sotReader,"Reader");

@@ -19,12 +19,12 @@
  */
 
 #include <sot-core/matrix-force.h>
-#include <sot-core/matrix-homogeneous.h>
-#include <sot-core/matrix-rotation.h>
+#include <sot/core/matrix-homogeneous.hh>
+#include <sot/core/matrix-rotation.hh>
 #include <sot-core/matrix-twist.h>
 #include <sot-core/debug.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 
 MatrixForce& MatrixForce::

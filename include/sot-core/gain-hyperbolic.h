@@ -52,7 +52,7 @@ namespace ml = maal::boost;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic
@@ -112,7 +112,7 @@ class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic
 			    std::ostream& os );
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

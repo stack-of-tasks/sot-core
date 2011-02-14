@@ -27,7 +27,7 @@
 #include <boost/numeric/ublas/triangular.hpp>
 #include <boost/numeric/ublas/lu.hpp>
 #include <sot-core/debug.h>
-#include <sot-core/sot-core-api.h>
+#include "sot/core/api.hh"
 
 #include <list>
 

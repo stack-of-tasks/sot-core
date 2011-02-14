@@ -31,14 +31,14 @@
 #include <iostream>
 
 /* SOT */
-#include <sot-core/sot-core-api.h>
+#include "sot/core/api.hh"
 #include <sot-core/exception-task.h>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 class SOT_CORE_EXPORT MultiBound
 {
@@ -79,7 +79,7 @@ typedef std::vector< MultiBound > VectorMultiBound;
 SOT_CORE_EXPORT std::ostream& operator<< (std::ostream& os, const VectorMultiBound& v );
 SOT_CORE_EXPORT std::istream& operator>> (std::istream& os, VectorMultiBound& v );
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 #endif // #ifndef __SOT_MultiBound_H__

@@ -48,60 +48,62 @@ namespace ml = maal::boost;
 #  define ControlGR_EXPORT
 #endif
 
-namespace sot {
+namespace dynamicgraph {
+  namespace sot {
 
-namespace dg = dynamicgraph;
-
-
-/* --------------------------------------------------------------------- */
-/* --- CLASS ----------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-class ControlGR_EXPORT ControlGR
-: public dg::Entity
-{
-
- public: /* --- CONSTRUCTOR ---- */
-
-  ControlGR( const std::string & name );
-
- public: /* --- INIT --- */
-
-  void init( const double& step);
-
- public: /* --- CONSTANTS --- */
-
-  /* Default values. */
-  static const double TIME_STEP_DEFAULT;   // = 0.001
-
- public: /* --- ENTITY INHERITANCE --- */
-  static const std::string CLASS_NAME;
-  virtual void display( std::ostream& os ) const; 
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+    namespace dg = dynamicgraph;
 
 
- protected: 
+    /* --------------------------------------------------------------------- */
+    /* --- CLASS ----------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
+
+    class ControlGR_EXPORT ControlGR
+      : public Entity
+    {
+
+    public: /* --- CONSTRUCTOR ---- */
+
+      ControlGR( const std::string & name );
+
+    public: /* --- INIT --- */
+
+      void init( const double& step);
+
+    public: /* --- CONSTANTS --- */
+
+      /* Default values. */
+      static const double TIME_STEP_DEFAULT;   // = 0.001
+
+    public: /* --- ENTITY INHERITANCE --- */
+      static const std::string CLASS_NAME;
+      virtual void display( std::ostream& os ) const; 
+      virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+
+
+    protected: 
   
-  /* Parameters of the torque-control function: 
-   * tau = - A*qddot = g */
-  double TimeStep;
-  double _dimension;
+      /* Parameters of the torque-control function: 
+       * tau = - A*qddot = g */
+      double TimeStep;
+      double _dimension;
 
- public:  /* --- SIGNALS --- */
+    public:  /* --- SIGNALS --- */
 
-  dg::SignalPtr<ml::Matrix,int> matrixASIN;
-  dg::SignalPtr<ml::Vector,int> accelerationSIN;
-  dg::SignalPtr<ml::Vector,int> gravitySIN;
-  dg::SignalTimeDependent<ml::Vector,int> controlSOUT;
+      SignalPtr<ml::Matrix,int> matrixASIN;
+      SignalPtr<ml::Vector,int> accelerationSIN;
+      SignalPtr<ml::Vector,int> gravitySIN;
+      SignalTimeDependent<ml::Vector,int> controlSOUT;
 
- protected:
+    protected:
 
-  double& setsize(int dimension);
-  ml::Vector& computeControl( ml::Vector& tau,int t );
+      double& setsize(int dimension);
+      ml::Vector& computeControl( ml::Vector& tau,int t );
 
-};
+    };
 
 
-} // namespace sotte
+  } // namespace sot
+} // namespace dynamicgraph
 
 #endif // #ifndef __SOT_Control_GR_HH__

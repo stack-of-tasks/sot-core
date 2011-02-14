@@ -27,7 +27,7 @@ using namespace std;
 
 #include <dynamic-graph/factory.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(BinaryIntToUint,"BinaryIntToUint");

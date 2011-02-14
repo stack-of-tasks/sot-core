@@ -29,7 +29,7 @@
 #include <sot-core/feature-abstract.h>
 #include <sot-core/feature-point6d.h>
 #include <sot-core/exception-task.h>
-#include <sot-core/vector-utheta.h>
+#include <sot/core/vector-utheta.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -49,7 +49,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 /*!
@@ -107,7 +107,7 @@ class SOTFEATUREPOINT6DRELATIVE_EXPORT FeaturePoint6dRelative
 
 } ;
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_FEATURE_POINT6DRELATIVE_HH__
 

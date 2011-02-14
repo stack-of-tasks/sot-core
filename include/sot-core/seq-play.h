@@ -52,7 +52,7 @@ namespace ml= maal::boost;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 class SOTSEQPLAY_EXPORT SeqPlay
 :public dynamicgraph::Entity
@@ -98,7 +98,7 @@ class SOTSEQPLAY_EXPORT SeqPlay
 };
 
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif /* #ifndef __SOT_SEQPLAY_HH */
 

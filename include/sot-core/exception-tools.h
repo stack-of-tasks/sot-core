@@ -27,44 +27,48 @@
 
 
 #include <sot-core/exception-abstract.h>
-#include <sot-core/sot-core-api.h>
+#include "sot/core/api.hh"
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph {
+  namespace sot {
 
-/* \class ExceptionTools
- */
-class SOT_CORE_EXPORT ExceptionTools
-:public ExceptionAbstract
+    /* \class ExceptionTools
+     */
+    class SOT_CORE_EXPORT ExceptionTools
+      :public ExceptionAbstract
 
-{
- public:
-  enum ErrorCodeEnum
     {
-      GENERIC = ExceptionAbstract::TOOLS
+    public:
+      enum ErrorCodeEnum
+      {
+	GENERIC = ExceptionAbstract::TOOLS
 
-      ,CORBA
-      ,KALMAN_SIZE
-      ,PY_SHELL_PTR
+	,CORBA
+	,KALMAN_SIZE
+	,PY_SHELL_PTR
+      };
+
+      static const std::string EXCEPTION_NAME;
+      virtual const std::string& getExceptionName() const {
+	return EXCEPTION_NAME;
+      }
+
+    public:
+
+      ExceptionTools ( const ExceptionTools::ErrorCodeEnum& errcode,
+		       const std::string & msg = "" );
+      ExceptionTools( const ExceptionTools::ErrorCodeEnum& errcode,
+		      const std::string & msg,const char* format, ... );
+      virtual ~ExceptionTools( void ) throw() {}
+
+
     };
 
-  static const std::string EXCEPTION_NAME;
-  virtual const std::string& getExceptionName( void ) const { return EXCEPTION_NAME; }
-
-public:
-
-  ExceptionTools ( const ExceptionTools::ErrorCodeEnum& errcode,
-		       const std::string & msg = "" );
-  ExceptionTools( const ExceptionTools::ErrorCodeEnum& errcode,
-			const std::string & msg,const char* format, ... );
-  virtual ~ExceptionTools( void ) throw() {}
-
-
-};
-
-} // namespace sot
+  } // namespace sot
+} // namespace dynamicgraph
 
 
 

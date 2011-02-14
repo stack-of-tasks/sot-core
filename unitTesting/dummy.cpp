@@ -19,13 +19,12 @@
  */
 
 #include <iostream>
-using namespace std;
 #include <sot-core/debug.h>
 
 int main (int , char** )
 {
-	sot::sotDEBUGFLOW.openFile();
-	sot::sotDEBUGFLOW.trace("test test test");
-	//sot::sotDEBUGFLOW << "whatwhatwhat" << std::endl;;
-  cout << "It works!" << endl;
+  dynamicgraph::sot::sotDEBUGFLOW.openFile();
+  dynamicgraph::sot::sotDEBUGFLOW.trace("test test test");
+
+  std::cout << "It works!" << std::endl;
 }

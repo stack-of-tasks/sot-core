@@ -57,7 +57,7 @@ namespace ml = maal::boost;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 namespace dg = dynamicgraph;
 
@@ -103,7 +103,7 @@ class NeckLimitation_EXPORT NeckLimitation
 };
 
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

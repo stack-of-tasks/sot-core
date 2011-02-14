@@ -66,7 +66,7 @@ namespace ml = maal::boost;
 
 */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 class SOTSOTQR_EXPORT SotQr
@@ -269,7 +269,7 @@ class SOTSOTQR_EXPORT SotQr
 
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

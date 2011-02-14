@@ -24,14 +24,14 @@
 
 /* --- Matrix --- */
 #include <jrl/mal/boost.hh>
-#include <sot-core/sot-core-api.h>
+#include "sot/core/api.hh"
 
 namespace ml = maal::boost;
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 
 class MatrixHomogeneous;
@@ -61,7 +61,7 @@ class SOT_CORE_EXPORT MatrixTwist
   MatrixForce transpose( void ) const;
  };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif /* #ifndef __SOT_MATRIX_TWIST_H__ */
 

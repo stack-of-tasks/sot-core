@@ -63,7 +63,7 @@ namespace ml = maal::boost;
 
 */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 class SOTWEIGHTEDSOT_CORE_EXPORT WeightedSot
@@ -107,7 +107,7 @@ class SOTWEIGHTEDSOT_CORE_EXPORT WeightedSot
 
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

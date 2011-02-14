@@ -14,8 +14,6 @@
 # sot-core. If not, see <http://www.gnu.org/licenses/>.
 
 SET(${PROJECT_NAME}_HEADERS
-sot-core-api.h
-
 #debug
 contiifstream.h
 debug.h
@@ -50,14 +48,10 @@ pool.h
 
 #math
 matrix-force.h
-matrix-homogeneous.h
-matrix-rotation.h
 matrix-twist.h
 op-point-modifier.h
 vector-quaternion.h
 vector-roll-pitch-yaw.h
-vector-rotation.h
-vector-utheta.h
 
 #feature
 feature-point6d.h
@@ -135,3 +129,16 @@ INSTALL(FILES ${fullpath_${PROJECT_NAME}_HEADERS}
 	DESTINATION include/${PROJECT_NAME}
         PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE
 )
+
+SET(NEWHEADERS 
+  sot/core/api.hh
+  sot/core/device.hh
+  sot/core/matrix-homogeneous.hh
+  sot/core/matrix-rotation.hh
+  sot/core/vector-utheta.hh
+  sot/core/vector-rotation.hh
+  )
+INSTALL(FILES ${NEWHEADERS}
+  DESTINATION include/sot/core
+  PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE
+  )

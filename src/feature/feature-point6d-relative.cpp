@@ -27,13 +27,13 @@
 #include <sot-core/feature-point6d-relative.h>
 #include <sot-core/exception-feature.h>
 
-#include <sot-core/matrix-homogeneous.h>
-#include <sot-core/matrix-rotation.h>
+#include <sot/core/matrix-homogeneous.hh>
+#include <sot/core/matrix-rotation.hh>
 #include <sot-core/matrix-twist.h>
 #include <dynamic-graph/pool.h>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 #include <sot-core/factory.h>

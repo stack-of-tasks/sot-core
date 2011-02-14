@@ -34,12 +34,12 @@
 #endif
 #include <list>
 
-#include <sot-core/sot-core-api.h>
+#include "sot/core/api.hh"
 #ifndef WIN32
 #include <pthread.h>
 #endif
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -69,7 +69,7 @@ public: /* --- READ LIST --- */
 
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif /* #ifndef __SOT_CONTIIFSTREAM_HH__ */
 

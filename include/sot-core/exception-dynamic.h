@@ -27,12 +27,12 @@
 
 
 #include <sot-core/exception-abstract.h>
-#include <sot-core/sot-core-api.h>
+#include "sot/core/api.hh"
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 /* \class ExceptionDynamic
  */
@@ -67,7 +67,7 @@ public:
 };
 
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 #endif /* #ifndef __SOT_DYNAMIC_EXCEPTION_H */

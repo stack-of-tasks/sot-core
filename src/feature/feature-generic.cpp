@@ -29,7 +29,7 @@
 #include <sot-core/factory.h>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureGeneric,"FeatureGeneric");
 

@@ -51,7 +51,7 @@ namespace ml = maal::boost;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 class SOTGAINADAPTATIVE_EXPORT GainAdaptive
@@ -110,7 +110,7 @@ class SOTGAINADAPTATIVE_EXPORT GainAdaptive
   void addCommands();
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

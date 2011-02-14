@@ -42,7 +42,7 @@ namespace ml = maal::boost;
 /*!
   \class MotionPeriod
 */
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 namespace dg = dynamicgraph;
 
@@ -95,7 +95,7 @@ class MotionPeriod
 		    std::ostream& os );
 } ;
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_JOINTLIMITS_HH__
 

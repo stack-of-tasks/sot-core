@@ -22,12 +22,12 @@
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 #include <dynamic-graph/all-signals.h>
-#include <sot-core/matrix-rotation.h>
+#include <sot/core/matrix-rotation.hh>
 #include <iostream>
 #include <jrl/mal/boost.hh>
 using namespace std;
 using namespace dynamicgraph;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 namespace ml = maal::boost;
 

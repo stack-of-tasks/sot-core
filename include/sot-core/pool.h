@@ -33,14 +33,14 @@
 /* --- SOT --- */
 #include <sot-core/exception-factory.h>
 #include <dynamic-graph/signal-base.h>
-#include <sot-core/sot-core-api.h>
+#include "sot/core/api.hh"
 #include <dynamic-graph/pool.h>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 // Preliminary declarations
 class FeatureAbstract;
@@ -138,7 +138,7 @@ class SOT_CORE_EXPORT PoolStorage
 
 SOT_CORE_EXPORT extern sot::PoolStorage sotPool;
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif /* #ifndef __SOT_POOL_HH__ */
 

@@ -47,7 +47,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 /*!
@@ -150,7 +150,7 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
 
 } ;
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 #endif // #ifndef __SOT_FEATURE_GENERIC_HH__

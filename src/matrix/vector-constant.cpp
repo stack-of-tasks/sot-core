@@ -24,7 +24,7 @@
 #include "../src/matrix/vector-constant-command.h"
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(VectorConstant,"VectorConstant");
@@ -40,7 +40,7 @@ VectorConstant( const std::string& name )
   ,rows(0),color(0.)
   ,SOUT( "sotVectorConstant("+name+")::output(vector)::out" )
 {
-  SOUT.setDependencyType( dg::TimeDependency<int>::BOOL_DEPENDENT );
+  SOUT.setDependencyType( TimeDependency<int>::BOOL_DEPENDENT );
   signalRegistration( SOUT );
 
   //

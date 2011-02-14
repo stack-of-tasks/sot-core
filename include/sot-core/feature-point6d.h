@@ -28,7 +28,7 @@
 /* SOT */
 #include <sot-core/feature-abstract.h>
 #include <sot-core/exception-task.h>
-#include <sot-core/matrix-homogeneous.h>
+#include <sot/core/matrix-homogeneous.hh>
 #include "sot-core/exception-feature.h"
 
 /* --------------------------------------------------------------------- */
@@ -49,7 +49,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 /*!
@@ -148,7 +148,7 @@ class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
 
 } ;
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_FEATURE_POINT6D_HH__
 

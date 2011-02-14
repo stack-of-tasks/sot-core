@@ -53,7 +53,7 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 namespace dg = dynamicgraph;
 
@@ -97,7 +97,7 @@ class SOTJOINTLIMITATOR_EXPORT JointLimitator
 } ;
 
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

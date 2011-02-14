@@ -23,7 +23,7 @@
 
 #ifdef WIN32
 
-#include <sot-core/sot-core-api.h>
+#include "sot/core/api.hh"
 
 #include < time.h >
 #define NOMINMAX

@@ -27,13 +27,13 @@
 #include <sot-core/feature-line-distance.h>
 #include <sot-core/exception-feature.h>
 
-#include <sot-core/matrix-homogeneous.h>
-#include <sot-core/matrix-rotation.h>
-#include <sot-core/vector-utheta.h>
+#include <sot/core/matrix-homogeneous.hh>
+#include <sot/core/matrix-rotation.hh>
+#include <sot/core/vector-utheta.hh>
 
 using namespace std;
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 #include <sot-core/factory.h>

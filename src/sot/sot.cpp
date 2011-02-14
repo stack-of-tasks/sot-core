@@ -42,7 +42,7 @@
 #include <sot-core/factory.h>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 #include "../src/sot/sot-command.h"

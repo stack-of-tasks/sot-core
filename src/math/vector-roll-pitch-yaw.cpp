@@ -21,7 +21,7 @@
 #include <sot-core/vector-roll-pitch-yaw.h>
 #include <sot-core/debug.h>
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 
 static const double ANGLE_MINIMUM = 0.0001;

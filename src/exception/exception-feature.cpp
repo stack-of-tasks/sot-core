@@ -22,7 +22,7 @@
 #include <stdarg.h>
 #include <cstdio>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

@@ -22,31 +22,30 @@
 #define __SOT_VECTOR_UTHETA_H__
 
 /* --- SOT --- */
-#include <sot-core/vector-rotation.h>
-#include <sot-core/sot-core-api.h>
+#include <sot/core/vector-rotation.hh>
+#include "sot/core/api.hh"
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph {
+  namespace sot {
 
-
-class SOT_CORE_EXPORT VectorUTheta
-: public VectorRotation
-{
- public:
-
-  VectorUTheta( void ) : VectorRotation() { }
-  virtual ~VectorUTheta( void ) { }
-
-  virtual VectorRotation& fromMatrix( const MatrixRotation& rot );
-  virtual MatrixRotation& toMatrix( MatrixRotation& rot ) const;
-
-};
-
-} // namespace sot
-
-
-
+    class SOT_CORE_EXPORT VectorUTheta
+      : public VectorRotation
+    {
+    public:
+      
+      VectorUTheta( void ) : VectorRotation() { }
+      virtual ~VectorUTheta( void ) { }
+      
+      virtual VectorRotation& fromMatrix( const MatrixRotation& rot );
+      virtual MatrixRotation& toMatrix( MatrixRotation& rot ) const;
+      
+    };
+  } // namespace sot
+} //namespace dynamicgraph    
+  
+  
 #endif /* #ifndef __SOT_VECTOR_UTHETA_H__ */

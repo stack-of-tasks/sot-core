@@ -23,7 +23,7 @@
 #include <sot-core/factory.h>
 #include <sot-core/macros-signal.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(GripperControlPlugin,"GripperControl");

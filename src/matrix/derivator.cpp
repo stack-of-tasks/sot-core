@@ -21,7 +21,7 @@
 #include <sot-core/derivator.h>
 #include <sot-core/factory.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace ml;
 using namespace dynamicgraph;
 
@@ -65,10 +65,12 @@ using namespace dynamicgraph;
        &regFunction##_##sotType##_##sotClassType );                                     \
   }
 
-namespace sot {
+namespace dynamicgraph {
+  namespace sot {
   SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,double,"Derivator")
   SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,Vector,"Derivator")
   SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,Matrix,"Derivator")
   SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator,VectorQuaternion,"Derivator")
-}
+  } // namespace sot
+} // namespace dynamicgraph
 

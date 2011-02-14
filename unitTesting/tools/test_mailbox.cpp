@@ -37,7 +37,7 @@ namespace ml = maal::boost;
 #include <sstream>
 
 using namespace dynamicgraph;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 #include <boost/thread.hpp>
 

@@ -29,7 +29,7 @@
 /* Classes standards. */
 #include <iostream>                /* Classe ostream.    */
 #include <string>                  /* Classe string.     */
-#include <sot-core/sot-core-api.h>
+#include "sot/core/api.hh"
 #include <exception>
 
 
@@ -40,7 +40,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 /* \class ExceptionAbstract
  */
@@ -141,7 +141,7 @@ public:
 #  define SOT_THROW throw
 #endif //#ifdef SOT_EXCEPTION_PASSING_PARAM 
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif /* #ifndef __SOT_ABSTRACT_EXCEPTION_H */
 

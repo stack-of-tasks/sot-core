@@ -31,7 +31,7 @@
 #endif /*WIN32*/
 //#define WITH_CHRONO
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */

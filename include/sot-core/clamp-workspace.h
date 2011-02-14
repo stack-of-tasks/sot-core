@@ -33,8 +33,8 @@ namespace ml = maal::boost;
 #include <sot-core/exception-task.h>
 #include <dynamic-graph/all-signals.h>
 #include <sot-core/vector-roll-pitch-yaw.h>
-#include <sot-core/matrix-rotation.h>
-#include <sot-core/matrix-homogeneous.h>
+#include <sot/core/matrix-rotation.hh>
+#include <sot/core/matrix-homogeneous.hh>
 #include <sot-core/matrix-twist.h>
 
 
@@ -52,7 +52,7 @@ namespace ml = maal::boost;
 #  define SOTCLAMPWORKSPACE_EXPORT
 #endif
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 /* --------------------------------------------------------------------- */
@@ -121,7 +121,7 @@ class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace
 };
 
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 #endif

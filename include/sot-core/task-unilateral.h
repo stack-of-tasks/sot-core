@@ -57,7 +57,7 @@ namespace ml = maal::boost;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 class SOTTASKUNILATERAL_EXPORT TaskUnilateral
@@ -89,7 +89,7 @@ class SOTTASKUNILATERAL_EXPORT TaskUnilateral
   void display( std::ostream& os ) const;
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

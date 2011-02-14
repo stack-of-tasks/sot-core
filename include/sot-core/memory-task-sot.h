@@ -23,13 +23,13 @@
 
 
 #include <sot-core/task-abstract.h>
-#include <sot-core/sot-core-api.h>
+#include "sot/core/api.hh"
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 class SOT_CORE_EXPORT MemoryTaskSOT
@@ -75,6 +75,6 @@ class SOT_CORE_EXPORT MemoryTaskSOT
 			    std::ostream& os );
 };
 
-} //namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif // __SOT_MEMORY_TASK_HH

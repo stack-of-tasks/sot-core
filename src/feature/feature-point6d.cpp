@@ -34,13 +34,13 @@
 #include <sot-core/feature-point6d.h>
 #include <sot-core/exception-feature.h>
 
-#include <sot-core/matrix-homogeneous.h>
-#include <sot-core/matrix-rotation.h>
-#include <sot-core/vector-utheta.h>
+#include <sot/core/matrix-homogeneous.hh>
+#include <sot/core/matrix-rotation.hh>
+#include <sot/core/vector-utheta.hh>
 
 using namespace std;
 using namespace dynamicgraph;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 #include <sot-core/factory.h>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePoint6d,"FeaturePoint6d");

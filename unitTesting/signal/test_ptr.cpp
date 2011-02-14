@@ -26,11 +26,11 @@
 #include <iostream>
 
 #include <jrl/mal/boost.hh>
-#include <sot-core/vector-utheta.h>
+#include <sot/core/vector-utheta.hh>
 #include <sot-core/exception-abstract.h>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 namespace ml = maal::boost;

@@ -24,7 +24,7 @@
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
 #include <sot-core/debug.h>
-#include <sot-core/matrix-homogeneous.h>
+#include <sot/core/matrix-homogeneous.hh>
 
 /* Matrix */
 #include <jrl/mal/boost.hh>
@@ -48,7 +48,7 @@ namespace ml = maal::boost;
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 ///
@@ -90,6 +90,6 @@ public:
   const MatrixHomogeneous& getTransformation( void );
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif //  __SOT_OP_POINT_MODIFIOR_H__

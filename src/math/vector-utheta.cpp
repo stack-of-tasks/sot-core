@@ -18,10 +18,10 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/vector-utheta.h>
+#include <sot/core/vector-utheta.hh>
 #include <sot-core/debug.h>
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 static const double ANGLE_MINIMUM = 0.0001;
 static const double SINC_MINIMUM = 1e-8;

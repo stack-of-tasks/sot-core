@@ -26,7 +26,7 @@
 #include <sstream>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 int main( void )
 {

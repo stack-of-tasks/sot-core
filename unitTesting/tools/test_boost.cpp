@@ -23,7 +23,7 @@
 #endif
 #include <iostream>
 #include <sot-core/debug.h>
-#include <sot-core/matrix-homogeneous.h>
+#include <sot/core/matrix-homogeneous.hh>
 #include <sot-core/matrix-twist.h>
 
 #include <jrl/mal/boost.hh>
@@ -35,7 +35,7 @@
 #endif
 #include <list>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace std;
 namespace ml = maal::boost;
 

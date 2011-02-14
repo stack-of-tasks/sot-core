@@ -26,7 +26,7 @@
 #include <dynamic-graph/command-setter.h>
 #include <dynamic-graph/command-getter.h>
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
   namespace command {
     namespace vectorConstant {
       using ::dynamicgraph::command::Command;
@@ -59,6 +59,6 @@ namespace sot {
       }; // class Resize
     } //namespace vectorConstant
   } // namespace command
-} //namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif //VECTOR_CONSTANT_COMMAND_H

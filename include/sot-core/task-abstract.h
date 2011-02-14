@@ -38,13 +38,13 @@ namespace ml = maal::boost;
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/all-signals.h>
 #include <sot-core/multi-bound.h>
-#include <sot-core/sot-core-api.h>
+#include "sot/core/api.hh"
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 class SOT_CORE_EXPORT TaskAbstract
@@ -92,7 +92,7 @@ class SOT_CORE_EXPORT TaskAbstract
  public:
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

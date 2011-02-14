@@ -47,7 +47,7 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 /*!
@@ -101,7 +101,7 @@ class SOTFEATUREVISUALPOINT_EXPORT FeatureVisualPoint
 
 } ;
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_FEATURE_VISUALPOINT_HH__
 

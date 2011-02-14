@@ -30,7 +30,7 @@
 #include "../src/task/task-command.h"
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 #include <sot-core/factory.h>

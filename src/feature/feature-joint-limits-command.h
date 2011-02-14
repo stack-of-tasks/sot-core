@@ -26,7 +26,7 @@
  #include <dynamic-graph/command-setter.h>
  #include <dynamic-graph/command-getter.h>
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
   namespace command {
     namespace featureJointLimits {
       using ::dynamicgraph::command::Command;
@@ -55,6 +55,6 @@ namespace sot {
       }; // class Actuate
     } // namespace featureJointLimits
   } // namespace command
-} //namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif //FEATURE_JOINT_LIMITS_COMMAND_H

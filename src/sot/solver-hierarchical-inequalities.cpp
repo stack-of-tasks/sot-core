@@ -31,7 +31,7 @@
 #include <sot-core/debug.h>
 
 #include <sot-core/solver-hierarchical-inequalities.h>
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 #ifndef WIN32
 #  include <sys/time.h>
@@ -164,7 +164,7 @@ ConstraintMem( const ConstraintMem& clone )
   sotDEBUG(15) << "ConstraintMem cloning" << std::endl;
 }
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 std::ostream& operator<<( std::ostream& os,const ConstraintMem::BoundSideType& bs )
 {
   switch( bs )
@@ -208,7 +208,7 @@ std::ostream & operator<< (std::ostream& os,const ConstraintMem &c )
   return os;
 }
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 /* ---------------------------------------------------------- */
 /* Specify the size of the constraint matrix, for pre-alocation. */

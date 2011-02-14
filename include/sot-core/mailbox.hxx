@@ -40,7 +40,7 @@
 #endif /*WIN32*/
 #include <string>
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 namespace dg = dynamicgraph;
 
@@ -89,7 +89,7 @@ protected:
 
 
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif // #ifndef  __SOT_MAILBOX_HH
 

@@ -44,7 +44,7 @@
 #  define SOTBINARYINTTOUINT_EXPORT
 #endif
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 class BinaryIntToUint
@@ -73,7 +73,7 @@ public:
 };
 
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 #endif

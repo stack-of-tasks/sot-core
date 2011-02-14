@@ -23,7 +23,7 @@
 #include <sot-core/exception-factory.h>
 #include <dynamic-graph/pool.h>
 #include <sot-core/pool.h>
-#include <sot-core/sot-core-api.h>
+#include "sot/core/api.hh"
 
 /* --- STD --- */
 #include <string>
@@ -34,7 +34,7 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 /*! @ingroup factory
   \brief This helper class dynamically overloads the "new" shell command
@@ -49,4 +49,4 @@ public:
 						   std::ostream& os );
 };
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */

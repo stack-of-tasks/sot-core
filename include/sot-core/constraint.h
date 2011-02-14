@@ -55,49 +55,47 @@ namespace ml = maal::boost;
 #endif
 
 
-namespace sot {
-namespace dg = dynamicgraph;
+namespace dynamicgraph {
+  namespace sot {
 
-/* --------------------------------------------------------------------- */
-/* --- CLASS ----------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
+    /* --- CLASS ----------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
 
-
-
-class SOTCONSTRAINT_EXPORT Constraint
-: public TaskAbstract
-{
- protected:
-  typedef std::list< dg::Signal<ml::Matrix,int>* > JacobianList;
-  JacobianList jacobianList;
+    class SOTCONSTRAINT_EXPORT Constraint
+      : public TaskAbstract
+    {
+    protected:
+      typedef std::list< Signal<ml::Matrix,int>* > JacobianList;
+      JacobianList jacobianList;
   
- public: 
-  static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+    public: 
+      static const std::string CLASS_NAME;
+      virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
- public:
-  Constraint( const std::string& n );
+    public:
+      Constraint( const std::string& n );
 
-  void addJacobian( dg::Signal<ml::Matrix,int>& sig );
-  void clearJacobianList( void );
+      void addJacobian( Signal<ml::Matrix,int>& sig );
+      void clearJacobianList( void );
 
-  void setControlSelection( const Flags& act );
-  void addControlSelection( const Flags& act );
-  void clearControlSelection( void );
+      void setControlSelection( const Flags& act );
+      void addControlSelection( const Flags& act );
+      void clearControlSelection( void );
 
-  /* --- COMPUTATION --- */
-  ml::Matrix& computeJacobian( ml::Matrix& J,int time );
+      /* --- COMPUTATION --- */
+      ml::Matrix& computeJacobian( ml::Matrix& J,int time );
 
-  /* --- DISPLAY ------------------------------------------------------------ */
-  SOTCONSTRAINT_EXPORT friend std::ostream& operator<< ( std::ostream& os,const Constraint& t );
+      /* --- DISPLAY ------------------------------------------------------------ */
+      SOTCONSTRAINT_EXPORT friend std::ostream& operator<< ( std::ostream& os,const Constraint& t );
 
-  /* --- PARAMS --- */
-  virtual void commandLine( const std::string& cmdLine
-			    ,std::istringstream& cmdArgs
-			    ,std::ostream& os );
-};
-
-} // namespace sot
+      /* --- PARAMS --- */
+      virtual void commandLine( const std::string& cmdLine
+				,std::istringstream& cmdArgs
+				,std::ostream& os );
+    };
+  } // namespace sot
+} // namespace dynamicgraph
 
 
 

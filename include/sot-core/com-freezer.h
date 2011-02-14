@@ -48,7 +48,7 @@ namespace ml = maal::boost;
 #endif
 
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 namespace dg = dynamicgraph;
 
@@ -86,7 +86,7 @@ class SOTCOMFREEZER_EXPORT CoMFreezer
 
 
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 
 

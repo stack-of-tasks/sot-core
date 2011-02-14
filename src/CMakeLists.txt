@@ -73,7 +73,7 @@ SET(plugins
 	tools/timer
 	tools/seq-play
 	tools/sequencer
-	tools/robot-simu
+	tools/device
 	tools/motion-period
 	tools/neck-limitation
 	tools/mailbox-vector
