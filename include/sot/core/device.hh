@@ -65,7 +65,7 @@ namespace dynamicgraph {
       /* --- CONSTRUCTION --- */
       Device(const std::string& name);
       /* --- DESTRUCTION --- */
-      ~Device();
+      virtual ~Device();
       
       void setStateSize(const unsigned int& size);
       void setState(const ml::Vector& st);
