@@ -85,6 +85,8 @@ SET (tests
 	tools/test_boost
 	tools/test_mailbox
 	tools/test_matrix
+
+	math/matrix-twist
 	)
 
 IF(UNIX)
