@@ -27,6 +27,9 @@ IF(UNIX)
   ADD_DEFINITIONS(-pthread)
 ENDIF(UNIX)
 
+# Make Boost.Test generates the main function in test cases.
+ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
+
 # The sot-core plugin libraries that tests have to be linked against
 # the name of the variable for test EXECUTABLE_NAME is
 # TEST_${EXECUTABLE_NAME}_LIBS
@@ -118,6 +121,9 @@ FOREACH(test ${tests})
 
 	PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} jrl-mal)
 	PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} dynamic-graph)
+
+	# Link against Boost.
+	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${Boost_LIBRARIES})
 
 	ADD_TEST(${test} ${EXECUTABLE_NAME})
 
