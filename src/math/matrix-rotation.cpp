@@ -18,11 +18,11 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/matrix-rotation.h>
-#include <sot-core/vector-utheta.h>
+#include <sot/core/matrix-rotation.hh>
+#include <sot/core/vector-utheta.hh>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 
 void MatrixRotation::fromVector( VectorUTheta& vec )

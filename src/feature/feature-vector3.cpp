@@ -25,16 +25,16 @@
 /* --- SOT --- */
 //#define VP_DEBUG
 //#define VP_DEBUG_MODE 45
-#include <sot-core/debug.h>
-#include <sot-core/feature-vector3.h>
-#include <sot-core/exception-feature.h>
+#include <sot/core/debug.hh>
+#include <sot/core/feature-vector3.hh>
+#include <sot/core/exception-feature.hh>
 
-#include <sot-core/matrix-homogeneous.h>
-#include <sot-core/matrix-rotation.h>
-#include <sot-core/vector-utheta.h>
-#include <sot-core/factory.h>
+#include <sot/core/matrix-homogeneous.hh>
+#include <sot/core/matrix-rotation.hh>
+#include <sot/core/vector-utheta.hh>
+#include <sot/core/factory.hh>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace std;
 using namespace dynamicgraph;
 

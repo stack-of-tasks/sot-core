@@ -23,10 +23,10 @@
 /* -------------------------------------------------------------------------- */
 
 #include <dynamic-graph/signal.h>
-#include <sot-core/gain-adaptive.h>
+#include <sot/core/gain-adaptive.hh>
 #include <iostream>
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 namespace ml = maal::boost;

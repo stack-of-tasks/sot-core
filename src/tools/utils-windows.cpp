@@ -19,7 +19,7 @@
  */
 
 #ifdef WIN32
-#include <sot-core/utils-windows.h>
+#include <sot/core/utils-windows.hh>
 
 #include < Windows.h >
 #if defined(_MSC_VER) || defined(_MSC_EXTENSIONS)

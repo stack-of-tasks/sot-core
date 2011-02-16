@@ -18,13 +18,13 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/com-freezer.h>
-#include <sot-core/debug.h>
+#include <sot/core/com-freezer.hh>
+#include <sot/core/debug.hh>
 #include <dynamic-graph/factory.h>
 
 
 using namespace dynamicgraph;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(CoMFreezer, "CoMFreezer");
 

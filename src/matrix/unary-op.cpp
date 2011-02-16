@@ -18,18 +18,18 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/unary-op.h>
+#include <sot/core/unary-op.hh>
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 
-#include <sot-core/matrix-homogeneous.h>
-#include <sot-core/matrix-twist.h>
-#include <sot-core/vector-utheta.h>
-#include <sot-core/vector-roll-pitch-yaw.h>
-#include <sot-core/vector-quaternion.h>
+#include <sot/core/matrix-homogeneous.hh>
+#include <sot/core/matrix-twist.hh>
+#include <sot/core/vector-utheta.hh>
+#include <sot/core/vector-roll-pitch-yaw.hh>
+#include <sot/core/vector-quaternion.hh>
 
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 
@@ -65,7 +65,7 @@ using namespace dynamicgraph;
 
 using namespace ml;
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 template< typename matrixgen >
 struct Inverser
@@ -482,4 +482,4 @@ res=r;
 typedef UnaryOp<ml::Vector,ml::Vector,DirtyMemory> v2mDirtyMemory;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_E_E(v2mDirtyMemory,vector,v2mDM_,"DirtyMemory",VOID_COMMAND_LINE ,"")
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */

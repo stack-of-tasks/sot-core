@@ -20,13 +20,13 @@
 
 #include <cmath>
 
-#include <sot-core/clamp-workspace.h>
+#include <sot/core/clamp-workspace.hh>
 
 using namespace std;
 
 #include <dynamic-graph/factory.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(ClampWorkspace,"ClampWorkspace");

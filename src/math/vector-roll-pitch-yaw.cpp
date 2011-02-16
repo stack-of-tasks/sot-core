@@ -18,10 +18,10 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/vector-roll-pitch-yaw.h>
-#include <sot-core/debug.h>
+#include <sot/core/vector-roll-pitch-yaw.hh>
+#include <sot/core/debug.hh>
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 
 static const double ANGLE_MINIMUM = 0.0001;

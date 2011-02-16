@@ -23,19 +23,19 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <sot-core/feature-joint-limits.h>
-#include <sot-core/exception-feature.h>
-#include <sot-core/debug.h>
+#include <sot/core/feature-joint-limits.hh>
+#include <sot/core/exception-feature.hh>
+#include <sot/core/debug.hh>
 using namespace std;
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 #include <../src/feature/feature-joint-limits-command.h>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureJointLimits,"FeatureJointLimits");
 

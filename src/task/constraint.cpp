@@ -23,13 +23,13 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot-core/constraint.h>
-#include <sot-core/debug.h>
+#include <sot/core/constraint.hh>
+#include <sot/core/debug.hh>
 #include <dynamic-graph/pool.h>
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 
 using namespace dynamicgraph;
 #include "../src/task/constraint-command.h"
@@ -100,8 +100,8 @@ computeJacobian( ml::Matrix& J,int time )
 
   if( jacobianList.empty())
     { J.resize(0,0); }
-//    { throw( ExceptionTask(ExceptionTask::EMPTY_LIST,
-// 			      "Empty feature list") ) ; }
+  //    { throw( ExceptionTask(ExceptionTask::EMPTY_LIST,
+  // 			      "Empty feature list") ) ; }
 
   try {
     unsigned int dimJ = J .nbRows();
@@ -123,8 +123,8 @@ computeJacobian( ml::Matrix& J,int time )
 	if( 0==nbc ) { nbc = partialJacobian.nbCols(); J.resize(nbc,dimJ); }
 	else if( partialJacobian.nbCols() != nbc )
 	  {SOT_THROW ExceptionTask(ExceptionTask::NON_ADEQUATE_FEATURES,
-				      "Features from the list don't "
-				      "have compatible-size jacobians.");}
+				   "Features from the list don't "
+				   "have compatible-size jacobians.");}
 	sotDEBUG(25) << "Jp =" <<endl<< partialJacobian<<endl;
 
 	while( cursorJ+nbr>=dimJ ) 
@@ -150,15 +150,17 @@ computeJacobian( ml::Matrix& J,int time )
 /* --- DISPLAY ------------------------------------------------------------ */
 /* --- DISPLAY ------------------------------------------------------------ */
 
-namespace sot {
-std::ostream& operator<< ( std::ostream& os,const Constraint& t )
-{ return os << t.name; }
-}
+namespace dynamicgraph { 
+  namespace sot {
+    std::ostream& operator<< ( std::ostream& os,const Constraint& t )
+    { return os << t.name; }
+  } // namespace sot
+} // namespace dynamicgraph
 
 
-/* --- PARAMS --------------------------------------------------------------- */
-/* --- PARAMS --------------------------------------------------------------- */
-/* --- PARAMS --------------------------------------------------------------- */
+  /* --- PARAMS --------------------------------------------------------------- */
+  /* --- PARAMS --------------------------------------------------------------- */
+  /* --- PARAMS --------------------------------------------------------------- */
 void Constraint::
 commandLine( const std::string& cmdLine
 	     ,std::istringstream& cmdArgs

@@ -23,13 +23,13 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot-core/weighted-sot.h>
-#include <sot-core/memory-task-sot.h>
-#include <sot-core/pool.h>
-#include <sot-core/task.h>
-#include <sot-core/debug.h>
+#include <sot/core/weighted-sot.hh>
+#include <sot/core/memory-task-sot.hh>
+#include <sot/core/pool.hh>
+#include <sot/core/task.hh>
+#include <sot/core/debug.hh>
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 /* --------------------------------------------------------------------- */
@@ -37,7 +37,7 @@ using namespace dynamicgraph;
 /* --------------------------------------------------------------------- */
 
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(WeightedSot,"WSOT");
 
 /* --------------------------------------------------------------------- */

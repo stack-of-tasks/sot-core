@@ -23,18 +23,17 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <sot-core/periodic-call.h>
+#include <sot/core/periodic-call.hh>
 #include <dynamic-graph/pool.h>
-#include <sot-core/debug.h>
-#include <sot-core/exception-tools.h>
+#include <sot/core/debug.hh>
+#include <sot/core/exception-tools.hh>
 #include <algorithm>
 #include <dynamic-graph/python/interpreter.hh>
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/exception-factory.h>
 
 using namespace std;
-using namespace dynamicgraph;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

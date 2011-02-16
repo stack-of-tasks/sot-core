@@ -18,12 +18,12 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/gripper-control.h>
-#include <sot-core/debug.h>
-#include <sot-core/factory.h>
-#include <sot-core/macros-signal.h>
+#include <sot/core/gripper-control.hh>
+#include <sot/core/debug.hh>
+#include <sot/core/factory.hh>
+#include <sot/core/macros-signal.hh>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(GripperControlPlugin,"GripperControl");

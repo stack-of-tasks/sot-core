@@ -23,15 +23,15 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <sot-core/motion-period.h>
-#include <sot-core/exception-feature.h>
-#include <sot-core/debug.h>
-#include <sot-core/factory.h>
+#include <sot/core/motion-period.hh>
+#include <sot/core/exception-feature.hh>
+#include <sot/core/debug.hh>
+#include <sot/core/factory.hh>
 
 #include <jrl/mal/matrixabstractlayer.hh>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 

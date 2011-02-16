@@ -22,7 +22,7 @@
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 #include <dynamic-graph/all-signals.h>
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 #include <iostream>
 
 #include <jrl/mal/boost.hh>

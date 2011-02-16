@@ -21,12 +21,12 @@
 /* -------------------------------------------------------------------------- */
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
-#include <sot-core/flags.h>
+#include <sot/core/flags.hh>
 #include <iostream>
 #include <sstream>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 int main( void )
 {

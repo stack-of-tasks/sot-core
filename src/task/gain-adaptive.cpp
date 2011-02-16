@@ -19,21 +19,21 @@
  */
 
 /* SOT */
-#include <sot-core/gain-adaptive.h>
+#include <sot/core/gain-adaptive.hh>
 
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-#include <sot-core/debug.h>
-#include <sot-core/factory.h>
-#include <sot-core/exception-signal.h>
+#include <sot/core/debug.hh>
+#include <sot/core/factory.hh>
+#include <sot/core/exception-signal.hh>
 
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 
 #include <dynamic-graph/command-bind.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(GainAdaptive,"GainAdaptive");
@@ -151,7 +151,7 @@ display( std::ostream& os ) const
   os <<" ("<<coeff_a<<";"<<coeff_b<<";"<<coeff_c<<") ";
 }
 
-#include <sot-core/exception-task.h>
+#include <sot/core/exception-task.hh>
 void GainAdaptive::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,

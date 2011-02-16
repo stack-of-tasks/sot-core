@@ -18,11 +18,11 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/multi-bound.h>
+#include <sot/core/multi-bound.hh>
 //#define VP_DEBUG_MODE 25
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 
 MultiBound::
@@ -160,7 +160,7 @@ inline static void SOT_MULTI_BOUND_CHECK_C(std::istream& is,
     }
 }
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 
 std::ostream& operator<< ( std::ostream& os, const MultiBound & m  )
 {
@@ -269,4 +269,4 @@ std::istream& operator>> (std::istream& is, VectorMultiBound& v )
   return is;
 }
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */

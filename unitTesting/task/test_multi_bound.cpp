@@ -21,13 +21,13 @@
 /* -------------------------------------------------------------------------- */
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
-#include <sot-core/multi-bound.h>
+#include <sot/core/multi-bound.hh>
 #include <iostream>
 #include <sstream>
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 int main( void )
 {

@@ -23,14 +23,14 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <sot-core/joint-limitator.h>
-#include <sot-core/exception-feature.h>
-#include <sot-core/debug.h>
-#include <sot-core/factory.h>
+#include <sot/core/joint-limitator.hh>
+#include <sot/core/exception-feature.hh>
+#include <sot/core/debug.hh>
+#include <sot/core/factory.hh>
 
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(JointLimitator,"JointLimitator");

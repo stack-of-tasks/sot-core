@@ -23,17 +23,17 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot-core/time-stamp.h>
-#include <sot-core/matrix-homogeneous.h>
+#include <sot/core/time-stamp.hh>
+#include <sot/core/matrix-homogeneous.hh>
 #include <dynamic-graph/factory.h>
-#include <sot-core/macros-signal.h>
+#include <sot/core/macros-signal.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
 using namespace dynamicgraph;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(TimeStamp,"TimeStamp");
 

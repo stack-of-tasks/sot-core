@@ -18,14 +18,14 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/sequencer.h>
-#include <sot-core/debug.h>
-#include <sot-core/exception-tools.h>
-#include <sot-core/sot.h>
+#include <sot/core/sequencer.hh>
+#include <sot/core/debug.hh>
+#include <sot/core/exception-tools.hh>
+#include <sot/core/sot.hh>
 #include <dynamic-graph/pool.h>
 #include <dynamic-graph/factory.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Sequencer,"Sequencer");

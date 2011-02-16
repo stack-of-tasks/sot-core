@@ -23,15 +23,15 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot-core/reader.h>
-#include <sot-core/debug.h>
+#include <sot/core/reader.hh>
+#include <sot/core/debug.hh>
 
 #include <boost/bind.hpp>
 #include <sstream>
 #include <dynamic-graph/factory.h>
 
 using namespace dynamicgraph;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace std;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(sotReader,"Reader");

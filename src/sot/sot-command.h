@@ -26,7 +26,7 @@
  #include <dynamic-graph/command-setter.h>
  #include <dynamic-graph/command-getter.h>
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
   namespace command {
     namespace classSot {
       using ::dynamicgraph::command::Command;
@@ -85,6 +85,6 @@ namespace sot {
       }; // class Push
     } // namespace classSot
   } // namespace command
-} //namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif //SOT_COMMAND_H

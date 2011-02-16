@@ -19,13 +19,13 @@
  */
 
 /* --- SOT --- */
-#include <sot-core/kalman.h>          /* Header of the class implemented here.   */
-#include <sot-core/debug.h>
-#include <sot-core/exception-tools.h>
-#include <sot-core/factory.h>
+#include <sot/core/kalman.hh>          /* Header of the class implemented here.   */
+#include <sot/core/debug.hh>
+#include <sot/core/exception-tools.hh>
+#include <sot/core/factory.hh>
 #include <dynamic-graph/factory.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Kalman,"Kalman");

@@ -26,41 +26,43 @@
  #include <dynamic-graph/command-setter.h>
  #include <dynamic-graph/command-getter.h>
 
-namespace sot {
-  namespace command {
-    namespace matrixConstant {
-      using ::dynamicgraph::command::Command;
-      using ::dynamicgraph::command::Value;
-      
-      // Command Resize
-      class Resize : public Command
-      {
-      public:
-	virtual ~Resize() {}
-	/// Create command and store it in Entity
-	/// \param entity instance of Entity owning this command
-	/// \param docstring documentation of the command
-      Resize(MatrixConstant& entity, const std::string& docstring) :
-	Command(entity, boost::assign::list_of(Value::UNSIGNED)
-		(Value::UNSIGNED), docstring)
-	  {
-	  }
-	virtual Value doExecute()
+namespace dynamicgraph {
+  namespace sot {
+    namespace command {
+      namespace matrixConstant {
+	using ::dynamicgraph::command::Command;
+	using ::dynamicgraph::command::Value;
+	
+	// Command Resize
+	class Resize : public Command
 	{
-	  MatrixConstant& mc = static_cast<MatrixConstant&>(owner());
-	  std::vector<Value> values = getParameterValues();
-	  unsigned nbRows = values[0].value();
-	  unsigned nbCols = values[1].value();
-	  ml::Matrix m(nbRows, nbCols);
-	  m.fill(mc.color);
-	  mc.SOUT.setConstant(m);
-	  
-	  // return void
-	  return Value();
-	}
-      }; // class Resize
-    } // namespace matrixConstant
-  } // namespace command
-} //namespace sot
+	public:
+	  virtual ~Resize() {}
+	  /// Create command and store it in Entity
+	  /// \param entity instance of Entity owning this command
+	  /// \param docstring documentation of the command
+	Resize(MatrixConstant& entity, const std::string& docstring) :
+	  Command(entity, boost::assign::list_of(Value::UNSIGNED)
+		  (Value::UNSIGNED), docstring)
+	    {
+	    }
+	  virtual Value doExecute()
+	  {
+	    MatrixConstant& mc = static_cast<MatrixConstant&>(owner());
+	    std::vector<Value> values = getParameterValues();
+	    unsigned nbRows = values[0].value();
+	    unsigned nbCols = values[1].value();
+	    ml::Matrix m(nbRows, nbCols);
+	    m.fill(mc.color);
+	    mc.SOUT.setConstant(m);
+	    
+	    // return void
+	    return Value();
+	  }
+	}; // class Resize
+      } // namespace matrixConstant
+    } // namespace command
+  } // namespace sot
+} // namespace dynamicgraph
 
 #endif //MATRIX_CONSTANT_COMMAND_H

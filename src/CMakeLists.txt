@@ -144,6 +144,7 @@ SET(${LIBRARY_NAME}_SOURCES
 
 	tools/utils-windows
 	tools/periodic-call
+	tools/device
 )
 
 ADD_LIBRARY(${LIBRARY_NAME}

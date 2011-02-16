@@ -18,10 +18,10 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/memory-task-sot.h>
-#include <sot-core/debug.h>
+#include <sot/core/memory-task-sot.hh>
+#include <sot/core/debug.hh>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 

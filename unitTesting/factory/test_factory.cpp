@@ -24,14 +24,14 @@
 #include <string>
 #include <iostream>
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 #include <dynamic-graph/entity.h>
 #include "../test-paths.h"
-#include <sot-core/feature-visual-point.h>
-#include <sot-core/exception-feature.h>
-#include <sot-core/debug.h>
+#include <sot/core/feature-visual-point.hh>
+#include <sot/core/exception-feature.hh>
+#include <sot/core/debug.hh>
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dg;
 
 #ifdef WIN32

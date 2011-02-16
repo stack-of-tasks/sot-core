@@ -22,20 +22,20 @@
 #include <sys/time.h>
 #endif
 #include <iostream>
-#include <sot-core/debug.h>
-#include <sot-core/matrix-homogeneous.h>
-#include <sot-core/matrix-twist.h>
+#include <sot/core/debug.hh>
+#include <sot/core/matrix-homogeneous.hh>
+#include <sot/core/matrix-twist.hh>
 
 #include <jrl/mal/boost.hh>
 
 #ifndef WIN32
 #include <unistd.h>
 #else
-#include <sot-core/utils-windows.h>
+#include <sot/core/utils-windows.hh>
 #endif
 #include <list>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace std;
 namespace ml = maal::boost;
 

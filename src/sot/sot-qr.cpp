@@ -23,24 +23,23 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 class sotSOTQr__INIT
 {
-public:sotSOTQr__INIT( void ) { sot::DebugTrace::openFile(); }
+public:sotSOTQr__INIT( void ) { dynamicgraph::sot::DebugTrace::openFile(); }
 };
 sotSOTQr__INIT sotSOTQr_initiator;
 
 
-#include <sot-core/sot-qr.h>
-#include <sot-core/pool.h>
-#include <sot-core/task.h>
-#include <sot-core/sot.h>
-#include <sot-core/memory-task-sot.h>
-#include <sot-core/debug.h>
+#include <sot/core/sot-qr.hh>
+#include <sot/core/pool.hh>
+#include <sot/core/task.hh>
+#include <sot/core/sot.hh>
+#include <sot/core/memory-task-sot.hh>
 
 #define FORTRAN_ID( id ) id##_
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 /* --------------------------------------------------------------------- */
@@ -48,7 +47,7 @@ using namespace dynamicgraph;
 /* --------------------------------------------------------------------- */
 
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SotQr,"SOTQr");
 
 
@@ -624,7 +623,7 @@ unsigned int rankDetermination( const bubMatrix& A,
 	#ifndef WIN32
 	#include <sys/time.h>
 	#else /*WIN32*/
-	#include <sot-core/utils-windows.h>
+	#include <sot/core/utils-windows.hh>
 	#endif /*WIN32*/
 #endif /*WITH_CHRONO*/
 

@@ -26,7 +26,7 @@
  #include <dynamic-graph/command-setter.h>
  #include <dynamic-graph/command-getter.h>
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
   namespace command {
     namespace task {
       using ::dynamicgraph::command::Command;
@@ -57,6 +57,6 @@ namespace sot {
       }; // class AddFeature
     } // namespace task
   } // namespace command
-} //namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 #endif //TASK_COMMAND_H

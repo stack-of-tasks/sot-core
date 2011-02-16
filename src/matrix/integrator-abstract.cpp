@@ -18,10 +18,10 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/integrator-abstract.h>
-#include <sot-core/factory.h>
+#include <sot/core/integrator-abstract.hh>
+#include <sot/core/factory.hh>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotClassType,sotSigType,sotCoefType,className)   \
@@ -37,19 +37,11 @@ using namespace dynamicgraph;
 
 
 using namespace ml;
-namespace sot {
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,double,double,"integratorAbstract")
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,Vector,Matrix,"integratorAbstract")
-}
-
-#if 0
-  extern "C" {
-    Entity *regFunction##_##sotSigType( const std::string& objname )                     
-    {
-      return new sotClassType<sotSigType,sotCoefType>( objname );
-    }
-    EntityRegisterer
-    regObj##_##sotSigType(std::string(className)+"<"+#sotSigType+","+#sotCoefType+">",
-			  &regFunction##_##sotSigType );
-  }
-#endif
+namespace dynamicgraph {
+  namespace sot {
+    SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,double,double,
+				       "integratorAbstract")
+    SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,Vector,Matrix,
+				       "integratorAbstract")
+  } // namespace sot
+} // namespace dynamicgraph

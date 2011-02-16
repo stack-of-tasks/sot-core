@@ -20,7 +20,7 @@
 
 #include <iostream>
 
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 #include <dynamic-graph/signal-base.h>
 #include <dynamic-graph/signal.h>
 #include <dynamic-graph/signal-time-dependent.h>
@@ -30,7 +30,7 @@ namespace ml = maal::boost;
 
 using namespace std;
 using namespace dynamicgraph;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 double& f( double& res,const int& /*t*/ ) { cout << "SIGM!"<<endl; return res; }
 

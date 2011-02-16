@@ -23,14 +23,13 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <sot-core/periodic-call-entity.h>
+#include <sot/core/periodic-call-entity.hh>
 #include <dynamic-graph/pool.h>
-#include <sot-core/debug.h>
-#include <sot-core/factory.h>
+#include <sot/core/debug.hh>
+#include <sot/core/factory.hh>
 
 using namespace std;
-using namespace dynamicgraph;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(PeriodicCallEntity,"PeriodicCallEntity");

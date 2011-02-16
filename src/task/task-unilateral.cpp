@@ -26,15 +26,15 @@
 //#define VP_DEBUG_MODE 15
 
 /* SOT */
-#include <sot-core/task-unilateral.h>
-#include <sot-core/debug.h>
+#include <sot/core/task-unilateral.hh>
+#include <sot/core/debug.hh>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 
-#include <sot-core/factory.h>
+#include <sot/core/factory.hh>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(TaskUnilateral,"TaskUnilateral");
 
 

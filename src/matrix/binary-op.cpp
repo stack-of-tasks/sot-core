@@ -18,18 +18,18 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/binary-op.h>
+#include <sot/core/binary-op.hh>
 
-#include <sot-core/factory.h>
-#include <sot-core/matrix-homogeneous.h>
-#include <sot-core/vector-roll-pitch-yaw.h>
-#include <sot-core/matrix-rotation.h>
-#include <sot-core/matrix-twist.h>
-#include <sot-core/debug.h>
+#include <sot/core/factory.hh>
+#include <sot/core/matrix-homogeneous.hh>
+#include <sot/core/vector-roll-pitch-yaw.hh>
+#include <sot/core/matrix-rotation.hh>
+#include <sot/core/matrix-twist.hh>
+#include <sot/core/debug.hh>
 
 #include <deque>
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 using namespace dynamicgraph;
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(sotClassType,sotType,index,className,CMDLINE,CMDHELP)  \
@@ -507,4 +507,4 @@ struct ConvolutionTemporal
 typedef BinaryOp<ml::Vector,ml::Matrix,ml::Vector,ConvolutionTemporal> convtemp;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(convtemp,vector,matrix,convtemp,"ConvolutionTemporal")
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */

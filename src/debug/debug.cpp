@@ -18,13 +18,13 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 #include <fstream>
 #include <ios>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 #ifdef WIN32
 const char * DebugTrace::DEBUG_FILENAME_DEFAULT = "c:/tmp/sot-core-traces.txt";
 #else	// WIN32
@@ -55,7 +55,7 @@ const char * DebugTrace::DEBUG_FILENAME_DEFAULT = "/tmp/sot-core-traces.txt";
 
 #endif // VP_DEBUG
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 void DebugTrace::openFile(const char * filename)
 {
@@ -72,7 +72,9 @@ void DebugTrace::closeFile(const char *)
   debugfile.setstate (std::ios::failbit);
 }
 
-namespace sot {
-  DebugTrace sotDEBUGFLOW(debugfile);
-  DebugTrace sotERRORFLOW(debugfile);
-} // end of namespace sot.
+namespace dynamicgraph {
+  namespace sot {
+    DebugTrace sotDEBUGFLOW(debugfile);
+    DebugTrace sotERRORFLOW(debugfile);
+  } // namespace sot.
+} // namespace dynamicgraph

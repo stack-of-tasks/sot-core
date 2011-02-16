@@ -18,13 +18,13 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/matrix-twist.h>
-#include <sot-core/matrix-homogeneous.h>
-#include <sot-core/matrix-rotation.h>
-#include <sot-core/matrix-force.h>
-#include <sot-core/debug.h>
+#include <sot/core/matrix-twist.hh>
+#include <sot/core/matrix-homogeneous.hh>
+#include <sot/core/matrix-rotation.hh>
+#include <sot/core/matrix-force.hh>
+#include <sot/core/debug.hh>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 
 MatrixTwist& MatrixTwist::
@@ -68,6 +68,8 @@ inverse( MatrixTwist& Vi ) const
   ml::Matrix RtS(3,3), RtSRt(3,3); 
   Rt.multiply(Sk,RtS); 
   RtS.multiply(Rt,RtSRt);
+
+  RtSRt *= -1;
 
   for( int i=0;i<3;++i )
     for( int j=0;j<3;++j )

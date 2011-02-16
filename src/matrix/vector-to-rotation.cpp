@@ -18,14 +18,14 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot-core/vector-to-rotation.h>
+#include <sot/core/vector-to-rotation.hh>
 
-#include <sot-core/factory.h>
-#include <sot-core/macros-signal.h>
-#include <sot-core/debug.h>
+#include <sot/core/factory.hh>
+#include <sot/core/macros-signal.hh>
+#include <sot/core/debug.hh>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(VectorToRotation,"VectorToRotation");

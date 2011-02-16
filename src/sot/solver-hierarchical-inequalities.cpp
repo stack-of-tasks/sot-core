@@ -28,10 +28,10 @@
 
 //#define VP_DEBUG
 //#define VP_DEBUG_MODE 45
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 
-#include <sot-core/solver-hierarchical-inequalities.h>
-using namespace sot;
+#include <sot/core/solver-hierarchical-inequalities.hh>
+using namespace dynamicgraph::sot;
 
 #ifndef WIN32
 #  include <sys/time.h>
@@ -39,7 +39,7 @@ using namespace sot;
 //isnan
 # include <float.h>
 # define isnan _isnan
-# include <sot-core/utils-windows.h>
+# include <sot/core/utils-windows.hh>
 #endif /*WIN32*/
 #define FORTRAN_ID( id ) id##_
 
@@ -164,7 +164,7 @@ ConstraintMem( const ConstraintMem& clone )
   sotDEBUG(15) << "ConstraintMem cloning" << std::endl;
 }
 
-namespace sot {
+namespace dynamicgraph { namespace sot {
 std::ostream& operator<<( std::ostream& os,const ConstraintMem::BoundSideType& bs )
 {
   switch( bs )
@@ -208,7 +208,7 @@ std::ostream & operator<< (std::ostream& os,const ConstraintMem &c )
   return os;
 }
 
-} // namespace sot
+} /* namespace sot */} /* namespace dynamicgraph */
 
 /* ---------------------------------------------------------- */
 /* Specify the size of the constraint matrix, for pre-alocation. */

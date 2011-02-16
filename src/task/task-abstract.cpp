@@ -23,10 +23,10 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot-core/task-abstract.h>
-#include <sot-core/pool.h>
+#include <sot/core/task-abstract.hh>
+#include <sot/core/pool.hh>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 

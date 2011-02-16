@@ -21,15 +21,15 @@
 /* -------------------------------------------------------------------------- */
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
-#include <sot-core/sot-h.h>
-#include <sot-core/feature-visual-point.h>
-#include <sot-core/feature-abstract.h>
-#include <sot-core/debug.h>
-#include <sot-core/task.h>
-#include <sot-core/gain-adaptive.h>
+#include <sot/core/sot-h.hh>
+#include <sot/core/feature-visual-point.hh>
+#include <sot/core/feature-abstract.hh>
+#include <sot/core/debug.hh>
+#include <sot/core/task.hh>
+#include <sot/core/gain-adaptive.hh>
 
 using namespace std;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 namespace ml = maal::boost;
 

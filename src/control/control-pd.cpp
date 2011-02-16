@@ -19,15 +19,15 @@
  */
 
 /* SOT */
-#include <sot-core/control-pd.h>
+#include <sot/core/control-pd.hh>
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-#include <sot-core/debug.h>
+#include <sot/core/debug.hh>
 #include <dynamic-graph/factory.h>
 
-using namespace sot;
+using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(ControlPD,"ControlPD");
