@@ -28,7 +28,7 @@
 
 /* SOT */
 #include <dynamic-graph/signal-base.h>
-#include <sot-core/sot-core-api.h>
+#include <sot/core/api.hh>
 /* STD */
 #include <list>
 #include <map>

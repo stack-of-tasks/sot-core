@@ -22,8 +22,8 @@
 #include <boost/test/output_test_stream.hpp>
 
 #include <jrl/mal/boost.hh>
-#include <sot-core/matrix-homogeneous.h>
-#include "sot-core/matrix-twist.h"
+#include <sot/core/matrix-homogeneous.hh>
+#include "sot/core/matrix-twist.hh"
 
 using boost::test_tools::output_test_stream;
 
