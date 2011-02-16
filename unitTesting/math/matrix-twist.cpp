@@ -71,8 +71,8 @@ namespace ml = maal::boost;
 
 BOOST_AUTO_TEST_CASE (constructor_trivial)
 {
-  sot::MatrixHomogeneous M;
-  sot::MatrixTwist twist (M);
+  dynamicgraph::sot::MatrixHomogeneous M;
+  dynamicgraph::sot::MatrixTwist twist (M);
 
   ml::Matrix twistRef (6, 6);
 
@@ -85,14 +85,14 @@ BOOST_AUTO_TEST_CASE (constructor_trivial)
 
 BOOST_AUTO_TEST_CASE (constructor_rotation_only)
 {
-  sot::MatrixHomogeneous M;
+  dynamicgraph::sot::MatrixHomogeneous M;
 
   MATRIX_4x4_INIT (M,
 		   0.,  0.,  1., 0.,
 		   1.,  0.,  0., 0.,
 		   0., -1.,  0., 0.,
 		   0.,  0.,  0., 1.);
-  sot::MatrixTwist twist (M);
+  dynamicgraph::sot::MatrixTwist twist (M);
 
 
   ml::Matrix twistRef (6, 6);
@@ -109,14 +109,14 @@ BOOST_AUTO_TEST_CASE (constructor_rotation_only)
 
 BOOST_AUTO_TEST_CASE (constructor_translation_only)
 {
-  sot::MatrixHomogeneous M;
+  dynamicgraph::sot::MatrixHomogeneous M;
 
   MATRIX_4x4_INIT (M,
 		   1., 0.,  0., 11.,
 		   0., 1.,  0., 22.,
 		   0., 0.,  1., 33.,
 		   0., 0.,  0., 1.);
-  sot::MatrixTwist twist (M);
+  dynamicgraph::sot::MatrixTwist twist (M);
 
   //FIXME: to be checked.
   ml::Matrix twistRef (6, 6);
