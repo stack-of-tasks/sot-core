@@ -29,6 +29,8 @@
 #include <sot-core/exception-tools.h>
 #include <algorithm>
 #include <dynamic-graph/python/interpreter.hh>
+#include <dynamic-graph/all-commands.h>
+#include <dynamic-graph/exception-factory.h>
 
 using namespace std;
 using namespace dynamicgraph;
@@ -100,20 +102,6 @@ rmCmd( const std::string& args )
   return ;
 }
 
-static std::string readLineStr( istringstream& args )
-{
-  stringbuf* pbuf=args.rdbuf();
-  const unsigned int size = pbuf->in_avail();
-  char * buffer = new char[ size+1 ];
-  pbuf->sgetn( buffer,size );
-
-  buffer[size]='\0';
-  std::string res( buffer );
-  delete [] buffer;
-  return res;
-}
-
-
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -159,7 +147,6 @@ run( const int & t )
 void PeriodicCall::
 display( std::ostream& os ) const
 {
-
   os <<"  (t=" << innerTime << ")" <<endl;
 
   os<<" -> SIGNALS:"<<endl;
@@ -178,8 +165,18 @@ display( std::ostream& os ) const
 
 }
 
+static std::string readLineStr( istringstream& args )
+{
+  stringbuf* pbuf=args.rdbuf();
+  const unsigned int size = pbuf->in_avail();
+  char * buffer = new char[ size+1 ];
+  pbuf->sgetn( buffer,size );
 
-
+  buffer[size]='\0';
+  std::string res( buffer );
+  delete [] buffer;
+  return res;
+}
 
 bool PeriodicCall::
 commandLine( const std::string& cmdLine,
@@ -223,6 +220,51 @@ commandLine( const std::string& cmdLine,
   else { return false; }
   return true;
 }
+
+#define ADD_COMMAND( name,def )                                     \
+if (commandMap.count(prefix+name) != 0) {                            \
+  DG_THROW ExceptionFactory(ExceptionFactory::OBJECT_CONFLICT,        \
+			    "Command " + prefix+name +	               \
+			    " already registered in Entity.");          \
+ }                                                                       \
+commandMap.insert( std::make_pair( prefix+name,def ) )
+
+
+void PeriodicCall::addSpecificCommands(Entity& ent,
+				       Entity::CommandMap_t& commandMap,
+				       const std::string& prefix )
+{
+  using namespace dynamicgraph::command;
+
+  /* Explicit typage to help the compiler. */
+  boost::function< void( const std::string& ) >
+    addSignal  = boost::bind( &PeriodicCall::addSignal, this,_1 ),
+    rmSignal = boost::bind( &PeriodicCall::rmSignal, this,_1 );
+  boost::function< void( void ) >
+    clear  = boost::bind( &PeriodicCall::clear, this );
+  boost::function< void( std::ostream& ) >
+    disp  = boost::bind( &PeriodicCall::display, this,_1 );
+
+   ADD_COMMAND("addSignal",
+   	      makeCommandVoid1(ent,addSignal,
+   			       docCommandVoid1("Add the signal to the refresh list",
+   					       "string (sig name)")));
+   ADD_COMMAND("rmSignal",
+	       makeCommandVoid1(ent,rmSignal,
+				docCommandVoid1("Remove the signal to the refresh list",
+						"string (sig name)")));
+   ADD_COMMAND("clear",
+	       makeCommandVoid0(ent,clear,
+				docCommandVoid0("Clear all signals and commands from the refresh list.")));
+
+   ADD_COMMAND("disp",
+	       makeCommandVerbose(ent,disp,
+				  docCommandVerbose("Print the list of to-refresh signals and commands.")));
+
+}
+
+
+
 
 
 

@@ -28,6 +28,7 @@
 
 /* SOT */
 #include <dynamic-graph/signal-base.h>
+#include <dynamic-graph/entity.h>
 #include <sot-core/sot-core-api.h>
 /* STD */
 #include <list>
@@ -83,6 +84,9 @@ class SOT_CORE_EXPORT PeriodicCall
   bool commandLine( const std::string& cmdLine,
 		    std::istringstream& cmdArgs,
 		    std::ostream& os );
+  void addSpecificCommands( dynamicgraph::Entity& ent,
+			    dynamicgraph::Entity::CommandMap_t& commap,
+			    const std::string & prefix = "" );
 
   void setPyInterpreter( dynamicgraph::python::Interpreter * py_sh );
 };
