@@ -151,7 +151,7 @@ BOOST_AUTO_TEST_CASE (constructor_translation_only)
 
 BOOST_AUTO_TEST_CASE (constructor_rotation_translation)
 {
-  sot::MatrixHomogeneous M;
+  dynamicgraph::sot::MatrixHomogeneous M;
 
   double tx = 11.;
   double ty = 22.;
@@ -162,7 +162,7 @@ BOOST_AUTO_TEST_CASE (constructor_rotation_translation)
 		   0., -1., 0., ty,
 		   1., 0.,  0., tz,
 		   0., 0.,  0., 1.);
-  sot::MatrixTwist twist (M);
+  dynamicgraph::sot::MatrixTwist twist (M);
 
   ml::Matrix twistRef (6, 6);
   MATRIX_6x6_INIT (twistRef,
@@ -180,7 +180,7 @@ BOOST_AUTO_TEST_CASE (constructor_rotation_translation)
 
 BOOST_AUTO_TEST_CASE (inverse_translation_only)
 {
-  sot::MatrixHomogeneous M;
+  dynamicgraph::sot::MatrixHomogeneous M;
 
   double tx = 11.;
   double ty = 22.;
@@ -191,11 +191,11 @@ BOOST_AUTO_TEST_CASE (inverse_translation_only)
 		   0., 1.,  0., ty,
 		   0., 0.,  1., tz,
 		   0., 0.,  0., 1.);
-  sot::MatrixTwist twist (M);
+  dynamicgraph::sot::MatrixTwist twist (M);
 
-  sot::MatrixTwist twistInv = twist.inverse ();
+  dynamicgraph::sot::MatrixTwist twistInv = twist.inverse ();
 
-  sot::MatrixTwist twistInv_;
+  dynamicgraph::sot::MatrixTwist twistInv_;
   twist.inverse (twistInv_);
 
   ml::Matrix twistRef (6, 6);
@@ -214,7 +214,7 @@ BOOST_AUTO_TEST_CASE (inverse_translation_only)
 
 BOOST_AUTO_TEST_CASE (inverse_translation_rotation)
 {
-  sot::MatrixHomogeneous M;
+  dynamicgraph::sot::MatrixHomogeneous M;
 
   double tx = 11.;
   double ty = 22.;
@@ -225,11 +225,11 @@ BOOST_AUTO_TEST_CASE (inverse_translation_rotation)
 		   0., -1., 0., ty,
 		   1.,  0., 0., tz,
 		   0.,  0., 0., 1.);
-  sot::MatrixTwist twist (M);
+  dynamicgraph::sot::MatrixTwist twist (M);
 
-  sot::MatrixTwist twistInv = twist.inverse ();
+  dynamicgraph::sot::MatrixTwist twistInv = twist.inverse ();
 
-  sot::MatrixTwist twistInv_;
+  dynamicgraph::sot::MatrixTwist twistInv_;
   twist.inverse (twistInv_);
 
   ml::Matrix twistRef (6, 6);
