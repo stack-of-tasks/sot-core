@@ -67,6 +67,20 @@ namespace ml = maal::boost;
   M (5, 0) = A50, M (5, 1) = A51, M (5, 2) = A52, M (5, 3) = A53,	\
     M (5, 4) = A54, M (5, 5) = A55
 
+// For reminder:
+//
+// R \in R^3 x R^3
+// M = [R ; t] \in R^4 x R^4
+//     [0 ; 1]
+//
+// Twist(M) = [R ; t^ R] \in R^6 x R^6
+//            [0 ; R]
+//
+// t^ R \in R^3xR^3
+//
+//
+// Twist(M)^{-1} = [R^T ; -R^T t^]
+//                 [0   ; R^T    ]
 
 
 BOOST_AUTO_TEST_CASE (constructor_trivial)
@@ -111,24 +125,122 @@ BOOST_AUTO_TEST_CASE (constructor_translation_only)
 {
   dynamicgraph::sot::MatrixHomogeneous M;
 
+  double tx = 11.;
+  double ty = 22.;
+  double tz = 33.;
+
   MATRIX_4x4_INIT (M,
-		   1., 0.,  0., 11.,
-		   0., 1.,  0., 22.,
-		   0., 0.,  1., 33.,
+		   1., 0.,  0., tx,
+		   0., 1.,  0., ty,
+		   0., 0.,  1., tz,
 		   0., 0.,  0., 1.);
   dynamicgraph::sot::MatrixTwist twist (M);
 
-  //FIXME: to be checked.
   ml::Matrix twistRef (6, 6);
   MATRIX_6x6_INIT (twistRef,
-		   1., 0., 0.,   0., -33.,  22.,
-		   0., 1., 0.,  33.,   0., -11.,
-		   0., 0., 1., -22.,  11.,   0.,
-		   0., 0., 0.,   1.,   0.,   0.,
-		   0., 0., 0.,   0.,   1.,   0.,
-		   0., 0., 0.,   0.,   0.,   1.);
+		   1., 0., 0.,  0.,  -tz,   ty,
+		   0., 1., 0.,  tz,   0.,  -tx,
+		   0., 0., 1., -ty,   tx,   0.,
+		   0., 0., 0.,  1.,   0.,   0.,
+		   0., 0., 0.,  0.,   1.,   0.,
+		   0., 0., 0.,  0.,   0.,   1.);
 
   MATRIX_6x6_BOOST_REQUIRE_CLOSE (twist, twistRef, 0.001);
 }
 
-//FIXME: rotation+translation test case.
+
+BOOST_AUTO_TEST_CASE (constructor_rotation_translation)
+{
+  sot::MatrixHomogeneous M;
+
+  double tx = 11.;
+  double ty = 22.;
+  double tz = 33.;
+
+  MATRIX_4x4_INIT (M,
+		   0., 0.,  1., tx,
+		   0., -1., 0., ty,
+		   1., 0.,  0., tz,
+		   0., 0.,  0., 1.);
+  sot::MatrixTwist twist (M);
+
+  ml::Matrix twistRef (6, 6);
+  MATRIX_6x6_INIT (twistRef,
+		   0., 0., 1.,  ty,   tz,   0.,
+		   0.,-1., 0., -tx,   0.,   tz,
+		   1., 0., 0.,  0.,  -tx,  -ty,
+		   0., 0., 0.,  0.,   0.,   1.,
+		   0., 0., 0.,  0.,  -1.,   0.,
+		   0., 0., 0.,  1.,   0.,   0.);
+
+  MATRIX_6x6_BOOST_REQUIRE_CLOSE (twist, twistRef, 0.001);
+}
+
+
+
+BOOST_AUTO_TEST_CASE (inverse_translation_only)
+{
+  sot::MatrixHomogeneous M;
+
+  double tx = 11.;
+  double ty = 22.;
+  double tz = 33.;
+
+  MATRIX_4x4_INIT (M,
+		   1., 0.,  0., tx,
+		   0., 1.,  0., ty,
+		   0., 0.,  1., tz,
+		   0., 0.,  0., 1.);
+  sot::MatrixTwist twist (M);
+
+  sot::MatrixTwist twistInv = twist.inverse ();
+
+  sot::MatrixTwist twistInv_;
+  twist.inverse (twistInv_);
+
+  ml::Matrix twistRef (6, 6);
+  MATRIX_6x6_INIT (twistRef,
+		   1., 0., 0.,  0.,   tz,  -ty,
+		   0., 1., 0., -tz,   0.,   tx,
+		   0., 0., 1.,  ty,  -tx,   0.,
+		   0., 0., 0.,  1.,   0.,   0.,
+		   0., 0., 0.,  0.,   1.,   0.,
+		   0., 0., 0.,  0.,   0.,   1.);
+
+  MATRIX_6x6_BOOST_REQUIRE_CLOSE (twistInv, twistRef, 0.001);
+  MATRIX_6x6_BOOST_REQUIRE_CLOSE (twistInv_, twistRef, 0.001);
+}
+
+
+BOOST_AUTO_TEST_CASE (inverse_translation_rotation)
+{
+  sot::MatrixHomogeneous M;
+
+  double tx = 11.;
+  double ty = 22.;
+  double tz = 33.;
+
+  MATRIX_4x4_INIT (M,
+		   0.,  0., 1., tx,
+		   0., -1., 0., ty,
+		   1.,  0., 0., tz,
+		   0.,  0., 0., 1.);
+  sot::MatrixTwist twist (M);
+
+  sot::MatrixTwist twistInv = twist.inverse ();
+
+  sot::MatrixTwist twistInv_;
+  twist.inverse (twistInv_);
+
+  ml::Matrix twistRef (6, 6);
+  MATRIX_6x6_INIT (twistRef,
+		   1., 0., 0.,  0.,  -tz,   ty,
+		   0.,-1., 0., -tz,   0.,   tx,
+		   0., 0., 1., -ty,  -tx,   0.,
+		   0., 0., 0.,  1.,   0.,   0.,
+		   0., 0., 0.,  0.,  -1.,   0.,
+		   0., 0., 0.,  0.,   0.,   1.);
+
+  MATRIX_6x6_BOOST_REQUIRE_CLOSE (twistInv, twistRef, 0.001);
+  MATRIX_6x6_BOOST_REQUIRE_CLOSE (twistInv_, twistRef, 0.001);
+}
