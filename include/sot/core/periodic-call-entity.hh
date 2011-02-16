@@ -28,8 +28,8 @@
 
 /* SOT */
 #include <dynamic-graph/entity.h>
-#include <sot-core/periodic-call.h>
-#include <sot-core/periodic-call-entity.h>
+#include <sot/core/periodic-call.hh>
+#include <sot/core/periodic-call-entity.hh>
 #include <dynamic-graph/all-signals.h>
 /* STD */
 #include <list>

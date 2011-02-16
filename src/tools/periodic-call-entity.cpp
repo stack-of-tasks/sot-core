@@ -23,7 +23,7 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <sot-core/periodic-call-entity.h>
+#include <sot/core/periodic-call-entity.hh>
 #include <dynamic-graph/pool.h>
 #include <sot-core/debug.h>
 #include <sot-core/factory.h>
