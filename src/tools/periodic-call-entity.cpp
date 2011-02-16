@@ -29,8 +29,7 @@
 #include <sot-core/factory.h>
 
 using namespace std;
-using namespace dynamicgraph;
-using namespace sot;
+using namespace dynamicgraph::sot;
 
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(PeriodicCallEntity,"PeriodicCallEntity");

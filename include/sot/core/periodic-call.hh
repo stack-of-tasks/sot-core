@@ -44,6 +44,7 @@ namespace dynamicgraph {
   }
 }
 
+namespace dynamicgraph {
 namespace sot {
 
 /*!
@@ -90,7 +91,7 @@ class SOT_CORE_EXPORT PeriodicCall
 
 
 } // namespace sot
-
+} // namespace dynamicgraph
 
 
 #endif // #ifndef __SOT_PERIODICCALL_HH__

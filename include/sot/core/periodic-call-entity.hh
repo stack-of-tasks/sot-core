@@ -54,9 +54,8 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace dynamicgraph {
 namespace sot {
-
-namespace dg = dynamicgraph;
 
 /*!
   \class PeriodicCallEntity
@@ -66,15 +65,15 @@ namespace dg = dynamicgraph;
   If the trigerOnce is called, the stacks are flushed after the execution.
 */
 class PeriodicCallEntity_EXPORT PeriodicCallEntity
-: public dg::Entity, protected sot::PeriodicCall
+: public Entity, protected sot::PeriodicCall
 {
 
  public:
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
-  dg::Signal<int,int> triger;
-  dg::Signal<int,int> trigerOnce;
+  Signal<int,int> triger;
+  Signal<int,int> trigerOnce;
 
   int& trigerCall( int& dummy,const int & time );
   int& trigerOnceCall( int& dummy,const int & time );
@@ -91,8 +90,8 @@ class PeriodicCallEntity_EXPORT PeriodicCallEntity
 } ;
 
 
-} // ns dynamicgraph
-
+} // namespace sot
+} // namespace dynamicgraph
 
 #endif // #ifndef __SOT_PERIODICCALL_ENTITY_HH__
 
