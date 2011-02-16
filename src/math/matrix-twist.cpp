@@ -69,6 +69,8 @@ inverse( MatrixTwist& Vi ) const
   Rt.multiply(Sk,RtS); 
   RtS.multiply(Rt,RtSRt);
 
+  RtSRt *= -1;
+
   for( int i=0;i<3;++i )
     for( int j=0;j<3;++j )
       {

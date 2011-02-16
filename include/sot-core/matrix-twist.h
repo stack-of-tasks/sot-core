@@ -64,9 +64,3 @@ class SOT_CORE_EXPORT MatrixTwist
 } // namespace sot
 
 #endif /* #ifndef __SOT_MATRIX_TWIST_H__ */
-
-
-
-
-
-
