@@ -35,6 +35,9 @@ class FeaturePosition (Entity):
         Jq:        Jacobian input signal (Matrix),
         select:    selection flag "RzRyRxTzTyTx" (string).
         """
+
+    signalMap = dict()
+
     def __init__(self, name, signalPosition=None, signalJacobian = None,
                  referencePosition = None):
         self._feature = FeaturePoint6d(name)
