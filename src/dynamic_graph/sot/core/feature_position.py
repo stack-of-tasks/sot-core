@@ -42,7 +42,7 @@ class FeaturePosition (Entity):
                  referencePosition = None):
         self._feature = FeaturePoint6d(name)
         self.obj = self._feature.obj
-        self._reference = FeaturePoint6d(name + '.ref')
+        self._reference = FeaturePoint6d(name + '_ref')
         if referencePosition:
             self._reference.signal('position').value = tuple(referencePosition)
         if signalPosition:
