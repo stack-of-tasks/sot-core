@@ -155,6 +155,10 @@ Device( const std::string& n )
     addCommand("set",
 	       new command::Setter<Device, Vector>
 	       (*this, &Device::setState, docstring));
+
+    // Handle commands and signals called in a synchronous way.
+    periodicCallBefore_.addSpecificCommands(*this, commandMap, "before.");
+    periodicCallAfter_.addSpecificCommands(*this, commandMap, "after.");
   }
 }
 
@@ -182,15 +186,20 @@ setState( const ml::Vector& st )
 void Device::
 increment( const double & dt )
 {
-  sotDEBUG(25) << "Time : " << controlSIN.getTime()+1 << std::endl;
+  int time = controlSIN.getTime();
+  sotDEBUG(25) << "Time : " << time << std::endl;
+
+  // Run Synchronous commands and evaluate signals outside the main
+  // connected component of the graph.
+  periodicCallBefore_.run(time+1);
 
    stateSOUT .setConstant( state_ );
-  const ml::Vector control = controlSIN( controlSIN.getTime()+1 );
+  const ml::Vector control = controlSIN( time+1 );
 
-  sotDEBUG(25) << "Cl" <<controlSIN.getTime()<<" = "
+  sotDEBUG(25) << "Cl" <<time <<" = "
 	       << control*dt << ": " << control << endl;
 
-  sotDEBUG(25) << "St"<<state_.size() << controlSIN.getTime() << ": " << state_ << endl;
+  sotDEBUG(25) << "St"<<state_.size() << time << ": " << state_ << endl;
   // If control size is state size - 6, integrate joint angles,
   // if control and state are of same size, integrate 6 first degrees of
   // freedom as a translation and roll pitch yaw.
@@ -202,7 +211,7 @@ increment( const double & dt )
   for( unsigned int i=6;i<state_.size();++i )
     { state_(i) += (control(i-offset)*dt); }
 
-  sotDEBUG(25) << "St"<<state_.size() << controlSIN.getTime() << ": " << state_ << endl;
+  sotDEBUG(25) << "St"<<state_.size() << time << ": " << state_ << endl;
 
 
    ml::Vector forceNull(6); forceNull.fill(0);
@@ -214,6 +223,10 @@ increment( const double & dt )
 
   ml::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
+  // Run Synchronous commands and evaluate signals outside the main
+  // connected component of the graph.
+  periodicCallAfter_.run(time+1);
+
 }
 
 /* --- DISPLAY ------------------------------------------------------------ */

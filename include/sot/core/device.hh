@@ -30,7 +30,8 @@ namespace ml= maal::boost;
 /* SOT */
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
-#include <sot/core/vector-roll-pitch-yaw.hh>
+#include "sot/core/vector-roll-pitch-yaw.hh"
+#include "sot/core/periodic-call.hh"
 #include "sot/core/api.hh"
 
 namespace dynamicgraph {
@@ -60,6 +61,8 @@ namespace dynamicgraph {
     protected:
       ml::Vector state_;
       bool withForceSignals[4];
+      PeriodicCall periodicCallBefore_;
+      PeriodicCall periodicCallAfter_;
     public:
       
       /* --- CONSTRUCTION --- */
