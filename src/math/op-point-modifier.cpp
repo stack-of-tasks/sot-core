@@ -72,8 +72,8 @@ ml::Matrix&
 OpPointModifier::jacobianSOUT_function( ml::Matrix& res,const int& iter )
 {
   const ml::Matrix& jacobian = jacobianSIN( iter );
-  MatrixTwist V( transformation );
-  res = V*jacobian;
+  MatrixTwist V( transformation.inverse () );
+  res = V * jacobian;
   return res;
 }
 

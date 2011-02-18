@@ -136,7 +136,7 @@ namespace dynamicgraph {
 #  define sotERROR							\
   if(!dynamicgraph::sot::sotDEBUGFLOW.outputbuffer.good())		\
     ;									\
-  else sot::sotERRORFLOW.outputbuffer << sotPREERROR
+  else dynamicgraph::sot::sotERRORFLOW.outputbuffer << sotPREERROR
 
 #  define sotDEBUGF							\
   if(!dynamicgraph::sot::sotDEBUGFLOW.outputbuffer.good())		\

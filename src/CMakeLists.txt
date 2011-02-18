@@ -15,6 +15,11 @@
 
 INCLUDE(../cmake/python.cmake)
 
+# Verbosity level
+IF (NOT (\"${CMAKE_VERBOSITY_LEVEL}\" STREQUAL \"\"))
+  ADD_DEFINITIONS(-DVP_DEBUG_MODE=${CMAKE_VERBOSITY_LEVEL} -DVP_DEBUG)
+ENDIF (NOT (\"${CMAKE_VERBOSITY_LEVEL}\" STREQUAL \"\"))
+
 # The main include dir
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
 

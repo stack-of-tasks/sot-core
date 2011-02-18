@@ -30,7 +30,7 @@
 #ifdef VP_DEBUG
  class sotSOT__INIT
  {
- public:sotSOT__INIT( void ) { sot::DebugTrace::openFile(); }
+ public:sotSOT__INIT( void ) { dynamicgraph::sot::DebugTrace::openFile(); }
  };
  sotSOT__INIT sotSOT_initiator;
 #endif //#ifdef VP_DEBUG
@@ -492,13 +492,14 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 		    << S.size() + mem->Jff.nbCols()*mem->Jff.nbRows()
 	  + mem->Jact.nbCols()*mem->Jact.nbRows() << std::endl;
 
-sotDEBUG(1) << std::endl;
+	sotDEBUG(1) << std::endl;
 	S.resize( min(nJ,mJ) );
-sotDEBUG(1) << nJ << " " << Jac.nbCols() <<" "<<mJ<<std::endl;
- mem->Jff.resize( nJ,Jac.nbCols()-mJ ); // number dofs, number constraints
-sotDEBUG(1) << std::endl;
+	sotDEBUG(1) << "nJ=" << nJ << " " << "Jac.nbCols()=" << Jac.nbCols()
+		    <<" "<< "mJ=" << mJ<<std::endl;
+	mem->Jff.resize( nJ,Jac.nbCols()-mJ ); // number dofs, number constraints
+	sotDEBUG(1) << std::endl;
 	mem->Jact.resize( nJ,mJ );
-sotDEBUG(1) << std::endl;
+	sotDEBUG(1) << std::endl;
 	sotDEBUG(1) << "Size = "
 		    << S.size() + mem->Jff.nbCols()*mem->Jff.nbRows()
 	  + mem->Jact.nbCols()*mem->Jact.nbRows() << std::endl;
