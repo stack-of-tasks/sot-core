@@ -100,6 +100,9 @@ class R3 (object):
         """
         return R3(tuple(map(lambda x: constant*x, self)))
 
+    def toTuple(self):
+        return self.value
+
 class SO3 (object):
     """
     Rotation matrix
@@ -112,7 +115,7 @@ class SO3 (object):
         else:
             raise TypeError("expecting a tuple of "+
                             "3 tuples of 3 float or an instance of SO3.")
-    
+
     def fromTuple(self, matrix):
         if len(matrix) != 3:
             raise TypeError("expecting a tuple of "+
@@ -154,7 +157,7 @@ class SO3 (object):
     def __mul__(self, other):
         """
         Operator *
-        
+
           second argument is either
             - an instance of SO3 or
             - an instance of R3.
@@ -240,6 +243,14 @@ class SE3 (object):
         else:
             return tuple(self.rotation[index]) + (self.translation[index],)
 
+    def toMatrix(self):
+        r = self.rotation
+        t = self.translation
+        return ((r[0][0],r[0][1],r[0][2],t[0]),
+                (r[1][0],r[1][1],r[1][2],t[1]),
+                (r[2][0],r[2][1],r[2][2],t[2]),
+                (0.,0.,0.,1.))
+
 if __name__ == '__main__':
     a = R(2.)
     u = R3(1.,2.,3.)
@@ -265,7 +276,7 @@ if __name__ == '__main__':
     rot = ((cos(pi/6), 0., -sin(pi/6)),
            (0., 1., 0.),
            (sin(pi/6),0., cos(pi/6)))
-    
+
     m2 = SO3(rot)
     print ("m2 = " + str(m2))
     print ("")
