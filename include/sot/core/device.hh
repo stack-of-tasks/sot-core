@@ -32,6 +32,7 @@ namespace ml= maal::boost;
 #include <dynamic-graph/all-signals.h>
 #include "sot/core/vector-roll-pitch-yaw.hh"
 #include "sot/core/periodic-call.hh"
+#include "sot/core/matrix-homogeneous.hh"
 #include "sot/core/api.hh"
 
 namespace dynamicgraph {
@@ -102,7 +103,15 @@ namespace dynamicgraph {
     public: /* --- COMMANDS --- */
       void commandLine(const std::string&, std::istringstream&,
 		       std::ostream&){}
-
+    private:
+      /// Compute roll pitch yaw angles of freeflyer joint.
+      void integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
+				 double dt);
+      /// Store Position of free flyer joint
+      MatrixHomogeneous ffPose_;
+    protected:
+      /// Get freeflyer pose
+      const MatrixHomogeneous& freeFlyerPose() const;
     };
   } // namespace sot
 } // namespace dynamicgraph

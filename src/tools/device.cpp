@@ -41,13 +41,14 @@ const std::string Device::CLASS_NAME = "Device";
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-static void integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
-				  double dt)
+void Device::integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
+				   double dt)
 {
   jrlMathTools::Vector3D<double> omega;
   // Translation part
   for (unsigned int i=0; i<3; i++) {
     state(i) += control(i)*dt;
+    ffPose_(i,3) = state(i);
     omega(i) = control(i+3);
   }
   // Rotation part
@@ -86,6 +87,12 @@ static void integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
     jrlMathTools::Vector3D<double> ei = column[i];
     column[i] = ei*cos(angle) + (k^ei)*sin(angle) + k*((k*ei)*(1-cos(angle)));
   }
+  // Store new position if ffPose_ member.
+  for (unsigned int r = 0; r < 3; r++) {
+    for (unsigned int c = 0; c < 3; c++) {
+      ffPose_(r,c) = column[c](r);
+    }
+  }
   const double & nx = column[2](2);
   const double & ny = column[1](2);
 
@@ -94,6 +101,11 @@ static void integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
 		    sqrt(ny*ny+nx*nx));
   state(5) = atan2(column[0](1),column[0](0));
 
+}
+
+const MatrixHomogeneous& Device::freeFlyerPose() const
+{
+  return ffPose_;
 }
 
 Device::
@@ -117,7 +129,7 @@ Device( const std::string& n )
    ,pseudoTorqueSOUT( "Device::output(vector)::ptorque" )
    ,previousControlSOUT( "Device("+n+")::output(vector)::previousControl" )
    ,motorcontrolSOUT( "Device("+n+")::output(vector)::motorcontrol" )
-   ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" )
+  ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" ), ffPose_()
 {
   /* --- SIGNALS --- */
   for( int i=0;i<4;++i ){ withForceSignals[i] = false; }
