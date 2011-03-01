@@ -33,7 +33,7 @@ class FeaturePosition (Entity):
         position:  position input signal (MatrixHomo),
         reference: reference position input signal (MatrixHomo),
         Jq:        Jacobian input signal (Matrix),
-        select:    selection flag "RzRyRxTzTyTx" (string).
+        selec:    selection flag "RzRyRxTzTyTx" (string).
         """
 
     signalMap = dict()
@@ -58,13 +58,13 @@ class FeaturePosition (Entity):
         self.reference = self._reference.signal('position')
         self.Jq = self._feature.signal('Jq')
         self.error = self._feature.signal('error')
-        self.select = self._feature.signal('selec')
+        self.selec = self._feature.signal('selec')
 
         self.signalMap = {'position':self.position,
                           'reference':self.reference,
                           'Jq':self.Jq,
                           'error':self.error,
-                          'selec':self.select}
+                          'selec':self.selec}
 
     @property
     def name(self) :
