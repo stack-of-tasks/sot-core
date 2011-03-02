@@ -41,6 +41,7 @@ namespace dynamicgraph {
     public: 
       
       MatrixHomogeneous( void ) : ml::Matrix(4,4) { setIdentity(); }
+      MatrixHomogeneous( const ml::Matrix & copy );
       ~MatrixHomogeneous( void ) { }
       
       MatrixHomogeneous& buildFrom( const MatrixRotation& rot, const ml::Vector& trans );

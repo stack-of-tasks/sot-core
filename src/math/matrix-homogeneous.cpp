@@ -24,6 +24,15 @@
 
 using namespace dynamicgraph::sot;
 
+MatrixHomogeneous::
+MatrixHomogeneous( const ml::Matrix & copy )
+  :ml::Matrix(copy)
+{
+  assert( nbCols() == 4 && nbRows() == 4 );
+  assert( elementAt(3,0)==0 && elementAt(3,1)==0
+	  && elementAt(3,2)==0 && elementAt(3,3)==1 );
+  /* wana check the orthogonality of the rotation part? */
+}
 
 MatrixHomogeneous& MatrixHomogeneous::
 buildFrom( const MatrixRotation& rot, const ml::Vector& trans )
