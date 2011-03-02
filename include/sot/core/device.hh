@@ -103,15 +103,20 @@ namespace dynamicgraph {
     public: /* --- COMMANDS --- */
       void commandLine(const std::string&, std::istringstream&,
 		       std::ostream&){}
-    private:
+    protected:
       /// Compute roll pitch yaw angles of freeflyer joint.
       void integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
 				 double dt);
       /// Store Position of free flyer joint
       MatrixHomogeneous ffPose_;
+      /// Compute the new position, from the current control.
+      virtual void integrate( const double & dt );
     protected:
       /// Get freeflyer pose
       const MatrixHomogeneous& freeFlyerPose() const;
+    public:
+      void setRoot( const ml::Matrix & root );
+      void setRoot( const MatrixHomogeneous & worldMwaist );
     };
   } // namespace sot
 } // namespace dynamicgraph

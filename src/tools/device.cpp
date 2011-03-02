@@ -168,6 +168,14 @@ Device( const std::string& n )
 	       new command::Setter<Device, Vector>
 	       (*this, &Device::setState, docstring));
 
+    void(Device::*setRootPtr)(const ml::Matrix&) = &Device::setRoot;
+    docstring
+      = command::docCommandVoid1("Set the root position.",
+				 "matrix homogeneous");
+    addCommand("setRoot",
+	       command::makeCommandVoid1(*this,setRootPtr,
+					 docstring));
+
     // Handle commands and signals called in a synchronous way.
     periodicCallBefore_.addSpecificCommands(*this, commandMap, "before.");
     periodicCallAfter_.addSpecificCommands(*this, commandMap, "after.");
@@ -196,22 +204,60 @@ setState( const ml::Vector& st )
 }
 
 void Device::
+setRoot( const ml::Matrix & root )
+{
+  setRoot( (MatrixHomogeneous) root );
+}
+void Device::
+setRoot( const MatrixHomogeneous & worlMwaist )
+{
+  MatrixRotation R; worlMwaist.extract(R);
+  VectorRollPitchYaw r; r.fromMatrix(R);
+
+  ml::Vector q = state_;
+  worlMwaist.extract(q); // abusive ... but working.
+  for( unsigned int i=0;i<3;++i ) q(i+3) = r(i);
+}
+
+void Device::
 increment( const double & dt )
 {
   int time = controlSIN.getTime();
   sotDEBUG(25) << "Time : " << time << std::endl;
 
+  /* Position the signals corresponding to sensors. */
+  stateSOUT .setConstant( state_ );
+  ml::Vector forceNull(6); forceNull.fill(0);
+  for( int i=0;i<4;++i ){
+    if(  withForceSignals[i] ) forcesSOUT[i]->setConstant(forceNull);
+  }
+  ml::Vector zmp(3); zmp.fill( .0 );
+  ZMPPreviousControllerSOUT .setConstant( zmp );
+
   // Run Synchronous commands and evaluate signals outside the main
   // connected component of the graph.
   periodicCallBefore_.run(time+1);
 
-   stateSOUT .setConstant( state_ );
-  const ml::Vector control = controlSIN( time+1 );
+  /* Force the recomputation of the control. */
+  controlSIN( time+1 );
+  sotDEBUG(25) << "u" <<time<<" = " << controlSIN.accessCopy() << endl;
 
-  sotDEBUG(25) << "Cl" <<time <<" = "
-	       << control*dt << ": " << control << endl;
+  /* Integration of numerical values. This function is virtual. */
+  integrate( dt );
+  sotDEBUG(25) << "q" << time << " = " << state_ << endl;
 
-  sotDEBUG(25) << "St"<<state_.size() << time << ": " << state_ << endl;
+  // Run Synchronous commands and evaluate signals outside the main
+  // connected component of the graph.
+  periodicCallAfter_.run(time+1);
+
+  // Others signals.
+  motorcontrolSOUT .setConstant( state_ );
+}
+
+void Device::integrate( const double & dt )
+{
+  const ml::Vector & control = controlSIN.accessCopy();
+
   // If control size is state size - 6, integrate joint angles,
   // if control and state are of same size, integrate 6 first degrees of
   // freedom as a translation and roll pitch yaw.
@@ -222,23 +268,6 @@ increment( const double & dt )
   }
   for( unsigned int i=6;i<state_.size();++i )
     { state_(i) += (control(i-offset)*dt); }
-
-  sotDEBUG(25) << "St"<<state_.size() << time << ": " << state_ << endl;
-
-
-   ml::Vector forceNull(6); forceNull.fill(0);
-   for( int i=0;i<4;++i ){
-     if(  withForceSignals[i] ) forcesSOUT[i]->setConstant(forceNull);
-   }
-
-  motorcontrolSOUT .setConstant( state_ );
-
-  ml::Vector zmp(3); zmp.fill( .0 );
-  ZMPPreviousControllerSOUT .setConstant( zmp );
-  // Run Synchronous commands and evaluate signals outside the main
-  // connected component of the graph.
-  periodicCallAfter_.run(time+1);
-
 }
 
 /* --- DISPLAY ------------------------------------------------------------ */
