@@ -25,75 +25,67 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
-
 /* SOT */
-#include <sot/core/flags.hh>
 #include <dynamic-graph/entity.h>
-#include <sot/core/pool.hh>
-#include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/all-signals.h>
 
-/* STD */
-#include <string>
-
-#include <boost/function.hpp>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace dynamicgraph { namespace sot {
-namespace dg = dynamicgraph;
+namespace dynamicgraph {
+  namespace sot {
 
-template< class Tin,class Tout,typename Operator >
-class UnaryOp
-:public dg::Entity
-{
-  Operator op;
-
- public: /* --- CONSTRUCTION --- */
-
-  static std::string getTypeInName( void ) { return "UnknownIn"; }
-  static std::string getTypeOutName( void ) { return "UnknownOut"; }
-  static const std::string CLASS_NAME;
-
-  UnaryOp( const std::string& name )
-    : dg::Entity(name)
-    ,SIN(NULL,UnaryOp::CLASS_NAME+"("+name+")::input("+getTypeInName()+")::sin")
-    ,SOUT( boost::bind(&UnaryOp<Tin,Tout,Operator>::computeOperation,this,_1,_2),
-	   SIN,CLASS_NAME+"("+name+")::output("+getTypeOutName()+")::sout")
+    template< typename Operator >
+    class UnaryOp
+      :public Entity
     {
-      signalRegistration( SIN<<SOUT );
-    }
+      Operator op;
+      typedef typename Operator::Tin Tin;
+      typedef typename Operator::Tout Tout;
+      typedef UnaryOp<Operator> Self;
 
+    public: /* --- CONSTRUCTION --- */
 
-  virtual ~UnaryOp( void ) {};
+      static std::string getTypeInName( void ) { return Operator::nameTypeIn(); }
+      static std::string getTypeOutName( void ) { return Operator::nameTypeOut(); }
+      static const std::string CLASS_NAME;
 
- public: /* --- SIGNAL --- */
+      virtual const std::string& getClassName  () const
+      {
+	return CLASS_NAME;
+      }
 
-  dg::SignalPtr<Tin,int> SIN;
-  dg::SignalTimeDependent<Tout,int> SOUT;
+      UnaryOp( const std::string& name )
+	: Entity(name)
+	,SIN(NULL,Self::CLASS_NAME+"("+name+")::input("+Self::getTypeInName()+")::sin")
+	,SOUT( boost::bind(&Self::computeOperation,this,_1,_2),
+	       SIN,Self::CLASS_NAME+"("+name+")::output("+Self::getTypeOutName()+")::sout")
+      {
+	signalRegistration( SIN<<SOUT );
+	op.addSpecificCommands(*this,commandMap);
+      }
 
- protected:
-  Tout& computeOperation( Tout& res,int time )
-    {
-      const Tin &x1 = SIN(time);
-      op(x1,res);
-      return res;
-    }
+      virtual ~UnaryOp( void ) {};
 
- public: /* --- PARAMS --- */
-  virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
- 			    std::ostream& os ) ;
+    public: /* --- SIGNAL --- */
 
+      SignalPtr<Tin,int> SIN;
+      SignalTimeDependent<Tout,int> SOUT;
 
-};
+    protected:
+      Tout& computeOperation( Tout& res,int time )
+      {
+	const Tin &x1 = SIN(time);
+	op(x1,res);
+	return res;
+      }
 
-} /* namespace sot */} /* namespace dynamicgraph */
+    public: /* --- PARAMS --- */
 
-
+    };
+  } /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_BINARYOP_H__

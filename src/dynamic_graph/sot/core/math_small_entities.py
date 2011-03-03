@@ -61,8 +61,6 @@ from unary_op import UThetaToQuaternion
 UThetaToQuaternion('')
 from unary_op import MatrixDiagonal
 MatrixDiagonal('')
-from unary_op import DirtyMemory
-DirtyMemory('')
 
 
 from binary_op import Add_of_matrix
