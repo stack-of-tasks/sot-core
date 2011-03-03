@@ -61,6 +61,17 @@ class R3 (object):
             raise TypeError("second argument of operator "+
                             operator + " should be an instance of R3.")
 
+    def crossprod(self, other):
+        """
+        Cross product
+        """
+        self.checkOther(other, "crossprod")
+        cp = []
+        cp.append(self.value[1]*other.value[2] - self.value[2]*other.value[1])
+        cp.append(self.value[2]*other.value[0] - self.value[0]*other.value[2])
+        cp.append(self.value[0]*other.value[1] - self.value[1]*other.value[0])
+        return R3(tuple(cp))
+
     def __add__(self, other):
         """
         Operator +
