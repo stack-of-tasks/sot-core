@@ -85,6 +85,17 @@ void GainAdaptive::addCommands()
   addCommand("set",
 	     makeCommandVoid3(*this,&GainAdaptive::init,
 			      docstring));
+  docstring = "    \n"
+    "    set from value at 0 and infinity, with a passing point\n"
+    "      Input:\n"
+    "        floating point value: value at 0,\n"
+    "        floating point value: value at infinity,\n"
+    "        floating point value: reference point,\n"
+    "        floating point value: percentage at ref point.\n"
+    "    \n";
+  addCommand("setByPoint",
+   	     makeCommandVoid4(*this,&GainAdaptive::initFromPassingPoint,
+   			      docstring));
 }
 
 GainAdaptive::
@@ -132,6 +143,39 @@ init( const double& valueAt0,
 
   return;
 }
+
+/*
+ * The idea is to fix value at 0 and infinity. Now, we are looking for a smart
+ * way to chose the slope at 0 or the coeff B (it is more or less the same).
+ * I can imagine to way of using a passing point:
+ *  - first, imposing a value gref at position xref: g(xref)=gref.
+ * In that case, B=-1/xref*log((gref-C)/A):
+ *     gnuplot> A=1; C=.1; xref=.1; gref=.4; B=1/xref*log((gref-C)/A)
+ *     gnuplot> plot [0:(A+C)/B*10][C-.1*(A-C):A+C+.1*(A-C)] A*exp(-B*x)+C, A+C-B*x
+ *  - second solution: imposing to reach a percentage of raise at a given point. It
+ * is more or less the same as before, but with gref := C+p*A, for a given p. In that
+ * case, B=-1/xref*log(p)
+ *     gnuplot> A=1; C=.1; xref=.1; p=.1; B=1/xref*log(p)
+ *     gnuplot> plot [0:(A+C)/B*10][C-.1*(A-C):A+C+.1*(A-C)] A*exp(-B*x)+C, A+C-B*x
+ *
+ * The second solution is tried in the following.
+ */
+void GainAdaptive::
+initFromPassingPoint( const double& valueAt0,
+		      const double& valueAtInfty,
+		      const double& xref,
+		      const double& p ) //gref )
+{
+  coeff_c = valueAtInfty;
+  coeff_a = valueAt0 - valueAtInfty;
+  if (0 == coeff_a)    { coeff_b = 0; }
+  else
+    {
+      //coeff_b = -1/xref*log( (gref-coeff_c)/coeff_a );
+      coeff_b = -1/xref*log( p );
+    }
+}
+
 
 void GainAdaptive::
 forceConstant( void )

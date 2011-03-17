@@ -95,6 +95,10 @@ class SOTGAINADAPTATIVE_EXPORT GainAdaptive
   void init( const double& valueAt0,
 	     const double& valueAtInfty,
 	     const double& tanAt0 );
+  void initFromPassingPoint( const double& valueAt0,
+			     const double& valueAtInfty,
+			     const double& errorReference,
+			     const double& valueAtReference );
   void forceConstant( void );
 
  public:  /* --- SIGNALS --- */
