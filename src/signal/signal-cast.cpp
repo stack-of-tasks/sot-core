@@ -45,8 +45,18 @@ namespace dynamicgraph
   DG_SIGNAL_CAST_DEFINITION(sot::Flags);
   DG_ADD_CASTER(sot::Flags,flags);
 
-  namespace {
 
+  template <>
+  void
+  DefaultCastRegisterer<MatrixHomogeneous>::
+  trace(const boost::any& object, std::ostream& os)
+  {
+    const MatrixHomogeneous & M = boost::any_cast<MatrixHomogeneous>(object);
+    for( unsigned int i=0;i<4;++i )
+      for( unsigned int j=0;j<4;++j )
+	{ os << "\t" << M(i,j); }
+  }
+  namespace {
     dynamicgraph::DefaultCastRegisterer <sot::MatrixHomogeneous>
     matrixHomegeneousCastRegisterer;
 
