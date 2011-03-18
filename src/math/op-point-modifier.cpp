@@ -79,32 +79,28 @@ ml::Matrix&
 OpPointModifier::jacobianSOUT_function( ml::Matrix& res,const int& iter )
 {
   const ml::Matrix& jacobian = jacobianSIN( iter );
-  MatrixTwist V( transformation.inverse () );
-  res = V * jacobian;
+  const MatrixHomogeneous & aMb = transformation;
+  const MatrixHomogeneous & oMa = positionSIN(iter);
 
-  if(! isEndEffector )
+  MatrixTwist bVa( aMb.inverse () );
+  res = bVa * jacobian;
+
+  if( isEndEffector )
     {
-      /*la solution ci dessous fonctionne impec. Normalement, elle doit pouvoir
-	se reecrire comme la solution au dessus multipliee par les matrices de rotations.
-	Faut juste le verifier proporement. A l ecrit, la solution au dessus
-        est exacte.*/
-
       /* Consider that the jacobian of point A in frame A is given: J  = aJa
        * and that homogenous transformation from A to B is given aMb in getTransfo()
        * and homo transfo from 0 to A is given oMa in positionSIN.
        * Then return oJb, the jacobian of point B expressed in frame O:
-       *     oJb = ( oRa 0 ; 0 oRa ) * ( I -[AB]x ; 0 I ) * aJa
-       *         = ( oRa -0Ra [AB]x ; 0 oRa ) * aJa = twist( [oRa AB] ) * aJa
+       *     oJb = ( oRa 0 ; 0 oRa ) * bVa * aJa
        */
-      const ml::Matrix& jacobian = jacobianSIN( iter );
-      MatrixHomogeneous M;
-      const MatrixHomogeneous & oMa = positionSIN(iter);
 
-      for( int i=0;i<3;++i )
-	  for( int j=0;j<3;++j )
-	    M(i,j) = oMa(i,j);
-      MatrixTwist V( M );
-      res = V * jacobian;
+      MatrixHomogeneous oRb = oMa*aMb;
+      /* There is no constructor of twist from rotation V = [R 0 ; 0 R], so
+       * a 0-translation homogeneous matrix is used instead. */
+      for( int i=0;i<3;++i )	oRb(i,3) = 0;
+      MatrixTwist oRRb( oRb );
+
+      res = oRRb * res;
     }
   return res;
 }
