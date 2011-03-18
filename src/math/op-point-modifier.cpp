@@ -78,14 +78,17 @@ OpPointModifier( const std::string& name )
 ml::Matrix&
 OpPointModifier::jacobianSOUT_function( ml::Matrix& res,const int& iter )
 {
-  const ml::Matrix& jacobian = jacobianSIN( iter );
-  const MatrixHomogeneous & aMb = transformation;
-  const MatrixHomogeneous & oMa = positionSIN(iter);
-
-  MatrixTwist bVa( aMb.inverse () );
-  res = bVa * jacobian;
-
   if( isEndEffector )
+    {
+      const ml::Matrix& aJa = jacobianSIN( iter );
+      const MatrixHomogeneous & aMb = transformation;
+      const MatrixHomogeneous & oMa = positionSIN(iter);
+
+      MatrixTwist bVa( aMb.inverse () );
+      res = bVa * aJa; // res := bJb
+      return res;
+    }
+  else
     {
       /* Consider that the jacobian of point A in frame A is given: J  = aJa
        * and that homogenous transformation from A to B is given aMb in getTransfo()
@@ -94,15 +97,27 @@ OpPointModifier::jacobianSOUT_function( ml::Matrix& res,const int& iter )
        *     oJb = ( oRa 0 ; 0 oRa ) * bVa * aJa
        */
 
-      MatrixHomogeneous oRb = oMa*aMb;
-      /* There is no constructor of twist from rotation V = [R 0 ; 0 R], so
-       * a 0-translation homogeneous matrix is used instead. */
-      for( int i=0;i<3;++i )	oRb(i,3) = 0;
-      MatrixTwist oRRb( oRb );
+      const ml::Matrix& oJa = jacobianSIN( iter );
+      const MatrixHomogeneous & aMb = transformation;
+      const MatrixHomogeneous & oMa = positionSIN(iter);
+      MatrixRotation oRa; oMa.extract(oRa);
+      ml::Vector aAB(3); aMb.extract(aAB);
+      ml::Vector oAB = oRa*aAB;
 
-      res = oRRb * res;
+      const int nq = oJa.nbCols();
+      res.resize( 6,J.nbCols() );
+      for( int j=0;j<nq;++j )
+	{
+	  res(0,j) = -oAB(1)*oJa(2,j) + oAB(2)*oJA(1,j);
+	  res(1,j) = -oAB(2)*oJa(0,j) + oAB(0)*oJA(2,j);
+	  res(2,j) = -oAB(0)*oJa(1,j) + oAB(1)*oJA(0,j);
+	  for( int i=0;i<3;++i )
+	    {
+	      res(i+3,j) = oJA(i+3,j);
+	    }
+	}
+      return res; // res := 0Jb
     }
-  return res;
 }
 
 MatrixHomogeneous&
