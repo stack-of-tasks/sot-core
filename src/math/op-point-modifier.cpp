@@ -24,6 +24,7 @@
 
 #include <sot/core/op-point-modifier.hh>
 #include <sot/core/matrix-twist.hh>
+#include <sot/core/matrix-rotation.hh>
 
 
 using namespace std;
@@ -82,7 +83,6 @@ OpPointModifier::jacobianSOUT_function( ml::Matrix& res,const int& iter )
     {
       const ml::Matrix& aJa = jacobianSIN( iter );
       const MatrixHomogeneous & aMb = transformation;
-      const MatrixHomogeneous & oMa = positionSIN(iter);
 
       MatrixTwist bVa( aMb.inverse () );
       res = bVa * aJa; // res := bJb
@@ -95,6 +95,8 @@ OpPointModifier::jacobianSOUT_function( ml::Matrix& res,const int& iter )
        * and homo transfo from 0 to A is given oMa in positionSIN.
        * Then return oJb, the jacobian of point B expressed in frame O:
        *     oJb = ( oRa 0 ; 0 oRa ) * bVa * aJa
+       *         = [ I skew(oAB); 0 I ] * oJa
+       * with oAB = oRb bAB = oRb (-bRa aAB ) = -oRa aAB, and aAB = translation(aMb).
        */
 
       const ml::Matrix& oJa = jacobianSIN( iter );
@@ -105,15 +107,16 @@ OpPointModifier::jacobianSOUT_function( ml::Matrix& res,const int& iter )
       ml::Vector oAB = oRa*aAB;
 
       const int nq = oJa.nbCols();
-      res.resize( 6,J.nbCols() );
+      res.resize( 6,oJa.nbCols() );
       for( int j=0;j<nq;++j )
 	{
-	  res(0,j) = -oAB(1)*oJa(2,j) + oAB(2)*oJA(1,j);
-	  res(1,j) = -oAB(2)*oJa(0,j) + oAB(0)*oJA(2,j);
-	  res(2,j) = -oAB(0)*oJa(1,j) + oAB(1)*oJA(0,j);
+	  /* This is a I*Jtrans + skew*Jrot product, unrolled by hand ... */
+	  res(0,j) = oJa(0,j) -oAB(1)*oJa(2+3,j) + oAB(2)*oJa(1+3,j);
+	  res(1,j) = oJa(1,j) -oAB(2)*oJa(0+3,j) + oAB(0)*oJa(2+3,j);
+	  res(2,j) = oJa(2,j) -oAB(0)*oJa(1+3,j) + oAB(1)*oJa(0+3,j);
 	  for( int i=0;i<3;++i )
 	    {
-	      res(i+3,j) = oJA(i+3,j);
+	      res(i+3,j) = oJa(i+3,j);
 	    }
 	}
       return res; // res := 0Jb
