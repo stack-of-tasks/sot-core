@@ -173,7 +173,7 @@ computeError( ml::Vector& error,int time )
 
 	const int dim = partialError.size();
 	while( cursorError+dim>dimError )  // DEBUG It was >=
-	  { dimError *= 2; error.resize(dimError); }
+	  { dimError *= 2; error.resize(dimError,false); }
 
 	for( int k=0;k<dim;++k ){ error(cursorError++) = partialError(k); }
 	sotDEBUG(35) << "feature: "<< partialError << std::endl;
