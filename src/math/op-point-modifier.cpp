@@ -49,7 +49,8 @@ OpPointModifier( const std::string& name )
    ,positionSOUT( boost::bind(&OpPointModifier::positionSOUT_function,this,_1,_2),
 		  positionSIN,
 		  "OpPointModifior("+name+")::output(matrixhomo)::position" )
-   ,transformation()
+  ,transformation()
+  ,isEndEffector(true)
 {
   sotDEBUGIN(15);
 
@@ -63,6 +64,12 @@ OpPointModifier( const std::string& name )
     addCommand("setTransformation",
 	       makeDirectSetter(*this, &(ml::Matrix&)transformation,
 				docDirectSetter("dimension","matrix 4x4 homo")));
+    addCommand("getEndEffector",
+	       makeDirectGetter(*this,&isEndEffector,
+				docDirectGetter("end effector mode","bool")));
+    addCommand("setEndEffector",
+	       makeDirectSetter(*this, &isEndEffector,
+				docDirectSetter("end effector mode","bool")));
   }
 
   sotDEBUGOUT(15);
@@ -74,6 +81,31 @@ OpPointModifier::jacobianSOUT_function( ml::Matrix& res,const int& iter )
   const ml::Matrix& jacobian = jacobianSIN( iter );
   MatrixTwist V( transformation.inverse () );
   res = V * jacobian;
+
+  if(! isEndEffector )
+    {
+      /*la solution ci dessous fonctionne impec. Normalement, elle doit pouvoir
+	se reecrire comme la solution au dessus multipliee par les matrices de rotations.
+	Faut juste le verifier proporement. A l ecrit, la solution au dessus
+        est exacte.*/
+
+      /* Consider that the jacobian of point A in frame A is given: J  = aJa
+       * and that homogenous transformation from A to B is given aMb in getTransfo()
+       * and homo transfo from 0 to A is given oMa in positionSIN.
+       * Then return oJb, the jacobian of point B expressed in frame O:
+       *     oJb = ( oRa 0 ; 0 oRa ) * ( I -[AB]x ; 0 I ) * aJa
+       *         = ( oRa -0Ra [AB]x ; 0 oRa ) * aJa = twist( [oRa AB] ) * aJa
+       */
+      const ml::Matrix& jacobian = jacobianSIN( iter );
+      MatrixHomogeneous M;
+      const MatrixHomogeneous & oMa = positionSIN(iter);
+
+      for( int i=0;i<3;++i )
+	  for( int j=0;j<3;++j )
+	    M(i,j) = oMa(i,j);
+      MatrixTwist V( M );
+      res = V * jacobian;
+    }
   return res;
 }
 
@@ -112,6 +144,7 @@ OpPointModifier::setTransformationBySignalName( std::istringstream& cmdArgs )
     (g_pool.getSignal( cmdArgs ));
   setTransformation(sig.accessCopy());
 }
+
 
 void OpPointModifier::
 commandLine( const std::string& cmdLine,

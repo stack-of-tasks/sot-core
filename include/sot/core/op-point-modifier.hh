@@ -80,6 +80,7 @@ public:
   MatrixHomogeneous& positionSOUT_function( MatrixHomogeneous& res,const int& time );
   void setTransformation( const MatrixHomogeneous& tr );
   void setTransformationBySignalName( std::istringstream& cmdArgs );
+  const MatrixHomogeneous& getTransformation( void );
 
   virtual void commandLine( const std::string& cmdLine,
 			    std::istringstream& cmdArgs,
@@ -87,7 +88,7 @@ public:
 
  private:
   MatrixHomogeneous transformation;
-  const MatrixHomogeneous& getTransformation( void );
+  bool isEndEffector;
 };
 
 } /* namespace sot */} /* namespace dynamicgraph */

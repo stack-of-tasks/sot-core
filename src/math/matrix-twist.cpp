@@ -30,13 +30,21 @@ using namespace dynamicgraph::sot;
 MatrixTwist& MatrixTwist::
 buildFrom( const MatrixHomogeneous& M )
 {
+  /* ovb = ova + owa x oAB
+   * bvb = bRo ova + bRo (owa x oAB)
+   *     = bRa ava + bRa (aRo owa) x  (aRo oAB)
+   *     = bRa ava + bRa (awa) x (aAB)
+   *     = bRa ava + (bRa awa) x (-bAB)
+   *     = bRa ava + (bAB) x (bRa awa)
+   *     = bRa ava + [bAb]x  bRa awa
+   */
   ml::Matrix Tx(3,3);
   Tx( 0,0 ) = 0       ;  Tx( 0,1 )=-M( 2,3 );  Tx( 0,2 ) = M( 1,3 );
   Tx( 1,0 ) = M( 2,3 );  Tx( 1,1 )= 0       ;  Tx( 1,2 ) =-M( 0,3 );
   Tx( 2,0 ) =-M( 1,3 );  Tx( 2,1 )= M( 0,3 );  Tx( 2,2 ) = 0       ;
   MatrixRotation R; M.extract(R);
   ml::Matrix sk(3,3); Tx.multiply(R,sk);
-  
+
   sotDEBUG(15) << "Tx = " << Tx << std::endl;
   sotDEBUG(15) << "Sk = " << sk << std::endl;
 
