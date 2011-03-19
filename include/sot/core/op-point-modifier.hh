@@ -88,6 +88,11 @@ public:
 
  private:
   MatrixHomogeneous transformation;
+
+
+  /* This bool tunes the effect of the modifier for end-effector Jacobian (ie the output
+   * velocity is expressed in the end-effector frame) of from the world-ref Jacobian (ie
+   * the ouput velocity is computed in the world frame). */
   bool isEndEffector;
 };
 
