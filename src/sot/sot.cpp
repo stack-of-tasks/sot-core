@@ -117,6 +117,33 @@ Sot( const std::string& name )
   addCommand("push",
 	     new command::classSot::Push(*this, docstring));
 
+  docstring ="    \n"
+    "    remove a task into the stack.\n"
+    "    \n"
+    "      Input:\n"
+    "        - a string : Name of the task.\n"
+    "    \n";
+  addCommand("remove",
+	     new command::classSot::Remove(*this, docstring));
+
+  docstring ="    \n"
+    "    up a task into the stack.\n"
+    "    \n"
+    "      Input:\n"
+    "        - a string : Name of the task.\n"
+    "    \n";
+  addCommand("up",
+	     new command::classSot::Up(*this, docstring));
+
+  docstring ="    \n"
+    "    down a task into the stack.\n"
+    "    \n"
+    "      Input:\n"
+    "        - a string : Name of the task.\n"
+    "    \n";
+  addCommand("down",
+	     new command::classSot::Down(*this, docstring));
+
 }
 
 /* --------------------------------------------------------------------- */

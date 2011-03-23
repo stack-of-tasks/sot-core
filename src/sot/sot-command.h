@@ -83,6 +83,81 @@ namespace dynamicgraph { namespace sot {
 	  return Value();
 	}
       }; // class Push
+
+      // Command Remove
+      class Remove : public Command
+      {
+      public:
+	virtual ~Remove() {}
+	/// Create command and store it in Entity
+	/// \param entity instance of Entity owning this command
+	/// \param docstring documentation of the command
+      Remove(Sot& entity, const std::string& docstring) :
+	Command(entity, boost::assign::list_of(Value::STRING), docstring)
+	  {
+	  }
+	virtual Value doExecute()
+	{
+	  Sot& sot = static_cast<Sot&>(owner());
+	  std::vector<Value> values = getParameterValues();
+	  std::string taskName = values[0].value();
+
+	  TaskAbstract& task = sotPool.getTask(taskName);
+	  sot.remove(task);
+	  // return void
+	  return Value();
+	}
+      }; // class Remove
+
+      // Command Up
+      class Up : public Command
+      {
+      public:
+	virtual ~Up() {}
+	/// Create command and store it in Entity
+	/// \param entity instance of Entity owning this command
+	/// \param docstring documentation of the command
+      Up(Sot& entity, const std::string& docstring) :
+	Command(entity, boost::assign::list_of(Value::STRING), docstring)
+	  {
+	  }
+	virtual Value doExecute()
+	{
+	  Sot& sot = static_cast<Sot&>(owner());
+	  std::vector<Value> values = getParameterValues();
+	  std::string taskName = values[0].value();
+
+	  TaskAbstract& task = sotPool.getTask(taskName);
+	  sot.up(task);
+	  // return void
+	  return Value();
+	}
+      }; // class Remove
+
+      // Command Down
+      class Down : public Command
+      {
+      public:
+	virtual ~Down() {}
+	/// Create command and store it in Entity
+	/// \param entity instance of Entity owning this command
+	/// \param docstring documentation of the command
+      Down(Sot& entity, const std::string& docstring) :
+	Command(entity, boost::assign::list_of(Value::STRING), docstring)
+	  {
+	  }
+	virtual Value doExecute()
+	{
+	  Sot& sot = static_cast<Sot&>(owner());
+	  std::vector<Value> values = getParameterValues();
+	  std::string taskName = values[0].value();
+
+	  TaskAbstract& task = sotPool.getTask(taskName);
+	  sot.down(task);
+	  // return void
+	  return Value();
+	}
+      }; // class Down
     } // namespace classSot
   } // namespace command
 } /* namespace sot */} /* namespace dynamicgraph */
