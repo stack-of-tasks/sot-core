@@ -2,6 +2,7 @@
  * Copyright 2010,
  * François Bleibel,
  * Olivier Stasse,
+ * Nicolas Mansard
  *
  * CNRS/AIST
  *
@@ -241,7 +242,7 @@ namespace dynamicgraph {
     /* -------------------------------------------------------------------------------------- */
 
     template< typename matrixgen >
-    struct Inveser
+    struct Inverser
       : public UnaryOpHeader<matrixgen,matrixgen>
     {
       typedef typename UnaryOpHeader<matrixgen,matrixgen>::Tin Tin;
@@ -250,9 +251,9 @@ namespace dynamicgraph {
       {	m.inverse(res); }
     };
 
-    REGISTER_UNARY_OP( Inveser<dg::Matrix>, Inverse_of_matrix);
-    REGISTER_UNARY_OP( Inveser<MatrixHomogeneous>, Inverse_of_matrixhomo);
-    REGISTER_UNARY_OP( Inveser<MatrixTwist>, Inverse_of_matrixtwist);
+    REGISTER_UNARY_OP( Inverser<dg::Matrix>, Inverse_of_matrix);
+    REGISTER_UNARY_OP( Inverser<MatrixHomogeneous>, Inverse_of_matrixHomo);
+    REGISTER_UNARY_OP( Inverser<MatrixTwist>, Inverse_of_matrixtwist);
 
     struct InverserRotation
       : public UnaryOpHeader<MatrixRotation,MatrixRotation>
