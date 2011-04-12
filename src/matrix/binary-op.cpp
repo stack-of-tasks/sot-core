@@ -20,6 +20,8 @@
 
 #include <sot/core/binary-op.hh>
 
+#include <dynamic-graph/linear-algebra.h>
+#include <dynamic-graph/all-commands.h>
 #include <sot/core/factory.hh>
 #include <sot/core/matrix-homogeneous.hh>
 #include <sot/core/vector-roll-pitch-yaw.hh>
@@ -29,482 +31,323 @@
 
 #include <deque>
 
-namespace dynamicgraph { namespace sot {
-using namespace dynamicgraph;
+namespace dg = ::dynamicgraph;
 
-#define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(sotClassType,sotType,index,className,CMDLINE,CMDHELP)  \
-  template<>                                                                            \
-  std::string sotClassType::                                                            \
-  getTypeIn1Name( void ) { return std::string(#sotType); }                              \
-  template<>                                                                            \
-  std::string sotClassType::                                                            \
-  getTypeIn2Name( void ) { return std::string(#sotType); }                              \
-  template<>                                                                            \
-  std::string sotClassType::                                                            \
-  getTypeOutName( void ) { return std::string(#sotType); }                              \
-  template<>                                                                            \
-  const std::string sotClassType::CLASS_NAME                                            \
-     = std::string(className);                                                          \
-  template<>                                                                            \
-  void sotClassType::commandLine( const std::string& cmdLine,                           \
-                                  std::istringstream& cmdArgs,                          \
- 			          std::ostream& os )                                    \
-  {                                                                                     \
-    if( cmdLine=="help" ) { os << CMDHELP << std::endl; }                               \
-    CMDLINE                                                                             \
-      else { Entity::commandLine(cmdLine,cmdArgs,os); }                              \
-  }                                                                                     \
-  extern "C" {                                                                          \
-    Entity *regFunction##_##index( const std::string& objname )                      \
-    {                                                                                   \
-      return new sotClassType( objname );                                               \
-    }                                                                                   \
-  EntityRegisterer regObj##_##index( std::string(className),                         \
-					  &regFunction##_##index );                     \
-  }
+namespace dynamicgraph {
+  namespace sot {
+    template< typename TypeRef >
+    struct TypeNameHelper
+    {
+      static const std::string typeName;
+    };
+    template< typename TypeRef >
+    const std::string TypeNameHelper<TypeRef>::typeName = "unspecified";
 
-#define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(sotClassType,sotType,index,className)  \
-  SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(sotClassType,sotType,index,className,else if( 0 ) {},"No help")
+#define ADD_KNOWN_TYPE( typeid ) \
+    template<>const std::string TypeNameHelper<typeid>::typeName = #typeid
 
-using namespace ml;
+    ADD_KNOWN_TYPE(dg::Vector);
+    ADD_KNOWN_TYPE(dg::Matrix);
+    ADD_KNOWN_TYPE(MatrixRotation);
+    ADD_KNOWN_TYPE(MatrixTwist);
+    ADD_KNOWN_TYPE(MatrixHomogeneous);
+    ADD_KNOWN_TYPE(VectorQuaternion);
+    ADD_KNOWN_TYPE(VectorRollPitchYaw);
 
-template< typename T>
-struct Adder
-{
-  double coeff1, coeff2;
-  void operator()( const T& v1,const T& v2,T& res ) const { res=v1; res+=v2; }
-};
-
-typedef BinaryOp<Vector,Vector,Vector,Adder<Vector> > advector;
+    template< typename TypeIn1,typename TypeIn2, typename TypeOut >
+    struct BinaryOpHeader
+    {
+      typedef TypeIn1 Tin1;
+      typedef TypeIn2 Tin2;
+      typedef TypeOut Tout;
+      static const std::string & nameTypeIn1(void) { return TypeNameHelper<Tin1>::typeName; }
+      static const std::string & nameTypeIn2(void) { return TypeNameHelper<Tin2>::typeName; }
+      static const std::string & nameTypeOut(void) { return TypeNameHelper<Tout>::typeName; }
+      void addSpecificCommands(Entity&, Entity::CommandMap_t& ) {}
+    };
 
 
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD
-(advector,vector,ad_vector,"Add_of_vector"
-,else if( cmdLine=="coeff1" ){ cmdArgs>>op.coeff1; } 
-else if( cmdLine=="coeff2" ){ cmdArgs>>op.coeff2; } 
-else if( cmdLine=="print" ){ os<<"Add ["<<op.coeff1<<","<<op.coeff2<<"]"<<std::endl; }, 
-"Add<vector>: \n - coeff{1|2} value.")
+  } /* namespace sot */
+} /* namespace dynamicgraph */
 
 
-typedef BinaryOp<Matrix,Matrix,Matrix,Adder<Matrix> > admatrix;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(admatrix,matrix,ad_matrix,"Add_of_matrix")
+#define ADD_COMMAND( name,def )					                 \
+    commandMap.insert( std::make_pair( name,def ) )
 
-typedef BinaryOp<double,double,double,Adder<double> > addouble; 
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(addouble,double,ad_double,"Add_of_double")
+#define REGISTER_BINARY_OP( OpType,name )                                        \
+    template<>                                                                   \
+    const std::string BinaryOp< OpType >::CLASS_NAME = std::string(#name);       \
+    Entity *regFunction##_##name( const std::string& objname )                   \
+    {                                                                            \
+      return new BinaryOp< OpType >( objname );                                  \
+    }                                                                            \
+    EntityRegisterer regObj##_##name( std::string(#name),&regFunction##_##name)
 
-/* -------------------------------------------------------------------------- */
-/* --- MULTIPLICATION ------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
-
-template< typename T>
-struct Multiplier
-{
-  void operator()( const T& v1,const T& v2,T& res ) const { res=v1; res*=v2; }
-};
-template<>
-void Multiplier<Matrix>::
-operator()( const Matrix& v1,const Matrix& v2,Matrix& res ) const { v1.multiply(v2,res); }
-template<>
-void Multiplier<MatrixHomogeneous>::
-operator()( const MatrixHomogeneous& v1,const MatrixHomogeneous& v2,
-	    MatrixHomogeneous& res ) const 
-{ v1.multiply(v2,res); }
-template<>
-void Multiplier<MatrixRotation>::
-operator()( const MatrixRotation& v1,const MatrixRotation& v2,
-	    MatrixRotation& res ) const 
-{ v1.multiply(v2,res); }
-template<>
-void Multiplier<MatrixTwist>::
-operator()( const MatrixTwist& v1,const MatrixTwist& v2,
-	    MatrixTwist& res ) const 
-{ v1.multiply(v2,res); }
-template<>
-void Multiplier<VectorQuaternion>::
-operator()(const VectorQuaternion& q1,const VectorQuaternion& q2,
-	   VectorQuaternion& res) const
-{ q1.multiply(q2,res); }
-
-typedef BinaryOp<Vector,Vector,Vector,Multiplier<Vector> > multvector;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multvector,vector,mult_vector,"Multiply_of_vector")
-
-typedef BinaryOp<Matrix,Matrix,Matrix,Multiplier<Matrix> > multmatrix;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multmatrix,matrix,mult_matrix,"Multiply_of_matrix")
-typedef BinaryOp<MatrixHomogeneous,MatrixHomogeneous,MatrixHomogeneous,Multiplier<MatrixHomogeneous> > multmatrixhomo;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multmatrixhomo,matrixhomo,mult_matrixhomo,"Multiply_of_matrixhomo")
-typedef BinaryOp<MatrixRotation,MatrixRotation,MatrixRotation,Multiplier<MatrixRotation> > multmatrixrot;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multmatrixrot,matrixrot,mult_matrixrot,"Multiply_of_matrixrotation")
-typedef BinaryOp<MatrixTwist,MatrixTwist,MatrixTwist,Multiplier<MatrixTwist> > multmatrixtwist;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multmatrixtwist,matrixtwist,mult_matrixtwist,"Multiply_of_matrixtwist")
-typedef BinaryOp<VectorQuaternion,VectorQuaternion,VectorQuaternion,Multiplier<VectorQuaternion> > multquat;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multquat,q,mult_q,"Multiply_of_quaternion")
-
-typedef BinaryOp<double,double,double,Multiplier<double> > multdouble;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(multdouble,double,mult_double,"Multiply_of_double")
-/* -------------------------------------------------------------------------- */
-/* --- SUBSTRACTION --------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
-
-template< typename T>
-struct Substract
-{
-  void operator()( const T& v1,const T& v2,T& res ) const { res=v1; res-=v2; }
-};
-
-typedef BinaryOp<Vector,Vector,Vector,Substract<Vector> > subsvector;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(subsvector,vector,subs_vector,"Substract_of_vector")
-
-typedef BinaryOp<Matrix,Matrix,Matrix,Substract<Matrix> > subsmatrix;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(subsmatrix,matrix,subs_matrix,"Substract_of_matrix")
-
-typedef BinaryOp<double,double,double,Substract<double> > subsdouble;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(subsdouble,double,subs_double,"Substract_of_double")
-/* -------------------------------------------------------------------------- */
-/* --- STACK ---------------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------ */
 
 
-struct VectorStack
-{
-public:
-  unsigned int v1min,v1max;
-  unsigned int v2min,v2max;
-  void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const 
-  { 
-    unsigned int v1min_local=0,v1max_local=0;
-    unsigned int v2min_local=0,v2max_local=0;
+namespace dynamicgraph {
+  namespace sot {
 
-    if( (v1max>=v1min)&&(v1.size()>=v1max) ) 
-      { v1min_local=v1min;   v1max_local=v1max; }
-    else { v1min_local=0; v1max_local=v1.size(); }
-    if( (v2max>=v2min)&&(v2.size()>=v2max) ) 
-      { v2min_local=v2min;   v2max_local=v2max; }
-    else { v2min_local=0; v2max_local=v2.size(); }
+    /* --- ADDITION ----------------------------------------------------------------------------- */
+    template< typename T>
+    struct Adder
+      : public BinaryOpHeader<T,T,T>
+    {
+      double coeff1, coeff2;
+      void operator()( const T& v1,const T& v2,T& res ) const { res=v1; res+=v2; }
 
-    const unsigned int v1size = v1max_local-v1min_local;
-    const unsigned int v2size = v2max_local-v2min_local;
-    res.resize( v1size+v2max_local-v2min_local );
-    for( unsigned int i=0;i<v1size;++i )
-      { res(i) = v1(i+v1min_local); }
-    for( unsigned int i=0;i<v2size;++i )
-      { res(v1size+i) = v2(i+v2min_local); }
-  }
-};
-typedef BinaryOp< Vector,Vector,Vector,VectorStack > stackvector;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(stackvector,vector,stack_vector,"Stack_of_vector",else if( cmdLine=="selec1" ){ cmdArgs>>op.v1min>>op.v1max; }
-   else if( cmdLine=="selec2" ){ cmdArgs>>op.v2min>>op.v2max; } 
-   else if( cmdLine=="print" ){ os<<"Stack ["<<op.v1min<<","<<op.v1max<<"] - ["<<op.v2min<<","<<op.v2max<<"] "<<std::endl; }, 
-"Stack<vector>: \n - select{1|2} index_min index_max.")
-
-/* -------------------------------------------------------------------------- */
-/* --- ADDER WEIGHTED ------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
-
-
-struct WeightedAdder
-{
-public:
-  double gain1,gain2;
-  void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const 
-  { 
-    res=v1; res*=gain1;
-    res += gain2*v2;
-  }
-};
-typedef BinaryOp< Vector,Vector,Vector,WeightedAdder > weightadd;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(weightadd,vector,weight_add,"WeightAdd_of_vector",else if( cmdLine=="gain1" ){ cmdArgs>>op.gain1; }
-   else if( cmdLine=="gain2" ){ cmdArgs>>op.gain2;}
-   else if( cmdLine=="print" ){os<<"WeightAdd: "<<op.gain1<<" "<<op.gain2<<std::endl; }, 
-  "WeightAdd<vector>: \n - gain{1|2} gain.")
-
-/* -------------------------------------------------------------------------- */
-
-struct WeightedDirection
-{
-public:
-  void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const 
-  { 
-    const double norm1 = v1.norm();
-    const double norm2 = v2.norm();
-    res=v2; res*=norm1; 
-    res*= (1/norm2);
-  }
-};
-typedef BinaryOp< Vector,Vector,Vector,WeightedDirection > weightdir;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(weightdir,vector,weight_dir,"WeightDir")
-
-
-/* -------------------------------------------------------------------------- */
-
-struct Nullificator
-{
-public:
-  void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const 
-  { 
-    const unsigned int s = std::max( v1.size(),v2.size() );
-    res.resize(s);
-    for( unsigned int i=0;i<s;++i )
+      void addSpecificCommands(Entity& ent,
+       			       Entity::CommandMap_t& commandMap )
       {
-	if( v1(i)>v2(i) ) res(i)=v1(i)-v2(i);
-	else 	if( v1(i)<-v2(i) ) res(i)=v1(i)+v2(i);
-	else res(i)=0;
+	using namespace dynamicgraph::command;
+	std::string doc;
+
+	ADD_COMMAND( "setCoeff1",
+		     makeDirectSetter(ent,&coeff1,docDirectSetter("coeff1","double")));
+	ADD_COMMAND( "setCoeff2",
+		     makeDirectSetter(ent,&coeff2,docDirectSetter("coeff2","double")));
       }
-  }
-};
-typedef BinaryOp< Vector,Vector,Vector,Nullificator > vectNil;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(vectNil,vector,vectnil_,"Nullificator")
+    };
 
 
-
-/* -------------------------------------------------------------------------- */
-
-#define CMDARGS_INOUT(varname) \
-  cmdArgs>>std::ws; if(! cmdArgs.good() ) os << #varname" = " << varname << std::endl; \
-  else cmdArgs >> varname
-
-struct VirtualSpring
-{
-public:
-  double spring;
-
-  void operator()( const ml::Vector& pos,const ml::Vector& ref,ml::Vector& res ) const 
-  { 
-    double norm = ref.norm(); 
-    double dist = ref.scalarProduct(pos) / (norm*norm);
-    
-    res.resize( ref.size() );
-    res = ref;  res *= dist; res -= pos;
-    res *= spring;
-  }
-};
-typedef BinaryOp< Vector,Vector,Vector,VirtualSpring > virtspring;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD
-(virtspring,vector,virtspring_,
- "VirtualSpring"
- ,else if( cmdLine=="spring" ){  CMDARGS_INOUT(op.spring); }
- ,"VirtualSpring<pos,ref> compute the virtual force of a spring attache "
- "to the reference line <ref>. The eq is: k.(<ref|pos>/<ref|ref>.ref-pos)"
- "Params:\n  - spring: get/set the spring factor.")
+    REGISTER_BINARY_OP(Adder<ml::Matrix>,Add_of_matrix);
+    REGISTER_BINARY_OP(Adder<ml::Vector>,Add_of_vector);
 
 
+    /* --- MULTIPLICATION ------------------------------------------------------- */
 
+    template< typename T>
+    struct Multiplier
+      : public BinaryOpHeader<T,T,T>
+    {
+      void operator()( const T& v1,const T& v2,T& res ) const { v1.multiply(v2,res); }
+    };
+    template<> void Multiplier<double>::
+    operator()( const double& v1,const double& v2,double& res ) const
+    { res=v1; res*=v2; }
 
+    REGISTER_BINARY_OP(Multiplier<ml::Matrix>,Multiply_of_matrix);
+    REGISTER_BINARY_OP(Multiplier<ml::Vector>,Multiply_of_vector);
+    REGISTER_BINARY_OP(Multiplier<MatrixRotation>,Multiply_of_matrixrotation);
+    REGISTER_BINARY_OP(Multiplier<MatrixHomogeneous>,Multiply_of_matrixHomo);
+    REGISTER_BINARY_OP(Multiplier<MatrixTwist>,Multiply_of_matrixtwist);
+    REGISTER_BINARY_OP(Multiplier<VectorQuaternion>,Multiply_of_quaternion);
+    REGISTER_BINARY_OP(Multiplier<double>,Multiply_of_double);
 
-/* -------------------------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
+    template< typename F,typename E>
+    struct Multiplier_FxE__E
+      : public BinaryOpHeader<F,E,E>
+    {
+      void operator()( const F& f,const E& e, E& res ) const { f.multiply(e,res); }
+    };
+    template<> void Multiplier_FxE__E<double,ml::Vector>::
+    operator()( const double& x,const ml::Vector& v,ml::Vector& res ) const
+    { res=v; res*=x; }
 
-#define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(sotClassType,sotTypeE,sotTypeF,index,className)\
-  template<>                                                                            \
-  std::string sotClassType::                                                            \
-  getTypeIn1Name( void ) { return std::string(#sotTypeE); }                             \
-  template<>                                                                            \
-  std::string sotClassType::                                                            \
-  getTypeIn2Name( void ) { return std::string(#sotTypeF); }                             \
-  template<>                                                                            \
-  std::string sotClassType::                                                            \
-  getTypeOutName( void ) { return std::string(#sotTypeE); }                             \
-  template<>                                                                            \
-  const std::string sotClassType::CLASS_NAME                                            \
-     = std::string(className);                                                          \
-  template<>                                                                            \
-  void sotClassType::commandLine( const std::string& cmdLine,                           \
-                                  std::istringstream& cmdArgs,                          \
- 			          std::ostream& os )                                    \
-  {                                                                                     \
-    if( cmdLine=="help" ) { os << "NO HELP" << std::endl; }                             \
-      else { Entity::commandLine(cmdLine,cmdArgs,os); }                              \
-  }                                                                                     \
-  extern "C" {                                                                          \
-    Entity *regFunction##_##index( const std::string& objname )                      \
-    {                                                                                   \
-      return new sotClassType( objname );                                               \
-    }                                                                                   \
-  EntityRegisterer regObj##_##index( std::string(className),                         \
-					  &regFunction##_##index );                     \
-  }
+    typedef Multiplier_FxE__E<double,ml::Vector> Multiplier_double_vector;
+    typedef Multiplier_FxE__E<ml::Matrix,ml::Vector> Multiplier_matrix_vector;
+    typedef Multiplier_FxE__E<MatrixHomogeneous,ml::Vector> Multiplier_matrixHomo_vector;
+    REGISTER_BINARY_OP( Multiplier_double_vector,Multiply_vector_double);
+    REGISTER_BINARY_OP( Multiplier_matrix_vector,Multiply_vector_matrix);
+    REGISTER_BINARY_OP( Multiplier_matrixHomo_vector,Multiply_vector_matrixHomo);
 
-/* -------------------------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
+    /* --- SUBSTRACTION --------------------------------------------------------- */
+    template< typename T>
+    struct Substraction
+      : public BinaryOpHeader<T,T,T>
+    { void operator()( const T& v1,const T& v2,T& r ) const { r=v1; r-=v2; } };
 
-#define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_G(sotClassType,sotTypeE,sotTypeF,sotTypeG,index,className)\
-  template<>                                                                            \
-  std::string sotClassType::                                                            \
-  getTypeIn1Name( void ) { return std::string(#sotTypeE); }                             \
-  template<>                                                                            \
-  std::string sotClassType::                                                            \
-  getTypeIn2Name( void ) { return std::string(#sotTypeF); }                             \
-  template<>                                                                            \
-  std::string sotClassType::                                                            \
-  getTypeOutName( void ) { return std::string(#sotTypeG); }                             \
-  template<>                                                                            \
-  const std::string sotClassType::CLASS_NAME                                            \
-     = std::string(className);                                                          \
-  template<>                                                                            \
-  void sotClassType::commandLine( const std::string& cmdLine,                           \
-                                  std::istringstream& cmdArgs,                          \
- 			          std::ostream& os )                                    \
-  {                                                                                     \
-    if( cmdLine=="help" ) { os << "NO HELP" << std::endl; }                             \
-      else { Entity::commandLine(cmdLine,cmdArgs,os); }                              \
-  }                                                                                     \
-  extern "C" {                                                                          \
-    Entity *regFunction##_##index( const std::string& objname )                      \
-    {                                                                                   \
-      return new sotClassType( objname );                                               \
-    }                                                                                   \
-  EntityRegisterer regObj##_##index( std::string(className),                         \
-					  &regFunction##_##index );                     \
-  }
+    REGISTER_BINARY_OP(Substraction<ml::Matrix>,Substract_of_matrix);
+    REGISTER_BINARY_OP(Substraction<ml::Vector>,Substract_of_vector);
+    REGISTER_BINARY_OP(Substraction<double>,Substract_of_double);
 
-
-struct Composer
-{
-  void operator() ( const ml::Matrix& R,const ml::Vector& t, MatrixHomogeneous& H ) const 
-  { 
-    for( int i=0;i<3;++i )
+    /* --- STACK ---------------------------------------------------------------- */
+    struct VectorStack
+      : public BinaryOpHeader<ml::Vector,ml::Vector,ml::Vector>
+    {
+    public:
+      unsigned int v1min,v1max;
+      unsigned int v2min,v2max;
+      void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const
       {
-	H(i,3)=t(i);
-	for( int j=0;j<3;++j )
-	  H(i,j) = R(i,j);
-	H(3,i) = 0;
+	assert( (v1max>=v1min)&&(v1.size()>=v1max) );
+	assert( (v2max>=v2min)&&(v2.size()>=v2max) );
+
+	const unsigned int v1size = v1max-v1min, v2size = v2max-v2min;
+	res.resize( v1size+v2size );
+	for( unsigned int i=0;i<v1size;++i ) { res(i) = v1(i+v1min); }
+	for( unsigned int i=0;i<v2size;++i ) { res(v1size+i) = v2(i+v2min); }
       }
-    H(3,3)=1.;
-  };
-};
-typedef BinaryOp<ml::Matrix,ml::Vector,MatrixHomogeneous,Composer > TandRtoH;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(TandRtoH,matrix,vector,composeTR,"Compose_R_and_T")
-struct VectorComposerPRPY
-{
-  void operator() ( const VectorRollPitchYaw& R,const ml::Vector& t, ml::Vector& H ) const 
-  { 
-    H.resize(6);
-    for( int i=0;i<3;++i )
+
+      void selec1( const int & m, const int M) { v1min=m; v1max=M; }
+      void selec2( const int & m, const int M) { v2min=m; v2max=M; }
+
+      void addSpecificCommands(Entity& ent,
+       			       Entity::CommandMap_t& commandMap )
       {
-	H(i) = t(i);
-	H(i+3) = R(i);
+	using namespace dynamicgraph::command;
+	std::string doc;
+
+	boost::function< void( const int&, const int& ) > selec1
+	  = boost::bind( &VectorStack::selec1,this,_1,_2 );
+	boost::function< void( const int&, const int& ) > selec2
+	  = boost::bind( &VectorStack::selec2,this,_1,_2 );
+
+	ADD_COMMAND( "selec1",
+	 	     makeCommandVoid2(ent,selec1,docCommandVoid2("set the min and max of selection.",
+	 							 "int (imin)","int (imax)")));
+	ADD_COMMAND( "selec2",
+	 	     makeCommandVoid2(ent,selec2,docCommandVoid2("set the min and max of selection.",
+	 							 "int (imin)","int (imax)")));
       }
-  };
-};
-typedef BinaryOp<VectorRollPitchYaw,ml::Vector,ml::Vector,VectorComposerPRPY > TandRPYtoV;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(TandRPYtoV,matrix,vector,composeTRPYV,"ComposeVector_RPY_T")
+    };
+    REGISTER_BINARY_OP(VectorStack,Stack_of_vector);
 
-struct VectorScalarMultiplyer
-{
-  void operator()(const ml::Vector& v, double a, ml::Vector& res)
-  {
-    unsigned size = v.size();
-    res.resize(size);
-    for( unsigned i=0;i<size;++i ) {
-      res(i) = v(i) * a;
-    }
-  }
-};
-typedef BinaryOp<ml::Vector,double,ml::Vector,VectorScalarMultiplyer> VAndScalToV;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(VAndScalToV,vec,scal,newvec,"Multiply_vector_double")
+    /* ---------------------------------------------------------------------- */
 
-struct MatrixHomeComposerPRPY
-{
-  void operator() ( const VectorRollPitchYaw& r,const ml::Vector& t, MatrixHomogeneous& Mres ) const 
-  { 
-    MatrixRotation R;  r.toMatrix(R);
-    
-    Mres.buildFrom(R,t);
-
-  };
-};
-typedef BinaryOp<VectorRollPitchYaw,ml::Vector,MatrixHomogeneous,MatrixHomeComposerPRPY > TandRPYtoM;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_G(TandRPYtoM,vectorRPY,vector,matrixHomo,composeTRPYM,"Compose_RPY_and_T")
-
-
-/* This one is really awkward. It is to change the basis of the 
- * transfo matrix seen as an endomorhpism. The params are the initial transfo M = [ R t ]
- * and the new basis P. 
- * The result is P.M.P' = [ P.R.P' P.t ].
- * Strange, isn't it?
- */
-struct EndomorphismBasis
-{
-  void operator() ( const MatrixHomogeneous& M, 
-		    const MatrixRotation& P,
-		    MatrixHomogeneous& res ) const 
-  { 
-    MatrixRotation R; M.extract(R);
-    ml::Vector t(3); M.extract(t);
-
-    ml::Vector tres(3); P.multiply(t,tres);
-    MatrixRotation PR,PRP;
-    P.multiply(R,PR);
-    PR.multiply(P.transpose(),PRP);
-
-    res.buildFrom( PRP,tres );
-  };
-};
-
-
-
-typedef BinaryOp<MatrixHomogeneous,MatrixRotation,MatrixHomogeneous,EndomorphismBasis > endoMRM;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(endoMRM,matrixhomo,matrixrotation,endoMRM_,"EndomorphismBasis")
-
-
-
-template< typename T1,typename T2 >
-struct MultiplierE_F
-{
-  void operator()( const T1& v1,const T2& m2,T1& res ) const 
-  { m2.multiply(v1,res); }
-};
-
-typedef BinaryOp<ml::Vector,ml::Matrix,ml::Vector,MultiplierE_F<ml::Vector,ml::Matrix> > multmatrixvector;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(multmatrixvector,vector,matrix,multmatrixvector,"Multiply_vector_matrix")
-
-typedef BinaryOp<ml::Vector,MatrixHomogeneous,ml::Vector,MultiplierE_F<ml::Vector,MatrixHomogeneous> > multmatrixhomovector;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(multmatrixhomovector,vector,matrixHomo,multmatrixhomovector,"Multiply_vector_matrixHomo")
-
-
-
-/* --- CONVOLUTION PRODUCT --- */
-struct ConvolutionTemporal
-{
-  typedef std::deque<ml::Vector> MemoryType;
-  MemoryType memory;
-
-  void convolution( const MemoryType &f1,const ml::Matrix & f2,
-		    ml::Vector &res )
-  {
-    const unsigned int nconv = f1.size(),nsig=f2.nbRows();
-    sotDEBUG(15) << "Size: " << nconv << "x" << nsig << std::endl;
-    if( nconv>f2.nbCols() ) return; // TODO: error, this should not happen
-
-    res.resize( nsig ); res.fill(0);
-    unsigned int j=0;
-    for( MemoryType::const_iterator iter=f1.begin();iter!=f1.end();iter++ )
+    struct Composer
+      : public BinaryOpHeader<ml::Matrix,ml::Vector,MatrixHomogeneous>
+    {
+      void operator() ( const ml::Matrix& R,const ml::Vector& t, MatrixHomogeneous& H ) const
       {
-	const ml::Vector & s_tau = *iter;
-	sotDEBUG(45) << "Sig"<<j<< ": " << s_tau ;
-	if( s_tau.size()!=nsig ) 
-	  return; // TODO: error throw;
-	for( unsigned int i=0;i<nsig;++i ) 
+	for( int i=0;i<3;++i )
 	  {
-	    res(i)+=f2(i,j)*s_tau(i);	
+	    H(i,3)=t(i);
+	    for( int j=0;j<3;++j )
+	      H(i,j) = R(i,j);
+	    H(3,i) = 0;
 	  }
-	j++;
+	H(3,3)=1.;
       }
-  }
+    };
+    REGISTER_BINARY_OP(Composer,Compose_R_and_T);
 
-  void operator()( const ml::Vector& v1,const ml::Matrix& m2,ml::Vector& res ) 
-  {
-    memory.push_front( v1 );
-    while( memory.size()>m2.nbCols() ) memory.pop_back();
-    convolution( memory,m2,res );
- 	sotDEBUG(45) << "Res = " << res ;
-   return ;
-  }
+    /* --- CONVOLUTION PRODUCT ---------------------------------------------- */
+    struct ConvolutionTemporal
+      : public BinaryOpHeader<ml::Vector,ml::Matrix,ml::Vector>
+    {
+      typedef std::deque<ml::Vector> MemoryType;
+      MemoryType memory;
 
-};
+      void convolution( const MemoryType &f1,const ml::Matrix & f2,ml::Vector &res )
+      {
+	const unsigned int nconv = f1.size(),nsig=f2.nbRows();
+	sotDEBUG(15) << "Size: " << nconv << "x" << nsig << std::endl;
+	if( nconv>f2.nbCols() ) return; // TODO: error, this should not happen
 
-typedef BinaryOp<ml::Vector,ml::Matrix,ml::Vector,ConvolutionTemporal> convtemp;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExF_E(convtemp,vector,matrix,convtemp,"ConvolutionTemporal")
+	res.resize( nsig ); res.fill(0);
+	unsigned int j=0;
+	for( MemoryType::const_iterator iter=f1.begin();iter!=f1.end();iter++ )
+	  {
+	    const ml::Vector & s_tau = *iter;
+	    sotDEBUG(45) << "Sig"<<j<< ": " << s_tau ;
+	    if( s_tau.size()!=nsig )
+	      return; // TODO: error throw;
+	    for( unsigned int i=0;i<nsig;++i )
+	      {
+		res(i)+=f2(i,j)*s_tau(i);
+	      }
+	    j++;
+	  }
+      }
+      void operator()( const ml::Vector& v1,const ml::Matrix& m2,ml::Vector& res )
+      {
+	memory.push_front( v1 );
+	while( memory.size()>m2.nbCols() ) memory.pop_back();
+	convolution( memory,m2,res );
+      }
+    };
+    REGISTER_BINARY_OP( ConvolutionTemporal,ConvolutionTemporal );
 
 } /* namespace sot */} /* namespace dynamicgraph */
+
+
+
+/* --- TODO -----------------------------------------------------------------------*/
+// The following commented lines are sot-v1 entities that are still waiting
+//   for conversion. Help yourself!
+
+// struct WeightedAdder
+// {
+// public:
+//   double gain1,gain2;
+//   void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const
+//   {
+//     res=v1; res*=gain1;
+//     res += gain2*v2;
+//   }
+// };
+// typedef BinaryOp< Vector,Vector,Vector,WeightedAdder > weightadd;
+// SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(weightadd,vector,weight_add,"WeightAdd_of_vector",else if( cmdLine=="gain1" ){ cmdArgs>>op.gain1; }
+//    else if( cmdLine=="gain2" ){ cmdArgs>>op.gain2;}
+//    else if( cmdLine=="print" ){os<<"WeightAdd: "<<op.gain1<<" "<<op.gain2<<std::endl; },
+//   "WeightAdd<vector>: \n - gain{1|2} gain.")
+
+// /* -------------------------------------------------------------------------- */
+
+// struct WeightedDirection
+// {
+// public:
+//   void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const
+//   {
+//     const double norm1 = v1.norm();
+//     const double norm2 = v2.norm();
+//     res=v2; res*=norm1;
+//     res*= (1/norm2);
+//   }
+// };
+// typedef BinaryOp< Vector,Vector,Vector,WeightedDirection > weightdir;
+// SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(weightdir,vector,weight_dir,"WeightDir")
+
+
+// /* -------------------------------------------------------------------------- */
+
+// struct Nullificator
+// {
+// public:
+//   void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const
+//   {
+//     const unsigned int s = std::max( v1.size(),v2.size() );
+//     res.resize(s);
+//     for( unsigned int i=0;i<s;++i )
+//       {
+// 	if( v1(i)>v2(i) ) res(i)=v1(i)-v2(i);
+// 	else 	if( v1(i)<-v2(i) ) res(i)=v1(i)+v2(i);
+// 	else res(i)=0;
+//       }
+//   }
+// };
+// typedef BinaryOp< Vector,Vector,Vector,Nullificator > vectNil;
+// SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E(vectNil,vector,vectnil_,"Nullificator")
+
+
+
+// /* -------------------------------------------------------------------------- */
+
+// struct VirtualSpring
+// {
+// public:
+//   double spring;
+
+//   void operator()( const ml::Vector& pos,const ml::Vector& ref,ml::Vector& res ) const
+//   {
+//     double norm = ref.norm();
+//     double dist = ref.scalarProduct(pos) / (norm*norm);
+
+//     res.resize( ref.size() );
+//     res = ref;  res *= dist; res -= pos;
+//     res *= spring;
+//   }
+// };
+// typedef BinaryOp< Vector,Vector,Vector,VirtualSpring > virtspring;
+// SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD
+// (virtspring,vector,virtspring_,
+//  "VirtualSpring"
+//  ,else if( cmdLine=="spring" ){  CMDARGS_INOUT(op.spring); }
+//  ,"VirtualSpring<pos,ref> compute the virtual force of a spring attache "
+//  "to the reference line <ref>. The eq is: k.(<ref|pos>/<ref|ref>.ref-pos)"
+//  "Params:\n  - spring: get/set the spring factor.")
+

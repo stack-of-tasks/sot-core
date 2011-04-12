@@ -47,29 +47,34 @@ namespace dynamicgraph {
     /* --- CLASS ----------------------------------------------------------- */
     /* --------------------------------------------------------------------- */
 
-    template< class Tin1,class Tin2,class Tout,typename Operator >
-      class BinaryOp
+    template< typename Operator >
+    class BinaryOp
       :public Entity
     {
       Operator op;
+      typedef typename Operator::Tin1 Tin1;
+      typedef typename Operator::Tin2 Tin2;
+      typedef typename Operator::Tout Tout;
+      typedef BinaryOp<Operator> Self;
 
     public: /* --- CONSTRUCTION --- */
 
-      static std::string getTypeIn1Name( void ) { return "UnknownIn1"; }
-      static std::string getTypeIn2Name( void ) { return "UnknownIn2"; }
-      static std::string getTypeOutName( void ) { return "UnknownOut"; }
+      static std::string getTypeIn1Name( void ) { return Operator::nameTypeIn1(); }
+      static std::string getTypeIn2Name( void ) { return Operator::nameTypeIn2(); }
+      static std::string getTypeOutName( void ) { return Operator::nameTypeOut(); }
       static const std::string CLASS_NAME;
+      virtual const std::string& getClassName  () const { return CLASS_NAME; }
 
-    BinaryOp( const std::string& name )
-      : Entity(name)
-	,SIN1(NULL,BinaryOp::CLASS_NAME+"("+name+")::input("+getTypeIn1Name()+")::sin1") 
-	,SIN2(NULL,CLASS_NAME+"("+name+")::input("+getTypeIn2Name()+")::sin2") 
-	,SOUT( boost::bind(&BinaryOp<Tin1,Tin2,Tout,Operator>::computeOperation,this,_1,_2), 
-	       SIN1<<SIN2,CLASS_NAME+"("+name+")::output("+getTypeOutName()+")::sout") 
+      BinaryOp( const std::string& name )
+	: Entity(name)
+	,SIN1(NULL,BinaryOp::CLASS_NAME+"("+name+")::input("+getTypeIn1Name()+")::sin1")
+	,SIN2(NULL,CLASS_NAME+"("+name+")::input("+getTypeIn2Name()+")::sin2")
+	,SOUT( boost::bind(&Self::computeOperation,this,_1,_2),
+	       SIN1<<SIN2,CLASS_NAME+"("+name+")::output("+getTypeOutName()+")::sout")
 	{
 	  signalRegistration( SIN1<<SIN2<<SOUT );
+	  op.addSpecificCommands(*this,commandMap);
 	}
-
 
       virtual ~BinaryOp( void ) {};
 
@@ -87,15 +92,7 @@ namespace dynamicgraph {
 	  op(x1,x2,res);
 	  return res;
 	}
-
-    public: /* --- PARAMS --- */
-      virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs, 
-				std::ostream& os );
-    
-
     };
-
-
   } // namespace sot
 } // namespace dynamicgraph
 
