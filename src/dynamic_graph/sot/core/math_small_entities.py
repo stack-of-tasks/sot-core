@@ -11,8 +11,8 @@ MatrixConstant('')
 
 from unary_op import Inverse_of_matrix
 Inverse_of_matrix('')
-from unary_op import Inverse_of_matrixhomo
-Inverse_of_matrixhomo('')
+from unary_op import Inverse_of_matrixHomo
+Inverse_of_matrixHomo('')
 from unary_op import Inverse_of_matrixtwist
 Inverse_of_matrixtwist('')
 from unary_op import Inverse_of_matrixrotation
@@ -71,8 +71,8 @@ from binary_op import Multiply_of_vector
 Multiply_of_vector('')
 from binary_op import Multiply_of_matrix
 Multiply_of_matrix('')
-from binary_op import Multiply_of_matrixhomo
-Multiply_of_matrixhomo('')
+from binary_op import Multiply_of_matrixHomo
+Multiply_of_matrixHomo('')
 from binary_op import Multiply_of_matrixrotation
 Multiply_of_matrixrotation('')
 from binary_op import Multiply_of_matrixtwist
@@ -89,26 +89,26 @@ from binary_op import Substract_of_double
 Substract_of_double('')
 from binary_op import Stack_of_vector
 Stack_of_vector('')
-from binary_op import WeightAdd_of_vector
-WeightAdd_of_vector('')
-from binary_op import WeightDir
-WeightDir('')
-from binary_op import Nullificator
-Nullificator('')
+#from binary_op import WeightAdd_of_vector
+#WeightAdd_of_vector('')
+#from binary_op import WeightDir
+#WeightDir('')
+#from binary_op import Nullificator
+#Nullificator('')
 from binary_op import Compose_R_and_T
 Compose_R_and_T('')
-from binary_op import ComposeVector_RPY_T
-ComposeVector_RPY_T('')
-from binary_op import Multiply_vector_double
-Multiply_vector_double('')
-from binary_op import Compose_RPY_and_T
-Compose_RPY_and_T('')
-from binary_op import EndomorphismBasis
-EndomorphismBasis('')
-from binary_op import Multiply_vector_matrix
-Multiply_vector_matrix('')
-from binary_op import Multiply_vector_matrixHomo
-Multiply_vector_matrixHomo('')
+#from binary_op import ComposeVector_RPY_T
+#ComposeVector_RPY_T('')
+from binary_op import Multiply_double_vector
+Multiply_double_vector('')
+from binary_op import Multiply_matrix_vector
+Multiply_matrix_vector('')
+from binary_op import Multiply_matrixHomo_vector
+Multiply_matrixHomo_vector('')
+#from binary_op import Compose_RPY_and_T
+#Compose_RPY_and_T('')
+#from binary_op import EndomorphismBasis
+#EndomorphismBasis('')
 from binary_op import ConvolutionTemporal
 ConvolutionTemporal('')
 
