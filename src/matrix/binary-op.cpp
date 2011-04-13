@@ -115,6 +115,7 @@ namespace dynamicgraph {
 
     REGISTER_BINARY_OP(Adder<ml::Matrix>,Add_of_matrix);
     REGISTER_BINARY_OP(Adder<ml::Vector>,Add_of_vector);
+    REGISTER_BINARY_OP(Adder<double>,Add_of_double);
 
 
     /* --- MULTIPLICATION ------------------------------------------------------- */
@@ -150,9 +151,9 @@ namespace dynamicgraph {
     typedef Multiplier_FxE__E<double,ml::Vector> Multiplier_double_vector;
     typedef Multiplier_FxE__E<ml::Matrix,ml::Vector> Multiplier_matrix_vector;
     typedef Multiplier_FxE__E<MatrixHomogeneous,ml::Vector> Multiplier_matrixHomo_vector;
-    REGISTER_BINARY_OP( Multiplier_double_vector,Multiply_vector_double);
-    REGISTER_BINARY_OP( Multiplier_matrix_vector,Multiply_vector_matrix);
-    REGISTER_BINARY_OP( Multiplier_matrixHomo_vector,Multiply_vector_matrixHomo);
+    REGISTER_BINARY_OP( Multiplier_double_vector,Multiply_double_vector);
+    REGISTER_BINARY_OP( Multiplier_matrix_vector,Multiply_matrix_vector);
+    REGISTER_BINARY_OP( Multiplier_matrixHomo_vector,Multiply_matrixHomo_vector);
 
     /* --- SUBSTRACTION --------------------------------------------------------- */
     template< typename T>
