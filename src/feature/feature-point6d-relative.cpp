@@ -79,7 +79,7 @@ FeaturePoint6dRelative( const string& pointName )
 
 
 /** Compute the interaction matrix from a subset of
- * the possible features. 
+ * the possible features.
  */
 ml::Matrix& FeaturePoint6dRelative::
 computeJacobian( ml::Matrix& Jres,int time )
@@ -135,18 +135,18 @@ FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
 
   MatrixHomogeneous pMw;  wMp.inverse(pMw);
   MatrixHomogeneous pMpref; pMw.multiply( wMpref,pMpref );
-  
+
   MatrixHomogeneous Merr;
   try
     {
       FeatureAbstract * sdesAbs = desiredValueSIN(time);
-    
+
       FeaturePoint6dRelative * sdes = dynamic_cast<FeaturePoint6dRelative*>(sdesAbs);
       if( sdes )
 	{
 	  const MatrixHomogeneous & wMp_des = sdes->positionSIN(time);
 	  const MatrixHomogeneous & wMpref_des = sdes->positionReferenceSIN(time);
-	  
+
 	  MatrixHomogeneous pMw_des;  wMp_des.inverse(pMw_des);
 	  MatrixHomogeneous pMpref_des; pMw_des.multiply( wMpref_des,pMpref_des );
 	  MatrixHomogeneous Minv; pMpref_des.inverse(Minv);
@@ -162,7 +162,7 @@ FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
 	    } else Merr=pMpref;
 	}
     } catch( ... ) { Merr=pMpref; }
-  
+
   MatrixRotation Rerr; Merr.extract( Rerr );
   VectorUTheta rerr; rerr.fromMatrix( Rerr );
 
@@ -170,7 +170,7 @@ FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
   error.resize(dimensionSOUT(time)) ;
   unsigned int cursor = 0;
   for( unsigned int i=0;i<3;++i )
-    { if( fl(i) ) error(cursor++) = Merr(i,3); } 
+    { if( fl(i) ) error(cursor++) = Merr(i,3); }
   for( unsigned int i=0;i<3;++i )
     { if( fl(i+3) ) error(cursor++) = rerr(i); }
 
@@ -180,7 +180,7 @@ FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
 
 /** Compute the error between two visual features from a subset
  * a the possible features.
- * 
+ *
  * This is computed by the desired feature.
  */
 ml::Vector&
@@ -191,7 +191,7 @@ FeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
   //   /* TODO */
   //   error.resize(6); error.fill(.0);
   const MatrixHomogeneous & wMp = positionSIN(time);
-  const MatrixHomogeneous & wMpref = positionReferenceSIN(time);  
+  const MatrixHomogeneous & wMpref = positionReferenceSIN(time);
   const MatrixHomogeneous & wdMp = dotpositionSIN(time);
   const MatrixHomogeneous & wdMpref = dotpositionReferenceSIN(time);
 
@@ -207,14 +207,14 @@ FeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
       MatrixRotation wRpref; wMpref.extract(wRpref );
       MatrixRotation wdRp; wdMp.extract(wdRp);
       MatrixRotation wdRpref; wdMpref.extract(wdRpref );
-      
+
       ml::Vector trp(3); wMp.extract(trp);
       ml::Vector trpref(3); wMpref.extract(trpref);
       ml::Vector trdp(3); wdMp.extract(trdp);
       ml::Vector trdpref(3); wdMpref.extract(trdpref);
-      
+
       sotDEBUG(15) << "Everything is extracted" <<endl;
-      MatrixRotation wdRpt,wRpt,op1,op2; 
+      MatrixRotation wdRpt,wRpt,op1,op2;
       wdRp.transpose(wdRpt);wdRpt.multiply(wRpref, op1);
       wRp.transpose(wRpt);wRpt.multiply(wdRpref,op2);
       op1.addition(op2,dRerr);
@@ -228,17 +228,17 @@ FeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
       vop1.addition(vop2,dtrerr);
 
       sotDEBUG(15) << "dtrerr" << dtrerr << endl;
-      
+
 
     } catch( ... ) { sotDEBUG(15) << "You've got a problem with errordot." << std::endl; }
-  
+
   VectorUTheta rerr; rerr.fromMatrix( dRerr );
 
   const Flags &fl = selectionSIN(time);
   errordot.resize(dimensionSOUT(time)) ;
   unsigned int cursor = 0;
   for( unsigned int i=0;i<3;++i )
-    { if( fl(i) ) errordot(cursor++) = dtrerr(i); } 
+    { if( fl(i) ) errordot(cursor++) = dtrerr(i); }
   for( unsigned int i=0;i<3;++i )
     { if( fl(i+3) ) errordot(cursor++) = rerr(i); }
 
@@ -270,13 +270,13 @@ display( std::ostream& os ) const
 {
   os <<"Point6dRelative <"<<name<<">: (" ;
 
-  try{ 
+  try{
     const Flags &fl = selectionSIN.accessCopy();
     bool first = true;
-    for( int i=0;i<6;++i ) 
-      if( fl(i) ) 
+    for( int i=0;i<6;++i )
+      if( fl(i) )
 	{
-	  if( first ) { first = false; } else { os << ","; } 
+	  if( first ) { first = false; } else { os << ","; }
 	  os << featureNames[i];
 	}
     os<<") ";
@@ -297,11 +297,11 @@ commandLine( const std::string& cmdLine,
     }
   else if( cmdLine=="initSdes" )
     {
-      cmdArgs>>std::ws; 
+      cmdArgs>>std::ws;
       if(cmdArgs.good())
 	{
 	  std::string nameSdes; cmdArgs >> nameSdes;
-	  FeaturePoint6dRelative & sdes 
+	  FeaturePoint6dRelative & sdes
 	    = dynamic_cast< FeaturePoint6dRelative &> (g_pool.getEntity( nameSdes ));
 	  const int timeCurr = positionSIN.getTime() +1;
 	  positionSIN.recompute( timeCurr );
@@ -312,7 +312,7 @@ commandLine( const std::string& cmdLine,
 
 	}
     }
-  else  
+  else
     FeaturePoint6d::commandLine( cmdLine,cmdArgs,os );
 
 }
