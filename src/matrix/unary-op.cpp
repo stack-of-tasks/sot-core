@@ -418,7 +418,7 @@ namespace dynamicgraph {
 
     struct HomoToRotation
        : public UnaryOpHeader<MatrixHomogeneous,MatrixRotation>
-   {
+    {
       void operator()( const MatrixHomogeneous& M,MatrixRotation& res )
       {
 	M.extract(res);
