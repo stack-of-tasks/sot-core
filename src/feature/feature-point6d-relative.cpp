@@ -31,6 +31,7 @@
 #include <sot/core/matrix-rotation.hh>
 #include <sot/core/matrix-twist.hh>
 #include <dynamic-graph/pool.h>
+#include <dynamic-graph/all-commands.h>
 
 using namespace std;
 using namespace dynamicgraph::sot;
@@ -70,6 +71,7 @@ FeaturePoint6dRelative( const string& pointName )
   signalRegistration( dotpositionSIN <<
 		      dotpositionReferenceSIN <<
 		      errordotSOUT );
+  initCommands();
 }
 
 
@@ -285,6 +287,31 @@ display( std::ostream& os ) const
 
 
 void FeaturePoint6dRelative::
+initCommands( void )
+{
+  using namespace command;
+  addCommand( "initSdes",
+	      makeCommandVoid1( *this,&FeaturePoint6dRelative::initSdes,
+				docCommandVoid1( "Initialize the desired feature.",
+						 "string (desired feature name)")));
+}
+
+/* Initialise the reference value: set up the sdes signal of the current feature,
+ * and freezes the position and position-reference of the desired feature.
+ */
+void FeaturePoint6dRelative::
+initSdes( const std::string & nameSdes )
+{
+  FeaturePoint6dRelative & sdes
+    = dynamic_cast< FeaturePoint6dRelative &> (g_pool.getEntity( nameSdes ));
+  const int timeCurr = positionSIN.getTime() +1;
+  positionSIN.recompute( timeCurr );
+  positionReferenceSIN.recompute( timeCurr );
+
+  sdes.positionSIN.setConstant( positionSIN.accessCopy() );
+  sdes.positionReferenceSIN.setConstant( positionReferenceSIN.accessCopy() );
+}
+void FeaturePoint6dRelative::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,
 	     std::ostream& os )
@@ -301,15 +328,7 @@ commandLine( const std::string& cmdLine,
       if(cmdArgs.good())
 	{
 	  std::string nameSdes; cmdArgs >> nameSdes;
-	  FeaturePoint6dRelative & sdes
-	    = dynamic_cast< FeaturePoint6dRelative &> (g_pool.getEntity( nameSdes ));
-	  const int timeCurr = positionSIN.getTime() +1;
-	  positionSIN.recompute( timeCurr );
-	  positionReferenceSIN.recompute( timeCurr );
-
-	  sdes.positionSIN.setConstant( positionSIN.accessCopy() );
-	  sdes.positionReferenceSIN.setConstant( positionReferenceSIN.accessCopy() );
-
+	  initSdes( nameSdes );
 	}
     }
   else
