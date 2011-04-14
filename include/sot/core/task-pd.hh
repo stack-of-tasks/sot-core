@@ -78,7 +78,7 @@ class SOTTASKPD_EXPORT TaskPD
   virtual void commandLine( const std::string& cmdLine
 			    ,std::istringstream& cmdArgs
 			    ,std::ostream& os );
-
+  void initCommand( void );
 
 };
 

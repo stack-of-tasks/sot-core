@@ -8,6 +8,7 @@ from feature_joint_limits import FeatureJointLimits
 from feature_visual_point import FeatureVisualPoint
 from binary_op import Compose_R_and_T
 from task import Task
+from task_pd import TaskPD
 from constraint import Constraint
 from gain_adaptive import GainAdaptive
 from sot import SOT
@@ -22,6 +23,7 @@ FeatureJointLimits('')
 FeatureVisualPoint('')
 Compose_R_and_T('')
 Task('')
+TaskPD('')
 Constraint('')
 GainAdaptive('')
 SOT('')

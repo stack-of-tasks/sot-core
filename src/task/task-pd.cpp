@@ -25,6 +25,7 @@
 /* SOT */
 #include <sot/core/task-pd.hh>
 #include <sot/core/debug.hh>
+#include <dynamic-graph/all-commands.h>
 
 using namespace std;
 using namespace dynamicgraph::sot;
@@ -57,6 +58,7 @@ TaskPD( const std::string& n )
   taskSOUT.addDependency( errorDotSOUT );
 
   signalRegistration( errorDotSOUT<<errorDotSIN );
+  initCommand();
   errorDotSIN.plug( &errorDotSOUT );
 }
 
@@ -112,6 +114,13 @@ computeTaskModif( VectorMultiBound& task,int time )
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
 #include <sot/core/pool.hh>
+
+void TaskPD::
+initCommand( void )
+{
+  using namespace command;
+  addCommand("setBeta",makeDirectSetter(*this,&beta,docDirectSetter("beta","double")));
+}
 
 void TaskPD::
 commandLine( const std::string& cmdLine
