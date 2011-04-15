@@ -33,6 +33,7 @@
 #include <dynamic-graph/exception-factory.h>
 
 using namespace std;
+using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
 
 /* --------------------------------------------------------------------- */
