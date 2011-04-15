@@ -30,6 +30,10 @@
 #include <dynamic-graph/signal-caster.h>
 #include <dynamic-graph/signal-cast-helper.h>
 
+# ifdef WIN32
+#  include <Windows.h>
+# endif
+
 /* Implements a set of caster/displayer for the main types of sot-core. */
 
 
