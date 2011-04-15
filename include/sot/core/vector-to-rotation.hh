@@ -34,12 +34,26 @@ DECLARE_MAL_NAMESPACE(ml);
 #include <vector>
 
 /* --------------------------------------------------------------------- */
+/* --- API ------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+
+#if defined (WIN32)
+#  if defined (vector_to_rotation_EXPORTS)
+#    define SOTVECTORTOROTATION_EXPORT __declspec(dllexport)
+#  else
+#    define SOTVECTORTOROTATION_EXPORT  __declspec(dllimport)
+#  endif
+#else
+#  define SOTVECTORTOROTATION_EXPORT
+#endif
+
+/* --------------------------------------------------------------------- */
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
-class VectorToRotation
+class SOTVECTORTOROTATION_EXPORT VectorToRotation
 : public dg::Entity
 {
   static const std::string CLASS_NAME;

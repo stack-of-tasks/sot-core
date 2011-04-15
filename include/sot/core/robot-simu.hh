@@ -33,6 +33,20 @@ namespace ml= maal::boost;
 #include "sot/core/device.hh"
 #include "sot/core/api.hh"
 
+/* --------------------------------------------------------------------- */
+/* --- API ------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+
+#if defined (WIN32)
+#  if defined (robot_simu_EXPORTS)
+#    define SOT_ROBOT_SIMU_EXPORT __declspec(dllexport)
+#  else
+#    define SOT_ROBOT_SIMU_EXPORT __declspec(dllimport)
+#  endif
+#else
+#  define SOT_ROBOT_SIMU_EXPORT
+#endif
+
 namespace dynamicgraph {
   namespace sot {
 
@@ -40,7 +54,7 @@ namespace dynamicgraph {
     /* --- CLASS ----------------------------------------------------------- */
     /* --------------------------------------------------------------------- */
 
-    class SOT_CORE_EXPORT RobotSimu
+    class SOT_ROBOT_SIMU_EXPORT RobotSimu
       :public Device
     {
     public:
