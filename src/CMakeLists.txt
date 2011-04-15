@@ -215,13 +215,10 @@ FOREACH(plugin ${plugins})
 
 	# build python submodule
 	STRING(REPLACE - _ PYTHON_LIBRARY_NAME ${LIBRARY_NAME})
-	ADD_DEPENDENCIES(${LIBRARY_NAME} MKDIR_${PYTHON_LIBRARY_NAME})
-	ADD_CUSTOM_TARGET(MKDIR_${PYTHON_LIBRARY_NAME}
-	  mkdir -p dynamic_graph/sot/core/${PYTHON_LIBRARY_NAME}
-	  )
+	file(MAKE_DIRECTORY dynamic_graph/sot/core/${PYTHON_LIBRARY_NAME})
 	DYNAMIC_GRAPH_PYTHON_MODULE("sot/core/${PYTHON_LIBRARY_NAME}"
 	  ${LIBRARY_NAME}
-	  sot/core/${PYTHON_LIBRARY_NAME}/wrap
+	  sot-core-${PYTHON_LIBRARY_NAME}-wrap
 	  )
 	# Install plugins
 	INSTALL(TARGETS ${LIBRARY_NAME}
