@@ -14,6 +14,8 @@
 # sot-core. If not, see <http://www.gnu.org/licenses/>.
 
 INCLUDE(../cmake/python.cmake)
+FINDPYTHON()
+INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
 
 # Verbosity level
 IF (NOT (\"${CMAKE_VERBOSITY_LEVEL}\" STREQUAL \"\"))
@@ -22,6 +24,7 @@ ENDIF (NOT (\"${CMAKE_VERBOSITY_LEVEL}\" STREQUAL \"\"))
 
 # The main include dir
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
+LINK_DIRECTORIES(${PYTHON_LIBRARY_DIRS})
 
 #define DEBUG=2 if we're building in debug mode (what for?)
 IF("${CMAKE_BUILD_TYPE}" STREQUAL DEBUG)
