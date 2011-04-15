@@ -35,6 +35,20 @@ namespace ml = maal::boost;
 #include <dynamic-graph/all-signals.h>
 
 /* --------------------------------------------------------------------- */
+/* --- API ------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+
+#if defined (WIN32)
+#  if defined (motion_period_EXPORTS)
+#    define SOTMOTIONPERIOD_EXPORT __declspec(dllexport)
+#  else
+#    define SOTMOTIONPERIOD_EXPORT  __declspec(dllimport)
+#  endif
+#else
+#  define SOTMOTIONPERIOD_EXPORT
+#endif
+
+/* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
@@ -46,7 +60,7 @@ namespace dynamicgraph { namespace sot {
 
 namespace dg = dynamicgraph;
 
-class MotionPeriod
+class SOTMOTIONPERIOD_EXPORT MotionPeriod
 : public dg::Entity
 {
 
