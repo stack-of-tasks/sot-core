@@ -35,12 +35,15 @@ using namespace dynamicgraph::sot;
 
 #ifndef WIN32
 #  include <sys/time.h>
-#else /*WIN32*/
-//isnan
-# include <float.h>
-# define isnan _isnan
-# include <sot/core/utils-windows.hh>
+#else
+# include <sot-core/utils-windows.h>
 #endif /*WIN32*/
+
+#if defined (WIN32) or defined (__APPLE__)
+# include <boost/math/special_functions/fpclassify.hpp>
+# define isnan (boost::math::isnan)
+#endif //define WIN32 or defined __APPLE__
+
 #define FORTRAN_ID( id ) id##_
 
 
