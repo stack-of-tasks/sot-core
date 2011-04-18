@@ -28,6 +28,9 @@ ENDIF(UNIX)
 # Make Boost.Test generates the main function in test cases.
 ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
 
+# Definition of a macro that corresponds to the suffix for a dynamic lib 
+ADD_DEFINITIONS(-DTESTS_DYNLIBSUFFIX="${CMAKE_SHARED_LIBRARY_SUFFIX}")
+
 # The sot-core plugin libraries that tests have to be linked against
 # the name of the variable for test EXECUTABLE_NAME is
 # TEST_${EXECUTABLE_NAME}_LIBS
