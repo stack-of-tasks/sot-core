@@ -1,3 +1,9 @@
+sot-core (1.1.2) lucid; urgency=low
+
+  * Fix shlibs, rules and doc packages for debian package generation.
+
+ -- olivier-stasse <olivier.stasse@aist.go.jp>  Fri, 22 Apr 2011 05:51:56 +0900
+
 sot-core (1.0.0.99-2) lucid; urgency=low
 
   * Fix build requirement (missing Boost.Filesystem and Boost.System).

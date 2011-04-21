@@ -5,13 +5,13 @@ Build-Depends: debhelper (>= 7.0.50~), cmake (>= 2.6),
 	       doxygen (>= 1.6.3),
 	       pkg-config (>= 0.22),
 	       libboost-dev (>= 1.33.1),
-	       libboost-thread-dev (>= 1.33.1),
-	       libboost-filesystem-dev (>= 1.33.1),
-	       libboost-system-dev (>= 1.33.1),
+	       libboost-thread-dev (>= 1.40),
+	       libboost-filesystem-dev (>= 1.40),
+	       libboost-system-dev (>= 1.40),
 	       liblapack-dev (>= 1.2),
 	       gfortran (>= 4:4.4.3),
-	       libjrl-mal-dev (>= 1.9.0.99),
-	       libdynamic-graph-dev (>= 1.0.0.99)
+	       libjrl-mal-dev (>= 1.9.2),
+	       libdynamic-graph-dev (>= 1.2.1)
 Standards-Version: 3.8.4
 #Vcs-Git:
 #Vcs-browser:
@@ -21,7 +21,7 @@ Section: libs
 Package: libsot-core-dev
 Section: libdevel
 Architecture: any
-Depends: libboost-dev (>= 1.33.1), libboost-thread-dev (>= 1.33.1), libboost-filesystem-dev (>= 1.33.1), libboost-system-dev (>= 1.33.1), liblapack-dev (>= 1.2), libjrl-mal-dev (>= 1.9.0.99), libdynamic-graph-dev (>= 1.0.0.99), libsot-core1.0.0.99 (= ${binary:Version}), ${misc:Depends}
+Depends: libboost-dev (>= 1.40), libboost-thread-dev (>= 1.40), libboost-filesystem-dev (>= 1.40), libboost-system-dev (>= 1.40), liblapack-dev (>= 1.2), libjrl-mal-dev (>= 1.9.2), libdynamic-graph-dev (>= 1.9.3), libsot-core1.1.2 (= ${binary:Version}), ${misc:Depends}
 Suggests: libsot-core-doc
 Description: the hierarchichal task solver
  The stack of tasks provides a hierarchical task solver as a dynamic
@@ -30,7 +30,7 @@ Description: the hierarchichal task solver
  This package contains development files (headers and pkg-config file).
 
 
-Package: libsot-core1.0.0.99
+Package: libsot-core1.1.2
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: the hierarchichal task solver plug-in
@@ -51,3 +51,13 @@ Description: documentation for the hierarchichal task solver
  graph plug-in. It allows the realization of complex robotics tasks.
  .
  This package contains the Doxygen documentation.
+
+Package: libsot-core-dbg
+Architecture: any
+Section: debug
+Priority: extra
+Depends:  libdg-middleware (= 1.2.1)
+Description: debugging symbols for libdg-middleware
+ This package provides the corba interface to control a dynamic graph.
+  .
+ This package contains the debugging symbols for libdg-middleware.

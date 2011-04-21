@@ -8,19 +8,28 @@
 
 # Uncomment this to turn on verbose mode.
 export DH_VERBOSE=1
+export PKG_CONFIG_PATH=/opt/openrobots/lib/pkgconfig:$PKG_CONFIG_PATH
+CFLAGS = -O3 -DNDEBUG
+CXXFLAGS = -O3 -DNDEBUG
+LD_LIBRARY_PATH += /opt/openrobots/lib
+export LD_LIBRARY_PATH
 
 # FIXME: test suite fails for now.
 export DEB_BUILD_OPTIONS=nocheck
 
+.PHONY: override_dh_strip
+override_dh_strip:
+        dh_strip --dbg-package=libdg-middleware-dbg
+
 override_dh_auto_configure:
-	dh_auto_configure -- -DGENERATE_DOC=ON
+	dh_auto_configure -- -DCMAKE_BUILD_TYPE=RELEASE -DGENERATE_DOC=ON -DCMAKE_INSTALL_PREFIX=/opt/openrobots
 
 # FIXME: this is only necessary because some binaries are linked against
 # plug-ins.
 # Teach dh_shlibdeps where the plug-in are located.
 override_dh_shlibdeps:
 	export LD_LIBRARY_PATH=\
-debian/libsot-core1.0.0.99/usr/lib/plugin:$(LD_LIBRARY_PATH) \
+debian/libsot-core1.1.2/opt/openrobots/plugin:$(LD_LIBRARY_PATH) \
 && dh_shlibdeps --
 
 %:
