@@ -1,4 +1,10 @@
-sot-core (1.1.2) lucid; urgency=low
+sot-core (1.1.1-5-ge9e11) lucid; urgency=low
+
+  * Buildbot using git version
+
+ -- stasse <stasse@aist.go.jp>  Wed, 04 May 2011 07:18:03 +0900
+
+sot-core (1.1.1) lucid; urgency=low
 
   * Fix shlibs, rules and doc packages for debian package generation.
 
