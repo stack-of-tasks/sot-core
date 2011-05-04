@@ -158,6 +158,30 @@ namespace dynamicgraph { namespace sot {
 	  return Value();
 	}
       }; // class Down
+
+      // Command Display
+      class Display : public Command
+      {
+      public:
+	virtual ~Display() {}
+	/// Create command and store it in Entity
+	/// \param entity instance of Entity owning this command
+	/// \param docstring documentation of the command
+      Display(Sot& entity, const std::string& docstring) :
+	Command(entity, std::vector<Value::Type> (), docstring)
+	  {
+	  }
+	virtual Value doExecute()
+	{
+	  std::stringstream returnString;	
+	  Sot& sot = static_cast<Sot&>(owner());
+	  sot.display (returnString);
+	  
+	  // return the stack
+	  return Value(returnString.str());
+	}
+      }; // class Display
+
     } // namespace classSot
   } // namespace command
 } /* namespace sot */} /* namespace dynamicgraph */

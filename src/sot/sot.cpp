@@ -144,6 +144,13 @@ Sot( const std::string& name )
   addCommand("down",
 	     new command::classSot::Down(*this, docstring));
 
+  // Display
+  docstring ="    \n"
+    "    display the list of tasks pushed inside the stack.\n"
+    "    \n";
+  addCommand("display",
+	     new command::classSot::Display(*this, docstring));
+
 }
 
 /* --------------------------------------------------------------------- */
