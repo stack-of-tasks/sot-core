@@ -21,7 +21,7 @@ Section: libs
 Package: libsot-core-dev
 Section: libdevel
 Architecture: any
-Depends: libboost-dev (>= 1.40), libboost-thread-dev (>= 1.40), libboost-filesystem-dev (>= 1.40), libboost-system-dev (>= 1.40), liblapack-dev (>= 1.2), libjrl-mal-dev (>= 1.9.2), libdynamic-graph-dev (>= 1.9.3), libsot-core1.1.2 (= ${binary:Version}), ${misc:Depends}
+Depends: libboost-dev (>= 1.40), libboost-thread-dev (>= 1.40), libboost-filesystem-dev (>= 1.40), libboost-system-dev (>= 1.40), liblapack-dev (>= 1.2), libjrl-mal-dev (>= 1.9.2), libdynamic-graph-dev (>= 1.2.1), libsot-core1.1.1 (= ${binary:Version}), ${misc:Depends}
 Suggests: libsot-core-doc
 Description: the hierarchichal task solver
  The stack of tasks provides a hierarchical task solver as a dynamic
