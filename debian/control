@@ -30,7 +30,7 @@ Description: the hierarchichal task solver
  This package contains development files (headers and pkg-config file).
 
 
-Package: libsot-core1.1.2
+Package: libsot-core1.1.1
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: the hierarchichal task solver plug-in
