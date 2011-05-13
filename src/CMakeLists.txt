@@ -97,6 +97,18 @@ SET(plugins
 	control/control-pd
 )
 
+# TODO
+IF(WIN32)
+	LIST(REMOVE_ITEM plugins
+	tools/mailbox-vector
+	matrix/binary-op
+	matrix/derivator
+	matrix/fir-filter
+	matrix/integrator-abstract
+	matrix/integrator-euler
+	)
+ENDIF(WIN32)
+	
 set(ADDITIONAL_feature-task_LIBS feature-generic task)
 set(ADDITIONAL_feature-point6d-relative_LIBS feature-point6d)
 

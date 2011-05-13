@@ -90,6 +90,11 @@ SET (tests
 	math/matrix-homogeneous
 	)
 
+# TODO
+IF(WIN32)
+	LIST(REMOVE_ITEM tests tools/test_mailbox)
+ENDIF(WIN32)
+
 IF(UNIX)
   ADD_LIBRARY(pluginabstract
     SHARED
