@@ -47,7 +47,7 @@
 namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
-class BinaryIntToUint
+class SOTBINARYINTTOUINT_EXPORT BinaryIntToUint
   : public dg::Entity
 {
 public:
