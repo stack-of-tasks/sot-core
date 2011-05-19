@@ -31,7 +31,7 @@ namespace dynamicgraph { namespace sot {
     namespace classSot {
       using ::dynamicgraph::command::Command;
       using ::dynamicgraph::command::Value;
-      
+
       // Command AddConstraint
       class AddConstraint : public Command
       {
@@ -173,14 +173,36 @@ namespace dynamicgraph { namespace sot {
 	  }
 	virtual Value doExecute()
 	{
-	  std::stringstream returnString;	
+	  std::stringstream returnString;
 	  Sot& sot = static_cast<Sot&>(owner());
 	  sot.display (returnString);
-	  
+
 	  // return the stack
 	  return Value(returnString.str());
 	}
       }; // class Display
+
+      // Command Clear
+      class Clear : public Command
+      {
+      public:
+	virtual ~Clear() {}
+	/// Clear the stack
+	/// \param docstring documentation of the command
+      Clear(Sot& entity, const std::string& docstring) :
+	Command(entity, std::vector<Value::Type> (), docstring)
+	  {
+	  }
+	virtual Value doExecute()
+	{
+	  std::stringstream returnString;
+	  Sot& sot = static_cast<Sot&>(owner());
+          sot.clear();
+	  // return the stack
+	  return Value();
+	}
+      }; // class Clear
+
 
     } // namespace classSot
   } // namespace command
