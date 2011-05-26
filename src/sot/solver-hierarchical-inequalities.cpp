@@ -43,14 +43,10 @@ using namespace dynamicgraph::sot;
 #endif /*WIN32*/
 
 //define isnan for  windows and mac users 
-#ifdef WIN32
-# include <float.h>
-# define isnan _isnan
-#elif defined(__APPLE__)
-inline bool isnan(double x) {
-	return x != x;
-}
-#endif 
+#if defined (WIN32) or defined (__APPLE__)
+# include <boost/math/special_functions/fpclassify.hpp>
+# define isnan (boost::math::isnan)
+#endif //define WIN32 or defined __APPLE__
 
 #define FORTRAN_ID( id ) id##_
 
