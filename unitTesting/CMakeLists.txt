@@ -86,13 +86,6 @@ SET (tests
 	tools/test_matrix
 	)
 
-# Temporary cancel the computation of some tests whose linkage fails.
-#  they require an explicit linkage with  libboost_system-mt.dylib, 
-#  ${Boost_FILESYSTEM_LIBRARY} and ${Boost_THREAD_LIBRARY}
-IF(APPLE)
-	list(REMOVE_ITEM tests traces/files  tools/test_mailbox)
-ENDIF(APPLE)
-
 IF(UNIX)
 	LINK_DIRECTORIES(${SOT_PLUGIN_OUT_DIR} ${FULLPLUGINDIR})
 ENDIF(UNIX)
@@ -124,6 +117,10 @@ FOREACH(test ${tests})
 	IF (UNIX)
 		TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} dl)
 	ENDIF(UNIX)
+
+	IF(APPLE)
+		TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${Boost_LIBRARIES})
+	ENDIF(APPLE)
 
 	PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} jrl-mal)
 	PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} dynamic-graph)
