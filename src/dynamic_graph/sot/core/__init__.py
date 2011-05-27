@@ -11,6 +11,7 @@ from task import Task
 from task_pd import TaskPD
 from constraint import Constraint
 from gain_adaptive import GainAdaptive
+from joint_limitator import JointLimitator
 from sot import SOT
 
 RobotSimu('')
@@ -26,6 +27,7 @@ Task('')
 TaskPD('')
 Constraint('')
 GainAdaptive('')
+JointLimitator('')
 SOT('')
 
 from op_point_modifier import OpPointModifier
