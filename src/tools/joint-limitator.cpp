@@ -68,32 +68,34 @@ JointLimitator::computeWidthJl (ml::Vector& res,const int& time)
 
 
 ml::Vector&
-JointLimitator::computeControl (ml::Vector& qdot,int time)
+JointLimitator::computeControl (ml::Vector& uOUT,int time)
 {
   sotDEBUGIN(15);
 
   const ml::Vector& q = jointSIN.access(time);
   const ml::Vector& UJL = upperJlSIN.access(time);
   const ml::Vector& LJL = lowerJlSIN.access(time);
-  const ml::Vector& qdotIN = controlSIN.access(time);
+  const ml::Vector& uIN = controlSIN.access(time);
 
-  unsigned int SIZE = qdotIN.size();
-  qdot.resize(SIZE); qdot.fill(0.);
+  unsigned int controlSize = uIN.size();
+  uOUT.resize(controlSize); uOUT.fill(0.);
 
-  /* TODO: change this */
-  unsigned int STOPSIZE = q.size() - 6;
-  if(STOPSIZE > SIZE){ STOPSIZE = SIZE; }
+  int offset = q.size() - uIN.size();
+  assert(offset >= 0);
 
-  for( unsigned int i=0;i<STOPSIZE;++i )
+  for( unsigned int i=0; i<controlSize; ++i )
     {
-      double qnext = q(i+6)+qdotIN(i)*0.005;
-      if( (qnext<UJL(i+6))&&(qnext>LJL(i+6)) ) qdot(i)=qdotIN(i);
+      double qnext = q(i+offset)+uIN(i)*0.005;
+      if((i+offset < 6) || // do not take into account of freeflyer
+	 ((qnext<UJL(i+offset))&&(qnext>LJL(i+offset)))) {
+	uOUT(i)=uIN(i);
+      }
       sotDEBUG(25) << i
 		   << ": " <<qnext<<" in? [" << LJL(i)<<","<<UJL(i)<<"]"<<endl;
     }
 
   sotDEBUGOUT(15);
-  return qdot;
+  return uOUT;
 }
 
 
