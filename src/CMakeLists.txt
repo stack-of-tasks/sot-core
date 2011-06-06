@@ -71,6 +71,7 @@ SET(plugins
 	feature/feature-visual-point
 	feature/feature-task
 	feature/feature-line-distance
+	feature/feature-posture
 
 	traces/reader
 
