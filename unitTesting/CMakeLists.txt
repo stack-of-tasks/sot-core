@@ -87,6 +87,7 @@ SET (tests
 	tools/test_matrix
 
 	math/matrix-twist
+	math/matrix-homogeneous
 	)
 
 IF(UNIX)
