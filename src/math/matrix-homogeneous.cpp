@@ -25,6 +25,13 @@
 using namespace dynamicgraph::sot;
 
 MatrixHomogeneous::
+MatrixHomogeneous( void )
+ :ml::Matrix(4,4)
+{
+  setIdentity();
+}
+
+MatrixHomogeneous::
 MatrixHomogeneous( const ml::Matrix & copy )
   :ml::Matrix(copy)
 {

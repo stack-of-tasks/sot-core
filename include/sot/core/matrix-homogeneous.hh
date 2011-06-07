@@ -40,7 +40,7 @@ namespace dynamicgraph {
       
     public: 
       
-      MatrixHomogeneous( void ) : ml::Matrix(4,4) { setIdentity(); }
+      MatrixHomogeneous( void );
       MatrixHomogeneous( const ml::Matrix & copy );
       ~MatrixHomogeneous( void ) { }
       
