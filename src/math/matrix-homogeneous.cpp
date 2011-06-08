@@ -134,10 +134,24 @@ inverse( MatrixHomogeneous& invMatrix ) const
 {
   sotDEBUGIN(25);
 
-  ml::Matrix & inv = this->ml::Matrix::inverse( invMatrix );
+  double R00 = elementAt(0,0), R01 = elementAt(0,1), R02 = elementAt(0,2);
+  double R10 = elementAt(1,0), R11 = elementAt(1,1), R12 = elementAt(1,2);
+  double R20 = elementAt(2,0), R21 = elementAt(2,1), R22 = elementAt(2,2);
+
+  double t0 = elementAt(0,3);
+  double t1 = elementAt(1,3);
+  double t2 = elementAt(2,3);
+
+  invMatrix(0,0) = R00, invMatrix(0,1) = R10, invMatrix(0,2) = R20;
+  invMatrix(1,0) = R01, invMatrix(1,1) = R11, invMatrix(1,2) = R21;
+  invMatrix(2,0) = R02, invMatrix(2,1) = R12, invMatrix(2,2) = R22;
+
+  invMatrix(0,3) = -(R00*t0+ R10*t1 + R20*t2);
+  invMatrix(1,3) = -(R01*t0+ R11*t1 + R21*t2);
+  invMatrix(2,3) = -(R02*t0+ R12*t1 + R22*t2);
 
   sotDEBUGOUT(25);
-  return dynamic_cast< MatrixHomogeneous& > (inv);
+  return invMatrix;
 }
 
 

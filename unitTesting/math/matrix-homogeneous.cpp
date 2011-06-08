@@ -37,6 +37,12 @@ namespace ml = maal::boost;
 #define MATRIX_4x4_BOOST_REQUIRE_CLOSE(LEFT, RIGHT, TOLERANCE)	\
   MATRIX_BOOST_REQUIRE_CLOSE (4, 4, LEFT, RIGHT, TOLERANCE)
 
+#define MATRIX_IDENTITY_4x4_REQUIRE_CLOSE(M, TOLERANCE)	\
+  for (unsigned i = 0; i < 4; ++i)					\
+    for (unsigned j = 0; j < 4; ++j)					\
+      if (i==j)BOOST_REQUIRE_CLOSE(M(i,j), 1., TOLERANCE);		\
+      else BOOST_CHECK_SMALL(M(i,j), .01*TOLERANCE)
+
 #define MATRIX_HOMO_INIT(M,						\
 			 tx, ty, tz,					\
 			 roll, pitch, yaw)				\
@@ -80,6 +86,46 @@ BOOST_AUTO_TEST_CASE (product)
     dynamicgraph::sot::MatrixHomogeneous H3 = H1*H2;
     ml::Matrix M3 = M1*M2;
 
-    MATRIX_4x4_BOOST_REQUIRE_CLOSE (M3, H3, 0.001);
+    MATRIX_4x4_BOOST_REQUIRE_CLOSE (M3, H3, 0.0001);
+  }
+}
+
+BOOST_AUTO_TEST_CASE (inverse)
+{
+  for (unsigned int i=0; i<1000; i++) {
+    double tx, ty, tz;
+    double roll, pitch, yaw;
+    dynamicgraph::sot::MatrixHomogeneous H1;
+    tx = (10.*rand())/RAND_MAX - 5.;
+    ty = (10.*rand())/RAND_MAX - 5.;
+    tz = (10.*rand())/RAND_MAX - 5.;
+    roll = (M_PI*rand())/RAND_MAX - .5*M_PI;
+    pitch = (M_PI*rand())/RAND_MAX - .5*M_PI;
+    yaw = (2*M_PI*rand())/RAND_MAX - M_PI;
+    MATRIX_HOMO_INIT(H1, tx, ty, tz, roll, pitch, yaw);
+    dynamicgraph::sot::MatrixHomogeneous H2;
+    tx = (10.*rand())/RAND_MAX;
+    ty = (10.*rand())/RAND_MAX - 5.;
+    tz = (10.*rand())/RAND_MAX - 5.;
+    roll = (M_PI*rand())/RAND_MAX - .5*M_PI;
+    pitch = (M_PI*rand())/RAND_MAX - .5*M_PI;
+    yaw = (2*M_PI*rand())/RAND_MAX - M_PI;
+    MATRIX_HOMO_INIT(H2, tx, ty, tz, roll, pitch, yaw);
+    dynamicgraph::sot::MatrixHomogeneous H3 = H1*H2;
+    dynamicgraph::sot::MatrixHomogeneous invH1, invH2, invH3;
+    H1.inverse(invH1);
+    H2.inverse(invH2);
+    H3.inverse(invH3);
+
+    dynamicgraph::sot::MatrixHomogeneous I4;
+    dynamicgraph::sot::MatrixHomogeneous P1 = H1*invH1;
+    dynamicgraph::sot::MatrixHomogeneous P2 = H2*invH2;
+    dynamicgraph::sot::MatrixHomogeneous P3 = H3*invH3;
+    dynamicgraph::sot::MatrixHomogeneous P4 = invH2*invH1;
+
+    MATRIX_IDENTITY_4x4_REQUIRE_CLOSE(P1, 0.0001);
+    MATRIX_IDENTITY_4x4_REQUIRE_CLOSE(P2, 0.0001);
+    MATRIX_IDENTITY_4x4_REQUIRE_CLOSE(P3, 0.0001);
+    MATRIX_4x4_BOOST_REQUIRE_CLOSE(P4, invH3, 0.0001);
   }
 }
