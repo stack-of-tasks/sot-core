@@ -234,12 +234,12 @@ BOOST_AUTO_TEST_CASE (inverse_translation_rotation)
 
   ml::Matrix twistRef (6, 6);
   MATRIX_6x6_INIT (twistRef,
-		   1., 0., 0.,  0.,  -tz,   ty,
-		   0.,-1., 0., -tz,   0.,   tx,
-		   0., 0., 1., -ty,  -tx,   0.,
-		   0., 0., 0.,  1.,   0.,   0.,
-		   0., 0., 0.,  0.,  -1.,   0.,
-		   0., 0., 0.,  0.,   0.,   1.);
+		   0., 0., 1., ty, -tx, -0.,
+		   0., -1., 0., tz, -0., -tx,
+		   1., 0., 0., -0., tz, -ty,
+		   0., 0., 0., 0., 0., 1.,
+		   0., 0., 0., 0., -1., 0.,
+		   0., 0., 0., 1., 0., 0.);
 
   MATRIX_6x6_BOOST_REQUIRE_CLOSE (twistInv, twistRef, 0.001);
   MATRIX_6x6_BOOST_REQUIRE_CLOSE (twistInv_, twistRef, 0.001);
