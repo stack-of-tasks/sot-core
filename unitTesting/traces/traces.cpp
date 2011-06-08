@@ -48,11 +48,11 @@ int main()
   SignalTimeDependent<double,int> sigM( f,sotNOSIGNAL,"sigM" );
   sigM.access(0);
   
-  Tracer tracer( "trace" );
-  tracer.addSignalToTrace( sig1 );
-  tracer.openFiles( "/tmp/sot-core","tr_",".dat" );
+  Tracer* tracer = new Tracer( "trace" );
+  tracer->addSignalToTrace( sig1 );
+  tracer->openFiles( "/tmp/sot-core","tr_",".dat" );
   
-  tracer.addSignalToTrace( sig2 );
+  tracer->addSignalToTrace( sig2 );
 
   return 0;
 }
