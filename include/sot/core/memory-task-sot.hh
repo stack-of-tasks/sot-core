@@ -56,7 +56,8 @@ class SOT_CORE_EXPORT MemoryTaskSOT
 
   virtual void initMemory( const unsigned int nJ,
                            const unsigned int mJ,
-                           const unsigned int ffsize );
+                           const unsigned int ffsize,
+			   bool atConstruction = false);
 
  public: /* --- ENTITY INHERITANCE --- */
   static const std::string CLASS_NAME;

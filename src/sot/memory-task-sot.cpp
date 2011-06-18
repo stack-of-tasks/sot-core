@@ -44,12 +44,13 @@ MemoryTaskSOT( const std::string & name
   signalRegistration(jacobianInvSINOUT
                      <<singularBaseImageSINOUT<<rankSINOUT
                      <<jacobianConstrainedSINOUT<<jacobianProjectedSINOUT);
-  initMemory( nJ,mJ,ffsize );
+  initMemory( nJ,mJ,ffsize,true );
 }
 
 
 void MemoryTaskSOT::
-initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsize )
+initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsize,
+	    bool atConstruction )
 {
    sotDEBUG(15) << "Task-mermory " << getName() << ": resize " 
                 << nJ << "x" << mJ << std::endl;
@@ -67,7 +68,19 @@ initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsiz
    S.resize( std::min( nJ,mJ ) );
 
    JK.fill(0);
-   Jt.pseudoInverse(Jp);
+   if (atConstruction) {
+     Jt.fill(0.);
+     Jp.fill(0.);
+     PJp.fill(0.);
+     Jff.fill(0.);
+     Jact.fill(0.);
+     JK.fill(0.);
+     U.fill(0.);
+     V.fill(0.);
+     S.fill(0.);
+   } else {
+     Jt.pseudoInverse(Jp);
+   }
  }
 
 
