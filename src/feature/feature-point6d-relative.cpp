@@ -303,7 +303,8 @@ void FeaturePoint6dRelative::
 initSdes( const std::string & nameSdes )
 {
   FeaturePoint6dRelative & sdes
-    = dynamic_cast< FeaturePoint6dRelative &> (g_pool.getEntity( nameSdes ));
+    = dynamic_cast< FeaturePoint6dRelative &>
+    (PoolStorage::getInstance()->getEntity(nameSdes));
   const int timeCurr = positionSIN.getTime() +1;
   positionSIN.recompute( timeCurr );
   positionReferenceSIN.recompute( timeCurr );

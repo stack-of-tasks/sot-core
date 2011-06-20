@@ -48,7 +48,8 @@ cmdFlagSet( const std::string& cmdLine, istringstream& cmdArg, std::ostream& os 
 
   try {
     Signal<Flags,int> &sig1
-      = dynamic_cast< Signal<Flags,int>& >( g_pool.getSignal(cmdArg) );
+      = dynamic_cast< Signal<Flags,int>& >
+      (PoolStorage::getInstance()->getSignal(cmdArg));
 
     dgDEBUG(25) << "set..."<<endl;
     Flags fl; try { fl = sig1.accessCopy(); } catch(...) {}

@@ -84,7 +84,8 @@ public:
 	std::string taskname; cmdArgs >> taskname;
 	sotDEBUG(15) << "Add task " << taskname << std::endl;
 	taskPtr  
-	  = dynamic_cast< TaskAbstract* > (&g_pool.getEntity( taskname ));
+	  = dynamic_cast< TaskAbstract* >
+	  (&PoolStorage::getInstance()->getEntity(taskname));
       }
   }
   virtual void display( std::ostream& os ) const 
@@ -332,7 +333,8 @@ commandLine( const std::string& cmdLine,
       cmdArgs>>std::ws; if( cmdArgs.good() )
 	{
 	  std::string sotname; cmdArgs >> sotname;
-	  Sot * sotptr = dynamic_cast< Sot* > (& (g_pool.getEntity( sotname )));
+	  Sot * sotptr = dynamic_cast< Sot* >
+	    (&(PoolStorage::getInstance()->getEntity(sotname)));
 	  if(! sotptr ) os << "! Entity <" << sotname << "> does not exist "
 			   << "(see you later, next patient please!"
 			   << std::endl;

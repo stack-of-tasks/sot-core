@@ -155,7 +155,7 @@ OpPointModifier::setTransformationBySignalName( std::istringstream& cmdArgs )
 {
   Signal< MatrixHomogeneous,int > &sig
     = dynamic_cast< Signal< MatrixHomogeneous,int >& >
-    (g_pool.getSignal( cmdArgs ));
+    (PoolStorage::getInstance()->getSignal( cmdArgs ));
   setTransformation(sig.accessCopy());
 }
 

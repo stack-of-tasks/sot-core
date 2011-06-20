@@ -134,7 +134,8 @@ if( NULL==dlib )
       exit(1);
     }
 
-  Entity* gain = g_factory.newEntity("GainAdaptive","Gain");
+  Entity* gain =
+    FactoryStorage::getInstance()->newEntity("GainAdaptive","Gain");
   FeatureAbstract* point = sotFactory.newFeature("FeatureVisualPoint","DynamicTest.");
 
   try {

@@ -160,7 +160,8 @@ commandLine( const std::string& cmdLine
   else if( cmdLine=="touch" )
     {
       Signal<ml::Vector,int> & sig
-	= dynamic_cast< Signal<ml::Vector,int>& >( g_pool.getSignal( cmdArgs ) );
+	= dynamic_cast< Signal<ml::Vector,int>& >
+	(PoolStorage::getInstance()->getSignal(cmdArgs));
       timeRef = TIME_REF_TO_BE_SET; //sig.getTime();
       q0 = sig.accessCopy();
     }

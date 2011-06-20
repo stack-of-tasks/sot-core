@@ -127,7 +127,8 @@ commandLine( const std::string& cmdLine,
       if( cmdArgs.good() )
 	{
 	  std::string name; cmdArgs >> name;
-	  Task& task = dynamic_cast< Task & > (g_pool .getEntity( name ));
+	  Task& task = dynamic_cast< Task & >
+	    (PoolStorage::getInstance()->getEntity( name ));
 	  taskPtr = &task;
 
 	  errorSIN.plug( &task.errorSOUT );

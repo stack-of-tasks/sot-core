@@ -51,7 +51,8 @@ namespace dynamicgraph {
 	    std::vector<Value> values = getParameterValues();
 	    std::string signalName = values[0].value();
 	    std::istringstream iss(signalName);
-	    SignalBase<int>& signal = g_pool.getSignal(iss);
+	    SignalBase<int>& signal =
+	      PoolStorage::getInstance()->getSignal(iss);
 	    try {
 	      Signal< ml::Matrix,int >& matrixSignal
 		= dynamic_cast< Signal<ml::Matrix,int>& >( signal );

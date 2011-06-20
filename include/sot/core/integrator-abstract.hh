@@ -84,7 +84,7 @@ class IntegratorAbstract
       std::string objname, signame;
       // Florent: remove reference to g_shell
       //dg::Interpreter::objectNameParser(cmdArgs, objname, signame);
-      dg::Entity& obj = dg::g_pool.getEntity(objname);
+      dg::Entity& obj = dg::PoolStorage::getInstance()->getEntity(objname);
       dg::SignalBase<int>& sig = obj.getSignal(signame);
       try {
 	dg::Signal<coefT,int>& sigc = dynamic_cast<dg::Signal<coefT,int>&>(sig);
@@ -100,7 +100,7 @@ class IntegratorAbstract
       std::string objname, signame;
       // Florent: remove reference to g_shell
       //dg::Interpreter::objectNameParser(cmdArgs, objname, signame);
-      dg::Entity& obj = dg::g_pool.getEntity(objname);
+      dg::Entity& obj = dg::PoolStorage::getInstance()->getEntity(objname);
       dg::SignalBase<int>& sig = obj.getSignal(signame);
       try {
 	dg::Signal<coefT,int>& sigc = dynamic_cast<dg::Signal<coefT,int>&>(sig);
