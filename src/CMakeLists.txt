@@ -44,13 +44,12 @@ SET(plugins
 
 	math/op-point-modifier
 
-	matrix/binary-op
+	matrix/operator
 	matrix/derivator
 	matrix/fir-filter
 	matrix/integrator-abstract
 	matrix/integrator-euler
 	matrix/matrix-constant
-	matrix/unary-op
 	matrix/vector-constant
 	matrix/vector-to-rotation
 
