@@ -18,8 +18,8 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __SOT_BINARYOP_H__
-#define __SOT_BINARYOP_H__
+#ifndef SOT_CORE_UNARYOP_HH
+#define SOT_CORE_UNARYOP_HH
 
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */
@@ -88,4 +88,4 @@ namespace dynamicgraph {
   } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_BINARYOP_H__
+#endif // #ifndef SOT_CORE_UNARYOP_HH
