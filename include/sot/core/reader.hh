@@ -72,7 +72,7 @@ class SOTREADER_EXPORT sotReader
 {
  public: 
   static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) { return CLASS_NAME; }
+  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
  public: 
 

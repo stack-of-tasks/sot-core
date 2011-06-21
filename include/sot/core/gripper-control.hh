@@ -112,7 +112,7 @@ class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
 
   GripperControlPlugin( const std::string& name );
   virtual ~GripperControlPlugin( void );
-
+  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
  public: /* --- SIGNAL --- */
 
   /* --- INPUTS --- */
