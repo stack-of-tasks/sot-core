@@ -48,7 +48,7 @@ class TaskAbstract;
 
 
 /*! @ingroup factory
-  \brief This class keep tracks of all the objects in the stack of Tasks.
+  \brief This singleton class keep tracks of all features and tasks.
 
   Three kinds of objects are handled:
   \li The controllers, i.e. the tasks which inherits from TaskAbstract.
@@ -99,6 +99,12 @@ class SOT_CORE_EXPORT PoolStorage
   /*! \brief Default destructor */
   ~PoolStorage( void );
 
+  /// \brief Get unique instance of the class
+  static PoolStorage* getInstance();
+
+  /// \brief destroy unique instance of the class
+  static void destroy();
+
   /*! \name Methods related to the handling of the features
     @{
    */
@@ -134,9 +140,11 @@ class SOT_CORE_EXPORT PoolStorage
   /*! \brief This method write a graph description on the file named FileName. */
   void writeGraph(const std::string &aFileName);
   void writeCompletionList(std::ostream& os);
-};
 
-SOT_CORE_EXPORT extern sot::PoolStorage sotPool;
+ private:
+  PoolStorage();
+  static PoolStorage* instance_;
+};
 
 } /* namespace sot */} /* namespace dynamicgraph */
 

@@ -57,7 +57,7 @@ FeatureAbstract( const std::string& name )
 void FeatureAbstract::
 featureRegistration( void )
 {
-  sotPool.registerFeature(name,this);
+  PoolStorage::getInstance()->registerFeature(name,this);
 }
 
 

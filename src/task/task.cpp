@@ -370,9 +370,6 @@ commandLine( const std::string& cmdLine
     }
   else if( cmdLine=="add" )
     {
-      std::string f; cmdArgs >> f;
-      FeatureAbstract& feat = sotPool.getFeature( f );
-      addFeature( feat );
     }
   else if( cmdLine=="selec" )
     {

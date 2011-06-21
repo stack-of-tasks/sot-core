@@ -11,12 +11,10 @@ having high level software capabilities, like plugins and scripts.
 The code is based on the dynamic-graph package, which provides the
 framework from which sot-core relies. Hence most of the code in sot-core
 consists of classes that derive from entities. These entities are usually
-compiled and linked in their own dynamic library, as a "plugin"; hence
-you may choose to include (load) in your program only the ones you
-need.
+compiled and linked in their own dynamic library, as a python module
 
 Aside from the entities, there is a code base to the library, libsot-core,
-that provides functions and code common to all modules. All plugins
+that provides functions and code common to all modules. All python modules
 developed here link with libsot-core. For example, common mathematical
 entities, definitions and functions are in that library's base.
 See \ref sot_core_base for a list of what's in this code base.
@@ -37,7 +35,7 @@ alone is insufficient to simulate and control a robot.
 The following packages are recommended* in that case:
 \li sot-dynamic
 \li sot-pattern-generator
-\li sot-openhrp (openhrp plugin)
+\li sot-openhrp (openhrp python module)
 \li sot-openhrp-scripts
 
 * These packages are in development at the time of writing and may
@@ -66,12 +64,12 @@ This package is centered around a base library that implements
 the basic classes needed for operation of the stack of tasks. For
 more information, see \ref sot_core_base.
 
-\section sot_plugins Plugins
+\section sot_plugins Python Modules
 While the main library provides a basic framework for computation of a
 control law using the Stack of Tasks, it is not expressive enough for
 typical usage scenarios (for example, controlling the humanoid robot
 HRP-2). Hence, several "specialized" features and tasks have been developed,
-and can be used in the Stack of Tasks. For a list of plugins and a short
+and can be used in the Stack of Tasks. For a list of python modules and a short
 description, see \ref plugins_list.
 
 \section operation Operation of the stack of tasks
@@ -145,13 +143,13 @@ the dynamic-graph package).
 
 \subsection subsec_Features Features
 The class sot::FeatureAbstract is the base class for features.
-all other classes are in entity \ref sot_plugins "plugins".
+all other classes are in entity \ref sot_plugins "python modules".
 For more information on what is a feature, see \ref features.
 
 \subsection subsec_Tasks Tasks
 They are a certain number of pre-written tasks that can be used.
 They all derive from the task sot::TaskAbstract; specific tasks
-are defined as \ref sot_plugins "plugins".
+are defined as \ref sot_plugins "python modules".
 
 \subsection subsec_tools Mathematical base
 The following classes encapsulate common mathematical objects, and
@@ -169,8 +167,8 @@ See \ref factory for additional information.
 
 
 
-\defgroup plugins_list List of plugins
-These plugins are linked with the base library.
+\defgroup plugins_list List of python modules
+These python modules are linked with the base library.
 
 	sot/sot-qr
 	sot/weighted-sot
@@ -234,26 +232,18 @@ This code implements the factory design pattern, making creation of features,
 tasks and other objects available.
 
 Objects, which are derived from Entities, Tasks, or Features, can be
- declared within the code and compiled to shared librairies (.so/.dll files).
-These librairies can be loaded at run-time using the sotPluginLoader methods,
-and at the same time register their class names to the Factory (see the
-sotFactory documentation to learn how).
+ declared within the code and compiled to C++ python modules.  These
+ modules can be imported at run-time and register their class names to
+ the Factory (see the sotFactory documentation to learn how).
 
 The Factory can then create instances of these objects and subsequently
 register them in the Pool, where they can be listed, accessed, and acted upon
-(see sotPoolStorage documentation). Basic commands defined by entities include
+(see sot::PoolStorage documentation). Basic commands defined by entities include
 signal connection graph file generation, help and name print, and signals.
-
-Finally, a shell (command-line) interface is made available thanks to the
-sotInterpretor class (see the file test_shell.cpp). Objects deriving from
-Entity can expose their own commands by overriding the Entity's default
-commandLine() method. It is possible to load a plugin to register custom
-shell commands; see sotShellFunctions and sotShellProcedure for an example.
 
 The public static objects (singletons) made available by including the
 corresponding headers in this module are:
-\li sotFactory: sotFactoryStorage
-\li sotPool: sotPoolStorage
+\li sot::PoolStorage, accessed by method getInstance.
 
 \image html schema_plugin.png
 

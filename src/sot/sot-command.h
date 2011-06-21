@@ -51,7 +51,8 @@ namespace dynamicgraph { namespace sot {
 	  std::string constraintName = values[0].value();
 
 	  Constraint& constraint =
-	    dynamic_cast<Constraint&>(sotPool.getTask(constraintName));
+	    dynamic_cast<Constraint&>(PoolStorage::getInstance()->
+				      getTask(constraintName));
 	  sot.addConstraint(constraint);
 	  sot.constraintSOUT.setReady();
 	  // return void
@@ -77,7 +78,7 @@ namespace dynamicgraph { namespace sot {
 	  std::vector<Value> values = getParameterValues();
 	  std::string taskName = values[0].value();
 
-	  TaskAbstract& task = sotPool.getTask(taskName);
+	  TaskAbstract& task = PoolStorage::getInstance()->getTask(taskName);
 	  sot.push(task);
 	  // return void
 	  return Value();
@@ -102,7 +103,7 @@ namespace dynamicgraph { namespace sot {
 	  std::vector<Value> values = getParameterValues();
 	  std::string taskName = values[0].value();
 
-	  TaskAbstract& task = sotPool.getTask(taskName);
+	  TaskAbstract& task = PoolStorage::getInstance()->getTask(taskName);
 	  sot.remove(task);
 	  // return void
 	  return Value();
@@ -127,7 +128,7 @@ namespace dynamicgraph { namespace sot {
 	  std::vector<Value> values = getParameterValues();
 	  std::string taskName = values[0].value();
 
-	  TaskAbstract& task = sotPool.getTask(taskName);
+	  TaskAbstract& task = PoolStorage::getInstance()->getTask(taskName);
 	  sot.up(task);
 	  // return void
 	  return Value();
@@ -152,7 +153,7 @@ namespace dynamicgraph { namespace sot {
 	  std::vector<Value> values = getParameterValues();
 	  std::string taskName = values[0].value();
 
-	  TaskAbstract& task = sotPool.getTask(taskName);
+	  TaskAbstract& task = PoolStorage::getInstance()->getTask(taskName);
 	  sot.down(task);
 	  // return void
 	  return Value();

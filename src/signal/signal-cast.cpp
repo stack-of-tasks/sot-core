@@ -76,7 +76,7 @@ namespace dynamicgraph
     std::string name; iss >> name;
     if( name.length())
       {
-	ref = &sotPool.getFeature(name);
+	ref = &dynamicgraph::sot::PoolStorage::getInstance()->getFeature(name);
       }
     else { ref = NULL; }
     return ref;

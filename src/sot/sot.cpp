@@ -899,9 +899,6 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
     }
   else if( cmdLine == "push")
     {
-      std::string tname; cmdArgs >> tname;
-      TaskAbstract & task = sotPool.getTask( tname );
-      push(task);
     }
   else if( cmdLine == "gradient")
     {
@@ -913,8 +910,6 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 	    { taskGradient = 0; }
 	  else
 	    {
-	      TaskAbstract & task = sotPool.getTask( tname );
-	      taskGradient = &task;
 	    }
 	}
       else
@@ -927,21 +922,12 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
     }
   else if( cmdLine == "up")
     {
-      std::string tname; cmdArgs >> tname;
-      TaskAbstract & task = sotPool.getTask( tname );
-      up(task);
     }
   else if( cmdLine == "down")
     {
-      std::string tname; cmdArgs >> tname;
-      TaskAbstract & task = sotPool.getTask( tname );
-      down(task);
     }
   else if( cmdLine == "rm")
     {
-      std::string tname; cmdArgs >> tname;
-      TaskAbstract & task = sotPool.getTask( tname );
-      remove(task);
     }
   else if( cmdLine == "pop")
     {
@@ -951,17 +937,9 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 
   else if( cmdLine == "addConstraint" )
     {
-      std::string cstname; cmdArgs >> cstname;
-      Constraint &cs = dynamic_cast<Constraint&>(sotPool.getTask( cstname ));
-      addConstraint( cs );
-      constraintSOUT.setReady();
     }
   else if( cmdLine == "rmConstraint" )
     {
-      std::string cstname; cmdArgs >> cstname;
-      Constraint &cs = dynamic_cast<Constraint&>(sotPool.getTask( cstname ));
-      removeConstraint( cs );
-      constraintSOUT.setReady();
     }
   else if( cmdLine == "clearConstraint" )
     {

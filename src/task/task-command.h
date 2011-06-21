@@ -49,7 +49,8 @@ namespace dynamicgraph { namespace sot {
 	  Task& task = static_cast<Task&>(owner());
 	  std::vector<Value> values = getParameterValues();
 	  std::string featureName = values[0].value();
-	  FeatureAbstract& feature = sotPool.getFeature(featureName);
+	  FeatureAbstract& feature =
+	    PoolStorage::getInstance()->getFeature(featureName);
 	  task.addFeature(feature);
 	  // return void
 	  return Value();

@@ -52,7 +52,7 @@ TaskAbstract( const std::string& n )
 void TaskAbstract::
 taskRegistration( void )
 {
-  sotPool.registerTask(name,this);
+  PoolStorage::getInstance()->registerTask(name,this);
 }
 
 
