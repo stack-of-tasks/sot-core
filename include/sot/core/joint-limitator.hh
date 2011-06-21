@@ -18,93 +18,61 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __SOT_FEATURE_JOINTLIMITS_HH__
-#define __SOT_FEATURE_JOINTLIMITS_HH__
-
-/* --------------------------------------------------------------------- */
-/* --- INCLUDE --------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-/* Matrix */
-#include <jrl/mal/boost.hh>
+#ifndef SOT_FEATURE_JOINTLIMITS_HH
+# define SOT_FEATURE_JOINTLIMITS_HH
+// Matrix
+# include <jrl/mal/boost.hh>
 namespace ml = maal::boost;
 
-/* SOT */
-#include <dynamic-graph/entity.h>
-#include <sot/core/exception-task.hh>
-#include <dynamic-graph/all-signals.h>
+// SOT
+# include <dynamic-graph/entity.h>
+# include <sot/core/exception-task.hh>
+# include <dynamic-graph/all-signals.h>
 
-/* --------------------------------------------------------------------- */
-/* --- API ------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (joint_limitator_EXPORTS)
 #    define SOTJOINTLIMITATOR_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define SOTJOINTLIMITATOR_EXPORT __declspec(dllimport)
-#  endif 
+#  endif
 #else
 #  define SOTJOINTLIMITATOR_EXPORT
 #endif
 
-/* --------------------------------------------------------------------- */
-/* --- CLASS ----------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
+namespace dynamicgraph {
+  namespace sot {
+    namespace dg = dynamicgraph;
 
+    /// \brief Filter control vector to avoid exceeding joint maximum values.
+    ///
+    /// This must be plugged between the entity producing the command
+    /// (i.e. usually the sot) and the entity executing it (the device).
+    class SOTJOINTLIMITATOR_EXPORT JointLimitator
+      : public dg::Entity
+    {
+      DYNAMIC_GRAPH_ENTITY_DECL ();
 
-namespace dynamicgraph { namespace sot {
+    public:
+      JointLimitator (const std::string& name);
+      virtual ~JointLimitator ()
+      {}
 
-namespace dg = dynamicgraph;
+      virtual ml::Vector& computeControl (ml::Vector& res, int time);
+      ml::Vector& computeWidthJl (ml::Vector& res, const int& time);
 
-/*!
-  \class JointLimitator
-*/
-class SOTJOINTLIMITATOR_EXPORT JointLimitator
-: public dg::Entity
-{
+      virtual void display (std::ostream& os) const;
 
- public: 
-  static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+      /// \name Signals
+      /// \{
+      dg::SignalPtr< ml::Vector,int > jointSIN;
+      dg::SignalPtr< ml::Vector,int > upperJlSIN;
+      dg::SignalPtr< ml::Vector,int > lowerJlSIN;
+      dg::SignalPtr< ml::Vector,int > controlSIN;
+      dg::SignalTimeDependent< ml::Vector,int > controlSOUT;
+      dg::SignalTimeDependent< ml::Vector,int > widthJlSINTERN;
+      /// \}
+    };
+  } // end of namespace sot.
+} // end of namespace dynamic-graph.
 
- protected:
-  
-  double threshold;
-  const static double THRESHOLD_DEFAULT; // = .99;
-
-  /* --- SIGNALS ------------------------------------------------------------ */
- public:
-
-  dg::SignalPtr< ml::Vector,int > jointSIN;
-  dg::SignalPtr< ml::Vector,int > upperJlSIN;
-  dg::SignalPtr< ml::Vector,int > lowerJlSIN;
-  dg::SignalPtr< ml::Vector,int > controlSIN;
-  dg::SignalTimeDependent< ml::Vector,int > controlSOUT;
-  dg::SignalTimeDependent< ml::Vector,int > widthJlSINTERN;
-
- public:
-  JointLimitator( const std::string& name );
-  virtual ~JointLimitator( void ) {}
-
-  virtual ml::Vector& computeControl( ml::Vector& res,int time ); 
-  ml::Vector& computeWidthJl( ml::Vector& res,const int& time );
-
-  virtual void display( std::ostream& os ) const;
-  void commandLine( const std::string& cmdLine,
-		    std::istringstream& cmdArgs,
-		    std::ostream& os );
-} ;
-
-
-} /* namespace sot */} /* namespace dynamicgraph */
-
-
-
-#endif // #ifndef __SOT_FEATURE_JOINTLIMITS_HH__
-
-/*
- * Local variables:
- * c-basic-offset: 2
- * End:
- */
+#endif //! SOT_FEATURE_JOINTLIMITS_HH

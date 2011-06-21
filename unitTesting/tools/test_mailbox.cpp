@@ -41,7 +41,7 @@ using namespace dynamicgraph::sot;
 
 #include <boost/thread.hpp>
 
-sot::MailboxVector mailbox("mail");
+sot::MailboxVector* mailbox = NULL;
 
 void f( void ) 
 { 
@@ -51,12 +51,12 @@ void f( void )
     {
 	  std::cout << " iter  " << i << std::endl;
       for( int j=0;j<25;++j ) vect(j) = j+i*10;
-      mailbox.post( vect );
-      maal::boost::Vector V = mailbox.getObject( vect2, 1 );
+      mailbox->post( vect );
+      maal::boost::Vector V = mailbox->getObject( vect2, 1 );
 	  std::cout << vect2 << std::endl;
-	  std::cout << " getClassName   " << mailbox.getClassName() << std::endl;
-	  std::cout << " getName        " << mailbox.getName() << std::endl;
-	  std::cout << " hasBeenUpdated " << mailbox.hasBeenUpdated() << std::endl;
+	  std::cout << " getClassName   " << mailbox->getClassName() << std::endl;
+	  std::cout << " getName        " << mailbox->getName() << std::endl;
+	  std::cout << " hasBeenUpdated " << mailbox->hasBeenUpdated() << std::endl;
 	  std::cout << std::endl;
     }
 }
@@ -64,8 +64,9 @@ void f( void )
 
 int main( int ,char** )
 {
-  boost::thread th( f );
+  mailbox = new sot::MailboxVector("mail");
 
+  boost::thread th( f );
   th.join();
 
   return 0;

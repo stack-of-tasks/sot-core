@@ -66,20 +66,10 @@ int main( void )
   cout <<"Appel of errSig and display of the result." << endl;
   cout << errSig(0) <<endl;
 
-//   double res;
-//   cout <<"Compute gain from Gain object."<< endl;
-//   gain->computeGain( res,0 );
-
   Signal<double,int> &gainSig = gain->gainSOUT;
 
   cout <<"Compute gain from Gain Signal and display."<< endl;
   cout << gainSig(0) << endl;
-
-//   dg::SignalPtr<ml::Vector,int> sigPtr( &errSig );
-//   cout << errSig(0) <<endl;
-//   cout << (*sigPtr).access(0) <<endl;
-
-  delete gain;
 
   return 0;
 }

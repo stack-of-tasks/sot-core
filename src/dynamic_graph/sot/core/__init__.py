@@ -2,6 +2,7 @@ from robot_simu import RobotSimu
 from unary_op import RPYToMatrix, MatrixHomoToPoseRollPitchYaw
 from feature_point6d import FeaturePoint6d
 from feature_position import FeaturePosition
+from feature_posture import FeaturePosture
 from feature_point6d_relative import FeaturePoint6dRelative
 from feature_generic import FeatureGeneric
 from feature_joint_limits import FeatureJointLimits
@@ -11,12 +12,14 @@ from task import Task
 from task_pd import TaskPD
 from constraint import Constraint
 from gain_adaptive import GainAdaptive
+from joint_limitator import JointLimitator
 from sot import SOT
 
 RobotSimu('')
 RPYToMatrix('')
 MatrixHomoToPoseRollPitchYaw('')
 FeaturePoint6d('')
+FeaturePosture('')
 FeaturePoint6dRelative('')
 FeatureGeneric('')
 FeatureJointLimits('')
@@ -26,6 +29,7 @@ Task('')
 TaskPD('')
 Constraint('')
 GainAdaptive('')
+JointLimitator('')
 SOT('')
 
 from op_point_modifier import OpPointModifier

@@ -18,11 +18,6 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* --------------------------------------------------------------------- */
-/* --- INCLUDE --------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-/* --- SOT --- */
 #include <sot/core/joint-limitator.hh>
 #include <sot/core/exception-feature.hh>
 #include <sot/core/debug.hh>
@@ -35,20 +30,9 @@ using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(JointLimitator,"JointLimitator");
 
-/* --------------------------------------------------------------------- */
-/* --- CLASS ----------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-const double JointLimitator::THRESHOLD_DEFAULT = .99;
-
-
 JointLimitator::
 JointLimitator( const string& fName )
   : Entity( fName )
-    ,threshold(THRESHOLD_DEFAULT)
-//     ,freeFloatingIndex( FREE_FLOATING_INDEX )
-//     ,freeFloatingSize( FREE_FLOATING_SIZE )
-
     ,jointSIN( NULL,"JointLimitator("+name+")::input(vector)::joint" )
     ,upperJlSIN( NULL,"JointLimitator("+name+")::input(vector)::upperJl" )
     ,lowerJlSIN( NULL,"JointLimitator("+name+")::input(vector)::lowerJl" )
@@ -59,19 +43,14 @@ JointLimitator( const string& fName )
     ,widthJlSINTERN( boost::bind(&JointLimitator::computeWidthJl,this,_1,_2),
 		     upperJlSIN<<lowerJlSIN,
 		     "JointLimitator("+name+")::input(vector)::widthJl" )
-  
+
 {
   signalRegistration( jointSIN<<upperJlSIN<<lowerJlSIN
 		      <<controlSIN<<controlSOUT<<widthJlSINTERN );
 }
 
-
-/* --------------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
 ml::Vector&
-JointLimitator::computeWidthJl( ml::Vector& res,const int& time )
+JointLimitator::computeWidthJl (ml::Vector& res,const int& time)
 {
   sotDEBUGIN(15);
 
@@ -89,75 +68,42 @@ JointLimitator::computeWidthJl( ml::Vector& res,const int& time )
 
 
 ml::Vector&
-JointLimitator::computeControl( ml::Vector& qdot,int time )
+JointLimitator::computeControl (ml::Vector& uOUT,int time)
 {
   sotDEBUGIN(15);
 
   const ml::Vector& q = jointSIN.access(time);
   const ml::Vector& UJL = upperJlSIN.access(time);
   const ml::Vector& LJL = lowerJlSIN.access(time);
-  //const ml::Vector WJL = widthJlSINTERN.access(time);
-  const ml::Vector& qdotIN = controlSIN.access(time);
+  const ml::Vector& uIN = controlSIN.access(time);
 
-  unsigned int SIZE = qdotIN.size();
-  qdot.resize(SIZE); qdot.fill(0.);
+  unsigned int controlSize = uIN.size();
+  uOUT.resize(controlSize); uOUT.fill(0.);
 
-  /* TODO: change this */
-  unsigned int STOPSIZE = q.size() - 6;
-  if(STOPSIZE > SIZE){ STOPSIZE = SIZE; }
+  int offset = q.size() - uIN.size();
+  assert(offset >= 0);
 
-  for( unsigned int i=0;i<STOPSIZE;++i )
+  for( unsigned int i=0; i<controlSize; ++i )
     {
-      double qnext = q(i+6)+qdotIN(i)*0.005;
-      if( (qnext<UJL(i+6))&&(qnext>LJL(i+6)) ) qdot(i)=qdotIN(i);
-      sotDEBUG(25) <<i<<": " <<qnext<<" in? [" << LJL(i)<<","<<UJL(i)<<"]"<<endl;
+      double qnext = q(i+offset)+uIN(i)*0.005;
+      if((i+offset < 6) || // do not take into account of freeflyer
+	 ((qnext<UJL(i+offset))&&(qnext>LJL(i+offset)))) {
+	uOUT(i)=uIN(i);
+      }
+      sotDEBUG(25) << i
+		   << ": " <<qnext<<" in? [" << LJL(i)<<","<<UJL(i)<<"]"<<endl;
     }
 
   sotDEBUGOUT(15);
-  return qdot;
+  return uOUT;
 }
 
 
 void JointLimitator::
 display( std::ostream& os ) const
 {
-  
+
 
   os <<"JointLimitator <"<<name<<"> ... TODO";
 
 }
-
-
-
-
-void JointLimitator::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine == "help" )
-    {
-      os << "JointLimitator:"<<endl
-	 <<"  - setThreshold  <int> " <<endl
-	 <<"  - getThreshold  " <<endl;
-    }
-  else if( cmdLine == "setThreshold" )
-    {
-      double th;
-      cmdArgs >> th; if( th<0. ) th=0.;if( th>1. ) th=1.;
-      threshold = th;
-    }
-  else if( cmdLine == "getThreshold" )
-    {
-      os << "threshold = " << threshold <<endl; 
-    }
-  else { Entity::commandLine( cmdLine,cmdArgs,os ); }
-}
-
-
-
-/*
- * Local variables:
- * c-basic-offset: 2
- * End:
- */

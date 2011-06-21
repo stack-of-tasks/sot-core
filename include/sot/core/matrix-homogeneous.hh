@@ -40,7 +40,7 @@ namespace dynamicgraph {
       
     public: 
       
-      MatrixHomogeneous( void ) : ml::Matrix(4,4) { setIdentity(); }
+      MatrixHomogeneous( void );
       MatrixHomogeneous( const ml::Matrix & copy );
       ~MatrixHomogeneous( void ) { }
       
@@ -50,6 +50,7 @@ namespace dynamicgraph {
       MatrixRotation& extract( MatrixRotation& rot ) const;
       ml::Vector& extract( ml::Vector& trans ) const;
       
+      MatrixHomogeneous operator*(const MatrixHomogeneous& h) const;
       MatrixHomogeneous& operator=( const ml::Matrix& );
       
       MatrixHomogeneous&

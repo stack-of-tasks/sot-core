@@ -97,7 +97,7 @@ Sot( const std::string& name )
     "    \n";
   addCommand("addConstraint",
 	     new command::classSot::AddConstraint(*this, docstring));
-  
+
   docstring ="    \n"
     "    setNumberDofs.\n"
     "    \n"
@@ -143,6 +143,22 @@ Sot( const std::string& name )
     "    \n";
   addCommand("down",
 	     new command::classSot::Down(*this, docstring));
+
+  // Display
+  docstring ="    \n"
+    "    display the list of tasks pushed inside the stack.\n"
+    "    \n";
+  addCommand("display",
+	     new command::classSot::Display(*this, docstring));
+
+
+  // Clear
+  docstring ="    \n"
+    "    clear the list of tasks pushed inside the stack.\n"
+    "    \n";
+  addCommand("clear",
+	     new command::classSot::Clear(*this, docstring));
+
 
 }
 
@@ -532,19 +548,19 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 	  + mem->Jact.nbCols()*mem->Jact.nbRows() << std::endl;
 
 	/***/sotCOUNTER(1,2); // first allocs
-	
+
 	/* --- COMPUTE JK --- */
 	computeJacobianConstrained( task,K );
 	/***/sotCOUNTER(2,3); // compute JK
-	
+
 	/* --- COMPUTE Jt --- */
 	if( 0<iterTask ) JK.multiply(Proj,Jt); else { Jt = JK; }
 	/***/sotCOUNTER(3,4); // compute Jt
-	
+
 	/* --- COMPUTE S --- */
 	computeJacobianActivated( dynamic_cast<Task*>( &task ),Jt,iterTime );
 	/***/sotCOUNTER(4,5); // Jt*S
-	
+
 	/* --- PINV --- */
 	Jt.dampedInverse( Jp,th,NULL,&S,&V );
 	/***/sotCOUNTER(5,6); // PINV
@@ -554,7 +570,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 	  const unsigned int Jmax = S.size(); rankJ=0;
 	  for( unsigned i=0;i<Jmax;++i ) { if( S(i)>th ) rankJ++; }
 	}
-	
+
 	sotDEBUG(45) << "control"<<iterTask<<" = "<<control<<endl;
 	sotDEBUG(25) << "J"<<iterTask<<" = "<<Jac<<endl;
 	sotDEBUG(25) << "JK"<<iterTask<<" = "<<JK<<endl;
@@ -608,7 +624,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 // 	v2 = traits::matrix_storage(V.matrix);
 // 	vtmp1 = traits::matrix_storage(V.matrix);
 // 	/***/sotCOUNTER(6,7); // Ppre
- 	
+
 // 	for( unsigned int i=0;i<mJ;++i )
 // 	  {
 // 	    vtmp2 = traits::matrix_storage(V.matrix);
@@ -647,7 +663,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 	 v2 = MRAWDATA(V.matrix);
 	 vtmp1 = MRAWDATA(V.matrix);
 	 /***/sotCOUNTER(6,7); // Ppre
-	
+
 	 for( unsigned int i=0;i<mJ;++i )
 	   {
 	     vtmp2 = MRAWDATA(V.matrix);
