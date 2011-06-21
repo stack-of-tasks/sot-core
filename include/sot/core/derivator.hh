@@ -59,6 +59,7 @@ class Derivator
  public: /* --- CONSTRUCTION --- */
 
   static std::string getTypeName( void ) { return "Unknown"; }
+  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
   static const std::string CLASS_NAME;
 
   Derivator( const std::string& name )
@@ -74,7 +75,6 @@ class Derivator
       timestepSIN.setReferenceNonConstant( &timestep );
       timestepSIN.setKeepReference(true);
     }
-
 
   virtual ~Derivator( void ) {};
 

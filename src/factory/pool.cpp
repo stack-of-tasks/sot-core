@@ -187,7 +187,6 @@ namespace dynamicgraph {
     {
     }
 
-
     PoolStorage* PoolStorage::getInstance()
     {
       if (instance_ == 0) {
