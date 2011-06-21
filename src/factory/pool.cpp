@@ -38,18 +38,18 @@ namespace dynamicgraph {
     /* --------------------------------------------------------------------- */
     /* --- CLASS ----------------------------------------------------------- */
     /* --------------------------------------------------------------------- */
-    
+
     PoolStorage::
     ~PoolStorage( void )
     {
       sotDEBUGIN(15);
-      
-      
+
+
       sotDEBUGOUT(15);
       return;
     }
-    
-    
+
+
     /* --------------------------------------------------------------------- */
     void PoolStorage::
     registerTask( const std::string& entname,TaskAbstract* ent )
@@ -69,7 +69,7 @@ namespace dynamicgraph {
 	  task[entname] = ent;
 	}
     }
-    
+
     TaskAbstract& PoolStorage::
     getTask( const std::string& name )
     {
@@ -82,9 +82,9 @@ namespace dynamicgraph {
 	}
       return *entPtr->second;
     }
-    
-    
-    
+
+
+
     /* --------------------------------------------------------------------- */
     void PoolStorage::
     registerFeature( const std::string& entname,FeatureAbstract* ent )
@@ -104,7 +104,7 @@ namespace dynamicgraph {
 	  feature[entname] = ent;
 	}
     }
-    
+
     FeatureAbstract& PoolStorage::
     getFeature( const std::string& name )
     {
@@ -117,7 +117,7 @@ namespace dynamicgraph {
 	}
       return *entPtr->second;
     }
-    
+
     void PoolStorage::
     writeGraph(const std::string &aFileName)
     {
@@ -129,7 +129,7 @@ namespace dynamicgraph {
 	GenericName = tmp1.substr(IdxSeparatorFound,tmp1.length());
       else
 	GenericName = tmp1;
-      
+
       /* Reading local time */
       time_t ltime;
       ltime = time(NULL);
@@ -139,7 +139,7 @@ namespace dynamicgraph {
 #else
       localtime_r(&ltime,&ltimeformatted);
 #endif /*WIN32*/
-      
+
       /* Opening the file and writing the first comment. */
       std::ofstream GraphFile;
       GraphFile.open(aFileName.c_str(),std::ofstream::out);
@@ -158,7 +158,7 @@ namespace dynamicgraph {
 	"fillcolor = gold1, style=filled, shape=box ] ; " << std::endl;
       GraphFile << "\tsubgraph cluster_Tasks { " << std::endl;
       GraphFile << "\t\t color=blue; label=\"Tasks\";" << std::endl;
-      
+
       for( Tasks::iterator iter=task.begin();
 	   iter!=task.end();iter++ )
 	{
@@ -168,27 +168,27 @@ namespace dynamicgraph {
 		    <<"\t\t   fontcolor = black, color = black, "
 	    "fillcolor = magenta, style=filled, shape=box ]" << std::endl;
 	}
-      
-      
+
+
       GraphFile << "}"<< std::endl;
-      
+
       GraphFile.close();
     }
-    
+
     void PoolStorage::
     writeCompletionList(std::ostream& /*os*/ )
     {
     }
-    
-    
+
+
     void PoolStorage::
     commandLine( const std::string& objectName,const std::string& functionName,
 		 std::istringstream& cmdArg, std::ostream& os )
     {
     }
-    
+
     /// The global sotPool object
-    
     PoolStorage sotPool;
+
   } // namespace sot
 } // namespace dynamicgraph
