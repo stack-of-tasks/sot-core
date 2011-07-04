@@ -139,6 +139,7 @@ FOREACH(test ${tests})
 
 	PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} jrl-mal)
 	PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} dynamic-graph)
+	PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} dynamic-graph-python)
 
 	# Link against Boost.
 	IF (APPLE)
