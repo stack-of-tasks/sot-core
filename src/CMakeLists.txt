@@ -239,7 +239,6 @@ FOREACH(plugin ${plugins})
 
 	# build python submodule
 	STRING(REPLACE - _ PYTHON_LIBRARY_NAME ${LIBRARY_NAME})
-	FILE(MAKE_DIRECTORY dynamic_graph/sot/core/${PYTHON_LIBRARY_NAME})
 	DYNAMIC_GRAPH_PYTHON_MODULE("sot/core/${PYTHON_LIBRARY_NAME}"
 	  ${LIBRARY_NAME}
 	  sot-core-${PYTHON_LIBRARY_NAME}-wrap
