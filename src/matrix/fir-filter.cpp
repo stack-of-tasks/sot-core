@@ -46,8 +46,6 @@ extern "C" {								\
     &regFunction##_##id );					\
 }
 
-
-
 using namespace ml;
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(FIRFilter,double,double,double_double,"FIRFilter")
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(FIRFilter,Vector,double,vec_double,"FIRFilter")
@@ -67,3 +65,15 @@ void FIRFilter<Vector, Matrix>::reset_signal( Vector& res, const Vector& sample 
   res.fill(0);
 }
 
+#include <sot/core/fir-filter-impl.hh>
+
+#ifdef WIN32
+#define DEFINE_SPECIFICATION(sotClassType,sotSigType,sotCoefType) \
+  sotClassType##sotSigType##sotCoefType::sotClassType##sotSigType##sotCoefType(const std::string& name):			\
+  sotClassType<sotSigType,sotCoefType> (name) {}; \
+
+typedef double Double;
+ DEFINE_SPECIFICATION(FIRFilter,Double,Double)
+ DEFINE_SPECIFICATION(FIRFilter,Vector,Double)
+ DEFINE_SPECIFICATION(FIRFilter,Vector,Matrix)
+#endif //WIN32
