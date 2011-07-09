@@ -134,7 +134,8 @@ namespace dynamicgraph {
   } /* namespace sot */
 } /* namespace dynamicgraph */
 /* Macro for template specialization */
-#define MAILBOX_TEMPLATE_SPE(S)			\
+#ifndef WIN32
+# define MAILBOX_TEMPLATE_SPE(S)			\
   namespace dynamicgraph {                      \
     namespace sot {							\
       template void Mailbox<S>::post(const S& obj );			\
@@ -145,6 +146,7 @@ namespace dynamicgraph {
       template Mailbox<S>::Mailbox(const std::string& name);		\
   } \ 
 } // namespace sot namespace dynamicgraph
+#endif // WIN32
 
 
 #endif // #ifdef __SOT_MAILBOX_T_CPP
