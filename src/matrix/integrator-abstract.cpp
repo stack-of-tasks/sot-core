@@ -19,29 +19,20 @@
  */
 
 #include <sot/core/integrator-abstract.hh>
-#include <sot/core/factory.hh>
 
-using namespace dynamicgraph::sot;
-using namespace dynamicgraph;
+// The specilization
+#include "integrator-abstract.t.cpp"
 
-#define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotClassType,sotSigType,sotCoefType,className)   \
-  template<>                                                                                \
-  std::string sotClassType<sotSigType,sotCoefType>::                                        \
-  getTypeName( void ) { return #sotSigType; }                                               \
-  template<>                                                                                \
-  const std::string sotClassType<sotSigType,sotCoefType>::CLASS_NAME                        \
-     = std::string(className)+"<"+#sotSigType+","+#sotCoefType+">";                         \
-  template<>                                                                                \
-  const std::string& sotClassType<sotSigType,sotCoefType>::                                 \
-  getClassName( void ) const { return CLASS_NAME; }
+// This ends the specialization part.
+// Note that on WIN32, the specialization has to be realized 
+//  before the declaration of the general model. 
+#include <sot/core/integrator-abstract-impl.hh>
 
+#ifdef WIN32
+  IntegratorAbstractDouble::IntegratorAbstractDouble( const std::string& name ) : 
+		IntegratorAbstract<double,double> (name) {}
 
-using namespace ml;
-namespace dynamicgraph {
-  namespace sot {
-    SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,double,double,
-				       "integratorAbstract")
-    SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,Vector,Matrix,
-				       "integratorAbstract")
-  } // namespace sot
-} // namespace dynamicgraph
+  IntegratorAbstractVector::IntegratorAbstractVector( const std::string& name ) : 
+		IntegratorAbstract<ml::Vector,ml::Matrix> (name) {}
+#endif
+
