@@ -19,36 +19,15 @@
  */
 
 #include <sot/core/integrator-euler.hh>
-#include <sot/core/factory.hh>
 
-using namespace dynamicgraph::sot;
-using namespace dynamicgraph;
+#include "integrator-abstract.t.cpp"
+#include "integrator-euler.t.cpp"
 
-#define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotClassType,sotSigType,sotCoefType,className)   \
-  template<>                                                                                \
-  std::string sotClassType<sotSigType,sotCoefType>::                                        \
-  getTypeName( void ) { return #sotSigType; }                                               \
-  template<>                                                                                \
-  const std::string sotClassType<sotSigType,sotCoefType>::CLASS_NAME                        \
-     = std::string(className)+"<"+#sotSigType+","+#sotCoefType+">";                         \
-  template<>                                                                                \
-  const std::string& sotClassType<sotSigType,sotCoefType>::                                 \
-  getClassName( void ) const { return CLASS_NAME; }                                               \
-  extern "C" {                                                                              \
-    Entity *regFunction##_##sotSigType( const std::string& objname )                     \
-    {                                                                                       \
-      return new sotClassType<sotSigType,sotCoefType>( objname );                           \
-    }                                                                                       \
-    EntityRegisterer                                                                     \
-    regObj##_##sotSigType(std::string(className)+"<"+#sotSigType+","+#sotCoefType+">",      \
-                          &regFunction##_##sotSigType );                                    \
-  }
+#include <sot/core/integrator-euler-impl.hh>
 
-using namespace ml;
-using namespace std;
-namespace dynamicgraph { 
-  namespace sot {
-    SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorEuler,Vector,Matrix,
-				       "integratorEuler")
-  } // namespace sot
-} // namespace dynamicgraph
+#ifdef WIN32
+  IntegratorEulerVectorMatrix::IntegratorEulerVectorMatrix( const std::string& name ) : 
+	IntegratorEuler<Vector,Matrix>(name) {}
+  std::string IntegratorEulerVectorMatrix::getTypeName( void ) { return "double"; }
+#endif // WIN32
+
