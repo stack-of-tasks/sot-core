@@ -53,8 +53,8 @@ namespace dg = dynamicgraph;
    className( const std::string& name );                            \
    };
 #else
-# define DECLARE_SPECIFICATION(, sotSigType) \
-   typedef Derivator<sotSigType,sotCoefType> className;
+# define DECLARE_SPECIFICATION(className, sotSigType) \
+   typedef Derivator<sotSigType> className;
 #endif
 
 DECLARE_SPECIFICATION(DerivatorDouble,double)
