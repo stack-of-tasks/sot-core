@@ -36,10 +36,13 @@ using namespace dynamicgraph::sot;
 #ifndef WIN32
 #  include <sys/time.h>
 #else
-# include <sot-core/utils-windows.h>
+# include <sot/core/utils-windows.hh>
 #endif /*WIN32*/
 
-#if defined (WIN32) or defined (__APPLE__)
+#if defined (WIN32)
+# include <boost/math/special_functions/fpclassify.hpp>
+# define isnan (boost::math::isnan)
+#elif defined (__APPLE__)
 # include <boost/math/special_functions/fpclassify.hpp>
 # define isnan (boost::math::isnan)
 #endif //define WIN32 or defined __APPLE__
