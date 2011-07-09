@@ -144,7 +144,7 @@ namespace dynamicgraph {
       template Mailbox<S>::~Mailbox();					\
       template Mailbox<S>::sotTimestampedObject& Mailbox<S>::get( Mailbox<S>::sotTimestampedObject& res,const int& dummy ); \
       template Mailbox<S>::Mailbox(const std::string& name);		\
-  } \ 
+  } \
 } // namespace sot namespace dynamicgraph
 #endif // WIN32
 
