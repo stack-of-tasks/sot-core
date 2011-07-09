@@ -74,3 +74,16 @@ namespace dynamicgraph {
   } // namespace sot
 } // namespace dynamicgraph
 
+#include <sot/core/derivator-impl.hh>
+
+#ifdef WIN32
+# define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_WIN32(sotClassType,sotType,className)        \
+  sotClassType##sotType##::sotClassType##sotType##(const std::string& name):			\
+  sotClassType<sotType> (name) {};                                                      \
+
+  typedef double Double;
+  SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_WIN32(Derivator,Double,"Derivator")
+  SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_WIN32(Derivator,Vector,"Derivator")
+  SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_WIN32(Derivator,Matrix,"Derivator")
+  SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_WIN32(Derivator,VectorQuaternion,"Derivator")
+#endif
