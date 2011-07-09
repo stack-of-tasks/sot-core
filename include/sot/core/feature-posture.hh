@@ -26,6 +26,20 @@
 #include <dynamic-graph/signal-ptr.h>
 #include <dynamic-graph/signal-time-dependent.h>
 
+/* --------------------------------------------------------------------- */
+/* --- API ------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+
+#if defined (WIN32)
+#  if defined (feature_posture_EXPORTS)
+#    define SOTFEATUREPOSTURE_EXPORT __declspec(dllexport)
+#  else
+#    define SOTFEATUREPOSTURE_EXPORT __declspec(dllimport)
+#  endif
+#else
+#  define SOTFEATUREPOSTURE_EXPORT
+#endif
+
 namespace dynamicgraph {
   namespace sot {
     using command::Command;
@@ -41,7 +55,7 @@ namespace dynamicgraph {
      * sot-dyninv module to nicely selec the posture DOF.
      */
 
-    class SOT_CORE_EXPORT FeaturePosture
+    class SOTFEATUREPOSTURE_EXPORT FeaturePosture
       : public FeatureAbstract
     {
       class SelectDof;	
