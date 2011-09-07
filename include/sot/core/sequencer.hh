@@ -65,9 +65,7 @@ namespace dynamicgraph {
     class SOTSEQUENCER_EXPORT Sequencer
       :public dynamicgraph::Entity
       {
-      public:
-	static const std::string CLASS_NAME;
-	virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+	DYNAMIC_GRAPH_ENTITY_DECL();
 
       public:
 	class sotEventAbstract
