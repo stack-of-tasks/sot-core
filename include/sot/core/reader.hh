@@ -71,7 +71,6 @@ class SOTREADER_EXPORT sotReader
 : public Entity
 {
   DYNAMIC_GRAPH_ENTITY_DECL();
-
  public: 
 
   SignalPtr< Flags,int > selectionSIN;

@@ -66,7 +66,6 @@ namespace dynamicgraph {
       :public dynamicgraph::Entity
       {
 	DYNAMIC_GRAPH_ENTITY_DECL();
-
       public:
 	class sotEventAbstract
 	{
