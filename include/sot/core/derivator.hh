@@ -47,11 +47,10 @@ namespace dg = dynamicgraph;
 /* --------------------------------------------------------------------- */
 
 template< class T >
-class Derivator
-:public dg::Entity
+class Derivator : public dg::Entity
 {
   DYNAMIC_GRAPH_ENTITY_DECL();
- protected:
+protected:
   T memory;
   bool initialized;
   double timestep;
@@ -60,7 +59,6 @@ class Derivator
  public: /* --- CONSTRUCTION --- */
 
   static std::string getTypeName( void ) { return "Unknown"; }
-
 
   Derivator( const std::string& name )
     : dg::Entity(name)

@@ -61,6 +61,7 @@ namespace dg = dynamicgraph;
 
 class SOTGRIPPERCONTROL_EXPORT GripperControl
 {
+  DYNAMIC_GRAPH_ENTITY_DECL();
  protected:
 
   double offset;
