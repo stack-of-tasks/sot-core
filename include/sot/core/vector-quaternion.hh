@@ -36,7 +36,8 @@ namespace dynamicgraph {
     {
     public:
       
-    VectorQuaternion( void ) : VectorRotation() { ml::Vector::resize(4); }
+      VectorQuaternion( void ) : VectorRotation() { ml::Vector::resize(4); }
+      VectorQuaternion( const VectorQuaternion & v ) : VectorRotation(v) { }
       virtual ~VectorQuaternion( void ) { }
       
       virtual VectorRotation& fromMatrix( const MatrixRotation& rot );

@@ -38,6 +38,7 @@ namespace dynamicgraph {
     public:
       
       VectorUTheta( void ) : VectorRotation() { }
+      VectorUTheta(const VectorUTheta & v) : VectorRotation(v) { }
       virtual ~VectorUTheta( void ) { }
       
       virtual VectorRotation& fromMatrix( const MatrixRotation& rot );

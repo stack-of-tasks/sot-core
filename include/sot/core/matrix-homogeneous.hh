@@ -42,7 +42,7 @@ namespace dynamicgraph {
       
       MatrixHomogeneous( void );
       MatrixHomogeneous( const ml::Matrix & copy );
-      ~MatrixHomogeneous( void ) { }
+      virtual ~MatrixHomogeneous( void ) { }
       
       MatrixHomogeneous& buildFrom( const MatrixRotation& rot, const ml::Vector& trans );
       // extract(ml::Matrix): outputs a *rotation* matrix extracted from a homogeneous rotation matrix

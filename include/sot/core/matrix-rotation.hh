@@ -42,7 +42,8 @@ namespace dynamicgraph {
     public: 
       
       MatrixRotation( void ) : ml::Matrix(3,3) { setIdentity(); }
-      ~MatrixRotation( void ) { }
+      MatrixRotation( const MatrixRotation & m ) : ml::Matrix(m) {}
+      virtual ~MatrixRotation( void ) { }
       
       void fromVector( VectorUTheta& );
       MatrixRotation& operator= ( VectorUTheta&th ) { fromVector(th); return *this; } 

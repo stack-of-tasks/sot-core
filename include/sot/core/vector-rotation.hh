@@ -42,6 +42,7 @@ class SOT_CORE_EXPORT VectorRotation
  public:
 
   VectorRotation( void ) : ml::Vector(3) { fill(0.); }
+  VectorRotation(const VectorRotation & v) : ml::Vector(v) {}
   virtual ~VectorRotation( void ) { }
 
   virtual VectorRotation& fromMatrix( const MatrixRotation& rot ) = 0;
