@@ -46,7 +46,8 @@ class SOT_CORE_EXPORT MatrixForce
  public: 
 
   MatrixForce( void ) : ml::Matrix(6,6) { setIdentity(); }
-  ~MatrixForce( void ) { }
+  MatrixForce( const MatrixForce & m ) : ml::Matrix(m) { }
+  virtual ~MatrixForce( void ) { }
   explicit MatrixForce( const MatrixHomogeneous& M ) 
     : ml::Matrix(6,6) 
     { buildFrom(M); }

@@ -36,6 +36,7 @@ class SOT_CORE_EXPORT VectorRollPitchYaw
  public:
 
   VectorRollPitchYaw( void ) : VectorRotation() { }
+  VectorRollPitchYaw( const VectorRollPitchYaw & v ) : VectorRotation(v) { }
   virtual ~VectorRollPitchYaw( void ) { }
 
   virtual VectorRotation& fromMatrix( const MatrixRotation& rot );

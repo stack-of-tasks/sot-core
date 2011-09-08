@@ -44,7 +44,8 @@ class SOT_CORE_EXPORT MatrixTwist
  public: 
 
   MatrixTwist( void ) : ml::Matrix(6,6) { setIdentity(); }
-  ~MatrixTwist( void ) { }
+  MatrixTwist( const  MatrixTwist & m ) : ml::Matrix(m) {}
+  virtual ~MatrixTwist( void ) { }
   explicit MatrixTwist( const MatrixHomogeneous& M ) 
     : ml::Matrix(6,6) 
     { buildFrom(M); }
