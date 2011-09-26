@@ -26,51 +26,24 @@
 #include <dynamic-graph/signal-ptr.h>
 #include <dynamic-graph/signal-time-dependent.h>
 
-/* --------------------------------------------------------------------- */
-/* --- API ------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-#if defined (WIN32)
-#  if defined (feature_posture_EXPORTS)
-#    define SOTFEATUREPOSTURE_EXPORT __declspec(dllexport)
-#  else
-#    define SOTFEATUREPOSTURE_EXPORT __declspec(dllimport)
-#  endif
-#else
-#  define SOTFEATUREPOSTURE_EXPORT
-#endif
-
 namespace dynamicgraph {
   namespace sot {
     using command::Command;
     using command::Value;
-
-    /* Feature that observes the posture of the robot, ie whose Jacobian is the
-     * identity, or slices of the identity. This feature can be exactly
-     * obtained with a generic posture, given the identity matrix as the input
-     * Jacobian, the identity matrix. It is even prefereable, as the reference
-     * value is then given by a signal, which can be reevalutated at each
-     * iteration, for example to track a reference trajectory in the
-     * configuration space. See for example the toFlag python function in the
-     * sot-dyninv module to nicely selec the posture DOF.
-     */
-
-    class SOTFEATUREPOSTURE_EXPORT FeaturePosture
-      : public FeatureAbstract
+      
+    class SOT_CORE_EXPORT FeaturePosture : public FeatureAbstract
     {
-      class SelectDof;
+      class SelectDof;	
       friend class SelectDof;
-
-      DYNAMIC_GRAPH_ENTITY_DECL();
-
     public:
       typedef dynamicgraph::SignalPtr<ml::Vector, int> signalIn_t;
       typedef dynamicgraph::SignalTimeDependent<ml::Vector, int> signalOut_t;
-
-      DECLARE_NO_REFERENCE;
-
+	
+      static const std::string CLASS_NAME;
+	
       explicit FeaturePosture (const std::string& name);
       virtual ~FeaturePosture ();
+      virtual const std::string& getClassName () const;
       virtual unsigned int& getDimension( unsigned int& res,int );
       void setPosture (const ml::Vector& posture);
       void selectDof (unsigned dofId, bool control);
