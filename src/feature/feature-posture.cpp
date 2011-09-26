@@ -45,30 +45,8 @@ namespace dynamicgraph {
 	std::vector<Value> values = getParameterValues();
 	unsigned int dofId = values[0].value();
 	bool control = values[1].value();
-	ml::Vector state = feature.state_.accessCopy();
-	unsigned int dim = state.size();
-	ml::Matrix& jacobian = feature.jacobian_;
-	// Resize matrix if necessary
-	if ((jacobian.nbRows() != dim) || (jacobian.nbCols() != dim)) {
-	  jacobian.resize(dim, dim);
-	  jacobian.fill(0.);
-	}
-	// Check that selected dof id is valid
-	if ((dofId < 6) || (dofId >= dim)) {
-	  std::ostringstream oss;
-	  oss << "dof id should be more than 5 and less than state "
-	    "dimension: "
-	      << dim << ". Received " << dofId << ".";
-	  throw ExceptionAbstract(ExceptionAbstract::TOOLS,
-				  oss.str());
-	}
-	if (control) {
-	  jacobian(dofId, dofId) = 1.;
-	}
-	else {
-	  jacobian(dofId, dofId) = 0.;
-	}
-	return Value();
+	feature.selectDof (dofId, control);
+	return Value ();
       }
     }; // class SelectDof
 
@@ -173,6 +151,37 @@ namespace dynamicgraph {
     void FeaturePosture::setPosture (const ml::Vector& posture)
     {
       posture_ = posture;
+    }
+
+    void
+    FeaturePosture::selectDof (unsigned dofId, bool control)
+    {
+      ml::Vector state = state_.accessCopy();
+      unsigned int dim = state.size();
+
+      ml::Matrix& jacobian = jacobian_;
+
+      // Resize matrix if necessary
+      if ((jacobian.nbRows() != dim) || (jacobian.nbCols() != dim))
+	{
+	  jacobian.resize(dim, dim);
+	  jacobian.fill(0.);
+	}
+
+      // Check that selected dof id is valid
+      if ((dofId < 6) || (dofId >= dim))
+	{
+	  std::ostringstream oss;
+	  oss << "dof id should be more than 5 and less than state "
+	    "dimension: "
+	      << dim << ". Received " << dofId << ".";
+	  throw ExceptionAbstract(ExceptionAbstract::TOOLS,
+				  oss.str());
+	}
+      if (control)
+	jacobian (dofId, dofId) = 1.;
+      else
+	jacobian (dofId, dofId) = 0.;
     }
 
     DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePosture, "FeaturePosture");

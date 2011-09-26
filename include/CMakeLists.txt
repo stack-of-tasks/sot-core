@@ -48,6 +48,7 @@ SET(NEWHEADERS
   sot/core/op-point-modifier.hh
   sot/core/vector-quaternion.hh
   sot/core/vector-roll-pitch-yaw.hh
+  sot/core/feature-posture.h
   sot/core/feature-point6d.hh
   sot/core/feature-vector3.hh
   sot/core/feature-abstract.hh
