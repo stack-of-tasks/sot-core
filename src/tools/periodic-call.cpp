@@ -69,7 +69,7 @@ void PeriodicCall::
 addSignal( const std::string& sigpath )
 {
   istringstream sigISS( sigpath );
-  SignalBase<int>& signal = PoolStorage::getInstance()->getSignal( sigISS );
+  SignalBase<int>& signal = ::dynamicgraph::PoolStorage::getInstance()->getSignal( sigISS );
   addSignal( sigpath,signal );
   return ;
 }
