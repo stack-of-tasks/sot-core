@@ -84,6 +84,9 @@ FeaturePoint6d( const string& pointName )
     addCommand("frame",
 	       new dynamicgraph::command::Setter<FeaturePoint6d, std::string>
 	       (*this, &FeaturePoint6d::computationFrame, docstring));
+    addCommand("getFrame",
+	       new dynamicgraph::command::Getter<FeaturePoint6d, std::string>
+	       (*this, &FeaturePoint6d::computationFrame, docstring));
     addCommand("keep",
 	       makeCommandVoid0(*this,&FeaturePoint6d::servoCurrentPosition,
 				docCommandVoid0("modify the desired position to servo at current pos.")));
