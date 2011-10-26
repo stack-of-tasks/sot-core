@@ -222,7 +222,7 @@ setRoot( const MatrixHomogeneous & worlMwaist )
 void Device::
 increment( const double & dt )
 {
-  int time = controlSIN.getTime();
+  int time = stateSOUT.getTime();
   sotDEBUG(25) << "Time : " << time << std::endl;
 
   /* Position the signals corresponding to sensors. */
