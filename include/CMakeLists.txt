@@ -56,6 +56,7 @@ SET(NEWHEADERS
   sot/core/feature-1d.hh
   sot/core/feature-point6d-relative.hh
   sot/core/feature-visual-point.hh
+  sot/core/feature-posture.hh
   sot/core/feature-task.hh
   sot/core/feature-line-distance.hh
   sot/core/task-abstract.hh

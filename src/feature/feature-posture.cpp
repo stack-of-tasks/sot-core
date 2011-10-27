@@ -20,7 +20,7 @@
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/pool.h>
 
-#include "sot/core/feature-posture.h"
+#include "sot/core/feature-posture.hh"
 
 namespace ml = ::maal::boost;
 namespace dg = ::dynamicgraph;
