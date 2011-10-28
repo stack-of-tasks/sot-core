@@ -46,6 +46,7 @@ namespace dynamicgraph {
       virtual const std::string& getClassName () const;
       virtual unsigned int& getDimension( unsigned int& res,int );
       void setPosture (const ml::Vector& posture);
+      void selectDof (unsigned dofId, bool control);
 
     protected:
 

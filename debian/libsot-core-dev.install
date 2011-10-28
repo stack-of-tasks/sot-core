@@ -1,4 +1,4 @@
-usr/include/*
-usr/lib/lib*.so
-usr/lib/plugin/*.so
-usr/lib/pkgconfig/*
+opt/openrobots/include/*
+opt/openrobots/lib/lib*.so
+opt/openrobots/lib/plugin/*.so
+opt/openrobots/lib/pkgconfig/*

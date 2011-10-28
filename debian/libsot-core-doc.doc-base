@@ -5,5 +5,5 @@ Abstract: Doxygen documentation of sot-core.
 Section: Programming
 
 Format: HTML
-Index: /usr/share/doc/sot-core/html/index.html
-Files: /usr/share/doc/sot-core/html/*.html
+Index: /opt/openrobots/share/doc/sot-core/html/index.html
+Files: /opt/openrobots/share/doc/sot-core/html/*.html
