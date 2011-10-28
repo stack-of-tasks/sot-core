@@ -89,7 +89,6 @@ SET(plugins
 	tools/clamp-workspace
 	tools/binary-int-to-uint
 	tools/periodic-call-entity
-	tools/smooth-reach
 
 	control/control-gr
 	control/control-pd
