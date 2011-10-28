@@ -90,10 +90,6 @@ namespace dynamicgraph {
     {
     }
 
-    const std::string& FeaturePosture::getClassName () const
-    {
-      return CLASS_NAME;
-    }
 
     unsigned int& FeaturePosture::getDimension( unsigned int& res,int )
     {

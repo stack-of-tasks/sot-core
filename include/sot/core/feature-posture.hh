@@ -35,15 +35,16 @@ namespace dynamicgraph {
     {
       class SelectDof;	
       friend class SelectDof;
+
+      DYNAMIC_GRAPH_ENTITY_DECL();
+
     public:
       typedef dynamicgraph::SignalPtr<ml::Vector, int> signalIn_t;
       typedef dynamicgraph::SignalTimeDependent<ml::Vector, int> signalOut_t;
 	
-      static const std::string CLASS_NAME;
 	
       explicit FeaturePosture (const std::string& name);
       virtual ~FeaturePosture ();
-      virtual const std::string& getClassName () const;
       virtual unsigned int& getDimension( unsigned int& res,int );
       void setPosture (const ml::Vector& posture);
       void selectDof (unsigned dofId, bool control);

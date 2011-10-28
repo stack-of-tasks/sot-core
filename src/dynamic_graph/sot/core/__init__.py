@@ -12,7 +12,7 @@ from constraint import Constraint
 from gain_adaptive import GainAdaptive
 from joint_limitator import JointLimitator
 from sot import SOT
-from smooth_reach import SmoothReach
+#from smooth_reach import SmoothReach
 
 RobotSimu('')
 FeaturePoint6d('')
