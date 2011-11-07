@@ -85,7 +85,7 @@ public:
 	sotDEBUG(15) << "Add task " << taskname << std::endl;
 	taskPtr  
 	  = dynamic_cast< TaskAbstract* >
-	  (&PoolStorage::getInstance()->getEntity(taskname));
+	  (&dg::PoolStorage::getInstance()->getEntity(taskname));
       }
   }
   virtual void display( std::ostream& os ) const 
@@ -163,13 +163,13 @@ public:
     sotDEBUGIN(15);
     std::stringbuf* pbuf=args.rdbuf();
     const unsigned int size = pbuf->in_avail();
-    char* buffer = new char ( size+1 );
+    char * buffer  = new char [size+1];
     pbuf->sgetn( buffer,size );
 
     buffer[size]='\0';
     cmd = buffer;
     sotDEBUGOUT(15);
-	delete buffer;
+	delete [] buffer;
   }
   const std::string & getEventCmd() const 
   {	return cmd; }
@@ -334,7 +334,7 @@ commandLine( const std::string& cmdLine,
 	{
 	  std::string sotname; cmdArgs >> sotname;
 	  Sot * sotptr = dynamic_cast< Sot* >
-	    (&(PoolStorage::getInstance()->getEntity(sotname)));
+	    (&(dg::PoolStorage::getInstance()->getEntity(sotname)));
 	  if(! sotptr ) os << "! Entity <" << sotname << "> does not exist "
 			   << "(see you later, next patient please!"
 			   << std::endl;
