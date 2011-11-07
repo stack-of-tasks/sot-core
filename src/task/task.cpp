@@ -55,7 +55,6 @@ Task( const std::string& n )
 {
   taskSOUT.setFunction( boost::bind(&Task::computeTaskExponentialDecrease,this,_1,_2) );
   jacobianSOUT.setFunction( boost::bind(&Task::computeJacobian,this,_1,_2) );
-  featureActivationSOUT.setFunction( boost::bind(&Task::computeFeatureActivation,this,_1,_2) );
 
   taskSOUT.addDependency( controlGainSIN );
   taskSOUT.addDependency( errorSOUT );
@@ -91,7 +90,6 @@ addFeature( FeatureAbstract& s )
   featureList.push_back(&s);
   jacobianSOUT.addDependency( s.jacobianSOUT );
   errorSOUT.addDependency( s.errorSOUT );
-  featureActivationSOUT.addDependency( s.activationSOUT );
 }
 void Task::
 clearFeatureList( void )
@@ -103,7 +101,6 @@ clearFeatureList( void )
       FeatureAbstract & s = **iter;
       jacobianSOUT.removeDependency( s.jacobianSOUT );
       errorSOUT.removeDependency( s.errorSOUT );
-      featureActivationSOUT.removeDependency( s.activationSOUT );
     }
 
   featureList.clear();
@@ -260,48 +257,6 @@ computeJacobian( ml::Matrix& J,int time )
   return J;
 }
 
-
-
-ml::Vector& Task::
-computeFeatureActivation( ml::Vector& activation,int time )
-{
-  sotDEBUG(15) << "# In {" << endl;
-  if( featureList.empty())
-    { throw( ExceptionTask(ExceptionTask::EMPTY_LIST,
-			      "Empty feature list") ) ; }
-
-  try {
-    int dimH = activation.size();
-    if( 0==dimH ){ dimH = 1; activation.resize(dimH); }
-
-    int cursorH = 0;
-
-    /* For each cell of the list, recopy value of s, s_star and error. */
-    for(   std::list< FeatureAbstract* >::iterator iter = featureList.begin();
-	   iter!=featureList.end(); ++iter )
-      {
-	FeatureAbstract &feature = ** iter;
-
-	/* Get s, and store it in the s vector. */
-	const ml::Vector& partialActivation = feature.activationSOUT(time);
-	const int nbr = partialActivation.size();
-	sotDEBUG(25) << "hp =" << partialActivation<<endl;
-
-	while( cursorH+nbr>=dimH )
-	  { dimH *= 2; activation.resize(dimH,false); }
-	for( int k=0;k<nbr;++k,++cursorH )
-	  { activation(cursorH) = partialActivation(k); }
-      }
-
-    /* If too much memory has been allocated, resize. */
-    activation.resize(cursorH,false);
-  } catch SOT_RETHROW;
-
-
-  sotDEBUG(15) << "# Out }" << endl;
-  return activation;
-}
-
 /* --- DISPLAY ------------------------------------------------------------ */
 /* --- DISPLAY ------------------------------------------------------------ */
 /* --- DISPLAY ------------------------------------------------------------ */
@@ -319,8 +274,6 @@ display( std::ostream& os ) const
     }
 
 }
-
-
 
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */

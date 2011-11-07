@@ -52,7 +52,7 @@ namespace dynamicgraph {
 	    std::string signalName = values[0].value();
 	    std::istringstream iss(signalName);
 	    SignalBase<int>& signal =
-	      PoolStorage::getInstance()->getSignal(iss);
+	      dynamicgraph::PoolStorage::getInstance()->getSignal(iss);
 	    try {
 	      Signal< ml::Matrix,int >& matrixSignal
 		= dynamic_cast< Signal<ml::Matrix,int>& >( signal );

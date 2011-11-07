@@ -161,7 +161,7 @@ commandLine( const std::string& cmdLine
     {
       Signal<ml::Vector,int> & sig
 	= dynamic_cast< Signal<ml::Vector,int>& >
-	(PoolStorage::getInstance()->getSignal(cmdArgs));
+	(dg::PoolStorage::getInstance()->getSignal(cmdArgs));
       timeRef = TIME_REF_TO_BE_SET; //sig.getTime();
       q0 = sig.accessCopy();
     }

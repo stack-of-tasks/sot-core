@@ -41,11 +41,9 @@ TaskAbstract( const std::string& n )
   ,memoryInternal(NULL)
   ,taskSOUT( "sotTaskAbstract("+n+")::output(vector)::task" )
   ,jacobianSOUT( "sotTaskAbstract("+n+")::output(matrix)::jacobian" )
-  ,featureActivationSOUT( "sotTaskAbstract("+n+")::output(vector)::activation" )
 {
   taskRegistration();
-  signalRegistration( taskSOUT<<jacobianSOUT
-		      <<featureActivationSOUT );
+  signalRegistration( taskSOUT<<jacobianSOUT );
 }
 
 
