@@ -55,11 +55,10 @@ int main( void )
 
   p1->articularJacobianSIN.setReference(&Jq);
   p1->selectionSIN = Flags(true);
-  p1->desiredValueSIN = p1des;
+  p1->setReference(p1des);
   p1->xySIN = p1xy;
 
   p1des->xySIN = ml::Vector(2);
-
 
   sotDEBUGF("Create Task");
   sotDEBUG(0) << ml::MATLAB;
@@ -79,10 +78,7 @@ int main( void )
   task->jacobianSOUT.displayDependencies(cout)<<endl;
 
   sotDEBUG(0) << ml::MATLAB << "J"<< task->jacobianSOUT(2);
-  sotDEBUG(0) <<"H"<< task->featureActivationSOUT(2)<<endl;
   sotDEBUG(0) <<"e"<< task->errorSOUT(2) <<endl;
-
-
 
   return 0;
 }
