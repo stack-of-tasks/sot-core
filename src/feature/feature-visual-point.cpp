@@ -57,11 +57,20 @@ FeatureVisualPoint( const string& pointName )
   errorSOUT.addDependency( xySIN );
   errorSOUT.addDependency( ZSIN );
 
-  activationSOUT.removeDependency( desiredValueSIN );
-
   signalRegistration( xySIN<<ZSIN<<articularJacobianSIN );
 }
 
+void FeatureVisualPoint::addDependenciesFromReference( void )
+{
+  assert( isReferenceSet() );
+  errorSOUT.addDependency( getReference()->xySIN );
+}
+
+void FeatureVisualPoint::removeDependenciesFromReference( void )
+{
+  assert( isReferenceSet() );
+  errorSOUT.removeDependency( getReference()->xySIN );
+}
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -159,39 +168,22 @@ FeatureVisualPoint::computeError( ml::Vector& error,int time )
   error.resize(dimensionSOUT(time)) ;
   unsigned int cursorL = 0;
 
-  FeatureVisualPoint * sdes 
-    = dynamic_cast<FeatureVisualPoint*>(desiredValueSIN(time));
-  
-  if( NULL==sdes )
+  if(! isReferenceSet() )
     { throw(ExceptionFeature(ExceptionFeature::BAD_INIT,
-				"S* is not of adequate type.")); }
+			     "S* is not of adequate type.")); }
+
   if( fl(0) )
-    { error( cursorL++ ) = xySIN(time)(0) - sdes->xySIN(time)(0) ;   }
+    { error( cursorL++ ) = xySIN(time)(0) - getReference()->xySIN(time)(0) ;   }
   if( fl(1) )
-    { error( cursorL++ ) = xySIN(time)(1) - sdes->xySIN(time)(1) ;   }
+    { error( cursorL++ ) = xySIN(time)(1) - getReference()->xySIN(time)(1) ;   }
 
   sotDEBUGOUT(15);
   return error ;
 }
 
-
-/** Compute the error between two visual features from a subset
- * a the possible features.
- */
-ml::Vector&
-FeatureVisualPoint::computeActivation( ml::Vector& act,int time )
-{
-  selectionSIN(time);
-  act.resize(dimensionSOUT(time)) ; act.fill(1);
-  return act ;
-}
-
-
 void FeatureVisualPoint::
 display( std::ostream& os ) const
 {
-  
-
   os <<"VisualPoint <"<<name<<">:";
 
   try{

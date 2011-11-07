@@ -59,8 +59,6 @@ FeatureVector3( const string& pointName )
   errorSOUT.addDependency( positionSIN );
   errorSOUT.addDependency( positionRefSIN );
 
-  activationSOUT.removeDependency( desiredValueSIN );
-
   signalRegistration( vectorSIN<<positionSIN
                       <<articularJacobianSIN<<positionRefSIN );
 }
@@ -137,17 +135,6 @@ FeatureVector3::computeError( ml::Vector& Mvect3,int time )
 
   sotDEBUGOUT(15);
   return Mvect3 ;
-}
-
-/** Compute the error between two visual features from a subset
-*a the possible features.
- */
-ml::Vector&
-FeatureVector3::computeActivation( ml::Vector& act,int time )
-{
-  selectionSIN(time);
-  act.resize(dimensionSOUT(time)) ; act.fill(1);
-  return act ;
 }
 
 void FeatureVector3::

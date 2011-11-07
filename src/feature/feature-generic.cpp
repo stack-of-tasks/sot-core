@@ -46,18 +46,31 @@ FeatureGeneric( const string& pointName )
     ,errorSIN( NULL,"sotFeatureGeneric("+name+")::input(vector)::errorIN" )
     ,errordotSIN( NULL,"sotFeatureGeneric("+name+")::input(vector)::errordotIN" )
     ,jacobianSIN( NULL,"sotFeatureGeneric("+name+")::input(matrix)::jacobianIN" )
-    ,activationSIN( NULL,"sotFeatureGeneric("+name+")::input(matrix)::activationIN" )
     ,errordotSOUT(  boost::bind(&FeatureGeneric::computeErrorDot,this,_1,_2),
-		    selectionSIN<<desiredValueSIN,
+		    selectionSIN,
 		    "sotFeatureAbstract("+name+")::output(vector)::errordot" )
 
 {
   jacobianSOUT.addDependency( jacobianSIN );
   errorSOUT.addDependency( errorSIN );
-  // errordotSOUT.addDependency(errordotSIN);
-  activationSOUT.addDependency( activationSIN );
 
-  signalRegistration( errorSIN<<jacobianSIN<<activationSIN << errordotSIN << errordotSOUT);
+  signalRegistration( errorSIN<<jacobianSIN << errordotSIN << errordotSOUT);
+}
+
+/* --------------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+
+void FeatureGeneric::addDependenciesFromReference( void )
+{
+  assert( SP::isReferenceSet() );
+  errorSOUT.addDependency( getReference()->errorSIN );
+}
+
+void FeatureGeneric::removeDependenciesFromReference( void )
+{
+  assert( SP::isReferenceSet() );
+  errorSOUT.removeDependency( getReference()->errorSIN );
 }
 
 /* --------------------------------------------------------------------- */
@@ -95,19 +108,12 @@ computeError( ml::Vector& res,int time )
 				     "Error: dimension uncompatible with des->errorIN size."
 				     " (while considering feature <%s>).",getName().c_str() ); }
 
-  FeatureGeneric * sdes = NULL;
-  if( desiredValueSIN )
-    {
-      FeatureAbstract* sdesAbs = desiredValueSIN(time);
-      sdes = dynamic_cast<FeatureGeneric*>(sdesAbs);
-    }
-  
   sotDEBUG(15) << "Err = " << err;
   sotDEBUG(25) << "Dim = " << dim << endl;
 
-  if( sdes )
+  if( isReferenceSet() )
     {
-      const ml::Vector& errDes = sdes->errorSIN(time);
+      const ml::Vector& errDes = getReference()->errorSIN(time);
       sotDEBUG(15) << "Err* = " << errDes;
       if( errDes.size()<dim )
 	{ SOT_THROW ExceptionFeature( ExceptionFeature::UNCOMPATIBLE_SIZE,
@@ -117,8 +123,11 @@ computeError( ml::Vector& res,int time )
       for( unsigned int i=0;i<err.size();++i ) if( fl(i) ) 
 	if( fl(i) ) res( curr++ ) = err(i)-errDes(i);
     }
-  else for( unsigned int i=0;i<err.size();++i )
-    if( fl(i) ) res( curr++ ) = err(i);
+  else
+    {
+      for( unsigned int i=0;i<err.size();++i )
+	if( fl(i) ) res( curr++ ) = err(i);
+    }
   
   return res; 
 
@@ -133,18 +142,11 @@ computeErrorDot( ml::Vector& res,int time )
   unsigned int curr = 0;
   res.resize( dim );
 
-  FeatureGeneric * sdes = NULL;
-  if( desiredValueSIN )
-    {
-      FeatureAbstract* sdesAbs = desiredValueSIN(time);
-      sdes = dynamic_cast<FeatureGeneric*>(sdesAbs);
-    }
-  
   sotDEBUG(25) << "Dim = " << dim << endl;
 
-  if( sdes )
+  if( isReferenceSet() )
     {
-      const ml::Vector& errdotDes = sdes->errordotSIN(time);
+      const ml::Vector& errdotDes = getReference()->errordotSIN(time);
       sotDEBUG(15) << "Err* = " << errdotDes;
       if( errdotDes.size()<dim )
 	{ SOT_THROW ExceptionFeature( ExceptionFeature::UNCOMPATIBLE_SIZE,
@@ -154,11 +156,13 @@ computeErrorDot( ml::Vector& res,int time )
       for( unsigned int i=0;i<errdotDes.size();++i ) if( fl(i) ) 
 	if( fl(i) ) res( curr++ ) = errdotDes(i);
     }
-  else for( unsigned int i=0;i<dim;++i )
-    if( fl(i) ) res( curr++ ) = 0.0;
+  else
+    {
+      for( unsigned int i=0;i<dim;++i )
+	if( fl(i) ) res( curr++ ) = 0.0;
+    }
   
   return res; 
-
 }
 
 
@@ -186,27 +190,6 @@ computeJacobian( ml::Matrix& res,int time )
   return res; 
 }
 
-ml::Vector& FeatureGeneric::
-computeActivation( ml::Vector& res,int time )
-{ 
-  if( activationSIN )
-    {
-      const ml::Vector& err = activationSIN.access(time);
-      const Flags &fl = selectionSIN.access(time);
-      
-      unsigned int curr = 0;
-      res.resize( dimensionSOUT(time) );
-      for( unsigned int i=0;i<err.size();++i ) if( fl(i) ) res( curr++ ) = err(i);
-    }
-  else
-    {
-      res.resize( dimensionSOUT(time) );
-      res.fill( 1. );
-    }
-      
-  return res; 
-}
-
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -218,8 +201,7 @@ display( std::ostream& os ) const
 
   try{ 
     os << "  error= "<< errorSIN.accessCopy() << endl
-       << "  J    = "<< jacobianSIN.accessCopy() << endl
-       << "  act  = "<<activationSIN.accessCopy() << endl;
+       << "  J    = "<< jacobianSIN.accessCopy() << endl;
   }  catch(ExceptionAbstract e){ os<< " All SIN not set."; }
 }
 

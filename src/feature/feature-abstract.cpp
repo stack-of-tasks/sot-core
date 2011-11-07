@@ -20,6 +20,7 @@
 
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/pool.hh>
+#include <dynamic-graph/all-commands.h>
 
 using namespace dynamicgraph::sot;
 namespace dg = dynamicgraph;
@@ -31,28 +32,37 @@ FeatureAbstract::CLASS_NAME = "FeatureAbstract";
 FeatureAbstract::
 FeatureAbstract( const std::string& name ) 
   :Entity(name)
-   ,desiredValueSIN(NULL,"sotFeatureAbstract("+name+")::input(feature)::sdes")
    ,selectionSIN(NULL,"sotFeatureAbstract("+name+")::input(flag)::selec")
    ,errorSOUT( boost::bind(&FeatureAbstract::computeError,this,_1,_2),
-	       selectionSIN<<desiredValueSIN,
+	       selectionSIN,
 	       "sotFeatureAbstract("+name+")::output(vector)::error" )
    ,jacobianSOUT( boost::bind(&FeatureAbstract::computeJacobian,this,_1,_2),
 		  selectionSIN,
 		  "sotFeatureAbstract("+name+")::output(matrix)::jacobian" )
-   ,activationSOUT( boost::bind(&FeatureAbstract::computeActivation,this,_1,_2),
-		    selectionSIN<<desiredValueSIN,
-		    "sotFeatureAbstract("+name+")::output(vector)::activation" )
    ,dimensionSOUT( boost::bind(&FeatureAbstract::getDimension,this,_1,_2),
 		   selectionSIN,
 		   "sotFeatureAbstract("+name+")::output(uint)::dim" )
 {
   selectionSIN = true;
-  signalRegistration( desiredValueSIN<<selectionSIN
-		      <<errorSOUT<<jacobianSOUT<<activationSOUT<<dimensionSOUT );
+  signalRegistration( selectionSIN
+		      <<errorSOUT<<jacobianSOUT<<dimensionSOUT );
   featureRegistration();
-
+  initCommands();
 }
 
+void FeatureAbstract::
+initCommands( void )
+{
+  using namespace command;
+  addCommand("setReference",
+	     new dynamicgraph::command::Setter<FeatureAbstract, std::string>
+	     (*this, &FeatureAbstract::setReferenceByName,
+	      "Give the name of the reference feature.\nInput: a string (feature name)."));
+  addCommand("getReference",
+	     new dynamicgraph::command::Getter<FeatureAbstract, std::string>
+	     (*this, &FeatureAbstract::getReferenceByName,
+	      "Get the name of the reference feature.\nOutput: a string (feature name)."));
+}
 
 void FeatureAbstract::
 featureRegistration( void )
@@ -60,29 +70,30 @@ featureRegistration( void )
   PoolStorage::getInstance()->registerFeature(name,this);
 }
 
-
 std::ostream& FeatureAbstract::
 writeGraph( std::ostream& os ) const
 {
   Entity::writeGraph(os);
 
-  if( desiredValueSIN )
+  if( isReferenceSet() )
     {
-      //      const SignalAbstract<int> & sdesAbs = desiredValueSIN;
-      const dg::SignalPtr<FeatureAbstract *,int>  & sdesSig = desiredValueSIN;
-      
-      if (sdesSig!=0)
-	{
-	  FeatureAbstract *asotFA = sdesSig.accessCopy();
-	  if (asotFA!=0)
-	    {
-	      os << "\t\"" << asotFA->getName() << "\" -> \"" << getName() << "\""
-		 << "[ color=darkseagreen4 ]" << std::endl;
-	    }
-	  else std::cout << "asotFAT : 0" << std::endl;
-	}
-      else std::cout << "sdesSig : 0" << std::endl;
+      const FeatureAbstract *asotFA = getReferenceAbstract();
+      os << "\t\"" << asotFA->getName() << "\" -> \"" << getName() << "\""
+	 << "[ color=darkseagreen4 ]" << std::endl;
     }
+  else std::cout << "asotFAT : 0" << std::endl;
 
   return os;
+}
+
+void FeatureAbstract::
+setReferenceByName( const std::string& name )
+{
+  setReference( &dynamicgraph::sot::PoolStorage::getInstance()->getFeature(name));
+}
+
+std::string FeatureAbstract::
+getReferenceByName() const
+{
+  if( isReferenceSet() ) return getReferenceAbstract()->getName(); else return "none";
 }

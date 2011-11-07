@@ -59,8 +59,6 @@ FeatureLineDistance( const string& pointName )
 
   errorSOUT.addDependency( positionSIN );
 
-  activationSOUT.removeDependency( desiredValueSIN );
-
   signalRegistration( positionSIN<<articularJacobianSIN
                       <<positionRefSIN<<lineSOUT<<vectorSIN );
 }
@@ -231,17 +229,6 @@ FeatureLineDistance::computeError( ml::Vector& error,int time )
 
   sotDEBUGOUT(15);
   return error ;
-}
-
-/** Compute the error between two visual features from a subset
-*a the possible features.
- */
-ml::Vector&
-FeatureLineDistance::computeActivation( ml::Vector& act,int time )
-{
-  selectionSIN(time);
-  act.resize(dimensionSOUT(time)) ; act.fill(1);
-  return act ;
 }
 
 void FeatureLineDistance::

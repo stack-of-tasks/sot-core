@@ -46,8 +46,6 @@ FeatureJointLimits::
 FeatureJointLimits( const string& fName )
   : FeatureAbstract( fName )
     ,threshold(THRESHOLD_DEFAULT)
-//     ,freeFloatingIndex( FREE_FLOATING_INDEX )
-//     ,freeFloatingSize( FREE_FLOATING_SIZE )
 
     ,jointSIN( NULL,"sotFeatureJointLimits("+name+")::input(vector)::joint" )
     ,upperJlSIN( NULL,"sotFeatureJointLimits("+name+")::input(vector)::upperJl" )
@@ -59,16 +57,6 @@ FeatureJointLimits( const string& fName )
   errorSOUT.addDependency( jointSIN );
   errorSOUT.addDependency( upperJlSIN );
   errorSOUT.addDependency( lowerJlSIN );
-
-  activationSOUT.addDependency( jointSIN );
-  activationSOUT.addDependency( upperJlSIN );
-  activationSOUT.addDependency( lowerJlSIN );
-
-  //jacobianSOUT.addDependency( jointSIN );
-
-  errorSOUT.removeDependency( desiredValueSIN );
-  jacobianSOUT.removeDependency( desiredValueSIN );
-  activationSOUT.removeDependency( desiredValueSIN );
 
   signalRegistration( jointSIN<<upperJlSIN<<lowerJlSIN<<widthJlSINTERN );
 
@@ -82,6 +70,11 @@ FeatureJointLimits( const string& fName )
   addCommand("actuate",
 	     new command::featureJointLimits::Actuate(*this, docstring));
 }
+
+/* --------------------------------------------------------------------- */
+
+void FeatureJointLimits::addDependenciesFromReference( void ){}
+void FeatureJointLimits::removeDependenciesFromReference( void ){}
 
 
 /* --------------------------------------------------------------------- */
@@ -204,44 +197,11 @@ FeatureJointLimits::computeError( ml::Vector& error,int time )
 }
 
 
-/** Compute the error between two visual features from a subset
- * a the possible features.
- */
-ml::Vector&
-FeatureJointLimits::computeActivation( ml::Vector& act,int time )
-{
-  const ml::Vector err = errorSOUT.access(time);
-  //const Flags &fl = selectionSIN(time);
-  const unsigned int SIZE=dimensionSOUT.access(time);
-  //const unsigned int SIZE_TOTAL=jointSIN.access(time).size();
-  act.resize(SIZE);
-
-  //unsigned int parcact = 0;
-  for( unsigned int i=0;i<SIZE;++i )
-    {
-      //if( fl(i) )
-      //{
-	  const double x = fabs(err(i));
-	  if( x<threshold ) act(i)=0.;
-	  else if( x>1. ) act(i) = 1.;
-	  else act(i) = (x-threshold)/(1-threshold);
-	  //parcact++;
-	  //}
-    }
-  return act ;
-}
-
-
 void FeatureJointLimits::
 display( std::ostream& os ) const
 {
-  
-
   os <<"JointLimits <"<<name<<"> ... TODO";
-
 }
-
-
 
 
 void FeatureJointLimits::

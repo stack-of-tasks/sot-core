@@ -65,8 +65,6 @@ FeaturePoint6d( const string& pointName )
 
   errorSOUT.addDependency( positionSIN );
 
-  activationSOUT.removeDependency( desiredValueSIN );
-
   signalRegistration( positionSIN<<articularJacobianSIN );
 
   // Commands
@@ -91,11 +89,56 @@ FeaturePoint6d( const string& pointName )
 	       makeCommandVoid0(*this,&FeaturePoint6d::servoCurrentPosition,
 				docCommandVoid0("modify the desired position to servo at current pos.")));
   }
+}
 
+void FeaturePoint6d::
+addDependenciesFromReference( void )
+{
+  assert( isReferenceSet() );
+  errorSOUT.addDependency( getReference()->positionSIN );
+  jacobianSOUT.addDependency( getReference()->positionSIN );
+}
 
+void FeaturePoint6d::
+removeDependenciesFromReference( void )
+{
+  assert( isReferenceSet() );
+  errorSOUT.removeDependency( getReference()->positionSIN );
+  jacobianSOUT.removeDependency( getReference()->positionSIN );
 }
 
 
+/* --------------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+void FeaturePoint6d::
+computationFrame(const std::string& inFrame)
+{
+  if (inFrame == "current")
+    computationFrame_ = FRAME_CURRENT;
+  else if (inFrame == "desired")
+    computationFrame_ = FRAME_DESIRED;
+  else {
+    std::string msg("FeaturePoint6d::computationFrame: "
+		    + inFrame + ": invalid argument,\n"
+		    "expecting 'current' or 'desired'");
+    throw ExceptionFeature(ExceptionFeature::GENERIC, msg);
+  }
+}
+
+/// \brief Get computation frame
+std::string FeaturePoint6d::
+computationFrame() const 
+{
+  switch(computationFrame_)
+    {
+    case FRAME_CURRENT:
+      return "current";
+    case FRAME_DESIRED:
+      return "desired";
+    }
+  assert( false&&"Case not handled" );
+}
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -142,17 +185,14 @@ computeJacobian( ml::Matrix& J,int time )
     {
       /* The Jacobian on rotation is equal to Jr = - hdRh Jr6d.
        * The Jacobian in translation is equalt to Jt = [hRw(wthd-wth)]x Jr - Jt. */
-      FeatureAbstract * sdesAbs = desiredValueSIN(time);
-      FeaturePoint6d * sdes = dynamic_cast<FeaturePoint6d*>(sdesAbs);
-
       const MatrixHomogeneous& wMh = positionSIN(time);
       MatrixRotation wRh;      wMh.extract(wRh);
       MatrixRotation wRhd;
       ml::Vector hdth(3),Rhdth(3);
 
-      if(NULL!=sdes)
+      if( isReferenceSet() )
         {
-          const MatrixHomogeneous& wMhd = sdes->positionSIN(time);
+          const MatrixHomogeneous& wMhd = getReference()->positionSIN(time);
           wMhd.extract(wRhd);
           for( unsigned int i=0;i<3;++i ) hdth(i)=wMhd(i,3)-wMh(i,3);
         }
@@ -185,17 +225,13 @@ computeJacobian( ml::Matrix& J,int time )
     {
       /* The Jacobian in rotation is equal to Jr = hdJ = hdRh Jr.
        * The Jacobian in translation is equal to Jr = hdJ = hdRh Jr. */
-
-      FeatureAbstract * sdesAbs = desiredValueSIN(time);
-      FeaturePoint6d * sdes = dynamic_cast<FeaturePoint6d*>(sdesAbs);
-
       const MatrixHomogeneous& wMh = positionSIN(time);
       MatrixRotation wRh; wMh.extract(wRh);
       MatrixRotation hdRh;
 
-      if( NULL!=sdes )
+      if( isReferenceSet() )
         {
-          const MatrixHomogeneous& wMhd = sdes->positionSIN(time);
+          const MatrixHomogeneous& wMhd = getReference()->positionSIN(time);
           MatrixRotation wRhd; wMhd.extract(wRhd);
           wRhd.inverse().multiply( wRh,hdRh );
         }
@@ -245,9 +281,6 @@ FeaturePoint6d::computeError( ml::Vector& error,int time )
   sotDEBUGIN(15);
 
   const Flags &fl = selectionSIN(time);
-  FeatureAbstract * sdesAbs = desiredValueSIN(time);
-  FeaturePoint6d * sdes = dynamic_cast<FeaturePoint6d*>(sdesAbs);
-
   const MatrixHomogeneous& wMh = positionSIN(time);
   sotDEBUG(15)<<"wMh = "<<wMh<<endl;
 
@@ -258,9 +291,9 @@ FeaturePoint6d::computeError( ml::Vector& error,int time )
    * The second line is obtained by writting hMw as the inverse of wMh. */
 
   MatrixHomogeneous hMhd;
-  if(NULL!=sdes)
+  if(isReferenceSet())
     {
-      const MatrixHomogeneous& wMhd = sdes->positionSIN(time);
+      const MatrixHomogeneous& wMhd = getReference()->positionSIN(time);
       sotDEBUG(15)<<"wMhd = "<<wMhd<<endl;
       switch(computationFrame_)
         {
@@ -310,27 +343,17 @@ void FeaturePoint6d::
 servoCurrentPosition( void )
 {
   sotDEBUGIN(15);
-  FeatureAbstract * sdesAbs = desiredValueSIN.accessCopy();
-  FeaturePoint6d * sdes = dynamic_cast<FeaturePoint6d*>(sdesAbs);
 
-  if( NULL!=sdes )
+  if(! isReferenceSet() )
     {
-      sdes->positionSIN = positionSIN.accessCopy();
+      sotERROR << "The reference is not set, this function should not be called" <<std::endl;
+      throw ExceptionFeature(ExceptionFeature::GENERIC,
+			     "The reference is not set, this function should not be called");
     }
+  getReference()->positionSIN = positionSIN.accessCopy();
+
   sotDEBUGOUT(15);
 }
-
-/** Compute the error between two visual features from a subset
- * a the possible features.
- */
-ml::Vector&
-FeaturePoint6d::computeActivation( ml::Vector& act,int time )
-{
-  selectionSIN(time);
-  act.resize(dimensionSOUT(time)) ; act.fill(1);
-  return act ;
-}
-
 
 static const char * featureNames  []
 = { "X ",

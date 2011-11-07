@@ -55,7 +55,7 @@ namespace dg = dynamicgraph;
   \brief Class that defines gradient vector for jl avoidance.
 */
 class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
-: public FeatureAbstract
+  : public FeatureAbstract, FeatureReferenceHelper<FeatureJointLimits>
 {
 
  public:
@@ -83,7 +83,12 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
 
   using FeatureAbstract::jacobianSOUT;
   using FeatureAbstract::errorSOUT;
-  using FeatureAbstract::activationSOUT;
+
+  /*! \name Dealing with the reference value to be reach with this feature.
+    @{
+  */
+  DECLARE_REFERENCE_FUNCTIONS(FeatureJointLimits);
+  /*! @} */
 
  public:
   FeatureJointLimits( const std::string& name );
@@ -93,7 +98,6 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
 
   virtual ml::Vector& computeError( ml::Vector& res,int time );
   virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
-  virtual ml::Vector& computeActivation( ml::Vector& res,int time );
   ml::Vector& computeWidthJl( ml::Vector& res,const int& time );
 
   /** Static Feature selection. */

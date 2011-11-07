@@ -57,7 +57,7 @@ namespace dg = dynamicgraph;
 
 */
 class SOTFEATURE1D_EXPORT Feature1D
-: public FeatureAbstract
+  : public FeatureAbstract, FeatureReferenceHelper<Feature1D>
 {
 
  public:
@@ -82,8 +82,6 @@ class SOTFEATURE1D_EXPORT Feature1D
   /*! \brief Input for the Jacobian. */
   dg::SignalPtr< ml::Matrix,int > jacobianSIN;
 
-  /*! \brief Input for the activation. */
-  dg::SignalPtr< ml::Vector,int > activationSIN;
   /*! @} */
 
   /*! \name Output signals
@@ -94,9 +92,6 @@ class SOTFEATURE1D_EXPORT Feature1D
 
   /*! \brief Publish the error between the desired and the current value of the feature. */
   using FeatureAbstract::errorSOUT;
-
-  /*! \brief Publish the activation of this feature. */
-  using FeatureAbstract::activationSOUT;
 
  public:
 
@@ -126,10 +121,12 @@ class SOTFEATURE1D_EXPORT Feature1D
   /*! \brief Display the information related to this 1D implementation. */
   virtual void display( std::ostream& os ) const;
 
-/*   void commandLine( const std::string& cmdLine, */
-/* 		    std::istringstream& cmdArgs, */
-/* 		    std::ostream& os ); */
 
+  /*! \name Dealing with the reference value to be reach with this feature.
+    @{
+  */
+  DECLARE_REFERENCE_FUNCTIONS(Feature1D);
+  /*! @} */
 
 } ;
 

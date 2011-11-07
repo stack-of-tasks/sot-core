@@ -64,7 +64,7 @@ namespace dg = dynamicgraph;
 
 */
 class SOTFEATUREGENERIC_EXPORT FeatureGeneric
-: public FeatureAbstract
+: public FeatureAbstract, FeatureReferenceHelper<FeatureGeneric>
 {
 
  public:
@@ -93,8 +93,6 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   /*! \brief Input for the Jacobian. */
   dg::SignalPtr< ml::Matrix,int > jacobianSIN;
 
-  /*! \brief Input for the activation. */
-  dg::SignalPtr< ml::Vector,int > activationSIN;
   /*! @} */
 
   /*! \name Output signals
@@ -105,9 +103,6 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
 
   /*! \brief Publish the error between the desired and the current value of the feature. */
   using FeatureAbstract::errorSOUT;
-
-  /*! \brief Publish the activation of this feature. */
-  using FeatureAbstract::activationSOUT;
 
   /*! \brief New signal the errordot. */
   dg::SignalTimeDependent< ml::Vector,int > errordotSOUT;
@@ -136,8 +131,6 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   /*! \brief Compute the Jacobian of the value according to the robot state.. */
   virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
 
-  /*! \brief Compute the activation according to the time */
-  virtual ml::Vector& computeActivation( ml::Vector& res,int time );
   /*! @} */
 
   /*! \brief Display the information related to this generic implementation. */
@@ -146,6 +139,12 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   void commandLine( const std::string& cmdLine,
 		    std::istringstream& cmdArgs,
 		    std::ostream& os );
+
+  /*! \name Dealing with the reference value to be reach with this feature.
+    @{
+  */
+  DECLARE_REFERENCE_FUNCTIONS(FeatureGeneric);
+  /*! @} */
 
 
 } ;

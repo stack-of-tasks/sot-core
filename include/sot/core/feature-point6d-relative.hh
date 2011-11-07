@@ -90,6 +90,8 @@ class SOTFEATUREPOINT6DRELATIVE_EXPORT FeaturePoint6dRelative
   dg::SignalTimeDependent<ml::Vector,int> errordotSOUT;
   /*! @} */
 
+  using FeaturePoint6d::getReference;
+
  public:
   FeaturePoint6dRelative( const std::string& name );
   virtual ~FeaturePoint6dRelative( void ) {}
@@ -97,7 +99,6 @@ class SOTFEATUREPOINT6DRELATIVE_EXPORT FeaturePoint6dRelative
   virtual ml::Vector& computeError( ml::Vector& res,int time );
   virtual ml::Vector& computeErrorDot( ml::Vector& res,int time );
   virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
-  virtual ml::Vector& computeActivation( ml::Vector& res,int time );
 
   virtual void display( std::ostream& os ) const;
   virtual void commandLine( const std::string& cmdLine,
