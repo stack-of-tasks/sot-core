@@ -43,58 +43,55 @@ DECLARE_MAL_NAMESPACE(ml);
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace dynamicgraph { namespace sot {
-namespace dg = dynamicgraph;
+namespace dynamicgraph {
+  namespace sot {
+    namespace dg = dynamicgraph;
 
-class SOT_CORE_EXPORT TaskAbstract
-: public dg::Entity
-{
- public:
+    class SOT_CORE_EXPORT TaskAbstract
+      : public dg::Entity
+    {
+    public:
 
-  /* Use a derivative of this class to store computational memory. */
-  class MemoryTaskAbstract
-  {
-  public:
-    int timeLastChange;
-  public:
-  MemoryTaskAbstract( void ) : timeLastChange(0) {};
-    virtual ~MemoryTaskAbstract( void ) {};
-  public:
-    virtual void commandLine( const std::string& cmdLine
-                              ,std::istringstream& cmdArgs
-                              ,std::ostream& os ) = 0;
-    virtual void display( std::ostream& os ) const = 0;
-    friend std::ostream&
-      operator<<( std::ostream& os,const MemoryTaskAbstract& tcm )
-      {tcm.display(os); return os;}
-  };
+      /* Use a derivative of this class to store computational memory. */
+      class MemoryTaskAbstract
+      {
+      public:
+	int timeLastChange;
+      public:
+	MemoryTaskAbstract( void ) : timeLastChange(0) {};
+	virtual ~MemoryTaskAbstract( void ) {};
+      public:
+	virtual void commandLine( const std::string& cmdLine
+				  ,std::istringstream& cmdArgs
+				  ,std::ostream& os ) = 0;
+	virtual void display( std::ostream& os ) const = 0;
+	friend std::ostream& operator<<( std::ostream& os,
+					 const MemoryTaskAbstract& tcm )
+	{tcm.display(os); return os;}
+      };
 
- public:
-  MemoryTaskAbstract * memoryInternal;
+    public:
+      MemoryTaskAbstract * memoryInternal;
 
- protected:
-  void taskRegistration( void );
+    protected:
+      void taskRegistration( void );
 
- public:
-  TaskAbstract( const std::string& n );
+    public:
+      TaskAbstract( const std::string& n );
 
- public: /* --- SIGNALS --- */
+    public: /* --- SIGNALS --- */
 
-  dg::SignalTimeDependent< VectorMultiBound,int > taskSOUT;
-  dg::SignalTimeDependent< ml::Matrix,int > jacobianSOUT;
-  dg::SignalTimeDependent< ml::Vector,int > featureActivationSOUT;
+      dg::SignalTimeDependent< VectorMultiBound,int > taskSOUT;
+      dg::SignalTimeDependent< ml::Matrix,int > jacobianSOUT;
 
- public: /* --- PARAMS --- */
-  virtual void commandLine( const std::string& cmdLine
-			    ,std::istringstream& cmdArgs
-			    ,std::ostream& os ) ;
- public:
-};
+    public: /* --- PARAMS --- */
+      virtual void commandLine( const std::string& cmdLine
+				,std::istringstream& cmdArgs
+				,std::ostream& os ) ;
+    };
 
-} /* namespace sot */} /* namespace dynamicgraph */
-
-
-
+  } /* namespace sot */
+} /* namespace dynamicgraph */
 
 
 #endif /* #ifndef __SOT_TASKABSTRACT_H__ */

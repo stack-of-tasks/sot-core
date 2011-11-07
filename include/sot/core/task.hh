@@ -111,8 +111,6 @@ class SOTTASK_EXPORT Task
   VectorMultiBound&
     computeTaskExponentialDecrease( VectorMultiBound& errorRef,int time );
   ml::Matrix& computeJacobian( ml::Matrix& J,int time );
-  ml::Vector& computeFeatureActivation( ml::Vector& h,int time );
-
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
