@@ -100,7 +100,6 @@ pop( void )
   stack.pop_back();
   controlSOUT.removeDependency( res->taskSOUT );
   controlSOUT.removeDependency( res->jacobianSOUT );
-  controlSOUT.removeDependency( res->featureActivationSOUT );
   controlSOUT.setReady();
   return *res;
 }
@@ -133,7 +132,6 @@ removeDependency( const TaskAbstract& key )
 {
   controlSOUT.removeDependency( key.taskSOUT );
   controlSOUT.removeDependency( key.jacobianSOUT );
-  //controlSOUT.removeDependency( key.featureActivationSOUT );
   controlSOUT.setReady();
 }
 
@@ -989,8 +987,8 @@ operator<< ( std::ostream& os,const SotQr& sot )
 /* --------------------------------------------------------------------- */
 
 void SotQr::
-commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
-	     std::ostream& os )
+commandLine( const std::string& ,std::istringstream& ,
+	     std::ostream&  )
 {
 }
 

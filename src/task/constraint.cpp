@@ -46,8 +46,7 @@ Constraint( const std::string& n )
 {
   jacobianSOUT.setFunction( boost::bind(&Constraint::computeJacobian,this,_1,_2) );
   
-  signalDeregistration( "task" );
-  signalDeregistration( "activation" );
+  signalDeregistration( taskSOUT.shortName() );
 
   //
   // Commands

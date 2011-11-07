@@ -171,7 +171,6 @@ push( TaskAbstract& task )
   stack.push_back( &task );
   controlSOUT.addDependency( task.taskSOUT );
   controlSOUT.addDependency( task.jacobianSOUT );
-  //controlSOUT.addDependency( task.featureActivationSOUT );
   controlSOUT.setReady();
 }
 TaskAbstract& Sot::
@@ -181,7 +180,6 @@ pop( void )
   stack.pop_back();
   controlSOUT.removeDependency( res->taskSOUT );
   controlSOUT.removeDependency( res->jacobianSOUT );
-  controlSOUT.removeDependency( res->featureActivationSOUT );
   controlSOUT.setReady();
   return *res;
 }
@@ -214,7 +212,6 @@ removeDependency( const TaskAbstract& key )
 {
   controlSOUT.removeDependency( key.taskSOUT );
   controlSOUT.removeDependency( key.jacobianSOUT );
-  //controlSOUT.removeDependency( key.featureActivationSOUT );
   controlSOUT.setReady();
 }
 
@@ -703,7 +700,6 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
     {
       const ml::Vector err
         = taskVectorToMlVector(taskGradient->taskSOUT.access(iterTime));
-      const ml::Vector & h = taskGradient->featureActivationSOUT.access(iterTime);
       const ml::Matrix & Jac = taskGradient->jacobianSOUT.access(iterTime);
 
       const unsigned int nJ = Jac.nbRows();
@@ -738,7 +734,6 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 
       /* --- COMPUTE Jinv --- */
       sotDEBUG(35) << "grad = " << err <<endl;
-      sotDEBUG(35) << "h = " << h <<endl;
       sotDEBUG(35) << "Jgrad = " << JK <<endl;
 
       // Use optimized-memory Jt to do the p-inverse.
@@ -749,9 +744,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
       ml::Vector Herr( err.size() );
       for( unsigned int i=0;i<err.size(); ++i )
 	{
-	  if( h(i)<=0 ) Herr(i) = 0.;
-	  else if( h(i) >= 1. ) Herr(i) = err(i);
-	  else Herr(i) = err(i) * h(i) ;
+	  Herr(i) = err(i);
 	}
 
       /* --- COMPUTE CONTROL --- */
