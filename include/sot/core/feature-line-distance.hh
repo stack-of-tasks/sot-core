@@ -73,12 +73,16 @@ class SOTFEATURELINEDISTANCE_EXPORT FeatureLineDistance
   dg::SignalPtr< ml::Vector,int > vectorSIN;
   dg::SignalTimeDependent<ml::Vector,int> lineSOUT;
 
-  using FeatureAbstract::desiredValueSIN;
   using FeatureAbstract::selectionSIN;
-
   using FeatureAbstract::jacobianSOUT;
   using FeatureAbstract::errorSOUT;
-  using FeatureAbstract::activationSOUT;
+
+  /*! \name Dealing with the reference value to be reach with this feature.
+    @{
+  */
+  DECLARE_NO_REFERENCE;
+  /*! @} */
+
 
  public:
   FeatureLineDistance( const std::string& name );

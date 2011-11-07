@@ -63,6 +63,8 @@ class SOTFEATUREVECTOR3_EXPORT FeatureVector3
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
+  DECLARE_NO_REFERENCE;
+
  protected:
 
   /* --- SIGNALS ------------------------------------------------------------ */
@@ -72,12 +74,9 @@ class SOTFEATUREVECTOR3_EXPORT FeatureVector3
   dg::SignalPtr< ml::Matrix,int > articularJacobianSIN;
   dg::SignalPtr< ml::Vector,int > positionRefSIN;
 
-  using FeatureAbstract::desiredValueSIN;
   using FeatureAbstract::selectionSIN;
-
   using FeatureAbstract::jacobianSOUT;
   using FeatureAbstract::errorSOUT;
-  using FeatureAbstract::activationSOUT;
 
  public:
   FeatureVector3( const std::string& name );

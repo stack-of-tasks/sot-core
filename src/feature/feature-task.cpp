@@ -52,52 +52,6 @@ FeatureTask( const string& pointName )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-
-ml::Vector& FeatureTask::
-computeError( ml::Vector& res,int time )
-{ 
-  const ml::Vector& err = errorSIN.access(time);
-  const Flags &fl = selectionSIN.access(time);
-  const unsigned int & dim = dimensionSOUT(time);
-
-  unsigned int curr = 0;
-  res.resize( dim );
-  if( err.size()<dim )
-    { SOT_THROW ExceptionFeature( ExceptionFeature::UNCOMPATIBLE_SIZE,
-				     "Error: dimension uncompatible with des->errorIN size."
-				     " (while considering feature <%s>).",getName().c_str() ); }
-
-  FeatureTask * sdes = NULL;
-  if( desiredValueSIN )
-    {
-      FeatureAbstract* sdesAbs = desiredValueSIN(time);
-      sdes = dynamic_cast<FeatureTask*>(sdesAbs);
-    }
-  
-  sotDEBUG(15) << "Err = " << err;
-  sotDEBUG(25) << "Dim = " << dim << endl;
-
-  if( sdes )
-    {
-      const ml::Vector& errDes = sdes->errorSIN(time);
-      sotDEBUG(15) << "Err* = " << errDes;
-      if( errDes.size()<dim )
-	{ SOT_THROW ExceptionFeature( ExceptionFeature::UNCOMPATIBLE_SIZE,
-					 "Error: dimension uncompatible with des->errorIN size."
-					 " (while considering feature <%s>).",getName().c_str() ); }
-
-      for( unsigned int i=0;i<err.size();++i ) if( fl(i) ) 
-	if( fl(i) ) res( curr++ ) = err(i)-errDes(i);
-    }
-  else for( unsigned int i=0;i<err.size();++i )
-    if( fl(i) ) res( curr++ ) = -err(i);
-  
-  return res; 
-
-}
-
-
-
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -128,12 +82,11 @@ commandLine( const std::string& cmdLine,
 	{
 	  std::string name; cmdArgs >> name;
 	  Task& task = dynamic_cast< Task & >
-	    (PoolStorage::getInstance()->getEntity( name ));
+	    (dg::PoolStorage::getInstance()->getEntity( name ));
 	  taskPtr = &task;
 
 	  errorSIN.plug( &task.errorSOUT );
 	  jacobianSIN.plug( &task.jacobianSOUT );
-	  activationSIN.plug( &task.featureActivationSOUT );
 	} else {
 	  if( taskPtr ) os << "task = " << (*taskPtr) << std::endl;
 	  else  os << "task = NULL " <<std::endl;

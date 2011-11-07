@@ -54,7 +54,7 @@ FeaturePoint6dRelative( const string& pointName )
   ,dotpositionSIN(NULL,"sotFeaturePoint6dRelative("+name+")::input(matrixHomo)::dotposition" )
   ,dotpositionReferenceSIN(NULL,"sotFeaturePoint6dRelative("+name+")::input(matrixHomo)::dotpositionRef" )
   ,errordotSOUT(boost::bind(&FeaturePoint6dRelative::computeErrorDot,this,_1,_2),
-		selectionSIN<<desiredValueSIN,
+		selectionSIN,
 		"sotFeatureAbstract("+name+")::output(vector)::errordot" )
 {
   jacobianSOUT.addDependency( positionReferenceSIN );
@@ -63,8 +63,6 @@ FeaturePoint6dRelative( const string& pointName )
   errorSOUT.addDependency( positionReferenceSIN );
 
   errordotSOUT.addDependency(dotpositionReferenceSIN);
-
-  activationSOUT.removeDependency( desiredValueSIN );
 
   signalRegistration( positionReferenceSIN<<articularJacobianReferenceSIN );
 
@@ -141,27 +139,29 @@ FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
   MatrixHomogeneous Merr;
   try
     {
-      FeatureAbstract * sdesAbs = desiredValueSIN(time);
-
-      FeaturePoint6dRelative * sdes = dynamic_cast<FeaturePoint6dRelative*>(sdesAbs);
-      if( sdes )
+      if( isReferenceSet() )
 	{
-	  const MatrixHomogeneous & wMp_des = sdes->positionSIN(time);
-	  const MatrixHomogeneous & wMpref_des = sdes->positionReferenceSIN(time);
-
-	  MatrixHomogeneous pMw_des;  wMp_des.inverse(pMw_des);
-	  MatrixHomogeneous pMpref_des; pMw_des.multiply( wMpref_des,pMpref_des );
-	  MatrixHomogeneous Minv; pMpref_des.inverse(Minv);
-	  pMpref.multiply(Minv,Merr);
-	} else {
-
-	  FeaturePoint6d * sdes6d = dynamic_cast<FeaturePoint6d*>(sdesAbs);
-	  if( sdes6d )
+	  // TODO: Deal with the case of FeaturePoint6dRelative reference without dcast
+	  FeaturePoint6dRelative * sdes6d = dynamic_cast<FeaturePoint6dRelative*>(getReference());
+	  if( NULL!=sdes6d )
 	    {
-	      const MatrixHomogeneous & Mref = sdes6d->positionSIN(time);
+	         const MatrixHomogeneous & wMp_des = sdes6d->positionSIN(time);
+		 const MatrixHomogeneous & wMpref_des = sdes6d->positionReferenceSIN(time);
+		 MatrixHomogeneous pMw_des;  wMp_des.inverse(pMw_des);
+		 MatrixHomogeneous pMpref_des; pMw_des.multiply( wMpref_des,pMpref_des );
+		 MatrixHomogeneous Minv; pMpref_des.inverse(Minv);
+		 pMpref.multiply(Minv,Merr);
+	    }
+	  else
+	    {
+	      const MatrixHomogeneous & Mref = getReference()->positionSIN(time);
 	      MatrixHomogeneous Minv; Mref.inverse(Minv);
 	      pMpref.multiply(Minv,Merr);
-	    } else Merr=pMpref;
+	    }
+	}
+      else
+	{
+	  Merr=pMpref;
 	}
     } catch( ... ) { Merr=pMpref; }
 
@@ -248,18 +248,6 @@ FeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
   return errordot ;
 }
 
-/** Compute the error between two visual features from a subset
- * a the possible features.
- */
-ml::Vector&
-FeaturePoint6dRelative::computeActivation( ml::Vector& act,int time )
-{
-  selectionSIN(time);
-  act.resize(dimensionSOUT(time)) ; act.fill(1);
-  return act ;
-}
-
-
 static const char * featureNames  []
 = { "X ",
     "Y ",
@@ -304,7 +292,10 @@ initSdes( const std::string & nameSdes )
 {
   FeaturePoint6dRelative & sdes
     = dynamic_cast< FeaturePoint6dRelative &>
-    (PoolStorage::getInstance()->getEntity(nameSdes));
+    (dg::PoolStorage::getInstance()->getEntity(nameSdes));
+
+  setReference(&sdes);
+
   const int timeCurr = positionSIN.getTime() +1;
   positionSIN.recompute( timeCurr );
   positionReferenceSIN.recompute( timeCurr );
@@ -312,6 +303,8 @@ initSdes( const std::string & nameSdes )
   sdes.positionSIN.setConstant( positionSIN.accessCopy() );
   sdes.positionReferenceSIN.setConstant( positionReferenceSIN.accessCopy() );
 }
+
+
 void FeaturePoint6dRelative::
 commandLine( const std::string& cmdLine,
 	     std::istringstream& cmdArgs,

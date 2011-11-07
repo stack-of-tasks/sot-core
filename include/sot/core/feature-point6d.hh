@@ -57,13 +57,14 @@ namespace dg = dynamicgraph;
   \brief Class that defines point-3d control feature
 */
 class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
-: public FeatureAbstract
+  : public FeatureAbstract, public FeatureReferenceHelper<FeaturePoint6d>
 {
 
  public:
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
+  /* --- Frame type --------------------------------------------------------- */
  protected:
   enum ComputationFrameType
     {
@@ -71,37 +72,11 @@ class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
       ,FRAME_CURRENT
     };
   static const ComputationFrameType COMPUTATION_FRAME_DEFAULT;
-
  public:
   /// \brief Set computation frame
-  void computationFrame(const std::string& inFrame)
-  {
-    if (inFrame == "current")
-      computationFrame_ = FRAME_CURRENT;
-    else if (inFrame == "desired")
-      computationFrame_ = FRAME_DESIRED;
-    else {
-      std::string msg("FeaturePoint6d::computationFrame: "
-		      + inFrame + ": invalid argument,\n"
-		      "expecting 'current' or 'desired'");
-      throw ExceptionFeature(ExceptionFeature::GENERIC, msg);
-    }
-  }
-
+  void computationFrame(const std::string& inFrame);
   /// \brief Get computation frame
-  std::string computationFrame() const 
-  {
-    switch(computationFrame_) {
-    case FRAME_CURRENT:
-      return "current";
-    case FRAME_DESIRED:
-      return "desired";
-    default:
-      return "";
-    }
-    return "";
-  }
-
+  std::string computationFrame() const;
  private:
   ComputationFrameType computationFrame_;
 
@@ -110,12 +85,14 @@ class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
   dg::SignalPtr< MatrixHomogeneous,int > positionSIN;
   dg::SignalPtr< ml::Matrix,int > articularJacobianSIN;
 
-  using FeatureAbstract::desiredValueSIN;
   using FeatureAbstract::selectionSIN;
-
   using FeatureAbstract::jacobianSOUT;
   using FeatureAbstract::errorSOUT;
-  using FeatureAbstract::activationSOUT;
+
+  /*! \name Dealing with the reference value to be reach with this feature.
+    @{  */
+  DECLARE_REFERENCE_FUNCTIONS(FeaturePoint6d);
+  /*! @} */
 
  public:
   FeaturePoint6d( const std::string& name );
@@ -125,7 +102,6 @@ class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
 
   virtual ml::Vector& computeError( ml::Vector& res,int time );
   virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
-  virtual ml::Vector& computeActivation( ml::Vector& res,int time );
 
   /** Static Feature selection. */
   inline static Flags selectX( void )  { return FLAG_LINE_1; }

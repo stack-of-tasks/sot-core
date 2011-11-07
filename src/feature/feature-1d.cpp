@@ -39,21 +39,24 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Feature1D,"Feature1D");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-
-
 Feature1D::
 Feature1D( const string& pointName )
   : FeatureAbstract( pointName )
-    ,errorSIN( NULL,"sotFeature1D("+name+")::input(vector)::errorIN" )
-    ,jacobianSIN( NULL,"sotFeature1D("+name+")::input(matrix)::jacobianIN" )
-    ,activationSIN( NULL,"sotFeature1D("+name+")::input(matrix)::activationIN" )
+  ,errorSIN( NULL,"sotFeature1D("+name+")::input(vector)::errorIN" )
+  ,jacobianSIN( NULL,"sotFeature1D("+name+")::input(matrix)::jacobianIN" )
 {
   jacobianSOUT.addDependency( jacobianSIN );
   errorSOUT.addDependency( errorSIN );
-  activationSOUT.addDependency( activationSIN );
 
-  signalRegistration( errorSIN<<jacobianSIN<<activationSIN );
+  signalRegistration( errorSIN<<jacobianSIN );
 }
+
+/* --------------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+
+void Feature1D::addDependenciesFromReference( void ){}
+void Feature1D::removeDependenciesFromReference( void ){}
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -100,24 +103,6 @@ computeJacobian( ml::Matrix& res,int time )
   return res; 
 }
 
-ml::Vector& Feature1D::
-computeActivation( ml::Vector& res,int time )
-{ 
-  if( activationSIN )
-    {
-      const ml::Vector& err = activationSIN.access(time);
-      res.resize( 1 ); res(0)=0;
-      for( unsigned int i=0;i<err.size();++i ) res(0)+=err(i);
-    }
-  else
-    {
-      res.resize( dimensionSOUT(time) );
-      res.fill( 1. );
-    }
-      
-  return res; 
-}
-
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -129,8 +114,7 @@ display( std::ostream& os ) const
 
   try{ 
     os << "  error= "<< errorSIN.accessCopy() << endl
-       << "  J    = "<< jacobianSIN.accessCopy() << endl
-       << "  act  = "<<activationSIN.accessCopy() << endl;
+       << "  J    = "<< jacobianSIN.accessCopy() << endl;
   }  catch(ExceptionAbstract e){ os<< " All SIN not set."; }
 }
 

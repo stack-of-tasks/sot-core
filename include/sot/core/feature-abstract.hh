@@ -33,6 +33,7 @@ namespace ml = maal::boost;
 #include <sot/core/flags.hh>
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+#include <sot/core/pool.hh>
 #include "sot/core/api.hh"
 
 /* STD */
@@ -49,14 +50,40 @@ namespace dynamicgraph {
       \ingroup features
       \brief This class gives the abstract definition of a feature.
 
-      A feature is a data evolving according to time.
-      It is defined by a vector \f${\bf s}(t) \in \mathbb{R}^n \f$ where \f$ t \f$ is the time.
-      By default a feature has a desired \f${\bf s}^*(t) \f$.
-      The feature is in charge of collecting its own current state.
-      A feature is supposed to compute an error between its current state and the desired one:
-      \f$ e(t) = {\bf s}^*(t) - {\bf s}(t) \f$.
-      A feature is supposed to compute a Jacobian according to the robot state vector
-      \f$ \frac{\delta {\bf s}(t)}{\delta {\bf q}(t)}\f$.
+      In short, a feature is a data evolving according to time.  It is defined
+      by a vector \f${\bf s}(t) \in \mathbb{R}^n \f$ where \f$ t \f$ is the
+      time.  By default a feature has a desired \f${\bf s}^*(t) \f$.  The
+      feature is in charge of collecting its own current state.  A feature is
+      supposed to compute an error between its current state and the desired
+      one: \f$ e(t) = {\bf s}^*(t) - {\bf s}(t) \f$.  A feature is supposed to
+      compute a Jacobian according to the robot state vector \f$ \frac{\delta
+      {\bf s}(t)}{\delta {\bf q}(t)}\f$.
+
+      \bigskip
+      More precisely, a feature is a derivable function of the robot
+      configuration $q$ and the universe \f$\Omega\f$ into a real vector space:
+      \f$ f: q,\Omega \rightarrow f(q,\Omega) \in R^n\f$. The object is able to
+      compute the value, and the value of the Jacobian of \f$f\f$ with respect
+      to \f$q\f$, \f$J = \frac{\partial f}{\partial q}\f$.
+
+      The task is in general computed from the value of the feature at the
+      current instant \f$f(q(t),\Omega(t))\f$, the Jacobian \f$J\f$ and
+      evolution of the feature with the evolution of the universe, abusively
+      denoted as a variation along the variable \f$t\f$ alone: \f$\frac{\partial
+      f}{\partial t} = \frac{\partial f}{\partial \Omega} \dot{\Omega}\f$.
+
+      In general, the feature is computed as the error \f$f = e(q,\Omega)\f$
+      between the value at the current robot and universe configurations
+      \f$s(q,\Omega)\f$, and a reference value that does not depend on the robot
+      current configuration, and thus that is generally denoted \f$s^* = s^*(t)\f$.
+      In general, \f$s\f$ and \f$s^*\f$ evolves in the same space, and thus, two
+      objects of the same classes are used to represent \f$s\f$ on one side and
+      \f$s^*\f$ on the other. A generic solution to maintain a reference on the
+      object \f$s^*\f$ from the object \f$s\f$ is provided, but is not mandatory. In
+      that cases, the signal errorSOUT is linked to the update state
+      of the input of \f$s\f$, and is also automatically linked to the input of
+      \f$s^*\f$ as soon as \f$s^*\f$ is specifified.
+
     */
     class SOT_CORE_EXPORT FeatureAbstract
       :public Entity
@@ -70,6 +97,8 @@ namespace dynamicgraph {
 
       /*! \brief Register the feature in the stack of tasks. */
       void featureRegistration( void );
+
+      void initCommands( void );
 
     public:
       /*! \brief Default constructor: the name of the class should be given. */
@@ -127,15 +156,6 @@ namespace dynamicgraph {
       */
       virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time ) = 0;
 
-      /*! \brief Reevaluate the current value of the feature
-	according to external measurement provided through a mailbox,
-	or deduced from the estimated state of the robot at the time specified.
-
-	\par[out] res: The vector in which the value will be written.
-	\return The vector res with the appropriate values.
-      */
-      virtual ml::Vector& computeActivation( ml::Vector& res,int time ) = 0;
-
       /*! @} */
 
       /* --- SIGNALS ------------------------------------------------------------ */
@@ -147,9 +167,6 @@ namespace dynamicgraph {
 
       /*! \name Input signals:
 	@{ */
-      /*! \brief This signal specifies the desired value \f$ {\bf s}^*(t) \f$ */
-      SignalPtr< FeatureAbstract*,int > desiredValueSIN;
-
       /*! \brief This vector specifies which dimension are used to perform the computation.
 	For instance let us assume that the feature is a 3D point. If only the Y-axis should
 	be used for computing error, activation and Jacobian, then the vector to specify
@@ -168,9 +185,6 @@ namespace dynamicgraph {
 	according to the robot state: \f$ J(t) = \frac{\delta{\bf s}^*(t)}{\delta {\bf q}(t)}\f$ */
       SignalTimeDependent<ml::Matrix,int> jacobianSOUT;
 
-      /*! \brief Compute the new value of the feature \f$ {\bf s}(t)\f$ */
-      SignalTimeDependent<ml::Vector,int> activationSOUT;
-
       /*! \brief Returns the dimension of the feature as an output signal. */
       SignalTimeDependent<unsigned int,int> dimensionSOUT;
 
@@ -179,7 +193,89 @@ namespace dynamicgraph {
 
       /*! @} */
 
+      /* --- REFERENCE VALUE S* ------------------------------------------------- */
+    public:
+
+      /*! \name Reference
+	@{
+      */
+      virtual void setReference( FeatureAbstract * sdes ) = 0;
+      virtual void unsetReference( void ) { setReference(NULL); }
+      virtual const FeatureAbstract * getReferenceAbstract( void ) const = 0;
+      virtual FeatureAbstract * getReferenceAbstract( void ) = 0;
+      virtual bool isReferenceSet( void ) const { return false; }
+
+      virtual void addDependenciesFromReference( void ) = 0;
+      virtual void removeDependenciesFromReference( void ) = 0;
+
+      /* Commands for bindings. */
+      void setReferenceByName( const std::string& name );
+      std::string getReferenceByName( void ) const ;
+      /*! @} */
     };
+
+
+    template <class FeatureSpecialized>
+    class FeatureReferenceHelper
+    {
+      FeatureSpecialized * ptr;
+      FeatureAbstract * ptrA;
+
+    public:
+      FeatureReferenceHelper( void ) : ptr (NULL) {}
+
+      void setReference( FeatureAbstract * sdes );
+      //void setReferenceByName( const std::string & name );
+      void unsetReference( void ) { setReference(NULL); }
+      bool isReferenceSet( void ) const { return ptr != NULL; }
+      FeatureSpecialized * getReference( void ){ return ptr; }
+      const FeatureSpecialized * getReference( void ) const { return ptr; }
+    };
+
+
+    template <class FeatureSpecialized>
+    void FeatureReferenceHelper<FeatureSpecialized>::
+    setReference( FeatureAbstract * sdes )
+    {
+      ptr = dynamic_cast<FeatureSpecialized*> (sdes);
+      ptrA=ptr;
+    }
+
+#define DECLARE_REFERENCE_FUNCTIONS(FeatureSpecialized)	\
+  typedef FeatureReferenceHelper<FeatureSpecialized> SP; \
+  virtual void setReference( FeatureAbstract * sdes ) \
+  { \
+    if( sdes==NULL ) \
+      { \
+	/* UNSET */ \
+	if( SP::isReferenceSet() ) \
+	  removeDependenciesFromReference(); \
+	SP::unsetReference(); \
+      } \
+    else \
+      { \
+	/* SET */ \
+	SP::setReference(sdes); \
+	if( SP::isReferenceSet() ) \
+	  addDependenciesFromReference(); \
+      } \
+  } \
+  virtual const FeatureAbstract * getReferenceAbstract( void ) const {return SP::getReference();} \
+  virtual FeatureAbstract * getReferenceAbstract( void ){return (FeatureAbstract*)SP::getReference();} \
+  bool isReferenceSet( void ) const { return SP::isReferenceSet(); } \
+  virtual void addDependenciesFromReference( void ); \
+  virtual void removeDependenciesFromReference( void )
+    /* END OF define DECLARE_REFERENCE_FUNCTIONS */
+
+#define DECLARE_NO_REFERENCE	\
+    virtual void setReference( FeatureAbstract * ) {} \
+    virtual const FeatureAbstract * getReferenceAbstract( void ) const {return NULL; } \
+    virtual FeatureAbstract * getReferenceAbstract( void ){return NULL; } \
+    virtual void addDependenciesFromReference( void ) {}		\
+    virtual void removeDependenciesFromReference( void ) {} \
+    /* To force a ; */bool NO_REFERENCE
+    /* END OF define DECLARE_REFERENCE_FUNCTIONS */
+
 
   } // namespace sot
 } // namespace dynamicgraph
