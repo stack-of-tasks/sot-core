@@ -228,9 +228,6 @@ ENDFOREACH(plugin)
 # Bindings Python
 DYNAMIC_GRAPH_PYTHON_MODULE("sot/core" ${SOTCORE_LIB_NAME} wrap)
 
-EXEC_PROGRAM(${PYTHON_EXECUTABLE} ARGS "-c \"from distutils import sysconfig; print sysconfig.get_python_lib(0,0,prefix='')\""
-  OUTPUT_VARIABLE PYTHON_SITELIB
-  )
 
 # Install empty __init__.py files in intermediate directories.
 INSTALL(FILES
