@@ -31,7 +31,18 @@ namespace dynamicgraph {
     using command::Command;
     using command::Value;
       
-    class SOT_CORE_EXPORT FeaturePosture : public FeatureAbstract
+    /* Feature that observes the posture of the robot, ie whose Jacobian is the
+     * identity, or slices of the identity. This feature can be exactly
+     * obtained with a generic posture, given the identity matrix as the input
+     * Jacobian, the identity matrix. It is even prefereable, as the reference
+     * value is then given by a signal, which can be reevalutated at each
+     * iteration, for example to track a reference trajectory in the
+     * configuration space. See for example the toFlag python function in the
+     * sot-dyninv module to nicely selec the posture DOF.
+     */
+
+    class SOT_CORE_EXPORT FeaturePosture
+      : public FeatureAbstract
     {
       class SelectDof;	
       friend class SelectDof;
@@ -42,6 +53,7 @@ namespace dynamicgraph {
       typedef dynamicgraph::SignalPtr<ml::Vector, int> signalIn_t;
       typedef dynamicgraph::SignalTimeDependent<ml::Vector, int> signalOut_t;
 	
+      DECLARE_NO_REFERENCE;
 	
       explicit FeaturePosture (const std::string& name);
       virtual ~FeaturePosture ();
