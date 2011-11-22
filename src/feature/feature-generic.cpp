@@ -47,7 +47,7 @@ FeatureGeneric( const string& pointName )
     ,errordotSIN( NULL,"sotFeatureGeneric("+name+")::input(vector)::errordotIN" )
     ,jacobianSIN( NULL,"sotFeatureGeneric("+name+")::input(matrix)::jacobianIN" )
     ,errordotSOUT(  boost::bind(&FeatureGeneric::computeErrorDot,this,_1,_2),
-		    selectionSIN,
+		    selectionSIN << errordotSIN,
 		    "sotFeatureAbstract("+name+")::output(vector)::errordot" )
 
 {
@@ -65,12 +65,14 @@ void FeatureGeneric::addDependenciesFromReference( void )
 {
   assert( SP::isReferenceSet() );
   errorSOUT.addDependency( getReference()->errorSIN );
+  errordotSOUT.addDependency( getReference()->errordotSIN );
 }
 
 void FeatureGeneric::removeDependenciesFromReference( void )
 {
   assert( SP::isReferenceSet() );
   errorSOUT.removeDependency( getReference()->errorSIN );
+  errordotSOUT.rmDependency( getReference()->errordotSIN );
 }
 
 /* --------------------------------------------------------------------- */

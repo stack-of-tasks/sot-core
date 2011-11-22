@@ -101,11 +101,9 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   /*! \brief Publish the jacobian of the feature according to the robot state. */
   using FeatureAbstract::jacobianSOUT;
 
-  /*! \brief Publish the error between the desired and the current value of the feature. */
+  /*! \brief Publish the error between the desired and the current value of the
+      feature. */
   using FeatureAbstract::errorSOUT;
-
-  /*! \brief New signal the errordot. */
-  dg::SignalTimeDependent< ml::Vector,int > errordotSOUT;
 
  public:
 
@@ -125,11 +123,10 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   /*! \brief Compute the error between the desired value and the value itself. */
   virtual ml::Vector& computeError( ml::Vector& res,int time );
 
-  /*! \brief Compute the desired doterror of the desired value. */
-  virtual ml::Vector& computeErrorDot( ml::Vector& res,int time );
-
   /*! \brief Compute the Jacobian of the value according to the robot state.. */
   virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
+
+  WITH_ERRORDOT;
 
   /*! @} */
 

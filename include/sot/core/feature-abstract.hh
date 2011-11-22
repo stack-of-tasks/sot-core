@@ -191,6 +191,10 @@ namespace dynamicgraph {
       /*! \brief This method write a graph description on the file named FileName. */
       virtual std::ostream & writeGraph(std::ostream & os) const;
 
+      /*! \brief Return true for children that implements the errordot
+          functionalities. */
+      virtual bool withErrorDot( void ) const { return false; }
+
       /*! @} */
 
       /* --- REFERENCE VALUE S* ------------------------------------------------- */
@@ -275,6 +279,11 @@ namespace dynamicgraph {
     virtual void removeDependenciesFromReference( void ) {} \
     /* To force a ; */bool NO_REFERENCE
     /* END OF define DECLARE_REFERENCE_FUNCTIONS */
+
+#define WITH_ERRORDOT  \
+      virtual bool withErrorDot() const { return true; }   \
+      dg::SignalTimeDependent< ml::Vector,int > errordotSOUT;   \
+      virtual ml::Vector& computeErrorDot( ml::Vector& res,int time )
 
 
   } // namespace sot
