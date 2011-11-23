@@ -65,29 +65,29 @@ SET(TEST_test_mailbox_LIBS
 SET (tests
 	dummy
 
-#	signal/test_signal
-#	signal/test_depend
-#	signal/test_ptr
-#	signal/test_dep
-#	signal/test_ptrcast
-#
-#	sot/tsot
-#	sot/test_solverSoth
-#
-#	traces/files
-#	traces/traces
-#
-#	task/test_flags
-#	task/test_gain
-#	task/test_multi_bound
-#	task/test_task
-#
-#	tools/test_boost
-#	tools/test_mailbox
-#	tools/test_matrix
-#
-#	math/matrix-twist
-#	math/matrix-homogeneous
+	signal/test_signal
+	signal/test_depend
+	signal/test_ptr
+	signal/test_dep
+	signal/test_ptrcast
+
+	sot/tsot
+	sot/test_solverSoth
+
+	traces/files
+	traces/traces
+
+	task/test_flags
+	task/test_gain
+	task/test_multi_bound
+	task/test_task
+
+	tools/test_boost
+	tools/test_mailbox
+	tools/test_matrix
+
+	math/matrix-twist
+	math/matrix-homogeneous
 	)
 
 IF(UNIX)

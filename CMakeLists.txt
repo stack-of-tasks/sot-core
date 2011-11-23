@@ -19,7 +19,6 @@ INCLUDE(cmake/base.cmake)
 INCLUDE(cmake/boost.cmake)
 INCLUDE(cmake/lapack.cmake)
 INCLUDE(cmake/cpack.cmake)
-INCLUDE(cmake/eigen.cmake)
 
 SET(PROJECT_NAME sot-core)
 SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
@@ -37,7 +36,6 @@ SET(PKG_CONFIG_ADDITIONAL_VARIABLES
   )
 
 SETUP_PROJECT()
-SEARCH_FOR_EIGEN()
 
 PKG_CONFIG_APPEND_LIBS("sot-core")
 
@@ -46,6 +44,7 @@ PKG_CONFIG_APPEND_LIBS("sot-core")
 SET(BOOST_COMPONENTS thread filesystem unit_test_framework)
 SEARCH_FOR_BOOST()
 
+ADD_REQUIRED_DEPENDENCY("eigen3 >= 3.0.0")
 ADD_REQUIRED_DEPENDENCY("jrl-mal >= 1.8.0")
 ADD_REQUIRED_DEPENDENCY("dynamic-graph >= 1.0.0")
 ADD_REQUIRED_DEPENDENCY("dynamic-graph-python")
