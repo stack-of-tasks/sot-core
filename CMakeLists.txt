@@ -19,7 +19,6 @@ INCLUDE(cmake/base.cmake)
 INCLUDE(cmake/boost.cmake)
 INCLUDE(cmake/lapack.cmake)
 INCLUDE(cmake/cpack.cmake)
-INCLUDE(cmake/eigen.cmake)
 
 SET(PROJECT_NAME sot-core)
 SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
@@ -37,7 +36,6 @@ SET(PKG_CONFIG_ADDITIONAL_VARIABLES
   )
 
 SETUP_PROJECT()
-SEARCH_FOR_EIGEN()
 
 PKG_CONFIG_APPEND_LIBS("sot-core")
 
