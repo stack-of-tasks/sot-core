@@ -23,11 +23,11 @@
 /* -------------------------------------------------------------------------- */
 #include <dynamic-graph/all-signals.h>
 #include <iostream>
-#include <jrl/mal/boost.hh>
+#include <jrl/mal/malv2.hh>
 using namespace std;
 using namespace dynamicgraph;
 
-namespace ml = maal::boost;
+DECLARE_MAL_NAMESPACE(ml);
 
 class DummyClass
 {

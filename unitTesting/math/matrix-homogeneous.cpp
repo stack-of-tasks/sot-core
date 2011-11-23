@@ -21,13 +21,13 @@
 #include <boost/test/floating_point_comparison.hpp>
 #include <boost/test/output_test_stream.hpp>
 
-#include <jrl/mal/boost.hh>
+#include <jrl/mal/malv2.hh>
 #include <sot/core/matrix-homogeneous.hh>
 #include "sot/core/matrix-twist.hh"
 
 using boost::test_tools::output_test_stream;
 
-namespace ml = maal::boost;
+DECLARE_MAL_NAMESPACE(ml);
 
 #define MATRIX_BOOST_REQUIRE_CLOSE(N, M, LEFT, RIGHT, TOLERANCE)	\
   for (unsigned i = 0; i < N; ++i)					\

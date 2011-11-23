@@ -25,12 +25,12 @@
 #include <sot/core/debug.hh>
 #include <iostream>
 
-#include <jrl/mal/boost.hh>
+#include <jrl/mal/malv2.hh>
 
 using namespace std;
 using namespace dynamicgraph;
 
-namespace ml = maal::boost;
+DECLARE_MAL_NAMESPACE(ml);
 
 
 

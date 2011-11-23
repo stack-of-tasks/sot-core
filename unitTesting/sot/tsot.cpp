@@ -31,7 +31,7 @@
 using namespace std;
 using namespace dynamicgraph::sot;
 
-namespace ml = maal::boost;
+DECLARE_MAL_NAMESPACE(ml);
 
 double drand( void ) { return 2*((double)rand())/RAND_MAX-1; }
 ml::Matrix& mrand( ml::Matrix& J )

@@ -29,7 +29,7 @@ using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
-namespace ml = maal::boost;
+DECLARE_MAL_NAMESPACE(ml);
 
 class DummyClass
 {

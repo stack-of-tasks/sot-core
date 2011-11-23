@@ -26,7 +26,7 @@
 #include <sot/core/matrix-homogeneous.hh>
 #include <sot/core/matrix-twist.hh>
 
-#include <jrl/mal/boost.hh>
+#include <jrl/mal/malv2.hh>
 
 #ifndef WIN32
 #include <unistd.h>
@@ -37,7 +37,7 @@
 
 using namespace dynamicgraph::sot;
 using namespace std;
-namespace ml = maal::boost;
+DECLARE_MAL_NAMESPACE(ml);
 
 #define INIT_CHRONO(name) \
    struct timeval t0##_##name,t1##_##name;  double dt##_##name
