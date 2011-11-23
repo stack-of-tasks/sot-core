@@ -25,8 +25,8 @@
 /* --- Matrix --- */
 
 #include "sot/core/api.hh"
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <jrl/mal/malv2.hh>
+DECLARE_MAL_NAMESPACE(ml);
 
 namespace dynamicgraph {
   namespace sot {

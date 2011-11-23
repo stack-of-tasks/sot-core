@@ -24,7 +24,7 @@
 
 /* SOT */
 #include <sot/core/timer.hh>
-#include <jrl/mal/boost.hh>
+#include <jrl/mal/malv2.hh>
 #include <sot/core/matrix-homogeneous.hh>
 #include <sot/core/factory.hh>
 

@@ -26,9 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-#include <jrl/mal/boostmatrixsvd.hh>
-namespace ml = maal::boost;
+#include <jrl/mal/malv2.hh>
+DECLARE_MAL_NAMESPACE(ml);
 
 /* STD */
 #include <string>

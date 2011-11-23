@@ -26,7 +26,7 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
+#include <jrl/mal/malv2.hh>
 
 /* SOT */
 #include <sot/core/flags.hh>

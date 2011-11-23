@@ -19,7 +19,7 @@
  */
 
 /* --- SOT PLUGIN  --- */
-#include <jrl/mal/boost.hh>
+#include <jrl/mal/malv2.hh>
 #include <sot/core/debug.hh>
 #include <sot/core/factory.hh>
 #include <sot/core/mailbox.hxx>

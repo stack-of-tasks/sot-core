@@ -29,8 +29,8 @@
 
 //#include <boost/circular_buffer.hpp>
 
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <jrl/mal/malv2.hh>
+DECLARE_MAL_NAMESPACE(ml);
 
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>

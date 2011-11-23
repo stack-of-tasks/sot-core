@@ -23,7 +23,7 @@
 
 
 /* --- BOOST --- */
-#include <jrl/mal/boost.hh>
+#include <jrl/mal/malv2.hh>
 #include <boost/numeric/ublas/triangular.hpp>
 #include <boost/numeric/ublas/lu.hpp>
 #include <sot/core/debug.hh>
