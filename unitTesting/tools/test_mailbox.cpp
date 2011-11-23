@@ -21,14 +21,14 @@
 #include <iostream>
 #include <sot/core/debug.hh>
 
-#include <jrl/mal/boost.hh>
+#include <jrl/mal/malv2.hh>
 
 #ifndef WIN32
 #include <unistd.h>
 #endif
 
 using namespace std;
-namespace ml = maal::boost;
+DECLARE_MAL_NAMESPACE(ml);
 
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/entity.h>

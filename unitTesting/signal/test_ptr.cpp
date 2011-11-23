@@ -25,7 +25,7 @@
 #include <dynamic-graph/all-signals.h>
 #include <iostream>
 
-#include <jrl/mal/boost.hh>
+#include <jrl/mal/malv2.hh>
 #include <sot/core/vector-utheta.hh>
 #include <sot/core/exception-abstract.hh>
 
@@ -33,7 +33,7 @@ using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
-namespace ml = maal::boost;
+DECLARE_MAL_NAMESPACE(ml);
 
 
 

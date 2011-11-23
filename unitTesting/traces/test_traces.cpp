@@ -25,8 +25,8 @@
 #include <dynamic-graph/signal.h>
 #include <dynamic-graph/signal-time-dependent.h>
 #include <dynamic-graph/tracer.h>
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <jrl/mal/malv2.hh>
+DECLARE_MAL_NAMESPACE(ml);
 
 using namespace std;
 using namespace dynamicgraph;
