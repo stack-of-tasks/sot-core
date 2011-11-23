@@ -21,8 +21,8 @@
 #ifndef SOT_FEATURE_JOINTLIMITS_HH
 # define SOT_FEATURE_JOINTLIMITS_HH
 // Matrix
-# include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+# include <jrl/mal/malv2.hh>
+DECLARE_MAL_NAMESPACE(ml);
 
 // SOT
 # include <dynamic-graph/entity.h>

@@ -23,7 +23,7 @@
 
 #include <sot/core/unary-op.hh>
 #include <sot/core/binary-op.hh>
-#include <jrl/mal/boost.hh>
+#include <jrl/mal/malv2.hh>
 
 #include <sot/core/matrix-homogeneous.hh>
 #include <sot/core/matrix-twist.hh>
