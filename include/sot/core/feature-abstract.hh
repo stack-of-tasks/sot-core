@@ -194,6 +194,7 @@ namespace dynamicgraph {
       /*! \brief Return true for children that implements the errordot
           functionalities. */
       virtual bool withErrorDot( void ) const { return false; }
+      virtual SignalTimeDependent<ml::Vector,int>& getErrorDot( void ) {throw;}
 
       /*! @} */
 
@@ -282,6 +283,7 @@ namespace dynamicgraph {
 
 #define WITH_ERRORDOT  \
       virtual bool withErrorDot() const { return true; }   \
+      virtual SignalTimeDependent<ml::Vector,int>& getErrorDot() { return errordotSOUT; } \
       dg::SignalTimeDependent< ml::Vector,int > errordotSOUT;   \
       virtual ml::Vector& computeErrorDot( ml::Vector& res,int time )
 
