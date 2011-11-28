@@ -89,16 +89,16 @@ class SOTTASK_EXPORT Task
   typedef std::list< FeatureAbstract* > FeatureList_t;
  protected:
   FeatureList_t featureList;
+  bool withDerivative;
 
- private: //HACK
-  static const std::string CLASS_NAME;
- public: //HACK
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  DYNAMIC_GRAPH_ENTITY_DECL();
 
  public:
   Task( const std::string& n );
+  void initCommands( void );
 
   void addFeature( FeatureAbstract& s );
+  void addFeatureFromName( const std::string & name );
   void clearFeatureList( void );
   FeatureList_t & getFeatureList( void ) { return featureList; }
 
@@ -106,29 +106,33 @@ class SOTTASK_EXPORT Task
   void addControlSelection( const Flags& act );
   void clearControlSelection( void );
 
+  void setWithDerivative( const bool & s );
+  bool getWithDerivative( void );
+
   /* --- COMPUTATION --- */
   ml::Vector& computeError( ml::Vector& error,int time );
   VectorMultiBound&
     computeTaskExponentialDecrease( VectorMultiBound& errorRef,int time );
   ml::Matrix& computeJacobian( ml::Matrix& J,int time );
+  ml::Vector& computeErrorTimeDerivative( ml::Vector & res, int time);
+
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
   dg::SignalPtr< double,int > controlGainSIN;
   dg::SignalPtr< double,int > dampingGainSINOUT;
-  dg::SignalPtr< Flags,int > controlSelectionSIN; // At the task level or at the feature level?
-
- public:
+  dg::SignalPtr< Flags,int > controlSelectionSIN;
   dg::SignalTimeDependent< ml::Vector,int > errorSOUT;
+  dg::SignalTimeDependent< ml::Vector,int > errorTimeDerivativeSOUT;
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display( std::ostream& os ) const;
-  //  friend std::ostream& operator<< ( std::ostream& os,const Task& t );
 
   /* --- PARAMS --- */
   virtual void commandLine( const std::string& cmdLine
 			    ,std::istringstream& cmdArgs
 			    ,std::ostream& os );
+
   /* --- Writing graph --- */
   virtual std::ostream& writeGraph( std::ostream& os ) const;
 };

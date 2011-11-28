@@ -28,6 +28,7 @@
 
 #include <sot/core/pool.hh>
 #include "../src/task/task-command.h"
+#include <dynamic-graph/all-commands.h>
 
 using namespace std;
 using namespace dynamicgraph::sot;
@@ -46,26 +47,38 @@ Task::
 Task( const std::string& n )
   :TaskAbstract(n)
    ,featureList()
+   ,withDerivative(false)
    ,controlGainSIN( NULL,"sotTask("+n+")::input(double)::controlGain" )
    ,dampingGainSINOUT( NULL,"sotTask("+n+")::in/output(double)::damping" )
    ,controlSelectionSIN( NULL,"sotTask("+n+")::input(flag)::controlSelec" )
    ,errorSOUT( boost::bind(&Task::computeError,this,_1,_2),
 	       sotNOSIGNAL,
 	       "sotTask("+n+")::output(vector)::error" )
+   ,errorTimeDerivativeSOUT( boost::bind(&Task::computeErrorTimeDerivative,this,_1,_2),
+	       errorSOUT,
+	       "sotTask("+n+")::output(vector)::errorTimeDerivative" )
 {
   taskSOUT.setFunction( boost::bind(&Task::computeTaskExponentialDecrease,this,_1,_2) );
   jacobianSOUT.setFunction( boost::bind(&Task::computeJacobian,this,_1,_2) );
 
   taskSOUT.addDependency( controlGainSIN );
   taskSOUT.addDependency( errorSOUT );
+  taskSOUT.addDependency( errorTimeDerivativeSOUT );
 
   jacobianSOUT.addDependency( controlSelectionSIN );
 
   controlSelectionSIN = true;
 
   signalRegistration( controlGainSIN<<dampingGainSINOUT
-		      <<controlSelectionSIN<<errorSOUT );
+		      <<controlSelectionSIN<<errorSOUT<<errorTimeDerivativeSOUT );
 
+
+  initCommands();
+}
+
+void Task::initCommands( void )
+{
+  using namespace dynamicgraph::command;
   //
   // Commands
   //
@@ -79,7 +92,14 @@ Task( const std::string& n )
     "        - name of the feature\n"
     "    \n";
   addCommand("add",
-	     new command::task::AddFeature(*this, docstring));
+	     makeCommandVoid1(*this,&Task::addFeatureFromName,docstring));
+
+  addCommand("setWithDerivative",
+	     makeDirectSetter(*this,&withDerivative,
+				docDirectSetter("withDerivative","bool")));
+  addCommand("getWithDerivative",
+	     makeDirectGetter(*this,&withDerivative,
+				docDirectGetter("withDerivative","bool")));
 }
 
 
@@ -91,6 +111,15 @@ addFeature( FeatureAbstract& s )
   jacobianSOUT.addDependency( s.jacobianSOUT );
   errorSOUT.addDependency( s.errorSOUT );
 }
+
+void Task::
+addFeatureFromName( const std::string & featureName )
+{
+  FeatureAbstract& feature =
+    PoolStorage::getInstance()->getFeature(featureName);
+  addFeature(feature);
+}
+
 void Task::
 clearFeatureList( void )
 {
@@ -123,6 +152,13 @@ clearControlSelection( void )
 {
   controlSelectionSIN = Flags(false);
 }
+
+void Task::
+setWithDerivative( const bool & s )
+{ withDerivative = s; }
+bool Task::
+getWithDerivative( void )
+{ return withDerivative; }
 
 /* --- COMPUTATION ---------------------------------------------------------- */
 /* --- COMPUTATION ---------------------------------------------------------- */
@@ -186,6 +222,34 @@ computeError( ml::Vector& error,int time )
   return error;
 }
 
+ml::Vector& Task::
+computeErrorTimeDerivative( ml::Vector & res, int time)
+{
+  res.resize( errorSOUT(time).size() );
+  int cursor = 0;
+
+  for(   std::list< FeatureAbstract* >::iterator iter = featureList.begin();
+	 iter!=featureList.end(); ++iter )
+      {
+	FeatureAbstract &feature = **iter;
+
+	if( feature.withErrorDot() )
+	  {
+	    const ml::Vector& partialErrorDot = feature.getErrorDot()(time);
+	    const int dim = partialErrorDot.size();
+	    for( int k=0;k<dim;++k ){ res(cursor++) = partialErrorDot(k); }
+	  }
+	else
+	  {
+	    const int dim = feature.errorSOUT(time).size();
+	    for( int k=0;k<dim;++k ){ res(cursor++) = 0; }
+	  }
+      }
+
+  return res;
+}
+
+
 VectorMultiBound& Task::
 computeTaskExponentialDecrease( VectorMultiBound& errorRef,int time )
 {
@@ -196,6 +260,13 @@ computeTaskExponentialDecrease( VectorMultiBound& errorRef,int time )
 
   for( unsigned int i=0;i<errorRef.size(); ++i )
     errorRef[i] = - errSingleBound(i)*gain;
+
+  if( withDerivative )
+    {
+      const ml::Vector & de = errorTimeDerivativeSOUT(time);
+      for( unsigned int i=0;i<errorRef.size(); ++i )
+	errorRef[i] = errorRef[i].getSingleBound() + de(i);
+    }
 
   sotDEBUG(15) << "# Out }" << endl;
   return errorRef;
