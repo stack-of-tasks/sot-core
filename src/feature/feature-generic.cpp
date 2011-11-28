@@ -72,7 +72,7 @@ void FeatureGeneric::removeDependenciesFromReference( void )
 {
   assert( SP::isReferenceSet() );
   errorSOUT.removeDependency( getReference()->errorSIN );
-  errordotSOUT.rmDependency( getReference()->errordotSIN );
+  errordotSOUT.removeDependency( getReference()->errordotSIN );
 }
 
 /* --------------------------------------------------------------------- */
