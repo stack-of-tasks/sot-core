@@ -15,6 +15,7 @@
 
 SET(NEWHEADERS 
   sot/core/api.hh
+  sot/core/abstract-sot-external-interface.hh
   sot/core/device.hh
   sot/core/robot-simu.hh
   sot/core/matrix-homogeneous.hh
