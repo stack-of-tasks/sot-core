@@ -21,12 +21,14 @@
 #define ABSTRACT_SOT_EXTERNAL_INTERFACE_HH
 
 #include <vector>
+#include <map>
 #include <string>
+#include <sot/core/api.hh>
 
 namespace dynamicgraph {
   namespace sot {
 
-    class SOT_CORE_EXPORT Sensors
+    class SOT_CORE_EXPORT NamedVector
     {
 
     private:
@@ -34,22 +36,24 @@ namespace dynamicgraph {
       std::vector<double> values_;
 
     public:
-      Sensors() {};
-      ~Sensors() {};
+      NamedVector() {};
+      ~NamedVector() {};
 
-      const string & getName()
+      const std::string & getName()
       { return name_;}
 
       void setName(const std::string & aname)
       { name_ = aname;}
 
-      const vector<double> & getValues()
+      const std::vector<double> & getValues()
       { return values_;}
 
       void setValues(std::vector<double> values)
       { values_ = values;}
 
     };
+    typedef NamedVector SensorValues;
+    typedef NamedVector ControlValues;
 
     class SOT_CORE_EXPORT AbstractSotExternalInterface
     {
@@ -59,17 +63,18 @@ namespace dynamicgraph {
 
       virtual ~AbstractSotExternalInterface(){};
 
-      virtual void setupSetSensors(std::vector<Sensors> &sensorsIn)=0;
+      virtual void setupSetSensors(std::map<std::string,SensorValues> &sensorsIn)=0;
       
-      virtual void nominalSetSensors(std::vector<Sensors> &sensorsIn)=0;
+      virtual void nominalSetSensors(std::map<std::string, SensorValues> &sensorsIn)=0;
 
-      virtual void cleanupSetSensors(std::vector<Sensors> &sensorsIn)=0;
+      virtual void cleanupSetSensors(std::map<std::string,SensorValues> &sensorsIn)=0;
 
-      virtual void getControl(std::vector<double> &)=0;
+      virtual void getControl(std::map<std::string,ControlValues> &)=0;
     };
   }
 }
-typedef AbstractSoTExternalInterface * createSoTExternalInterface_t();
-typedef void destroySotExternalInterface_t (AbstractSoTExternalInterface *);
+
+typedef dynamicgraph::sot::AbstractSotExternalInterface * createSotExternalInterface_t();
+typedef void destroySotExternalInterface_t (dynamicgraph::sot::AbstractSotExternalInterface *);
 
 #endif
