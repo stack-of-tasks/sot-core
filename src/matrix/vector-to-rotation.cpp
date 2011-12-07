@@ -61,25 +61,25 @@ computeRotation( const ml::Vector& angles,
       Ra.setIdentity();
       const double ca = cos( angles(i) );
       const double sa = sin( angles(i) );
-      const unsigned int _X=0,_Y=1,_Z=2;
+      const unsigned int i_X=0,i_Y=1,i_Z=2;
       switch( axes[i] )
 	{
 	case AXIS_X:
 	  {
-	    Ra(_Y,_Y) = ca; Ra(_Y,_Z) = -sa;
-	    Ra(_Z,_Y) = sa; Ra(_Z,_Z) = ca;
+	    Ra(i_Y,i_Y) = ca; Ra(i_Y,i_Z) = -sa;
+	    Ra(i_Z,i_Y) = sa; Ra(i_Z,i_Z) = ca;
 	    break;
 	  }
 	case AXIS_Y:
 	  {
-	    Ra(_Z,_Z) = ca; Ra(_Z,_X) = -sa;
-	    Ra(_X,_Z) = sa; Ra(_X,_X) = ca;
+	    Ra(i_Z,i_Z) = ca; Ra(i_Z,i_X) = -sa;
+	    Ra(i_X,i_Z) = sa; Ra(i_X,i_X) = ca;
 	    break;
 	  }
 	case AXIS_Z:
 	  {
-	    Ra(_X,_X) = ca; Ra(_X,_Y) = -sa;
-	    Ra(_Y,_X) = sa; Ra(_Y,_Y) = ca;
+	    Ra(i_X,i_X) = ca; Ra(i_X,i_Y) = -sa;
+	    Ra(i_Y,i_X) = sa; Ra(i_Y,i_Y) = ca;
 	    break;
 	  }
 	}
