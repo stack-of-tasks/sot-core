@@ -24,7 +24,7 @@ SET(PROJECT_NAME sot-core)
 SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
 SET(PROJECT_URL "http://github.com/jrl-umi3218/sot-core")
 
-SET(CUSTOM_HEADER_DIR "${PROJECT_NAME}")
+SET(CUSTOM_HEADER_DIR "sot/core")
 
 # Disable -Werror on Unix for now.
 SET(CXX_DISABLE_WERROR True)
