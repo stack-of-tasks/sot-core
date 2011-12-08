@@ -27,4 +27,5 @@ int main (int , char** )
   dynamicgraph::sot::sotDEBUGFLOW.trace("test test test");
 
   std::cout << "It works!" << std::endl;
+  return 0;
 }
