@@ -110,6 +110,8 @@ addFeature( FeatureAbstract& s )
   featureList.push_back(&s);
   jacobianSOUT.addDependency( s.jacobianSOUT );
   errorSOUT.addDependency( s.errorSOUT );
+  if( s.withErrorDot() )
+    { errorTimeDerivativeSOUT.addDependency( s.getErrorDot() ); }
 }
 
 void Task::
@@ -130,6 +132,8 @@ clearFeatureList( void )
       FeatureAbstract & s = **iter;
       jacobianSOUT.removeDependency( s.jacobianSOUT );
       errorSOUT.removeDependency( s.errorSOUT );
+      if( s.withErrorDot() )
+	{ errorTimeDerivativeSOUT.removeDependency( s.getErrorDot() ); }
     }
 
   featureList.clear();
