@@ -226,7 +226,7 @@ increment( const double & dt )
   sotDEBUG(25) << "Time : " << time << std::endl;
 
   /* Position the signals corresponding to sensors. */
-  stateSOUT .setConstant( state_ );
+  stateSOUT .setConstant( state_ ); stateSOUT.setTime( time+1 );
   ml::Vector forceNull(6); forceNull.fill(0);
   for( int i=0;i<4;++i ){
     if(  withForceSignals[i] ) forcesSOUT[i]->setConstant(forceNull);
