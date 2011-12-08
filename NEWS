@@ -1,3 +1,16 @@
+New in version 2.5.1 - 2011/12/08
+    Headers are installed in include/sot/core
+    Fix compilation issues on x86_64 architectures.
+    Do not define PYTHON_SITELIB.
+    Do not link to gfortran.
+    Synchronize cmake submodule.
+    Correct the link with Boost for Apple
+    Correct the definition of isnan for not unix systems: use Boost's one
+    The access to reference features has been modified.
+
+New in version 2.5 - 2011/06/21
+    Python now replaces the ad hoc scripting language.
+
 New in version 1.1 - 2010/09/30
       Created package sot-core.
       Added source files for library sot-core taken from sot.
