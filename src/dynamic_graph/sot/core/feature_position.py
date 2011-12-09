@@ -49,7 +49,7 @@ class FeaturePosition (Entity):
             plug(signalPosition, self._feature.signal('position'))
         if signalJacobian:
             plug(signalJacobian, self._feature.signal('Jq'))
-        self._feature.signal('sdes').value = self._reference
+        self._feature.setReference(self._reference.name)
         self._feature.signal('selec').value = '111111'
         self._feature.frame('current')
 
