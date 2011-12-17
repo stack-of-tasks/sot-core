@@ -75,15 +75,6 @@ class SOTFEATURETASK_EXPORT FeatureTask
   /*! \brief Default destructor */
   virtual ~FeatureTask( void ) {}
 
-  /*! \name Methods to trigger computation related to this feature.
-    @{
-  */
-
-  /*! \brief Compute the error between the desired value and the value itself. */
-  virtual ml::Vector& computeError( ml::Vector& res,int time );
-
-  /*! @} */
-
   /*! \brief Display the information related to this task implementation. */
   virtual void display( std::ostream& os ) const;
 
