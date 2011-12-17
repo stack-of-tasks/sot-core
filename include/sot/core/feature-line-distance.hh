@@ -92,7 +92,6 @@ class SOTFEATURELINEDISTANCE_EXPORT FeatureLineDistance
 
   virtual ml::Vector& computeError( ml::Vector& res,int time );
   virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
-  virtual ml::Vector& computeActivation( ml::Vector& res,int time );
   ml::Vector& computeLineCoordinates( ml::Vector& cood,int time );
 
   virtual void display( std::ostream& os ) const;

@@ -114,8 +114,6 @@ class SOTFEATURE1D_EXPORT Feature1D
   /*! \brief Compute the Jacobian of the value according to the robot state.. */
   virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
 
-  /*! \brief Compute the activation according to the time */
-  virtual ml::Vector& computeActivation( ml::Vector& res,int time );
   /*! @} */
 
   /*! \brief Display the information related to this 1D implementation. */
