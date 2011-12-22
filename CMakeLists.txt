@@ -41,7 +41,7 @@ PKG_CONFIG_APPEND_LIBS("sot-core")
 
 # Search for dependencies.
 # Boost
-SET(BOOST_COMPONENTS thread filesystem unit_test_framework)
+SET(BOOST_COMPONENTS thread filesystem program_options unit_test_framework)
 SEARCH_FOR_BOOST()
 
 ADD_REQUIRED_DEPENDENCY("jrl-mal >= 1.8.0")
