@@ -187,14 +187,14 @@ display( std::ostream& os ) const
   os <<"VisualPoint <"<<name<<">:";
 
   try{
-    const ml::Vector& xy = xySIN;
-    const Flags& fl = selectionSIN;
+    const ml::Vector& xy = xySIN.accessCopy ();
+    const Flags& fl = selectionSIN.accessCopy ();
     if( fl(0) ) os << " x=" << xy(0) ;
     if( fl(1) ) os << " y=" << xy(1) ;
   }  catch(ExceptionAbstract e){ os<< " XY or select not set."; }
   
   try {
-    const double& z = ZSIN; 
+    const double& z = ZSIN.accessCopy (); 
     os<<" Z=" << z << " ";
   }catch(ExceptionAbstract e){ os<< " Z not set."; }
 }
