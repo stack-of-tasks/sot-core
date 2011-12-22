@@ -83,10 +83,14 @@ SET (tests
 	tools/test_boost
 	tools/test_mailbox
 	tools/test_matrix
-
+	tools/test_abstract_interface
 	math/matrix-twist
 	math/matrix-homogeneous
 	)
+
+ADD_LIBRARY(pluginabstract
+  SHARED
+  tools/plugin.cc)
 
 IF(UNIX)
 	LINK_DIRECTORIES(${SOT_PLUGIN_OUT_DIR} ${FULLPLUGINDIR})
