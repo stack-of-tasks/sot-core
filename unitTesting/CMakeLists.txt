@@ -83,17 +83,22 @@ SET (tests
 	tools/test_boost
 	tools/test_mailbox
 	tools/test_matrix
-	tools/test_abstract_interface
 	math/matrix-twist
 	math/matrix-homogeneous
 	)
 
-ADD_LIBRARY(pluginabstract
-  SHARED
+IF(UNIX)
+  ADD_LIBRARY(pluginabstract
+    SHARED
   tools/plugin.cc)
 
-IF(UNIX)
-	LINK_DIRECTORIES(${SOT_PLUGIN_OUT_DIR} ${FULLPLUGINDIR})
+  ADD_EXECUTABLE(test_abstract_interface
+  tools/test_abstract_interface.cpp
+  )
+  TARGET_LINK_LIBRARIES(test_abstract_interface
+    pluginabstract dl ${Boost_LIBRARIES})
+
+  LINK_DIRECTORIES(${SOT_PLUGIN_OUT_DIR} ${FULLPLUGINDIR})
 ENDIF(UNIX)
 
 
