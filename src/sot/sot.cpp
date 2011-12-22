@@ -354,7 +354,7 @@ ml::Matrix & Sot::
 computeJacobianConstrained( const TaskAbstract& task,
                             const ml::Matrix& K )
 {
-  const ml::Matrix &Jac = task.jacobianSOUT;
+  const ml::Matrix &Jac = task.jacobianSOUT.accessCopy ();
   MemoryTaskSOT * mem = dynamic_cast<MemoryTaskSOT *>( task.memoryInternal );
   if( NULL==mem ) throw; // TODO
   ml::Matrix &Jff = mem->Jff;
@@ -596,8 +596,8 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 	rankJ = mem->rankSINOUT.accessCopy();
 	Jp = mem->jacobianInvSINOUT.accessCopy();
 	V = mem->singularBaseImageSINOUT.accessCopy();
-	JK = mem->jacobianConstrainedSINOUT;
-	Jt = mem->jacobianProjectedSINOUT;
+	JK = mem->jacobianConstrainedSINOUT.accessCopy ();
+	Jt = mem->jacobianProjectedSINOUT.accessCopy ();
       }
       /***/sotCOUNTER(6,7); // TRACE
 

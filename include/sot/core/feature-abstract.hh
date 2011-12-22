@@ -130,7 +130,7 @@ namespace dynamicgraph {
 	\note The feature is not changing its dimension according to time.
       */
       inline unsigned int getDimension( void ) const
-      { return dimensionSOUT; }
+      { return dimensionSOUT.accessCopy(); }
       /*! @} */
 
       /*! \name Methods to control internal computation.
