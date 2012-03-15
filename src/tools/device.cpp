@@ -236,7 +236,29 @@ increment( const double & dt )
 
   // Run Synchronous commands and evaluate signals outside the main
   // connected component of the graph.
-  periodicCallBefore_.run(time+1);
+  try
+    {
+      periodicCallBefore_.run(time+1);
+    }
+  catch (std::runtime_error& e)
+    {
+      std::cerr
+	<< "exception caught while running periodical commands (after): "
+	<< e.what () << std::endl;
+    }
+  catch (const char* str)
+    {
+      std::cerr
+	<< "exception caught while running periodical commands (after): "
+	<< str << std::endl;
+    }
+  catch (...)
+    {
+      std::cerr
+	<< "unknown exception caught while"
+	<< " running periodical commands (after): " << std::endl;
+    }
+
 
   /* Force the recomputation of the control. */
   controlSIN( time+1 );
@@ -248,7 +270,28 @@ increment( const double & dt )
 
   // Run Synchronous commands and evaluate signals outside the main
   // connected component of the graph.
-  periodicCallAfter_.run(time+1);
+  try
+    {
+      periodicCallAfter_.run(time+1);
+    }
+  catch (std::runtime_error& e)
+    {
+      std::cerr
+	<< "exception caught while running periodical commands (after): "
+	<< e.what () << std::endl;
+    }
+  catch (const char* str)
+    {
+      std::cerr
+	<< "exception caught while running periodical commands (after): "
+	<< str << std::endl;
+    }
+  catch (...)
+    {
+      std::cerr
+	<< "unknown exception caught while"
+	<< " running periodical commands (after): " << std::endl;
+    }
 
   // Others signals.
   motorcontrolSOUT .setConstant( state_ );
