@@ -2,7 +2,7 @@ from robot_simu import RobotSimu
 from feature_point6d import FeaturePoint6d
 from feature_position import FeaturePosition
 from feature_posture import FeaturePosture
-from feature_point6d_relative import FeaturePoint6dRelative
+from feature_position_relative import FeaturePositionRelative
 from feature_generic import FeatureGeneric
 from feature_joint_limits import FeatureJointLimits
 from feature_visual_point import FeatureVisualPoint
