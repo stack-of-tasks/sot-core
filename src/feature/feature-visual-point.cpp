@@ -104,9 +104,7 @@ computeJacobian( ml::Matrix& J,int time )
   const Flags &fl = selectionSIN(time);
 
   const int dim = dimensionSOUT(time);
-  std::cout<<" Dimension="<<dim<<std::endl;
   L.resize(dim,6) ;
-  std::cout<<L.matrix<<std::endl;
   unsigned int cursorL = 0;
 
   sotDEBUG(5)<<std::endl;
