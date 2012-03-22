@@ -107,6 +107,15 @@ GripperControlPlugin::
   return;
 }
 
+std::string GripperControlPlugin::
+getDocString () const
+{
+  std::string docstring =
+    "\n"
+    "\n  Control of HRP2 gripper."
+    "\n";
+  return docstring;
+}
 
 /* --- SIGNALS -------------------------------------------------------------- */
 /* --- SIGNALS -------------------------------------------------------------- */
