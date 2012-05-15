@@ -240,23 +240,23 @@ increment( const double & dt )
     {
       periodicCallBefore_.run(time+1);
     }
-  catch (std::runtime_error& e)
+  catch (std::exception& e)
     {
       std::cerr
-	<< "exception caught while running periodical commands (after): "
+	<< "exception caught while running periodical commands (before): "
 	<< e.what () << std::endl;
     }
   catch (const char* str)
     {
       std::cerr
-	<< "exception caught while running periodical commands (after): "
+	<< "exception caught while running periodical commands (before): "
 	<< str << std::endl;
     }
   catch (...)
     {
       std::cerr
 	<< "unknown exception caught while"
-	<< " running periodical commands (after): " << std::endl;
+	<< " running periodical commands (before)" << std::endl;
     }
 
 
@@ -274,7 +274,7 @@ increment( const double & dt )
     {
       periodicCallAfter_.run(time+1);
     }
-  catch (std::runtime_error& e)
+  catch (std::exception& e)
     {
       std::cerr
 	<< "exception caught while running periodical commands (after): "
@@ -290,7 +290,7 @@ increment( const double & dt )
     {
       std::cerr
 	<< "unknown exception caught while"
-	<< " running periodical commands (after): " << std::endl;
+	<< " running periodical commands (after)" << std::endl;
     }
 
   // Others signals.
