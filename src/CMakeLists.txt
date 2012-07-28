@@ -261,6 +261,9 @@ INSTALL(FILES
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/math_small_entities.py
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/feature_position.py
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/feature_position_relative.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/matrix_util.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_tasks.py
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_task_6d.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_tasks_kine.py
   DESTINATION ${PYTHON_SITELIB}/dynamic_graph/sot/core
   )
