@@ -47,6 +47,15 @@ namespace dynamicgraph {
   namespace sot {
     namespace dg = dynamicgraph;
 
+    /// Hierarchical element of the stack of tasks.
+    ///
+    /// A task computes a value and a Jacobian as output signals.
+    /// Once stacked into a solver, the solver will compute the control
+    /// vector that makes the task values converge toward zero in the 
+    /// order defined by the priority levels.
+    ///
+    /// \image html pictures/task.png "Task diagram: Task types derive from TaskAbstract. The value and Jacobian of a Task are computed from the features that are stored in the task.
+
     class SOT_CORE_EXPORT TaskAbstract
       : public dg::Entity
     {

@@ -52,38 +52,44 @@ namespace dynamicgraph {
 
       In short, a feature is a data evolving according to time.  It is defined
       by a vector \f${\bf s}(t) \in \mathbb{R}^n \f$ where \f$ t \f$ is the
-      time.  By default a feature has a desired \f${\bf s}^*(t) \f$.  The
+      time.  By default a feature has a desired \f${\bf s}^*(t) \f$.
+      \f${\bf s}^*\f$ is provided by another feature of the same type called
+      reference. The
       feature is in charge of collecting its own current state.  A feature is
       supposed to compute an error between its current state and the desired
       one: \f$ e(t) = {\bf s}^*(t) - {\bf s}(t) \f$.  A feature is supposed to
       compute a Jacobian according to the robot state vector \f$ \frac{\delta
       {\bf s}(t)}{\delta {\bf q}(t)}\f$.
 
-      \bigskip
-      More precisely, a feature is a derivable function of the robot
-      configuration $q$ and the universe \f$\Omega\f$ into a real vector space:
-      \f$ f: q,\Omega \rightarrow f(q,\Omega) \in R^n\f$. The object is able to
-      compute the value, and the value of the Jacobian of \f$f\f$ with respect
-      to \f$q\f$, \f$J = \frac{\partial f}{\partial q}\f$.
-
       The task is in general computed from the value of the feature at the
-      current instant \f$f(q(t),\Omega(t))\f$, the Jacobian \f$J\f$ and
-      evolution of the feature with the evolution of the universe, abusively
-      denoted as a variation along the variable \f$t\f$ alone: \f$\frac{\partial
-      f}{\partial t} = \frac{\partial f}{\partial \Omega} \dot{\Omega}\f$.
+      current instant \f$f(q(t),t)\f$, the Jacobian \f$J\f$ and
+      evolution of the feature with respect to time: \f$\frac{\partial
+      f}{\partial t}\f$.
 
-      In general, the feature is computed as the error \f$f = e(q,\Omega)\f$
-      between the value at the current robot and universe configurations
-      \f$s(q,\Omega)\f$, and a reference value that does not depend on the robot
-      current configuration, and thus that is generally denoted \f$s^* = s^*(t)\f$.
-      In general, \f$s\f$ and \f$s^*\f$ evolves in the same space, and thus, two
-      objects of the same classes are used to represent \f$s\f$ on one side and
-      \f$s^*\f$ on the other. A generic solution to maintain a reference on the
-      object \f$s^*\f$ from the object \f$s\f$ is provided, but is not mandatory. In
-      that cases, the signal errorSOUT is linked to the update state
-      of the input of \f$s\f$, and is also automatically linked to the input of
-      \f$s^*\f$ as soon as \f$s^*\f$ is specifified.
+      \par Time derivative of the error
 
+      Some Feature types provide as output signal the derivative of the
+      error of the feature (<c>errordotSOUT</c>). The value is computed by
+      method computeErrorDot. In this case, these feature types should
+      \li have attribute
+      \code
+      dg::SignalTimeDependent< ml::Vector,int > errordotSOUT;
+      \endcode
+      \li implement method
+      \code
+      virtual bool withErrorDot() const { return true; }
+      \endcode
+      \li implement method
+      \code
+      virtual SignalTimeDependent<ml::Vector,int>& getErrorDot()
+      {
+      return errordotSOUT;
+      }
+      \endcode
+
+      See dynamicgraph::sot::FeatureGeneric for an example.
+
+      \image html pictures/feature.png "Feature diagram: Feature types derive from FeatureAbstract. Each feature has a reference of the same type and compute an error by comparing errorSIN signals from itself and from the reference." width=15cm
     */
     class SOT_CORE_EXPORT FeatureAbstract
       :public Entity
@@ -191,8 +197,7 @@ namespace dynamicgraph {
       /*! \brief This method write a graph description on the file named FileName. */
       virtual std::ostream & writeGraph(std::ostream & os) const;
 
-      /*! \brief Return true for children that implements the errordot
-          functionalities. */
+      /// Return true for children that provide the errordot output signal
       virtual bool withErrorDot( void ) const { return false; }
       virtual SignalTimeDependent<ml::Vector,int>& getErrorDot( void ) {throw;}
 
