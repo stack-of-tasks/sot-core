@@ -44,11 +44,7 @@ FeatureGeneric( const string& pointName )
   : FeatureAbstract( pointName )
     ,dimensionDefault(0)
     ,errorSIN( NULL,"sotFeatureGeneric("+name+")::input(vector)::errorIN" )
-    ,errordotSIN( NULL,"sotFeatureGeneric("+name+")::input(vector)::errordotIN" )
     ,jacobianSIN( NULL,"sotFeatureGeneric("+name+")::input(matrix)::jacobianIN" )
-    ,errordotSOUT(  boost::bind(&FeatureGeneric::computeErrorDot,this,_1,_2),
-		    selectionSIN << errordotSIN,
-		    "sotFeatureAbstract("+name+")::output(vector)::errordot" )
 
 {
   jacobianSOUT.addDependency( jacobianSIN );
@@ -134,39 +130,6 @@ computeError( ml::Vector& res,int time )
   return res; 
 
 }
-
-ml::Vector& FeatureGeneric::
-computeErrorDot( ml::Vector& res,int time )
-{ 
-  const Flags &fl = selectionSIN.access(time);
-  const unsigned int & dim = dimensionSOUT(time);
-
-  unsigned int curr = 0;
-  res.resize( dim );
-
-  sotDEBUG(25) << "Dim = " << dim << endl;
-
-  if( isReferenceSet() && getReference()->errordotSIN.isPluged())
-    {
-      const ml::Vector& errdotDes = getReference()->errordotSIN(time);
-      sotDEBUG(15) << "Err* = " << errdotDes;
-      if( errdotDes.size()<dim )
-	{ SOT_THROW ExceptionFeature( ExceptionFeature::UNCOMPATIBLE_SIZE,
-					 "Error: dimension uncompatible with des->errorIN size."
-					 " (while considering feature <%s>).",getName().c_str() ); }
-
-      for( unsigned int i=0;i<errdotDes.size();++i ) if( fl(i) ) 
-	if( fl(i) ) res( curr++ ) = errdotDes(i);
-    }
-  else
-    {
-      for( unsigned int i=0;i<dim;++i )
-	if( fl(i) ) res( curr++ ) = 0.0;
-    }
-  
-  return res; 
-}
-
 
 ml::Matrix& FeatureGeneric::
 computeJacobian( ml::Matrix& res,int time )

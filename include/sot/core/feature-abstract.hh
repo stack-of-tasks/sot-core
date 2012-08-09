@@ -35,6 +35,7 @@ DECLARE_MAL_NAMESPACE(ml);
 #include <dynamic-graph/entity.h>
 #include <sot/core/pool.hh>
 #include "sot/core/api.hh"
+#include "sot/core/deprecated.hh"
 
 /* STD */
 #include <string>
@@ -65,29 +66,6 @@ namespace dynamicgraph {
       current instant \f$f(q(t),t)\f$, the Jacobian \f$J\f$ and
       evolution of the feature with respect to time: \f$\frac{\partial
       f}{\partial t}\f$.
-
-      \par Time derivative of the error
-
-      Some Feature types provide as output signal the derivative of the
-      error of the feature (<c>errordotSOUT</c>). The value is computed by
-      method computeErrorDot. In this case, these feature types should
-      \li have attribute
-      \code
-      dg::SignalTimeDependent< ml::Vector,int > errordotSOUT;
-      \endcode
-      \li implement method
-      \code
-      virtual bool withErrorDot() const { return true; }
-      \endcode
-      \li implement method
-      \code
-      virtual SignalTimeDependent<ml::Vector,int>& getErrorDot()
-      {
-      return errordotSOUT;
-      }
-      \endcode
-
-      See dynamicgraph::sot::FeatureGeneric for an example.
 
       \image html pictures/feature.png "Feature diagram: Feature types derive from FeatureAbstract. Each feature has a reference of the same type and compute an error by comparing errorSIN signals from itself and from the reference." width=15cm
     */
@@ -162,6 +140,12 @@ namespace dynamicgraph {
       */
       virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time ) = 0;
 
+      /// Callback for signal errordotSOUT
+      ///
+      /// Copy components of the input signal errordotSIN defined by selection
+      /// flag selectionSIN.
+      virtual ml::Vector& computeErrorDot (ml::Vector& res,int time);
+
       /*! @} */
 
       /* --- SIGNALS ------------------------------------------------------------ */
@@ -178,6 +162,10 @@ namespace dynamicgraph {
 	be used for computing error, activation and Jacobian, then the vector to specify
 	is \f$ [ 0 1 0] \f$.*/
       SignalPtr< Flags,int > selectionSIN;
+
+      /// Derivative of the reference value.
+      SignalPtr< ml::Vector,int > errordotSIN;
+
       /*! @} */
 
       /*! \name Output signals:
@@ -186,6 +174,9 @@ namespace dynamicgraph {
       /*! \brief This signal returns the error between the desired value and
 	the current value : \f$ {\bf s}^*(t) - {\bf s}(t)\f$ */
       SignalTimeDependent<ml::Vector,int> errorSOUT;
+
+      /// Derivative of the reference value.
+      SignalTimeDependent< ml::Vector,int > errordotSOUT;
 
       /*! \brief This signal returns the Jacobian of the current value
 	according to the robot state: \f$ J(t) = \frac{\delta{\bf s}^*(t)}{\delta {\bf q}(t)}\f$ */
@@ -198,8 +189,14 @@ namespace dynamicgraph {
       virtual std::ostream & writeGraph(std::ostream & os) const;
 
       /// Return true for children that provide the errordot output signal
-      virtual bool withErrorDot( void ) const { return false; }
-      virtual SignalTimeDependent<ml::Vector,int>& getErrorDot( void ) {throw;}
+      virtual bool withErrorDot( void ) const SOT_CORE_DEPRECATED
+      {
+	return true;
+      }
+      virtual SignalTimeDependent<ml::Vector,int>& getErrorDot()
+      {
+	return errordotSOUT;
+      }
 
       /*! @} */
 
@@ -285,13 +282,6 @@ namespace dynamicgraph {
     virtual void removeDependenciesFromReference( void ) {} \
     /* To force a ; */bool NO_REFERENCE
     /* END OF define DECLARE_REFERENCE_FUNCTIONS */
-
-#define WITH_ERRORDOT  \
-      virtual bool withErrorDot() const { return true; }   \
-      virtual SignalTimeDependent<ml::Vector,int>& getErrorDot() { return errordotSOUT; } \
-      dg::SignalTimeDependent< ml::Vector,int > errordotSOUT;   \
-      virtual ml::Vector& computeErrorDot( ml::Vector& res,int time )
-
 
   } // namespace sot
 } // namespace dynamicgraph
