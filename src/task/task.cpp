@@ -110,8 +110,7 @@ addFeature( FeatureAbstract& s )
   featureList.push_back(&s);
   jacobianSOUT.addDependency( s.jacobianSOUT );
   errorSOUT.addDependency( s.errorSOUT );
-  if( s.withErrorDot() )
-    { errorTimeDerivativeSOUT.addDependency( s.getErrorDot() ); }
+  errorTimeDerivativeSOUT.addDependency (s.getErrorDot());
 }
 
 void Task::
@@ -132,8 +131,7 @@ clearFeatureList( void )
       FeatureAbstract & s = **iter;
       jacobianSOUT.removeDependency( s.jacobianSOUT );
       errorSOUT.removeDependency( s.errorSOUT );
-      if( s.withErrorDot() )
-	{ errorTimeDerivativeSOUT.removeDependency( s.getErrorDot() ); }
+      errorTimeDerivativeSOUT.removeDependency (s.getErrorDot());
     }
 
   featureList.clear();
@@ -237,17 +235,9 @@ computeErrorTimeDerivative( ml::Vector & res, int time)
       {
 	FeatureAbstract &feature = **iter;
 
-	if( feature.withErrorDot() )
-	  {
-	    const ml::Vector& partialErrorDot = feature.getErrorDot()(time);
-	    const int dim = partialErrorDot.size();
-	    for( int k=0;k<dim;++k ){ res(cursor++) = partialErrorDot(k); }
-	  }
-	else
-	  {
-	    const int dim = feature.errorSOUT(time).size();
-	    for( int k=0;k<dim;++k ){ res(cursor++) = 0; }
-	  }
+	const ml::Vector& partialErrorDot = feature.getErrorDot()(time);
+	const int dim = partialErrorDot.size();
+	for( int k=0;k<dim;++k ){ res(cursor++) = partialErrorDot(k); }
       }
 
   return res;

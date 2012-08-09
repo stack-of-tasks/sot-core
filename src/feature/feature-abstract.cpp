@@ -20,10 +20,12 @@
 
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/pool.hh>
+#include "sot/core/debug.hh"
+#include "sot/core/exception-feature.hh"
 #include <dynamic-graph/all-commands.h>
 
 using namespace dynamicgraph::sot;
-namespace dg = dynamicgraph;
+using dynamicgraph::sot::ExceptionFeature;
 
 const std::string 
 FeatureAbstract::CLASS_NAME = "FeatureAbstract";
@@ -33,6 +35,7 @@ FeatureAbstract::
 FeatureAbstract( const std::string& name ) 
   :Entity(name)
    ,selectionSIN(NULL,"sotFeatureAbstract("+name+")::input(flag)::selec")
+  ,errordotSIN (NULL,"sotFeatureAbstract("+name+")::input(vector)::errordotIN" )
    ,errorSOUT( boost::bind(&FeatureAbstract::computeError,this,_1,_2),
 	       selectionSIN,
 	       "sotFeatureAbstract("+name+")::output(vector)::error" )
@@ -42,6 +45,9 @@ FeatureAbstract( const std::string& name )
    ,dimensionSOUT( boost::bind(&FeatureAbstract::getDimension,this,_1,_2),
 		   selectionSIN,
 		   "sotFeatureAbstract("+name+")::output(uint)::dim" )
+  ,errordotSOUT (boost::bind(&FeatureAbstract::computeErrorDot,this,_1,_2),
+		 selectionSIN << errordotSIN,
+		 "sotFeatureAbstract("+name+")::output(vector)::errordot" )
 {
   selectionSIN = true;
   signalRegistration( selectionSIN
@@ -96,4 +102,36 @@ std::string FeatureAbstract::
 getReferenceByName() const
 {
   if( isReferenceSet() ) return getReferenceAbstract()->getName(); else return "none";
+}
+
+ml::Vector& FeatureAbstract::
+computeErrorDot( ml::Vector& res,int time )
+{ 
+  const Flags &fl = selectionSIN.access(time);
+  const unsigned int & dim = dimensionSOUT(time);
+
+  unsigned int curr = 0;
+  res.resize( dim );
+
+  sotDEBUG(25) << "Dim = " << dim << std::endl;
+
+  if( isReferenceSet () && getReferenceAbstract ()->errordotSIN.isPluged ())
+    {
+      const ml::Vector& errdotDes = getReferenceAbstract ()->errordotSIN(time);
+      sotDEBUG(15) << "Err* = " << errdotDes;
+      if( errdotDes.size()<dim )
+	{ SOT_THROW ExceptionFeature( ExceptionFeature::UNCOMPATIBLE_SIZE,
+					 "Error: dimension uncompatible with des->errorIN size."
+					 " (while considering feature <%s>).",getName().c_str() ); }
+
+      for( unsigned int i=0;i<errdotDes.size();++i ) if( fl(i) ) 
+	if( fl(i) ) res( curr++ ) = errdotDes(i);
+    }
+  else
+    {
+      for( unsigned int i=0;i<dim;++i )
+	if( fl(i) ) res( curr++ ) = 0.0;
+    }
+  
+  return res; 
 }
