@@ -229,7 +229,7 @@ increment( const double & dt )
   stateSOUT .setConstant( state_ ); stateSOUT.setTime( time+1 );
   ml::Vector forceNull(6); forceNull.fill(0);
   for( int i=0;i<4;++i ){
-    if(  withForceSignals[i] ) forcesSOUT[i]->setConstant(forceNull);
+    if(  !withForceSignals[i] ) forcesSOUT[i]->setConstant(forceNull);
   }
   ml::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
