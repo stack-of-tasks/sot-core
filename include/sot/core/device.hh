@@ -117,6 +117,9 @@ namespace dynamicgraph {
     public:
       void setRoot( const ml::Matrix & root );
       void setRoot( const MatrixHomogeneous & worldMwaist );
+    private:
+      // Intermediate variable to avoid dynamic allocation
+      ml::Vector forceZero6;
     };
   } // namespace sot
 } // namespace dynamicgraph
