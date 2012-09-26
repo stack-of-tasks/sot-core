@@ -10,6 +10,7 @@ from operator import Inverse_of_matrixtwist
 from operator import Inverse_of_matrixrotation
 from operator import Inverse_of_unitquat
 from operator import Selec_of_vector
+from operator import Component_of_vector
 from operator import Selec_of_matrix
 from operator import Selec_column_of_matrix
 from operator import MatrixHomoToPoseUTheta

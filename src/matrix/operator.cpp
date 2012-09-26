@@ -133,6 +133,42 @@ namespace dynamicgraph {
     REGISTER_UNARY_OP( VectorSelecter,Selec_of_vector );
 
     /* ---------------------------------------------------------------------- */
+    /* --- ALGEBRA SELECTORS ------------------------------------------------ */
+    /* ---------------------------------------------------------------------- */
+    struct VectorComponent
+      : public UnaryOpHeader<dg::Vector, double>
+    {
+      void operator() (const Tin& m, double& res) const
+      {
+	assert (index < m.size());
+	res = m(index);
+      }
+
+      unsigned int index;
+      void setIndex (const int & m) { index = m; }
+
+      void addSpecificCommands(Entity& ent,
+       			       Entity::CommandMap_t& commandMap )
+      {
+	std::string doc;
+
+	boost::function< void( const int& ) > callback
+	  = boost::bind( &VectorComponent::setIndex,this,_1 );
+	doc = command::docCommandVoid1("Set the index of the component.",
+				       "int (index)");
+	ADD_COMMAND( "setIndex",
+		     command::makeCommandVoid1 (ent, callback, doc));
+      }
+      virtual std::string getDocString () const
+      {
+	std::string docString ("Select a component of a vector as a 'double' output.");
+	return docString;
+      }
+
+    };
+    REGISTER_UNARY_OP (VectorComponent, Component_of_vector);
+
+    /* ---------------------------------------------------------------------- */
     struct MatrixSelector
       : public UnaryOpHeader<dg::Matrix, dg::Matrix>
     {
