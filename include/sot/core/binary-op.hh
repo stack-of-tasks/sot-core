@@ -64,6 +64,7 @@ namespace dynamicgraph {
       static std::string getTypeOutName( void ) { return Operator::nameTypeOut(); }
       static const std::string CLASS_NAME;
       virtual const std::string& getClassName  () const { return CLASS_NAME; }
+      std::string getDocString () const { return op.getDocString ();}
 
       BinaryOp( const std::string& name )
 	: Entity(name)
