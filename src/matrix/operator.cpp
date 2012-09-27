@@ -60,6 +60,7 @@ namespace dynamicgraph {
 #define ADD_KNOWN_TYPE( typeid ) \
     template<>const std::string TypeNameHelper<typeid>::typeName = #typeid
 
+    ADD_KNOWN_TYPE(double);
     ADD_KNOWN_TYPE(dg::Vector);
     ADD_KNOWN_TYPE(dg::Matrix);
     ADD_KNOWN_TYPE(MatrixRotation);
@@ -76,6 +77,14 @@ namespace dynamicgraph {
       static const std::string & nameTypeIn(void) { return TypeNameHelper<Tin>::typeName; }
       static const std::string & nameTypeOut(void) { return TypeNameHelper<Tout>::typeName; }
       void addSpecificCommands(Entity&, Entity::CommandMap_t& ) {}
+      virtual std::string getDocString () const {
+	return std::string
+	  ("Undocumented unary operator\n"
+	   "  - input  ") + nameTypeIn () +
+	  std::string ("\n"
+		       "  - output ") + nameTypeOut () +
+	  std::string ("\n");
+      }
     };
 
 
@@ -539,6 +548,17 @@ namespace dynamicgraph {
       static const std::string & nameTypeIn2(void) { return TypeNameHelper<Tin2>::typeName; }
       static const std::string & nameTypeOut(void) { return TypeNameHelper<Tout>::typeName; }
       void addSpecificCommands(Entity&, Entity::CommandMap_t& ) {}
+      virtual std::string getDocString () const
+      {
+	return std::string
+	  ("Undocumented binary operator\n"
+	   "  - input  ") + nameTypeIn1 () +
+	  std::string ("\n"
+	   "  -        ") + nameTypeIn2 () +
+	  std::string ("\n"
+		       "  - output ") + nameTypeOut () +
+	  std::string ("\n");
+      }
     };
 
 
