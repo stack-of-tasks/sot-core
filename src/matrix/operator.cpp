@@ -591,7 +591,11 @@ namespace dynamicgraph {
       : public BinaryOpHeader<T,T,T>
     {
       double coeff1, coeff2;
-      void operator()( const T& v1,const T& v2,T& res ) const { res=v1; res+=v2; }
+      Adder () : coeff1 (1.), coeff2 (1.) {}
+      void operator()( const T& v1,const T& v2,T& res ) const
+      {
+	res=coeff1*v1; res+=coeff2*v2;
+      }
 
       void addSpecificCommands(Entity& ent,
        			       Entity::CommandMap_t& commandMap )
@@ -603,6 +607,18 @@ namespace dynamicgraph {
 		     makeDirectSetter(ent,&coeff1,docDirectSetter("coeff1","double")));
 	ADD_COMMAND( "setCoeff2",
 		     makeDirectSetter(ent,&coeff2,docDirectSetter("coeff2","double")));
+      }
+      virtual std::string getDocString () const
+      {
+	return std::string
+	  ("Linear combination of inputs\n"
+	   "  - input  ") + BinaryOpHeader<T,T,T>::nameTypeIn1 () +
+	  std::string ("\n"
+	   "  -        ") + BinaryOpHeader<T,T,T>::nameTypeIn2 () +
+	  std::string ("\n"
+		       "  - output ") + BinaryOpHeader<T,T,T>::nameTypeOut () +
+	  std::string ("\n""  sout = coeff1 * sin1 + coeff2 * sin2\n"
+		       "  Coefficients are set by commands, default value is 1.\n");
       }
     };
 
