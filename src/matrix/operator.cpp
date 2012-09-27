@@ -170,7 +170,9 @@ namespace dynamicgraph {
       }
       virtual std::string getDocString () const
       {
-	std::string docString ("Select a component of a vector as a 'double' output.");
+	std::string docString
+	  ("Select a component of a vector\n"
+	   "  - input  vector\n""  - output double");
 	return docString;
       }
 
