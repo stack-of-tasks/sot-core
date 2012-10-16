@@ -51,7 +51,7 @@ const double GripperControl::OFFSET_DEFAULT = 0.9;
 GripperControl::
 GripperControl(void)
   :offset( GripperControl::OFFSET_DEFAULT )
-  ,factor((unsigned int)0)
+  ,factor()
 {}
 
 GripperControlPlugin::
