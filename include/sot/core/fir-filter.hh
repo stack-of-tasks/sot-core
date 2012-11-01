@@ -140,10 +140,10 @@ namespace dynamicgraph {
     public:
       FIRFilter( const std::string& name )
 	: Entity(name)
-	, SIN(NULL,"sotFIRFilter("+name+")::input(T)::in")
+	, SIN(NULL,"sotFIRFilter("+name+")::input(T)::sin")
 	, SOUT(boost::bind(&FIRFilter::compute,this,_1,_2),
 	       SIN,
-	       "sotFIRFilter("+name+")::output(T)::out")
+	       "sotFIRFilter("+name+")::output(T)::sout")
       {
 	signalRegistration( SIN<<SOUT );
 	std::string docstring =
