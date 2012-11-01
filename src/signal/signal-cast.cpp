@@ -27,6 +27,8 @@
 #include "sot/core/matrix-rotation.hh"
 #include <sot/core/flags.hh>
 #include <sot/core/multi-bound.hh>
+#include <sot/core/vector-utheta.hh>
+#include <sot/core/vector-roll-pitch-yaw.hh>
 #include <dynamic-graph/signal-caster.h>
 #include <dynamic-graph/signal-cast-helper.h>
 
@@ -115,6 +117,18 @@ namespace dynamicgraph
   }
 
   DG_ADD_CASTER(struct timeval,tv);
+
+  ///
+  /// VectorUTheta and VectorRollPitchYaw
+  ///
+  namespace {
+    dynamicgraph::DefaultCastRegisterer <VectorUTheta>
+    vectorUThetaCastRegisterer;
+
+    dynamicgraph::DefaultCastRegisterer <VectorRollPitchYaw>
+    vectorRollPitchYawCastRegisterer;
+  }
+
 
   /* --- MULTI BOUND ---------------------------------------------------------- */
   /* --- MULTI BOUND ---------------------------------------------------------- */
