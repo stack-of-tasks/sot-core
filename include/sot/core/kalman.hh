@@ -149,11 +149,13 @@ protected:
   void setStateEstimation (const Vector& x0)
   {
     stateEstimation_ = x0;
+    stateUpdateSOUT.recompute (0);
   }
 
   void setStateVariance (const Matrix& P0)
   {
     stateVariance_ = P0;
+    varianceUpdateSOUT.recompute (0);
   }
   // Current state estimation
   // ^
