@@ -119,7 +119,7 @@ namespace dynamicgraph {
     {
       void operator()( const Tin& m,Vector& res ) const
       {
-	assert( (imax<imin)||(m.size()<imax) );
+	assert( (imin<=imax) && (imax <= m.size()) );
 	res.resize( imax-imin );
 	for( unsigned int i=imin;i<imax;++i ) res(i-imin)=m(i);
       }
@@ -185,8 +185,8 @@ namespace dynamicgraph {
     {
        void operator()( const Matrix& m,Matrix& res ) const
       {
-	assert( (imax<imin)||(m.nbRows()<imax) );
-	assert( (jmax<jmin)||(m.nbCols()<jmax) );
+	assert ((imin<=imax)&&(imax<=m.nbRows()));
+	assert ((jmin<=jmax)&&(jmax<=m.nbCols()));
 	res.resize( imax-imin,jmax-jmin );
 	for( unsigned int i=imin;i<imax;++i )
 	  for( unsigned int j=jmin;j<jmax;++j )
@@ -227,8 +227,8 @@ namespace dynamicgraph {
     public:
       void operator()( const Tin& m,Tout& res ) const
       {
-	assert( (imax<imin)||(m.nbRows()<imax) );
-	assert( m.nbCols()<jcol );
+	assert ((imin<=imax)&&(imax<=m.nbRows()));
+	assert (jcol<m.nbCols());
 
 	res.resize( imax-imin );
 	for( unsigned int i=imin;i<imax;++i )
