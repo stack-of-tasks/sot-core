@@ -33,6 +33,7 @@ from operator import UThetaToQuaternion
 from operator import MatrixDiagonal
 
 from operator import Add_of_matrix
+from operator import Add_of_vector
 from operator import Add_of_double
 from operator import Multiply_of_vector
 from operator import Multiply_of_matrix
