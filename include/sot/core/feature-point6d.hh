@@ -30,7 +30,8 @@
 #include <sot/core/exception-task.hh>
 #include <sot/core/matrix-homogeneous.hh>
 #include <sot/core/matrix-rotation.hh>
-#include "sot/core/exception-feature.hh"
+#include <sot/core/exception-feature.hh>
+#include <sot/core/vector-utheta.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -126,8 +127,9 @@ class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
   void servoCurrentPosition( void );
  private:
   // Intermediate variables for internal computations
-  ml::Vector v_, omega_, errordot_t_, errordot_th_, error_th_, Rreftomega_,
+  ml::Vector v_, omega_, errordot_t_, errordot_th_, Rreftomega_,
     t_, tref_;
+  VectorUTheta  error_th_;
   MatrixRotation R_, Rref_, Rt_, Rreft_;
   ml::Matrix P_, Pinv_;
   double accuracy_;
