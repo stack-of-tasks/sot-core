@@ -36,8 +36,6 @@
 #include <sot/core/feature-point6d.hh>
 #include <sot/core/exception-feature.hh>
 
-#include <sot/core/vector-utheta.hh>
-
 using namespace std;
 using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
@@ -60,8 +58,8 @@ FeaturePoint6d( const string& pointName )
     ,positionSIN( NULL,"sotFeaturePoint6d("+name+")::input(matrixHomo)::position" )
   ,velocitySIN (NULL, "sotFeaturePoint6d("+name+")::input(vector)::velocity")
     ,articularJacobianSIN( NULL,"sotFeaturePoint6d("+name+")::input(matrix)::Jq" )
-  , v_ (3), omega_ (3), errordot_t_ (3), errordot_th_ (3), error_th_ (3),
-    Rreftomega_ (3), t_ (3), tref_ (3),
+  , v_ (3), omega_ (3), errordot_t_ (3), errordot_th_ (3),
+    Rreftomega_ (3), t_ (3), tref_ (3), error_th_ (),
     R_ (), Rref_ (), Rt_ (), Rreft_ (), P_ (3, 3), Pinv_ (3, 3),
     accuracy_ (1e-8)
 {
@@ -347,9 +345,9 @@ FeaturePoint6d::computeError( ml::Vector& error,int time )
   if(fl(3)||fl(4)||fl(5))
     {
       MatrixRotation hRhd; hMhd.extract( hRhd );
-      VectorUTheta hrhd; hrhd.fromMatrix( hRhd );
+      error_th_.fromMatrix (hRhd);
       for( unsigned int i=0;i<3;++i )
-        { if( fl(i+3) ) error(cursor++) = hrhd(i); }
+        { if( fl(i+3) ) error(cursor++) = error_th_ (i); }
     }
 
   sotDEBUGOUT(15);
@@ -408,10 +406,7 @@ ml::Vector& FeaturePoint6d::computeErrordot( ml::Vector& errordot,int time )
     Mref.extract (Rref_);
     Mref.extract (tref_);
     Rref_.transpose (Rreft_);
-    const Vector& error = errorSOUT.access (time);
-    error_th_ (0) = error (3);
-    error_th_ (1) = error (4);
-    error_th_ (2) = error (5);
+    errorSOUT.recompute (time);
     inverseJacobianRodrigues ();
     switch (computationFrame_) {
     case FRAME_CURRENT:
