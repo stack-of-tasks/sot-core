@@ -37,7 +37,7 @@ def setGain(gain,val):
     if val!=None:
         if isinstance(val,int) or isinstance(val,float):
             gain.setConstant(val)
-        if len(val)==1:
+        elif len(val)==1:
             gain.setConstant(val[0])
         elif len(val)==3: gain.set( val[0],val[1],val[2])
         elif len(val)==4: gain.setByPoint( val[0],val[1],val[2],val[3])
@@ -58,10 +58,11 @@ def goto6d(task,position,gain=None,resetJacobian=True):
     if 'resetJacobianDerivative' in task.task.__class__.__dict__.keys() and resetJacobian:
         task.task.resetJacobianDerivative()
 
-def gotoNd(task,position,selec,gain=None,resetJacobian=True):
+def gotoNd(task,position,selec=None,gain=None,resetJacobian=True):
     M=generic6dReference(position)
-    if isinstance(selec,str):   task.feature.selec.value = selec
-    else: task.feature.selec.value = toFlags(selec)
+    if selec!=None:
+        if isinstance(selec,str):   task.feature.selec.value = selec
+        else: task.feature.selec.value = toFlags(selec)
     task.featureDes.position.value = matrixToTuple(M)
     setGain(task.gain,gain)
     if 'resetJacobianDerivative' in task.task.__class__.__dict__.keys() and resetJacobian:
