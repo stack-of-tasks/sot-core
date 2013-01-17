@@ -38,6 +38,11 @@ class MetaTask6d(object):
         self.opPoint=opPoint
         if self.opPointExist(opPoint): return
         self.dyn.createOpPoint(opPoint,opPointRef)
+    def createOpPointModif(self):
+        self.opPointModif = OpPointModifier('opmodif'+self.name)
+        plug(self.dyn.signal(self.opPoint),self.opPointModif.signal('positionIN'))
+        plug(self.dyn.signal('J'+self.opPoint),self.opPointModif.signal('jacobianIN'))
+        self.opPointModif.activ = False
     def createFeatures(self):
         self.feature    = FeaturePoint6d('feature'+self.name)
         self.featureDes = FeaturePoint6d('feature'+self.name+'_ref')
@@ -64,6 +69,7 @@ class MetaTask6d(object):
         self.name=name
         self.defineDynEntities(dyn)
         self.createOpPoint(opPoint,opPointRef)
+        self.createOpPointModif()
         self.createFeatures()
         self.createTask()
         self.createGain()
@@ -76,3 +82,21 @@ class MetaTask6d(object):
     @ref.setter
     def ref(self,m):
         self.featureDes.position.value = m
+
+    @property
+    def opmodif(self):
+        if not self.opPointModif.activ: return False
+        else: return self.opPointModif.getTransformation()
+
+    @opmodif.setter
+    def opmodif(self,m):
+        if isinstance(m,bool) and m==False:
+            plug(self.dyn.signal(self.opPoint),self.feature.signal('position'))
+            plug(self.dyn.signal('J'+self.opPoint),self.feature.signal('Jq'))
+            self.opPointModif.activ = False
+        else:
+            if not self.opPointModif.activ:
+                plug(self.opPointModif.signal('position'),self.feature.position )
+                plug(self.opPointModif.signal('jacobian'),self.feature.Jq)
+            self.opPointModif.setTransformation(m)
+            self.opPointModif.activ = True
