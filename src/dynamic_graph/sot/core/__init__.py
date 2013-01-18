@@ -16,6 +16,7 @@ from op_point_modifier import OpPointModifier
 from math_small_entities import *
 from visual_point_projecter import VisualPointProjecter
 from feature_visual_point import FeatureVisualPoint
+from kalman import Kalman
 
 
 

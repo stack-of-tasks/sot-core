@@ -87,9 +87,6 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   /*! \brief Input for the error. */
   dg::SignalPtr< ml::Vector,int > errorSIN;
 
-  /*! \brief Input for the errordot. */
-  dg::SignalPtr< ml::Vector,int > errordotSIN;
-
   /*! \brief Input for the Jacobian. */
   dg::SignalPtr< ml::Matrix,int > jacobianSIN;
 
@@ -125,8 +122,6 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
 
   /*! \brief Compute the Jacobian of the value according to the robot state.. */
   virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
-
-  WITH_ERRORDOT;
 
   /*! @} */
 

@@ -60,6 +60,7 @@ namespace dynamicgraph {
 #define ADD_KNOWN_TYPE( typeid ) \
     template<>const std::string TypeNameHelper<typeid>::typeName = #typeid
 
+    ADD_KNOWN_TYPE(double);
     ADD_KNOWN_TYPE(dg::Vector);
     ADD_KNOWN_TYPE(dg::Matrix);
     ADD_KNOWN_TYPE(MatrixRotation);
@@ -76,6 +77,14 @@ namespace dynamicgraph {
       static const std::string & nameTypeIn(void) { return TypeNameHelper<Tin>::typeName; }
       static const std::string & nameTypeOut(void) { return TypeNameHelper<Tout>::typeName; }
       void addSpecificCommands(Entity&, Entity::CommandMap_t& ) {}
+      virtual std::string getDocString () const {
+	return std::string
+	  ("Undocumented unary operator\n"
+	   "  - input  ") + nameTypeIn () +
+	  std::string ("\n"
+		       "  - output ") + nameTypeOut () +
+	  std::string ("\n");
+      }
     };
 
 
@@ -110,7 +119,7 @@ namespace dynamicgraph {
     {
       void operator()( const Tin& m,Vector& res ) const
       {
-	assert( (imax<imin)||(m.size()<imax) );
+	assert( (imin<=imax) && (imax <= m.size()) );
 	res.resize( imax-imin );
 	for( unsigned int i=imin;i<imax;++i ) res(i-imin)=m(i);
       }
@@ -133,13 +142,51 @@ namespace dynamicgraph {
     REGISTER_UNARY_OP( VectorSelecter,Selec_of_vector );
 
     /* ---------------------------------------------------------------------- */
+    /* --- ALGEBRA SELECTORS ------------------------------------------------ */
+    /* ---------------------------------------------------------------------- */
+    struct VectorComponent
+      : public UnaryOpHeader<dg::Vector, double>
+    {
+      void operator() (const Tin& m, double& res) const
+      {
+	assert (index < m.size());
+	res = m(index);
+      }
+
+      unsigned int index;
+      void setIndex (const int & m) { index = m; }
+
+      void addSpecificCommands(Entity& ent,
+       			       Entity::CommandMap_t& commandMap )
+      {
+	std::string doc;
+
+	boost::function< void( const int& ) > callback
+	  = boost::bind( &VectorComponent::setIndex,this,_1 );
+	doc = command::docCommandVoid1("Set the index of the component.",
+				       "int (index)");
+	ADD_COMMAND( "setIndex",
+		     command::makeCommandVoid1 (ent, callback, doc));
+      }
+      virtual std::string getDocString () const
+      {
+	std::string docString
+	  ("Select a component of a vector\n"
+	   "  - input  vector\n""  - output double");
+	return docString;
+      }
+
+    };
+    REGISTER_UNARY_OP (VectorComponent, Component_of_vector);
+
+    /* ---------------------------------------------------------------------- */
     struct MatrixSelector
       : public UnaryOpHeader<dg::Matrix, dg::Matrix>
     {
        void operator()( const Matrix& m,Matrix& res ) const
       {
-	assert( (imax<imin)||(m.nbRows()<imax) );
-	assert( (jmax<jmin)||(m.nbCols()<jmax) );
+	assert ((imin<=imax)&&(imax<=m.nbRows()));
+	assert ((jmin<=jmax)&&(jmax<=m.nbCols()));
 	res.resize( imax-imin,jmax-jmin );
 	for( unsigned int i=imin;i<imax;++i )
 	  for( unsigned int j=jmin;j<jmax;++j )
@@ -180,8 +227,8 @@ namespace dynamicgraph {
     public:
       void operator()( const Tin& m,Tout& res ) const
       {
-	assert( (imax<imin)||(m.nbRows()<imax) );
-	assert( m.nbCols()<jcol );
+	assert ((imin<=imax)&&(imax<=m.nbRows()));
+	assert (jcol<m.nbCols());
 
 	res.resize( imax-imin );
 	for( unsigned int i=imin;i<imax;++i )
@@ -503,6 +550,17 @@ namespace dynamicgraph {
       static const std::string & nameTypeIn2(void) { return TypeNameHelper<Tin2>::typeName; }
       static const std::string & nameTypeOut(void) { return TypeNameHelper<Tout>::typeName; }
       void addSpecificCommands(Entity&, Entity::CommandMap_t& ) {}
+      virtual std::string getDocString () const
+      {
+	return std::string
+	  ("Undocumented binary operator\n"
+	   "  - input  ") + nameTypeIn1 () +
+	  std::string ("\n"
+	   "  -        ") + nameTypeIn2 () +
+	  std::string ("\n"
+		       "  - output ") + nameTypeOut () +
+	  std::string ("\n");
+      }
     };
 
 
@@ -533,7 +591,11 @@ namespace dynamicgraph {
       : public BinaryOpHeader<T,T,T>
     {
       double coeff1, coeff2;
-      void operator()( const T& v1,const T& v2,T& res ) const { res=v1; res+=v2; }
+      Adder () : coeff1 (1.), coeff2 (1.) {}
+      void operator()( const T& v1,const T& v2,T& res ) const
+      {
+	res=coeff1*v1; res+=coeff2*v2;
+      }
 
       void addSpecificCommands(Entity& ent,
        			       Entity::CommandMap_t& commandMap )
@@ -545,6 +607,18 @@ namespace dynamicgraph {
 		     makeDirectSetter(ent,&coeff1,docDirectSetter("coeff1","double")));
 	ADD_COMMAND( "setCoeff2",
 		     makeDirectSetter(ent,&coeff2,docDirectSetter("coeff2","double")));
+      }
+      virtual std::string getDocString () const
+      {
+	return std::string
+	  ("Linear combination of inputs\n"
+	   "  - input  ") + BinaryOpHeader<T,T,T>::nameTypeIn1 () +
+	  std::string ("\n"
+	   "  -        ") + BinaryOpHeader<T,T,T>::nameTypeIn2 () +
+	  std::string ("\n"
+		       "  - output ") + BinaryOpHeader<T,T,T>::nameTypeOut () +
+	  std::string ("\n""  sout = coeff1 * sin1 + coeff2 * sin2\n"
+		       "  Coefficients are set by commands, default value is 1.\n");
       }
     };
 

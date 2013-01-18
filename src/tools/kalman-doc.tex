@@ -1,0 +1,24 @@
+\begin{eqnarray*}
+x_{k} &=& f (x_{k-1}, u_{k-1}) + w_{k-1} \\
+y_{k} &=& h (x_{k}) + v_{k}
+\end{eqnarray*}
+
+\begin{eqnarray*}
+\hat{x}_{k|k-1} &=& f (\hat{x}_{k-1|k-1}, u_{k-1})\\
+P_{k|k-1} &=& F_{k-1}\ P_{k-1|k-1} F_{k-1}^T + Q
+\end{eqnarray*}
+
+\begin{eqnarray*}
+z_{k} &=& y_{k} - H\ \hat{x}_{k|k-1} \\
+S_{k} &=& H_{k}\ P_{k|k-1} H_{k}^T + R \\
+K_{k} &=& P_{k|k-1} H_{k}^T S_{k}^{-1} \\
+\hat{x}_{k|k} &=& \hat{x}_{k|k-1}  + K_{k}\ z_{k} \\
+P_{k|k} &=& (I - K_{k} H_{k}) P_{k|k-1}
+\end{eqnarray*}
+
+$$
+F_{k-1} = \frac{\partial f}{\partial x} (\hat{x}_{k-1|k-1}, u_{k-1})
+$$
+$$
+H_{k} = \frac{\partial h}{\partial x} (\hat{x}_{k-1|k-1})
+$$

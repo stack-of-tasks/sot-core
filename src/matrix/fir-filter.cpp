@@ -21,8 +21,9 @@
 #include <sot/core/fir-filter.hh>
 #include <sot/core/factory.hh>
 
-//using namespace dynamicgraph::sot;
-using namespace dynamicgraph;
+using dynamicgraph::Vector;
+using dynamicgraph::EntityRegisterer;
+using dynamicgraph::Entity;
 
 #define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotClassType,sotSigType,sotCoefType,id,className) \
   template<>								\
@@ -39,21 +40,25 @@ using namespace dynamicgraph;
 extern "C" {								\
   Entity *regFunction##_##id ( const std::string& objname )		\
   {									\
-    return new sotClassType<sotSigType,sotCoefType>( objname );		\
+    return new sotClassType<sotSigType,sotCoefType>( objname );	\
   }									\
   EntityRegisterer reg##_##id					\
-  ( std::string(className)+"<"+#sotSigType+","+#sotCoefType+">",	\
+  ( std::string(className)+"_"+#sotSigType+"_"+#sotCoefType,	\
     &regFunction##_##id );					\
 }
 
-using namespace ml;
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(FIRFilter,double,double,double_double,"FIRFilter")
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(FIRFilter,Vector,double,vec_double,"FIRFilter")
-SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(FIRFilter,Vector,Matrix,vec_mat,"FIRFilter")
+namespace dynamicgraph {
+  namespace sot {
+    using dynamicgraph::command::Value;
+    using dynamicgraph::command::Command;
 
-template<>
-void FIRFilter<Vector, double>::reset_signal( Vector& res, const Vector& sample )
-{
+    SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(FIRFilter,double,double,double_double,"FIRFilter")
+    SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(FIRFilter,Vector,double,vec_double,"FIRFilter")
+    SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(FIRFilter,Vector,Matrix,vec_mat,"FIRFilter")
+
+    template<>
+    void FIRFilter<Vector, double>::reset_signal( Vector& res, const Vector& sample )
+    {
   res.resize(sample.size());
   res.fill(0);
 }
@@ -65,15 +70,24 @@ void FIRFilter<Vector, Matrix>::reset_signal( Vector& res, const Vector& sample 
   res.fill(0);
 }
 
+  } // namespace sot
+} // namespace dynamicgraph
+
 #include <sot/core/fir-filter-impl.hh>
 
-#ifdef WIN32
-#define DEFINE_SPECIFICATION(sotClassType,sotSigType,sotCoefType) \
-  sotClassType##sotSigType##sotCoefType::sotClassType##sotSigType##sotCoefType(const std::string& name):			\
-  sotClassType<sotSigType,sotCoefType> (name) {}; \
 
+#ifdef WIN32
+#define DEFINE_SPECIFICATION(sotClassType,sotSigType,sotCoefType)	\
+  sotClassType##sotSigType##sotCoefType::sotClassType##sotSigType##sotCoefType(const std::string& name):			\
+  sotClassType<sotSigType,sotCoefType> (name) {};			\
+
+namespace dynamicgraph {
+  namespace sot {
 typedef double Double;
- DEFINE_SPECIFICATION(FIRFilter,Double,Double)
- DEFINE_SPECIFICATION(FIRFilter,Vector,Double)
- DEFINE_SPECIFICATION(FIRFilter,Vector,Matrix)
+    typedef Value dynamicgraph::command::Value;
+    DEFINE_SPECIFICATION(FIRFilter,Double,Double)
+    DEFINE_SPECIFICATION(FIRFilter,Vector,Double)
+    DEFINE_SPECIFICATION(FIRFilter,Vector,Matrix)
+  } // namespace sot
+} // namespace dynamicgraph
 #endif //WIN32

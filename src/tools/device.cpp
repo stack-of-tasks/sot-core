@@ -55,26 +55,20 @@ void Device::integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
   double roll = state(3);
   double pitch = state(4);
   double yaw = state(5);
-  std::vector<jrlMathTools::Vector3D<double> > column;
+  jrlMathTools::Vector3D<double> column [3];
 
   // Build rotation matrix as a vector of colums
-  jrlMathTools::Vector3D<double> e1;
-  e1(0) = cos(pitch)*cos(yaw);
-  e1(1) = cos(pitch)*sin(yaw);
-  e1(2) = -sin(pitch);
-  column.push_back(e1);
+  column [0](0) = cos(pitch)*cos(yaw);
+  column [0](1) = cos(pitch)*sin(yaw);
+  column [0](2) = -sin(pitch);
 
-  jrlMathTools::Vector3D<double> e2;
-  e2(0) = sin(roll)*sin(pitch)*cos(yaw) - cos(roll)*sin(yaw);
-  e2(1) = sin(roll)*sin(pitch)*sin(yaw) + cos(roll)*cos(yaw);
-  e2(2) = sin(roll)*cos(pitch);
-  column.push_back(e2);
+  column [1](0) = sin(roll)*sin(pitch)*cos(yaw) - cos(roll)*sin(yaw);
+  column [1](1) = sin(roll)*sin(pitch)*sin(yaw) + cos(roll)*cos(yaw);
+  column [1](2) = sin(roll)*cos(pitch);
 
-  jrlMathTools::Vector3D<double> e3;
-  e3(0) = cos(roll)*sin(pitch)*cos(yaw) + sin(roll)*sin(yaw);
-  e3(1) = cos(roll)*sin(pitch)*sin(yaw) - sin(roll)*cos(yaw);
-  e3(2) = cos(roll)*cos(pitch);
-  column.push_back(e3);
+  column [2](0) = cos(roll)*sin(pitch)*cos(yaw) + sin(roll)*sin(yaw);
+  column [2](1) = cos(roll)*sin(pitch)*sin(yaw) - sin(roll)*cos(yaw);
+  column [2](2) = cos(roll)*cos(pitch);
 
   // Apply Rodrigues (1795–1851) formula for rotation about omega vector
   double angle = dt*omega.norm();
@@ -129,8 +123,10 @@ Device( const std::string& n )
    ,pseudoTorqueSOUT( "Device::output(vector)::ptorque" )
    ,previousControlSOUT( "Device("+n+")::output(vector)::previousControl" )
    ,motorcontrolSOUT( "Device("+n+")::output(vector)::motorcontrol" )
-  ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" ), ffPose_()
+  ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" ), ffPose_(),
+   forceZero6 (6)
 {
+  forceZero6.fill (0);
   /* --- SIGNALS --- */
   for( int i=0;i<4;++i ){ withForceSignals[i] = false; }
   forcesSOUT[0] =
@@ -227,9 +223,8 @@ increment( const double & dt )
 
   /* Position the signals corresponding to sensors. */
   stateSOUT .setConstant( state_ ); stateSOUT.setTime( time+1 );
-  ml::Vector forceNull(6); forceNull.fill(0);
   for( int i=0;i<4;++i ){
-    if(  withForceSignals[i] ) forcesSOUT[i]->setConstant(forceNull);
+    if(  !withForceSignals[i] ) forcesSOUT[i]->setConstant(forceZero6);
   }
   ml::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );

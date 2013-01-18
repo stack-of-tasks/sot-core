@@ -57,6 +57,8 @@ namespace dynamicgraph {
 	return CLASS_NAME;
       }
 
+      std::string getDocString () const { return op.getDocString ();}
+
       UnaryOp( const std::string& name )
 	: Entity(name)
 	,SIN(NULL,Self::CLASS_NAME+"("+name+")::input("+Self::getTypeInName()+")::sin")

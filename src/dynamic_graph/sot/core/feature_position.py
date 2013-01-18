@@ -56,8 +56,10 @@ class FeaturePosition (Entity):
         # Signals stored in members
         self.position = self._feature.signal('position')
         self.reference = self._reference.signal('position')
+        self.velocity = self._reference.signal ('velocity')
         self.Jq = self._feature.signal('Jq')
         self.error = self._feature.signal('error')
+        self.errordot = self._feature.signal ('errordot')
         self.selec = self._feature.signal('selec')
 
         self.signalMap = {'position':self.position,
@@ -93,3 +95,9 @@ class FeaturePosition (Entity):
 
     def frame(self, f):
         return self._feature.frame(f)
+
+    def getFrame (self):
+        return self._feature.getFrame ()
+
+    def keep (self):
+        return self._feature.keep ()

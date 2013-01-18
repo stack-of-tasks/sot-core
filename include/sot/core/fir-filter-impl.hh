@@ -49,8 +49,13 @@
 	typedef FIRFilter<sotSigType,sotCoefType> className;
 # endif // WIN32
 
-DECLARE_SPECIFICATION(FIRFilterDoubleDouble,double,double)
-DECLARE_SPECIFICATION(FIRFilterVectorDouble,ml::Vector,double)
-DECLARE_SPECIFICATION(FIRFilterVectorMatrix,ml::Vector,ml::Matrix)
+namespace dynamicgraph {
+  namespace sot {
 
+DECLARE_SPECIFICATION(FIRFilterDoubleDouble,double,double)
+DECLARE_SPECIFICATION(FIRFilterVectorDouble,Vector,double)
+DECLARE_SPECIFICATION(FIRFilterVectorMatrix,Vector,Matrix)
+
+  } // namespace sot
+} // namespace dynamicgraph
 #endif
