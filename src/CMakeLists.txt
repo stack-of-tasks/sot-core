@@ -266,5 +266,16 @@ INSTALL(FILES
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_tasks.py
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_task_6d.py
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_tasks_kine.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_task_posture.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_task_visual_point.py
   DESTINATION ${PYTHON_SITELIB}/dynamic_graph/sot/core
+  )
+INSTALL(FILES
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/utils/__init__.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/utils/attime.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/utils/history.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/utils/thread_interruptible_loop.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/utils/viewer_loger.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/utils/viewer_helper.py
+  DESTINATION ${PYTHON_SITELIB}/dynamic_graph/sot/core/utils
   )
