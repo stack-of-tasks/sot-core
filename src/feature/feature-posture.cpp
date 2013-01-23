@@ -53,23 +53,16 @@ namespace dynamicgraph {
     FeaturePosture::FeaturePosture (const std::string& name)
       : FeatureAbstract(name),
 	state_(NULL, "FeaturePosture("+name+")::input(Vector)::state"),
-	posture_(),
-	jacobian_()
+	posture_(0, "FeaturePosture("+name+")::input(Vector)::posture"),
+	jacobian_(),
+	activeDofs_ (),
+	nbActiveDofs_ (0)
     {
-      signalRegistration (state_);
+      signalRegistration (state_ << posture_);
 
       errorSOUT.addDependency (state_);
 
       std::string docstring;
-      docstring = "    \n"
-	"    \n"
-	"    Set desired posture\n"
-	"    \n"
-	"      input:\n"
-	"        - a vector\n"
-	"    \n";
-      addCommand ("setPosture", new Setter<FeaturePosture, ml::Vector>
-		  (*this, &FeaturePosture::setPosture, docstring));
       docstring =
 	"    \n"
 	"    Select degree of freedom to control\n"
@@ -93,48 +86,28 @@ namespace dynamicgraph {
 
     unsigned int& FeaturePosture::getDimension( unsigned int& res,int )
     {
-      // Check that dimensions of state and posture fit, otherwise, return 0
-      unsigned int stateDim = state_.accessCopy().size();
-      unsigned int postureDim = posture_.size();
+      res = static_cast <unsigned int> (nbActiveDofs_);
+      return res;
+    }
 
-      if (postureDim != stateDim) {
-	res = 0;
-      } else {
-	res = postureDim;
+    ml::Vector& FeaturePosture::computeError( ml::Vector& res, int t)
+    {
+      ml::Vector state = state_.access (t);
+      ml::Vector posture = posture_.access (t);
+
+      res.resize (nbActiveDofs_);
+      std::size_t index=0;
+      for (std::size_t i=0; i<activeDofs_.size (); ++i) {
+	if (activeDofs_ [i]) {
+	  res (index) = state (i) - posture (i);
+	  index ++;
+	}
       }
       return res;
     }
 
-    ml::Vector& FeaturePosture::computeError( ml::Vector& res, int )
+    ml::Matrix& FeaturePosture::computeJacobian( ml::Matrix& res, int t)
     {
-      // Check that dimensions of state and posture fit, otherwise, return 0
-      ml::Vector state = state_.accessCopy();
-      unsigned int stateDim = state.size();
-      unsigned int postureDim = posture_.size();
-
-      if (postureDim != stateDim) {
-	res.resize(0);
-	return res;
-      }
-      res.resize(postureDim);
-      for (unsigned int i=0; i<postureDim; i++) {
-	res(i) = state(i) - posture_(i);
-      }
-      return res;
-    }
-
-    ml::Matrix& FeaturePosture::computeJacobian( ml::Matrix& res, int )
-    {
-      // Check that dimensions of state and posture fit, otherwise, return 0
-      ml::Vector state = state_.accessCopy();
-      unsigned int stateDim = state.size();
-      unsigned int postureDim = posture_.size();
-
-      if (postureDim != stateDim) {
-	jacobian_.resize(0,0);
-      } else {
-	jacobian_.resize(postureDim, postureDim);
-      }
       res = jacobian_;
       return res;
     }
@@ -144,25 +117,23 @@ namespace dynamicgraph {
       return res;
     }
 
-    void FeaturePosture::setPosture (const ml::Vector& posture)
-    {
-      posture_ = posture;
-    }
-
     void
     FeaturePosture::selectDof (unsigned dofId, bool control)
     {
       ml::Vector state = state_.accessCopy();
-      unsigned int dim = state.size();
+      ml::Vector posture = posture_.accessCopy ();
+      std::size_t dim = state.size();
 
-      ml::Matrix& jacobian = jacobian_;
+      if (dim != posture.size ()) {
+	throw std::runtime_error
+	  ("Posture and State should have same dimension.");
+      }
 
-      // Resize matrix if necessary
-      if ((jacobian.nbRows() != dim) || (jacobian.nbCols() != dim))
-	{
-	  jacobian.resize(dim, dim);
-	  jacobian.fill(0.);
-	}
+      // If activeDof_ vector not initialized, initialize it
+      if (activeDofs_.size () != dim) {
+	activeDofs_ = std::vector <bool> (dim, false);
+	nbActiveDofs_ = 0;
+      }
 
       // Check that selected dof id is valid
       if ((dofId < 6) || (dofId >= dim))
@@ -174,10 +145,31 @@ namespace dynamicgraph {
 	  throw ExceptionAbstract(ExceptionAbstract::TOOLS,
 				  oss.str());
 	}
-      if (control)
-	jacobian (dofId, dofId) = 1.;
-      else
-	jacobian (dofId, dofId) = 0.;
+
+      if (control) {
+	if (!activeDofs_ [dofId]) {
+	  activeDofs_ [dofId] = true;
+	  nbActiveDofs_ ++;
+	}
+      }
+      else { // control = false
+	if (activeDofs_ [dofId]) {
+	  activeDofs_ [dofId] = false;
+	  nbActiveDofs_ --;
+	}
+      }
+      // recompute jacobian
+      jacobian_.resize (nbActiveDofs_, dim);
+      jacobian_.setZero ();
+
+      std::size_t index=0;
+      for (std::size_t i=0; i<activeDofs_.size (); ++i) {
+	if (activeDofs_ [i]) {
+	  jacobian_ (index, i) = 1;
+	  index ++;
+	}
+      }
+
     }
 
     DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePosture, "FeaturePosture");
