@@ -82,9 +82,12 @@ namespace dynamicgraph {
       virtual ml::Vector& computeActivation( ml::Vector& res, int );
 
       signalIn_t state_;
+      signalIn_t posture_;
       signalOut_t error_;
-      ml::Vector posture_;
       ml::Matrix jacobian_;
+    private:
+      std::vector <bool> activeDofs_;
+      std::size_t nbActiveDofs_;
     }; // class FeaturePosture
   } // namespace sot
 } // namespace dynamicgraph
