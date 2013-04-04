@@ -93,6 +93,12 @@ class R3 (object):
         self.checkOther(other, "*")
         return reduce(lambda x, y: x + y[0]*y[1], zip(self, other),0.)
 
+    def __rmul__ (self, number):
+        """
+        Operator * by a float
+        """
+        return R3(tuple(map(lambda x: number * x, self)))
+
     def __str__(self):
         """
         Output as a string
