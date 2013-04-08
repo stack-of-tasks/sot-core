@@ -254,7 +254,6 @@ DYNAMIC_GRAPH_PYTHON_MODULE("sot/core" ${SOTCORE_LIB_NAME} wrap)
 # Install empty __init__.py files in intermediate directories.
 INSTALL(FILES
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/__init__.py
-  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/se3.py
   DESTINATION ${PYTHON_SITELIB}/dynamic_graph/sot
   )
 INSTALL(FILES
