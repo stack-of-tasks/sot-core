@@ -39,14 +39,7 @@ using namespace dynamicgraph::sot;
 # include <sot/core/utils-windows.hh>
 #endif /*WIN32*/
 
-#if defined (WIN32)
 # include <boost/math/special_functions/fpclassify.hpp>
-# define isnan (boost::math::isnan)
-#elif defined (__APPLE__)
-# include <boost/math/special_functions/fpclassify.hpp>
-# define isnan (boost::math::isnan)
-#endif //define WIN32 or defined __APPLE__
-
 #define FORTRAN_ID( id ) id##_
 
 
@@ -990,12 +983,14 @@ initializeConstraintMemory( const bubMatrix& Jse, const bubVector& ese,
           const unsigned int rowi = row-sizee;
           cs.Ji.assign(bub::row(Jsi,rowi));
           cs.boundSide = ConstraintMem::BOUND_VOID;
-          if( (esiBoundSide[rowi]&ConstraintMem::BOUND_INF)&&(!isnan(esiInf(rowi))) )
+          if( (esiBoundSide[rowi]&ConstraintMem::BOUND_INF) &&
+              (!boost::math::isnan(esiInf(rowi))) )
             {
               cs.eiInf=esiInf(rowi);
               cs.boundSide = (ConstraintMem::BoundSideType)(cs.boundSide|ConstraintMem::BOUND_INF);
             }
-          if( (esiBoundSide[rowi]&ConstraintMem::BOUND_SUP)&&(!isnan(esiSup(rowi))) )
+          if( (esiBoundSide[rowi]&ConstraintMem::BOUND_SUP)&&
+              (!boost::math::isnan(esiSup(rowi))) )
             {
               cs.eiSup=esiSup(rowi);
               cs.boundSide = (ConstraintMem::BoundSideType)(cs.boundSide|ConstraintMem::BOUND_SUP);
