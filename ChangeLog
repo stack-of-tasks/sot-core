@@ -1,1 +1,510 @@
-Write in this file the modifications you commit.
+CHANGELOG
+----------------------
+
+[Current]
+ * Do not import SE3, SO3 and R3 anymore
+ * Move se3.py to sot-tools.
+ * Add left multiplication by a float
+ * Modify posture feature
+ * Synchronize.
+ * New python scripts.
+ * Added the point 2d projecter in the python init list.
+ * Minor modif of Meta task.
+ * Added the oppoint modifier in the metatask 6d.
+ * Added the quaternion among the python operator.
+ * IVIGIT: added visual point projecter entity.
+ * Fix bug in computation of error derivative when flags are not all set to 1.
+ * Synchronize.
+ * Add computation of error time derivative wrt to reference velocity
+ * Fix sign of feedforward term in Task::computeTaskExponentialDecrease.
+ * Import entity Add_of_vector.
+ * Fix some assertion in operator.cpp
+ * Initialize state estimation signal with initial state provided by command
+ * Refactor Kalman filter
+ * Add signal cast registerer for types VectorUTheta and VectorRollPitchYaw.
+ * Rename FIRFilter signals to fix syntax error in python
+ * Refactor FIRFilter template class
+ * Fix Ubuntu 12.04 (64 bits) portability issues.
+ * Enhance Adder operator
+ * Fix documentation of Component_of_vector.
+ * Add documentation in the operators.
+ * Add a unary operator to select a component of vector as output of type double.
+ * Do not create entities at module importation.
+ * Optimize code to avoid dynamic allocation in control loop.
+ * Fix force signal update.
+ * Move signals errordotSIN and errordotSOUT up to class FeatureAbstract.
+ * Add documentation for Task and Features.
+ * Synchronize cmake submodule.
+ * ivigit.
+ * Enhance exception reporting in device.
+ * Synchronize.
+ * Correct the link with boost on Ubuntu 11.04.
+ * Remouve output to standard output.
+ * Fix gripper control
+ * Add a wrapper around FeaturePoint6dRelative
+ * Catch exceptions thrown by periodic calls.
+ * Add selectDof method to FeaturePosture, install header.
+ * Use DYNAMIC_GRAPH_ENTITY_DECL() when needed.
+ * Synchronize python submodule.
+ * Do not create entities at module importation.
+ * Remove patch aimed at ensuring backward compatibility in sot/core/__init__.py.
+ * Synchronize.
+ * Completion of commit 2719691b816cc87.
+ * GripperControl is not an entity.
+ * Add copy constructor and make the destructor virtual for matrices/vectors.
+ * Remove extra semi-colon
+ * Remove warning
+ * Correct a typo
+ * Create a library for the integrators
+ * Win32: force the creation of a library for the class fir-filter.
+ * Win32: force the creation of a library for the class derivator
+ * Correct solver-h-in for win32: correct header name and remove warnings
+ * Correct sotMailBox for win32
+ * Win32 comp: Correct the API of feature-posture.h
+ * Correct the handling of python modules
+ * Correct dependency of the unittests
+ * Correct the link with boost
+ * Some plugins can not be compiled with win32 for now...
+ * Add missing symbol exportation
+ * Correct the link with boost for Mac systems
+ * Correct the suffix of the dynamic lib loaded according to the OS
+ * For MacOsX and win32, use the definition of isnan provided by boost
+ * Correct the link flags for mac OS X
+ * Correct the Python_module handling
+ * Clean cmake files by using the routines in cmake/python.cmake
+ * Win32: Add missing header inclusion
+ * Add missing using namespace
+ * Win32: add the missing symbol import/export for some plugins
+ * Do not cast signal into value, use accessCopy ().
+ * Add boost-options to specify robot-controller library for testing purposes.
+ * Test the intialization of a loadable library.
+
+[v2.6.0]
+ * Update FeaturePosition to recent changes in Entity class.
+ * Do not generate files in the source directory.
+ * Fix dummy test.
+ * Update NEWS.
+ * Explicit increment of the state signal to keep a safe behavior in problematic situation.  #Please enter the commit message for your changes. Lines starting
+ * Minor correction on the graph dependency for error dot computation.
+ * Added a patch to keep the previous behavior of the sdes signal.
+ * Added a derivative term into the classical P.
+ * Applied the withErrorDot pattern to the error generic.
+ * Add the abstraction to get the errordotin from a heritance.
+ * Added the WITH_ERRORDOT syntaxt for the generic features.
+ * Account for the modif in feature.sdes.
+ * Propagate the modif in the tasks and the solver.
+ * Account for the modif in the feature.
+ * Account for the modifs in the feature.
+ * Modify the task and solver to account for the new policy of the feature.
+ * Modify the policy to handle reference feature.
+ * Rebase conflicts.
+ * Synchronize cmake submodule.
+ * Do not link to gfortran.
+ * Do not define PYTHON_SITELIB.
+ * Fix compilation issues on x86_64 architectures.
+ * Install headers in include/sot/core.
+ * Change vector to map, and make more general the control part.
+ * Add abstract SoT external interface for robot/simulator specific implementation.
+ * Remove PYTHON-SITE computation (now in cmake/python.cmake)
+ * Synchronize
+ * Remove feature-posture from the inclusion with python.
+ * Revert "The suffix for dynamic libraries for mac is .dylib"
+ * Revert "Correct the link flags for mac OS X"
+ * Revert "std::min(unsigned, size_t) is not standard: forcing the cast in std:min(unsigned, unsigned)"
+ * Revert "isnan is not defined for mac, defining one"
+ * Revert "Temporary patch: deactivate some tests for mac for link reasons"
+ * Revert "Correct the link with Boost for Apple"
+ * Revert "Correct the definition of isnan for not unix systems: use Boost's one"
+ * Revert "Mac: Reintroduce the two deactivated unit tests"
+ * ivigit.
+ * Fix temporary the tools/smooth-reach issue.
+ * Mac: Reintroduce the two deactivated unit tests
+ * Correct the definition of isnan for not unix systems: use Boost's one
+ * Correct the link with Boost for Apple
+ * Temporary patch: deactivate some tests for mac for link reasons
+ * isnan is not defined for mac, defining one
+ * std::min(unsigned, size_t) is not standard: forcing the cast in std:min(unsigned, unsigned)
+ * Correct the link flags for mac OS X
+ * The suffix for dynamic libraries for mac is .dylib
+ * [debian] Correct the librarie name for installing.
+ * [debian] Change version number needed for libsotcore
+ * [debian] Fix pb of dependencies version.
+ * [debian] Update de shlibs.
+ * Modify changelog.
+ * Update rules for debian binaries.
+ * [debian] Fix shlibs, rules, install directives and version for package generation.
+ * Uses DYNAMIC_GRAPH_ENTITY_DECL() when needed.
+ * Add selectDof method to FeaturePosture, install header.
+ * Changes feature-posture.h to feature-posture.hh
+ * Synchronize from the state time rather than the control time.
+ * Added a getter for reading the frame type.
+ * Corrected the call to the former syntax of the pool.
+ * Added smooth reach.
+ * ivigit.
+ * Synchronize submodule.
+
+[v2.5]
+ * Removing trailing ws.
+ * Account for the Entity::getClassName becoming pure virtual.
+ * dynamicgraph::sot is now a singleton
+ * Merge unary-op and binary op in the same plug-in
+ * Fix inclusion guards.
+ * Do not import unary-op and binary-op at python module initialization
+ * PoolStorage and FactoryStorage are now singletons.
+ * Make valgrind happier
+ * Pass tests with success
+ * Specialize MatrixHomogeneous::inverse and add test.
+ * Overload MatrixHomogeneous::operator*.
+ * Fix test matrix-twist.
+ * Outline constructor of MatrixHomogeneous.
+ * Add FeaturePosture to control robot posture.
+ * Fix computation of joint limitator
+ * Port joint-limitator to Python.
+ * Add clear command to sot.
+ * Add display command
+ * IVIGIT.
+ * Passed tsak-pd to sot-py.
+ * Added new-style commands.
+ * Corrected small-math entities after previous modifs.
+ * Correction of capital letter in matrixHomo name.
+ * Corrected indentation.
+ * Removed trailing white spaces.
+ * Minor rewriting.
+ * Reforge for new-style command.
+ * Add commands "remove", "up" and "down" in SOT entity.
+ * Added some doc.
+ * Corrected a big bug for multiple-feature task.
+ * Op-point modifior for world-ref jacobian modif(oJA, aMb) = oJb.
+ * Temptative with world-ref jacobian as input.
+ * Corrected the world-ref jacobian modification.
+ * Added a modifior for world-ref jacobian.
+ * Added a tracer for matrix homo.
+ * Added an initializer from passing point.
+ * Refactoring of the unitary ops.
+ * Passed 'integration' as virtual.
+ * Added construction from matrix (conversion).
+ * Correct typo: select -> selec.
+ * Add cross product for R3.
+ * Add a member to store the free flyer pose in Device.
+ * Add method to output vector and matrices as tuples.
+ * Replace . by _ in signal and entity names.
+ * Add periodic calls in Device.
+ * Add debug output.
+ * Fix namespace issue: sot:: -> dynamicgraph::sot::.
+ * Add missing dynamicgraph:: in debug.hh.
+ * Add support for debug output (sotDEBUG).
+ * Fix Entity.__setattr___ and feature_position crash.
+ * Fix OpPointModifier and add test cases.
+ * Passed the periodic call class to python new-style command.
+ * Use namespace dynamicgraph::sot where required.
+ * Upgrade to previous changes.
+ * Include new headers.
+ * Insert new classes in dynamicgraph::sot.
+ * Add test cases for MatrixTwist.
+ * Fix MatrixTwist inversion implementation.
+ * sot-core/periodic-call[-entity].h -> sot/core/periodic-call[-entity].hh
+ * Remove remaining >>>>> in include/CMakeLists.
+ * Move headers in new directories.
+ * Device::state -> Device.state_.
+ * Move headers in include/sot/core and rename .h into .hh.
+ * Reintroduce robot-simu.cpp.
+ * Reintroduce robotSimu.
+ * Make Device destructor virual.
+ * Use api.hh.
+ * Insert classes into dynamicgraph::sot namespace
+ * Rename class RobotSimu into Device.
+ * Add tests for MatrixTwist.
+ * Link against Boost unit test framework.
+ * Export FeatureVisualPoint entity in Python.
+ * Specify full namespace ::sot::sotDEBUGFLOW for compatibility with dg::sot.
+ * Put back the dirty removal of periodic call, that is usefull indeed.
+ * Removed signal-cast.h from the cmakelist.
+ * Removed noew unecessary header.
+ * Added ignore on matlab bak files.
+ * Reforge the implementation of the standards sot-core cast.
+ * Solve a #include problem with new-style command.
+ * Removed unnecessary header.
+ * Correct "caps" error.
+ * Modify the indentation.
+ * Modify the writting of new-style commands.
+ * Revert "Set version number as 1.99."
+ * Added all small entities to python initial loading.
+ * remove "<>" style of entities name.
+ * Remove warning "empty macro args."
+ * Rename the signals for all small math entities: in/out -> sin/sout.
+ * Removed trailing white space.
+ * Changed the name of the small math entity "derivator": in/out -> sin/sout.
+ * Modified the initialiazor of python, to add various small math entities such as Derivator_matrix.
+ * IVIGIT.
+ * Simplify the command.
+ * Set version number as 1.99.
+ * Remove tools/periodic-call from src/CMakeLists.txt
+ * Remove periodic call related files.
+ * Corrected op-point-modifier to fit the new command rules.
+ * Put back periodic call inside the lib, to avoid undefined symbols.
+ * Update with recent changes in dynamic-graph
+ * Removed trailing white spaces.
+ * Removed trailing white spaces.
+ * Added the OpPointModifier in the python initialisation.
+ * Changed the name of the factory constructor, to comply with the name of the c++ objects and files.
+ * Added the servoCurrentPosition method, and the associated command.
+ * Added an accessor on the feature list.
+ * Make FeaturePosition derive from Entity.
+ * Fix error in OpPointModifier constructor.
+ * Upgrade FeaturePosition
+ * Synchronize cmake submodule.
+ * By default all DOFs are on in feature_position.py.
+ * Add feature_position.py.
+ * Synchronize.
+ * Add BOOST_ROOT/lib to the CTest LD_LIBRARY_PATH environment variable.
+ * When solver has no contraint, control vector and state vector have same size.
+ * Cosmetic changes: add comments here and there.
+ * If constructor of SO3 is empty, return identity matrix.
+ * Document and install se3.py file
+ * Import MatrixHomoToPoseRollPitchYaw entity class at initialization.
+ * Implement homogeneous matrix in python.
+ * Add signal cast registration for matrix rotation.
+ * Cosmetic change.
+ * Replace const FeatureAbstract*& by FeatureAbstract*
+ * Do not register function setflag anymore.
+ * Expand some macros for better readablility.
+ * Comment some more python bindings.
+ * Add documentation for python bindings.
+ * Add and bind commands addConstraint, setNumberDofs and push to Sot Entity class.
+ * Add and bind command addJacobian to Constraint entity class.
+ * Add and bind command actuate to FeatureJointLimits.
+ * Add and bind command frame to FeaturePoint6d.
+ * Add commands SetConstant and Set to GainAdaptive
+ * Add command AddFeature in sot::Task
+ * Declare MatrixHomogeneous as signal compatible type
+ * Remove declaration of maal matrix and vector types -> moved into dynamic-graph.
+ * Remove AdditionalFunctions::cmdMatrixDisplay.
+ * Replace SOT_FACTORY_TASK_PLUGIN by DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN.
+ * Merge feature and task factory with entity factory.
+ * Rename entity classes that have bracket in the name.
+ * Add a namespace in front of command class name.
+ * Bind class MatrixConstant
+ * Synchronize cmake submodule.
+ * Build python modules in the same directory hierarchy as when installed
+ * Add a command to set the value of a constant vector signal
+ * Bind tools/robot-simu.
+ * Bind matrix/vector-constant
+ * Synchronize
+ * Install one python module for sot-core and one submodule per plugin
+ * Remove trailing whitespaces.
+ * Add namespace command before class Increment.
+ * Bind RobotSimu in python
+ * Synchronize
+
+[v1.1.1]
+ * Add BOOST_ROOT/lib to the CTest LD_LIBRARY_PATH environment variable.
+ * Synchronize.
+ * Replace #ifdef DEBUG by #ifndef NDEBUG
+ * Fix cmake url.
+ * Change cmake url.
+ * Synchronize
+ * Synchronize
+ * Synchronize
+ * Synchronize
+ * Synchronize
+ * Add index switching for proper interaction matrix initialization.
+ * Correct wrong initialization of the 6D interaction matrix.
+ * Set LD_LIBRARY_PATH when being in cmake mode.
+ * Changed plugin paths.
+ * Add missing SETUP_PROJECT_CPACK()
+ * Corrected search for boost.
+ * Synchronize.
+ * Remove unnecessary folder
+ * Correct the suffix for the link with an external library
+ * Start cleaning the submodules
+ * Fix unused parameters warnings
+ * Fix unwanted race condition in test_mailbox
+ * Fix warnings
+ * Remove HAVE_LIBBOOST_THREAD
+ * Remove useless ;
+ * Remove the macro HAVE_LIBBOOST_THREAD
+ * Add cmake submodule.
+ * Remove cmake directory.
+ * Remove useless ;
+ * Synchronize
+ * Corrected wrong library suffix for plugins (by definition, always *shared* libraries)
+ * Fix warnings.
+ * Correct the links for the tests
+ * Synchronize.
+ * Fix header path.
+ * Set PROJECT_URL in CMakeListst.txt.
+ * Fix TAGFILES in Doxyfile.extra.in.
+ * Fix pkg-config file: add -lsot-core to libs.
+ * Updated documentation; corrected the output location of package.dox
+ * Updated documentation.
+ * Synchronize.
+ * Fix plug-in dependencies.
+ * Rename MatrixAbstractLayer to jrl-mal, enhance documentation.
+ * Synchronize.
+ * Synchronize.
+ * Switch to submodule.
+ * Updated documentation.
+ * Reintroduction of the patch for fortran/win32/cmake
+ * Added default option for documentation generation (temporary, will disappear with the standardized cmake submodule)
+ * Added documentation (ha ha).
+ * Correct the generation of the documentation
+ * Added missing link library.
+ * Revert "Fix linking and compilation to fix undefined symbols problems." - the undefined symbols problems warrant further investigation.
+ * Fix linking and compilation to fix undefined symbols problems.
+ * Removed import commands from sot-core.
+ * Add missing dependencies.
+ * Update build number of the debian package.
+
+[v1.1.0]
+ * Release 1.1
+ * Add missing build dependencies.
+ * Extend description of Debian package.
+ * Packages libraries in Debian package.
+ * Fix debian package.
+ * Fix debian rules file.
+ * Fix documentation generation.
+ * Disable test and enable doc while building debian package.
+ * Fix dependency version number in Debian package.
+ * Update version number to 1.0.0.99.
+ * Clean documentation CMakeLists.txt
+ * Debianize package.
+ * Add license header.
+ * Add mailmap file.
+ * Add license file.
+ * Enhance README using Markdown syntax.
+ * Uniformize NEWS file.
+ * Rewrite AUTHORS file.
+ * Remove obsolete autogen.sh file.
+
+[v1.1]
+
+[release-1-1]
+ * Made exceptions derive from std::exception
+ * Win32: LoadLibrary loads *dynamic* libraries.
+ * Removed all references to new entities.
+ * Re-added accidentally deleted entity.
+ * Re-added deleted overload of Matrixhomo::extract
+ * - Added new test test_ptrcast to try (and fail) to reproduce signal casting issue in simulation - Added 2 new entities, HomoToRotation/Twist2 whose output is a ('standard') ml::Matrix
+ * Added helper entity "MatrixRotToMatrix" to convert types where the dynamic type verification system fails.
+ * Removed debug trace initiator which caused a segfault.
+ * Changed MatrixRotation in signal cast.
+ * Namespace missing.
+ * Namespace missing.
+ * Corrected opening of trace files.
+ * Removed VP_DEBUG references.
+ * Added doxytag reference to dynamic-graph.
+ * Added documentation to sot-core
+ * - Removed last occurences of CMAKE_INSTALL_PREFIX - Updated documentation pictures
+ * Removed CMAKE_INSTALL_PREFIX in INSTALL directive.
+ * Added gfortran CMake linking.
+ * Added gfortran as a link library.
+ * Changed import-default-paths configuration to generate the file in source include directory *then* install.
+ * sotFeatureTask depends on sotTask, not sotAbstractTask
+ * Revert "Ported commit 53ef45d27b77 from StackOfTasks."
+ * Ported commit 53ef45d27b77 from StackOfTasks.
+ * Renamed sotVectorRotation
+ * Removed distant shell (now in dg-middleware)
+ * Fix Mailbox once and for all
+ * Clean the code
+ * There is no reason to define mailvect in the template file
+ * Settled down the case of mailbox.
+ * Add missing CXX flags for the unit tests.
+ * More tests for test_mailbox
+ * Split the declaration and the imnplementation in mailbox
+ * Still fighting with mailbox
+ * Correct macro name
+ * Settle the case of Mailbox
+ * Win32: the command link_directories has a wrong behaviour
+ * Removed redundant definition -pthread
+ * Added pthread definition on UNIX.
+ * Added pthread *compilation* flag; for UNIX.
+ * Modified pthread linking following compilation error with boost::thread.
+ * Made sure pthreads were included. Simplified the unit test test_mailbox that previously *required user input*.
+ * Added boost thread library. Added pthread library and compilation & link flags. Corrected multiple small bugs. Added CMakeModules for pthread and boost numeric bindings. Corrected some tests.
+ * Clean the unitTesting/CMakeLists
+ * Correct inclusions for win32
+ * Correct the inclusion of utils-windows.h
+ * Correct the inclusion of utils-windows.h
+ * Correct the declaration of operator <<
+ * Added control entities to sot-core.
+ * Made boost_thread inclusion optional and dependent on HAVE_LIBBOOST_THREAD
+ * Removed wrong include in CMakeLists.
+ * Added three tests for tools and renamed one.
+ * Remove warnings (during conversion unsigned -> bool)
+ * Remove warning (fabsf -> fabs)
+ * Revert "kalman must use the API of sot-core"
+ * Revert "joint-limitator must use the API of sot-core"
+ * Revert "Gripper-control must use the API of sot-core"
+ * Revert "Distant-shell must use the API of sot-core"
+ * Revert "com-freezer must use the API of sot-core"
+ * Revert "clamp must use the API of sot-core"
+ * Added some necessary comments in Cmakelists
+ * Got some tools out of the main library and into plugins, as they should have been.
+ * kalman must use the API of sot-core
+ * joint-limitator must use the API of sot-core
+ * Gripper-control must use the API of sot-core
+ * Distant-shell must use the API of sot-core
+ * com-freezer must use the API of sot-core
+ * clamp must use the API of sot-core
+ * Add a gitignore file.
+ * The dependency in tracer is OS specific
+ * These commands are unix specific
+ * Win32: Correct link flags for unittesting
+ * Win32: correct the linkage
+ * Added forgotten file.
+ * Inter-plugins dependency: set the compilation order
+ * Added plugins and exceptions.
+ * Add dependencies between plugins
+ * In this specific case, link_directories is only for UNIX
+ * The boost library 'system' is also required
+ * Win32: add definitions that disable verbose warnings
+ * Remove a header generated by cmake from git repository
+ * Correct the inclusion and use of utils-windows.h
+ * Correct typo in macro name
+ * SHI must use the API of sot-core
+ * Correct typo in macro name
+ * Rotation-simple must use the API of sot-core
+ * Correct typo in macro name
+ * Correct typo in macro name
+ * Memory-task must use the API of sot-API
+ * Contiifstream must use the API of sot-API
+ * Added MotionPeriod, NeckLimitation and PeriodicCallEntity plugins.
+ * Added three tools.
+ * Added uninstall.
+ * Added 3 tools. Some minor corrections (such as correctly exporting classes in plugins)
+ * Modified CMakeLists.txt to remove multiple definitions and include dirs.
+ * Task-related unit tests and corrections.
+ * Corrected a bug that stemmed from the renaming of GainAdaptive (thanks unit testing!) Added unit tests for filesystem and tracing.
+ * Added plugin "Reader" to read files generated by "Tracer".
+ * Fix dependancy to dependency
+ * Corrected typo in gain-adaptative and related names.
+ * Corrected typo in op-point-modifier.
+ * Changed all instances of 'dependancy' to 'dependency'
+ * Corrected an error in test_factory
+ * Added new test test_factory
+ * Added two unit tests, removed a tool
+ * Removed "using dynamicgraph" directives in headers, implemented resulting changes.
+ * Added forgotten test file test_ptr.cpp
+ * Added forgotten test file test_depend.cpp
+ * Added forgotten test file test_dep.cpp
+ * Added tools in sot-core
+ * Added tools/ directory for... tools. Some corrections in the unit testing facility.
+ * Corrected installation path and name of plugins. Some minor bugfixes.
+ * Added plugins compilation and installation to CMakeFiles. Started separating plugins from sot-core.
+ * Added LAPACK library dependencies in FORTRAN. Adjusted for a change in singletons names from dynamicgraph.
+ * More refactoring. Removed undertermination between sot::Pool and dynamicgraph::Pool in pool.cpp. Added cmake configure for import-default-paths.
+ * Finished renaming of SOT objects.
+ * Removed test test_shell which was already included in dynamic graph.
+ * Only generate documentation if GENERATE_DOC is ON.
+ * Added forgotten file test_signal.cpp
+ * Added forgotten cpp files.
+ * Changed order of compilation of some .cpp files to prevent mysterious Segmentation Fault(s) from appearing.
+ * Some bug fixes.
+ * Put everything in namespace sot (global objects included). Corrected some resulting bugs.
+ * Begin renamind classes and putting them into namespace sot.
+ * Renaming of sot and tasks (renaming complete).
+ * Renamed math and matrix files. Added files forgotten in last commit.
+ * Renamed factory files
+ * Renamed exceptions, signals and debug to conform to new naming convention.
+ * Added source files for library sot-core taken from sot.
+ * Created package sot-core.
