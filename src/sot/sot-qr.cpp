@@ -1005,19 +1005,19 @@ writeGraph( std::ostream& os ) const
       if (nextiter!=stack.end())
 	{
 	  TaskAbstract & nexttask = **nextiter;
-	  os << "\t\t\t" << task.getName() << " -> " << nexttask.getName() << " [color=red]" << endl;
+	  os << "\t\t\t\"" << task.getName() << "\" -> \"" << nexttask.getName() << "\" [color=red]" << endl;
 	}
 
     }
 
   os << "\t\tsubgraph cluster_Tasks {" <<endl;
-  os << "\t\t\tsubgraph cluster_" << getName() << " {" << std::endl;
+  os << "\t\t\tsubgraph \"cluster_" << getName() << "\" {" << std::endl;
   os << "\t\t\t\tcolor=lightsteelblue1; label=\"" << getName() <<"\"; style=filled;" << std::endl;
   for(  iter = stack.begin(); iter!=stack.end();++iter )
     {
       const TaskAbstract & task = **iter;
-      os << "\t\t\t\t" << task.getName()
-		<<" [ label = \"" << task.getName() << "\" ," << std::endl
+      os << "\t\t\t\t\"" << task.getName()
+		<<"\" [ label = \"" << task.getName() << "\" ," << std::endl
 		<<"\t\t\t\t   fontcolor = black, color = black, fillcolor = magenta, style=filled, shape=box ]" << std::endl;
 
     }
