@@ -53,9 +53,6 @@ FeaturePoint6dRelative( const string& pointName )
   ,articularJacobianReferenceSIN( NULL,"sotFeaturePoint6dRelative("+name+")::input(matrix)::JqRef" )
   ,dotpositionSIN(NULL,"sotFeaturePoint6dRelative("+name+")::input(matrixHomo)::dotposition" )
   ,dotpositionReferenceSIN(NULL,"sotFeaturePoint6dRelative("+name+")::input(matrixHomo)::dotpositionRef" )
-  ,errordotSOUT(boost::bind(&FeaturePoint6dRelative::computeErrorDot,this,_1,_2),
-		selectionSIN,
-		"sotFeatureAbstract("+name+")::output(vector)::errordot" )
 {
   jacobianSOUT.addDependency( positionReferenceSIN );
   jacobianSOUT.addDependency( articularJacobianReferenceSIN );
@@ -69,6 +66,9 @@ FeaturePoint6dRelative( const string& pointName )
   signalRegistration( dotpositionSIN <<
 		      dotpositionReferenceSIN <<
 		      errordotSOUT );
+
+  errordotSOUT.setFunction (boost::bind (&FeaturePoint6dRelative::computeErrordot,
+					 this, _1, _2));
   initCommands();
 }
 
