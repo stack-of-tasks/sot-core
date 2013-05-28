@@ -100,6 +100,14 @@ void Task::initCommands( void )
   addCommand("getWithDerivative",
 	     makeDirectGetter(*this,&withDerivative,
 				docDirectGetter("withDerivative","bool")));
+  // ClearFeatureList
+  docstring = "    \n"
+    "    \n"
+    "    Clear the list of features of the task\n"
+    "    \n";
+
+  addCommand("clear",
+	     makeCommandVoid0(*this,&Task::clearFeatureList, docstring));
 }
 
 
