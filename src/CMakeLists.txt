@@ -265,6 +265,7 @@ INSTALL(FILES
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_tasks.py
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_task_6d.py
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_tasks_kine.py
+  ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_tasks_kine_relative.py
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_task_posture.py
   ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_task_visual_point.py
   DESTINATION ${PYTHON_SITELIB}/dynamic_graph/sot/core
