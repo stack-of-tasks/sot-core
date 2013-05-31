@@ -85,7 +85,7 @@ void Task::initCommands( void )
   std::string docstring;
   // AddFeature
   docstring = "    \n"
-    "    \n"
+//    "    \n"
     "    Add a feature to the task\n"
     "    \n"
     "      Input:\n"
@@ -102,7 +102,7 @@ void Task::initCommands( void )
 				docDirectGetter("withDerivative","bool")));
   // ClearFeatureList
   docstring = "    \n"
-    "    \n"
+//    "    \n"
     "    Clear the list of features of the task\n"
     "    \n";
 
