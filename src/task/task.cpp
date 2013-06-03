@@ -85,6 +85,10 @@ void Task::initCommands( void )
   std::string docstring;
   // AddFeature
   docstring = "    \n"
+<<<<<<< HEAD
+//    "    \n"
+=======
+>>>>>>> 5aec8fbc69d94bebed193b028885f6771910a89e
     "    Add a feature to the task\n"
     "    \n"
     "      Input:\n"
