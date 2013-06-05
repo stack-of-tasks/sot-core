@@ -47,6 +47,7 @@ def generic6dReference(p):
     if isinstance(p,(matrix,ndarray)) and p.size == 3: M[0:3,3] = p
     elif isinstance(p,tuple) and len(p) == 3:  M[0:3,3] = p
     elif isinstance(p,(matrix,ndarray)) and p.shape == (4,4): M = p
+    elif isinstance(p,(matrix,tuple)) and len(p) == 4 == len(p[0]) == len(p[1]) == len(p[2]) == len(p[3]) : M = array(p)
     else: print "Position with other parameters ... todo"
     return M
 
