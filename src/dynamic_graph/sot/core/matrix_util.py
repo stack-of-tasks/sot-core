@@ -83,7 +83,7 @@ def matrixToRPY( M ):
 
 def RPYToMatrix( pr ):
     '''
-    Convert a 4x4 homogeneous matrix to a 6x1 rpy pose vector.
+    Convert a 6x1 rpy pose vector to a 4x4 homogeneous matrix.
     '''
     M=array(rpy2tr(pr[3],pr[4],pr[5]))
     M[0:3,3] = pr[0:3]
