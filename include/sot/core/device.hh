@@ -61,7 +61,9 @@ namespace dynamicgraph {
       
     protected:
       ml::Vector state_;
-      ml::Vector statedot_;
+      ml::Vector velocity_;
+      bool vel_controlInit_;
+      ml::Vector vel_control_;
       bool secondOrderIntegration_;
       bool withForceSignals[4];
       PeriodicCall periodicCallBefore_;
@@ -92,7 +94,7 @@ namespace dynamicgraph {
       dynamicgraph::SignalPtr<ml::Vector,int> zmpSIN;
 
       dynamicgraph::Signal<ml::Vector,int> stateSOUT;
-      dynamicgraph::Signal<ml::Vector,int> statedotSOUT;
+      dynamicgraph::Signal<ml::Vector,int> velocitySOUT;
       dynamicgraph::Signal<MatrixRotation,int> attitudeSOUT;
       dynamicgraph::Signal<ml::Vector,int>* forcesSOUT[4];
 
