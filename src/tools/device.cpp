@@ -114,16 +114,18 @@ Device::
 Device( const std::string& n )
   :Entity(n)
    ,state_(6)
+   ,secondOrderIntegration_(false)
    ,controlSIN( NULL,"Device("+n+")::input(double)::control" )
   //,attitudeSIN(NULL,"Device::input(matrixRot)::attitudeIN")
    ,attitudeSIN(NULL,"Device::input(vector3)::attitudeIN")
    ,zmpSIN(NULL,"Device::input(vector3)::zmp")
    ,stateSOUT( "Device("+n+")::output(vector)::state" )
+   ,statedotSOUT( "Device("+n+")::output(vector)::statedot"  )
    ,attitudeSOUT( "Device("+n+")::output(matrixRot)::attitude" )
    ,pseudoTorqueSOUT( "Device::output(vector)::ptorque" )
    ,previousControlSOUT( "Device("+n+")::output(vector)::previousControl" )
    ,motorcontrolSOUT( "Device("+n+")::output(vector)::motorcontrol" )
-  ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" ), ffPose_(),
+   ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" ), ffPose_(),
    forceZero6 (6)
 {
   forceZero6.fill (0);
@@ -172,6 +174,18 @@ Device( const std::string& n )
 	       command::makeCommandVoid1(*this,setRootPtr,
 					 docstring));
 
+    /* Second Order Integration set. */
+    docstring =
+      "\n"
+      "    Set the position calculous starting from acceleration \n"
+      "    measure instead of velocity \n"
+      "\n";
+
+    addCommand("setSecondOrderIntegration",
+	       command::makeCommandVoid0(*this,&Device::setSecondOrderIntegration,
+				docstring));
+
+
     // Handle commands and signals called in a synchronous way.
     periodicCallBefore_.addSpecificCommands(*this, commandMap, "before.");
     periodicCallAfter_.addSpecificCommands(*this, commandMap, "after.");
@@ -195,6 +209,8 @@ void Device::
 setState( const ml::Vector& st )
 {
   state_ = st;
+  statedot_ = ml::Vector(state_.size());
+  statedot_.setZero();
   stateSOUT .setConstant( state_ );
   motorcontrolSOUT .setConstant( state_ );
 }
@@ -216,6 +232,13 @@ setRoot( const MatrixHomogeneous & worlMwaist )
 }
 
 void Device::
+setSecondOrderIntegration()
+{
+  secondOrderIntegration_ = true;
+  signalRegistration( statedotSOUT );
+}
+
+void Device::
 increment( const double & dt )
 {
   int time = stateSOUT.getTime();
@@ -223,6 +246,11 @@ increment( const double & dt )
 
   /* Position the signals corresponding to sensors. */
   stateSOUT .setConstant( state_ ); stateSOUT.setTime( time+1 );
+  if( secondOrderIntegration_  )
+    {
+      statedotSOUT.setConstant( statedot_ );
+      statedotSOUT.setTime( time+1 );
+    }
   for( int i=0;i<4;++i ){
     if(  !withForceSignals[i] ) forcesSOUT[i]->setConstant(forceZero6);
   }
@@ -295,17 +323,31 @@ increment( const double & dt )
 void Device::integrate( const double & dt )
 {
   const ml::Vector & control = controlSIN.accessCopy();
-
+  ml::Vector vel_control = ml::Vector(control.size());
+  vel_control.setZero();
   // If control size is state size - 6, integrate joint angles,
   // if control and state are of same size, integrate 6 first degrees of
   // freedom as a translation and roll pitch yaw.
   unsigned int offset = 6;
-  if (control.size() == state_.size()) {
+
+  if (secondOrderIntegration_)
+    for( unsigned int i=0;i<control.size();++i )
+      {
+	vel_control(i) = statedot_(i) + control(i)*dt*0.5;
+	statedot_(i) = statedot_(i) + control(i)*dt;
+      }
+  else
+    {
+      vel_control = control;
+    }
+
+  if (vel_control.size() == state_.size()) {
     offset = 0;
-    integrateRollPitchYaw(state_, control, dt);
+    integrateRollPitchYaw(state_, vel_control, dt);
   }
+  
   for( unsigned int i=6;i<state_.size();++i )
-    { state_(i) += (control(i-offset)*dt); }
+    { state_(i) += (vel_control(i-offset)*dt); }
 }
 
 /* --- DISPLAY ------------------------------------------------------------ */
