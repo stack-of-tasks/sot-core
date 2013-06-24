@@ -113,19 +113,20 @@ Device::
 Device::
 Device( const std::string& n )
   :Entity(n)
-   ,state_(6)
-   ,secondOrderIntegration_(false)
-   ,controlSIN( NULL,"Device("+n+")::input(double)::control" )
-  //,attitudeSIN(NULL,"Device::input(matrixRot)::attitudeIN")
-   ,attitudeSIN(NULL,"Device::input(vector3)::attitudeIN")
-   ,zmpSIN(NULL,"Device::input(vector3)::zmp")
-   ,stateSOUT( "Device("+n+")::output(vector)::state" )
-   ,statedotSOUT( "Device("+n+")::output(vector)::statedot"  )
-   ,attitudeSOUT( "Device("+n+")::output(matrixRot)::attitude" )
-   ,pseudoTorqueSOUT( "Device::output(vector)::ptorque" )
-   ,previousControlSOUT( "Device("+n+")::output(vector)::previousControl" )
-   ,motorcontrolSOUT( "Device("+n+")::output(vector)::motorcontrol" )
-   ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" ), ffPose_(),
+  ,state_(6)
+  ,secondOrderIntegration_(false)
+  ,vel_controlInit_(false)
+  ,controlSIN( NULL,"Device("+n+")::input(double)::control" )
+   //,attitudeSIN(NULL,"Device::input(matrixRot)::attitudeIN")
+  ,attitudeSIN(NULL,"Device::input(vector3)::attitudeIN")
+  ,zmpSIN(NULL,"Device::input(vector3)::zmp")
+  ,stateSOUT( "Device("+n+")::output(vector)::state" )
+  ,velocitySOUT( "Device("+n+")::output(vector)::velocity"  )
+  ,attitudeSOUT( "Device("+n+")::output(matrixRot)::attitude" )
+  ,pseudoTorqueSOUT( "Device::output(vector)::ptorque" )
+  ,previousControlSOUT( "Device("+n+")::output(vector)::previousControl" )
+  ,motorcontrolSOUT( "Device("+n+")::output(vector)::motorcontrol" )
+  ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" ), ffPose_(),
    forceZero6 (6)
 {
   forceZero6.fill (0);
@@ -177,8 +178,8 @@ Device( const std::string& n )
     /* Second Order Integration set. */
     docstring =
       "\n"
-      "    Set the position calculous starting from acceleration \n"
-      "    measure instead of velocity \n"
+      "    Set the position calculous starting from  \n"
+      "    acceleration measure instead of velocity \n"
       "\n";
 
     addCommand("setSecondOrderIntegration",
@@ -201,6 +202,10 @@ setStateSize( const unsigned int& size )
   pseudoTorqueSOUT.setConstant( state_ );
   motorcontrolSOUT .setConstant( state_ );
 
+  velocity_.resize(size);
+  velocity_.fill(.0);
+  velocitySOUT.setConstant( velocity_ );
+
   ml::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
 }
@@ -209,8 +214,6 @@ void Device::
 setState( const ml::Vector& st )
 {
   state_ = st;
-  statedot_ = ml::Vector(state_.size());
-  statedot_.setZero();
   stateSOUT .setConstant( state_ );
   motorcontrolSOUT .setConstant( state_ );
 }
@@ -235,7 +238,9 @@ void Device::
 setSecondOrderIntegration()
 {
   secondOrderIntegration_ = true;
-  signalRegistration( statedotSOUT );
+  signalRegistration( velocitySOUT );
+  velocity_.fill(.0);
+  velocitySOUT.setConstant( velocity_ );
 }
 
 void Device::
@@ -248,8 +253,8 @@ increment( const double & dt )
   stateSOUT .setConstant( state_ ); stateSOUT.setTime( time+1 );
   if( secondOrderIntegration_  )
     {
-      statedotSOUT.setConstant( statedot_ );
-      statedotSOUT.setTime( time+1 );
+      velocitySOUT.setConstant( velocity_ );
+      velocitySOUT.setTime( time+1 );
     }
   for( int i=0;i<4;++i ){
     if(  !withForceSignals[i] ) forcesSOUT[i]->setConstant(forceZero6);
@@ -323,8 +328,13 @@ increment( const double & dt )
 void Device::integrate( const double & dt )
 {
   const ml::Vector & control = controlSIN.accessCopy();
-  ml::Vector vel_control = ml::Vector(control.size());
-  vel_control.setZero();
+  
+  if( !vel_controlInit_ )
+    {
+      vel_control_ = ml::Vector(control.size());
+      vel_controlInit_ = true;
+    }
+
   // If control size is state size - 6, integrate joint angles,
   // if control and state are of same size, integrate 6 first degrees of
   // freedom as a translation and roll pitch yaw.
@@ -333,21 +343,21 @@ void Device::integrate( const double & dt )
   if (secondOrderIntegration_)
     for( unsigned int i=0;i<control.size();++i )
       {
-	vel_control(i) = statedot_(i) + control(i)*dt*0.5;
-	statedot_(i) = statedot_(i) + control(i)*dt;
+	vel_control_(i) = velocity_(i) + control(i)*dt*0.5;
+	velocity_(i) = velocity_(i) + control(i)*dt;
       }
   else
     {
-      vel_control = control;
+      vel_control_ = control;
     }
 
-  if (vel_control.size() == state_.size()) {
+  if (vel_control_.size() == state_.size()) {
     offset = 0;
-    integrateRollPitchYaw(state_, vel_control, dt);
+    integrateRollPitchYaw(state_, vel_control_, dt);
   }
   
   for( unsigned int i=6;i<state_.size();++i )
-    { state_(i) += (vel_control(i-offset)*dt); }
+    { state_(i) += (vel_control_(i-offset)*dt); }
 }
 
 /* --- DISPLAY ------------------------------------------------------------ */
