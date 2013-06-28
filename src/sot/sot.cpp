@@ -73,8 +73,8 @@ Sot( const std::string& name )
   ,taskGradient(0)
   ,recomputeEachTime(true)
   ,q0SIN( NULL,"sotSOT("+name+")::input(double)::q0" )
-   ,inversionThresholdSIN( NULL,"sotSOT("+name+")::input(double)::damping" )
-   ,constraintSOUT( boost::bind(&Sot::computeConstraintProjector,this,_1,_2),
+  ,inversionThresholdSIN( NULL,"sotSOT("+name+")::input(double)::damping" )
+  ,constraintSOUT( boost::bind(&Sot::computeConstraintProjector,this,_1,_2),
 		   sotNOSIGNAL,
 		    "sotSOT("+name+")::output(matrix)::constraint" )
   ,controlSOUT( boost::bind(&Sot::computeControlLaw,this,_1,_2),
