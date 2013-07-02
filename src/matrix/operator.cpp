@@ -777,25 +777,52 @@ namespace dynamicgraph {
 
 
 
+namespace dynamicgraph {
+  namespace sot {
+
+    template< typename T>
+    struct WeightedAdder
+      : public BinaryOpHeader<T,T,T>
+    {
+    public:
+      double gain1,gain2;
+      void operator()( const T& v1,const T& v2, T& res ) const
+      {
+        res=v1; res*=gain1;
+        res += gain2*v2;
+      }
+
+      void addSpecificCommands(Entity& ent,
+                   Entity::CommandMap_t& commandMap)
+      {
+        using namespace dynamicgraph::command;
+        std::string doc;
+
+        ADD_COMMAND( "setGain1",
+            makeDirectSetter(ent,&gain1,docDirectSetter("gain1","double")));
+        ADD_COMMAND( "setGain2",
+            makeDirectSetter(ent,&gain2,docDirectSetter("gain2","double")));
+        ADD_COMMAND( "getGain1",
+            makeDirectGetter(ent,&gain1,docDirectGetter("gain1","double")));
+        ADD_COMMAND( "getGain2",
+            makeDirectGetter(ent,&gain2,docDirectGetter("gain2","double")));
+      }
+
+      virtual std::string getDocString () const
+      {
+        return std::string("Weighted Combination of inputs : \n - gain{1|2} gain.");
+      }
+    };
+
+    REGISTER_BINARY_OP(WeightedAdder<ml::Matrix>,WeightAdd_of_matrix);
+    REGISTER_BINARY_OP(WeightedAdder<ml::Vector>,WeightAdd_of_vector);
+    REGISTER_BINARY_OP(WeightedAdder<double>,WeightAdd_of_double);
+    }
+}
+
 /* --- TODO ------------------------------------------------------------------*/
 // The following commented lines are sot-v1 entities that are still waiting
 //   for conversion. Help yourself!
-
-// struct WeightedAdder
-// {
-// public:
-//   double gain1,gain2;
-//   void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const
-//   {
-//     res=v1; res*=gain1;
-//     res += gain2*v2;
-//   }
-// };
-// typedef BinaryOp< Vector,Vector,Vector,WeightedAdder > weightadd;
-// SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_ExE_E_CMD(weightadd,vector,weight_add,"WeightAdd_of_vector",else if( cmdLine=="gain1" ){ cmdArgs>>op.gain1; }
-//    else if( cmdLine=="gain2" ){ cmdArgs>>op.gain2;}
-//    else if( cmdLine=="print" ){os<<"WeightAdd: "<<op.gain1<<" "<<op.gain2<<std::endl; },
-//   "WeightAdd<vector>: \n - gain{1|2} gain.")
 
 // /* -------------------------------------------------------------------------- */
 
