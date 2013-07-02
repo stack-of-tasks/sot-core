@@ -93,7 +93,6 @@ class SOTGRIPPERCONTROL_EXPORT GripperControl
   static ml::Vector& selector( const ml::Vector& fullsize,
 			       const Flags& selec,
 			       ml::Vector& desPos );
-
 };
 
 /* --------------------------------------------------------------------- */
@@ -144,10 +143,9 @@ class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
 
  public: /* --- COMMANDLINE --- */
 
-  virtual void commandLine( const std::string& cmdLine,
-			    std::istringstream& cmdArgs,
-			    std::ostream& os );
+  void initCommands();
 
+  void setOffset(const double & value);
 };
 
 
