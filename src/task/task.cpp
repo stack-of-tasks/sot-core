@@ -439,27 +439,6 @@ commandLine( const std::string& cmdLine
 
       sotDEBUG(15) << "New flag: "<<newFlag<<endl;
     }
-  else if( cmdLine=="unselec" )
-    {
-      unsigned int idx_beg,idx_end; bool base;
-      readListIdx( cmdArgs,idx_beg,idx_end,base );
-
-      Flags newFlag(! base );
-      if(base)
-	{
-	  for( unsigned int i=0;i<idx_beg;++i)
-	    newFlag .set(i);
-	}
-      else for( unsigned int i=idx_beg;i<=idx_end;++i) newFlag.unset(i);
-
-      sotDEBUG(15) << "Next flag: "<<newFlag<<endl;
-      sotDEBUG(15) << "Old flag: "<<controlSelectionSIN.accessCopy()<<endl;
-
-      newFlag &= controlSelectionSIN.accessCopy();
-      controlSelectionSIN = newFlag;
-
-      sotDEBUG(15) << "New flag: "<<newFlag<<endl;
-    }
   else if( cmdLine=="clear" )
     {
       clearFeatureList();
