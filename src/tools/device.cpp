@@ -159,6 +159,14 @@ Device( const std::string& n )
     addCommand("resize",
 	       new command::Setter<Device, unsigned int>
 	       (*this, &Device::setStateSize, docstring));
+    /* Command setVelocitySize. */
+    docstring =
+      "\n"
+      "    Set size of velocity vector\n"
+      "\n";
+    addCommand("resizeVelocity",
+	       new command::Setter<Device, unsigned int>
+	       (*this, &Device::setVelocitySize, docstring));
     /* Command set. */
     docstring =
       "\n"
@@ -196,6 +204,12 @@ Device( const std::string& n )
     // Handle commands and signals called in a synchronous way.
     periodicCallBefore_.addSpecificCommands(*this, commandMap, "before.");
     periodicCallAfter_.addSpecificCommands(*this, commandMap, "after.");
+
+
+
+    std::ofstream fout("/tmp/desperate_test.txt",ios::out); //no append to create the file
+    fout << "velocity in constructor = " << velocity_ << std::endl;
+    fout.close();
   }
 }
 
@@ -208,14 +222,16 @@ setStateSize( const unsigned int& size )
   pseudoTorqueSOUT.setConstant( state_ );
   motorcontrolSOUT .setConstant( state_ );
 
-  /*
-  velocity_.resize(size);
-  velocity_.setZero();
-  velocitySOUT.setConstant( velocity_ );
-  */
-
   ml::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
+}
+
+void Device::
+setVelocitySize( const unsigned int& size )
+{ 
+  velocity_.resize(size);
+  velocity_.fill(.0);
+  velocitySOUT.setConstant( velocity_ );
 }
 
 void Device::
@@ -248,8 +264,12 @@ setSecondOrderIntegration()
   secondOrderIntegration_ = true;
   signalRegistration( velocitySOUT );
   //velocity_.resize(state_.size());
+  velocity_.resize(36);
   velocity_.setZero();
   velocitySOUT.setConstant( velocity_ );
+  std::ofstream fout("/tmp/desperate_test.txt",ios::out | ios::app);
+  fout << "velocity in setSecondOrderIntegration() = " << velocity_ << std::endl;
+  fout.close();
 }
 
 void Device::
@@ -262,6 +282,9 @@ increment( const double & dt )
   stateSOUT .setConstant( state_ ); stateSOUT.setTime( time+1 );
   if( secondOrderIntegration_  )
     {
+      std::ofstream fout("/tmp/desperate_test.txt",ios::out | ios::app);
+      fout << "\n Velocity in increment() at time " << time << " = " << velocity_ << std::endl;
+      fout.close();
       velocitySOUT.setConstant( velocity_ );
       velocitySOUT.setTime( time+1 );
     }
@@ -354,6 +377,11 @@ void Device::integrate( const double & dt )
 
   if (secondOrderIntegration_)
     {
+      std::ofstream fout("/tmp/desperate_test.txt",ios::out | ios::app);
+      fout << "velocity in if(secondOrderIntegration_) = " << velocity_ << std::endl;
+      fout << "vel_control_ in if(secondOrderIntegration_) = " << vel_control_ << std::endl;
+      fout << "control in if(secondOrderIntegration_) = " << control << std::endl;
+      fout.close();
       for( unsigned int i=0;i<control.size();++i )
 	{
 	  vel_control_(i) = velocity_(i) + control(i)*dt*0.5;
