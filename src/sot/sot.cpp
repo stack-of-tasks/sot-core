@@ -104,7 +104,7 @@ Sot( const std::string& name )
     "      Input:\n"
     "        - a positive integer : number of degrees of freedom of the robot.\n"
     "    \n";
-  addCommand("setNumberDofs",
+  addCommand("setSize",
 	     new dynamicgraph::command::Setter<Sot, unsigned int>
 	     (*this, &Sot::defineNbDof, docstring));
 
