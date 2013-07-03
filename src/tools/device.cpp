@@ -26,7 +26,7 @@
 
 /* SOT */
 #include "sot/core/device.hh"
-#include "sot/core/debug.hh"
+#include <sot/core/debug.hh>
 using namespace std;
 
 #include <dynamic-graph/factory.h>
@@ -113,7 +113,8 @@ Device::
 Device::
 Device( const std::string& n )
   :Entity(n)
-  ,state_(6)
+  ,state_(36)
+  ,velocity_(36)
   ,secondOrderIntegration_(false)
   ,vel_controlInit_(false)
   ,controlSIN( NULL,"Device("+n+")::input(double)::control" )
@@ -186,6 +187,11 @@ Device( const std::string& n )
 	       command::makeCommandVoid0(*this,&Device::setSecondOrderIntegration,
 				docstring));
 
+    /*
+    addCommand("getSecondOrderIntegration",
+	       makeDirectGetter(*this,&secondOrderIntegration_,
+				docDirectGetter("second order integration","bool")));
+    */
 
     // Handle commands and signals called in a synchronous way.
     periodicCallBefore_.addSpecificCommands(*this, commandMap, "before.");
@@ -202,9 +208,11 @@ setStateSize( const unsigned int& size )
   pseudoTorqueSOUT.setConstant( state_ );
   motorcontrolSOUT .setConstant( state_ );
 
+  /*
   velocity_.resize(size);
-  velocity_.fill(.0);
+  velocity_.setZero();
   velocitySOUT.setConstant( velocity_ );
+  */
 
   ml::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
@@ -224,13 +232,13 @@ setRoot( const ml::Matrix & root )
   setRoot( (MatrixHomogeneous) root );
 }
 void Device::
-setRoot( const MatrixHomogeneous & worlMwaist )
+setRoot( const MatrixHomogeneous & worldMwaist )
 {
-  MatrixRotation R; worlMwaist.extract(R);
+  MatrixRotation R; worldMwaist.extract(R);
   VectorRollPitchYaw r; r.fromMatrix(R);
 
   ml::Vector q = state_;
-  worlMwaist.extract(q); // abusive ... but working.
+  worldMwaist.extract(q); // abusive ... but working.
   for( unsigned int i=0;i<3;++i ) q(i+3) = r(i);
 }
 
@@ -239,7 +247,8 @@ setSecondOrderIntegration()
 {
   secondOrderIntegration_ = true;
   signalRegistration( velocitySOUT );
-  velocity_.fill(.0);
+  //velocity_.resize(state_.size());
+  velocity_.setZero();
   velocitySOUT.setConstant( velocity_ );
 }
 
@@ -332,6 +341,7 @@ void Device::integrate( const double & dt )
   if( !vel_controlInit_ )
     {
       vel_control_ = ml::Vector(control.size());
+      vel_control_.setZero();
       vel_controlInit_ = true;
     }
 
@@ -340,12 +350,16 @@ void Device::integrate( const double & dt )
   // freedom as a translation and roll pitch yaw.
   unsigned int offset = 6;
 
+  
+
   if (secondOrderIntegration_)
-    for( unsigned int i=0;i<control.size();++i )
-      {
-	vel_control_(i) = velocity_(i) + control(i)*dt*0.5;
-	velocity_(i) = velocity_(i) + control(i)*dt;
-      }
+    {
+      for( unsigned int i=0;i<control.size();++i )
+	{
+	  vel_control_(i) = velocity_(i) + control(i)*dt*0.5;
+	  velocity_(i) = velocity_(i) + control(i)*dt;
+	}
+    }
   else
     {
       vel_control_ = control;
