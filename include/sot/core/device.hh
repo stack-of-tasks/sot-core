@@ -77,6 +77,7 @@ namespace dynamicgraph {
       
       void setStateSize(const unsigned int& size);
       void setState(const ml::Vector& st);
+      void setVelocitySize(const unsigned int& size);
       void setSecondOrderIntegration();
       void increment(const double & dt = 5e-2);
       
