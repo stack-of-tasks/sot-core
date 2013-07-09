@@ -158,16 +158,6 @@ Device( const std::string& n )
     addCommand("resize",
 	       new command::Setter<Device, unsigned int>
 	       (*this, &Device::setStateSize, docstring));
-
-    /* Command setVelocitySize. */
-    docstring =
-      "\n"
-      "    Set size of velocity vector\n"
-      "\n";
-    addCommand("resizeVelocity",
-	       new command::Setter<Device, unsigned int>
-	       (*this, &Device::setVelocitySize, docstring));
-    /* Command set. */
     docstring =
       "\n"
       "    Set state vector value\n"
