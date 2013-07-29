@@ -2,7 +2,7 @@
 # dedicated thread, whose execution can be stoped or run on demand from the
 # script thread.
 #
-# To use the previous class, a 'loop' function has to be define.
+# To use the previous class, a 'loop' function has to be defined.
 # Everything will be embedded by using the decorator below. Just
 # use it as:
 #   >>> @loopInThread
