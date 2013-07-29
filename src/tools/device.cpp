@@ -166,6 +166,14 @@ Device( const std::string& n )
 	       new command::Setter<Device, Vector>
 	       (*this, &Device::setState, docstring));
 
+    docstring =
+      "\n"
+      "    Set velocity vector value\n"
+      "\n";
+    addCommand("setVelocity",
+	       new command::Setter<Device, Vector>
+	       (*this, &Device::setVelocity, docstring));
+
     void(Device::*setRootPtr)(const ml::Matrix&) = &Device::setRoot;
     docstring
       = command::docCommandVoid1("Set the root position.",
@@ -221,6 +229,13 @@ setState( const ml::Vector& st )
   state_ = st;
   stateSOUT .setConstant( state_ );
   motorcontrolSOUT .setConstant( state_ );
+}
+
+void Device::
+setVelocity( const ml::Vector& vel )
+{
+  velocity_ = vel;
+  velocitySOUT .setConstant( velocity_ );
 }
 
 void Device::
