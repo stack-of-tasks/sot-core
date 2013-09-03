@@ -44,7 +44,6 @@ using namespace dynamicgraph;
                           &regFunction##_##sotSigType );                                    \
   }
 
-using namespace ml;
 using namespace std;
 namespace dynamicgraph { 
   namespace sot {

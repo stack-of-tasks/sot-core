@@ -24,10 +24,6 @@
 /* STL */
 #include <utility>
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* SOT */
 #include <dynamic-graph/entity.h>
 #include <sot/core/exception-task.hh>
@@ -71,8 +67,8 @@ class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace
 
   dg::SignalPtr< MatrixHomogeneous,int > positionrefSIN;
   dg::SignalPtr< MatrixHomogeneous,int > positionSIN;
-  dg::SignalTimeDependent< ml::Matrix,int > alphaSOUT;
-  dg::SignalTimeDependent< ml::Matrix,int > alphabarSOUT;
+  dg::SignalTimeDependent< dynamicgraph::Matrix,int > alphaSOUT;
+  dg::SignalTimeDependent< dynamicgraph::Matrix,int > alphabarSOUT;
   dg::SignalTimeDependent< MatrixHomogeneous,int > handrefSOUT;
 
  public:
@@ -82,8 +78,8 @@ class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace
 
   void update( int time );
 
-  virtual ml::Matrix& computeOutput( ml::Matrix& res, int time );
-  virtual ml::Matrix& computeOutputBar( ml::Matrix& res, int time );
+  virtual dynamicgraph::Matrix& computeOutput( dynamicgraph::Matrix& res, int time );
+  virtual dynamicgraph::Matrix& computeOutputBar( dynamicgraph::Matrix& res, int time );
   virtual MatrixHomogeneous& computeRef( MatrixHomogeneous& res, int time );
 
   virtual void display( std::ostream& ) const;
@@ -95,10 +91,10 @@ class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace
 
   int timeUpdate;
 
-  ml::Matrix alpha;
-  ml::Matrix alphabar;
+  dynamicgraph::Matrix alpha;
+  dynamicgraph::Matrix alphabar;
   MatrixHomogeneous prefMp;
-  ml::Vector pd;
+  dynamicgraph::Vector pd;
   MatrixRotation Rd;
   MatrixHomogeneous handref;
 

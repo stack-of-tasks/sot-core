@@ -21,10 +21,6 @@
 #ifndef __SOT_VECTOR_ROTATION_H__
 #define __SOT_VECTOR_ROTATION_H__
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* --- SOT --- */
 #include <sot/core/matrix-rotation.hh>
 #include "sot/core/api.hh"
@@ -37,12 +33,12 @@ namespace dynamicgraph {
   namespace sot {
 
 class SOT_CORE_EXPORT VectorRotation
-: public ml::Vector
+: public dynamicgraph::Vector
 {
  public:
 
-  VectorRotation( void ) : ml::Vector(3) { fill(0.); }
-  VectorRotation(const VectorRotation & v) : ml::Vector(v) {}
+  VectorRotation( void ) : dynamicgraph::Vector(3) { fill(0.); }
+  VectorRotation(const VectorRotation & v) : dynamicgraph::Vector(v) {}
   virtual ~VectorRotation( void ) { }
 
   virtual VectorRotation& fromMatrix( const MatrixRotation& rot ) = 0;

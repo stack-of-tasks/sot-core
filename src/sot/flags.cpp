@@ -85,7 +85,7 @@ operator[] (const unsigned int& i) const
     res = flags[i];
   else res=0; 
   //cout<<"["<<i<<"] "<<res+0<<"||"<<(!res)+0<<std::endl;
-  if( reverse ) return ~res;//(!res);
+  if( reverse ) return (char)(~res);//(!res);
   return res;
 }
 
@@ -94,8 +94,8 @@ char operator>> (const Flags& f,const int& i)
 {
   const div_t q = div(i,8); 
 
-  char res = f[q.quot] >> q.rem;
-  res |= f[q.quot+1] << (8-q.rem);
+  char res = (char)(f[q.quot] >> q.rem);
+  res |= (char)(f[q.quot+1] << (8-q.rem));
   
   return res;
 }

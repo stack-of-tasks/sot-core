@@ -25,14 +25,11 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* SOT */
 #include <dynamic-graph/entity.h>
 #include <sot/core/flags.hh>
 #include <dynamic-graph/all-signals.h>
+#include <dynamic-graph/linear-algebra.h>
 
 /* STD */
 #include <string>
@@ -65,34 +62,34 @@ class SOTGRIPPERCONTROL_EXPORT GripperControl
 
   double offset;
   static const double OFFSET_DEFAULT;
-  ml::Vector factor;
+  dg::Vector factor;
 
  public:
   GripperControl( void );
 
-  void computeIncrement( const ml::Vector& torques,
-			 const ml::Vector& torqueLimits,
-			 const ml::Vector& currentNormPos );
+  void computeIncrement( const dg::Vector& torques,
+			 const dg::Vector& torqueLimits,
+			 const dg::Vector& currentNormPos );
 
-  static void computeNormalizedPosition( const ml::Vector& currentPos,
-					 const ml::Vector& upperLim,
-					 const ml::Vector& lowerLim,
-					 ml::Vector& currentNormPos );
-  static void computeDenormalizedPosition( const ml::Vector& currentNormPos,
-					   const ml::Vector& upperLim,
-					   const ml::Vector& lowerLim,
-					   ml::Vector& currentPos );
+  static void computeNormalizedPosition( const dg::Vector& currentPos,
+					 const dg::Vector& upperLim,
+					 const dg::Vector& lowerLim,
+					 dg::Vector& currentNormPos );
+  static void computeDenormalizedPosition( const dg::Vector& currentNormPos,
+					   const dg::Vector& upperLim,
+					   const dg::Vector& lowerLim,
+					   dg::Vector& currentPos );
 
-  ml::Vector& computeDesiredPosition( const ml::Vector& currentPos,
-				      const ml::Vector& torques,
-				      const ml::Vector& upperLim,
-				      const ml::Vector& lowerLim,
-				      const ml::Vector& torqueLimits,
-				      ml::Vector& desPos );
+  dg::Vector& computeDesiredPosition( const dg::Vector& currentPos,
+				      const dg::Vector& torques,
+				      const dg::Vector& upperLim,
+				      const dg::Vector& lowerLim,
+				      const dg::Vector& torqueLimits,
+				      dg::Vector& desPos );
 
-  static ml::Vector& selector( const ml::Vector& fullsize,
+  static dg::Vector& selector( const dg::Vector& fullsize,
 			       const Flags& selec,
-			       ml::Vector& desPos );
+			       dg::Vector& desPos );
 
 };
 
@@ -119,27 +116,27 @@ class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
  public: /* --- SIGNAL --- */
 
   /* --- INPUTS --- */
-  dg::SignalPtr<ml::Vector,int> positionSIN;
-  dg::SignalPtr<ml::Vector,int> upperLimitSIN;
-  dg::SignalPtr<ml::Vector,int> lowerLimitSIN;
-  dg::SignalPtr<ml::Vector,int> torqueSIN;
-  dg::SignalPtr<ml::Vector,int> torqueLimitSIN;
+  dg::SignalPtr<dg::Vector,int> positionSIN;
+  dg::SignalPtr<dg::Vector,int> upperLimitSIN;
+  dg::SignalPtr<dg::Vector,int> lowerLimitSIN;
+  dg::SignalPtr<dg::Vector,int> torqueSIN;
+  dg::SignalPtr<dg::Vector,int> torqueLimitSIN;
   dg::SignalPtr<Flags,int> selectionSIN;
 
   /* --- INTERMEDIARY --- */
-  dg::SignalPtr<ml::Vector,int> positionFullSizeSIN;
-  dg::SignalTimeDependent<ml::Vector,int> positionReduceSOUT;
-  dg::SignalPtr<ml::Vector,int> upperLimitFullSizeSIN;
-  dg::SignalTimeDependent<ml::Vector,int> upperLimitReduceSOUT;
-  dg::SignalPtr<ml::Vector,int> lowerLimitFullSizeSIN;
-  dg::SignalTimeDependent<ml::Vector,int> lowerLimitReduceSOUT;
-  dg::SignalPtr<ml::Vector,int> torqueFullSizeSIN;
-  dg::SignalTimeDependent<ml::Vector,int> torqueReduceSOUT;
-  dg::SignalPtr<ml::Vector,int> torqueLimitFullSizeSIN;
-  dg::SignalTimeDependent<ml::Vector,int> torqueLimitReduceSOUT;
+  dg::SignalPtr<dg::Vector,int> positionFullSizeSIN;
+  dg::SignalTimeDependent<dg::Vector,int> positionReduceSOUT;
+  dg::SignalPtr<dg::Vector,int> upperLimitFullSizeSIN;
+  dg::SignalTimeDependent<dg::Vector,int> upperLimitReduceSOUT;
+  dg::SignalPtr<dg::Vector,int> lowerLimitFullSizeSIN;
+  dg::SignalTimeDependent<dg::Vector,int> lowerLimitReduceSOUT;
+  dg::SignalPtr<dg::Vector,int> torqueFullSizeSIN;
+  dg::SignalTimeDependent<dg::Vector,int> torqueReduceSOUT;
+  dg::SignalPtr<dg::Vector,int> torqueLimitFullSizeSIN;
+  dg::SignalTimeDependent<dg::Vector,int> torqueLimitReduceSOUT;
 
   /* --- OUTPUTS --- */
-  dg::SignalTimeDependent<ml::Vector,int> desiredPositionSOUT;
+  dg::SignalTimeDependent<dg::Vector,int> desiredPositionSOUT;
 
 
  public: /* --- COMMANDLINE --- */

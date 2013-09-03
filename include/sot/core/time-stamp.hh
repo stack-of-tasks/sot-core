@@ -25,11 +25,6 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* Classes standards. */
 #ifndef WIN32
 #include <sys/time.h>
@@ -40,6 +35,7 @@ DECLARE_MAL_NAMESPACE(ml);
 /* SOT */
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
+#include <dynamic-graph/linear-algebra.h>
 #include <sot/core/debug.hh>
 
 /* --------------------------------------------------------------------- */
@@ -88,18 +84,18 @@ class TimeStamp_EXPORT TimeStamp
 
   /* These signals can be called several time per period, given
    * each time a different results. Useful for chronos. */
-  dg::Signal<ml::Vector,int> timeSOUT;
+  dg::Signal<dg::Vector,int> timeSOUT;
   dg::Signal<double,int> timeDoubleSOUT;
 
   /* These signals can be called several time per period, but give
    * always the same results different results. Useful for synchro. */
-  dg::SignalTimeDependent<ml::Vector,int> timeOnceSOUT;
+  dg::SignalTimeDependent<dg::Vector,int> timeOnceSOUT;
   dg::SignalTimeDependent<double,int> timeOnceDoubleSOUT;
 
 
  protected: /* --- SIGNAL FUNCTIONS --- */
-  ml::Vector& getTimeStamp( ml::Vector& res,const int& time );
-  double& getTimeStampDouble( const ml::Vector& vect,double& res );
+  dg::Vector& getTimeStamp( dg::Vector& res,const int& time );
+  double& getTimeStampDouble( const dg::Vector& vect,double& res );
 
  public: /* --- COMMANDS --- */
   virtual void commandLine( const std::string& cmdLine,

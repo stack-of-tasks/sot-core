@@ -57,7 +57,7 @@ class SOTTASKPD_EXPORT TaskPD
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
-  ml::Vector previousError;
+  dg::Vector previousError;
   double beta;
 
  public:
@@ -65,14 +65,14 @@ class SOTTASKPD_EXPORT TaskPD
 
 
   /* --- COMPUTATION --- */
-  ml::Vector& computeErrorDot( ml::Vector& error,int time );
+  dg::Vector& computeErrorDot( dg::Vector& error,int time );
   VectorMultiBound& computeTaskModif( VectorMultiBound& error,int time );
 
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dg::SignalTimeDependent< ml::Vector,int > errorDotSOUT;
-  dg::SignalPtr< ml::Vector,int > errorDotSIN;
+  dg::SignalTimeDependent< dg::Vector,int > errorDotSOUT;
+  dg::SignalPtr< dg::Vector,int > errorDotSIN;
 
   /* --- PARAMS --- */
   virtual void commandLine( const std::string& cmdLine

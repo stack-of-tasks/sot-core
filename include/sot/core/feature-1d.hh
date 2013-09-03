@@ -77,10 +77,10 @@ class SOTFEATURE1D_EXPORT Feature1D
     @{
    */
   /*! \brief Input for the error. */
-  dg::SignalPtr< ml::Vector,int > errorSIN;
+  dg::SignalPtr< dg::Vector,int > errorSIN;
 
   /*! \brief Input for the Jacobian. */
-  dg::SignalPtr< ml::Matrix,int > jacobianSIN;
+  dg::SignalPtr< dg::Matrix,int > jacobianSIN;
 
   /*! @} */
 
@@ -109,10 +109,10 @@ class SOTFEATURE1D_EXPORT Feature1D
   */
 
   /*! \brief Compute the error between the desired value and the value itself. */
-  virtual ml::Vector& computeError( ml::Vector& res,int time );
+  virtual dg::Vector& computeError( dg::Vector& res,int time );
 
   /*! \brief Compute the Jacobian of the value according to the robot state.. */
-  virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
+  virtual dg::Matrix& computeJacobian( dg::Matrix& res,int time );
 
   /*! @} */
 

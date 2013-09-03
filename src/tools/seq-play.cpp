@@ -62,8 +62,8 @@ SeqPlay( const std::string& n )
 /* --- COMPUTE ----------------------------------------------------------- */
 /* --- COMPUTE ----------------------------------------------------------- */
 /* --- COMPUTE ----------------------------------------------------------- */
-ml::Vector& SeqPlay::
-getNextPosition( ml::Vector& pos, const int& /*time*/ )
+dynamicgraph::Vector& SeqPlay::
+getNextPosition( dynamicgraph::Vector& pos, const int& /*time*/ )
 {
   sotDEBUGIN(15);
   if( !init ) 
@@ -74,7 +74,7 @@ getNextPosition( ml::Vector& pos, const int& /*time*/ )
 
   
     {
-      const ml::Vector& posCur = *currPos;
+      const dynamicgraph::Vector& posCur = *currPos;
       pos=posCur;
       
       currPos++; 
@@ -99,7 +99,7 @@ loadFile( const std::string& filename )
   const unsigned int SIZE = 1024;
   char buffer[SIZE];
 
-  ml::Vector res(1); unsigned int ressize = 1;
+  dynamicgraph::Vector res(1); unsigned int ressize = 1;
   double time;
 
   while( file.good() )

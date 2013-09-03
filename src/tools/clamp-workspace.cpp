@@ -89,8 +89,8 @@ void ClampWorkspace::update( int time )
   const MatrixHomogeneous& pos = positionSIN.access ( time );
 
   MatrixHomogeneous prefMw = posref.inverse();
-  prefMw.multiply(pos, prefMp);
-  ml::Vector x(3); prefMp.extract(x);
+  prefMp = prefMw*pos;
+  dynamicgraph::Vector x(3); prefMp.extract(x);
 
   for(int i = 0; i < 3; ++i) {
     double check_min = std::max(x(i) - bounds[i].first, 0.);
@@ -137,11 +137,11 @@ void ClampWorkspace::update( int time )
     MatrixTwist pTpref(pMpref);
     MatrixTwist prefTp(prefMp_tmp);
 
-    ml::Matrix tmp; alpha.multiply(prefTp, tmp);
-    pTpref.multiply(tmp, alpha);
+    dynamicgraph::Matrix tmp; tmp = alpha*prefTp;
+    alpha = pTpref*tmp;
 
-    alphabar.multiply(prefTp, tmp);
-    pTpref.multiply(tmp, alphabar);
+    tmp = alphabar*prefTp;
+    alphabar = pTpref*tmp;
   }
 
   for(int i = 0; i < 3; ++i) {
@@ -161,16 +161,16 @@ void ClampWorkspace::update( int time )
   timeUpdate = time;
 }
 
-ml::Matrix&
-ClampWorkspace::computeOutput( ml::Matrix& res,int time )
+dynamicgraph::Matrix&
+ClampWorkspace::computeOutput( dynamicgraph::Matrix& res,int time )
 {
   update(time);
   res = alpha;
   return res;
 }
 
-ml::Matrix&
-ClampWorkspace::computeOutputBar( ml::Matrix& res,int time )
+dynamicgraph::Matrix&
+ClampWorkspace::computeOutputBar( dynamicgraph::Matrix& res,int time )
 {
   update(time);
   res = alphabar;

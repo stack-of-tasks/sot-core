@@ -49,7 +49,7 @@ TimeStamp( const std::string& name )
 		  sotNOSIGNAL,
 		  "TimeStamp("+name+")::output(vector2)::synchro" )
    ,timeOnceDoubleSOUT(  boost::bind(&TimeStamp::getTimeStampDouble,this,
-				     SOT_CALL_SIG(timeSOUT,ml::Vector),_1),
+				     SOT_CALL_SIG(timeSOUT,dynamicgraph::Vector),_1),
 			 timeSOUT,
 			"TimeStamp("+name+")::output(double)::synchroDouble" )
 {
@@ -57,7 +57,7 @@ TimeStamp( const std::string& name )
   
   timeSOUT.setFunction( boost::bind(&TimeStamp::getTimeStamp,this,_1,_2) );
   timeDoubleSOUT.setFunction( boost::bind(&TimeStamp::getTimeStampDouble,this,
- 					  SOT_CALL_SIG(timeSOUT,ml::Vector),_1) );
+ 					  SOT_CALL_SIG(timeSOUT,dynamicgraph::Vector),_1) );
   timeOnceSOUT.setNeedUpdateFromAllChildren( true );
   timeOnceDoubleSOUT.setNeedUpdateFromAllChildren( true );
   signalRegistration( timeSOUT << timeDoubleSOUT 
@@ -80,8 +80,8 @@ display( std::ostream& os ) const
 /* --- CONTROL --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-ml::Vector& TimeStamp::
-getTimeStamp( ml::Vector& res,const int& /*time*/ )
+dynamicgraph::Vector& TimeStamp::
+getTimeStamp( dynamicgraph::Vector& res,const int& /*time*/ )
 { 
   sotDEBUGIN(15);
   gettimeofday( &val,NULL );
@@ -95,7 +95,7 @@ getTimeStamp( ml::Vector& res,const int& /*time*/ )
 }
 
 double& TimeStamp::
-getTimeStampDouble( const ml::Vector& vect,double& res )
+getTimeStampDouble( const dynamicgraph::Vector& vect,double& res )
 { 
   sotDEBUGIN(15);
 

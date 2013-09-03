@@ -322,49 +322,49 @@ defineNbDof( const unsigned int& nbDof )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-ml::Matrix & Sot::
-computeJacobianConstrained( const ml::Matrix& Jac,
-                            const ml::Matrix& K,
-                            ml::Matrix& JK,
-                            ml::Matrix& Jff,
-                            ml::Matrix& Jact )
+dynamicgraph::Matrix & Sot::
+computeJacobianConstrained( const dynamicgraph::Matrix& Jac,
+                            const dynamicgraph::Matrix& K,
+                            dynamicgraph::Matrix& JK,
+                            dynamicgraph::Matrix& Jff,
+                            dynamicgraph::Matrix& Jact )
 {
-  const unsigned int nJ = Jac.nbRows();
-  const unsigned int mJ = K.nbCols();
-  const unsigned int nbConstraints = Jac.nbCols() - mJ;
+  const int nJ = Jac.rows();
+  const int mJ = K.cols();
+  const int nbConstraints = Jac.cols() - mJ;
 
   if (nbConstraints == 0) {
     JK = Jac;
     return JK;
   }
-  for( unsigned int i=0;i<nJ;++i )
+  for( int i=0;i<nJ;++i )
     {
-      for( unsigned int j=0;j<nbConstraints;++j ) Jff(i,j)=Jac(i,j);
-      for( unsigned int j=nbConstraints;j<Jac.nbCols();++j )
+      for( int j=0;j<nbConstraints;++j ) Jff(i,j)=Jac(i,j);
+      for( int j=nbConstraints;j<Jac.cols();++j )
 	Jact(i,j-nbConstraints)=Jac(i,j);
     }
-  Jff.multiply(K,JK);
+  JK = Jff*K;
   JK+=Jact;
 
   return JK;
 }
 
 
-ml::Matrix & Sot::
+dynamicgraph::Matrix & Sot::
 computeJacobianConstrained( const TaskAbstract& task,
-                            const ml::Matrix& K )
+                            const dynamicgraph::Matrix& K )
 {
-  const ml::Matrix &Jac = task.jacobianSOUT.accessCopy ();
+  const dynamicgraph::Matrix &Jac = task.jacobianSOUT.accessCopy ();
   MemoryTaskSOT * mem = dynamic_cast<MemoryTaskSOT *>( task.memoryInternal );
   if( NULL==mem ) throw; // TODO
-  ml::Matrix &Jff = mem->Jff;
-  ml::Matrix &Jact = mem->Jact;
-  ml::Matrix &JK = mem->JK;
+  dynamicgraph::Matrix &Jff = mem->Jff;
+  dynamicgraph::Matrix &Jact = mem->Jact;
+  dynamicgraph::Matrix &JK = mem->JK;
   return computeJacobianConstrained(Jac,K,JK,Jff,Jact);
 }
 
 static void computeJacobianActivated( Task* taskSpec,
-				      ml::Matrix& Jt,
+				      dynamicgraph::Matrix& Jt,
 				      const int& iterTime )
 {
   if( NULL!=taskSpec )
@@ -376,10 +376,10 @@ static void computeJacobianActivated( Task* taskSpec,
 	  if(!controlSelec)
 	    {
 	      sotDEBUG(15) << "Control selection."<<endl;
-	      for( unsigned int i=0;i<Jt.nbCols();++i )
+	      for( int i=0;i<Jt.cols();++i )
 		{
 		  if(! controlSelec(i) )
-		    {for( unsigned int j=0;j<Jt.nbRows();++j ) { Jt(j,i)=0.; }}
+		    {for( int j=0;j<Jt.rows();++j ) { Jt(j,i)=0.; }}
 		}
 	    }
 	  else
@@ -442,10 +442,10 @@ static void computeJacobianActivated( Task* taskSpec,
 #   define sotPRINTCOUNTER(nbc1)
 #endif // #ifdef  WITH_CHRONO
 
-ml::Vector Sot::
+dynamicgraph::Vector Sot::
 taskVectorToMlVector( const VectorMultiBound& taskVector )
 {
-  ml::Vector res(taskVector.size()); unsigned int i=0;
+  dynamicgraph::Vector res(taskVector.size()); unsigned int i=0;
   for( VectorMultiBound::const_iterator iter=taskVector.begin();
        iter!=taskVector.end();++iter,++i )
     {
@@ -454,8 +454,8 @@ taskVectorToMlVector( const VectorMultiBound& taskVector )
   return res;
 }
 
-ml::Vector& Sot::
-computeControlLaw( ml::Vector& control,const int& iterTime )
+dynamicgraph::Vector& Sot::
+computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 {
   sotDEBUGIN(15);
 
@@ -467,8 +467,8 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
   sotSTARTPARTCOUNTERS;
 
   const double &th = inversionThresholdSIN(iterTime);
-  const ml::Matrix &K = constraintSOUT(iterTime);
-  const unsigned int mJ = K.nbCols(); // number dofs - number constraints
+  const dynamicgraph::Matrix &K = constraintSOUT(iterTime);
+  const int mJ = K.cols(); // number dofs - number constraints
 
   try {
     control = q0SIN( iterTime );
@@ -489,12 +489,12 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
       sotDEBUGF(5,"Rank %d.",iterTask);
       TaskAbstract & task = **iter;
       sotDEBUG(15) << "Task: e_" << task.getName() << std::endl;
-      const ml::Matrix &Jac = task.jacobianSOUT(iterTime);
-      const ml::Vector err = taskVectorToMlVector(task.taskSOUT(iterTime));
+      const dynamicgraph::Matrix &Jac = task.jacobianSOUT(iterTime);
+      const dynamicgraph::Vector err = taskVectorToMlVector(task.taskSOUT(iterTime));
       sotCOUNTER(0,1); // Direct Dynamic
 
       unsigned int rankJ;
-      const unsigned int nJ = Jac.nbRows(); // number dofs
+      const int nJ = Jac.rows(); // number dofs
 
       /* Init memory. */
       MemoryTaskSOT * mem = dynamic_cast<MemoryTaskSOT *>( task.memoryInternal );
@@ -505,10 +505,10 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
           task.memoryInternal = mem;
         }
 
-      ml::Matrix &Jp = mem->Jp;
-      ml::Matrix &V = mem->V;
-      ml::Matrix &JK = mem->JK;
-      ml::Matrix &Jt = mem->Jt;
+      dynamicgraph::Matrix &Jp = mem->Jp;
+      dynamicgraph::Matrix &V = mem->V;
+      dynamicgraph::Matrix &JK = mem->JK;
+      dynamicgraph::Matrix &Jt = mem->Jt;
 
       Jp.resize( mJ,nJ );
       V.resize( mJ,mJ );
@@ -517,8 +517,8 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 
       if( (recomputeEachTime)
           ||(task.jacobianSOUT.getTime()>mem->jacobianInvSINOUT.getTime())
-          ||(mem->jacobianInvSINOUT.accessCopy().nbRows()!=mJ)
-          ||(mem->jacobianInvSINOUT.accessCopy().nbCols()!=nJ)
+          ||(mem->jacobianInvSINOUT.accessCopy().rows()!=mJ)
+          ||(mem->jacobianInvSINOUT.accessCopy().cols()!=nJ)
           ||(task.jacobianSOUT.getTime()>mem->jacobianConstrainedSINOUT.getTime())
           ||(task.jacobianSOUT.getTime()>mem->rankSINOUT.getTime())
           ||(task.jacobianSOUT.getTime()>mem->singularBaseImageSINOUT.getTime()) )
@@ -526,23 +526,23 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 	sotDEBUG(2) <<"Recompute inverse."<<endl;
 
 	/* --- FIRST ALLOCS --- */
-	ml::Vector &S = mem->S;
+	dynamicgraph::Vector &S = mem->S;
 
 	sotDEBUG(1) << "Size = "
-		    << S.size() + mem->Jff.nbCols()*mem->Jff.nbRows()
-	  + mem->Jact.nbCols()*mem->Jact.nbRows() << std::endl;
+		    << S.size() + mem->Jff.cols()*mem->Jff.rows()
+	  + mem->Jact.cols()*mem->Jact.rows() << std::endl;
 
 	sotDEBUG(1) << std::endl;
 	S.resize( min(nJ,mJ) );
-	sotDEBUG(1) << "nJ=" << nJ << " " << "Jac.nbCols()=" << Jac.nbCols()
+	sotDEBUG(1) << "nJ=" << nJ << " " << "Jac.nbCols()=" << Jac.cols()
 		    <<" "<< "mJ=" << mJ<<std::endl;
-	mem->Jff.resize( nJ,Jac.nbCols()-mJ ); // number dofs, number constraints
+	mem->Jff.resize( nJ,Jac.cols()-mJ ); // number dofs, number constraints
 	sotDEBUG(1) << std::endl;
 	mem->Jact.resize( nJ,mJ );
 	sotDEBUG(1) << std::endl;
 	sotDEBUG(1) << "Size = "
-		    << S.size() + mem->Jff.nbCols()*mem->Jff.nbRows()
-	  + mem->Jact.nbCols()*mem->Jact.nbRows() << std::endl;
+		    << S.size() + mem->Jff.cols()*mem->Jff.rows()
+	  + mem->Jact.cols()*mem->Jact.rows() << std::endl;
 
 	/***/sotCOUNTER(1,2); // first allocs
 
@@ -551,7 +551,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 	/***/sotCOUNTER(2,3); // compute JK
 
 	/* --- COMPUTE Jt --- */
-	if( 0<iterTask ) JK.multiply(Proj,Jt); else { Jt = JK; }
+	if( 0<iterTask ) Jt = JK*Proj; else { Jt = JK; }
 	/***/sotCOUNTER(3,4); // compute Jt
 
 	/* --- COMPUTE S --- */
@@ -559,7 +559,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 	/***/sotCOUNTER(4,5); // Jt*S
 
 	/* --- PINV --- */
-	Jt.dampedInverse( Jp,th,NULL,&S,&V );
+	dampedInverse(Jt,Jp,th,NULL,&S,&V );
 	/***/sotCOUNTER(5,6); // PINV
 	sotDEBUG(2) << "V after dampedInverse." << V <<endl;
 	/* --- RANK --- */
@@ -655,16 +655,16 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
       if (1)
        {
 	 double *p,*v1,*v2,*vtmp1,*vtmp2;
-	 p = MRAWDATA(Proj.matrix);
-	 v1 = MRAWDATA(V.matrix);
-	 v2 = MRAWDATA(V.matrix);
-	 vtmp1 = MRAWDATA(V.matrix);
+	 p = Proj.data();
+	 v1 = V.data();
+	 v2 = V.data();
+	 vtmp1 = V.data();
 	 /***/sotCOUNTER(6,7); // Ppre
 
-	 for( unsigned int i=0;i<mJ;++i )
+	 for( int i=0;i<mJ;++i )
 	   {
-	     vtmp2 = MRAWDATA(V.matrix);
-	     for( unsigned int j=0;j<mJ;++j )
+	     vtmp2 = V.data();
+	     for( int j=0;j<mJ;++j )
 	       {
 		 v1 = vtmp1;   v2 =vtmp2;
 		 for( unsigned int k=0;k<rankJ;++k )
@@ -698,11 +698,11 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 
   if( 0!=taskGradient )
     {
-      const ml::Vector err
+      const dynamicgraph::Vector err
         = taskVectorToMlVector(taskGradient->taskSOUT.access(iterTime));
-      const ml::Matrix & Jac = taskGradient->jacobianSOUT.access(iterTime);
+      const dynamicgraph::Matrix & Jac = taskGradient->jacobianSOUT.access(iterTime);
 
-      const unsigned int nJ = Jac.nbRows();
+      const int nJ = Jac.rows();
 
       MemoryTaskSOT * mem
         = dynamic_cast<MemoryTaskSOT *>( taskGradient->memoryInternal );
@@ -718,31 +718,31 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
       sotDEBUG(45) << "Jff = " << Jac <<endl;
 
       /* --- MEMORY INIT --- */
-      ml::Matrix &Jp = mem->Jp;
-      ml::Matrix &PJp = mem->PJp;
-      ml::Matrix &Jt = mem->Jt;
+      dynamicgraph::Matrix &Jp = mem->Jp;
+      dynamicgraph::Matrix &PJp = mem->PJp;
+      dynamicgraph::Matrix &Jt = mem->Jt;
 
       mem->JK.resize( nJ,mJ );
       mem->Jt.resize( nJ,mJ );
-      mem->Jff.resize( nJ,Jac.nbCols()-mJ );
+      mem->Jff.resize( nJ,Jac.cols()-mJ );
       mem->Jact.resize( nJ,mJ );
       Jp.resize( mJ,nJ );
       PJp.resize( nJ,mJ );
 
      /* --- COMPUTE JK --- */
-      ml::Matrix &JK = computeJacobianConstrained( *taskGradient,K);
+      dynamicgraph::Matrix &JK = computeJacobianConstrained( *taskGradient,K);
 
       /* --- COMPUTE Jinv --- */
       sotDEBUG(35) << "grad = " << err <<endl;
       sotDEBUG(35) << "Jgrad = " << JK <<endl;
 
       // Use optimized-memory Jt to do the p-inverse.
-      Jt=JK; Jt.dampedInverse( Jp,th );
-      Proj.multiply( Jp,PJp );
+      Jt=JK; dampedInverse( Jt,Jp,th );
+      PJp = Proj*Jp;
 
       /* --- COMPUTE ERR --- */
-      ml::Vector Herr( err.size() );
-      for( unsigned int i=0;i<err.size(); ++i )
+      dynamicgraph::Vector Herr( err.size() );
+      for( int i=0;i<err.size(); ++i )
 	{
 	  Herr(i) = err(i);
 	}
@@ -763,11 +763,11 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 
 
 
-ml::Matrix& Sot::
-computeConstraintProjector( ml::Matrix& ProjK, const int& time )
+dynamicgraph::Matrix& Sot::
+computeConstraintProjector( dynamicgraph::Matrix& ProjK, const int& time )
 {
   sotDEBUGIN(15);
-  const ml::Matrix *Jptr;
+  const dynamicgraph::Matrix *Jptr;
   if( 0==constraintList.size() )
     {
       ProjK.resize( 0, nbJoints );
@@ -782,14 +782,14 @@ computeConstraintProjector( ml::Matrix& ProjK, const int& time )
 				  "Not implemented yet." );
     }
 
-  const ml::Matrix &J = *Jptr;
+  const dynamicgraph::Matrix &J = *Jptr;
   sotDEBUG(12) << "J = "<< J;
 
-  const unsigned int nJc = J.nbCols();
-  ml::Matrix Jff( J.nbRows(),ffJointIdLast-ffJointIdFirst );
-  ml::Matrix Jc( J.nbRows(),nJc-ffJointIdLast+ffJointIdFirst );
+  const unsigned int nJc = J.cols();
+  dynamicgraph::Matrix Jff( J.rows(),ffJointIdLast-ffJointIdFirst );
+  dynamicgraph::Matrix Jc( J.rows(),nJc-ffJointIdLast+ffJointIdFirst );
 
-  for( unsigned int i=0;i<J.nbRows();++i )
+  for( int i=0;i<J.rows();++i )
     {
       if( ffJointIdFirst )
 	for( unsigned int j=0;j<ffJointIdFirst;++j )
@@ -803,12 +803,12 @@ computeConstraintProjector( ml::Matrix& ProjK, const int& time )
   sotDEBUG(25) << "Jc = "<< Jc;
   sotDEBUG(25) << "Jff = "<< Jff;
 
-  ml::Matrix Jffinv( Jff.nbCols(),Jff.nbRows() );
-  Jff.pseudoInverse( Jffinv );   Jffinv *= -1;
+  dynamicgraph::Matrix Jffinv( Jff.cols(),Jff.rows() );
+  pseudoInverse(Jff, Jffinv );   Jffinv *= -1;
 
-  ml::Matrix& Jffc = ProjK;
-  Jffc.resize( Jffinv.nbRows(),Jc.nbCols() );
-  Jffinv.multiply( Jc,Jffc );
+  dynamicgraph::Matrix& Jffc = ProjK;
+  Jffc.resize( Jffinv.rows(),Jc.cols() );
+  Jffc = Jffinv*Jc;
   sotDEBUG(15) << "Jffc = "<< Jffc;
 
   sotDEBUGOUT(15);

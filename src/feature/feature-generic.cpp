@@ -92,10 +92,10 @@ getDimension( unsigned int & dim, int time )
 }
 
 
-ml::Vector& FeatureGeneric::
-computeError( ml::Vector& res,int time )
+dynamicgraph::Vector& FeatureGeneric::
+computeError( dynamicgraph::Vector& res,int time )
 { 
-  const ml::Vector& err = errorSIN.access(time);
+  const dynamicgraph::Vector& err = errorSIN.access(time);
   const Flags &fl = selectionSIN.access(time);
   const unsigned int & dim = dimensionSOUT(time);
 
@@ -111,19 +111,19 @@ computeError( ml::Vector& res,int time )
 
   if( isReferenceSet() )
     {
-      const ml::Vector& errDes = getReference()->errorSIN(time);
+      const dynamicgraph::Vector& errDes = getReference()->errorSIN(time);
       sotDEBUG(15) << "Err* = " << errDes;
       if( errDes.size()<dim )
 	{ SOT_THROW ExceptionFeature( ExceptionFeature::UNCOMPATIBLE_SIZE,
 					 "Error: dimension uncompatible with des->errorIN size."
 					 " (while considering feature <%s>).",getName().c_str() ); }
 
-      for( unsigned int i=0;i<err.size();++i ) if( fl(i) ) 
+      for( int i=0;i<err.size();++i ) if( fl(i) ) 
 	if( fl(i) ) res( curr++ ) = err(i)-errDes(i);
     }
   else
     {
-      for( unsigned int i=0;i<err.size();++i )
+      for( int i=0;i<err.size();++i )
 	if( fl(i) ) res( curr++ ) = err(i);
     }
   
@@ -131,22 +131,22 @@ computeError( ml::Vector& res,int time )
 
 }
 
-ml::Matrix& FeatureGeneric::
-computeJacobian( ml::Matrix& res,int time )
+dynamicgraph::Matrix& FeatureGeneric::
+computeJacobian( dynamicgraph::Matrix& res,int time )
 { 
   sotDEBUGIN(15);
 
-  const ml::Matrix& Jac = jacobianSIN.access(time);
+  const dynamicgraph::Matrix& Jac = jacobianSIN.access(time);
   const Flags &fl = selectionSIN.access(time);
   const unsigned int &dim = dimensionSOUT(time);
 
   unsigned int curr = 0;
-  res.resize( dim,Jac.nbCols() );
+  res.resize( dim,Jac.cols() );
 
   for( unsigned int i=0;curr<dim;++i ) 
     if( fl(i) ) 
       {
-	for( unsigned int j=0;j<Jac.nbCols();++j ) 
+	for( int j=0;j<Jac.cols();++j ) 
 	  res( curr,j ) = Jac(i,j);
 	curr++;
       }

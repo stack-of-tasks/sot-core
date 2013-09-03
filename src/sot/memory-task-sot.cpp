@@ -24,7 +24,6 @@
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
-
 const std::string MemoryTaskSOT::CLASS_NAME = "MemoryTaskSOT";
 
 
@@ -79,7 +78,7 @@ initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsiz
      V.fill(0.);
      S.fill(0.);
    } else {
-     Jt.pseudoInverse(Jp);
+     Jp = pseudoInverse(Jt, Jp);
    }
  }
 

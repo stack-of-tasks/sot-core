@@ -20,6 +20,7 @@
 
 #include <sot/core/integrator-abstract.hh>
 #include <sot/core/factory.hh>
+#include <dynamic-graph/linear-algebra.h>
 
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
@@ -36,12 +37,11 @@ using namespace dynamicgraph;
   getClassName( void ) const { return CLASS_NAME; }
 
 
-using namespace ml;
 namespace dynamicgraph {
   namespace sot {
     SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,double,double,
 				       "integratorAbstract")
-    SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,Vector,Matrix,
+    SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,dynamicgraph::Vector,dynamicgraph::Matrix,
 				       "integratorAbstract")
   } // namespace sot
 } // namespace dynamicgraph

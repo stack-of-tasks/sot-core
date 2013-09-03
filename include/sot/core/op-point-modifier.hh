@@ -26,10 +26,6 @@
 #include <sot/core/debug.hh>
 #include <sot/core/matrix-homogeneous.hh>
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -66,17 +62,17 @@ class SOTOPPOINTMODIFIER_EXPORT OpPointModifier
 
  public:
 
-  dg::SignalPtr<ml::Matrix,int> jacobianSIN;
+  dg::SignalPtr<dg::Matrix,int> jacobianSIN;
   dg::SignalPtr<MatrixHomogeneous,int> positionSIN;
 
-  dg::SignalTimeDependent<ml::Matrix,int> jacobianSOUT;
+  dg::SignalTimeDependent<dg::Matrix,int> jacobianSOUT;
   dg::SignalTimeDependent<MatrixHomogeneous,int> positionSOUT;
 
 public:
   OpPointModifier( const std::string& name );
   virtual ~OpPointModifier( void ){}
 
-  ml::Matrix& jacobianSOUT_function( ml::Matrix& res,const int& time );
+  dg::Matrix& jacobianSOUT_function( dg::Matrix& res,const int& time );
   MatrixHomogeneous& positionSOUT_function( MatrixHomogeneous& res,const int& time );
   void setTransformation( const MatrixHomogeneous& tr );
   void setTransformationBySignalName( std::istringstream& cmdArgs );

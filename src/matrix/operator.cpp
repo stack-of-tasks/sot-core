@@ -23,7 +23,6 @@
 
 #include <sot/core/unary-op.hh>
 #include <sot/core/binary-op.hh>
-#include <jrl/mal/malv2.hh>
 
 #include <sot/core/matrix-homogeneous.hh>
 #include <sot/core/matrix-twist.hh>
@@ -38,6 +37,8 @@
 #include <sot/core/factory.hh>
 #include <sot/core/matrix-rotation.hh>
 #include <sot/core/debug.hh>
+
+#include <typeinfo>
 
 #include <deque>
 
@@ -61,8 +62,8 @@ namespace dynamicgraph {
     template<>const std::string TypeNameHelper<typeid>::typeName = #typeid
 
     ADD_KNOWN_TYPE(double);
-    ADD_KNOWN_TYPE(dg::Vector);
-    ADD_KNOWN_TYPE(dg::Matrix);
+    ADD_KNOWN_TYPE(Vector);
+    ADD_KNOWN_TYPE(Matrix);
     ADD_KNOWN_TYPE(MatrixRotation);
     ADD_KNOWN_TYPE(MatrixTwist);
     ADD_KNOWN_TYPE(MatrixHomogeneous);
@@ -115,7 +116,7 @@ namespace dynamicgraph {
     /* --- ALGEBRA SELECTORS ------------------------------------------------ */
     /* ---------------------------------------------------------------------- */
     struct VectorSelecter
-      : public UnaryOpHeader<dg::Vector, dg::Vector>
+      : public UnaryOpHeader<Vector, Vector>
     {
       void operator()( const Tin& m,Vector& res ) const
       {
@@ -145,7 +146,7 @@ namespace dynamicgraph {
     /* --- ALGEBRA SELECTORS ------------------------------------------------ */
     /* ---------------------------------------------------------------------- */
     struct VectorComponent
-      : public UnaryOpHeader<dg::Vector, double>
+      : public UnaryOpHeader<Vector, double>
     {
       void operator() (const Tin& m, double& res) const
       {
@@ -181,7 +182,7 @@ namespace dynamicgraph {
 
     /* ---------------------------------------------------------------------- */
     struct MatrixSelector
-      : public UnaryOpHeader<dg::Matrix, dg::Matrix>
+      : public UnaryOpHeader<Matrix, Matrix>
     {
        void operator()( const Matrix& m,Matrix& res ) const
       {
@@ -222,7 +223,7 @@ namespace dynamicgraph {
 
     /* ---------------------------------------------------------------------- */
     struct MatrixColumnSelector
-      : public UnaryOpHeader<dg::Matrix, dg::Vector>
+      : public UnaryOpHeader<Matrix, Vector>
     {
     public:
       void operator()( const Tin& m,Tout& res ) const
@@ -264,7 +265,7 @@ namespace dynamicgraph {
     struct Diagonalizer
       : public UnaryOpHeader<Vector,Matrix>
     {
-      void operator()( const dg::Vector& r,dg::Matrix & res )
+      void operator()( const Vector& r,Matrix & res )
       {
 	unsigned imax=r.size(),jmax=r.size();
 	if(( nbr!=0)&&(nbc!=0)) { imax=nbr; jmax=nbc; }
@@ -302,10 +303,10 @@ namespace dynamicgraph {
       typedef typename UnaryOpHeader<matrixgen,matrixgen>::Tin Tin;
       typedef typename UnaryOpHeader<matrixgen,matrixgen>::Tout Tout;
       void operator()( const Tin& m,Tout& res ) const
-      {	m.inverse(res); }
+      {	res = m.inverse(); }
     };
 
-    REGISTER_UNARY_OP( Inverser<dg::Matrix>, Inverse_of_matrix);
+    REGISTER_UNARY_OP( Inverser<Matrix>, Inverse_of_matrix);
     REGISTER_UNARY_OP( Inverser<MatrixHomogeneous>, Inverse_of_matrixHomo);
     REGISTER_UNARY_OP( Inverser<MatrixTwist>, Inverse_of_matrixtwist);
 
@@ -313,7 +314,7 @@ namespace dynamicgraph {
       : public UnaryOpHeader<MatrixRotation,MatrixRotation>
     {
       void operator()( const Tin& m,Tout& res )
-	const { m.transpose(res); }
+	const { res = m.transpose(); }
     };
     REGISTER_UNARY_OP( InverserRotation, Inverse_of_matrixrotation);
 
@@ -330,13 +331,13 @@ namespace dynamicgraph {
    /* ----------------------------------------------------------------------- */
 
     struct HomogeneousMatrixToVector
-      : public UnaryOpHeader<MatrixHomogeneous,dg::Vector>
+      : public UnaryOpHeader<MatrixHomogeneous,Vector>
     {
-      void operator()( const MatrixHomogeneous& M,dg::Vector& res )
+      void operator()( const MatrixHomogeneous& M,Vector& res )
       {
 	MatrixRotation R; M.extract(R);
 	VectorUTheta r; r.fromMatrix(R);
-	dg::Vector t(3); M.extract(t);
+	Vector t(3); M.extract(t);
 	res.resize(6);
 	for( int i=0;i<3;++i ) res(i)=t(i);
 	for( int i=0;i<3;++i ) res(i+3)=r(i);
@@ -360,10 +361,10 @@ namespace dynamicgraph {
     struct PoseUThetaToMatrixHomo
       : public UnaryOpHeader<Vector,MatrixHomogeneous>
     {
-      void operator()( const dg::Vector& v,MatrixHomogeneous& res )
+      void operator()( const Vector& v,MatrixHomogeneous& res )
       {
 	assert( v.size()>=6 );
-	VectorUTheta ruth; dg::Vector trans(3);
+	VectorUTheta ruth; Vector trans(3);
 	for( int i=0;i<3;++i )
 	  {
 	    trans(i)=v(i);
@@ -383,7 +384,7 @@ namespace dynamicgraph {
       {
 	MatrixRotation R; M.extract(R);
 	VectorQuaternion r; r.fromMatrix(R);
-	dg::Vector t(3); M.extract(t);
+	Vector t(3); M.extract(t);
 	res.resize(7);
 	for( int i=0;i<3;++i ) res(i)=t(i);
 	for( int i=0;i<4;++i ) res(i+3)=r(i);
@@ -394,11 +395,11 @@ namespace dynamicgraph {
     struct MatrixHomoToPoseRollPitchYaw
       : public UnaryOpHeader<MatrixHomogeneous,Vector>
     {
-      void operator()( const MatrixHomogeneous& M,dg::Vector& res )
+      void operator()( const MatrixHomogeneous& M,Vector& res )
       {
 	MatrixRotation R; M.extract(R);
 	VectorRollPitchYaw r; r.fromMatrix(R);
-	dg::Vector t(3); M.extract(t);
+	Vector t(3); M.extract(t);
 	res.resize(6);
 	for( unsigned int i=0;i<3;++i ) res(i)=t(i);
 	for( unsigned int i=0;i<3;++i ) res(i+3)=r(i);
@@ -409,14 +410,14 @@ namespace dynamicgraph {
     struct PoseRollPitchYawToMatrixHomo
       : public UnaryOpHeader<Vector,MatrixHomogeneous>
     {
-      void operator()( const dg::Vector& vect, MatrixHomogeneous& Mres )
+      void operator()( const Vector& vect, MatrixHomogeneous& Mres )
       {
 
 	VectorRollPitchYaw r;
 	for( unsigned int i=0;i<3;++i ) r(i)=vect(i+3);
 	MatrixRotation R;  r.toMatrix(R);
 
-	dg::Vector t(3);
+	Vector t(3);
 	for( unsigned int i=0;i<3;++i ) t(i)=vect(i);
 	Mres.buildFrom(R,t);
       }
@@ -426,7 +427,7 @@ namespace dynamicgraph {
     struct PoseRollPitchYawToPoseUTheta
       : public UnaryOpHeader<Vector,Vector>
     {
-      void operator()( const dg::Vector& vect,dg::Vector& vectres )
+      void operator()( const Vector& vect,Vector& vectres )
       {
 	VectorRollPitchYaw r;
 	for( unsigned int i=0;i<3;++i ) r(i)=vect(i+3);
@@ -447,15 +448,15 @@ namespace dynamicgraph {
     struct HomoToMatrix
       : public UnaryOpHeader<MatrixHomogeneous,Matrix>
     {
-      void operator()( const MatrixHomogeneous& M,dg::Matrix& res )
-      {  res=(dg::Matrix&)M;  }
+      void operator()( const MatrixHomogeneous& M,Matrix& res )
+      {  res=(Matrix&)M;  }
     };
     REGISTER_UNARY_OP(HomoToMatrix,HomoToMatrix);
 
     struct MatrixToHomo
       : public UnaryOpHeader<Matrix,MatrixHomogeneous>
     {
-      void operator()( const dg::Matrix& M,MatrixHomogeneous& res )
+      void operator()( const Matrix& M,MatrixHomogeneous& res )
       {  res=M;  }
     };
     REGISTER_UNARY_OP(MatrixToHomo,MatrixToHomo);
@@ -623,8 +624,8 @@ namespace dynamicgraph {
     };
 
 
-    REGISTER_BINARY_OP(Adder<ml::Matrix>,Add_of_matrix);
-    REGISTER_BINARY_OP(Adder<ml::Vector>,Add_of_vector);
+    REGISTER_BINARY_OP(Adder<Matrix>,Add_of_matrix);
+    REGISTER_BINARY_OP(Adder<Vector>,Add_of_vector);
     REGISTER_BINARY_OP(Adder<double>,Add_of_double);
 
 
@@ -634,14 +635,14 @@ namespace dynamicgraph {
     struct Multiplier
       : public BinaryOpHeader<T,T,T>
     {
-      void operator()( const T& v1,const T& v2,T& res ) const { v1.multiply(v2,res); }
+      void operator()( const T& v1,const T& v2,T& res ) const { res = v1*v2; }
     };
     template<> void Multiplier<double>::
     operator()( const double& v1,const double& v2,double& res ) const
     { res=v1; res*=v2; }
 
-    REGISTER_BINARY_OP(Multiplier<ml::Matrix>,Multiply_of_matrix);
-    REGISTER_BINARY_OP(Multiplier<ml::Vector>,Multiply_of_vector);
+    REGISTER_BINARY_OP(Multiplier<Matrix>,Multiply_of_matrix);
+    REGISTER_BINARY_OP(Multiplier<Vector>,Multiply_of_vector);
     REGISTER_BINARY_OP(Multiplier<MatrixRotation>,Multiply_of_matrixrotation);
     REGISTER_BINARY_OP(Multiplier<MatrixHomogeneous>,Multiply_of_matrixHomo);
     REGISTER_BINARY_OP(Multiplier<MatrixTwist>,Multiply_of_matrixtwist);
@@ -652,15 +653,15 @@ namespace dynamicgraph {
     struct Multiplier_FxE__E
       : public BinaryOpHeader<F,E,E>
     {
-      void operator()( const F& f,const E& e, E& res ) const { f.multiply(e,res); }
+      void operator()( const F& f,const E& e, E& res ) const { res = f*e ; }
     };
-    template<> void Multiplier_FxE__E<double,ml::Vector>::
-    operator()( const double& x,const ml::Vector& v,ml::Vector& res ) const
+    template<> void Multiplier_FxE__E<double,Vector>::
+    operator()( const double& x,const Vector& v,Vector& res ) const
     { res=v; res*=x; }
 
-    typedef Multiplier_FxE__E<double,ml::Vector> Multiplier_double_vector;
-    typedef Multiplier_FxE__E<ml::Matrix,ml::Vector> Multiplier_matrix_vector;
-    typedef Multiplier_FxE__E<MatrixHomogeneous,ml::Vector> Multiplier_matrixHomo_vector;
+    typedef Multiplier_FxE__E<double,Vector> Multiplier_double_vector;
+    typedef Multiplier_FxE__E<Matrix,Vector> Multiplier_matrix_vector;
+    typedef Multiplier_FxE__E<MatrixHomogeneous,Vector> Multiplier_matrixHomo_vector;
     REGISTER_BINARY_OP( Multiplier_double_vector,Multiply_double_vector);
     REGISTER_BINARY_OP( Multiplier_matrix_vector,Multiply_matrix_vector);
     REGISTER_BINARY_OP( Multiplier_matrixHomo_vector,Multiply_matrixHomo_vector);
@@ -671,18 +672,18 @@ namespace dynamicgraph {
       : public BinaryOpHeader<T,T,T>
     { void operator()( const T& v1,const T& v2,T& r ) const { r=v1; r-=v2; } };
 
-    REGISTER_BINARY_OP(Substraction<ml::Matrix>,Substract_of_matrix);
-    REGISTER_BINARY_OP(Substraction<ml::Vector>,Substract_of_vector);
+    REGISTER_BINARY_OP(Substraction<Matrix>,Substract_of_matrix);
+    REGISTER_BINARY_OP(Substraction<Vector>,Substract_of_vector);
     REGISTER_BINARY_OP(Substraction<double>,Substract_of_double);
 
     /* --- STACK ------------------------------------------------------------ */
     struct VectorStack
-      : public BinaryOpHeader<ml::Vector,ml::Vector,ml::Vector>
+      : public BinaryOpHeader<Vector,Vector,Vector>
     {
     public:
       unsigned int v1min,v1max;
       unsigned int v2min,v2max;
-      void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const
+      void operator()( const Vector& v1,const Vector& v2,Vector& res ) const
       {
 	assert( (v1max>=v1min)&&(v1.size()>=v1max) );
 	assert( (v2max>=v2min)&&(v2.size()>=v2max) );
@@ -720,9 +721,9 @@ namespace dynamicgraph {
     /* ---------------------------------------------------------------------- */
 
     struct Composer
-      : public BinaryOpHeader<ml::Matrix,ml::Vector,MatrixHomogeneous>
+      : public BinaryOpHeader<Matrix,Vector,MatrixHomogeneous>
     {
-      void operator() ( const ml::Matrix& R,const ml::Vector& t, MatrixHomogeneous& H ) const
+      void operator() ( const Matrix& R,const Vector& t, MatrixHomogeneous& H ) const
       {
 	for( int i=0;i<3;++i )
 	  {
@@ -738,22 +739,22 @@ namespace dynamicgraph {
 
     /* --- CONVOLUTION PRODUCT ---------------------------------------------- */
     struct ConvolutionTemporal
-      : public BinaryOpHeader<ml::Vector,ml::Matrix,ml::Vector>
+      : public BinaryOpHeader<Vector,Matrix,Vector>
     {
-      typedef std::deque<ml::Vector> MemoryType;
+      typedef std::deque<Vector> MemoryType;
       MemoryType memory;
 
-      void convolution( const MemoryType &f1,const ml::Matrix & f2,ml::Vector &res )
+      void convolution( const MemoryType &f1,const Matrix & f2,Vector &res )
       {
-	const unsigned int nconv = f1.size(),nsig=f2.nbRows();
+	const int nconv = f1.size(),nsig=f2.rows();
 	sotDEBUG(15) << "Size: " << nconv << "x" << nsig << std::endl;
-	if( nconv>f2.nbCols() ) return; // TODO: error, this should not happen
+	if( nconv>f2.cols() ) return; // TODO: error, this should not happen
 
 	res.resize( nsig ); res.fill(0);
 	unsigned int j=0;
 	for( MemoryType::const_iterator iter=f1.begin();iter!=f1.end();iter++ )
 	  {
-	    const ml::Vector & s_tau = *iter;
+	    const Vector & s_tau = *iter;
 	    sotDEBUG(45) << "Sig"<<j<< ": " << s_tau ;
 	    if( s_tau.size()!=nsig )
 	      return; // TODO: error throw;
@@ -764,10 +765,10 @@ namespace dynamicgraph {
 	    j++;
 	  }
       }
-      void operator()( const ml::Vector& v1,const ml::Matrix& m2,ml::Vector& res )
+      void operator()( const Vector& v1,const Matrix& m2,Vector& res )
       {
 	memory.push_front( v1 );
-	while( memory.size()>m2.nbCols() ) memory.pop_back();
+	while( memory.size()>m2.cols() ) memory.pop_back();
 	convolution( memory,m2,res );
       }
     };
@@ -785,7 +786,7 @@ namespace dynamicgraph {
 // {
 // public:
 //   double gain1,gain2;
-//   void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const
+//   void operator()( const Vector& v1,const Vector& v2,Vector& res ) const
 //   {
 //     res=v1; res*=gain1;
 //     res += gain2*v2;
@@ -802,7 +803,7 @@ namespace dynamicgraph {
 // struct WeightedDirection
 // {
 // public:
-//   void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const
+//   void operator()( const Vector& v1,const Vector& v2,Vector& res ) const
 //   {
 //     const double norm1 = v1.norm();
 //     const double norm2 = v2.norm();
@@ -819,7 +820,7 @@ namespace dynamicgraph {
 // struct Nullificator
 // {
 // public:
-//   void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const
+//   void operator()( const Vector& v1,const Vector& v2,Vector& res ) const
 //   {
 //     const unsigned int s = std::max( v1.size(),v2.size() );
 //     res.resize(s);
@@ -843,7 +844,7 @@ namespace dynamicgraph {
 // public:
 //   double spring;
 
-//   void operator()( const ml::Vector& pos,const ml::Vector& ref,ml::Vector& res ) const
+//   void operator()( const Vector& pos,const Vector& ref,Vector& res ) const
 //   {
 //     double norm = ref.norm();
 //     double dist = ref.scalarProduct(pos) / (norm*norm);

@@ -49,13 +49,13 @@ JointLimitator( const string& fName )
 		      <<controlSIN<<controlSOUT<<widthJlSINTERN );
 }
 
-ml::Vector&
-JointLimitator::computeWidthJl (ml::Vector& res,const int& time)
+dynamicgraph::Vector&
+JointLimitator::computeWidthJl (dynamicgraph::Vector& res,const int& time)
 {
   sotDEBUGIN(15);
 
-  const ml::Vector UJL = upperJlSIN.access(time);
-  const ml::Vector LJL = lowerJlSIN.access(time);
+  const dynamicgraph::Vector UJL = upperJlSIN.access(time);
+  const dynamicgraph::Vector LJL = lowerJlSIN.access(time);
   const unsigned int SIZE=UJL.size();
   res.resize(SIZE);
 
@@ -67,15 +67,15 @@ JointLimitator::computeWidthJl (ml::Vector& res,const int& time)
 }
 
 
-ml::Vector&
-JointLimitator::computeControl (ml::Vector& uOUT,int time)
+dynamicgraph::Vector&
+JointLimitator::computeControl (dynamicgraph::Vector& uOUT,int time)
 {
   sotDEBUGIN(15);
 
-  const ml::Vector& q = jointSIN.access(time);
-  const ml::Vector& UJL = upperJlSIN.access(time);
-  const ml::Vector& LJL = lowerJlSIN.access(time);
-  const ml::Vector& uIN = controlSIN.access(time);
+  const dynamicgraph::Vector& q = jointSIN.access(time);
+  const dynamicgraph::Vector& UJL = upperJlSIN.access(time);
+  const dynamicgraph::Vector& LJL = lowerJlSIN.access(time);
+  const dynamicgraph::Vector& uIN = controlSIN.access(time);
 
   unsigned int controlSize = uIN.size();
   uOUT.resize(controlSize); uOUT.fill(0.);

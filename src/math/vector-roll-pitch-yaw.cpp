@@ -32,10 +32,10 @@ fromMatrix( const MatrixRotation& rot )
   const double & nx = rot(2,2);
   const double & ny = rot(2,1);
 
-  vector(0) = atan2(ny,nx);
-  vector(1) = atan2(-rot(2,0),
+  ((dynamicgraph::Vector&)*this)(0) = atan2(ny,nx);
+  ((dynamicgraph::Vector&)*this)(1) = atan2(-rot(2,0),
 		    sqrt(ny*ny+nx*nx));
-  vector(2) = atan2(rot(1,0),rot(0,0));
+  ((dynamicgraph::Vector&)*this)(2) = atan2(rot(1,0),rot(0,0));
   
   sotDEBUGOUT(15) ;
   return *this;
@@ -47,12 +47,12 @@ toMatrix( MatrixRotation& rot ) const
 {
   sotDEBUGIN(15) ;
 
-  const double cr = cos(vector(0)); // ROLL
-  const double sr = sin(vector(0));
-  const double cp = cos(vector(1)); // PITCH
-  const double sp = sin(vector(1));
-  const double cy = cos(vector(2)); // YAW
-  const double sy = sin(vector(2));
+  const double cr = ::cos(((dynamicgraph::Vector&)*this)(0)); // ROLL
+  const double sr = ::sin(((dynamicgraph::Vector&)*this)(0));
+  const double cp = ::cos(((dynamicgraph::Vector&)*this)(1)); // PITCH
+  const double sp = ::sin(((dynamicgraph::Vector&)*this)(1));
+  const double cy = ::cos(((dynamicgraph::Vector&)*this)(2)); // YAW
+  const double sy = ::sin(((dynamicgraph::Vector&)*this)(2));
   
   rot(0,0) = cy*cp;
   rot(0,1) = cy*sp*sr-sy*cr;

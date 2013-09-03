@@ -25,12 +25,9 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* SOT */
 #include <sot/core/flags.hh>
+#include <dynamic-graph/linear-algebra.h>
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
 #include <sot/core/pool.hh>
@@ -131,20 +128,20 @@ namespace dynamicgraph {
 	\par[in] time: The time at which the error is computed.
 	\return The vector res with the appropriate value.
       */
-      virtual ml::Vector& computeError( ml::Vector& res,int time ) = 0;
+      virtual dynamicgraph::Vector& computeError( dynamicgraph::Vector& res,int time ) = 0;
 
       /*! \brief Compute the Jacobian of the error according the robot state.
 
 	\par[out] res: The matrix in which the error will be written.
 	\return The matrix res with the appropriate values.
       */
-      virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time ) = 0;
+      virtual dynamicgraph::Matrix& computeJacobian( dynamicgraph::Matrix& res,int time ) = 0;
 
       /// Callback for signal errordotSOUT
       ///
       /// Copy components of the input signal errordotSIN defined by selection
       /// flag selectionSIN.
-      virtual ml::Vector& computeErrorDot (ml::Vector& res,int time);
+      virtual dynamicgraph::Vector& computeErrorDot (dynamicgraph::Vector& res,int time);
 
       /*! @} */
 
@@ -164,7 +161,7 @@ namespace dynamicgraph {
       SignalPtr< Flags,int > selectionSIN;
 
       /// Derivative of the reference value.
-      SignalPtr< ml::Vector,int > errordotSIN;
+      SignalPtr< dynamicgraph::Vector,int > errordotSIN;
 
       /*! @} */
 
@@ -173,14 +170,14 @@ namespace dynamicgraph {
 
       /*! \brief This signal returns the error between the desired value and
 	the current value : \f$ {\bf s}^*(t) - {\bf s}(t)\f$ */
-      SignalTimeDependent<ml::Vector,int> errorSOUT;
+      SignalTimeDependent<dynamicgraph::Vector,int> errorSOUT;
 
       /// Derivative of the reference value.
-      SignalTimeDependent< ml::Vector,int > errordotSOUT;
+      SignalTimeDependent< dynamicgraph::Vector,int > errordotSOUT;
 
       /*! \brief This signal returns the Jacobian of the current value
 	according to the robot state: \f$ J(t) = \frac{\delta{\bf s}^*(t)}{\delta {\bf q}(t)}\f$ */
-      SignalTimeDependent<ml::Matrix,int> jacobianSOUT;
+      SignalTimeDependent<dynamicgraph::Matrix,int> jacobianSOUT;
 
       /*! \brief Returns the dimension of the feature as an output signal. */
       SignalTimeDependent<unsigned int,int> dimensionSOUT;
@@ -193,7 +190,7 @@ namespace dynamicgraph {
       {
 	return true;
       }
-      virtual SignalTimeDependent<ml::Vector,int>& getErrorDot()
+      virtual SignalTimeDependent<dynamicgraph::Vector,int>& getErrorDot()
       {
 	return errordotSOUT;
       }

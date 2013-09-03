@@ -69,10 +69,10 @@ class SOTFEATUREVECTOR3_EXPORT FeatureVector3
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dg::SignalPtr< ml::Vector,int > vectorSIN;
+  dg::SignalPtr< dynamicgraph::Vector,int > vectorSIN;
   dg::SignalPtr< MatrixHomogeneous,int > positionSIN;
-  dg::SignalPtr< ml::Matrix,int > articularJacobianSIN;
-  dg::SignalPtr< ml::Vector,int > positionRefSIN;
+  dg::SignalPtr< dynamicgraph::Matrix,int > articularJacobianSIN;
+  dg::SignalPtr< dynamicgraph::Vector,int > positionRefSIN;
 
   using FeatureAbstract::selectionSIN;
   using FeatureAbstract::jacobianSOUT;
@@ -84,8 +84,8 @@ class SOTFEATUREVECTOR3_EXPORT FeatureVector3
 
   virtual unsigned int& getDimension( unsigned int & dim, int time );
 
-  virtual ml::Vector& computeError( ml::Vector& res,int time );
-  virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
+  virtual dynamicgraph::Vector& computeError( dynamicgraph::Vector& res,int time );
+  virtual dynamicgraph::Matrix& computeJacobian( dynamicgraph::Matrix& res,int time );
 
   virtual void display( std::ostream& os ) const;
 

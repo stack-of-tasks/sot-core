@@ -26,10 +26,6 @@
 #include <dynamic-graph/all-signals.h>
 #include <sot/core/matrix-rotation.hh>
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* STD */
 #include <vector>
 
@@ -75,10 +71,10 @@ public:
 
   virtual ~VectorToRotation( void ){}
 
-  dg::SignalPtr<ml::Vector,int> SIN;
+  dg::SignalPtr<dg::Vector,int> SIN;
   dg::SignalTimeDependent<MatrixRotation,int> SOUT;
 
-  MatrixRotation& computeRotation( const ml::Vector& angles,
+  MatrixRotation& computeRotation( const dg::Vector& angles,
 				      MatrixRotation& res );
 
 

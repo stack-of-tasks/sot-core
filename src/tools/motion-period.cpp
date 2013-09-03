@@ -59,8 +59,8 @@ MotionPeriod( const string& fName )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-ml::Vector&
-MotionPeriod::computeMotion( ml::Vector& res,const int& time )
+dynamicgraph::Vector&
+MotionPeriod::computeMotion( dynamicgraph::Vector& res,const int& time )
 {
   sotDEBUGIN(15);
 

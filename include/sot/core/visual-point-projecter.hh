@@ -34,9 +34,6 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
 #include <sot/core/matrix-homogeneous.hh>
 
 /* SOT */
@@ -68,12 +65,12 @@ namespace dynamicgraph {
 
       public:  /* --- SIGNALS --- */
 
-	DECLARE_SIGNAL_IN(point3D,ml::Vector);
+	DECLARE_SIGNAL_IN(point3D,dynamicgraph::Vector);
 	DECLARE_SIGNAL_IN(transfo,MatrixHomogeneous);
 
-	DECLARE_SIGNAL_OUT(point3Dgaze,ml::Vector);
+	DECLARE_SIGNAL_OUT(point3Dgaze,dynamicgraph::Vector);
 	DECLARE_SIGNAL_OUT(depth,double);
-	DECLARE_SIGNAL_OUT(point2D,ml::Vector);
+	DECLARE_SIGNAL_OUT(point2D,dynamicgraph::Vector);
 
       }; // class VisualPointProjecter
 

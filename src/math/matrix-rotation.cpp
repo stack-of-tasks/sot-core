@@ -30,4 +30,10 @@ void MatrixRotation::fromVector( VectorUTheta& vec )
   vec.toMatrix( *this );
 }
   
+MatrixRotation& MatrixRotation::operator=( const dynamicgraph::Matrix& m)
+{
+  resize(m.rows(),m.cols());
+  ((dynamicgraph::Matrix&)*this) = m;
+  return *this;
+}
 

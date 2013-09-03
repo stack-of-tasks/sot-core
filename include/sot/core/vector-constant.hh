@@ -22,12 +22,8 @@
 #define DYNAMICGRAPH_SOT_VECTOR_CONSTANT_H
 
 #include <dynamic-graph/entity.h>
-
+#include <dynamic-graph/linear-algebra.h>
 #include <dynamic-graph/all-signals.h>
-
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
 
 /* --------------------------------------------------------------------- */
 /* --- VECTOR ---------------------------------------------------------- */
@@ -56,10 +52,10 @@ namespace dynamicgraph {
 
       virtual ~VectorConstant( void ){}
 
-      SignalTimeDependent<ml::Vector,int> SOUT;
+      SignalTimeDependent<dynamicgraph::Vector,int> SOUT;
 
       /// \brief Set value of vector (and therefore of output signal)
-      void setValue(const ml::Vector& inValue);
+      void setValue(const dynamicgraph::Vector& inValue);
 
       virtual void commandLine( const std::string& cmdLine,
 				std::istringstream& cmdArgs,

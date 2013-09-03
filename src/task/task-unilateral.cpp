@@ -71,10 +71,10 @@ VectorMultiBound& TaskUnilateral::
 computeTaskUnilateral( VectorMultiBound& res,int time )
 {
   sotDEBUG(45) << "# In " << getName() << " {" << endl;
-  const ml::Vector & position = positionSIN(time);
+  const dynamicgraph::Vector & position = positionSIN(time);
   sotDEBUG(35) << "position = " << position << endl;
-  const ml::Vector & refInf = referenceInfSIN(time);
-  const ml::Vector & refSup = referenceSupSIN(time);
+  const dynamicgraph::Vector & refInf = referenceInfSIN(time);
+  const dynamicgraph::Vector & refSup = referenceSupSIN(time);
   const double & dt = dtSIN(time);
   res.resize(position.size());
   for( unsigned int i=0;i<res.size();++i )

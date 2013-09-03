@@ -41,7 +41,7 @@ const std::string Device::CLASS_NAME = "Device";
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void Device::integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
+void Device::integrateRollPitchYaw(dynamicgraph::Vector& state, const dynamicgraph::Vector& control,
 				   double dt)
 {
   jrlMathTools::Vector3D<double> omega;
@@ -114,8 +114,8 @@ Device::
 Device( const std::string& n )
   :Entity(n)
   ,state_(6)
-  ,secondOrderIntegration_(false)
   ,vel_controlInit_(false)
+  ,secondOrderIntegration_(false)
   ,controlSIN( NULL,"Device("+n+")::input(double)::control" )
    //,attitudeSIN(NULL,"Device::input(matrixRot)::attitudeIN")
   ,attitudeSIN(NULL,"Device::input(vector3)::attitudeIN")
@@ -133,13 +133,13 @@ Device( const std::string& n )
   /* --- SIGNALS --- */
   for( int i=0;i<4;++i ){ withForceSignals[i] = false; }
   forcesSOUT[0] =
-    new Signal<ml::Vector, int>("OpenHRP::output(vector6)::forceRLEG");
+    new Signal<dynamicgraph::Vector, int>("OpenHRP::output(vector6)::forceRLEG");
   forcesSOUT[1] =
-    new Signal<ml::Vector, int>("OpenHRP::output(vector6)::forceLLEG");
+    new Signal<dynamicgraph::Vector, int>("OpenHRP::output(vector6)::forceLLEG");
   forcesSOUT[2] =
-    new Signal<ml::Vector, int>("OpenHRP::output(vector6)::forceRARM");
+    new Signal<dynamicgraph::Vector, int>("OpenHRP::output(vector6)::forceRARM");
   forcesSOUT[3] =
-    new Signal<ml::Vector, int>("OpenHRP::output(vector6)::forceLARM");
+    new Signal<dynamicgraph::Vector, int>("OpenHRP::output(vector6)::forceLARM");
 
   signalRegistration( controlSIN<<stateSOUT<<attitudeSOUT<<attitudeSIN<<zmpSIN
 		      <<*forcesSOUT[0]<<*forcesSOUT[1]<<*forcesSOUT[2]<<*forcesSOUT[3]
@@ -174,7 +174,7 @@ Device( const std::string& n )
 	       new command::Setter<Device, Vector>
 	       (*this, &Device::setVelocity, docstring));
 
-    void(Device::*setRootPtr)(const ml::Matrix&) = &Device::setRoot;
+    void(Device::*setRootPtr)(const dynamicgraph::Matrix&) = &Device::setRoot;
     docstring
       = command::docCommandVoid1("Set the root position.",
 				 "matrix homogeneous");
@@ -211,7 +211,7 @@ setStateSize( const unsigned int& size )
 
   Device::setVelocitySize(size);
 
-  ml::Vector zmp(3); zmp.fill( .0 );
+  dynamicgraph::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
 }
 
@@ -224,7 +224,7 @@ setVelocitySize( const unsigned int& size )
 }
 
 void Device::
-setState( const ml::Vector& st )
+setState( const dynamicgraph::Vector& st )
 {
   state_ = st;
   stateSOUT .setConstant( state_ );
@@ -232,14 +232,14 @@ setState( const ml::Vector& st )
 }
 
 void Device::
-setVelocity( const ml::Vector& vel )
+setVelocity( const dynamicgraph::Vector& vel )
 {
   velocity_ = vel;
   velocitySOUT .setConstant( velocity_ );
 }
 
 void Device::
-setRoot( const ml::Matrix & root )
+setRoot( const dynamicgraph::Matrix & root )
 {
   setRoot( (MatrixHomogeneous) root );
 }
@@ -249,7 +249,7 @@ setRoot( const MatrixHomogeneous & worldMwaist )
   MatrixRotation R; worldMwaist.extract(R);
   VectorRollPitchYaw r; r.fromMatrix(R);
 
-  ml::Vector q = state_;
+  dynamicgraph::Vector q = state_;
   worldMwaist.extract(q); // abusive ... but working.
   for( unsigned int i=0;i<3;++i ) q(i+3) = r(i);
 }
@@ -280,7 +280,7 @@ increment( const double & dt )
   for( int i=0;i<4;++i ){
     if(  !withForceSignals[i] ) forcesSOUT[i]->setConstant(forceZero6);
   }
-  ml::Vector zmp(3); zmp.fill( .0 );
+  dynamicgraph::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
 
   // Run Synchronous commands and evaluate signals outside the main
@@ -348,11 +348,11 @@ increment( const double & dt )
 
 void Device::integrate( const double & dt )
 {
-  const ml::Vector & control = controlSIN.accessCopy();
+  const dynamicgraph::Vector & control = controlSIN.accessCopy();
   
   if( !vel_controlInit_ )
     {
-      vel_control_ = ml::Vector(control.size());
+      vel_control_ = dynamicgraph::Vector(control.size());
       vel_control_.setZero();
       vel_controlInit_ = true;
     }
@@ -366,7 +366,7 @@ void Device::integrate( const double & dt )
 
   if (secondOrderIntegration_)
     {
-      for( unsigned int i=0;i<control.size();++i )
+      for( int i=0;i<control.size();++i )
 	{
 	  if(control.size() == velocity_.size()) offset = 0;
 	  vel_control_(i) = velocity_(i+offset) + control(i)*dt*0.5;
@@ -383,7 +383,7 @@ void Device::integrate( const double & dt )
     integrateRollPitchYaw(state_, vel_control_, dt);
   }
   
-  for( unsigned int i=6;i<state_.size();++i )
+  for( int i=6;i<state_.size();++i )
     { state_(i) += (vel_control_(i-offset)*dt); }
 }
 

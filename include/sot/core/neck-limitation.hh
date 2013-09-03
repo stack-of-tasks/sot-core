@@ -25,10 +25,6 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* SOT */
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
@@ -89,11 +85,11 @@ class NeckLimitation_EXPORT NeckLimitation
   virtual ~NeckLimitation( void );
 
  public: /* --- SIGNAL --- */
-  dg::SignalPtr<ml::Vector,int> jointSIN;
-  dg::SignalTimeDependent<ml::Vector,int> jointSOUT;
+  dg::SignalPtr<dg::Vector,int> jointSIN;
+  dg::SignalTimeDependent<dg::Vector,int> jointSOUT;
 
  public: /* --- FUNCTIONS --- */
-  ml::Vector& computeJointLimitation( ml::Vector& jointLimited,const int& timeSpec );
+  dg::Vector& computeJointLimitation( dg::Vector& jointLimited,const int& timeSpec );
   
  public: /* --- PARAMS --- */
   virtual void display( std::ostream& os ) const; 

@@ -95,8 +95,8 @@ getDimension( unsigned int & dim, int time )
 /** Compute the interaction matrix from a subset of
  * the possible features. 
  */
-ml::Matrix& FeatureVisualPoint::
-computeJacobian( ml::Matrix& J,int time )
+dynamicgraph::Matrix& FeatureVisualPoint::
+computeJacobian( dynamicgraph::Matrix& J,int time )
 {
   sotDEBUG(15)<<"# In {"<<endl;
 
@@ -149,7 +149,7 @@ computeJacobian( ml::Matrix& J,int time )
   sotDEBUG(15) << "L:"<<endl<<L<<endl;
   sotDEBUG(15) << "Jq:"<<endl<<articularJacobianSIN(time)<<endl;
   
-  L.multiply(articularJacobianSIN(time),J);
+  J = L*(articularJacobianSIN(time));
 
   sotDEBUG(15)<<"# Out }"<<endl;
   return J;
@@ -158,8 +158,8 @@ computeJacobian( ml::Matrix& J,int time )
 /** Compute the error between two visual features from a subset
  * a the possible features.
  */
-ml::Vector&
-FeatureVisualPoint::computeError( ml::Vector& error,int time )
+dynamicgraph::Vector&
+FeatureVisualPoint::computeError( dynamicgraph::Vector& error,int time )
 {
   const Flags &fl = selectionSIN(time);
   sotDEBUGIN(15);
@@ -185,7 +185,7 @@ display( std::ostream& os ) const
   os <<"VisualPoint <"<<name<<">:";
 
   try{
-    const ml::Vector& xy = xySIN.accessCopy ();
+    const dynamicgraph::Vector& xy = xySIN.accessCopy ();
     const Flags& fl = selectionSIN.accessCopy ();
     if( fl(0) ) os << " x=" << xy(0) ;
     if( fl(1) ) os << " y=" << xy(1) ;

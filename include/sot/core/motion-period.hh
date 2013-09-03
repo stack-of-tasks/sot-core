@@ -25,14 +25,11 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* SOT */
 #include <dynamic-graph/entity.h>
 #include <sot/core/exception-task.hh>
 #include <dynamic-graph/all-signals.h>
+#include <dynamic-graph/linear-algebra.h>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -95,13 +92,13 @@ class SOTMOTIONPERIOD_EXPORT MotionPeriod
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
 
-  dg::SignalTimeDependent< ml::Vector,int > motionSOUT;
+  dg::SignalTimeDependent< dg::Vector,int > motionSOUT;
 
  public:
   MotionPeriod( const std::string& name );
   virtual ~MotionPeriod( void ) {}
 
-  ml::Vector& computeMotion( ml::Vector& res,const int& time ); 
+  dg::Vector& computeMotion( dg::Vector& res,const int& time ); 
   
   virtual void display( std::ostream& os ) const;
   void commandLine( const std::string& cmdLine,

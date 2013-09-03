@@ -102,14 +102,14 @@ double& ControlGR::setsize(int dimension)
         return _dimension;
 }
 
-ml::Vector& ControlGR::
-computeControl( ml::Vector &tau, int t ) 
+dynamicgraph::Vector& ControlGR::
+computeControl( dynamicgraph::Vector &tau, int t ) 
 {
   sotDEBUGIN(15);	
 
-  const ml::Matrix& matrixA = matrixASIN(t);	  
-  const ml::Vector& acceleration = accelerationSIN(t);
-  const ml::Vector& gravity = gravitySIN(t);		  
+  const dynamicgraph::Matrix& matrixA = matrixASIN(t);	  
+  const dynamicgraph::Vector& acceleration = accelerationSIN(t);
+  const dynamicgraph::Vector& gravity = gravitySIN(t);		  
   unsigned size = acceleration.size();		
   tau.resize(size); 
   //tau*=0;

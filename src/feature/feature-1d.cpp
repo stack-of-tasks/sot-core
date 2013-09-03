@@ -74,11 +74,11 @@ getDimension( unsigned int & dim, int /*time*/ )
 }
 
 
-ml::Vector& Feature1D::
-computeError( ml::Vector& res,int time )
+dynamicgraph::Vector& Feature1D::
+computeError( dynamicgraph::Vector& res,int time )
 { 
-  const ml::Vector& err = errorSIN.access(time);
-  res.resize(1); res(0)=err.scalarProduct(err)*.5;
+  const dynamicgraph::Vector& err = errorSIN.access(time);
+  res.resize(1); res(0)=err.dot(err)*.5;
 
   return res; 
 
@@ -86,17 +86,17 @@ computeError( ml::Vector& res,int time )
 
 
 
-ml::Matrix& Feature1D::
-computeJacobian( ml::Matrix& res,int time )
+dynamicgraph::Matrix& Feature1D::
+computeJacobian( dynamicgraph::Matrix& res,int time )
 { 
   sotDEBUGIN(15);
 
-  const ml::Matrix& Jac = jacobianSIN.access(time);
-  const ml::Vector& err = errorSIN.access(time);
+  const dynamicgraph::Matrix& Jac = jacobianSIN.access(time);
+  const dynamicgraph::Vector& err = errorSIN.access(time);
 
-  res.resize( 1,Jac.nbCols() );res.fill(0);
-  for( unsigned int j=0;j<Jac.nbCols();++j )
-    for( unsigned int i=0;i<Jac.nbRows();++i )
+  res.resize( 1,Jac.cols() );res.fill(0);
+  for( int j=0;j<Jac.cols();++j )
+    for( int i=0;i<Jac.rows();++i )
       res(0,j)+=err(i)*Jac(i,j);
       
   sotDEBUGOUT(15);

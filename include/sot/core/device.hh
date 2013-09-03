@@ -24,9 +24,6 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* -- MaaL --- */
-#include <jrl/mal/malv2.hh>
-namespace ml= maal::boost;
 /* SOT */
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
@@ -60,10 +57,10 @@ namespace dynamicgraph {
       };
       
     protected:
-      ml::Vector state_;
-      ml::Vector velocity_;
+      dynamicgraph::Vector state_;
+      dynamicgraph::Vector velocity_;
       bool vel_controlInit_;
-      ml::Vector vel_control_;
+      dynamicgraph::Vector vel_control_;
       bool secondOrderIntegration_;
       bool withForceSignals[4];
       PeriodicCall periodicCallBefore_;
@@ -76,9 +73,9 @@ namespace dynamicgraph {
       virtual ~Device();
       
       void setStateSize(const unsigned int& size);
-      void setState(const ml::Vector& st);
+      void setState(const dynamicgraph::Vector& st);
       void setVelocitySize(const unsigned int& size);
-      void setVelocity(const ml::Vector & vel);
+      void setVelocity(const dynamicgraph::Vector & vel);
       void setSecondOrderIntegration();
       void increment(const double & dt = 5e-2);
       
@@ -91,29 +88,29 @@ namespace dynamicgraph {
 
     public: /* --- SIGNALS --- */
 
-      dynamicgraph::SignalPtr<ml::Vector,int> controlSIN;
-      dynamicgraph::SignalPtr<ml::Vector,int> attitudeSIN;
-      dynamicgraph::SignalPtr<ml::Vector,int> zmpSIN;
+      dynamicgraph::SignalPtr<dynamicgraph::Vector,int> controlSIN;
+      dynamicgraph::SignalPtr<dynamicgraph::Vector,int> attitudeSIN;
+      dynamicgraph::SignalPtr<dynamicgraph::Vector,int> zmpSIN;
 
-      dynamicgraph::Signal<ml::Vector,int> stateSOUT;
-      dynamicgraph::Signal<ml::Vector,int> velocitySOUT;
+      dynamicgraph::Signal<dynamicgraph::Vector,int> stateSOUT;
+      dynamicgraph::Signal<dynamicgraph::Vector,int> velocitySOUT;
       dynamicgraph::Signal<MatrixRotation,int> attitudeSOUT;
-      dynamicgraph::Signal<ml::Vector,int>* forcesSOUT[4];
+      dynamicgraph::Signal<dynamicgraph::Vector,int>* forcesSOUT[4];
 
-      dynamicgraph::Signal<ml::Vector,int> pseudoTorqueSOUT;
-      dynamicgraph::Signal<ml::Vector,int> previousControlSOUT;
+      dynamicgraph::Signal<dynamicgraph::Vector,int> pseudoTorqueSOUT;
+      dynamicgraph::Signal<dynamicgraph::Vector,int> previousControlSOUT;
 
       /*! \brief The current state of the robot from the command viewpoint. */
-      dynamicgraph::Signal<ml::Vector,int> motorcontrolSOUT;
+      dynamicgraph::Signal<dynamicgraph::Vector,int> motorcontrolSOUT;
       /*! \brief The ZMP reference send by the previous controller. */
-      dynamicgraph::Signal<ml::Vector,int> ZMPPreviousControllerSOUT;
+      dynamicgraph::Signal<dynamicgraph::Vector,int> ZMPPreviousControllerSOUT;
 
     public: /* --- COMMANDS --- */
       void commandLine(const std::string&, std::istringstream&,
 		       std::ostream&){}
     protected:
       /// Compute roll pitch yaw angles of freeflyer joint.
-      void integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
+      void integrateRollPitchYaw(dynamicgraph::Vector& state, const dynamicgraph::Vector& control,
 				 double dt);
       /// Store Position of free flyer joint
       MatrixHomogeneous ffPose_;
@@ -123,11 +120,11 @@ namespace dynamicgraph {
       /// Get freeflyer pose
       const MatrixHomogeneous& freeFlyerPose() const;
     public:
-      void setRoot( const ml::Matrix & root );
+      void setRoot( const dynamicgraph::Matrix & root );
       void setRoot( const MatrixHomogeneous & worldMwaist );
     private:
       // Intermediate variable to avoid dynamic allocation
-      ml::Vector forceZero6;
+      dynamicgraph::Vector forceZero6;
     };
   } // namespace sot
 } // namespace dynamicgraph
