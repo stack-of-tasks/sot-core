@@ -72,13 +72,8 @@ SET(NEWHEADERS
   sot/core/task.hh
   sot/core/gain-hyperbolic.hh
   sot/core/flags.hh
-  sot/core/sot-qr.hh
   sot/core/memory-task-sot.hh
-  sot/core/sot-h.hh
   sot/core/sot.hh
-  sot/core/rotation-simple.hh
-  sot/core/weighted-sot.hh
-  sot/core/solver-hierarchical-inequalities.hh
   sot/core/reader.hh
   sot/core/utils-windows.hh
   sot/core/time-stamp.hh
