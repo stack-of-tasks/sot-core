@@ -40,9 +40,6 @@ SET(SOTCORE_LIB_NAME ${PROJECT_NAME})
 
 #This project will create many plugins as shared libraries, listed here
 SET(plugins
-	sot/sot-qr
-	sot/weighted-sot
-	sot/sot-h
 	sot/sot
 
 	math/op-point-modifier
@@ -158,8 +155,6 @@ SET(${LIBRARY_NAME}_SOURCES
 
 	sot/flags.cpp
 	sot/memory-task-sot.cpp
-	sot/rotation-simple.cpp
-	sot/solver-hierarchical-inequalities.cpp
 
 	factory/pool.cpp
 
