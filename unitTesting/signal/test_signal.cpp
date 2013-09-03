@@ -23,27 +23,25 @@
 /* -------------------------------------------------------------------------- */
 #include <dynamic-graph/all-signals.h>
 #include <iostream>
-#include <jrl/mal/malv2.hh>
+
 using namespace std;
 using namespace dynamicgraph;
-
-DECLARE_MAL_NAMESPACE(ml);
 
 class DummyClass
 {
 
 public:
-  ml::Vector& fun( ml::Vector& res,double j )
+  Eigen::VectorXd& fun( Eigen::VectorXd& res,double j )
   { res.resize(3); res.fill(j); return res; }
 
 
 };
 
-ml::Vector data(6);
-Signal<ml::Vector,double> sig("sigtest");
+Eigen::VectorXd data(6);
+Signal<Eigen::VectorXd,double> sig("sigtest");
 DummyClass dummy;
 
-ml::Vector& fun( ml::Vector& res,double /*j*/ ) { return res=data; }
+Eigen::VectorXd& fun( Eigen::VectorXd& res,double /*j*/ ) { return res=data; }
 
 int main( void )
 {

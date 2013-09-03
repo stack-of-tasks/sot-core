@@ -25,15 +25,8 @@
 #include <sot/core/debug.hh>
 #include <iostream>
 
-#include <jrl/mal/malv2.hh>
-
 using namespace std;
 using namespace dynamicgraph;
-
-DECLARE_MAL_NAMESPACE(ml);
-
-
-
 
 template< class Res=double >
 class DummyClass
@@ -42,7 +35,7 @@ class DummyClass
 public:
   std::string proname;
   list< SignalTimeDependent<double,int>* > inputsig;
-  list< SignalTimeDependent<ml::Vector,int>* > inputsigV;
+  list< SignalTimeDependent<Eigen::VectorXd,int>* > inputsigV;
 
 public:
   DummyClass( const std::string& n ) : proname(n),res(),appel(0),timedata(0) {}
@@ -59,7 +52,7 @@ public:
 	cout << *(*it) << endl;
 	(*it)->access(timedata);
       }
-    for( list< SignalTimeDependent<ml::Vector,int>* >::iterator it=inputsigV.begin();
+    for( list< SignalTimeDependent<Eigen::VectorXd,int>* >::iterator it=inputsigV.begin();
 	 it!=inputsigV.end();++it )
       { cout << *(*it) << endl; (*it)->access(timedata);}
 
@@ -68,7 +61,7 @@ public:
 
   void add( SignalTimeDependent<double,int>& sig )
   {    inputsig.push_back(&sig);   }
-  void add( SignalTimeDependent<ml::Vector,int>& sig )
+  void add( SignalTimeDependent<Eigen::VectorXd,int>& sig )
   {    inputsigV.push_back(&sig);   }
 
   Res operator() ( void );
@@ -89,7 +82,7 @@ double DummyClass<double>::operator() (void)
   res=appel*timedata; return res;
 }
 template<>
-ml::Vector DummyClass<ml::Vector>::operator() (void)
+Eigen::VectorXd DummyClass<Eigen::VectorXd>::operator() (void)
 {
   res.resize(3);
   res.fill(appel*timedata); return res;
@@ -99,13 +92,13 @@ ml::Vector DummyClass<ml::Vector>::operator() (void)
 int main( void )
 {
    DummyClass<double> pro1("pro1"),pro3("pro3"),pro5("pro5");
-   DummyClass<ml::Vector> pro2("pro2"),pro4("pro4"),pro6("pro6");
+   DummyClass<Eigen::VectorXd> pro2("pro2"),pro4("pro4"),pro6("pro6");
 
    SignalTimeDependent<double,int> sig5("Sig5");
-   SignalTimeDependent<ml::Vector,int> sig6("Sig6");
+   SignalTimeDependent<Eigen::VectorXd,int> sig6("Sig6");
 
-   SignalTimeDependent<ml::Vector,int> sig4(sig5,"Sig4");
-   SignalTimeDependent<ml::Vector,int> sig2(sig4<<sig4<<sig4<<sig6,"Sig2");
+   SignalTimeDependent<Eigen::VectorXd,int> sig4(sig5,"Sig4");
+   SignalTimeDependent<Eigen::VectorXd,int> sig2(sig4<<sig4<<sig4<<sig6,"Sig2");
    SignalTimeDependent<double,int> sig3(sig2<<sig5<<sig6,"Sig3");
    SignalTimeDependent<double,int> sig1( boost::bind(&DummyClass<double>::fun,&pro1,_1,_2),
 					   sig2<<sig3,"Sig1");
@@ -116,11 +109,11 @@ int main( void )
 //    dispArray(sig4<<sig2<<sig3);
 //    dispArray(tarr);
 
-   sig2.setFunction( boost::bind(&DummyClass<ml::Vector>::fun,&pro2,_1,_2) );
+   sig2.setFunction( boost::bind(&DummyClass<Eigen::VectorXd>::fun,&pro2,_1,_2) );
    sig3.setFunction( boost::bind(&DummyClass<double>::fun,&pro3,_1,_2) );
-   sig4.setFunction( boost::bind(&DummyClass<ml::Vector>::fun,&pro4,_1,_2) );
+   sig4.setFunction( boost::bind(&DummyClass<Eigen::VectorXd>::fun,&pro4,_1,_2) );
    sig5.setFunction( boost::bind(&DummyClass<double>::fun,&pro5,_1,_2) );
-   sig6.setFunction( boost::bind(&DummyClass<ml::Vector>::fun,&pro6,_1,_2) );
+   sig6.setFunction( boost::bind(&DummyClass<Eigen::VectorXd>::fun,&pro6,_1,_2) );
 
    pro1.add(sig2);
    pro1.add(sig3);

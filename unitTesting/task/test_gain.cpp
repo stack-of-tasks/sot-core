@@ -29,14 +29,12 @@ using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
-DECLARE_MAL_NAMESPACE(ml);
-
 class DummyClass
 {
 public:
-  ml::Vector err;
+  Eigen::VectorXd err;
 
-  ml::Vector& getError( ml::Vector& res,int t )
+  Eigen::VectorXd& getError( Eigen::VectorXd& res,int t )
   {
     cout << "Dummy::getError ["<< t<< "] "<<endl;
     return res=err;
@@ -59,7 +57,7 @@ int main( void )
 
   GainAdaptive * gain = new GainAdaptive("gain",4,1,5);
 
-  Signal<ml::Vector,int> errSig("test");
+  Signal<Eigen::VectorXd,int> errSig("test");
   errSig.setFunction( boost::bind(&DummyClass::getError,dummy,_1,_2) );
 
   gain->errorSIN.plug( &errSig );

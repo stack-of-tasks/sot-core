@@ -21,14 +21,11 @@
 #include <iostream>
 #include <sot/core/debug.hh>
 
-#include <jrl/mal/malv2.hh>
-
 #ifndef WIN32
 #include <unistd.h>
 #endif
 
 using namespace std;
-DECLARE_MAL_NAMESPACE(ml);
 
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/entity.h>
@@ -45,14 +42,14 @@ sot::MailboxVector* mailbox = NULL;
 
 void f( void ) 
 { 
-  ml::Vector vect(25);
-  ml::Vector vect2(25);
+  Eigen::VectorXd vect(25);
+  Eigen::VectorXd vect2(25);
   for( int i=0; i < 250 ; ++i )
     {
 	  std::cout << " iter  " << i << std::endl;
       for( int j=0;j<25;++j ) vect(j) = j+i*10;
       mailbox->post( vect );
-      maal::boost::Vector V = mailbox->getObject( vect2, 1 );
+      Eigen::VectorXd V = mailbox->getObject( vect2, 1 );
 	  std::cout << vect2 << std::endl;
 	  std::cout << " getClassName   " << mailbox->getClassName() << std::endl;
 	  std::cout << " getName        " << mailbox->getName() << std::endl;

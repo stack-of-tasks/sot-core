@@ -24,16 +24,14 @@
 #include <dynamic-graph/all-signals.h>
 #include <sot/core/matrix-rotation.hh>
 #include <iostream>
-#include <jrl/mal/malv2.hh>
+
 using namespace std;
 using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
 
-DECLARE_MAL_NAMESPACE(ml);
-
-Signal<ml::Matrix,int> base("base");
-Signal<ml::Matrix,int> sig("matrix");
-SignalPtr<ml::Matrix,int> sigptr(&base);
+Signal<Eigen::MatrixXd,int> base("base");
+Signal<Eigen::MatrixXd,int> sig("matrix");
+SignalPtr<Eigen::MatrixXd,int> sigptr(&base);
 
 Signal<MatrixRotation,int> sigMR("matrixRot");
 

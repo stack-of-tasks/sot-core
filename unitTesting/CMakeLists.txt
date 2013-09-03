@@ -73,7 +73,6 @@ SET (tests
 	signal/test_ptrcast
 
 	sot/tsot
-	sot/test_solverSoth
 
 	traces/files
 	traces/test_traces
