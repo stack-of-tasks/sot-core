@@ -31,13 +31,11 @@
 using namespace std;
 using namespace dynamicgraph::sot;
 
-DECLARE_MAL_NAMESPACE(ml);
-
 double drand( void ) { return 2*((double)rand())/RAND_MAX-1; }
-ml::Matrix& mrand( ml::Matrix& J )
+Eigen::MatrixXd& mrand( Eigen::MatrixXd& J )
 {
-  for( unsigned int i=0;i<J.nbRows();++i)
-    for( unsigned int j=0;j<J.nbCols();++j)
+  for( int i=0;i<J.rows();++i)
+    for( int j=0;j<J.cols();++j)
       J(i,j) = drand();
   return J;
 }
@@ -45,9 +43,9 @@ ml::Matrix& mrand( ml::Matrix& J )
 int main( void )
 {
   srand(12);
-  ml::Matrix Jq(6,6); Jq.setIdentity();
+  Eigen::MatrixXd Jq(6,6); Jq.setIdentity();
 
-  ml::Vector p1xy(2); p1xy(0)=1.; p1xy(1)=-2;
+  Eigen::VectorXd p1xy(2); p1xy(0)=1.; p1xy(1)=-2;
 
   sotDEBUGF("Create feature");
   FeatureVisualPoint * p1 = new FeatureVisualPoint("p1");
@@ -55,13 +53,14 @@ int main( void )
 
   p1->articularJacobianSIN.setReference(&Jq);
   p1->selectionSIN = Flags(true);
-  p1->setReference(p1des);
+  //p1->desiredValueSIN = p1des;
   p1->xySIN = p1xy;
 
-  p1des->xySIN = ml::Vector(2);
+  p1des->xySIN = Eigen::VectorXd(2);
+
 
   sotDEBUGF("Create Task");
-  sotDEBUG(0) << ml::MATLAB;
+  //sotDEBUG(0) << ml::MATLAB;
 
   Task * task = new Task("t");
   task->addFeature(*p1);
@@ -77,8 +76,11 @@ int main( void )
   task->jacobianSOUT.display(cout)<<endl;
   task->jacobianSOUT.displayDependencies(cout)<<endl;
 
-  sotDEBUG(0) << ml::MATLAB << "J"<< task->jacobianSOUT(2);
+  sotDEBUG(0) /*<< ml::MATLAB*/ << "J"<< task->jacobianSOUT(2);
+  //sotDEBUG(0) <<"H"<< task->featureActivationSOUT(2)<<endl;
   sotDEBUG(0) <<"e"<< task->errorSOUT(2) <<endl;
+
+
 
   return 0;
 }

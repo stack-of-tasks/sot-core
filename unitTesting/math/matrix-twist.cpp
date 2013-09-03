@@ -14,20 +14,18 @@
 // along with sot-core.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <sstream>
-
+#include <iostream>
 #define BOOST_TEST_MODULE matrix_twist
 
 #include <boost/test/unit_test.hpp>
 #include <boost/test/floating_point_comparison.hpp>
 #include <boost/test/output_test_stream.hpp>
 
-#include <jrl/mal/malv2.hh>
 #include <sot/core/matrix-homogeneous.hh>
-#include "sot/core/matrix-twist.hh"
+#include <sot/core/matrix-twist.hh>
 
 using boost::test_tools::output_test_stream;
 
-DECLARE_MAL_NAMESPACE(ml);
 
 #define MATRIX_BOOST_REQUIRE_CLOSE(N, M, LEFT, RIGHT, TOLERANCE)	\
   for (unsigned i = 0; i < N; ++i)					\
@@ -88,11 +86,15 @@ BOOST_AUTO_TEST_CASE (constructor_trivial)
   dynamicgraph::sot::MatrixHomogeneous M;
   dynamicgraph::sot::MatrixTwist twist (M);
 
-  ml::Matrix twistRef (6, 6);
+  Eigen::MatrixXd twistRef (6, 6);
 
   for (unsigned i = 0; i < 6; ++i)
     for (unsigned j = 0; j < 6; ++j)
       twistRef (i, j) = (i == j) ? 1. : 0.;
+      
+  std::cout << "M =" << M << std::endl;
+  std::cout << "twist =" << twist << std::endl;
+  std::cout << "twistRef =" << twistRef << std::endl;
 
   MATRIX_6x6_BOOST_REQUIRE_CLOSE (twist, twistRef, 0.001);
 }
@@ -109,7 +111,7 @@ BOOST_AUTO_TEST_CASE (constructor_rotation_only)
   dynamicgraph::sot::MatrixTwist twist (M);
 
 
-  ml::Matrix twistRef (6, 6);
+  Eigen::MatrixXd twistRef (6, 6);
   MATRIX_6x6_INIT (twistRef,
 		   0.,  0.,  1., 0.,  0., 0.,
 		   1.,  0.,  0., 0.,  0., 0.,
@@ -136,7 +138,7 @@ BOOST_AUTO_TEST_CASE (constructor_translation_only)
 		   0., 0.,  0., 1.);
   dynamicgraph::sot::MatrixTwist twist (M);
 
-  ml::Matrix twistRef (6, 6);
+  Eigen::MatrixXd twistRef (6, 6);
   MATRIX_6x6_INIT (twistRef,
 		   1., 0., 0.,  0.,  -tz,   ty,
 		   0., 1., 0.,  tz,   0.,  -tx,
@@ -164,7 +166,7 @@ BOOST_AUTO_TEST_CASE (constructor_rotation_translation)
 		   0., 0.,  0., 1.);
   dynamicgraph::sot::MatrixTwist twist (M);
 
-  ml::Matrix twistRef (6, 6);
+  Eigen::MatrixXd twistRef (6, 6);
   MATRIX_6x6_INIT (twistRef,
 		   0., 0., 1.,  ty,   tz,   0.,
 		   0.,-1., 0., -tx,   0.,   tz,
@@ -198,7 +200,7 @@ BOOST_AUTO_TEST_CASE (inverse_translation_only)
   dynamicgraph::sot::MatrixTwist twistInv_;
   twist.inverse (twistInv_);
 
-  ml::Matrix twistRef (6, 6);
+  Eigen::MatrixXd twistRef (6, 6);
   MATRIX_6x6_INIT (twistRef,
 		   1., 0., 0.,  0.,   tz,  -ty,
 		   0., 1., 0., -tz,   0.,   tx,
@@ -232,7 +234,7 @@ BOOST_AUTO_TEST_CASE (inverse_translation_rotation)
   dynamicgraph::sot::MatrixTwist twistInv_;
   twist.inverse (twistInv_);
 
-  ml::Matrix twistRef (6, 6);
+  Eigen::MatrixXd twistRef (6, 6);
   MATRIX_6x6_INIT (twistRef,
 		   0., 0., 1., ty, -tx, -0.,
 		   0., -1., 0., tz, -0., -tx,

@@ -25,8 +25,6 @@
 #include <dynamic-graph/signal.h>
 #include <dynamic-graph/signal-time-dependent.h>
 #include <dynamic-graph/tracer.h>
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
 
 using namespace std;
 using namespace dynamicgraph;
@@ -36,14 +34,14 @@ double& f( double& res,const int& /*t*/ ) { cout << "SIGM!"<<endl; return res; }
 
 int main()
 {
-  Signal<ml::Vector,int> sig1( "sig1" );
-  ml::Vector v1(2); v1.fill(1.1); sig1 = v1;
+  Signal<Eigen::VectorXd,int> sig1( "sig1" );
+  Eigen::VectorXd v1(2); v1.fill(1.1); sig1 = v1;
 
-  Signal<ml::Vector,int> sig2( "sig2" );
-  ml::Vector v2(4); v2.fill(2.); sig2 = v2;
+  Signal<Eigen::VectorXd,int> sig2( "sig2" );
+  Eigen::VectorXd v2(4); v2.fill(2.); sig2 = v2;
 
-  Signal<ml::Vector,int> sig3( "sig3" );
-  ml::Vector v3(6); v3.fill(3.); sig3 = v3;
+  Signal<Eigen::VectorXd,int> sig3( "sig3" );
+  Eigen::VectorXd v3(6); v3.fill(3.); sig3 = v3;
 
   SignalTimeDependent<double,int> sigM( f,sotNOSIGNAL,"sigM" );
   sigM.access(0);

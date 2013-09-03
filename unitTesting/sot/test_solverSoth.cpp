@@ -20,7 +20,6 @@
 
 #define VP_DEBUG_MODE 45
 #include <sot/core/debug.hh>
-#include <sot/core/solver-hierarchical-inequalities.hh>
 #include <fstream>
 
 
@@ -45,17 +44,17 @@ void parseTest( const std::string filename )
 
   bubMatrix Rh;
   SolverHierarchicalInequalities::ConstraintList constraintH;
-  std::vector<bubMatrix> Jes;
-  std::vector<bubVector> ees;
-  std::vector<bubMatrix> Jis;
-  std::vector<bubVector> eiInfs;
-  std::vector<bubVector> eiSups;
+  std::vector<Eigen::MatrixXd> Jes;
+  std::vector<Eigen::VectorXd> ees;
+  std::vector<Eigen::MatrixXd> Jis;
+  std::vector<Eigen::VectorXd> eiInfs;
+  std::vector<Eigen::VectorXd> eiSups;
   std::vector<ConstraintMem::BoundSideVector> bounds;
 
   int nJ;
   int me,mi;
-  bubMatrix Je,Ji;
-  bubVector ee,eiInf,eiSup;
+  Eigen::MatrixXd Je,Ji;
+  Eigen::VectorXd ee,eiInf,eiSup;
   ConstraintMem::BoundSideVector eiBoundSide;
 
   off >> bs; if(bs!="variable") { cerr << "!! '" << bs << "'" << endl; return; }

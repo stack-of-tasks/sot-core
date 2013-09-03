@@ -70,12 +70,11 @@ int main()
 //   Flags t3;
 //   TestFeature t5;
 
-#ifdef WIN32
-  sotPluginKey dlib = LoadLibrary (PLUGIN_LIB_INSTALL_PATH "/feature-visual-point" TESTS_DYNLIBSUFFIX);
+#ifndef WIN32
+  sotPluginKey dlib = dlopen(PLUGIN_LIB_INSTALL_PATH "/feature-visual-point.so", RTLD_NOW);
 #else
-  sotPluginKey dlib = dlopen(PLUGIN_LIB_INSTALL_PATH "/feature-visual-point" TESTS_DYNLIBSUFFIX, RTLD_NOW);
+  sotPluginKey dlib = LoadLibrary (PLUGIN_LIB_INSTALL_PATH "/feature-visual-point.dll");
 #endif
-
 if( NULL==dlib )
     {
       cerr << " Error dl"<<endl;
@@ -104,12 +103,11 @@ if( NULL==dlib )
     }
 
 
-#ifdef WIN32
-	dlib = LoadLibrary (PLUGIN_LIB_INSTALL_PATH "/gain-adaptive" TESTS_DYNLIBSUFFIX);
+#ifndef WIN32
+	dlib = dlopen(PLUGIN_LIB_INSTALL_PATH "/gain-adaptive.so", RTLD_NOW);
 #else
-	dlib = dlopen(PLUGIN_LIB_INSTALL_PATH "/gain-adaptive" TESTS_DYNLIBSUFFIX, RTLD_NOW);
+	dlib = LoadLibrary (PLUGIN_LIB_INSTALL_PATH "/gain-adaptive.dll");
 #endif
-
   if( NULL==dlib )
     {
       cerr << " Error dl"<<endl;

@@ -50,13 +50,13 @@ int main( int ,char** )
 
   struct timeval t0,t1; double dt;
 
-  ublas::matrix<double> P(40,40);
-  ublas::matrix<double> J(6,40);
-  ublas::matrix<double> JK(6,40);
+  Eigen::MatrixXd P(40,40);
+  Eigen::MatrixXd J(6,40);
+  Eigen::MatrixXd JK(6,40);
   for( unsigned int i=0;i<40;++i )
     for( unsigned int j=0;j<40;++j ) P(i,j) = (rand()+1.) / RAND_MAX;
-  for( unsigned int i=0;i<J.size1();++i )
-    for( unsigned int j=0;j<J.size2();++j ) J(i,j) = (rand()+1.) / RAND_MAX;
+  for( int i=0;i<J.rows();++i )
+    for( int j=0;j<J.cols();++j ) J(i,j) = (rand()+1.) / RAND_MAX;
 
   int nbIter = 100000;
   dt=0;
@@ -66,7 +66,7 @@ int main( int ,char** )
       gettimeofday(&t0,NULL);
       //J.multiply(P,JK);
       //prod(J.matrix,P.matrix,JK.matrix);
-      prod(J,P,JK);
+      JK = J*P;
       gettimeofday(&t1,NULL);
       dt += ( (t1.tv_sec-t0.tv_sec)
 	     + (t1.tv_usec-t0.tv_usec+0.)  / 1000. / 1000. );

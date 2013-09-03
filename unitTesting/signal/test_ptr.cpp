@@ -25,18 +25,12 @@
 #include <dynamic-graph/all-signals.h>
 #include <iostream>
 
-#include <jrl/mal/malv2.hh>
 #include <sot/core/vector-utheta.hh>
 #include <sot/core/exception-abstract.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
-
-DECLARE_MAL_NAMESPACE(ml);
-
-
-
 
 template< class Res=double >
 class DummyClass
@@ -53,7 +47,7 @@ public:
     for( list< SignalTimeDependent<double,int>* >::iterator it=inputsig.begin();
 	 it!=inputsig.end();++it )
        { sotDEBUG(5) << *(*it) << endl; (*it)->access(timedata);}
-    for( list< SignalTimeDependent<ml::Vector,int>* >::iterator it=inputsigV.begin();
+    for( list< SignalTimeDependent<Eigen::VectorXd,int>* >::iterator it=inputsigV.begin();
 	 it!=inputsigV.end();++it )
       { sotDEBUG(5) << *(*it) << endl; (*it)->access(timedata);}
 
@@ -61,10 +55,10 @@ public:
   }
 
   list< SignalTimeDependent<double,int>* > inputsig;
-  list< SignalTimeDependent<ml::Vector,int>* > inputsigV;
+  list< SignalTimeDependent<Eigen::VectorXd,int>* > inputsigV;
 
   void add( SignalTimeDependent<double,int>& sig ){ inputsig.push_back(&sig); }
-  void add( SignalTimeDependent<ml::Vector,int>& sig ){ inputsigV.push_back(&sig); }
+  void add( SignalTimeDependent<Eigen::VectorXd,int>& sig ){ inputsigV.push_back(&sig); }
 
   Res operator() ( void );
 
@@ -84,7 +78,7 @@ double DummyClass<double>::operator() (void)
   res=appel*timedata; return res;
 }
 template<>
-ml::Vector DummyClass<ml::Vector>::operator() (void)
+Eigen::VectorXd DummyClass<Eigen::VectorXd>::operator() (void)
 {
   res.resize(3);
   res.fill(appel*timedata); return res;
@@ -101,7 +95,7 @@ VectorUTheta DummyClass<VectorUTheta>::operator() (void)
 //   for( unsigned int i=0;i<ar.rank;++i ) sotDEBUG(5)<<*ar.array[i]<<endl;
 // }
 
-void funtest( ml::Vector& /*v*/ ){ }
+void funtest( Eigen::VectorXd& /*v*/ ){ }
 
 #include <vector>
 int main( void )
@@ -109,9 +103,9 @@ int main( void )
    DummyClass<VectorUTheta> pro3;
 
    SignalTimeDependent<VectorUTheta,int> sig3(sotNOSIGNAL,"Sig3");
-   SignalPtr<ml::Vector,int> sigTo3( NULL,"SigTo3" );
+   SignalPtr<Eigen::VectorXd,int> sigTo3( NULL,"SigTo3" );
 
-   ml::Vector v;
+   Eigen::VectorXd v;
    VectorUTheta v3;
    funtest(v);
    funtest(v3);
