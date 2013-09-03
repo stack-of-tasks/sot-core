@@ -25,14 +25,11 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* SOT */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+#include <dynamic-graph/linear-algebra.h>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -102,7 +99,7 @@ class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic
   void forceConstant( void );
 
  public:  /* --- SIGNALS --- */
-  dg::SignalPtr<ml::Vector,int> errorSIN;
+  dg::SignalPtr<dg::Vector,int> errorSIN;
   dg::SignalTimeDependent<double,int> gainSOUT;
  protected:
   double& computeGain( double& res,int t );

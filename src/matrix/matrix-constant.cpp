@@ -62,12 +62,12 @@ MatrixConstant( const std::string& name )
     "        - a matrix\n"
     "    \n";
   addCommand("set",
-	     new ::dynamicgraph::command::Setter<MatrixConstant, ml::Matrix>
+	     new ::dynamicgraph::command::Setter<MatrixConstant, dynamicgraph::Matrix>
 	     (*this, &MatrixConstant::setValue, docstring));
 }
 
 void MatrixConstant::
-setValue(const ml::Matrix& inValue)
+setValue(const dynamicgraph::Matrix& inValue)
 {
   SOUT.setConstant(inValue);
 }
@@ -81,20 +81,20 @@ commandLine( const std::string& cmdLine,
   if( cmdLine == "resize" )
     {
       cmdArgs >>rows>>cols;
-      ml::Matrix m(rows,cols);
+      dynamicgraph::Matrix m(rows,cols);
       m.fill(color);
       SOUT.setConstant(m);
     }
   else if( cmdLine == "fill" )
     {
       cmdArgs >>color;
-      ml::Matrix m(rows,cols);
+      dynamicgraph::Matrix m(rows,cols);
       m.fill(color);
       SOUT.setConstant(m);
     }
   else if( cmdLine == "rand" )
     {
-      ml::Matrix m(rows,cols);
+      dynamicgraph::Matrix m(rows,cols);
       for( int i=0;i<rows;++i )
         for( int j=0;j<cols;++j )
           m(i,j) = ((rand()+0.0)/RAND_MAX*2)-1.;
@@ -104,14 +104,14 @@ commandLine( const std::string& cmdLine,
     { SOUT.SignalBase<int>::setReady() ;   }
   else if( cmdLine == "eye") 
     {
-      ml::Matrix m(rows,cols); m.setIdentity();
+      dynamicgraph::Matrix m(rows,cols); m.setIdentity();
       SOUT.setConstant(m);
     }
   else if( cmdLine == "[]" ) 
     {
       unsigned int i,j; double v;
       cmdArgs >> i >> j >> v;
-      ml::Matrix m = SOUT.accessCopy();
+      dynamicgraph::Matrix m = SOUT.accessCopy();
       m(i,j) = v;
       SOUT.setConstant(m);
     }

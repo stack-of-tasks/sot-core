@@ -74,10 +74,10 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
 
-  dg::SignalPtr< ml::Vector,int > jointSIN;
-  dg::SignalPtr< ml::Vector,int > upperJlSIN;
-  dg::SignalPtr< ml::Vector,int > lowerJlSIN;
-  dg::SignalTimeDependent< ml::Vector,int > widthJlSINTERN;
+  dg::SignalPtr< dg::Vector,int > jointSIN;
+  dg::SignalPtr< dg::Vector,int > upperJlSIN;
+  dg::SignalPtr< dg::Vector,int > lowerJlSIN;
+  dg::SignalTimeDependent< dg::Vector,int > widthJlSINTERN;
 
   using FeatureAbstract::selectionSIN;
 
@@ -96,9 +96,9 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
 
   virtual unsigned int& getDimension( unsigned int & dim, int time );
 
-  virtual ml::Vector& computeError( ml::Vector& res,int time );
-  virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
-  ml::Vector& computeWidthJl( ml::Vector& res,const int& time );
+  virtual dg::Vector& computeError( dg::Vector& res,int time );
+  virtual dg::Matrix& computeJacobian( dg::Matrix& res,int time );
+  dg::Vector& computeWidthJl( dg::Vector& res,const int& time );
 
   /** Static Feature selection. */
   inline static Flags selectActuated( void );

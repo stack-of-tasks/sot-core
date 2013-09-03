@@ -33,17 +33,17 @@ fromMatrix( const MatrixRotation& rot )
 {
   sotDEBUGIN(15) ;
   
-  const ml::Matrix& rotmat = rot;
+  const dynamicgraph::Matrix& rotmat = rot;
 
   double d0 = rotmat(0,0), d1 = rotmat(1,1), d2 = rotmat(2,2);
 
   // The trace determines the method of decomposition
   double rr = 1.0 + d0 + d1 + d2;
 
-  double & _x = vector(1);
-  double & _y = vector(2);
-  double & _z = vector(3);
-  double & _r = vector(0);
+  double & _x = ((dynamicgraph::Vector&)*this)(1);
+  double & _y = ((dynamicgraph::Vector&)*this)(2);
+  double & _z = ((dynamicgraph::Vector&)*this)(3);
+  double & _r = ((dynamicgraph::Vector&)*this)(0);
 
   if (rr>0)
     {
@@ -132,12 +132,12 @@ fromVector( const VectorUTheta& ut )
   sotDEBUGIN(15) ;
   
   double theta = sqrt( ut(0)*ut(0)+ut(1)*ut(1)+ut(2)*ut(2) );
-  double si = sin(theta);
-  double co = cos(theta);
-  vector(0)=ut(0)/si;
-  vector(1)=ut(1)/si;
-  vector(2)=ut(2)/si;
-  vector(3)=co;
+  double si = ::sin(theta);
+  double co = ::cos(theta);
+  ((dynamicgraph::Vector&)*this)(0)=ut(0)/si;
+  ((dynamicgraph::Vector&)*this)(1)=ut(1)/si;
+  ((dynamicgraph::Vector&)*this)(2)=ut(2)/si;
+  ((dynamicgraph::Vector&)*this)(3)=co;
     
   sotDEBUGOUT(15) ;
   return *this;
@@ -149,12 +149,12 @@ toMatrix( MatrixRotation& rot ) const
 {
   sotDEBUGIN(15) ;
 
-  ml::Matrix& rotmat = rot;
+  dynamicgraph::Matrix& rotmat = rot;
 
-  const double& _x = vector(1);
-  const double& _y = vector(2);
-  const double& _z = vector(3);
-  const double& _r = vector(0);
+  const double& _x = ((dynamicgraph::Vector&)*this)(1);
+  const double& _y = ((dynamicgraph::Vector&)*this)(2);
+  const double& _z = ((dynamicgraph::Vector&)*this)(3);
+  const double& _r = ((dynamicgraph::Vector&)*this)(0);
   
   double x2 = _x * _x;
   double y2 = _y * _y;
@@ -237,29 +237,36 @@ toMatrix( MatrixRotation& rot ) const
 
 VectorQuaternion& VectorQuaternion::conjugate(VectorQuaternion& res) const
 {
-  res.vector(0) = vector(0);
-  res.vector(1) = -vector(1);
-  res.vector(2) = -vector(2);
-  res.vector(3) = -vector(3);
+  res(0) = ((dynamicgraph::Vector&)*this)(0);
+  res(1) = -((dynamicgraph::Vector&)*this)(1);
+  res(2) = -((dynamicgraph::Vector&)*this)(2);
+  res(3) = -((dynamicgraph::Vector&)*this)(3);
   return res;
 }
 
 VectorQuaternion& VectorQuaternion::multiply(const VectorQuaternion& q2, VectorQuaternion& res) const
 {
-  double & a1 = vector(0);
-  double & b1 = vector(1);
-  double & c1 = vector(2);
-  double & d1 = vector(3);
+  double & a1 = ((dynamicgraph::Vector&)*this)(0);
+  double & b1 = ((dynamicgraph::Vector&)*this)(1);
+  double & c1 = ((dynamicgraph::Vector&)*this)(2);
+  double & d1 = ((dynamicgraph::Vector&)*this)(3);
 
-  double & a2 = q2.vector(0);
-  double & b2 = q2.vector(1);
-  double & c2 = q2.vector(2);
-  double & d2 = q2.vector(3);
+  const double & a2 = q2(0);
+  const double & b2 = q2(1);
+  const double & c2 = q2(2);
+  const double & d2 = q2(3);
 
-  res.vector(0) = a1*a2 - b1*b2 - c1*c2 - d1*d2;
-  res.vector(1) = a1*b2 + b1*a2 + c1*d2 - d1*c2;
-  res.vector(2) = a1*c2 + c1*a2 + d1*b2 - b1*d2;
-  res.vector(3) = a1*d2 + d1*a2 + b1*c2 - c1*b2;
+  res(0) = a1*a2 - b1*b2 - c1*c2 - d1*d2;
+  res(1) = a1*b2 + b1*a2 + c1*d2 - d1*c2;
+  res(2) = a1*c2 + c1*a2 + d1*b2 - b1*d2;
+  res(3) = a1*d2 + d1*a2 + b1*c2 - c1*b2;
 
   return res;
+}
+
+VectorQuaternion& VectorQuaternion::operator=( const dynamicgraph::Vector& v)
+{
+  if(v.size()==4)
+    ((dynamicgraph::Vector&)*this) = v;
+  return *this;
 }

@@ -97,13 +97,13 @@ getDimension( unsigned int & dim, int time )
   return dim;
 }
 
-ml::Vector&
-FeatureJointLimits::computeWidthJl( ml::Vector& res,const int& time )
+dynamicgraph::Vector&
+FeatureJointLimits::computeWidthJl( dynamicgraph::Vector& res,const int& time )
 {
   sotDEBUGIN(15);
 
-  const ml::Vector UJL = upperJlSIN.access(time);
-  const ml::Vector LJL = lowerJlSIN.access(time);
+  const dynamicgraph::Vector UJL = upperJlSIN.access(time);
+  const dynamicgraph::Vector LJL = lowerJlSIN.access(time);
   const unsigned int SIZE=UJL.size();
   res.resize(SIZE);
 
@@ -117,17 +117,17 @@ FeatureJointLimits::computeWidthJl( ml::Vector& res,const int& time )
 /** Compute the interaction matrix from a subset of
  * the possible features. 
  */
-ml::Matrix& FeatureJointLimits::
-computeJacobian( ml::Matrix& J,int time )
+dynamicgraph::Matrix& FeatureJointLimits::
+computeJacobian( dynamicgraph::Matrix& J,int time )
 {
   sotDEBUG(15)<<"# In {"<<endl;
 
   const unsigned int SIZE=dimensionSOUT.access(time);
-  const ml::Vector q = jointSIN.access(time);
+  const dynamicgraph::Vector q = jointSIN.access(time);
   const Flags &fl = selectionSIN(time);
   //const unsigned int SIZE_FF=SIZE+freeFloatingSize;
   const unsigned int SIZE_TOTAL=q.size();
-  const ml::Vector WJL = widthJlSINTERN.access(time);
+  const dynamicgraph::Vector WJL = widthJlSINTERN.access(time);
   J.resize( SIZE,SIZE_TOTAL ); J.fill(0.);
  
   unsigned int idx=0;
@@ -160,16 +160,16 @@ computeJacobian( ml::Matrix& J,int time )
 /** Compute the error between two visual features from a subset
  * a the possible features.
  */
-ml::Vector&
-FeatureJointLimits::computeError( ml::Vector& error,int time )
+dynamicgraph::Vector&
+FeatureJointLimits::computeError( dynamicgraph::Vector& error,int time )
 {
   sotDEBUGIN(15);
 
   const Flags &fl = selectionSIN(time);
-  const ml::Vector q = jointSIN.access(time);
-  const ml::Vector UJL = upperJlSIN.access(time);
-  const ml::Vector LJL = lowerJlSIN.access(time);
-  const ml::Vector WJL = widthJlSINTERN.access(time);
+  const dynamicgraph::Vector q = jointSIN.access(time);
+  const dynamicgraph::Vector UJL = upperJlSIN.access(time);
+  const dynamicgraph::Vector LJL = lowerJlSIN.access(time);
+  const dynamicgraph::Vector WJL = widthJlSINTERN.access(time);
   const unsigned int SIZE=dimensionSOUT.access(time);
   const unsigned int SIZE_TOTAL=q.size();
 

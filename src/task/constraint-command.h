@@ -54,8 +54,8 @@ namespace dynamicgraph {
 	    SignalBase<int>& signal =
 	      dynamicgraph::PoolStorage::getInstance()->getSignal(iss);
 	    try {
-	      Signal< ml::Matrix,int >& matrixSignal
-		= dynamic_cast< Signal<ml::Matrix,int>& >( signal );
+	      Signal< dynamicgraph::Matrix,int >& matrixSignal
+		= dynamic_cast< Signal<dynamicgraph::Matrix,int>& >( signal );
 	      constraint.addJacobian(matrixSignal);
 	    } catch (const std::bad_cast& exc) {
 	      std::string msg(signalName + " is not of type matrix.");

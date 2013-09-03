@@ -26,43 +26,43 @@ using namespace dynamicgraph::sot;
 
 MatrixHomogeneous::
 MatrixHomogeneous( void )
- :ml::Matrix(4,4)
+ :dynamicgraph::Matrix(4,4)
 {
-  setIdentity();
+  setIdentity(4,4);
 }
 
 MatrixHomogeneous::
-MatrixHomogeneous( const ml::Matrix & copy )
-  :ml::Matrix(copy)
+MatrixHomogeneous( const dynamicgraph::Matrix & copy )
+  :dynamicgraph::Matrix(copy)
 {
-  assert( nbCols() == 4 && nbRows() == 4 );
-  assert( elementAt(3,0)==0 && elementAt(3,1)==0
-	  && elementAt(3,2)==0 && elementAt(3,3)==1 );
+  assert( cols() == 4 && rows() == 4 );
+  assert( ((dynamicgraph::Matrix&)*this)(3,0)==0 && ((dynamicgraph::Matrix&)*this)(3,1)==0
+	  && ((dynamicgraph::Matrix&)*this)(3,2)==0 && ((dynamicgraph::Matrix&)*this)(3,3)==1 );
   /* wana check the orthogonality of the rotation part? */
 }
 
 MatrixHomogeneous& MatrixHomogeneous::
-buildFrom( const MatrixRotation& rot, const ml::Vector& trans )
+buildFrom( const MatrixRotation& rot, const dynamicgraph::Vector& trans )
 {
   for( int i=0;i<3;++i )
     {
-      elementAt( i,3 ) = trans(i);
+      ((dynamicgraph::Matrix&)*this)( i,3 ) = trans(i);
       for( int j=0;j<3;++j )
-	elementAt( i,j ) = rot( i,j );
-      elementAt( 3,i ) = 0.;
+	((dynamicgraph::Matrix&)*this)( i,j ) = rot( i,j );
+      ((dynamicgraph::Matrix&)*this)( 3,i ) = 0.;
     }
   
-  elementAt( 3,3 ) = 1.;
+  ((dynamicgraph::Matrix&)*this)( 3,3 ) = 1.;
 
   return *this;
 }
 
-ml::Matrix& MatrixHomogeneous::
-extract( ml::Matrix& rot ) const
+dynamicgraph::Matrix& MatrixHomogeneous::
+extract( dynamicgraph::Matrix& rot ) const
 {
   for( int i=0;i<3;++i )
     for( int j=0;j<3;++j )
-      rot( i,j ) = elementAt( i,j );
+      rot( i,j ) = ((dynamicgraph::Matrix&)*this)( i,j );
 
   return rot;
 }
@@ -72,26 +72,26 @@ extract( MatrixRotation& rot ) const
 {
   for( int i=0;i<3;++i )
     for( int j=0;j<3;++j )
-      rot( i,j ) = elementAt( i,j );
+      rot( i,j ) = ((dynamicgraph::Matrix&)*this)( i,j );
 
   return rot;
 }
 
-ml::Vector& MatrixHomogeneous::
-extract( ml::Vector& trans ) const
+dynamicgraph::Vector& MatrixHomogeneous::
+extract( dynamicgraph::Vector& trans ) const
 {
   for( int i=0;i<3;++i )
-    trans( i ) = elementAt( i,3 );
+    trans( i ) = ((dynamicgraph::Matrix&)*this)( i,3 );
 
   return trans;
 }
 
 
 MatrixHomogeneous& MatrixHomogeneous::
-operator=( const ml::Matrix& m2)
+operator=( const dynamicgraph::Matrix& m2)
 {
-  if( (m2.nbRows()==4)&&(m2.nbCols()==4) )
-    ((ml::Matrix&)*this) = m2;
+  if( (m2.rows()==4)&&(m2.cols()==4) )
+    ((dynamicgraph::Matrix&)*this) = m2;
     
   return *this;
 
@@ -105,12 +105,44 @@ operator*(const MatrixHomogeneous& h) const
   double h10 = h(1,0), h11 = h(1,1), h12 = h(1,2), h13 = h(1,3);
   double h20 = h(2,0), h21 = h(2,1), h22 = h(2,2), h23 = h(2,3);
   
-  double self00 = elementAt(0,0), self01 = elementAt(0,1),
-    self02 = elementAt(0,2), self03 = elementAt(0,3);
-  double self10 = elementAt(1,0), self11 = elementAt(1,1),
-    self12 = elementAt(1,2), self13 = elementAt(1,3);
-  double self20 = elementAt(2,0), self21 = elementAt(2,1),
-    self22 = elementAt(2,2), self23 = elementAt(2,3);
+  double self00 = ((dynamicgraph::Matrix&)*this)(0,0), self01 = ((dynamicgraph::Matrix&)*this)(0,1),
+    self02 = ((dynamicgraph::Matrix&)*this)(0,2), self03 = ((dynamicgraph::Matrix&)*this)(0,3);
+  double self10 = ((dynamicgraph::Matrix&)*this)(1,0), self11 = ((dynamicgraph::Matrix&)*this)(1,1),
+    self12 = ((dynamicgraph::Matrix&)*this)(1,2), self13 = ((dynamicgraph::Matrix&)*this)(1,3);
+  double self20 = ((dynamicgraph::Matrix&)*this)(2,0), self21 = ((dynamicgraph::Matrix&)*this)(2,1),
+    self22 = ((dynamicgraph::Matrix&)*this)(2,2), self23 = ((dynamicgraph::Matrix&)*this)(2,3);
+
+  res(0,0) = self00*h00 + self01*h10 + self02*h20;
+  res(0,1) = self00*h01 + self01*h11 + self02*h21;
+  res(0,2) = self00*h02 + self01*h12 + self02*h22;
+  res(1,0) = self10*h00 + self11*h10 + self12*h20;
+  res(1,1) = self10*h01 + self11*h11 + self12*h21;
+  res(1,2) = self10*h02 + self11*h12 + self12*h22;
+  res(2,0) = self20*h00 + self21*h10 + self22*h20;
+  res(2,1) = self20*h01 + self21*h11 + self22*h21;
+  res(2,2) = self20*h02 + self21*h12 + self22*h22;
+
+  res(0,3) = self00*h03 + self01*h13 + self02*h23 + self03;
+  res(1,3) = self10*h03 + self11*h13 + self12*h23 + self13;
+  res(2,3) = self20*h03 + self21*h13 + self22*h23 + self23;
+
+  return res;
+}
+
+MatrixHomogeneous MatrixHomogeneous::
+operator*(const dynamicgraph::Matrix& h) const
+{
+  dynamicgraph::Matrix res;
+  double h00 = h(0,0), h01 = h(0,1), h02 = h(0,2), h03 = h(0,3);
+  double h10 = h(1,0), h11 = h(1,1), h12 = h(1,2), h13 = h(1,3);
+  double h20 = h(2,0), h21 = h(2,1), h22 = h(2,2), h23 = h(2,3);
+  
+  double self00 = ((dynamicgraph::Matrix&)*this)(0,0), self01 = ((dynamicgraph::Matrix&)*this)(0,1),
+    self02 = ((dynamicgraph::Matrix&)*this)(0,2), self03 = ((dynamicgraph::Matrix&)*this)(0,3);
+  double self10 = ((dynamicgraph::Matrix&)*this)(1,0), self11 = ((dynamicgraph::Matrix&)*this)(1,1),
+    self12 = ((dynamicgraph::Matrix&)*this)(1,2), self13 = ((dynamicgraph::Matrix&)*this)(1,3);
+  double self20 = ((dynamicgraph::Matrix&)*this)(2,0), self21 = ((dynamicgraph::Matrix&)*this)(2,1),
+    self22 = ((dynamicgraph::Matrix&)*this)(2,2), self23 = ((dynamicgraph::Matrix&)*this)(2,3);
 
   res(0,0) = self00*h00 + self01*h10 + self02*h20;
   res(0,1) = self00*h01 + self01*h11 + self02*h21;
@@ -134,13 +166,13 @@ inverse( MatrixHomogeneous& invMatrix ) const
 {
   sotDEBUGIN(25);
 
-  double R00 = elementAt(0,0), R01 = elementAt(0,1), R02 = elementAt(0,2);
-  double R10 = elementAt(1,0), R11 = elementAt(1,1), R12 = elementAt(1,2);
-  double R20 = elementAt(2,0), R21 = elementAt(2,1), R22 = elementAt(2,2);
+  double R00 = ((dynamicgraph::Matrix&)*this)(0,0), R01 = ((dynamicgraph::Matrix&)*this)(0,1), R02 = ((dynamicgraph::Matrix&)*this)(0,2);
+  double R10 = ((dynamicgraph::Matrix&)*this)(1,0), R11 = ((dynamicgraph::Matrix&)*this)(1,1), R12 = ((dynamicgraph::Matrix&)*this)(1,2);
+  double R20 = ((dynamicgraph::Matrix&)*this)(2,0), R21 = ((dynamicgraph::Matrix&)*this)(2,1), R22 = ((dynamicgraph::Matrix&)*this)(2,2);
 
-  double t0 = elementAt(0,3);
-  double t1 = elementAt(1,3);
-  double t2 = elementAt(2,3);
+  double t0 = ((dynamicgraph::Matrix&)*this)(0,3);
+  double t1 = ((dynamicgraph::Matrix&)*this)(1,3);
+  double t2 = ((dynamicgraph::Matrix&)*this)(2,3);
 
   invMatrix(0,0) = R00, invMatrix(0,1) = R10, invMatrix(0,2) = R20;
   invMatrix(1,0) = R01, invMatrix(1,1) = R11, invMatrix(1,2) = R21;
@@ -155,8 +187,8 @@ inverse( MatrixHomogeneous& invMatrix ) const
 }
 
 
-ml::Vector& MatrixHomogeneous::
-multiply( const ml::Vector& v1,ml::Vector& res ) const
+dynamicgraph::Vector& MatrixHomogeneous::
+multiply( const dynamicgraph::Vector& v1,dynamicgraph::Vector& res ) const
 {
   sotDEBUGIN(15);
 
@@ -172,8 +204,8 @@ multiply( const ml::Vector& v1,ml::Vector& res ) const
   for( unsigned int i=0;i<3;++i )
     {
       for( unsigned int j=0;j<3;++j )
-	{	  res(i)+=matrix(i,j)*v1(j); 	}
-      if(translate)res(i)+=matrix(i,3);
+	{	  res(i)+=((dynamicgraph::Matrix&)*this)(i,j)*v1(j); 	}
+      if(translate)res(i)+=((dynamicgraph::Matrix&)*this)(i,3);
     }
 
   sotDEBUGOUT(15);

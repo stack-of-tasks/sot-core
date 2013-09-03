@@ -25,10 +25,6 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* Classes standards. */
 #include <list>                    /* Classe std::list   */
 
@@ -54,6 +50,15 @@ DECLARE_MAL_NAMESPACE(ml);
 # endif
 #endif
 
+extern "C"
+{
+  void dgesvd_(char const* jobu, char const* jobvt,
+	       int const* m, int const* n, double* a, int const* lda,
+	       double* s, double* u, int const* ldu,
+	       double* vt, int const* ldvt,
+	       double* work, int const* lwork, int* info);
+}
+
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -62,6 +67,110 @@ namespace dynamicgraph {
   namespace sot {
     namespace dg = dynamicgraph;
 
+    /*! \brief returns the damped inverse of a matrix. */
+dg::Matrix& dampedInverse(dg::Matrix& matrix, dg::Matrix& invMatrix, const double threshold = 1e-6, dg::Matrix* Uref = NULL, dg::Vector* Sref = NULL, dg::Matrix* Vref = NULL)
+{
+  unsigned int NR,NC;
+  bool toTranspose;
+  Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::ColMajor> I;
+  if( matrix.rows()>matrix.cols() )
+  {
+    toTranspose=false ;  NR=matrix.rows(); NC=matrix.cols();
+    I=matrix;
+    invMatrix.resize(I.cols(),I.rows());
+  }
+  else
+  {
+    toTranspose=true ; NR=matrix.cols(); NC=matrix.rows();
+    I = matrix.transpose();
+    invMatrix.resize(I.cols(),I.rows()); // Resize the inv of the transpose.
+  }
+
+  Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::ColMajor> U(NR,NR);
+  Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::ColMajor> VT(NC,NC);
+  Eigen::Matrix<double, Eigen::Dynamic, 1> s(std::min(NR,NC));
+  char Jobu='A'; // Compute complete U Matrix
+  char Jobvt='A'; // Compute complete VT Matrix
+  char Lw; Lw='O'; // Compute the optimal size for the working vector
+
+
+  {
+    double vw;
+    int lw=-1;
+
+    int linfo; const int n=NR,m=NC;
+    int lda = std::max(n,m);;
+    int lu = NR;
+    int lvt = NC;
+
+    dgesvd_(&Jobu, &Jobvt, &m, &n,
+		I.data(), &lda,
+		0, 0, &m, 0, &n, &vw, &lw, &linfo);
+    lw = int(vw)+5;
+
+    Eigen::Matrix<double, Eigen::Dynamic, 1> w(lw);
+    dgesvd_(&Jobu, &Jobvt,&n,&m,
+		      I.data(),
+		      &lda,
+		      s.data(),
+		      U.data(),
+		      &lu,
+		      VT.data(),
+		      &lvt,
+		      w.data(),&lw,&linfo);
+
+  }
+
+
+  const unsigned int nsv = s.size();
+  unsigned int rankJ = 0;
+  Eigen::Matrix<double, Eigen::Dynamic, 1> sp(nsv);
+  for( unsigned int i=0;i<nsv;++i )
+    if( fabs(s(i))>threshold ) { sp(i)=1/(s(i)*s(i)+threshold*threshold); rankJ++; }
+  else sp(i)=0.;
+    invMatrix.Zero(invMatrix.rows(), invMatrix.cols());
+  {
+    double * pinv = invMatrix.data();
+    double * uptr;
+    double * uptrRow;
+    double * vptr;
+    double * vptrRow = VT.data();
+
+    double * spptr;
+
+    for( unsigned int i=0;i<NC;++i )
+    {
+      uptrRow = U.data();
+      for( unsigned int j=0;j<NR;++j )
+      {
+        uptr = uptrRow;  vptr = vptrRow;
+        spptr = sp.data();
+        for( unsigned int k=0;k<rankJ;++k )
+        {
+          (*pinv) += (*vptr) * (*spptr) * (*uptr);
+	  uptr+=NR; vptr++; spptr++;
+        }
+	pinv++; uptrRow++;
+      }
+      vptrRow += NC;
+    }
+  }
+  if( toTranspose )
+  {
+    invMatrix.transposeInPlace();
+    if( Uref ) *Uref = VT;
+    if( Vref ) *Vref = U.transpose();
+    if( Sref ) *Sref = s;
+  }
+  else
+  {
+    if( Uref ) *Uref = U;
+    if( Vref ) *Vref = VT.transpose();
+    if( Sref ) *Sref = s;
+  }
+  return invMatrix;
+}
+    
     /*! @ingroup stackoftasks
       \brief This class implements the Stack of Task.
       It allows to deal with the priority of the controllers
@@ -115,7 +224,7 @@ namespace dynamicgraph {
       TaskAbstract* taskGradient;
 
       /*! Projection used to compute the control law. */
-      ml::Matrix Proj;
+      dg::Matrix Proj;
 
       /*! Force the recomputation at each step. */
       bool recomputeEachTime;
@@ -131,14 +240,14 @@ namespace dynamicgraph {
       /*! \brief Number of joints by default. */
       static const unsigned int NB_JOINTS_DEFAULT; // = 48;
 
-      static ml::Matrix & computeJacobianConstrained( const ml::Matrix& Jac,
-						      const ml::Matrix& K,
-						      ml::Matrix& JK,
-						      ml::Matrix& Jff,
-						      ml::Matrix& Jact );
-      static ml::Matrix & computeJacobianConstrained( const TaskAbstract& task,
-						      const ml::Matrix& K );
-      static ml::Vector
+      static dg::Matrix & computeJacobianConstrained( const dg::Matrix& Jac,
+						      const dg::Matrix& K,
+						      dg::Matrix& JK,
+						      dg::Matrix& Jff,
+						      dg::Matrix& Jact );
+      static dg::Matrix & computeJacobianConstrained( const TaskAbstract& task,
+						      const dg::Matrix& K );
+      static dg::Vector
 	taskVectorToMlVector(const VectorMultiBound& taskVector);
 
     public:
@@ -216,11 +325,11 @@ namespace dynamicgraph {
       */
 
       /*! \brief Compute the control law. */
-      virtual ml::Vector& computeControlLaw(ml::Vector& control,
+      virtual dg::Vector& computeControlLaw(dg::Vector& control,
 					    const int& time);
 
       /*! \brief Compute the projector of the constraint. */
-      virtual ml::Matrix& computeConstraintProjector(ml::Matrix& Proj,
+      virtual dg::Matrix& computeConstraintProjector(dg::Matrix& Proj,
 						     const int& time );
 
       /*! @} */
@@ -245,14 +354,14 @@ namespace dynamicgraph {
        * the recurence of the SOT (e.g. velocity comming from the other
        * OpenHRP plugins).
        */
-      SignalPtr<ml::Vector,int> q0SIN;
+      SignalPtr<dg::Vector,int> q0SIN;
       /*! \brief This signal allow to change the threshold for the
 	damped pseudo-inverse on-line */
       SignalPtr<double,int> inversionThresholdSIN;
       /*! \brief Allow to get the result of the Constraint projector. */
-      SignalTimeDependent<ml::Matrix,int> constraintSOUT;
+      SignalTimeDependent<dg::Matrix,int> constraintSOUT;
       /*! \brief Allow to get the result of the computed control law. */
-      SignalTimeDependent<ml::Vector,int> controlSOUT;
+      SignalTimeDependent<dg::Vector,int> controlSOUT;
       /*! @} */
 
     public: /* --- COMMANDS --- */

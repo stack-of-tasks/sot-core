@@ -25,13 +25,10 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* SOT */
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
+#include <dynamic-graph/linear-algebra.h>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -64,7 +61,7 @@ class SOTCOMFREEZER_EXPORT CoMFreezer
     virtual const std::string & getClassName() const { return CLASS_NAME; }
 
   private:
-    ml::Vector m_lastCoM;
+    dg::Vector m_lastCoM;
     bool m_previousPGInProcess;
     int m_lastStopTime;
 
@@ -73,12 +70,12 @@ class SOTCOMFREEZER_EXPORT CoMFreezer
     virtual ~CoMFreezer(void);
 
   public: /* --- SIGNAL --- */
-    dg::SignalPtr<ml::Vector, int> CoMRefSIN;
+    dg::SignalPtr<dg::Vector, int> CoMRefSIN;
     dg::SignalPtr<unsigned, int>  PGInProcessSIN;
-    dg::SignalTimeDependent<ml::Vector, int> freezedCoMSOUT;
+    dg::SignalTimeDependent<dg::Vector, int> freezedCoMSOUT;
 
   public: /* --- FUNCTION --- */
-    ml::Vector& computeFreezedCoM(ml::Vector & freezedCoM, const int& time);
+    dg::Vector& computeFreezedCoM(dg::Vector & freezedCoM, const int& time);
 
   public: /* --- PARAMS --- */
     virtual void display(std::ostream & os) const;

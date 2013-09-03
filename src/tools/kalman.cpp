@@ -109,8 +109,8 @@ namespace dynamicgraph {
 	sotDEBUG(15) << "H=" << H << std::endl;
 	sotDEBUG(15) << "Pk_1_k_1=" << Pk_1_k_1 << std::endl;
 
-	F.multiply(Pk_1_k_1,FP_);
-	FP_.multiply (F.transpose(), Pk_k_1_);
+	FP_ = F*Pk_1_k_1;
+	Pk_k_1_ = FP_*(F.transpose());
 	Pk_k_1_ += Q;
 
 	sotDEBUG(15) << "F " <<std::endl << F << std::endl;

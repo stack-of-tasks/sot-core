@@ -25,15 +25,11 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* SOT */
 #include <dynamic-graph/signal-time-dependent.h>
 #include <dynamic-graph/signal-ptr.h>
 #include <dynamic-graph/entity.h>
-
+#include <dynamic-graph/linear-algebra.h>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -88,18 +84,18 @@ namespace dynamicgraph {
 
     public:  /* --- SIGNALS --- */
 
-      SignalPtr<ml::Vector,int> KpSIN;
-      SignalPtr<ml::Vector,int> KdSIN;
-      SignalPtr<ml::Vector,int> positionSIN;
-      SignalPtr<ml::Vector,int> desiredpositionSIN;
-      SignalPtr<ml::Vector,int> velocitySIN;
-      SignalPtr<ml::Vector,int> desiredvelocitySIN;
-      SignalTimeDependent<ml::Vector,int> controlSOUT;
+      SignalPtr<dynamicgraph::Vector,int> KpSIN;
+      SignalPtr<dynamicgraph::Vector,int> KdSIN;
+      SignalPtr<dynamicgraph::Vector,int> positionSIN;
+      SignalPtr<dynamicgraph::Vector,int> desiredpositionSIN;
+      SignalPtr<dynamicgraph::Vector,int> velocitySIN;
+      SignalPtr<dynamicgraph::Vector,int> desiredvelocitySIN;
+      SignalTimeDependent<dynamicgraph::Vector,int> controlSOUT;
 
     protected:
 
       double& setsize(int dimension);
-      ml::Vector& computeControl( ml::Vector& tau,int t );
+      dynamicgraph::Vector& computeControl( dynamicgraph::Vector& tau,int t );
 
     };
 

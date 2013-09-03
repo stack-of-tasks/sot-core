@@ -71,12 +71,12 @@ NeckLimitation::
 /* --- SIGNALS -------------------------------------------------------------- */
 /* --- SIGNALS -------------------------------------------------------------- */
 
-ml::Vector& NeckLimitation::
-computeJointLimitation( ml::Vector& jointLimited,const int& timeSpec )
+dynamicgraph::Vector& NeckLimitation::
+computeJointLimitation( dynamicgraph::Vector& jointLimited,const int& timeSpec )
 {
   sotDEBUGIN(15);
 
-  const ml::Vector & joint = jointSIN( timeSpec );
+  const dynamicgraph::Vector & joint = jointSIN( timeSpec );
   jointLimited=joint;
   
   const double & pan = joint(panRank);

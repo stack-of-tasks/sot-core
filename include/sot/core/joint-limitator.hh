@@ -20,14 +20,12 @@
 
 #ifndef SOT_FEATURE_JOINTLIMITS_HH
 # define SOT_FEATURE_JOINTLIMITS_HH
-// Matrix
-# include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
 
 // SOT
 # include <dynamic-graph/entity.h>
 # include <sot/core/exception-task.hh>
 # include <dynamic-graph/all-signals.h>
+# include <dynamic-graph/linear-algebra.h>
 
 #if defined (WIN32)
 #  if defined (joint_limitator_EXPORTS)
@@ -57,19 +55,19 @@ namespace dynamicgraph {
       virtual ~JointLimitator ()
       {}
 
-      virtual ml::Vector& computeControl (ml::Vector& res, int time);
-      ml::Vector& computeWidthJl (ml::Vector& res, const int& time);
+      virtual dg::Vector& computeControl (dg::Vector& res, int time);
+      dg::Vector& computeWidthJl (dg::Vector& res, const int& time);
 
       virtual void display (std::ostream& os) const;
 
       /// \name Signals
       /// \{
-      dg::SignalPtr< ml::Vector,int > jointSIN;
-      dg::SignalPtr< ml::Vector,int > upperJlSIN;
-      dg::SignalPtr< ml::Vector,int > lowerJlSIN;
-      dg::SignalPtr< ml::Vector,int > controlSIN;
-      dg::SignalTimeDependent< ml::Vector,int > controlSOUT;
-      dg::SignalTimeDependent< ml::Vector,int > widthJlSINTERN;
+      dg::SignalPtr< dg::Vector,int > jointSIN;
+      dg::SignalPtr< dg::Vector,int > upperJlSIN;
+      dg::SignalPtr< dg::Vector,int > lowerJlSIN;
+      dg::SignalPtr< dg::Vector,int > controlSIN;
+      dg::SignalTimeDependent< dg::Vector,int > controlSOUT;
+      dg::SignalTimeDependent< dg::Vector,int > widthJlSINTERN;
       /// \}
     };
   } // end of namespace sot.

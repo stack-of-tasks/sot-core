@@ -85,8 +85,8 @@ class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
   dg::SignalPtr< MatrixHomogeneous,int > positionSIN;
-  dg::SignalPtr< ml::Vector, int > velocitySIN;
-  dg::SignalPtr< ml::Matrix,int > articularJacobianSIN;
+  dg::SignalPtr< dg::Vector, int > velocitySIN;
+  dg::SignalPtr< dg::Matrix,int > articularJacobianSIN;
 
   using FeatureAbstract::selectionSIN;
   using FeatureAbstract::jacobianSOUT;
@@ -103,9 +103,9 @@ class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
 
   virtual unsigned int& getDimension( unsigned int & dim, int time );
 
-  virtual ml::Vector& computeError( ml::Vector& res,int time );
-  virtual ml::Vector& computeErrordot( ml::Vector& res,int time );
-  virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
+  virtual dg::Vector& computeError( dg::Vector& res,int time );
+  virtual dg::Vector& computeErrordot( dg::Vector& res,int time );
+  virtual dg::Matrix& computeJacobian( dg::Matrix& res,int time );
 
   /** Static Feature selection. */
   inline static Flags selectX( void )  { return FLAG_LINE_1; }
@@ -127,11 +127,11 @@ class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
   void servoCurrentPosition( void );
  private:
   // Intermediate variables for internal computations
-  ml::Vector v_, omega_, errordot_t_, errordot_th_, Rreftomega_,
+  dg::Vector v_, omega_, errordot_t_, errordot_th_, Rreftomega_,
     t_, tref_;
   VectorUTheta  error_th_;
   MatrixRotation R_, Rref_, Rt_, Rreft_;
-  ml::Matrix P_, Pinv_;
+  dg::Matrix P_, Pinv_;
   double accuracy_;
   void inverseJacobianRodrigues ();
 } ;

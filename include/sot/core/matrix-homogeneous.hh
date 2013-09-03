@@ -21,11 +21,8 @@
 #ifndef __SOT_MATRIX_HOMOGENEOUS_H__
 #define __SOT_MATRIX_HOMOGENEOUS_H__
 
-
-/* --- Matrix --- */
-#include <jrl/mal/malv2.hh>
 #include <sot/core/api.hh>
-DECLARE_MAL_NAMESPACE(ml);
+#include <dynamic-graph/linear-algebra.h>
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -35,34 +32,34 @@ namespace dynamicgraph {
     class MatrixRotation;
 
     class SOT_CORE_EXPORT MatrixHomogeneous
-      : public ml::Matrix
+      : public dynamicgraph::Matrix
     {
       
     public: 
       
       MatrixHomogeneous( void );
-      MatrixHomogeneous( const ml::Matrix & copy );
+      MatrixHomogeneous( const dynamicgraph::Matrix & copy );
       virtual ~MatrixHomogeneous( void ) { }
       
-      MatrixHomogeneous& buildFrom( const MatrixRotation& rot, const ml::Vector& trans );
+      MatrixHomogeneous& buildFrom( const MatrixRotation& rot, const dynamicgraph::Vector& trans );
       // extract(ml::Matrix): outputs a *rotation* matrix extracted from a homogeneous rotation matrix
-      ml::Matrix& extract( ml::Matrix& rot ) const;
+      dynamicgraph::Matrix& extract( dynamicgraph::Matrix& rot ) const;
       MatrixRotation& extract( MatrixRotation& rot ) const;
-      ml::Vector& extract( ml::Vector& trans ) const;
+      dynamicgraph::Vector& extract( dynamicgraph::Vector& trans ) const;
       
       MatrixHomogeneous operator*(const MatrixHomogeneous& h) const;
-      MatrixHomogeneous& operator=( const ml::Matrix& );
+      MatrixHomogeneous operator*(const dynamicgraph::Matrix& h) const;
+      MatrixHomogeneous& operator=( const dynamicgraph::Matrix& );
       
       MatrixHomogeneous&
 	inverse( MatrixHomogeneous& invMatrix ) const ;
       inline MatrixHomogeneous inverse( void )  const 
       { MatrixHomogeneous Ainv; return inverse(Ainv); }
       
-      ml::Vector& multiply( const ml::Vector& v1,ml::Vector& res ) const;
-      inline ml::Vector multiply( const ml::Vector& v1 )  const
-      { ml::Vector res; return multiply(v1,res); }
+      dynamicgraph::Vector& multiply( const dynamicgraph::Vector& v1,dynamicgraph::Vector& res ) const;
+      inline dynamicgraph::Vector multiply( const dynamicgraph::Vector& v1 )  const
+      { dynamicgraph::Vector res; return multiply(v1,res); }
       
-      using  ml::Matrix::multiply;
     };
   } // namespace sot
 } // namespace dynamicgraph

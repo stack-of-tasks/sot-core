@@ -52,7 +52,7 @@ namespace dynamicgraph {
 	    std::vector<Value> values = getParameterValues();
 	    unsigned nbRows = values[0].value();
 	    unsigned nbCols = values[1].value();
-	    ml::Matrix m(nbRows, nbCols);
+	    dynamicgraph::Matrix m(nbRows, nbCols);
 	    m.fill(mc.color);
 	    mc.SOUT.setConstant(m);
 	    

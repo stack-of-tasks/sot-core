@@ -21,12 +21,8 @@
 #ifndef __SOT_MATRIX_FORCE_H__
 #define __SOT_MATRIX_FORCE_H__
 
-
-/* --- Matrix --- */
-#include <jrl/mal/malv2.hh>
 #include "sot/core/api.hh"
-DECLARE_MAL_NAMESPACE(ml);
-
+#include <dynamic-graph/linear-algebra.h>
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -40,21 +36,21 @@ class MatrixTwist;
 
 
 class SOT_CORE_EXPORT MatrixForce
-: public ml::Matrix
+: public dynamicgraph::Matrix
 {
 
  public: 
 
-  MatrixForce( void ) : ml::Matrix(6,6) { setIdentity(); }
-  MatrixForce( const MatrixForce & m ) : ml::Matrix(m) { }
+  MatrixForce( void ) : dynamicgraph::Matrix(6,6) { setIdentity(); }
+  MatrixForce( const MatrixForce & m ) : dynamicgraph::Matrix(m) { }
   virtual ~MatrixForce( void ) { }
   explicit MatrixForce( const MatrixHomogeneous& M ) 
-    : ml::Matrix(6,6) 
+    : dynamicgraph::Matrix(6,6) 
     { buildFrom(M); }
 
   MatrixForce& buildFrom( const MatrixHomogeneous& trans );
 
-  MatrixForce& operator=( const ml::Matrix& );
+  MatrixForce& operator=( const dynamicgraph::Matrix& );
   MatrixForce&
     inverse( MatrixForce& invMatrix ) const ;
   inline MatrixForce inverse( void )  const 

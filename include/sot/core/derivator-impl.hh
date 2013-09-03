@@ -58,8 +58,8 @@ namespace dg = dynamicgraph;
 #endif
 
 DECLARE_SPECIFICATION(DerivatorDouble,double)
-DECLARE_SPECIFICATION(DerivatorVector,ml::Vector)
-DECLARE_SPECIFICATION(DerivatorMatrix,ml::Matrix)
+DECLARE_SPECIFICATION(DerivatorVector,dg::Vector)
+DECLARE_SPECIFICATION(DerivatorMatrix,dg::Matrix)
 DECLARE_SPECIFICATION(DerivatorVectorQuaternion,VectorQuaternion)
 } /* namespace sot */} /* namespace dynamicgraph */
 

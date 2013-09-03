@@ -25,10 +25,6 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* STD */
 #include <string>
 
@@ -110,11 +106,11 @@ class SOTTASK_EXPORT Task
   bool getWithDerivative( void );
 
   /* --- COMPUTATION --- */
-  ml::Vector& computeError( ml::Vector& error,int time );
+  dg::Vector& computeError( dg::Vector& error,int time );
   VectorMultiBound&
     computeTaskExponentialDecrease( VectorMultiBound& errorRef,int time );
-  ml::Matrix& computeJacobian( ml::Matrix& J,int time );
-  ml::Vector& computeErrorTimeDerivative( ml::Vector & res, int time);
+  dg::Matrix& computeJacobian( dg::Matrix& J,int time );
+  dg::Vector& computeErrorTimeDerivative( dg::Vector & res, int time);
 
 
   /* --- SIGNALS ------------------------------------------------------------ */
@@ -122,8 +118,8 @@ class SOTTASK_EXPORT Task
   dg::SignalPtr< double,int > controlGainSIN;
   dg::SignalPtr< double,int > dampingGainSINOUT;
   dg::SignalPtr< Flags,int > controlSelectionSIN;
-  dg::SignalTimeDependent< ml::Vector,int > errorSOUT;
-  dg::SignalTimeDependent< ml::Vector,int > errorTimeDerivativeSOUT;
+  dg::SignalTimeDependent< dg::Vector,int > errorSOUT;
+  dg::SignalTimeDependent< dg::Vector,int > errorTimeDerivativeSOUT;
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display( std::ostream& os ) const;

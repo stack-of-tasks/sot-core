@@ -111,8 +111,8 @@ rewind( void )
   sotDEBUGOUT(15);
 }
 
-ml::Vector& sotReader::
-getNextData( ml::Vector& res, const unsigned int time )
+dynamicgraph::Vector& sotReader::
+getNextData( dynamicgraph::Vector& res, const unsigned int time )
 {
   sotDEBUGIN(15);
 
@@ -144,11 +144,11 @@ getNextData( ml::Vector& res, const unsigned int time )
   return res;
 }
 
-ml::Matrix& sotReader::
-getNextMatrix( ml::Matrix& res, const unsigned int time )
+dynamicgraph::Matrix& sotReader::
+getNextMatrix( dynamicgraph::Matrix& res, const unsigned int time )
 {
   sotDEBUGIN(15);
-  const ml::Vector& vect = vectorSOUT(time);
+  const dynamicgraph::Vector& vect = vectorSOUT(time);
   if( vect.size()<nbRows*nbCols ) return res;
 
   res.resize( nbRows,nbCols );

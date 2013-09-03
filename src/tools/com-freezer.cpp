@@ -54,7 +54,7 @@ CoMFreezer::~CoMFreezer(void)
   return;
 }
 
-ml::Vector & CoMFreezer::computeFreezedCoM(ml::Vector & freezedCoM, const int & time)
+dynamicgraph::Vector & CoMFreezer::computeFreezedCoM(dynamicgraph::Vector & freezedCoM, const int & time)
 {
   sotDEBUGIN(15);
 

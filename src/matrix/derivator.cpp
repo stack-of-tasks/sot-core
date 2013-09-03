@@ -22,7 +22,6 @@
 #include <sot/core/factory.hh>
 
 using namespace dynamicgraph::sot;
-using namespace ml;
 using namespace dynamicgraph;
 
 // Unrolled Code:

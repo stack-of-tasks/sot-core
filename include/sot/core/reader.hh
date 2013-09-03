@@ -25,10 +25,6 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* STD */
 #include <string>
 #include <vector>
@@ -42,6 +38,7 @@ DECLARE_MAL_NAMESPACE(ml);
 #include <dynamic-graph/signal-ptr.h>
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/exception-traces.h>
+#include <dynamic-graph/linear-algebra.h>
 #include <sot/core/flags.hh>
 
 /* --------------------------------------------------------------------- */
@@ -74,8 +71,8 @@ class SOTREADER_EXPORT sotReader
  public: 
 
   SignalPtr< Flags,int > selectionSIN;
-  SignalTimeDependent<ml::Vector,int> vectorSOUT;
-  SignalTimeDependent<ml::Matrix,int> matrixSOUT;
+  SignalTimeDependent<dynamicgraph::Vector,int> vectorSOUT;
+  SignalTimeDependent<dynamicgraph::Matrix,int> matrixSOUT;
 
  public:
   sotReader( const std::string n );
@@ -94,8 +91,8 @@ class SOTREADER_EXPORT sotReader
 
   unsigned int nbRows,nbCols;
 
-  ml::Vector& getNextData( ml::Vector& res, const unsigned int time );
-  ml::Matrix& getNextMatrix( ml::Matrix& res, const unsigned int time );
+  dynamicgraph::Vector& getNextData( dynamicgraph::Vector& res, const unsigned int time );
+  dynamicgraph::Matrix& getNextMatrix( dynamicgraph::Matrix& res, const unsigned int time );
 
  public:
   /* --- PARAMS --- */

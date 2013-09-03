@@ -20,10 +20,7 @@
 
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
-
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
+#include <dynamic-graph/linear-algebra.h>
 
 /* --------------------------------------------------------------------- */
 /* --- MATRIX ---------------------------------------------------------- */
@@ -49,14 +46,14 @@ namespace dynamicgraph {
       int rows,cols;
       double color;
 
-      void setValue(const ml::Matrix& inValue);
+      void setValue(const dynamicgraph::Matrix& inValue);
 
     public:
       MatrixConstant( const std::string& name );
 
       virtual ~MatrixConstant( void ){}
 
-      SignalTimeDependent<ml::Matrix,int> SOUT;
+      SignalTimeDependent<dynamicgraph::Matrix,int> SOUT;
 
       virtual void commandLine( const std::string& cmdLine,
 				std::istringstream& cmdArgs, 

@@ -32,7 +32,7 @@ fromMatrix( const MatrixRotation& rot )
 {
   sotDEBUGIN(15) ;
   
-  const ml::Matrix& rotmat = rot;
+  const dynamicgraph::Matrix& rotmat = rot;
   double sina = sqrt( (rotmat(1,0)-rotmat(0,1))*(rotmat(1,0)-rotmat(0,1))
 		      + (rotmat(2,0)-rotmat(0,2))*(rotmat(2,0)-rotmat(0,2))
 		      + (rotmat(2,1)-rotmat(1,2))*(rotmat(2,1)-rotmat(1,2)) ) / 2.;
@@ -43,20 +43,20 @@ fromMatrix( const MatrixRotation& rot )
     {
       double sinc = ( fabs(sina)>SINC_MINIMUM ) ? (sina/theta) : 1.;
       
-      vector(0) = (rotmat(2,1)-rotmat(1,2))/(2*sinc);
-      vector(1) = (rotmat(0,2)-rotmat(2,0))/(2*sinc);
-      vector(2) = (rotmat(1,0)-rotmat(0,1))/(2*sinc);
+      ((dynamicgraph::Vector&)*this)(0) = (rotmat(2,1)-rotmat(1,2))/(2*sinc);
+      ((dynamicgraph::Vector&)*this)(1) = (rotmat(0,2)-rotmat(2,0))/(2*sinc);
+      ((dynamicgraph::Vector&)*this)(2) = (rotmat(1,0)-rotmat(0,1))/(2*sinc);
     }
   else /* theta near PI */
     {
-      vector(0) = theta*(sqrt((rotmat(0,0)-cosa)/(1-cosa)));
-      if( (rotmat(2,1)-rotmat(1,2))<0 ) { vector(0) = -vector(0); }
+      ((dynamicgraph::Vector&)*this)(0) = theta*(sqrt((rotmat(0,0)-cosa)/(1-cosa)));
+      if( (rotmat(2,1)-rotmat(1,2))<0 ) { ((dynamicgraph::Vector&)*this)(0) = -((dynamicgraph::Vector&)*this)(0); }
 
-      vector(1) = theta*(sqrt((rotmat(1,1)-cosa)/(1-cosa)));
-      if( (rotmat(0,2)-rotmat(2,0))<0 ) { vector(1) = -vector(1); }
+      ((dynamicgraph::Vector&)*this)(1) = theta*(sqrt((rotmat(1,1)-cosa)/(1-cosa)));
+      if( (rotmat(0,2)-rotmat(2,0))<0 ) { ((dynamicgraph::Vector&)*this)(1) = -((dynamicgraph::Vector&)*this)(1); }
 
-      vector(2) = theta*(sqrt((rotmat(2,2)-cosa)/(1-cosa)));
-      if( (rotmat(1,0)-rotmat(0,1))<0 ) { vector(2) = -vector(2); }
+      ((dynamicgraph::Vector&)*this)(2) = theta*(sqrt((rotmat(2,2)-cosa)/(1-cosa)));
+      if( (rotmat(1,0)-rotmat(0,1))<0 ) { ((dynamicgraph::Vector&)*this)(2) = -((dynamicgraph::Vector&)*this)(2); }
     }
   
   sotDEBUGOUT(15) ;
@@ -69,23 +69,25 @@ toMatrix( MatrixRotation& rot ) const
 {
   sotDEBUGIN(15) ;
 
-  double theta = sqrt( vector(0)*vector(0)+vector(1)*vector(1)+vector(2)*vector(2) );
-  double si = sin(theta);
-  double co = cos(theta);
+  double theta = sqrt( ((dynamicgraph::Vector&)*this)(0)*((dynamicgraph::Vector&)*this)(0)
+  			+((dynamicgraph::Vector&)*this)(1)*((dynamicgraph::Vector&)*this)(1)
+  			+((dynamicgraph::Vector&)*this)(2)*((dynamicgraph::Vector&)*this)(2) );
+  double si = ::sin(theta);
+  double co = ::cos(theta);
   double sinc = ( fabs( theta )>SINC_MINIMUM ) ? (si/theta) : 1.; 
   double mcosc = ( fabs( theta )>COSC_MINIMUM ) ? ( (1-co)/(theta*theta) ) : .5;
 
-  ml::Matrix &rotmat = rot;
+  dynamicgraph::Matrix &rotmat = rot;
 
-  rotmat(0,0) = co + mcosc*vector(0)*vector(0);
-  rotmat(0,1) = -sinc*vector(2) + mcosc*vector(0)*vector(1);
-  rotmat(0,2) = sinc*vector(1) + mcosc*vector(0)*vector(2);
-  rotmat(1,0) = sinc*vector(2) + mcosc*vector(1)*vector(0);
-  rotmat(1,1) = co + mcosc*vector(1)*vector(1);
-  rotmat(1,2) = -sinc*vector(0) + mcosc*vector(1)*vector(2);
-  rotmat(2,0) = -sinc*vector(1) + mcosc*vector(2)*vector(0);
-  rotmat(2,1) = sinc*vector(0) + mcosc*vector(2)*vector(1);
-  rotmat(2,2) = co + mcosc*vector(2)*vector(2);
+  rotmat(0,0) = co + mcosc*((dynamicgraph::Vector&)*this)(0)*((dynamicgraph::Vector&)*this)(0);
+  rotmat(0,1) = -sinc*((dynamicgraph::Vector&)*this)(2) + mcosc*((dynamicgraph::Vector&)*this)(0)*((dynamicgraph::Vector&)*this)(1);
+  rotmat(0,2) = sinc*((dynamicgraph::Vector&)*this)(1) + mcosc*((dynamicgraph::Vector&)*this)(0)*((dynamicgraph::Vector&)*this)(2);
+  rotmat(1,0) = sinc*((dynamicgraph::Vector&)*this)(2) + mcosc*((dynamicgraph::Vector&)*this)(1)*((dynamicgraph::Vector&)*this)(0);
+  rotmat(1,1) = co + mcosc*((dynamicgraph::Vector&)*this)(1)*((dynamicgraph::Vector&)*this)(1);
+  rotmat(1,2) = -sinc*((dynamicgraph::Vector&)*this)(0) + mcosc*((dynamicgraph::Vector&)*this)(1)*((dynamicgraph::Vector&)*this)(2);
+  rotmat(2,0) = -sinc*((dynamicgraph::Vector&)*this)(1) + mcosc*((dynamicgraph::Vector&)*this)(2)*((dynamicgraph::Vector&)*this)(0);
+  rotmat(2,1) = sinc*((dynamicgraph::Vector&)*this)(0) + mcosc*((dynamicgraph::Vector&)*this)(2)*((dynamicgraph::Vector&)*this)(1);
+  rotmat(2,2) = co + mcosc*((dynamicgraph::Vector&)*this)(2)*((dynamicgraph::Vector&)*this)(2);
 
   sotDEBUGOUT(15) ;
   return rot;

@@ -25,10 +25,6 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* STD */
 #include <string>
 
@@ -80,9 +76,9 @@ class SOTTASKUNILATERAL_EXPORT TaskUnilateral
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
 
-  dg::SignalPtr< ml::Vector,int > positionSIN;
-  dg::SignalPtr< ml::Vector,int > referenceInfSIN;
-  dg::SignalPtr< ml::Vector,int > referenceSupSIN;
+  dg::SignalPtr< dg::Vector,int > positionSIN;
+  dg::SignalPtr< dg::Vector,int > referenceInfSIN;
+  dg::SignalPtr< dg::Vector,int > referenceSupSIN;
   dg::SignalPtr< double,int > dtSIN;
 
   /* --- DISPLAY ------------------------------------------------------------ */

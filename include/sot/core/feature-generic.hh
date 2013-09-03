@@ -85,10 +85,10 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
     @{
    */
   /*! \brief Input for the error. */
-  dg::SignalPtr< ml::Vector,int > errorSIN;
+  dg::SignalPtr< dynamicgraph::Vector,int > errorSIN;
 
   /*! \brief Input for the Jacobian. */
-  dg::SignalPtr< ml::Matrix,int > jacobianSIN;
+  dg::SignalPtr< dynamicgraph::Matrix,int > jacobianSIN;
 
   /*! @} */
 
@@ -118,10 +118,10 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   */
 
   /*! \brief Compute the error between the desired value and the value itself. */
-  virtual ml::Vector& computeError( ml::Vector& res,int time );
+  virtual dynamicgraph::Vector& computeError( dynamicgraph::Vector& res,int time );
 
   /*! \brief Compute the Jacobian of the value according to the robot state.. */
-  virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
+  virtual dynamicgraph::Matrix& computeJacobian( dynamicgraph::Matrix& res,int time );
 
   /*! @} */
 

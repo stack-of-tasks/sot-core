@@ -25,10 +25,6 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* STD */
 #include <string>
 
@@ -66,7 +62,7 @@ namespace dynamicgraph {
       : public TaskAbstract
     {
     protected:
-      typedef std::list< Signal<ml::Matrix,int>* > JacobianList;
+      typedef std::list< Signal<dynamicgraph::Matrix,int>* > JacobianList;
       JacobianList jacobianList;
   
     public: 
@@ -76,7 +72,7 @@ namespace dynamicgraph {
     public:
       Constraint( const std::string& n );
 
-      void addJacobian( Signal<ml::Matrix,int>& sig );
+      void addJacobian( Signal<dynamicgraph::Matrix,int>& sig );
       void clearJacobianList( void );
 
       void setControlSelection( const Flags& act );
@@ -84,7 +80,7 @@ namespace dynamicgraph {
       void clearControlSelection( void );
 
       /* --- COMPUTATION --- */
-      ml::Matrix& computeJacobian( ml::Matrix& J,int time );
+      dynamicgraph::Matrix& computeJacobian( dynamicgraph::Matrix& J,int time );
 
       /* --- DISPLAY ------------------------------------------------------------ */
       SOTCONSTRAINT_EXPORT friend std::ostream& operator<< ( std::ostream& os,const Constraint& t );

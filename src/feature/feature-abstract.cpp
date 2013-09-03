@@ -35,19 +35,19 @@ FeatureAbstract::
 FeatureAbstract( const std::string& name ) 
   :Entity(name)
    ,selectionSIN(NULL,"sotFeatureAbstract("+name+")::input(flag)::selec")
-  ,errordotSIN (NULL,"sotFeatureAbstract("+name+")::input(vector)::errordotIN" )
+   ,errordotSIN (NULL,"sotFeatureAbstract("+name+")::input(vector)::errordotIN" )
    ,errorSOUT( boost::bind(&FeatureAbstract::computeError,this,_1,_2),
 	       selectionSIN,
 	       "sotFeatureAbstract("+name+")::output(vector)::error" )
+   ,errordotSOUT (boost::bind(&FeatureAbstract::computeErrorDot,this,_1,_2),
+		 selectionSIN << errordotSIN,
+		 "sotFeatureAbstract("+name+")::output(vector)::errordot" )
    ,jacobianSOUT( boost::bind(&FeatureAbstract::computeJacobian,this,_1,_2),
 		  selectionSIN,
 		  "sotFeatureAbstract("+name+")::output(matrix)::jacobian" )
    ,dimensionSOUT( boost::bind(&FeatureAbstract::getDimension,this,_1,_2),
 		   selectionSIN,
 		   "sotFeatureAbstract("+name+")::output(uint)::dim" )
-  ,errordotSOUT (boost::bind(&FeatureAbstract::computeErrorDot,this,_1,_2),
-		 selectionSIN << errordotSIN,
-		 "sotFeatureAbstract("+name+")::output(vector)::errordot" )
 {
   selectionSIN = true;
   signalRegistration( selectionSIN
@@ -104,11 +104,11 @@ getReferenceByName() const
   if( isReferenceSet() ) return getReferenceAbstract()->getName(); else return "none";
 }
 
-ml::Vector& FeatureAbstract::
-computeErrorDot( ml::Vector& res,int time )
+dynamicgraph::Vector& FeatureAbstract::
+computeErrorDot( dynamicgraph::Vector& res,int time )
 { 
   const Flags &fl = selectionSIN.access(time);
-  const unsigned int & dim = dimensionSOUT(time);
+  const int & dim = dimensionSOUT(time);
 
   unsigned int curr = 0;
   res.resize( dim );
@@ -117,19 +117,19 @@ computeErrorDot( ml::Vector& res,int time )
 
   if( isReferenceSet () && getReferenceAbstract ()->errordotSIN.isPluged ())
     {
-      const ml::Vector& errdotDes = getReferenceAbstract ()->errordotSIN(time);
+      const dynamicgraph::Vector& errdotDes = getReferenceAbstract ()->errordotSIN(time);
       sotDEBUG(15) << "Err* = " << errdotDes;
       if( errdotDes.size()<dim )
 	{ SOT_THROW ExceptionFeature( ExceptionFeature::UNCOMPATIBLE_SIZE,
 					 "Error: dimension uncompatible with des->errorIN size."
 					 " (while considering feature <%s>).",getName().c_str() ); }
 
-      for( unsigned int i=0;i<errdotDes.size();++i ) if( fl(i) ) 
+      for( int i=0;i<errdotDes.size();++i ) if( fl(i) ) 
 	if( fl(i) ) res( curr++ ) = errdotDes(i);
     }
   else
     {
-      for( unsigned int i=0;i<dim;++i )
+      for( int i=0;i<dim;++i )
 	if( fl(i) ) res( curr++ ) = 0.0;
     }
   

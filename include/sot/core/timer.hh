@@ -31,7 +31,6 @@
 #include <sys/time.h>
 #else  /*WIN32*/
 // When including Winsock2.h, the MAL must be included first
-#include <jrl/mal/malv2.hh>
 #include <sot/core/utils-windows.hh>
 #include <Winsock2.h>
 #endif /*WIN32*/

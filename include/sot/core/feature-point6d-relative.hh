@@ -66,14 +66,14 @@ class SOTFEATUREPOINT6DRELATIVE_EXPORT FeaturePoint6dRelative
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
  protected:
-  ml::Matrix L;
+  dg::Matrix L;
 
 
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
   dg::SignalPtr< MatrixHomogeneous,int > positionReferenceSIN;
-  dg::SignalPtr< ml::Matrix,int > articularJacobianReferenceSIN;
+  dg::SignalPtr< dg::Matrix,int > articularJacobianReferenceSIN;
 
   /*! dg::Signals related to the computation of the derivative of
     the error
@@ -93,9 +93,9 @@ class SOTFEATUREPOINT6DRELATIVE_EXPORT FeaturePoint6dRelative
   FeaturePoint6dRelative( const std::string& name );
   virtual ~FeaturePoint6dRelative( void ) {}
 
-  virtual ml::Vector& computeError( ml::Vector& res,int time );
-  virtual ml::Vector& computeErrorDot( ml::Vector& res,int time );
-  virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
+  virtual dg::Vector& computeError( dg::Vector& res,int time );
+  virtual dg::Vector& computeErrorDot( dg::Vector& res,int time );
+  virtual dg::Matrix& computeJacobian( dg::Matrix& res,int time );
 
   virtual void display( std::ostream& os ) const;
   virtual void commandLine( const std::string& cmdLine,

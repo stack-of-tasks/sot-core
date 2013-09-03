@@ -25,9 +25,6 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-
 /* SOT */
 #include <sot/core/flags.hh>
 #include <dynamic-graph/entity.h>

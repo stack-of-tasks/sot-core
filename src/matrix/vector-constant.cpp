@@ -63,12 +63,12 @@ VectorConstant( const std::string& name )
     "        - a vector\n"
     "    \n";
   addCommand("set",
-	     new ::dynamicgraph::command::Setter<VectorConstant, ml::Vector>
+	     new ::dynamicgraph::command::Setter<VectorConstant, dynamicgraph::Vector>
 	     (*this, &VectorConstant::setValue, docstring));
 }
 
 void VectorConstant::
-setValue(const ml::Vector& inValue)
+setValue(const dynamicgraph::Vector& inValue)
 {
   SOUT.setConstant(inValue);
 }
@@ -82,13 +82,13 @@ commandLine( const std::string& cmdLine,
   if( cmdLine == "resize" )
     {
       cmdArgs >>rows;
-      ml::Vector m(rows);
+      dynamicgraph::Vector m(rows);
       m.fill(color);
       SOUT.setConstant(m);
     }
   else if( cmdLine == "rand" )
     {
-      ml::Vector v(rows);
+      dynamicgraph::Vector v(rows);
       for( int i=0;i<rows;++i )
         v(i) = ((rand()+0.0)/RAND_MAX*2)-1.;
       SOUT.setConstant(v);
@@ -96,7 +96,7 @@ commandLine( const std::string& cmdLine,
   else if( cmdLine == "fill" )
     {
       cmdArgs >>color;
-      ml::Vector m(rows);
+      dynamicgraph::Vector m(rows);
       m.fill(color);
       SOUT.setConstant(m);
     }
@@ -106,7 +106,7 @@ commandLine( const std::string& cmdLine,
     {
       unsigned int i; double v;
       cmdArgs >> i;
-      ml::Vector m = SOUT.accessCopy();
+      dynamicgraph::Vector m = SOUT.accessCopy();
       if( cmdArgs.good()&&i<m.size() )
 	{
 	  cmdArgs >> v; m(i) = v; /* TODO verif about v? */

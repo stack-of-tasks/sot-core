@@ -95,16 +95,16 @@ double& ControlPD::setsize(int dimension)
         return _dimension;
 }
 
-ml::Vector& ControlPD::
-computeControl( ml::Vector &tau, int t ) 
+dynamicgraph::Vector& ControlPD::
+computeControl( dynamicgraph::Vector &tau, int t ) 
 {
   sotDEBUGIN(15);		  
-  const ml::Vector& Kp = KpSIN(t);
-  const ml::Vector& Kd = KdSIN(t);		  
-  const ml::Vector& position = positionSIN(t);
-  const ml::Vector& desiredposition = desiredpositionSIN(t);
-  const ml::Vector& velocity = velocitySIN(t);		  
-  const ml::Vector& desiredvelocity = desiredvelocitySIN(t);
+  const dynamicgraph::Vector& Kp = KpSIN(t);
+  const dynamicgraph::Vector& Kd = KdSIN(t);		  
+  const dynamicgraph::Vector& position = positionSIN(t);
+  const dynamicgraph::Vector& desiredposition = desiredpositionSIN(t);
+  const dynamicgraph::Vector& velocity = velocitySIN(t);		  
+  const dynamicgraph::Vector& desiredvelocity = desiredvelocitySIN(t);
 		  
   unsigned size = Kp.size();		
   tau.resize(size);

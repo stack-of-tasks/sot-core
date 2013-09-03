@@ -25,10 +25,6 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* Matrix */
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
-
 /* STD */
 #include <string>
 
@@ -38,6 +34,7 @@ DECLARE_MAL_NAMESPACE(ml);
 #include <dynamic-graph/all-signals.h>
 #include <sot/core/multi-bound.hh>
 #include "sot/core/api.hh"
+#include <dynamic-graph/linear-algebra.h>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -91,7 +88,7 @@ namespace dynamicgraph {
     public: /* --- SIGNALS --- */
 
       dg::SignalTimeDependent< VectorMultiBound,int > taskSOUT;
-      dg::SignalTimeDependent< ml::Matrix,int > jacobianSOUT;
+      dg::SignalTimeDependent< dg::Matrix,int > jacobianSOUT;
 
     public: /* --- PARAMS --- */
       virtual void commandLine( const std::string& cmdLine

@@ -163,7 +163,7 @@ double& GainHyperbolic::
 computeGain( double&res, int t ) 
 {
   sotDEBUGIN(15);
-  const ml::Vector& error = errorSIN(t);
+  const dynamicgraph::Vector& error = errorSIN(t);
   const double norm =  error.norm();
   res = coeff_a *.5* (tanh( -coeff_b*(norm-coeff_d) )+1 ) + coeff_c;
 

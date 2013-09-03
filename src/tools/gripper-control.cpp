@@ -39,7 +39,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(GripperControlPlugin,"GripperControl");
   sotName##FullSizeSIN(NULL,"GripperControl("+name+")::input(vector)::"     \
 		            +#sotName+"FullIN")                                  \
   ,sotName##ReduceSOUT( SOT_INIT_SIGNAL_2( GripperControlPlugin::selector,  \
-					   sotName##FullSizeSIN,ml::Vector,    \
+					   sotName##FullSizeSIN,dynamicgraph::Vector,    \
 					   selectionSIN,Flags ),            \
 			"GripperControl("+name+")::input(vector)::"         \
 			+#sotName+"ReducedOUT") 
@@ -73,11 +73,11 @@ GripperControlPlugin( const std::string & name )
    ,SOT_FULL_TO_REDUCED( torqueLimit )
  
   ,desiredPositionSOUT( SOT_MEMBER_SIGNAL_5( GripperControl::computeDesiredPosition,
- 					     positionSIN,ml::Vector,
- 					     torqueSIN,ml::Vector,
- 					     upperLimitSIN,ml::Vector,
- 					     lowerLimitSIN,ml::Vector,
- 					     torqueLimitSIN,ml::Vector ),
+ 					     positionSIN,dynamicgraph::Vector,
+ 					     torqueSIN,dynamicgraph::Vector,
+ 					     upperLimitSIN,dynamicgraph::Vector,
+ 					     lowerLimitSIN,dynamicgraph::Vector,
+ 					     torqueLimitSIN,dynamicgraph::Vector ),
  			"GripperControl("+name+")::output(vector)::reference" )
 
 {
@@ -122,16 +122,16 @@ getDocString () const
 /* --- SIGNALS -------------------------------------------------------------- */
 
 void GripperControl::
-computeIncrement( const ml::Vector& torques,
-		  const ml::Vector& torqueLimits,
-		  const ml::Vector& currentNormPos )
+computeIncrement( const dynamicgraph::Vector& torques,
+		  const dynamicgraph::Vector& torqueLimits,
+		  const dynamicgraph::Vector& currentNormPos )
 {
-  const unsigned int SIZE = torques.size();
+  const int SIZE = torques.size();
   if( (SIZE==torqueLimits.size())||(SIZE==currentNormPos.size()) )
     { /* ERROR ... */ }
   
   if( factor.size()!=SIZE ) { factor.resize(SIZE); factor.fill(1.); }
-  for( unsigned int i=0;i<SIZE;++i )
+  for( int i=0;i<SIZE;++i )
     {
       if( (torques(i)>torqueLimits(i))&&(currentNormPos(i)>0) ) 
 	{ factor(i)*=offset; } 
@@ -145,19 +145,19 @@ computeIncrement( const ml::Vector& torques,
 
 
 void GripperControl::
-computeNormalizedPosition( const ml::Vector& currentPos,
-			   const ml::Vector& upperLim,
-			   const ml::Vector& lowerLim,
-			   ml::Vector& currentNormPos )
+computeNormalizedPosition( const dynamicgraph::Vector& currentPos,
+			   const dynamicgraph::Vector& upperLim,
+			   const dynamicgraph::Vector& lowerLim,
+			   dynamicgraph::Vector& currentNormPos )
 {
   sotDEBUG(25) << "UJL = " << upperLim;
   sotDEBUG(25) << "LJL = " << lowerLim;
 
-  const unsigned int SIZE = currentPos.size();
+  const int SIZE = currentPos.size();
    if( (SIZE==upperLim.size())||(SIZE==lowerLim.size()) )
      { /* ERROR ... */ } 
    currentNormPos.resize(SIZE);
-   for( unsigned int i=0;i<SIZE;++i )
+   for( int i=0;i<SIZE;++i )
      {
        currentNormPos(i) = ( -1+2*( currentPos(i)-lowerLim(i) )
 			     /( upperLim(i)-lowerLim(i) ));
@@ -165,44 +165,44 @@ computeNormalizedPosition( const ml::Vector& currentPos,
 }
 
 void GripperControl::
-computeDenormalizedPosition( const ml::Vector& currentNormPos,
-			     const ml::Vector& upperLim,
-			     const ml::Vector& lowerLim,
-			     ml::Vector& currentPos )
+computeDenormalizedPosition( const dynamicgraph::Vector& currentNormPos,
+			     const dynamicgraph::Vector& upperLim,
+			     const dynamicgraph::Vector& lowerLim,
+			     dynamicgraph::Vector& currentPos )
 {
-  const unsigned int SIZE = currentNormPos.size();
+  const int SIZE = currentNormPos.size();
    if( (SIZE==upperLim.size())||(SIZE==lowerLim.size()) )
      { /* ERROR ... */ } 
    currentPos.resize(SIZE);
-   for( unsigned int i=0;i<SIZE;++i )
+   for( int i=0;i<SIZE;++i )
      {
        currentPos(i) = ( (currentNormPos(i)+1)*( upperLim(i)-lowerLim(i) )/2
 			 +lowerLim(i) );
      }
 }
 
-ml::Vector& GripperControl::
-computeDesiredPosition( const ml::Vector& currentPos,
-			const ml::Vector& torques,
-			const ml::Vector& upperLim,
-			const ml::Vector& lowerLim,
-			const ml::Vector& torqueLimits,
-			ml::Vector& desPos )
+dynamicgraph::Vector& GripperControl::
+computeDesiredPosition( const dynamicgraph::Vector& currentPos,
+			const dynamicgraph::Vector& torques,
+			const dynamicgraph::Vector& upperLim,
+			const dynamicgraph::Vector& lowerLim,
+			const dynamicgraph::Vector& torqueLimits,
+			dynamicgraph::Vector& desPos )
 {
-  const unsigned int SIZE = currentPos.size();
+  const int SIZE = currentPos.size();
   if( (SIZE==torques.size()) )
     { /* ERROR ... */ } 
   desPos.resize(SIZE);
   
-  ml::Vector normPos;
+  dynamicgraph::Vector normPos;
   computeNormalizedPosition( currentPos,upperLim,lowerLim,normPos );
   sotDEBUG(25) << "Norm pos = " << normPos;
 
   computeIncrement( torques,torqueLimits,normPos );
   sotDEBUG(25) << "Factor = " << factor;
   
-  ml::Vector desNormPos(SIZE);
-  normPos.multiply(factor,desNormPos);
+  dynamicgraph::Vector desNormPos(SIZE);
+  desNormPos = normPos*factor;
 
   computeDenormalizedPosition( desNormPos,upperLim,lowerLim,desPos );
   
@@ -211,18 +211,18 @@ computeDesiredPosition( const ml::Vector& currentPos,
 
 
 
-ml::Vector& GripperControl::
-selector( const ml::Vector& fullsize,
+dynamicgraph::Vector& GripperControl::
+selector( const dynamicgraph::Vector& fullsize,
 	  const Flags& selec,
-	  ml::Vector& desPos )
+	  dynamicgraph::Vector& desPos )
 {
   unsigned int size = 0;
-  for( unsigned int i=0;i<fullsize.size();++i )
+  for( int i=0;i<fullsize.size();++i )
     { if( selec(i) ) size++; }
 
   unsigned int curs=0;
   desPos.resize(size);
-  for( unsigned int i=0;i<fullsize.size();++i )
+  for( int i=0;i<fullsize.size();++i )
     { if( selec(i) ) desPos(curs++)=fullsize(i); }
 
   return desPos;

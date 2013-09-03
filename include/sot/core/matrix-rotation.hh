@@ -21,12 +21,8 @@
 #ifndef __SOT_MATRIX_ROTATION_H__
 #define __SOT_MATRIX_ROTATION_H__
 
-
-/* --- Matrix --- */
-
 #include "sot/core/api.hh"
-#include <jrl/mal/malv2.hh>
-DECLARE_MAL_NAMESPACE(ml);
+#include <dynamic-graph/linear-algebra.h>
 
 namespace dynamicgraph {
   namespace sot {
@@ -36,14 +32,15 @@ namespace dynamicgraph {
     /* --------------------------------------------------------------------- */
     /* --------------------------------------------------------------------- */
     class SOT_CORE_EXPORT MatrixRotation
-      : public ml::Matrix
+      : public dynamicgraph::Matrix
     {
       
     public: 
       
-      MatrixRotation( void ) : ml::Matrix(3,3) { setIdentity(); }
-      MatrixRotation( const MatrixRotation & m ) : ml::Matrix(m) {}
+      MatrixRotation( void ) : dynamicgraph::Matrix(3,3) { setIdentity(); }
+      MatrixRotation( const MatrixRotation & m ) : dynamicgraph::Matrix(m) {}
       virtual ~MatrixRotation( void ) { }
+      MatrixRotation& operator=( const dynamicgraph::Matrix& m);
       
       void fromVector( VectorUTheta& );
       MatrixRotation& operator= ( VectorUTheta&th ) { fromVector(th); return *this; } 

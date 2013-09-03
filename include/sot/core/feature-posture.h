@@ -36,8 +36,8 @@ namespace dynamicgraph {
       class SelectDof;	
       friend class SelectDof;
     public:
-      typedef dynamicgraph::SignalPtr<ml::Vector, int> signalIn_t;
-      typedef dynamicgraph::SignalTimeDependent<ml::Vector, int> signalOut_t;
+      typedef dynamicgraph::SignalPtr<dynamicgraph::Vector, int> signalIn_t;
+      typedef dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> signalOut_t;
 	
       static const std::string CLASS_NAME;
 	
@@ -45,19 +45,19 @@ namespace dynamicgraph {
       virtual ~FeaturePosture ();
       virtual const std::string& getClassName () const;
       virtual unsigned int& getDimension( unsigned int& res,int );
-      void setPosture (const ml::Vector& posture);
+      void setPosture (const dynamicgraph::Vector& posture);
       void selectDof (unsigned dofId, bool control);
 
     protected:
 
-      virtual ml::Vector& computeError( ml::Vector& res, int );
-      virtual ml::Matrix& computeJacobian( ml::Matrix& res, int );
-      virtual ml::Vector& computeActivation( ml::Vector& res, int );
+      virtual dynamicgraph::Vector& computeError( dynamicgraph::Vector& res, int );
+      virtual dynamicgraph::Matrix& computeJacobian( dynamicgraph::Matrix& res, int );
+      virtual dynamicgraph::Vector& computeActivation( dynamicgraph::Vector& res, int );
 
       signalIn_t state_;
       signalOut_t error_;
-      ml::Vector posture_;
-      ml::Matrix jacobian_;
+      dynamicgraph::Vector posture_;
+      dynamicgraph::Matrix jacobian_;
     }; // class FeaturePosture
   } // namespace sot
 } // namespace dynamicgraph

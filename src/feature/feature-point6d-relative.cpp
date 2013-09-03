@@ -81,23 +81,23 @@ FeaturePoint6dRelative( const string& pointName )
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-ml::Matrix& FeaturePoint6dRelative::
-computeJacobian( ml::Matrix& Jres,int time )
+dynamicgraph::Matrix& FeaturePoint6dRelative::
+computeJacobian( dynamicgraph::Matrix& Jres,int time )
 {
   sotDEBUG(15)<<"# In {"<<endl;
 
-  const ml::Matrix & Jq = articularJacobianSIN(time);
-  const ml::Matrix & JqRef = articularJacobianReferenceSIN(time);
+  const dynamicgraph::Matrix & Jq = articularJacobianSIN(time);
+  const dynamicgraph::Matrix & JqRef = articularJacobianReferenceSIN(time);
   const MatrixHomogeneous & wMp = positionSIN(time);
   const MatrixHomogeneous & wMpref = positionReferenceSIN(time);
 
-  const unsigned int cJ = Jq.nbCols();
-  ml::Matrix J(6,cJ);
+  const unsigned int cJ = Jq.cols();
+  dynamicgraph::Matrix J(6,cJ);
   {
     MatrixHomogeneous pMw;  wMp.inverse(pMw);
-    MatrixHomogeneous pMpref; pMw.multiply( wMpref,pMpref );
+    MatrixHomogeneous pMpref; pMpref = pMw*wMpref;
     MatrixTwist pVpref; pVpref.buildFrom(pMpref );
-    pVpref.multiply( JqRef,J );
+    J = pVpref*JqRef;
     J -= Jq;
   }
 
@@ -122,8 +122,8 @@ computeJacobian( ml::Matrix& Jres,int time )
 /** Compute the error between two visual features from a subset
  * a the possible features.
  */
-ml::Vector&
-FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
+dynamicgraph::Vector&
+FeaturePoint6dRelative::computeError( dynamicgraph::Vector& error,int time )
 {
   sotDEBUGIN(15);
 
@@ -134,7 +134,7 @@ FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
   const MatrixHomogeneous & wMpref = positionReferenceSIN(time);
 
   MatrixHomogeneous pMw;  wMp.inverse(pMw);
-  MatrixHomogeneous pMpref; pMw.multiply( wMpref,pMpref );
+  MatrixHomogeneous pMpref; pMpref = pMw*wMpref;
 
   MatrixHomogeneous Merr;
   try
@@ -148,15 +148,15 @@ FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
 	         const MatrixHomogeneous & wMp_des = sdes6d->positionSIN(time);
 		 const MatrixHomogeneous & wMpref_des = sdes6d->positionReferenceSIN(time);
 		 MatrixHomogeneous pMw_des;  wMp_des.inverse(pMw_des);
-		 MatrixHomogeneous pMpref_des; pMw_des.multiply( wMpref_des,pMpref_des );
+		 MatrixHomogeneous pMpref_des; pMpref_des = pMw_des*wMpref_des;
 		 MatrixHomogeneous Minv; pMpref_des.inverse(Minv);
-		 pMpref.multiply(Minv,Merr);
+		 Merr = pMpref*Minv;
 	    }
 	  else
 	    {
 	      const MatrixHomogeneous & Mref = getReference()->positionSIN(time);
 	      MatrixHomogeneous Minv; Mref.inverse(Minv);
-	      pMpref.multiply(Minv,Merr);
+	      Merr = pMpref*Minv;
 	    }
 	}
       else
@@ -185,8 +185,8 @@ FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
  *
  * This is computed by the desired feature.
  */
-ml::Vector&
-FeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
+dynamicgraph::Vector&
+FeaturePoint6dRelative::computeErrorDot( dynamicgraph::Vector& errordot,int time )
 {
   sotDEBUGIN(15);
 
@@ -201,7 +201,7 @@ FeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
   sotDEBUG(15) << "wdMpref :" <<wdMpref << endl;
 
   MatrixRotation dRerr;
-  ml::Vector dtrerr;
+  dynamicgraph::Vector dtrerr;
 
   try
     {
@@ -210,24 +210,24 @@ FeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
       MatrixRotation wdRp; wdMp.extract(wdRp);
       MatrixRotation wdRpref; wdMpref.extract(wdRpref );
 
-      ml::Vector trp(3); wMp.extract(trp);
-      ml::Vector trpref(3); wMpref.extract(trpref);
-      ml::Vector trdp(3); wdMp.extract(trdp);
-      ml::Vector trdpref(3); wdMpref.extract(trdpref);
+      dynamicgraph::Vector trp(3); wMp.extract(trp);
+      dynamicgraph::Vector trpref(3); wMpref.extract(trpref);
+      dynamicgraph::Vector trdp(3); wdMp.extract(trdp);
+      dynamicgraph::Vector trdpref(3); wdMpref.extract(trdpref);
 
       sotDEBUG(15) << "Everything is extracted" <<endl;
       MatrixRotation wdRpt,wRpt,op1,op2;
-      wdRp.transpose(wdRpt);wdRpt.multiply(wRpref, op1);
-      wRp.transpose(wRpt);wRpt.multiply(wdRpref,op2);
-      op1.addition(op2,dRerr);
+      wdRpt = wdRp.transpose(); op1 = wdRpt*wRpref;
+      wRpt = wRp.transpose(); op2 = wRpt*wdRpref;
+      dRerr = op1+op2;
 
       sotDEBUG(15) << "dRerr" << dRerr << endl;
-      ml::Vector trtmp1(3),vop1(3),vop2(3);
-      trpref.substraction(trp,trtmp1);
-      wdRpt.multiply(trtmp1,vop1);
-      trdpref.substraction(trdp,trtmp1);
-      wRpt.multiply(trtmp1,vop2);
-      vop1.addition(vop2,dtrerr);
+      dynamicgraph::Vector trtmp1(3),vop1(3),vop2(3);
+      trtmp1 = trpref-trp;
+      vop1 = wdRpt*trtmp1;
+      trtmp1 = trdpref-trdp;
+      vop2 = wRpt*trtmp1;
+      dtrerr = vop1+vop2;
 
       sotDEBUG(15) << "dtrerr" << dtrerr << endl;
 
