@@ -1,30 +1,21 @@
 \form#0:${\bf s}(t) \in \mathbb{R}^n $
 \form#1:$ t $
 \form#2:${\bf s}^*(t) $
-\form#3:$ e(t) = {\bf s}^*(t) - {\bf s}(t) $
-\form#4:$ \frac{\delta {\bf s}(t)}{\delta {\bf q}(t)}$
-\form#5:$ {\bf s}^*(t) $
-\form#6:$ [ 0 1 0] $
-\form#7:$ {\bf s}^*(t) - {\bf s}(t)$
-\form#8:$ J(t) = \frac{\delta{\bf s}^*(t)}{\delta {\bf q}(t)}$
-\form#9:$ {\bf s}(t)$
-\form#10:${\bf x}_{k \mid k} $
-\form#11:${\bf x}_{k \mid k} = {\bf x}_{k \mid k-1} + {\bf W}_k \left[ {\bf z}_k - {\bf H x}_{k \mid k-1} \right]$
-\form#12:${\bf x}_{k \mid k-1} $
-\form#13:$ {{\bf x}}_{k|k-1} = {\bf A}_{k-1} {\bf x}_{k-1\mid k-1}$
-\form#14:${\bf P}_{k \mid k-1} $
-\form#15:$ {\bf A}_{k-1} {\bf P}_{k-1 \mid k-1} {\bf A}^T_{k-1} + {\bf Q}_k$
-\form#16:${\bf P}_{k \mid k}$
-\form#17:${\bf P}_{k \mid k} = \left({\bf I - W}_k {\bf H} \right) {\bf P}_{k \mid k-1}$
-\form#18:${\bf W}_k$
-\form#19:$ {\bf W}_k = {\bf P}_{k \mid k-1} {\bf H}^T \left[ {\bf H P}_{k \mid k-1} {\bf H}^T + {\bf R}_k \right]^{-1}$
-\form#20:$ \bf I$
-\form#21:$ {\bf s} ={\bf e}({\bf q}) $
-\form#22:${\bf s} $
-\form#23:${\bf q}$
-\form#24:$ {\bf e} = - \lambda \dot{\bf e} $
-\form#25:$ {\bf J} = \frac{\delta f}{\delta {\bf q}} $
-\form#26:$ \dot{\bf q} = -\lambda {\bf J}^{\#} \dot{\bf e}$
-\form#27:$ \dot{\bf e} = {\bf s}^{des} - {\bf s}^* $
-\form#28:$ {\bf s}^{des}$
-\form#29:$ {\bf s}^* $
+\form#3:${\bf s}^*$
+\form#4:$ e(t) = {\bf s}^*(t) - {\bf s}(t) $
+\form#5:$ \frac{\delta {\bf s}(t)}{\delta {\bf q}(t)}$
+\form#6:$f(q(t),t)$
+\form#7:$J$
+\form#8:$\frac{\partial f}{\partial t}$
+\form#9:$ [ 0 1 0] $
+\form#10:$ {\bf s}^*(t) - {\bf s}(t)$
+\form#11:$ J(t) = \frac{\delta{\bf s}^*(t)}{\delta {\bf q}(t)}$
+\form#12:$ {\bf s} ={\bf e}({\bf q}) $
+\form#13:${\bf s} $
+\form#14:${\bf q}$
+\form#15:$ {\bf e} = - \lambda \dot{\bf e} $
+\form#16:$ {\bf J} = \frac{\delta f}{\delta {\bf q}} $
+\form#17:$ \dot{\bf q} = -\lambda {\bf J}^{\#} \dot{\bf e}$
+\form#18:$ \dot{\bf e} = {\bf s}^{des} - {\bf s}^* $
+\form#19:$ {\bf s}^{des}$
+\form#20:$ {\bf s}^* $

@@ -1,0 +1,4 @@
+var a00194 =
+[
+    [ "SOTVECTORTOROTATION_EXPORT", "a00194.html#a70d9f1148c654e4596e12b9e5502bedc", null ]
+];

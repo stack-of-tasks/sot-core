@@ -1,0 +1,4 @@
+var a00197 =
+[
+    [ "SOTWEIGHTEDSOT_CORE_EXPORT", "a00197.html#a87aa8c728125d455302821f32690f5aa", null ]
+];

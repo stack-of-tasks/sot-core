@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$a00136.html" title="integrator&#45;euler.h" alt="" coords="5,84,136,111"/>
-<area shape="rect" href="$a00152.html" title="op&#45;point&#45;modifier.h" alt="" coords="184,84,325,111"/>
-<area shape="rect" href="$a00158.html" title="rotation&#45;simple.h" alt="" coords="349,84,480,111"/>
-<area shape="rect" href="$a00162.html" title="solver&#45;hierarchical&#45;inequalities.h" alt="" coords="504,84,728,111"/>
-<area shape="rect" href="$a00172.html" title="time&#45;stamp.h" alt="" coords="776,84,883,111"/>
-<area shape="rect" href="$a00173.html" title="timer.h" alt="" coords="907,84,973,111"/>
-<area shape="rect" href="$a00164.html" title="sot&#45;h.h" alt="" coords="381,161,448,188"/>
-</map>

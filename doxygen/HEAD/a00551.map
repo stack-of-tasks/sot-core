@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$a00018.html" title="sot::Constraint" alt="" coords="9,161,124,188"/>
-<area shape="rect" href="$a00091.html" title="sot::Task" alt="" coords="148,161,223,188"/>
-<area shape="rect" href="dynamic-graph.doxytag$a00008.html" title="dynamicgraph::Entity" alt="" coords="48,7,203,33"/>
-<area shape="rect" href="$a00093.html" title="sot::TaskConti" alt="" coords="5,239,115,265"/>
-<area shape="rect" href="$a00094.html" title="sot::TaskPD" alt="" coords="139,239,232,265"/>
-<area shape="rect" href="$a00095.html" title="sot::TaskUnilateral" alt="" coords="256,239,392,265"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$a00124.html" title="feature&#45;line&#45;distance.h" alt="" coords="5,84,171,111"/>
-<area shape="rect" href="$a00125.html" title="feature&#45;point6d&#45;relative.h" alt="" coords="195,84,379,111"/>
-<area shape="rect" href="$a00126.html" title="feature&#45;point6d.h" alt="" coords="427,84,557,111"/>
-<area shape="rect" href="$a00128.html" title="feature&#45;vector3.h" alt="" coords="581,84,712,111"/>
-<area shape="rect" href="$a00152.html" title="op&#45;point&#45;modifier.h" alt="" coords="736,84,877,111"/>
-<area shape="rect" href="$a00161.html" title="signal&#45;cast.h" alt="" coords="901,84,1003,111"/>
-</map>

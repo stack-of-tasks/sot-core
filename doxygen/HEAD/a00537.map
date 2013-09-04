@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$a00020.html" title="sot::ConstraintRef" alt="" coords="785,27,919,53"/>
-<area shape="rect" href="$a00019.html" title="sot::ConstraintMem" alt="" coords="779,116,925,143"/>
-<area shape="rect" href="$a00085.html" title="sotRotationComposed" alt="" coords="1352,239,1515,265"/>
-<area shape="rect" href="$a00073.html" title="RotationSimple" alt="" coords="5,289,123,316"/>
-<area shape="rect" href="$a00087.html" title="sotRotationSimpleGiven" alt="" coords="255,239,428,265"/>
-<area shape="rect" href="$a00088.html" title="sotRotationSimpleHouseholder" alt="" coords="232,289,451,316"/>
-<area shape="rect" href="$a00086.html" title="sotRotationComposedInExtenso" alt="" coords="1024,392,1248,419"/>
-</map>

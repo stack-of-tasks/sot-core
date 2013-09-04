@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$a00026.html" title="sot::ExceptionAbstract" alt="" coords="5,132,171,159"/>
-<area shape="rect" href="$a00027.html" title="sot::ExceptionDynamic" alt="" coords="219,5,387,32"/>
-<area shape="rect" href="$a00028.html" title="sot::ExceptionFactory" alt="" coords="224,56,381,83"/>
-<area shape="rect" href="$a00029.html" title="sot::ExceptionFeature" alt="" coords="223,107,383,133"/>
-<area shape="rect" href="$a00030.html" title="sot::ExceptionSignal" alt="" coords="228,157,377,184"/>
-<area shape="rect" href="$a00031.html" title="sot::ExceptionTask" alt="" coords="233,208,372,235"/>
-<area shape="rect" href="$a00032.html" title="sot::ExceptionTools" alt="" coords="232,259,373,285"/>
-</map>

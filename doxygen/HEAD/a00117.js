@@ -1,0 +1,5 @@
+var a00117 =
+[
+    [ "DECLARE_SPECIFICATION", "a00117.html#a0d2b30d641c7d3d945a361a333d5870d", null ],
+    [ "DERIVATOR_EXPORT", "a00117.html#a1617b2a9982221ce9748e193550306ab", null ]
+];
