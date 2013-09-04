@@ -1,29 +1,29 @@
-before_install: 
+before_install:
 - git submodule update --init --recursive
 - sudo apt-get update -qq
 - sudo apt-get install -qq doxygen doxygen-latex libboost-all-dev libeigen3-dev liblapack-dev libblas-dev gfortran python-dev python-sphinx
 - sudo pip install cpp-coveralls --use-mirrors
-compiler: 
+compiler:
 - clang
 - gcc
-after_success: 
+after_success:
 - coveralls -e _travis/install -e tests
 - git config --global user.name "Travis CI"
 - git config --global user.email "thomas.moulard+travis@gmail.com"
-- git remote set-url origin https://thomas-moulard:${GH_TOKEN}@github.com/stack-of-tasks/dynamic-graph-python.git
+- git remote set-url origin https://thomas-moulard:${GH_TOKEN}@github.com/stack-of-tasks/sot-core.git
 - git fetch origin gh-pages:gh-pages
 - cd _travis/build/doc && ../../../cmake/github/update-doxygen-doc.sh
-branches: 
-  only: 
+branches:
+  only:
   - master
 script: ./.travis/build
-notifications: 
-  email: 
+notifications:
+  email:
   - hpp-source@laas.fr
-env: 
-  global: 
+env:
+  global:
     secure: WXQUP0Ac1AWpYHcx1flyuZhJcKEVt6ESYZS62qiINZn74RhyOYB5kX7OE73YYw7ltd/FJOiLcuAzezovwD29y1Jlhq/kKCWBMU/PfsOjdpeoYHT+4KkYzNgdHEuVyGI+RfBA6qqEqzVIHzIcYJn28PFSs2yxMwqSvYOfXE+smAk=
 language: cpp
-matrix: 
-  allow_failures: 
+matrix:
+  allow_failures:
   - compiler: clang
