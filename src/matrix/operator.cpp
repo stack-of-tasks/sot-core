@@ -186,8 +186,8 @@ namespace dynamicgraph {
     {
        void operator()( const Matrix& m,Matrix& res ) const
       {
-	assert ((imin<=imax)&&(imax<=m.nbRows()));
-	assert ((jmin<=jmax)&&(jmax<=m.nbCols()));
+	assert ((imin<=imax)&&(imax<=m.rows()));
+	assert ((jmin<=jmax)&&(jmax<=m.cols()));
 	res.resize( imax-imin,jmax-jmin );
 	for( unsigned int i=imin;i<imax;++i )
 	  for( unsigned int j=jmin;j<jmax;++j )
@@ -228,8 +228,8 @@ namespace dynamicgraph {
     public:
       void operator()( const Tin& m,Tout& res ) const
       {
-	assert ((imin<=imax)&&(imax<=m.nbRows()));
-	assert (jcol<m.nbCols());
+	assert ((imin<=imax)&&(imax<=m.rows()));
+	assert (jcol<m.cols());
 
 	res.resize( imax-imin );
 	for( unsigned int i=imin;i<imax;++i )
@@ -758,7 +758,7 @@ namespace dynamicgraph {
 	    sotDEBUG(45) << "Sig"<<j<< ": " << s_tau ;
 	    if( s_tau.size()!=nsig )
 	      return; // TODO: error throw;
-	    for( unsigned int i=0;i<nsig;++i )
+	    for( int i=0;i<nsig;++i )
 	      {
 		res(i)+=f2(i,j)*s_tau(i);
 	      }
