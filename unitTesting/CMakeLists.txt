@@ -28,7 +28,7 @@ ENDIF(UNIX)
 # Make Boost.Test generates the main function in test cases.
 ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
 
-# Definition of a macro that corresponds to the suffix for a dynamic lib 
+# Definition of a macro that corresponds to the suffix for a dynamic lib
 ADD_DEFINITIONS(-DTESTS_DYNLIBSUFFIX="${CMAKE_SHARED_LIBRARY_SUFFIX}")
 
 # The sot-core plugin libraries that tests have to be linked against
@@ -76,7 +76,7 @@ SET (tests
 	sot/test_solverSoth
 
 	traces/files
-	traces/traces
+	traces/test_traces
 
 	task/test_flags
 	task/test_gain
@@ -128,7 +128,7 @@ FOREACH(test ${tests})
 		TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_LIBS})
 		ADD_DEPENDENCIES     (${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_LIBS})
 	ENDIF( TEST_${EXECUTABLE_NAME}_LIBS )
-	
+
 	IF( TEST_${EXECUTABLE_NAME}_EXT_LIBS )
 		TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_EXT_LIBS})
 	ENDIF( TEST_${EXECUTABLE_NAME}_EXT_LIBS )
@@ -147,7 +147,7 @@ FOREACH(test ${tests})
 
 	IF (UNIX)
 	  SET(EXTRA_LD_LIBRARY_PATH $ENV{LD_LIBRARY_PATH})
-	  SET_PROPERTY(TEST ${test} PROPERTY 
+	  SET_PROPERTY(TEST ${test} PROPERTY
 	    ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_INSTALL_PREFIX}/lib:${CMAKE_BINARY_DIR}/src:${BOOST_ROOT}/lib:${EXTRA_LD_LIBRARY_PATH}")
 	ENDIF(UNIX)
 
