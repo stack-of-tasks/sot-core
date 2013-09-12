@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['s',['S',['../a00060.html#a9203a90db1090b458c0f07064d5fa47a',1,'dynamicgraph::sot::MemoryTaskSOT::S()'],['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/jrl-mal/doxygen-html/a00006.html#a2e4c9444fd31def75a89138ba5cc5a83',1,'maal::boost::MatrixSvd::s()']]],
+  ['s',['s',['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/jrl-mal/doxygen-html/a00006.html#a2e4c9444fd31def75a89138ba5cc5a83',1,'maal::boost::MatrixSvd::s()'],['../a00060.html#a9203a90db1090b458c0f07064d5fa47a',1,'dynamicgraph::sot::MemoryTaskSOT::S()']]],
   ['s_5f',['S_',['../a00051.html#a499eb16d4e8a4b95fd0502150517b16f',1,'dynamicgraph::sot::Kalman']]],
   ['sactivation',['Sactivation',['../a00077.html#ae65850fcce6cbe2fbcde0b2bd0b33082',1,'dynamicgraph::sot::SolverHierarchicalInequalities']]],
   ['sactivationref',['SactivationRef',['../a00077.html#aff3e3befbe737500498424b36fff281d',1,'dynamicgraph::sot::SolverHierarchicalInequalities']]],
@@ -31,7 +31,7 @@ var searchData=
   ['sinactivationscore',['SinactivationScore',['../a00077.html#a6d9a92b78ba487057ee3f424b33d6492',1,'dynamicgraph::sot::SolverHierarchicalInequalities']]],
   ['sinf',['sinF',['../a00086.html#ab01c289b12e9f991a7519abca6e80018',1,'sotRotationSimpleGiven']]],
   ['singularbaseimagesinout',['singularBaseImageSINOUT',['../a00060.html#ac55e71bddc6884abc27155b5a5c97404',1,'dynamicgraph::sot::MemoryTaskSOT']]],
-  ['size',['SIZE',['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/dynamic-graph/doxygen-html/a00013.html#a85d10b3fd2f0dd2167034ae20db4acb6',1,'dynamicgraph::DebugTrace::SIZE()'],['../a00019.html#a7e783f14e883e02346a73d38679f64fe',1,'dynamicgraph::sot::DebugTrace::SIZE()'],['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/dynamic-graph/doxygen-html/a00042.html#a53789b7d20a67f31b642bd588e426438',1,'dynamicgraph::SignalArray_const::size()'],['../a00063.html#a53310d40b3884c694a4117dd5cca06c8',1,'dynamicgraph::sot::MotionPeriod::size()']]],
+  ['size',['size',['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/dynamic-graph/doxygen-html/a00042.html#a53789b7d20a67f31b642bd588e426438',1,'dynamicgraph::SignalArray_const::size()'],['../a00063.html#a53310d40b3884c694a4117dd5cca06c8',1,'dynamicgraph::sot::MotionPeriod::size()'],['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/dynamic-graph/doxygen-html/a00013.html#a85d10b3fd2f0dd2167034ae20db4acb6',1,'dynamicgraph::DebugTrace::SIZE()'],['../a00019.html#a7e783f14e883e02346a73d38679f64fe',1,'dynamicgraph::sot::DebugTrace::SIZE()']]],
   ['size_5fmeasure',['size_measure',['../a00051.html#a94dd960193b82d61f04cb5377a9cac21',1,'dynamicgraph::sot::Kalman']]],
   ['size_5fstate',['size_state',['../a00051.html#a153528369dc93112d056cdbb14f1bdd4',1,'dynamicgraph::sot::Kalman']]],
   ['sizes',['sizes',['../a00077.html#ae92eba3bbfcdf81fe7e1f6f9cec034c6',1,'dynamicgraph::sot::SolverHierarchicalInequalities']]],

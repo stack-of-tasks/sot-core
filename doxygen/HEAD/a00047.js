@@ -2,8 +2,9 @@ var a00047 =
 [
     [ "GripperControlPlugin", "a00047.html#afd03c791c0f74ce834c0be79ab6a1cc6", null ],
     [ "~GripperControlPlugin", "a00047.html#a3a0c36684c2357409b5091490dab9c3e", null ],
-    [ "commandLine", "a00047.html#a0a11d4ccf77b562aa1723055ebeee8d3", null ],
     [ "getDocString", "a00047.html#a5c37e9900b46eea739ccaec8240880fe", null ],
+    [ "initCommands", "a00047.html#a93cba0932d93c2f66f5eba20e907e713", null ],
+    [ "setOffset", "a00047.html#ab6f0900a55c5a86fa72d24a66e3991de", null ],
     [ "calibrationStarted", "a00047.html#a48e9634cce5559386c56b1dcbcacea6c", null ],
     [ "desiredPositionSOUT", "a00047.html#a2b728138ca699a86a17782ac72a4187c", null ],
     [ "lowerLimitFullSizeSIN", "a00047.html#a8a825c4f964775757d27091c692d5e23", null ],

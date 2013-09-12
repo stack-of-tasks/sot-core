@@ -89,7 +89,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00083.html#a2efa0c377227426f0563013d3d216874">clear</a> (void)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00083.html#a49bdb89b035a3d245e22ec1f8d5a5f46">rewind</a> (void)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00083.html#ae2d58c4eac6de84e59c74618c1859a96">display</a> (std::ostream &amp;os) const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00083.html#ac8c05d8caa3a892cc3d044a534c11dd7">commandLine</a> (const std::string &amp;cmdLine, std::istringstream &amp;cmdArgs, std::ostream &amp;os)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00083.html#aa8b9c4d6c19f99055ea878bfb8e755d1">initCommands</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="dynamic-graph.doxytag:" href="a00047.html">SignalPtr</a>&lt; <a class="el" href="a00042.html">Flags</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00083.html#adf2ab00075f57971cc9b6a57b0b67722">selectionSIN</a></td></tr>
@@ -105,6 +105,7 @@ Protected Types</h2></td></tr>
 Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="jrl-mal.doxytag:" href="a00008.html">ml::Vector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00083.html#a644993fbd347a28f3fb2bc6f5d4fb834">getNextData</a> (<a class="elRef" doxygen="jrl-mal.doxytag:" href="a00008.html">ml::Vector</a> &amp;res, const unsigned int time)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="elRef" doxygen="jrl-mal.doxytag:" href="a00004.html">ml::Matrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00083.html#aa6caba36db80f6d92c908d2292816a1f">getNextMatrix</a> (<a class="elRef" doxygen="jrl-mal.doxytag:" href="a00004.html">ml::Matrix</a> &amp;res, const unsigned int time)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00083.html#a40e24da4995692775ec378b9bab3dc8d">resize</a> (const int &amp;nbRow, const int &amp;nbCol)</td></tr>
 <tr><td colspan="2"><h2><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="a00083.html#a7895838b45d5052c38142fc02ee00ddd">DataType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00083.html#aa9cd082a649a4c59b7897d37e3fe68d5">dataSet</a></td></tr>
@@ -177,41 +178,6 @@ Protected Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ac8c05d8caa3a892cc3d044a534c11dd7"></a><!-- doxytag: member="sotReader::commandLine" ref="ac8c05d8caa3a892cc3d044a534c11dd7" args="(const std::string &amp;cmdLine, std::istringstream &amp;cmdArgs, std::ostream &amp;os)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void <a class="el" href="a00083.html#ac8c05d8caa3a892cc3d044a534c11dd7">sotReader::commandLine</a> </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>cmdLine</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::istringstream &amp;&#160;</td>
-          <td class="paramname"><em>cmdArgs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Reimplemented from <a class="elRef" doxygen="dynamic-graph.doxytag:" href="a00018.html#aac17d397ff8f7c33c9e3b0434417f614">dynamicgraph::Entity</a>.</p>
 
 </div>
 </div>
@@ -288,6 +254,22 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aa8b9c4d6c19f99055ea878bfb8e755d1"></a><!-- doxytag: member="sotReader::initCommands" ref="aa8b9c4d6c19f99055ea878bfb8e755d1" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void <a class="el" href="a00083.html#aa8b9c4d6c19f99055ea878bfb8e755d1">sotReader::initCommands</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="ad4941ed5f966ba3881d4dc9730c090a9"></a><!-- doxytag: member="sotReader::load" ref="ad4941ed5f966ba3881d4dc9730c090a9" args="(const std::string &amp;filename)" -->
 <div class="memitem">
 <div class="memproto">
@@ -298,6 +280,33 @@ Protected Attributes</h2></td></tr>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>filename</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a40e24da4995692775ec378b9bab3dc8d"></a><!-- doxytag: member="sotReader::resize" ref="a40e24da4995692775ec378b9bab3dc8d" args="(const int &amp;nbRow, const int &amp;nbCol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a00083.html#a40e24da4995692775ec378b9bab3dc8d">sotReader::resize</a> </td>
+          <td>(</td>
+          <td class="paramtype">const int &amp;&#160;</td>
+          <td class="paramname"><em>nbRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int &amp;&#160;</td>
+          <td class="paramname"><em>nbCol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [protected]</code></td>
         </tr>
       </table>
 </div>

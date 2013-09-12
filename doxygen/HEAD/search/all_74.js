@@ -59,7 +59,7 @@ var searchData=
   ['timersout',['timerSOUT',['../a00094.html#a800deb219d1c74ed77624b22e08513e1',1,'Timer']]],
   ['timesout',['timeSOUT',['../a00052.html#a7e2094c0749ad5670167349df5352e6e',1,'dynamicgraph::sot::Mailbox::timeSOUT()'],['../a00095.html#a2e1dd0c166cc3901160676f80b02e287',1,'dynamicgraph::sot::TimeStamp::timeSOUT()']]],
   ['timestamp',['TimeStamp',['../a00095.html',1,'dynamicgraph::sot']]],
-  ['timestamp',['TimeStamp',['../a00095.html#aeccb059a88610a980a4f184d390ced96',1,'dynamicgraph::sot::TimeStamp::TimeStamp()'],['../a00088.html#a4d7f4a39412e908b00e5ad0733a9fa8a',1,'dynamicgraph::sot::Mailbox::sotTimestampedObject::timestamp()']]],
+  ['timestamp',['timestamp',['../a00088.html#a4d7f4a39412e908b00e5ad0733a9fa8a',1,'dynamicgraph::sot::Mailbox::sotTimestampedObject::timestamp()'],['../a00095.html#aeccb059a88610a980a4f184d390ced96',1,'dynamicgraph::sot::TimeStamp::TimeStamp()']]],
   ['timestamp_5fexport',['TimeStamp_EXPORT',['../a00186.html#a27ae567f5e1b17229c129a1a255db979',1,'time-stamp.hh']]],
   ['timestart',['timeStart',['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/dynamic-graph/doxygen-html/a00050.html#acc94d43691da00d1d1706f0511571c7d',1,'dynamicgraph::Tracer']]],
   ['timestep',['TimeStep',['../a00017.html#ad019f9c74aeb21247f52fa710d5d760a',1,'dynamicgraph::sot::ControlGR::TimeStep()'],['../a00018.html#abf54ded118c76531a90ab838483e7041',1,'dynamicgraph::sot::ControlPD::TimeStep()'],['../a00020.html#a32ff3aa5d02b0f4643a635f28a1de4f7',1,'dynamicgraph::sot::Derivator::timestep()']]],
@@ -109,7 +109,7 @@ var searchData=
   ['trigeroncecall',['trigerOnceCall',['../a00069.html#a41bec3e8cae291346c57b149197279ec',1,'dynamicgraph::sot::PeriodicCallEntity']]],
   ['trigger',['trigger',['../a00074.html#a0dd90e264b0947cbc72bdf92a034bc59',1,'dynamicgraph::sot::Sequencer']]],
   ['triggersout',['triggerSOUT',['../a00074.html#a113cfaaea21b9a842871240bb43e7a2b',1,'dynamicgraph::sot::Sequencer']]],
-  ['type',['Type',['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/dynamic-graph/doxygen-html/a00052.html#a8b1ad07088898b7d8e530682e589576f',1,'dynamicgraph::command::Value::Type()'],['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/dynamic-graph/doxygen-html/a00052.html#a73554e4a2acf6a6ea92b3f6f39b56613',1,'dynamicgraph::command::Value::type() const ']]],
+  ['type',['type',['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/dynamic-graph/doxygen-html/a00052.html#a73554e4a2acf6a6ea92b3f6f39b56613',1,'dynamicgraph::command::Value::type() const '],['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/dynamic-graph/doxygen-html/a00052.html#a8b1ad07088898b7d8e530682e589576f',1,'dynamicgraph::command::Value::Type()']]],
   ['type_5f',['type_',['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/dynamic-graph/doxygen-html/a00052.html#ad898cb72b7e56fb595460fb8d6ed415d',1,'dynamicgraph::command::Value']]],
   ['typeid',['TypeID',['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/dynamic-graph/doxygen-html/a00053.html#aed0fb42c31ea70a5f226700d9eb02129',1,'dynamicgraph::command::ValueHelper']]],
   ['typename',['typeName',['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/dynamic-graph/doxygen-html/a00052.html#ace185a663ea4b56bc268830979271dcb',1,'dynamicgraph::command::Value']]]

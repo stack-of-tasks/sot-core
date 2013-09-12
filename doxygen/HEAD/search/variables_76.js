@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['v',['v',['../a00087.html#a9e287c6077d893752040b733f8aee340',1,'sotRotationSimpleHouseholder::v()'],['../a00060.html#ab0767c3fb91ce32d2f3bf210ac2ec207',1,'dynamicgraph::sot::MemoryTaskSOT::V()']]],
+  ['v',['V',['../a00060.html#ab0767c3fb91ce32d2f3bf210ac2ec207',1,'dynamicgraph::sot::MemoryTaskSOT::V()'],['../a00087.html#a9e287c6077d893752040b733f8aee340',1,'sotRotationSimpleHouseholder::v()']]],
   ['val',['val',['../a00095.html#a73022fdc8a184e03217c960bddd6f398',1,'dynamicgraph::sot::TimeStamp']]],
   ['value_5f',['value_',['/home/travis/build/stack-of-tasks/sot-core/_travis/install/share/doc/dynamic-graph/doxygen-html/a00052.html#a27a56a72b4055821192430eaea5286ed',1,'dynamicgraph::command::Value']]],
   ['varianceupdatesout',['varianceUpdateSOUT',['../a00051.html#a67572e6fe2bad0c3213fc407ac82082f',1,'dynamicgraph::sot::Kalman']]],

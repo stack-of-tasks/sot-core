@@ -84,7 +84,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#afd03c791c0f74ce834c0be79ab6a1cc6">GripperControlPlugin</a> (const std::string &amp;<a class="elRef" doxygen="dynamic-graph.doxytag:" href="a00018.html#a8828fb6d5270786dc7a12705cff62fdc">name</a>)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a3a0c36684c2357409b5091490dab9c3e">~GripperControlPlugin</a> (void)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a5c37e9900b46eea739ccaec8240880fe">getDocString</a> () const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a0a11d4ccf77b562aa1723055ebeee8d3">commandLine</a> (const std::string &amp;cmdLine, std::istringstream &amp;cmdArgs, std::ostream &amp;os)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a93cba0932d93c2f66f5eba20e907e713">initCommands</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#ab6f0900a55c5a86fa72d24a66e3991de">setOffset</a> (const double &amp;value)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00047.html#a48e9634cce5559386c56b1dcbcacea6c">calibrationStarted</a></td></tr>
@@ -148,41 +149,6 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a0a11d4ccf77b562aa1723055ebeee8d3"></a><!-- doxytag: member="dynamicgraph::sot::GripperControlPlugin::commandLine" ref="a0a11d4ccf77b562aa1723055ebeee8d3" args="(const std::string &amp;cmdLine, std::istringstream &amp;cmdArgs, std::ostream &amp;os)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void <a class="el" href="a00047.html#a0a11d4ccf77b562aa1723055ebeee8d3">dynamicgraph::sot::GripperControlPlugin::commandLine</a> </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>cmdLine</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::istringstream &amp;&#160;</td>
-          <td class="paramname"><em>cmdArgs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>os</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Reimplemented from <a class="elRef" doxygen="dynamic-graph.doxytag:" href="a00018.html#aac17d397ff8f7c33c9e3b0434417f614">dynamicgraph::Entity</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a5c37e9900b46eea739ccaec8240880fe"></a><!-- doxytag: member="dynamicgraph::sot::GripperControlPlugin::getDocString" ref="a5c37e9900b46eea739ccaec8240880fe" args="() const " -->
 <div class="memitem">
 <div class="memproto">
@@ -198,6 +164,39 @@ Public Attributes</h2></td></tr>
 <div class="memdoc">
 
 <p>Reimplemented from <a class="elRef" doxygen="dynamic-graph.doxytag:" href="a00018.html#a1ba8ae417ee953b93a57e002cba94136">dynamicgraph::Entity</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a93cba0932d93c2f66f5eba20e907e713"></a><!-- doxytag: member="dynamicgraph::sot::GripperControlPlugin::initCommands" ref="a93cba0932d93c2f66f5eba20e907e713" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a00047.html#a93cba0932d93c2f66f5eba20e907e713">dynamicgraph::sot::GripperControlPlugin::initCommands</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ab6f0900a55c5a86fa72d24a66e3991de"></a><!-- doxytag: member="dynamicgraph::sot::GripperControlPlugin::setOffset" ref="ab6f0900a55c5a86fa72d24a66e3991de" args="(const double &amp;value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="a00047.html#ab6f0900a55c5a86fa72d24a66e3991de">dynamicgraph::sot::GripperControlPlugin::setOffset</a> </td>
+          <td>(</td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
 
 </div>
 </div>
