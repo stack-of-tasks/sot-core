@@ -22,8 +22,8 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-//#define VP_DEBUG
-//#define VP_DEBUG_MODE 45
+#define VP_DEBUG
+#define VP_DEBUG_MODE 45
 #include <sot/core/debug.hh>
 
 /* SOT */
@@ -652,16 +652,16 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       sotDEBUG(2) << "Ptmp" << iterTask <<" = " << Jp*Jt;
 
       /* NON OPTIMAL FORM: to be replaced after debug. */
-      if (1)
+     /* if (1)
        {
 	 double *p,*v1,*v2,*vtmp1,*vtmp2;
 	 p = Proj.data();
 	 v1 = V.data();
 	 v2 = V.data();
-	 vtmp1 = V.data();
-	 /***/sotCOUNTER(6,7); // Ppre
+	 vtmp1 = V.data();*/
+	 /***///sotCOUNTER(6,7); // Ppre
 
-	 for( int i=0;i<mJ;++i )
+	 /*for( int i=0;i<mJ;++i )
 	   {
 	     vtmp2 = V.data();
 	     for( int j=0;j<mJ;++j )
@@ -676,12 +676,12 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 		 p++; vtmp2 ++;
 	       }
 	     vtmp1++;
-	   }
-	 /***/sotCOUNTER(7,8); // P
-       }
+	   }*/
+	 /***///sotCOUNTER(7,8); // P
+     /*  }
       else
-	{ Proj-=Jp*Jt;}
-
+	{ Proj-=Jp*Jt;}*/
+       Proj -= Jp*Jt;
        /* --- OLIVIER END --- */
 
        sotDEBUG(15) << "q"<<iterTask<<" = "<<control<<std::endl;
