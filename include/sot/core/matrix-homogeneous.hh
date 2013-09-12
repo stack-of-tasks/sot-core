@@ -21,6 +21,11 @@
 #ifndef __SOT_MATRIX_HOMOGENEOUS_H__
 #define __SOT_MATRIX_HOMOGENEOUS_H__
 
+// initialize all matrix and vectors to NAN
+#ifndef EIGEN_INITIALIZE_MATRICES_BY_NAN
+#define EIGEN_INITIALIZE_MATRICES_BY_NAN
+#endif	
+
 #include <sot/core/api.hh>
 #include <dynamic-graph/linear-algebra.h>
 
@@ -48,7 +53,7 @@ namespace dynamicgraph {
       dynamicgraph::Vector& extract( dynamicgraph::Vector& trans ) const;
       
       MatrixHomogeneous operator*(const MatrixHomogeneous& h) const;
-      MatrixHomogeneous operator*(const dynamicgraph::Matrix& h) const;
+      dynamicgraph::Vector operator*(const dynamicgraph::Vector& v1) const;
       MatrixHomogeneous& operator=( const dynamicgraph::Matrix& );
       
       MatrixHomogeneous&

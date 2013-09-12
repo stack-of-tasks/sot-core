@@ -21,6 +21,11 @@
 #ifndef __SOTVECTORTOMATRIX_HH
 #define __SOTVECTORTOMATRIX_HH
 
+// initialize all matrix and vectors to NAN
+#ifndef EIGEN_INITIALIZE_MATRICES_BY_NAN
+#define EIGEN_INITIALIZE_MATRICES_BY_NAN
+#endif	
+
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/all-signals.h>

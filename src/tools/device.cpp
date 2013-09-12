@@ -71,7 +71,7 @@ void Device::integrateRollPitchYaw(dynamicgraph::Vector& state, const dynamicgra
   column [2](2) = cos(roll)*cos(pitch);
 
   // Apply Rodrigues (1795–1851) formula for rotation about omega vector
-  double angle = dt*omega.norm();
+  double angle = dt*(omega.norm());
   if (angle == 0) {
     return;
   }
@@ -126,10 +126,10 @@ Device( const std::string& n )
   ,pseudoTorqueSOUT( "Device::output(vector)::ptorque" )
   ,previousControlSOUT( "Device("+n+")::output(vector)::previousControl" )
   ,motorcontrolSOUT( "Device("+n+")::output(vector)::motorcontrol" )
-  ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" ), ffPose_(),
-   forceZero6 (6)
+  ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" ), ffPose_()
+  ,forceZero6(6)
 {
-  forceZero6.fill (0);
+  forceZero6.fill(.0);
   /* --- SIGNALS --- */
   for( int i=0;i<4;++i ){ withForceSignals[i] = false; }
   forcesSOUT[0] =

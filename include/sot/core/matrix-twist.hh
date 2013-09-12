@@ -21,6 +21,11 @@
 #ifndef __SOT_MATRIX_TWIST_H__
 #define __SOT_MATRIX_TWIST_H__
 
+// initialize all matrix and vectors to NAN
+#ifndef EIGEN_INITIALIZE_MATRICES_BY_NAN
+#define EIGEN_INITIALIZE_MATRICES_BY_NAN
+#endif	
+
 #include "sot/core/api.hh"
 #include <dynamic-graph/linear-algebra.h>
 

@@ -21,6 +21,11 @@
 #ifndef DYNAMICGRAPH_SOT_VECTOR_CONSTANT_H
 #define DYNAMICGRAPH_SOT_VECTOR_CONSTANT_H
 
+// initialize all matrix and vectors to NAN
+#ifndef EIGEN_INITIALIZE_MATRICES_BY_NAN
+#define EIGEN_INITIALIZE_MATRICES_BY_NAN
+#endif	
+
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/linear-algebra.h>
 #include <dynamic-graph/all-signals.h>

@@ -25,16 +25,6 @@
 #include <sot/core/task-abstract.hh>
 #include "sot/core/api.hh"
 
-
-extern "C"
-{
-  void dgesvd_(char const* jobu, char const* jobvt,
-	       int const* m, int const* n, double* a, int const* lda,
-	       double* s, double* u, int const* ldu,
-	       double* vt, int const* ldvt,
-	       double* work, int const* lwork, int* info);
-}
-
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -43,7 +33,7 @@ namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
 /*** Pseudo inverse ***/
-dg::Matrix& pseudoInverse( dg::Matrix& matrix,
+/*dg::Matrix& pseudoInverse( dg::Matrix& matrix,
                                 dg::Matrix& invMatrix,
 			        const double threshold = 1e-6,
 			        dg::Matrix* Uref = NULL,
@@ -149,6 +139,67 @@ dg::Matrix& pseudoInverse( dg::Matrix& matrix,
     if( Sref ) *Sref = s;
   }
   return invMatrix;
+}*/
+template<typename _Matrix_Type_>
+bool pseudoInverse( const _Matrix_Type_& matrix,
+                                _Matrix_Type_& invMatrix,
+			        const double threshold = 1e-6,
+			        dg::Matrix* Uref = NULL,
+			        dg::Vector* Sref = NULL,
+			        dg::Matrix* Vref = NULL)
+{
+  unsigned int NR,NC;
+  bool toTranspose;
+  _Matrix_Type_ I;
+  if( matrix.rows()>matrix.cols() )
+  {
+    toTranspose=false ;  NR=matrix.rows(); NC=matrix.cols();
+    I=matrix;
+    invMatrix.resize(I.cols(),I.rows());
+  }
+  else
+  {
+    toTranspose=true; NR=matrix.cols(); NC=matrix.rows();
+    I = matrix.transpose();
+    invMatrix.resize(I.cols(),I.rows()); // Resize the inv of the transpose.
+  }
+  
+  Eigen::JacobiSVD< _Matrix_Type_ > svd = I.jacobiSvd(Eigen::ComputeThinU | Eigen::ComputeThinV);
+  
+  typename _Matrix_Type_::Scalar tolerance = threshold * std::max(matrix.cols(), matrix.rows()) * svd.singularValues().array().abs().maxCoeff();
+
+  Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::ColMajor> U; U = svd.matrixV();
+  Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::ColMajor> VT; VT = svd.matrixU();
+  Eigen::Matrix<double, Eigen::Dynamic, 1> s;
+  for (int i=0;i<svd.singularValues().size();i++)
+  {
+    if(std::fabs(svd.singularValues().array()(i)) > tolerance)
+    {
+      s.conservativeResize(i+1);
+      s(i) = svd.singularValues().array()(i);
+    }
+  }
+  
+  if( toTranspose )
+  {
+    invMatrix = svd.matrixU() * _Matrix_Type_( (svd.singularValues().array().abs() >
+				tolerance).select(svd.singularValues().
+       				array().inverse(), 0) ).asDiagonal() * svd.matrixV().adjoint();
+    //invMatrix.transposeInPlace();
+    if( Uref ) *Uref = VT;
+    if( Vref ) *Vref = U.transpose();
+    if( Sref ) *Sref = s;
+  }
+  else
+  {
+    invMatrix = svd.matrixV() * _Matrix_Type_( (svd.singularValues().array().abs() >
+				tolerance).select(svd.singularValues().
+       				array().inverse(), 0) ).asDiagonal() * svd.matrixU().adjoint();
+    if( Uref ) *Uref = U;
+    if( Vref ) *Vref = VT.transpose();
+    if( Sref ) *Sref = s;
+  }
+  return true;
 }
 
 /**** CLASS ***/

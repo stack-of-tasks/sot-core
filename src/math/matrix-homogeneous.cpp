@@ -129,35 +129,43 @@ operator*(const MatrixHomogeneous& h) const
   return res;
 }
 
-MatrixHomogeneous MatrixHomogeneous::
+/*dynamicgraph::Matrix MatrixHomogeneous::
 operator*(const dynamicgraph::Matrix& h) const
 {
-  dynamicgraph::Matrix res;
-  double h00 = h(0,0), h01 = h(0,1), h02 = h(0,2), h03 = h(0,3);
-  double h10 = h(1,0), h11 = h(1,1), h12 = h(1,2), h13 = h(1,3);
-  double h20 = h(2,0), h21 = h(2,1), h22 = h(2,2), h23 = h(2,3);
-  
-  double self00 = ((dynamicgraph::Matrix&)*this)(0,0), self01 = ((dynamicgraph::Matrix&)*this)(0,1),
-    self02 = ((dynamicgraph::Matrix&)*this)(0,2), self03 = ((dynamicgraph::Matrix&)*this)(0,3);
-  double self10 = ((dynamicgraph::Matrix&)*this)(1,0), self11 = ((dynamicgraph::Matrix&)*this)(1,1),
-    self12 = ((dynamicgraph::Matrix&)*this)(1,2), self13 = ((dynamicgraph::Matrix&)*this)(1,3);
-  double self20 = ((dynamicgraph::Matrix&)*this)(2,0), self21 = ((dynamicgraph::Matrix&)*this)(2,1),
-    self22 = ((dynamicgraph::Matrix&)*this)(2,2), self23 = ((dynamicgraph::Matrix&)*this)(2,3);
+  dynamicgraph::Matrix res(rows(), h.cols());
+  res.fill(0.);
+  if(res.cols() > 1
+  for(int i=0;i<rows();i++)
+  {
+    for(int j=0;j<h.cols();j++)
+      res(i,j) += ((dynamicgraph::Matrix&)*this)(i,j)*h(j,i);
+  }
 
-  res(0,0) = self00*h00 + self01*h10 + self02*h20;
-  res(0,1) = self00*h01 + self01*h11 + self02*h21;
-  res(0,2) = self00*h02 + self01*h12 + self02*h22;
-  res(1,0) = self10*h00 + self11*h10 + self12*h20;
-  res(1,1) = self10*h01 + self11*h11 + self12*h21;
-  res(1,2) = self10*h02 + self11*h12 + self12*h22;
-  res(2,0) = self20*h00 + self21*h10 + self22*h20;
-  res(2,1) = self20*h01 + self21*h11 + self22*h21;
-  res(2,2) = self20*h02 + self21*h12 + self22*h22;
+  return res;
+}*/
 
-  res(0,3) = self00*h03 + self01*h13 + self02*h23 + self03;
-  res(1,3) = self10*h03 + self11*h13 + self12*h23 + self13;
-  res(2,3) = self20*h03 + self21*h13 + self22*h23 + self23;
+dynamicgraph::Vector MatrixHomogeneous::
+operator*(const dynamicgraph::Vector& v1) const
+{
+  sotDEBUGIN(15);
+  dynamicgraph::Vector res;
+  bool translate=true;
+  if( 3==v1.size() ) res.resize(3);
+  else if( 4==v1.size() )
+    { res.resize(4); if(res(3)==0) { translate=false; } else res(3)=1.; }
+  else {
+    sotERROR << "Error while multiplying HOMOxVECTOR."<<std::endl;
+    return res;
+  }
+  res.fill(0.);
+  for( unsigned int i=0;i<3;++i )
+    {
+      for( unsigned int j=0;j<3;++j )
+	{	  res(i)+=((dynamicgraph::Matrix&)*this)(i,j)*v1(j); 	}
+      if(translate)res(i)+=((dynamicgraph::Matrix&)*this)(i,3);
+    }
 
+  sotDEBUGOUT(15);
   return res;
 }
 

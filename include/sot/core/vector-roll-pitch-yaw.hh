@@ -21,6 +21,11 @@
 #ifndef __SOT_VECTOR_ROLLPITCHYAW_H__
 #define __SOT_VECTOR_ROLLPITCHYAW_H__
 
+// initialize all matrix and vectors to NAN
+#ifndef EIGEN_INITIALIZE_MATRICES_BY_NAN
+#define EIGEN_INITIALIZE_MATRICES_BY_NAN
+#endif	
+
 /* --- SOT --- */
 #include <sot/core/vector-rotation.hh>
 #include "sot/core/api.hh"
