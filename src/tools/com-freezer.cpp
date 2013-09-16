@@ -61,7 +61,7 @@ dynamicgraph::Vector & CoMFreezer::computeFreezedCoM(dynamicgraph::Vector & free
   unsigned PGInProcess = PGInProcessSIN(time); 
   if(PGInProcess) /* CoM unfreezed */
   {
-    m_lastCoM = CoMRefSIN(time);
+    m_lastCoM.noalias() = CoMRefSIN(time);
     m_previousPGInProcess = (PGInProcess == 0);
   }
   else
@@ -78,15 +78,15 @@ dynamicgraph::Vector & CoMFreezer::computeFreezedCoM(dynamicgraph::Vector & free
     }
   }
 
-  freezedCoM = m_lastCoM;
+  freezedCoM.noalias() = m_lastCoM;
 
   sotDEBUGOUT(15);
 
   if(m_lastStopTime < 0)
   {
-    m_lastCoM = CoMRefSIN(time);
+    m_lastCoM.noalias() = CoMRefSIN(time);
     m_lastStopTime = time;
-    freezedCoM = m_lastCoM;
+    freezedCoM.noalias() = m_lastCoM;
     return freezedCoM;
   }
 

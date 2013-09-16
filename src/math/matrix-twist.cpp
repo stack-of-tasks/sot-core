@@ -43,7 +43,7 @@ buildFrom( const MatrixHomogeneous& M )
   Tx( 1,0 ) = M( 2,3 );  Tx( 1,1 )= 0       ;  Tx( 1,2 ) =-M( 0,3 );
   Tx( 2,0 ) =-M( 1,3 );  Tx( 2,1 )= M( 0,3 );  Tx( 2,2 ) = 0       ;
   MatrixRotation R; M.extract(R);
-  dynamicgraph::Matrix sk(3,3); sk = Tx*R;
+  dynamicgraph::Matrix sk(3,3); sk.noalias() = Tx*R;
 
   sotDEBUG(15) << "Tx = " << Tx << std::endl;
   sotDEBUG(15) << "Sk = " << sk << std::endl;
@@ -74,10 +74,10 @@ inverse( MatrixTwist& Vi ) const
 	Sk(i,j)=((dynamicgraph::Matrix&)*this)( i,j+3 );
       }
   dynamicgraph::Matrix RtS(3,3), RtSRt(3,3); 
-  RtS = Rt*Sk; 
-  RtSRt = RtS * Rt;
+  RtS.noalias() = Rt*Sk; 
+  RtSRt.noalias() = -1 * RtS * Rt;
 
-  RtSRt *= -1;
+  //RtSRt.noalias() *= -1;
 
   for( int i=0;i<3;++i )
     for( int j=0;j<3;++j )
@@ -97,7 +97,7 @@ MatrixTwist& MatrixTwist::
 operator=( const dynamicgraph::Matrix& m2)
 {
   if( (m2.rows()==6)&&(m2.cols()==6) )
-    ((dynamicgraph::Matrix&)*this) = m2;
+    ((dynamicgraph::Matrix&)*this).noalias() = m2;
     
   return *this;
 
@@ -106,7 +106,7 @@ operator=( const dynamicgraph::Matrix& m2)
 MatrixForce& MatrixTwist::
 transpose( MatrixForce& Vt ) const
 { 
-  Vt = ((dynamicgraph::Matrix&)*this).transpose();
+  Vt.noalias() = ((dynamicgraph::Matrix&)*this).transpose();
   return Vt;
 }
 

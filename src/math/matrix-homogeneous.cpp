@@ -91,7 +91,7 @@ MatrixHomogeneous& MatrixHomogeneous::
 operator=( const dynamicgraph::Matrix& m2)
 {
   if( (m2.rows()==4)&&(m2.cols()==4) )
-    ((dynamicgraph::Matrix&)*this) = m2;
+    ((dynamicgraph::Matrix&)*this).noalias() = m2;
     
   return *this;
 

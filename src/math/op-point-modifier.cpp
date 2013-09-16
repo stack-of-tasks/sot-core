@@ -85,7 +85,7 @@ OpPointModifier::jacobianSOUT_function( dynamicgraph::Matrix& res,const int& ite
       const MatrixHomogeneous & aMb = transformation;
 
       MatrixTwist bVa( aMb.inverse () );
-      res = bVa * aJa; // res := bJb
+      res.noalias() = bVa * aJa; // res := bJb
       return res;
     }
   else
@@ -104,7 +104,7 @@ OpPointModifier::jacobianSOUT_function( dynamicgraph::Matrix& res,const int& ite
       const MatrixHomogeneous & oMa = positionSIN(iter);
       MatrixRotation oRa; oMa.extract(oRa);
       dynamicgraph::Vector aAB(3); aMb.extract(aAB);
-      dynamicgraph::Vector oAB; oAB = oRa*aAB;
+      dynamicgraph::Vector oAB; oAB.noalias() = oRa*aAB;
 
       const int nq = oJa.cols();
       res.resize( 6,oJa.cols() );
@@ -137,7 +137,7 @@ OpPointModifier::positionSOUT_function( MatrixHomogeneous& res,const int& iter )
 
 void
 OpPointModifier::setTransformation( const MatrixHomogeneous& tr )
-{ transformation = tr; }
+{ transformation.noalias() = tr; }
 const MatrixHomogeneous&
 OpPointModifier::getTransformation( void )
 { return transformation; }

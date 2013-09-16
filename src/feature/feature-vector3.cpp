@@ -97,7 +97,7 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
   Skew( 1,0 ) = vect( 2 ); Skew( 1,1 )= 0        ;  Skew( 1,2 ) =-vect( 0 );
   Skew( 2,0 ) =-vect( 1 ); Skew( 2,1 )= vect( 0 );  Skew( 2,2 ) = 0        ;
 
-  dynamicgraph::Matrix RSk(3,3); RSk = R*Skew;
+  dynamicgraph::Matrix RSk(3,3); RSk.noalias() = R*Skew;
 
   J.resize(3,Jq.cols());
   for( unsigned int i=0;i<3;++i )
@@ -130,8 +130,8 @@ FeatureVector3::computeError( dynamicgraph::Vector& Mvect3,int time )
 
   MatrixRotation R; M.extract(R);
   Mvect3.resize(3);
-  Mvect3 = R*vect;
-  Mvect3 -= vectdes;
+  Mvect3.noalias() = R*vect;
+  Mvect3.noalias() -= vectdes;
 
   sotDEBUGOUT(15);
   return Mvect3 ;

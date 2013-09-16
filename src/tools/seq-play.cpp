@@ -75,7 +75,7 @@ getNextPosition( dynamicgraph::Vector& pos, const int& /*time*/ )
   
     {
       const dynamicgraph::Vector& posCur = *currPos;
-      pos=posCur;
+      pos.noalias() =posCur;
       
       currPos++; 
       if( currPos==stateList.end() ) currPos--;

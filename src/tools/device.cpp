@@ -226,7 +226,7 @@ setVelocitySize( const unsigned int& size )
 void Device::
 setState( const dynamicgraph::Vector& st )
 {
-  state_ = st;
+  state_.noalias() = st;
   stateSOUT .setConstant( state_ );
   motorcontrolSOUT .setConstant( state_ );
 }
@@ -234,7 +234,7 @@ setState( const dynamicgraph::Vector& st )
 void Device::
 setVelocity( const dynamicgraph::Vector& vel )
 {
-  velocity_ = vel;
+  velocity_.noalias() = vel;
   velocitySOUT .setConstant( velocity_ );
 }
 
@@ -375,7 +375,7 @@ void Device::integrate( const double & dt )
     }
   else
     {
-      vel_control_ = control;
+      vel_control_.noalias() = control;
     }
 
   if (vel_control_.size() == state_.size()) {

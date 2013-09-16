@@ -449,7 +449,7 @@ namespace dynamicgraph {
       : public UnaryOpHeader<MatrixHomogeneous,Matrix>
     {
       void operator()( const MatrixHomogeneous& M,Matrix& res )
-      {  res=(Matrix&)M;  }
+      {  res.noalias()=(Matrix&)M;  }
     };
     REGISTER_UNARY_OP(HomoToMatrix,HomoToMatrix);
 
@@ -457,7 +457,7 @@ namespace dynamicgraph {
       : public UnaryOpHeader<Matrix,MatrixHomogeneous>
     {
       void operator()( const Matrix& M,MatrixHomogeneous& res )
-      {  res=M;  }
+      {  res.noalias()=M;  }
     };
     REGISTER_UNARY_OP(MatrixToHomo,MatrixToHomo);
 
@@ -815,8 +815,8 @@ namespace dynamicgraph {
       }
     };
 
-    REGISTER_BINARY_OP(WeightedAdder<ml::Matrix>,WeightAdd_of_matrix);
-    REGISTER_BINARY_OP(WeightedAdder<ml::Vector>,WeightAdd_of_vector);
+    REGISTER_BINARY_OP(WeightedAdder<Matrix>,WeightAdd_of_matrix);
+    REGISTER_BINARY_OP(WeightedAdder<Vector>,WeightAdd_of_vector);
     REGISTER_BINARY_OP(WeightedAdder<double>,WeightAdd_of_double);
     }
 }

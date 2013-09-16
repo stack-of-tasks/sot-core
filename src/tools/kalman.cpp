@@ -91,7 +91,7 @@ namespace dynamicgraph {
       sotDEBUGIN(15);
       if (time == 0) {
 	// First time return variance initial state
-	Pk_k = stateVariance_;
+	Pk_k.noalias() = stateVariance_;
 	// Set dependency to input signals for latter computations
 	varianceUpdateSOUT.addDependency (noiseTransitionSIN);
 	varianceUpdateSOUT.addDependency (modelTransitionSIN);
@@ -109,18 +109,18 @@ namespace dynamicgraph {
 	sotDEBUG(15) << "H=" << H << std::endl;
 	sotDEBUG(15) << "Pk_1_k_1=" << Pk_1_k_1 << std::endl;
 
-	FP_ = F*Pk_1_k_1;
-	Pk_k_1_ = FP_*(F.transpose());
-	Pk_k_1_ += Q;
+	FP_.noalias() = F*Pk_1_k_1;
+	Pk_k_1_.noalias() = FP_*(F.transpose());
+	Pk_k_1_.noalias() += Q;
 
 	sotDEBUG(15) << "F " <<std::endl << F << std::endl;
 	sotDEBUG(15) << "P_{k-1|k-1} " <<std::endl<< Pk_1_k_1 << std::endl;
 	sotDEBUG(15) << "F^T " <<std::endl<< F.transpose() << std::endl;
 	sotDEBUG(15) << "P_{k|k-1} " << std::endl << Pk_k_1_ << std::endl;
 
-	S_ = H * Pk_k_1_ * H.transpose () + R;
-	K_ = Pk_k_1_ * H.transpose () * S_.inverse ();
-	Pk_k = Pk_k_1_ - K_ * H * Pk_k_1_;
+	S_.noalias() = H * Pk_k_1_ * H.transpose () + R;
+	K_.noalias() = Pk_k_1_ * H.transpose () * S_.inverse ();
+	Pk_k.noalias() = Pk_k_1_ - K_ * H * Pk_k_1_;
 
 	sotDEBUG (15) << "S_{k} " << std::endl << S_ << std::endl;
 	sotDEBUG (15) << "K_{k} " << std::endl << K_ << std::endl;
@@ -128,7 +128,7 @@ namespace dynamicgraph {
 
 	sotDEBUGOUT(15);
 
-	stateVariance_ = Pk_k;
+	stateVariance_.noalias() = Pk_k;
       }
       return Pk_k;
     }
@@ -179,14 +179,14 @@ namespace dynamicgraph {
 	sotDEBUG(25) << "y = " << y << std::endl;
 
 	// Innovation: z_ = y - Hx
-	z_ = y - y_pred;
+	z_.noalias() = y - y_pred;
 	//x_est = x_pred + (K*(y-(H*x_pred)));
-	x_est = x_pred + K_ * z_;
+	x_est.noalias() = x_pred + K_ * z_;
 
 	sotDEBUG(25) << "z_{k} = " << z_ << std::endl;
 	sotDEBUG(25) << "x_{k|k} = " << x_est << std::endl;
 
-	stateEstimation_ = x_est;
+	stateEstimation_.noalias() = x_est;
       }
       sotDEBUGOUT (15);
       return x_est;

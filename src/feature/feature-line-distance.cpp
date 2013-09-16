@@ -88,7 +88,7 @@ computeLineCoordinates( dynamicgraph::Vector& cood,int time )
   const MatrixHomogeneous &pos = positionSIN(time);
   const dynamicgraph::Vector & vect = vectorSIN(time);
   MatrixRotation R; pos.extract(R);
-  dynamicgraph::Vector v(3); v = R*vect;
+  dynamicgraph::Vector v(3); v.noalias() = R*vect;
 
   cood(0)= pos(0,3);
   cood(1)= pos(1,3);
@@ -125,7 +125,7 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
     Skew( 1,0 ) = vect( 2 ); Skew( 1,1 )= 0        ;  Skew( 1,2 ) =-vect( 0 );
     Skew( 2,0 ) =-vect( 1 ); Skew( 2,1 )= vect( 0 );  Skew( 2,2 ) = 0        ;
 
-    dynamicgraph::Matrix RSk(3,3); RSk = R*Skew;
+    dynamicgraph::Matrix RSk(3,3); RSk.noalias() = R*Skew;
 
     Jline.resize(6,Jq.cols());
     for( unsigned int i=0;i<3;++i )
@@ -183,7 +183,7 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
 
   /* --- Multiply Jline=dline/dq with diffh=de/dline --- */
    J.resize(1,J.cols());
-   J = diffh*Jline;
+   J.noalias() = diffh*Jline;
   //J=Jline;
 
 

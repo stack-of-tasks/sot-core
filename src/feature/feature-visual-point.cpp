@@ -149,7 +149,7 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
   sotDEBUG(15) << "L:"<<endl<<L<<endl;
   sotDEBUG(15) << "Jq:"<<endl<<articularJacobianSIN(time)<<endl;
   
-  J = L*(articularJacobianSIN(time));
+  J.noalias() = L*(articularJacobianSIN(time));
 
   sotDEBUG(15)<<"# Out }"<<endl;
   return J;

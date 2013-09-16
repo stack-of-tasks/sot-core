@@ -95,10 +95,10 @@ computeJacobian( dynamicgraph::Matrix& Jres,int time )
   dynamicgraph::Matrix J(6,cJ);
   {
     MatrixHomogeneous pMw;  wMp.inverse(pMw);
-    MatrixHomogeneous pMpref; pMpref = pMw*wMpref;
+    MatrixHomogeneous pMpref; pMpref.noalias() = pMw*wMpref;
     MatrixTwist pVpref; pVpref.buildFrom(pMpref );
-    J = pVpref*JqRef;
-    J -= Jq;
+    J.noalias() = pVpref*JqRef;
+    J.noalias() -= Jq;
   }
 
   const Flags &fl = selectionSIN(time);
@@ -134,7 +134,7 @@ FeaturePoint6dRelative::computeError( dynamicgraph::Vector& error,int time )
   const MatrixHomogeneous & wMpref = positionReferenceSIN(time);
 
   MatrixHomogeneous pMw;  wMp.inverse(pMw);
-  MatrixHomogeneous pMpref; pMpref = pMw*wMpref;
+  MatrixHomogeneous pMpref; pMpref.noalias() = pMw*wMpref;
 
   MatrixHomogeneous Merr;
   try
@@ -148,22 +148,22 @@ FeaturePoint6dRelative::computeError( dynamicgraph::Vector& error,int time )
 	         const MatrixHomogeneous & wMp_des = sdes6d->positionSIN(time);
 		 const MatrixHomogeneous & wMpref_des = sdes6d->positionReferenceSIN(time);
 		 MatrixHomogeneous pMw_des;  wMp_des.inverse(pMw_des);
-		 MatrixHomogeneous pMpref_des; pMpref_des = pMw_des*wMpref_des;
+		 MatrixHomogeneous pMpref_des; pMpref_des.noalias() = pMw_des*wMpref_des;
 		 MatrixHomogeneous Minv; pMpref_des.inverse(Minv);
-		 Merr = pMpref*Minv;
+		 Merr.noalias() = pMpref*Minv;
 	    }
 	  else
 	    {
 	      const MatrixHomogeneous & Mref = getReference()->positionSIN(time);
 	      MatrixHomogeneous Minv; Mref.inverse(Minv);
-	      Merr = pMpref*Minv;
+	      Merr.noalias() = pMpref*Minv;
 	    }
 	}
       else
 	{
-	  Merr=pMpref;
+	  Merr.noalias()=pMpref;
 	}
-    } catch( ... ) { Merr=pMpref; }
+    } catch( ... ) { Merr.noalias()=pMpref; }
 
   MatrixRotation Rerr; Merr.extract( Rerr );
   VectorUTheta rerr; rerr.fromMatrix( Rerr );
@@ -217,17 +217,17 @@ FeaturePoint6dRelative::computeErrorDot( dynamicgraph::Vector& errordot,int time
 
       sotDEBUG(15) << "Everything is extracted" <<endl;
       MatrixRotation wdRpt,wRpt,op1,op2;
-      wdRpt = wdRp.transpose(); op1 = wdRpt*wRpref;
-      wRpt = wRp.transpose(); op2 = wRpt*wdRpref;
-      dRerr = op1+op2;
+      wdRpt.noalias() = wdRp.transpose(); op1.noalias() = wdRpt*wRpref;
+      wRpt.noalias() = wRp.transpose(); op2.noalias() = wRpt*wdRpref;
+      dRerr.noalias() = op1+op2;
 
       sotDEBUG(15) << "dRerr" << dRerr << endl;
       dynamicgraph::Vector trtmp1(3),vop1(3),vop2(3);
-      trtmp1 = trpref-trp;
-      vop1 = wdRpt*trtmp1;
-      trtmp1 = trdpref-trdp;
-      vop2 = wRpt*trtmp1;
-      dtrerr = vop1+vop2;
+      trtmp1.noalias() = trpref-trp;
+      vop1.noalias() = wdRpt*trtmp1;
+      trtmp1.noalias() = trdpref-trdp;
+      vop2.noalias() = wRpt*trtmp1;
+      dtrerr.noalias() = vop1+vop2;
 
       sotDEBUG(15) << "dtrerr" << dtrerr << endl;
 

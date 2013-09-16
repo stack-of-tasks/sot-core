@@ -107,8 +107,9 @@ FeatureJointLimits::computeWidthJl( dynamicgraph::Vector& res,const int& time )
   const unsigned int SIZE=UJL.size();
   res.resize(SIZE);
 
-  for( unsigned int i=0;i<SIZE;++i )
-    {      res(i)=UJL(i)-LJL(i);    }
+  //for( unsigned int i=0;i<SIZE;++i )
+    //{      res(i)=UJL(i)-LJL(i);    }
+  res.noalias() = UJL-LJL;
 
   sotDEBUGOUT(15);
   return res;
@@ -128,7 +129,7 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
   //const unsigned int SIZE_FF=SIZE+freeFloatingSize;
   const unsigned int SIZE_TOTAL=q.size();
   const dynamicgraph::Vector WJL = widthJlSINTERN.access(time);
-  J.resize( SIZE,SIZE_TOTAL ); J.fill(0.);
+  J.resize( SIZE,SIZE_TOTAL );
  
   unsigned int idx=0;
   for( unsigned int i=0;i<SIZE_TOTAL;++i ) 

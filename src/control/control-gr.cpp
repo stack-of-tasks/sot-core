@@ -121,7 +121,7 @@ computeControl( dynamicgraph::Vector &tau, int t )
 	tau(i) += tp;
     }*/
   
-tau = matrixA*acceleration;
+tau.noalias() = matrixA*acceleration;
 sotDEBUG(15) << "torque = A*ddot(q)= " << matrixA*acceleration << std::endl;
 tau += gravity;
 

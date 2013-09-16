@@ -154,13 +154,13 @@ bool pseudoInverse( const _Matrix_Type_& matrix,
   if( matrix.rows()>matrix.cols() )
   {
     toTranspose=false ;  NR=matrix.rows(); NC=matrix.cols();
-    I=matrix;
+    I.noalias()=matrix;
     invMatrix.resize(I.cols(),I.rows());
   }
   else
   {
     toTranspose=true; NR=matrix.cols(); NC=matrix.rows();
-    I = matrix.transpose();
+    I.noalias() = matrix.transpose();
     invMatrix.resize(I.cols(),I.rows()); // Resize the inv of the transpose.
   }
   
@@ -168,8 +168,8 @@ bool pseudoInverse( const _Matrix_Type_& matrix,
   
   typename _Matrix_Type_::Scalar tolerance = threshold * std::max(matrix.cols(), matrix.rows()) * svd.singularValues().array().abs().maxCoeff();
 
-  Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::ColMajor> U; U = svd.matrixV();
-  Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::ColMajor> VT; VT = svd.matrixU();
+  Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::ColMajor> U; U.noalias() = svd.matrixV();
+  Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::ColMajor> VT; VT.noalias() = svd.matrixU();
   Eigen::Matrix<double, Eigen::Dynamic, 1> s;
   for (int i=0;i<svd.singularValues().size();i++)
   {
@@ -182,7 +182,7 @@ bool pseudoInverse( const _Matrix_Type_& matrix,
   
   if( toTranspose )
   {
-    invMatrix = svd.matrixU() * _Matrix_Type_( (svd.singularValues().array().abs() >
+    invMatrix.noalias() = svd.matrixU() * _Matrix_Type_( (svd.singularValues().array().abs() >
 				tolerance).select(svd.singularValues().
        				array().inverse(), 0) ).asDiagonal() * svd.matrixV().adjoint();
     //invMatrix.transposeInPlace();
@@ -192,7 +192,7 @@ bool pseudoInverse( const _Matrix_Type_& matrix,
   }
   else
   {
-    invMatrix = svd.matrixV() * _Matrix_Type_( (svd.singularValues().array().abs() >
+    invMatrix.noalias() = svd.matrixV() * _Matrix_Type_( (svd.singularValues().array().abs() >
 				tolerance).select(svd.singularValues().
        				array().inverse(), 0) ).asDiagonal() * svd.matrixU().adjoint();
     if( Uref ) *Uref = U;

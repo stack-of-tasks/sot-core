@@ -267,6 +267,6 @@ VectorQuaternion& VectorQuaternion::multiply(const VectorQuaternion& q2, VectorQ
 VectorQuaternion& VectorQuaternion::operator=( const dynamicgraph::Vector& v)
 {
   if(v.size()==4)
-    ((dynamicgraph::Vector&)*this) = v;
+    ((dynamicgraph::Vector&)*this).noalias() = v;
   return *this;
 }

@@ -107,7 +107,7 @@ namespace dynamicgraph {
 
     dg::Matrix& FeaturePosture::computeJacobian( dg::Matrix& res, int)
     {
-      res = jacobian_;
+      res.noalias() = jacobian_;
       return res;
     }
 

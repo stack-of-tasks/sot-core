@@ -89,7 +89,7 @@ void ClampWorkspace::update( int time )
   const MatrixHomogeneous& pos = positionSIN.access ( time );
 
   MatrixHomogeneous prefMw = posref.inverse();
-  prefMp = prefMw*pos;
+  prefMp.noalias() = prefMw*pos;
   dynamicgraph::Vector x(3); prefMp.extract(x);
 
   for(int i = 0; i < 3; ++i) {
@@ -137,11 +137,9 @@ void ClampWorkspace::update( int time )
     MatrixTwist pTpref(pMpref);
     MatrixTwist prefTp(prefMp_tmp);
 
-    dynamicgraph::Matrix tmp; tmp = alpha*prefTp;
-    alpha = pTpref*tmp;
+    alpha.noalias() = pTpref*alpha*prefTp;
 
-    tmp = alphabar*prefTp;
-    alphabar = pTpref*tmp;
+    alphabar.noalias() = pTpref*alphabar*prefTp;
   }
 
   for(int i = 0; i < 3; ++i) {
@@ -165,7 +163,7 @@ dynamicgraph::Matrix&
 ClampWorkspace::computeOutput( dynamicgraph::Matrix& res,int time )
 {
   update(time);
-  res = alpha;
+  res.noalias() = alpha;
   return res;
 }
 
@@ -173,7 +171,7 @@ dynamicgraph::Matrix&
 ClampWorkspace::computeOutputBar( dynamicgraph::Matrix& res,int time )
 {
   update(time);
-  res = alphabar;
+  res.noalias() = alphabar;
   return res;
 }
 
@@ -181,7 +179,7 @@ MatrixHomogeneous&
 ClampWorkspace::computeRef( MatrixHomogeneous& res,int time )
 {
   update(time);
-  res = handref;
+  res.noalias() = handref;
   return res;
 }
 

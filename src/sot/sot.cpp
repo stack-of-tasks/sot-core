@@ -343,8 +343,8 @@ computeJacobianConstrained( const dynamicgraph::Matrix& Jac,
       for( int j=nbConstraints;j<Jac.cols();++j )
 	Jact(i,j-nbConstraints)=Jac(i,j);
     }
-  JK = Jff*K;
-  JK+=Jact;
+  JK.noalias() = Jff*K;
+  JK.noalias() += Jact;
 
   return JK;
 }
@@ -390,7 +390,7 @@ static void computeJacobianActivated( Task* taskSpec,
       else
 	{
 	  sotDEBUG(15) << "Task not activated."<<endl;
-	  Jt *= 0;
+	  Jt.fill(0);
 	}
     }
   else { /* No selection specification: nothing to do. */ }
@@ -594,10 +594,10 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       } else {
 	sotDEBUG(2)<<"Inverse not recomputed."<<endl;
 	rankJ = mem->rankSINOUT.accessCopy();
-	Jp = mem->jacobianInvSINOUT.accessCopy();
-	V = mem->singularBaseImageSINOUT.accessCopy();
-	JK = mem->jacobianConstrainedSINOUT.accessCopy ();
-	Jt = mem->jacobianProjectedSINOUT.accessCopy ();
+	Jp.noalias() = mem->jacobianInvSINOUT.accessCopy();
+	V.noalias() = mem->singularBaseImageSINOUT.accessCopy();
+	JK.noalias() = mem->jacobianConstrainedSINOUT.accessCopy ();
+	Jt.noalias() = mem->jacobianProjectedSINOUT.accessCopy ();
       }
       /***/sotCOUNTER(6,7); // TRACE
 
@@ -681,7 +681,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
      /*  }
       else
 	{ Proj-=Jp*Jt;}*/
-       Proj -= Jp*Jt;
+       Proj.noalias() -= Jp*Jt;
        /* --- OLIVIER END --- */
 
        sotDEBUG(15) << "q"<<iterTask<<" = "<<control<<std::endl;
@@ -737,8 +737,8 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       sotDEBUG(35) << "Jgrad = " << JK <<endl;
 
       // Use optimized-memory Jt to do the p-inverse.
-      Jt=JK; dampedInverse( Jt,Jp,th );
-      PJp = Proj*Jp;
+      Jt.noalias()=JK; dampedInverse( Jt,Jp,th );
+      PJp.noalias() = Proj*Jp;
 
       /* --- COMPUTE ERR --- */
       dynamicgraph::Vector Herr( err.size() );
@@ -748,7 +748,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	}
 
       /* --- COMPUTE CONTROL --- */
-      control += PJp*Herr;
+      control.noalias() += PJp*Herr;
 
       /* ---  TRACE  --- */
       sotDEBUG(45) << "Pgrad = " << (PJp*Herr) <<endl;
@@ -808,7 +808,7 @@ computeConstraintProjector( dynamicgraph::Matrix& ProjK, const int& time )
 
   dynamicgraph::Matrix& Jffc = ProjK;
   Jffc.resize( Jffinv.rows(),Jc.cols() );
-  Jffc = Jffinv*Jc;
+  Jffc.noalias() = Jffinv*Jc;
   sotDEBUG(15) << "Jffc = "<< Jffc;
 
   sotDEBUGOUT(15);

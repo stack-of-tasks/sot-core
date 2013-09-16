@@ -219,11 +219,8 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
           wRhd.setIdentity();
           for( unsigned int i=0;i<3;++i ) hdth(i)=-wMh(i,3);
         }
-      dynamicgraph::Matrix temp;
-      temp = wRh.inverse();
-      Rhdth = temp*hdth;
-      temp = wRhd.inverse();
-      MatrixRotation hdRh; hdRh = temp*wRh;
+      Rhdth.noalias() = (wRh.inverse())*hdth;
+      MatrixRotation hdRh; hdRh.noalias() = (wRhd.inverse())*wRh;
 
       dynamicgraph::Matrix Lx(6,6);
       for(unsigned int i=0;i<3;i++)
@@ -240,7 +237,7 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
       Lx(0,3) =  0 ;      Lx(1,4) =  0 ;       Lx(2,5) = 0 ;
       sotDEBUG(15) << "Lx= "<<Lx<<endl;
 
-      LJq = Lx*Jq;
+      LJq.noalias() = Lx*Jq;
     }
   else
     {
@@ -254,12 +251,10 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
         {
           const MatrixHomogeneous& wMhd = getReference()->positionSIN(time);
           MatrixRotation wRhd; wMhd.extract(wRhd);
-          dynamicgraph::Matrix temp;
-          temp = wRhd.inverse();
-          hdRh = temp*wRh;
+          hdRh.noalias() = (wRhd.inverse())*wRh;
         }
       else
-        { hdRh = wRh; }
+        { hdRh.noalias() = wRh; }
 
        LJq.fill(0);
        for(unsigned int i=0;i<3;i++)
@@ -287,11 +282,11 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
   return J;
 }
 
-#define SOT_COMPUTE_H1MH2(wMh,wMhd,hMhd) {                 \
-	MatrixHomogeneous hMw; hMw = wMh.inverse();        \
-	sotDEBUG(15)<<"hMw = "<<hMw<<endl;                 \
-	hMhd = hMw*wMhd;                         	   \
-	sotDEBUG(15)<<"hMhd = "<<hMhd<<endl;               \
+#define SOT_COMPUTE_H1MH2(wMh,wMhd,hMhd) {                 	\
+	MatrixHomogeneous hMw; hMw.noalias() = wMh.inverse();   \
+	sotDEBUG(15)<<"hMw = "<<hMw<<endl;                 	\
+	hMhd.noalias() = hMw*wMhd;                         	   	\
+	sotDEBUG(15)<<"hMhd = "<<hMhd<<endl;               	\
       }
 
 
@@ -331,9 +326,9 @@ FeaturePoint6d::computeError( dynamicgraph::Vector& error,int time )
       switch(computationFrame_)
         {
         case FRAME_CURRENT:
-          hMhd=wMh.inverse(); break;
+          hMhd.noalias()=wMh.inverse(); break;
         case FRAME_DESIRED:
-          hMhd=wMh; break; // Compute hdMh indeed.
+          hMhd.noalias()=wMh; break; // Compute hdMh indeed.
         };
     }
 
@@ -407,27 +402,27 @@ dynamicgraph::Vector& FeaturePoint6d::computeErrordot( dynamicgraph::Vector& err
     omega_ (2) = velocity (5);
     M.extract(R_);
     M.extract(t_);
-    Rt_ = R_.transpose ();
+    Rt_.noalias() = R_.transpose ();
     Mref.extract (Rref_);
     Mref.extract (tref_);
-    Rreft_ = Rref_.transpose ();
+    Rreft_.noalias() = Rref_.transpose ();
     errorSOUT.recompute (time);
     inverseJacobianRodrigues ();
     switch (computationFrame_) {
     case FRAME_CURRENT:
       // \dot{e}_{t} = R^{T} v
-      errordot_t_ = Rt_*v_;
+      errordot_t_.noalias() = Rt_*v_;
       // \dot{e}_{\theta} = P^{-1}(e_{theta})R^{*T}\omega
-      Rreftomega_ = Rreft_*omega_;
-      errordot_th_ = Pinv_*Rreftomega_;
+      Rreftomega_.noalias() = Rreft_*omega_;
+      errordot_th_.noalias() = Pinv_*Rreftomega_;
       break;
     case FRAME_DESIRED:
       dynamicgraph::Vector temp(3);
       temp(0) = (omega_(1)*((tref_ - t_)(2))) - (omega_(2)*((tref_ - t_)(1)));
       temp(1) = (omega_(2)*((tref_ - t_)(0))) - (omega_(0)*((tref_ - t_)(2)));
       temp(2) = (omega_(0)*((tref_ - t_)(1))) - (omega_(1)*((tref_ - t_)(0)));
-      errordot_t_ = Rreft_ * (temp - v_);
-      errordot_th_ = -Pinv_ * (Rt_ * omega_);
+      errordot_t_.noalias() = Rreft_ * (temp - v_);
+      errordot_th_.noalias() = -Pinv_ * (Rt_ * omega_);
       break;
     }
   } else {

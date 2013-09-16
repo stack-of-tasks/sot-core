@@ -206,7 +206,7 @@ computeDesiredPosition( const dynamicgraph::Vector& currentPos,
   sotDEBUG(25) << "Factor = " << factor;
   
   dynamicgraph::Vector desNormPos(SIZE);
-  desNormPos = normPos*factor;
+  desNormPos.noalias() = normPos*factor;
 
   computeDenormalizedPosition( desNormPos,upperLim,lowerLim,desPos );
   

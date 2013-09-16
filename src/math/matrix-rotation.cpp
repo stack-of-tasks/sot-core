@@ -33,7 +33,7 @@ void MatrixRotation::fromVector( VectorUTheta& vec )
 MatrixRotation& MatrixRotation::operator=( const dynamicgraph::Matrix& m)
 {
   resize(m.rows(),m.cols());
-  ((dynamicgraph::Matrix&)*this) = m;
+  ((dynamicgraph::Matrix&)*this).noalias() = m;
   return *this;
 }
 
