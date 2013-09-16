@@ -23,6 +23,8 @@
 #include <sot/core/factory.hh>
 #include <sot/core/macros-signal.hh>
 
+#include <dynamic-graph/all-commands.h>
+
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
@@ -98,6 +100,8 @@ GripperControlPlugin( const std::string & name )
 		      << torqueFullSizeSIN << torqueReduceSOUT 
 		      << torqueLimitFullSizeSIN << torqueLimitReduceSOUT );
   sotDEBUGOUT(5);
+
+  initCommands();
 }
 
 
@@ -232,32 +236,19 @@ selector( const dynamicgraph::Vector& fullsize,
 /* --- COMMANDLINE ---------------------------------------------------------- */
 /* --- COMMANDLINE ---------------------------------------------------------- */
 /* --- COMMANDLINE ---------------------------------------------------------- */
-
-void GripperControlPlugin::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
+void GripperControlPlugin::initCommands()
 {
-  if( "help"==cmdLine )
-    {
-      os << "GripperControl: " << std::endl
-	 << "  - offset [<value>]: set/get the offset value." <<std::endl;
-    }
-  else if( "offset"==cmdLine )
-    {
-      cmdArgs>>std::ws; if( cmdArgs.good() )
-	{
-	  double val; cmdArgs>>val; if( (val>0)&&(val<1) ) offset=val;
-	} else {
-	  os  << "offset = " << offset << std:: endl; 
-	}
-    }
-  else if( "factor"==cmdLine )
-    {
-      os  << "factor = " << factor << std:: endl; 
-    }
-  else{ Entity::commandLine( cmdLine,cmdArgs,os ); }
-
-
+  namespace dc = ::dynamicgraph::command;
+  addCommand("offset",
+    dc::makeCommandVoid1(*this,&GripperControlPlugin::setOffset,
+    "set the offset (should be in )0, 1(."));
 }
+
+
+void GripperControlPlugin::setOffset(const double & value)
+{
+  if( (value>0)&&(value<1) ) offset = value;
+  else std::cerr << "The offset should be in )0, 1(." << std::endl;
+}
+
 

@@ -90,7 +90,6 @@ class SOTGRIPPERCONTROL_EXPORT GripperControl
   static dg::Vector& selector( const dg::Vector& fullsize,
 			       const Flags& selec,
 			       dg::Vector& desPos );
-
 };
 
 /* --------------------------------------------------------------------- */
@@ -141,10 +140,9 @@ class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
 
  public: /* --- COMMANDLINE --- */
 
-  virtual void commandLine( const std::string& cmdLine,
-			    std::istringstream& cmdArgs,
-			    std::ostream& os );
+  void initCommands();
 
+  void setOffset(const double & value);
 };
 
 

@@ -240,7 +240,7 @@ FOREACH(plugin ${plugins})
 	  )
 	# Install plugins
 	INSTALL(TARGETS ${LIBRARY_NAME}
-	  DESTINATION ${CMAKE_INSTALL_LIBDIR}/plugin)
+	  DESTINATION ${DYNAMIC_GRAPH_PLUGINDIR})
 ENDFOREACH(plugin)
 
 # Bindings Python

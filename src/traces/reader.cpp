@@ -29,6 +29,7 @@
 #include <boost/bind.hpp>
 #include <sstream>
 #include <dynamic-graph/factory.h>
+#include <dynamic-graph/all-commands.h>
 
 using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
@@ -57,6 +58,8 @@ sotReader::sotReader( const std::string n )
   signalRegistration( selectionSIN<<vectorSOUT<<matrixSOUT );
   selectionSIN = true;
   vectorSOUT.setNeedUpdateFromAllChildren(true);
+
+  initCommands();
 }  
 
 /* --------------------------------------------------------------------- */
@@ -177,42 +180,26 @@ std::ostream& operator<< ( std::ostream& os,const sotReader& t )
   return os;
 }
 
-void sotReader::
-commandLine( const std::string& cmdLine
-	     ,std::istringstream& cmdArgs
-	     ,std::ostream& os )
+/* --- Command line interface ------------------------------------------------------ */
+void sotReader::initCommands()
 {
-  if( cmdLine=="help" )
-    {
-      os << "Reader: "<<endl
-	 << "  - load" << endl;
-	
-      Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-  else if( cmdLine=="load" )
-    {
-      string filename;
-      cmdArgs>>ws>>filename;
-      load(filename);
-    }
-  else if( cmdLine=="rewind" )
-    {
-      cmdArgs>>ws;
-      rewind( );
-    }
-  else if( cmdLine=="clear" )
-    {
-      cmdArgs>>ws;
-      clear( );
-    }
-  else if( cmdLine=="resize" )
-    {
-      cmdArgs >>ws;
-      if( cmdArgs.good() ) { cmdArgs >> nbRows >>nbCols; }
-      else {  os << "Matrix size = " << nbRows << " x " <<nbCols <<std::endl; }
-    }
-  else { Entity::commandLine( cmdLine,cmdArgs,os ); }
+  namespace dc = ::dynamicgraph::command;
+  addCommand("clear",
+    dc::makeCommandVoid0(*this,&sotReader::clear,
+    "Clear the data loaded"));
+  addCommand("rewind",
+    dc::makeCommandVoid0(*this,&sotReader::rewind,
+    "Reset the iterator to the beginning of the data set"));
+  addCommand("load",
+    dc::makeCommandVoid1(*this,&sotReader::load,
+    "load file"));
+  addCommand("resize",
+    dc::makeCommandVoid2(*this,&sotReader::resize,
+    " "));
+}
 
-
-
+void sotReader::resize(const int & nbRow, const int & nbCol)
+{
+  nbRows = nbRow;
+  nbCols = nbCol;
 }

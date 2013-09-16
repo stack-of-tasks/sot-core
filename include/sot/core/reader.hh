@@ -93,13 +93,12 @@ class SOTREADER_EXPORT sotReader
 
   dynamicgraph::Vector& getNextData( dynamicgraph::Vector& res, const unsigned int time );
   dynamicgraph::Matrix& getNextMatrix( dynamicgraph::Matrix& res, const unsigned int time );
+  void resize(const int & nbRow, const int & nbCol);
 
  public:
   /* --- PARAMS --- */
   void display( std::ostream& os ) const;
-  virtual void commandLine( const std::string& cmdLine
-			    ,std::istringstream& cmdArgs
-			    ,std::ostream& os );
+  virtual void initCommands();
 };
 
 
