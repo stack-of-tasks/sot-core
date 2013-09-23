@@ -167,7 +167,7 @@ display( std::ostream& os ) const
   try{ 
     os << "  error= "<< errorSIN.accessCopy() << endl
        << "  J    = "<< jacobianSIN.accessCopy() << endl;
-  }  catch(ExceptionAbstract e){ os<< " All SIN not set."; }
+  }  catch(ExceptionSignal & e){ os << e.what(); }
 }
 
 
