@@ -91,7 +91,7 @@ class FeaturePosition (Entity):
         """
         Return the list of commands.
         """
-        return self._feature.commands()
+        return  ('frame', 'getFrame', 'keep')
 
     def frame(self, f):
         return self._feature.frame(f)
