@@ -10,12 +10,24 @@ from numpy import matrix, identity, zeros, eye
 class MetaTaskPosture(object):
     postureRange = { \
         "rleg": range(6,12), \
+        "rhip" : range(6,9), \
+        "rknee": [9], \
+        "rankle": range(10,12), \
         "lleg": range(12,18), \
+        "lhip" : range(12,15), \
+        "lknee": [15], \
+        "lankle": range(16,18), \
         "chest": range(18,20), \
         "head": range(20,22), \
         "rarm": range(22,28), \
+        "rshoulder": range(22,25), \
+        "relbow": [25], \
+        "rwrist": range(26,28), \
         "rhand": [28], \
         "larm": range(29,35), \
+        "lshoulder": range(29,32), \
+        "lelbow": [32], \
+        "lwrist": range(33,35), \
         "lhand": [35], \
             }
     nbDof = None

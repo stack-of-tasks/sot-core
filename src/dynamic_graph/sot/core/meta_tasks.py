@@ -1,8 +1,8 @@
 from dynamic_graph.sot.core.meta_task_6d import toFlags
 from dynamic_graph import plug
 from dynamic_graph.sot.core import *
-from dynamic_graph.sot.core.matrix_util import matrixToTuple, vectorToTuple,rotate
-from numpy import matrix, identity, zeros, eye, ndarray
+from dynamic_graph.sot.core.matrix_util import matrixToTuple, vectorToTuple,rotate, rpy2tr
+from numpy import matrix, identity, zeros, eye, ndarray, array
 
 class MetaTaskCom(object):
     def __init__(self,dyn,name="com"):
@@ -48,6 +48,9 @@ def generic6dReference(p):
     elif isinstance(p,tuple) and len(p) == 3:  M[0:3,3] = p
     elif isinstance(p,(matrix,ndarray)) and p.shape == (4,4): M = p
     elif isinstance(p,(matrix,tuple)) and len(p) == 4 == len(p[0]) == len(p[1]) == len(p[2]) == len(p[3]) : M = matrix(p)
+    elif isinstance(p,(matrix,ndarray,tuple)) and len(p) == 6 :
+        M = array( rpy2tr(*p[3:7]) )
+        M[0:3,3] = p[0:3]
     else: print "Position with other parameters ... todo"
     return M
 
