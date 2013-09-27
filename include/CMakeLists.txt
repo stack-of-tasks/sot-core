@@ -95,6 +95,7 @@ SET(NEWHEADERS
   sot/core/mailbox.hxx
   sot/core/periodic-call.hh
   sot/core/periodic-call-entity.hh
+  sot/core/trajectory.hh
   )
 INSTALL(FILES ${NEWHEADERS}
   DESTINATION include/sot/core
