@@ -13,4 +13,4 @@ SPHINX_FINALIZE()
 INSTALL (FILES
   pictures/feature.png 
   pictures/task.png 
-  DESTINATION ${PKG_CONFIG_DOXYGENDOCDIR}/pictures)
+  DESTINATION ${_PKG_CONFIG_DOXYGENDOCDIR}/pictures)
