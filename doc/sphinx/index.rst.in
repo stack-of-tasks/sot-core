@@ -17,18 +17,6 @@ Python module dynamic_graph.sot implements bindings for sot-core_ library. To ea
 .. automodule:: dynamic_graph.sot.core
    :members:
 
-Homogeneous matrix
-------------------
-.. autoclass:: dynamic_graph.sot.R3
-   :members:
-
-.. autoclass:: dynamic_graph.sot.SO3
-   :members:
-
-.. autoclass:: dynamic_graph.sot.SE3
-   :members:
-
-
 Entities
 --------
 .. autoclass:: dynamic_graph.sot.core.robot_simu.RobotSimu
@@ -38,12 +26,6 @@ Entities
    :members:
 
 .. autoclass:: dynamic_graph.sot.core.matrix_constant.MatrixConstant
-   :members:
-
-.. autoclass:: dynamic_graph.sot.core.unary_op.RPYToMatrix
-   :members:
-
-.. autoclass:: dynamic_graph.sot.core.unary_op.MatrixHomoToPoseRollPitchYaw
    :members:
 
 .. autoclass:: dynamic_graph.sot.core.derivator.Derivator_of_Vector
@@ -59,9 +41,6 @@ Entities
    :members:
 
 .. autoclass:: dynamic_graph.sot.core.feature_joint_limits.FeatureJointLimits
-   :members:
-
-.. autoclass:: dynamic_graph.sot.core.binary_op.Compose_R_and_T
    :members:
 
 .. autoclass:: dynamic_graph.sot.core.task.Task

@@ -34,7 +34,7 @@ class FeaturePosition (Entity):
         reference: reference position input signal (MatrixHomo),
         Jq:        Jacobian input signal (Matrix),
         selec:    selection flag "RzRyRxTzTyTx" (string).
-        """
+    """
 
     signalMap = dict()
 
