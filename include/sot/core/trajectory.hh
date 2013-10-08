@@ -31,43 +31,96 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 namespace dynamicgraph {
   namespace sot {
-    
+
+    class SOT_CORE_EXPORT timestamp
+    {
+    public:
+      unsigned long int secs_;
+      unsigned long int nsecs_;      
+      timestamp() : secs_(0),nsecs_(0)
+        {}
+      timestamp(const timestamp &ats)
+        { secs_ = ats.secs_; nsecs_ = ats.nsecs_; }
+      timestamp(unsigned long int lsecs, 
+                unsigned long int lnsecs)
+        { secs_ = lsecs; nsecs_ = lnsecs;}
+      bool operator==(const timestamp &other) const 
+      { 
+        if ((secs_!=other.secs_) || (nsecs_!=other.nsecs_))
+          return false;
+        return true;   
+      }
+    };
+
     class SOT_CORE_EXPORT Header
     {
-      unsigned int seq;
-      double stamp;
-      std::string frame_id;
+    public:
+      unsigned int seq_;
+      timestamp stamp_;
+      std::string frame_id_;
     };
 
 
     class SOT_CORE_EXPORT JointTrajectoryPoint
     {
-      std::vector<double> positions;
-      std::vector<double> velocities;
-      std::vector<double> accelerations;
-      std::vector<double> effort;
       
-      void transfert(std::vector<double> &src, unsigned int vecId)
+    public:
+      std::vector<double> positions_;
+      std::vector<double> velocities_;
+      std::vector<double> accelerations_;
+      std::vector<double> effort_;
+
+      typedef std::vector<double> vec_ref;
+
+
+      void display(std::ostream &os)
       {
-        std::vector<double> &dst;
+        std::string names[4] = { "Positions", 
+                                 "Velocities", 
+                                 "Accelerations",
+                                 "Effort"};
+        
+        std::vector<double> *points;
+
+        for(unsigned int arrayId=0;arrayId<4;arrayId++)
+          {
+            switch(arrayId)
+              {
+              case(0):points = &positions_;
+                break;
+              case(1):points = &velocities_;
+                break;
+              case(2):points = &accelerations_;
+                break;
+              case(3):points = &effort_;
+                break;
+              }
+
+            std::vector<double>::iterator it_db;
+            os << names[arrayId] << std::endl
+               << "---------" << std::endl;
+            for(it_db = points->begin();
+                it_db != points->end();
+                it_db++)
+              {
+                os << *it_db << std::endl;
+              }
+          }
+      }
+      
+      void transfert(const std::vector<double> &src, unsigned int vecId)
+      {
         switch(vecId)
           {
-          case(0): dst= positions;
+          case(0): positions_ = src;
             break;
-          case(1): dst= velocities;
+          case(1): velocities_ = src;
             break;
-          case(2): dst= accelerations;
+          case(2): accelerations_ = src;
             break;
-          case(3): dst= effort;
+          case(3): effort_ =src;
             break;
           }
-        dst=src;
-#if 0
-        dst.resize(src.size());
-        for(std::vector<double>::sizetype id=0;
-            id<src.size();id++)
-          dst[id] = src[id];
-#endif
       }
     };
 
@@ -78,7 +131,7 @@ namespace dynamicgraph {
       
       Trajectory( void );
       Trajectory( const Trajectory & copy );
-      virtual ~Trajectory( void ) { }
+      virtual ~Trajectory( void );
 
       std::vector<std::string> joint_names_;
 
@@ -87,6 +140,8 @@ namespace dynamicgraph {
       
       std::vector<JointTrajectoryPoint> points_;
       
+      void display(std::ostream &);
+
     };
   } // namespace sot
 } // namespace dynamicgraph
