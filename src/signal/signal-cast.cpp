@@ -23,6 +23,7 @@
 #include <iomanip>
 
 #include <sot/core/feature-abstract.hh>
+#include <sot/core/trajectory.hh>
 #include "sot/core/matrix-homogeneous.hh"
 #include "sot/core/matrix-rotation.hh"
 #include <sot/core/flags.hh>
@@ -43,6 +44,7 @@ namespace dynamicgraph
 {
   using namespace std;
   using namespace dynamicgraph::sot;
+  namespace dgsot = dynamicgraph::sot;
 
   /* --- CASTER IMPLEMENTATION ------------------------------------------------ */
   /* --- CASTER IMPLEMENTATION ------------------------------------------------ */
@@ -81,10 +83,8 @@ namespace dynamicgraph
     FeatureAbstract* ref;
     std::string name; iss >> name;
     if( name.length())
-      {
-	ref = &dynamicgraph::sot::PoolStorage::getInstance()->getFeature(name);
-      }
-    else { ref = NULL; }
+      ref = &dynamicgraph::sot::PoolStorage::getInstance()->getFeature(name); 
+    else ref = 0; 
     return ref;
   }
 
@@ -117,6 +117,93 @@ namespace dynamicgraph
   }
 
   DG_ADD_CASTER(struct timeval,tv);
+
+  /* --- Trajectory -------------------------------------------------------------- */
+  /* --- Trajectory -------------------------------------------------------------- */
+  /* --- Trajectory -------------------------------------------------------------- */
+  DG_SIGNAL_CAST_DEFINITION_HPP(dgsot::Trajectory);
+
+  dgsot::Trajectory SignalCast<dgsot::Trajectory>::
+    cast( std::istringstream& iss )
+  {
+    dgsot::Trajectory aTraj;
+    
+    // Read joint names.
+    std::vector<std::string>::size_type nb_joints;
+    iss >> nb_joints; aTraj.joint_names_.resize(nb_joints);
+    for(std::vector<std::string>::size_type idJoints=0; 
+        idJoints < nb_joints; idJoints++)
+      iss >> aTraj.joint_names_[idJoints];
+        
+    // Read nb of points
+    std::vector<JointTrajectoryPoint>::size_type nb_points; 
+    iss >> nb_points;
+    
+    // Read points
+    for(std::vector<JointTrajectoryPoint>::size_type idPoint=0;
+        idPoint < nb_points; idPoint++)
+      {
+        // Read positions.
+        for(std::vector<double>::size_type idPos=0;
+            idPos < nb_joints; idPos++)
+          iss >> aTraj.points_[idPoint].positions_[idPos];
+        // TODO: read velocities and accelerations.
+      }
+    return aTraj;
+  }
+  void SignalCast<dgsot::Trajectory >::
+  disp( const dgsot::Trajectory & aTraj,std::ostream& os )
+  {
+    // Display joint names.
+    os << "{ Number of joints: " << aTraj.joint_names_.size() << std::endl;
+    for(std::vector<std::string>::size_type idJoints=0; 
+        idJoints < aTraj.joint_names_.size(); idJoints++)
+      {
+        os << idJoints << " - "  
+           << aTraj.joint_names_[idJoints] 
+           << std::endl;
+      }
+    // Display points
+    os << "Number of points: " 
+       << aTraj.points_.size()
+       << std::endl;
+    for(std::vector<JointTrajectoryPoint>::size_type idPoint=0;
+        idPoint < aTraj.points_.size(); idPoint++)
+      {
+        if (aTraj.points_[idPoint].positions_.size()!=0)
+          {
+            os << " Point " << idPoint << " - Pos: [" ;
+            // Read positions.
+            for(std::vector<double>::size_type idPos=0;
+                idPos < aTraj.points_[idPoint].positions_.size(); idPos++)
+              { os <<  "(" << idPos << " : " << aTraj.points_[idPoint].positions_[idPos] << ") " ;  }
+            os << "] ";
+          }
+        if (aTraj.points_[idPoint].velocities_.size()!=0)
+          {
+            os << " Velocities " << idPoint << " - Pos: [" ;
+            // Read positions.
+            for(std::vector<double>::size_type idPos=0;
+                idPos < aTraj.points_[idPoint].velocities_.size(); idPos++)
+              { os <<  "(" << idPos << " : " << aTraj.points_[idPoint].velocities_[idPos] << ") " ;  }
+            os << "] ";
+          }
+        if (aTraj.points_[idPoint].accelerations_.size()!=0)
+          {
+            os << " Velocities " << idPoint << " - Pos: [" ;
+            // Read positions.
+            for(std::vector<double>::size_type idPos=0;
+                idPos < aTraj.points_[idPoint].accelerations_.size(); idPos++)
+              { os <<  "(" << idPos << " : " << aTraj.points_[idPoint].accelerations_[idPos] << ") " ;  }
+            os << "] ";
+          }
+        
+        // TODO: read velocities and accelerations.
+      }
+    os << "}" << std::endl;
+  }
+
+  DG_ADD_CASTER(Trajectory,Traject);
 
   ///
   /// VectorUTheta and VectorRollPitchYaw
