@@ -52,8 +52,7 @@ getNextPosition(ml::Vector &pos,
     
   const JointTrajectoryPoint &aJTP=aTrajectory.points_[index_];
   
-  if (pos.size()!=aJTP.positions_.size())
-    pos.resize(aJTP.positions_.size());
+  pos.resize(aJTP.positions_.size());
   for(std::vector<JointTrajectoryPoint>::size_type i=0;
       i<aJTP.positions_.size();i++)
     {

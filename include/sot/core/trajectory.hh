@@ -17,21 +17,20 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __SOT_TRAJECTORY_H__
-#define __SOT_TRAJECTORY_H__
+#ifndef SOT_TRAJECTORY_H__
+#define SOT_TRAJECTORY_H__
 
 
-/* --- Matrix --- */
+// Matrix 
 #include <jrl/mal/boost.hh>
 #include <sot/core/api.hh>
+#include <boost/array.hpp>
+
 namespace ml = maal::boost;
 
-/* --------------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
 namespace dynamicgraph {
   namespace sot {
-
+    
     class SOT_CORE_EXPORT timestamp
     {
     public:
@@ -75,14 +74,14 @@ namespace dynamicgraph {
 
       void display(std::ostream &os)
       {
-        std::string names[4] = { "Positions", 
-                                 "Velocities", 
-                                 "Accelerations",
-                                 "Effort"};
+        boost::array<std::string, 4> names = { "Positions", 
+                                               "Velocities", 
+                                               "Accelerations",
+                                               "Effort"};
         
-        std::vector<double> *points;
+        std::vector<double> *points=0;
 
-        for(unsigned int arrayId=0;arrayId<4;arrayId++)
+        for(std::size_t arrayId=0;arrayId<names.size();++arrayId)
           {
             switch(arrayId)
               {
@@ -94,6 +93,8 @@ namespace dynamicgraph {
                 break;
               case(3):points = &effort_;
                 break;
+              default:
+                assert(0);
               }
 
             std::vector<double>::iterator it_db;
@@ -108,7 +109,7 @@ namespace dynamicgraph {
           }
       }
       
-      void transfert(const std::vector<double> &src, unsigned int vecId)
+      void transfer(const std::vector<double> &src, unsigned int vecId)
       {
         switch(vecId)
           {
@@ -120,6 +121,8 @@ namespace dynamicgraph {
             break;
           case(3): effort_ =src;
             break;
+          default:
+            assert(0);
           }
       }
     };
@@ -129,9 +132,9 @@ namespace dynamicgraph {
       
     public: 
       
-      Trajectory( void );
+      Trajectory( );
       Trajectory( const Trajectory & copy );
-      virtual ~Trajectory( void );
+      virtual ~Trajectory();
 
       std::vector<std::string> joint_names_;
 
@@ -147,7 +150,7 @@ namespace dynamicgraph {
 } // namespace dynamicgraph
 
 
-#endif /* #ifndef __SOT_TRAJECTORY_H__ */
+#endif /* #ifndef SOT_TRAJECTORY_H__ */
 
 
 

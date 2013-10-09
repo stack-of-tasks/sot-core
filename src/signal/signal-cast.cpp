@@ -170,12 +170,34 @@ namespace dynamicgraph
     for(std::vector<JointTrajectoryPoint>::size_type idPoint=0;
         idPoint < aTraj.points_.size(); idPoint++)
       {
-        os << " Point " << idPoint << " - Pos: [" ;
-        // Read positions.
-        for(std::vector<double>::size_type idPos=0;
-            idPos < aTraj.points_[idPoint].positions_.size(); idPos++)
-          { os <<  "(" << idPos << " : " << aTraj.points_[idPoint].positions_[idPos] << ") " ;  }
-        os << "] ";
+        if (aTraj.points_[idPoint].positions_.size()!=0)
+          {
+            os << " Point " << idPoint << " - Pos: [" ;
+            // Read positions.
+            for(std::vector<double>::size_type idPos=0;
+                idPos < aTraj.points_[idPoint].positions_.size(); idPos++)
+              { os <<  "(" << idPos << " : " << aTraj.points_[idPoint].positions_[idPos] << ") " ;  }
+            os << "] ";
+          }
+        if (aTraj.points_[idPoint].velocities_.size()!=0)
+          {
+            os << " Velocities " << idPoint << " - Pos: [" ;
+            // Read positions.
+            for(std::vector<double>::size_type idPos=0;
+                idPos < aTraj.points_[idPoint].velocities_.size(); idPos++)
+              { os <<  "(" << idPos << " : " << aTraj.points_[idPoint].velocities_[idPos] << ") " ;  }
+            os << "] ";
+          }
+        if (aTraj.points_[idPoint].accelerations_.size()!=0)
+          {
+            os << " Velocities " << idPoint << " - Pos: [" ;
+            // Read positions.
+            for(std::vector<double>::size_type idPos=0;
+                idPos < aTraj.points_[idPoint].accelerations_.size(); idPos++)
+              { os <<  "(" << idPos << " : " << aTraj.points_[idPoint].accelerations_[idPos] << ") " ;  }
+            os << "] ";
+          }
+        
         // TODO: read velocities and accelerations.
       }
     os << "}" << std::endl;

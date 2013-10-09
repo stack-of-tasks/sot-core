@@ -43,7 +43,7 @@ namespace dynamicgraph {
     {
     }
     
-    void Trajectory::display(std::ostream &os)
+    void Trajectory::display(std::ostream& os)
     {
       unsigned int index=0;
 

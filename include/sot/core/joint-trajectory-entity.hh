@@ -17,25 +17,20 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __SOT_JOINT_TRAJECTORY_ENTITY_HH
-#define __SOT_JOINT_TRAJECTORY_ENTITY_HH
+#ifndef SOT_JOINT_TRAJECTORY_ENTITY_HH
+#define SOT_JOINT_TRAJECTORY_ENTITY_HH
 
-/* --------------------------------------------------------------------- */
-/* --- INCLUDE --------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
 
-/* -- MaaL --- */
+// Maal
 #include <jrl/mal/boost.hh>
 namespace ml= maal::boost;
-/* SOT */
+// SOT 
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
 #include <sot/core/trajectory.hh>
 #include <list>
 
-/* --------------------------------------------------------------------- */
-/* --- API ------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
+// API
 
 #if defined (WIN32)
 #  if defined (sot_joint_trajectory_entity_EXPORTS)
@@ -47,61 +42,71 @@ namespace ml= maal::boost;
 #  define SOTJOINT_TRAJECTORY_ENTITY_EXPORT
 #endif
 
-/* --------------------------------------------------------------------- */
-/* --- CLASS ----------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
+// Class
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph { 
+namespace sot {
 
-
-class SOTJOINT_TRAJECTORY_ENTITY_EXPORT SotJointTrajectoryEntity
-:public dynamicgraph::Entity
-{
- public:
-  static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
-
- protected:
-  // \brief Index on the point along the trajectory.
-  unsigned int index_;
-
-  // \brief Keep the starting time as an identifier of the trajectory.
-  timestamp traj_timestamp_;
-
- public:
-
-  /* --- CONSTRUCTION --- */
-  SotJointTrajectoryEntity( const std::string& name );
-  virtual ~SotJointTrajectoryEntity( void ) { }
-
-  void loadFile( const std::string& name );
-
-  ml::Vector& getNextPosition( ml::Vector& pos, const int& time );
-
- public: /* --- DISPLAY --- */
-  virtual void display( std::ostream& os ) const;
-  SOTJOINT_TRAJECTORY_ENTITY_EXPORT friend std::ostream& operator<< ( std::ostream& os,const SotJointTrajectoryEntity& r )
-    { r.display(os); return os;}
   
- public: /* --- SIGNALS --- */
+    class SOTJOINT_TRAJECTORY_ENTITY_EXPORT SotJointTrajectoryEntity
+      :public dynamicgraph::Entity
+    {
+    public:
+      DYNAMIC_GRAPH_ENTITY_DECL();
 
-  //dynamicgraph::SignalPtr<ml::Vector,int> positionSIN;
-  //dynamicgraph::SignalTimeDependant<ml::Vector,int> velocitySOUT;
-  dynamicgraph::SignalTimeDependent<int,int> refresherSINTERN;
-  dynamicgraph::SignalTimeDependent<ml::Vector,int> positionSOUT;
-  dynamicgraph::SignalPtr<Trajectory,int> trajectorySIN;
 
- public: /* --- COMMANDS --- */
-  virtual void commandLine( const std::string& cmdLine,
-                            std::istringstream& cmdArgs,
-			    std::ostream& os );
+      /// \brief Constructor
+      SotJointTrajectoryEntity( const std::string& name );
+      virtual ~SotJointTrajectoryEntity( ) { }
+
+      void loadFile( const std::string& name );
+
+      ml::Vector& getNextPosition( ml::Vector& pos, const int& time );
+
+      /// @name Display
+      /// @{
+      virtual void display( std::ostream& os ) const;
+      SOTJOINT_TRAJECTORY_ENTITY_EXPORT 
+        friend std::ostream& operator<< 
+        ( std::ostream& os,const SotJointTrajectoryEntity& r )
+      { r.display(os); return os;}
+      /// @}
   
-};
+    public: 
+
+      /// @name Signals
+      /// @{
+      /// \brief Internal signal for synchronisation.
+      dynamicgraph::SignalTimeDependent<int,int> refresherSINTERN;
+      /// \brief Publish pose for each evaluation of the graph.
+      dynamicgraph::SignalTimeDependent<ml::Vector,int> positionSOUT;
+      /// \brief Read a trajectory.
+      dynamicgraph::SignalPtr<Trajectory,int> trajectorySIN;
+      ///@}
+
+    public: 
+      /// @name Commands
+      /// @{
+      virtual void commandLine( const std::string& cmdLine,
+                                std::istringstream& cmdArgs,
+                                std::ostream& os );
+      /// @}
+    protected:
+      
+      /// \brief Index on the point along the trajectory.
+      unsigned int index_;
+
+      /// \brief Keep the starting time as an identifier of the trajectory.
+      timestamp traj_timestamp_;
+
+  
+    };
 
 
-} /* namespace sot */} /* namespace dynamicgraph */
+  } /* namespace sot */
+} /* namespace dynamicgraph */
 
-#endif /* #ifndef __SOT_JOINT_TRAJECTORY_ENTITY_HH */
+#endif // SOT_JOINT_TRAJECTORY_ENTITY_HH 
 
 
 
