@@ -65,6 +65,3 @@ namespace dynamicgraph {
 
   } /* ! namespace sot */
 }   /* ! namespace dynamicgraph */
-
-
-

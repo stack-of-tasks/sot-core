@@ -83,8 +83,8 @@ namespace dynamicgraph
     FeatureAbstract* ref;
     std::string name; iss >> name;
     if( name.length())
-      {	ref = &dynamicgraph::sot::PoolStorage::getInstance()->getFeature(name); }
-    else { ref = NULL; }
+      ref = &dynamicgraph::sot::PoolStorage::getInstance()->getFeature(name); 
+    else ref = 0; 
     return ref;
   }
 
