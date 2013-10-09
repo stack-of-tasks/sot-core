@@ -38,10 +38,10 @@ VectorToRotation::
 VectorToRotation( const std::string& name )
   :Entity( name )
   ,size(0),axes(0)
-  ,SIN( NULL,"sotVectorToRotation("+name+")::output(vector)::in" )
+  ,SIN( NULL,"sotVectorToRotation("+name+")::output(vector)::sin" )
   ,SOUT( SOT_MEMBER_SIGNAL_1( VectorToRotation::computeRotation,
 			    SIN,ml::Vector),
-	 "sotVectorToRotation("+name+")::output(matrixRotation)::out" )
+	 "sotVectorToRotation("+name+")::output(matrixRotation)::sout" )
 {
 
   signalRegistration( SIN << SOUT );

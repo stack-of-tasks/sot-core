@@ -37,7 +37,7 @@ MatrixConstant::
 MatrixConstant( const std::string& name )
   :Entity( name )
   ,rows(0),cols(0),color(0.)
-  ,SOUT( "sotMatrixConstant("+name+")::output(matrix)::out" )
+  ,SOUT( "sotMatrixConstant("+name+")::output(matrix)::sout" )
 {
   SOUT.setDependencyType( TimeDependency<int>::BOOL_DEPENDENT );
   signalRegistration( SOUT );

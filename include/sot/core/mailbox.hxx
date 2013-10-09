@@ -41,7 +41,7 @@ namespace dynamicgraph {
 
       ,SOUT( boost::bind(&Mailbox::get,this,_1,_2),
 	     sotNOSIGNAL,
-	     "Mailbox("+name+")::output(Object)::out" )
+	     "Mailbox("+name+")::output(Object)::sout" )
       ,objSOUT( boost::bind(&Mailbox::getObject,this,_1,_2),
 		SOUT,
 		"Mailbox("+name+")::output(Object)::object" )

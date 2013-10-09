@@ -38,10 +38,10 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(BinaryIntToUint,"BinaryIntToUint");
 
 BinaryIntToUint::BinaryIntToUint( const string& fname )
   : Entity( fname)
-  ,binaryIntSIN( NULL,"BinaryIntToUint("+name+")::input(int)::in" )
+  ,binaryIntSIN( NULL,"BinaryIntToUint("+name+")::input(int)::sin" )
   ,binaryUintSOUT( boost::bind(&BinaryIntToUint::computeOutput,this,_1,_2),
 		   binaryIntSIN,
-		   "BinaryIntToUint("+name+")::output(unsigned int)::out" )
+		   "BinaryIntToUint("+name+")::output(unsigned int)::sout" )
 {
   signalRegistration( binaryIntSIN<<binaryUintSOUT );
 }

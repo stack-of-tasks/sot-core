@@ -147,10 +147,10 @@ Timer( const std::string& name )
   :Entity(name)
    ,t0(),t1()
    ,dt(0.)
-   ,sigSIN( NULL,"Timer("+name+")::output(T)::in" )
+   ,sigSIN( NULL,"Timer("+name+")::output(T)::sin" )
    ,sigSOUT(  boost::bind(&Timer::compute,this,_1,_2),
 	      sigSIN,
-	      "Timer("+name+")::output(T)::out" )
+	      "Timer("+name+")::output(T)::sout" )
    ,timerSOUT( "Timer("+name+")::output(double)::timer" )
 {
   sotDEBUGIN(15);

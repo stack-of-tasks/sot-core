@@ -64,10 +64,10 @@ class IntegratorAbstract
  public:
   IntegratorAbstract ( const std::string& name )
     :dg::Entity(name)
-     ,SIN(NULL,"sotIntegratorAbstract("+name+")::input(vector)::in")
+     ,SIN(NULL,"sotIntegratorAbstract("+name+")::input(vector)::sin")
      ,SOUT(boost::bind(&IntegratorAbstract<sigT,coefT>::integrate,this,_1,_2),
 		 SIN,
-		 "sotIntegratorAbstract("+name+")::output(vector)::out")
+		 "sotIntegratorAbstract("+name+")::output(vector)::sout")
   {
     signalRegistration( SIN<<SOUT );
   }
