@@ -61,7 +61,20 @@ namespace sot {
 
       void loadFile( const std::string& name );
 
+      /// \brief Return the next pose for the legs.
       ml::Vector& getNextPosition( ml::Vector& pos, const int& time );
+
+      /// \brief Return the next com.
+      ml::Vector& getNextCoM( ml::Vector& com, const int& time );
+
+      /// \brief Return the next cop.
+      ml::Vector& getNextCoP( ml::Vector& cop, const int& time );
+
+      /// \brief Return the next waist.
+      ml::Vector& getNextWaist( ml::Vector& waist, const int& time );
+
+      /// \brief Perform one update of the signals.
+      int & OneStepOfUpdate(int &dummy, const int& time);
 
       /// @name Display
       /// @{
@@ -73,13 +86,28 @@ namespace sot {
       /// @}
   
     public: 
+      typedef int Dummy;
 
       /// @name Signals
       /// @{
       /// \brief Internal signal for synchronisation.
       dynamicgraph::SignalTimeDependent<int,int> refresherSINTERN;
+      
+      /// \brief Internal signal to trigger one step of the algorithm. 
+      SignalTimeDependent<Dummy,int> OneStepOfUpdateS;
+
       /// \brief Publish pose for each evaluation of the graph.
       dynamicgraph::SignalTimeDependent<ml::Vector,int> positionSOUT;
+
+      /// \brief Publish com for each evaluation of the graph.
+      dynamicgraph::SignalTimeDependent<ml::Vector,int> comSOUT;
+      
+      /// \brief Publish zmp for each evaluation of the graph.
+      dynamicgraph::SignalTimeDependent<ml::Vector,int> zmpSOUT;
+
+      /// \brief Publish waist for each evaluation of the graph.
+      dynamicgraph::SignalTimeDependent<ml::Vector,int> waistSOUT;
+      
       /// \brief Read a trajectory.
       dynamicgraph::SignalPtr<Trajectory,int> trajectorySIN;
       ///@}
@@ -96,10 +124,21 @@ namespace sot {
       /// \brief Index on the point along the trajectory.
       unsigned int index_;
 
-      /// \brief Keep the starting time as an identifier of the trajectory.
+      /// \brief Keep the starting time as an identifier of the trajector
       timestamp traj_timestamp_;
 
-  
+      /// \brief Store the pos;
+      ml::Vector pose_;
+
+      /// \brief Store the center of mass.
+      ml::Vector com_;
+      
+      /// \brief Store the center of pressure ZMP.
+      ml::Vector cop_;
+
+      /// \brief Store the waist position.
+      ml::Vector waist_;
+      
     };
 
 
