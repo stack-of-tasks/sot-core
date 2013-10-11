@@ -224,9 +224,9 @@ namespace dynamicgraph {
 	return coefs [rank];
       }
       
-      virtual void commandLine( const std::string& cmdLine,
-				std::istringstream& cmdArgs,
-				std::ostream& os )
+      virtual void commandLine( const std::string& ,
+				std::istringstream&,
+				std::ostream&  )
       {
       }
       

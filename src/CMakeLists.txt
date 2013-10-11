@@ -28,11 +28,11 @@ LINK_DIRECTORIES(${PYTHON_LIBRARY_DIRS})
 
 #define DEBUG=2 if we're building in debug mode (what for?)
 IF("${CMAKE_BUILD_TYPE}" STREQUAL DEBUG)
-	ADD_DEFINITIONS(-DDEBUG=2)
+  ADD_DEFINITIONS(-DDEBUG=2)
 ENDIF ("${CMAKE_BUILD_TYPE}" STREQUAL DEBUG)
 
 IF(UNIX)
-	ADD_DEFINITIONS(-pthread)
+  ADD_DEFINITIONS(-pthread)
 ENDIF(UNIX)
 
 # The main library name
@@ -40,78 +40,77 @@ SET(SOTCORE_LIB_NAME ${PROJECT_NAME})
 
 #This project will create many plugins as shared libraries, listed here
 SET(plugins
-	sot/sot-qr
-	sot/weighted-sot
-	sot/sot-h
-	sot/sot
+  sot/sot-qr
+  sot/weighted-sot
+  sot/sot-h
+  sot/sot
 
-	math/op-point-modifier
+  math/op-point-modifier
 
-	matrix/operator
-	matrix/derivator
-	matrix/fir-filter
-	matrix/integrator-abstract
-	matrix/integrator-euler
-	matrix/matrix-constant
-	matrix/vector-constant
-	matrix/vector-to-rotation
+  matrix/operator
+  matrix/derivator
+  matrix/fir-filter
+  matrix/integrator-abstract
+  matrix/integrator-euler
+  matrix/matrix-constant
+  matrix/vector-constant
+  matrix/vector-to-rotation
 
-	task/gain-adaptive
-	task/task-pd
-	task/constraint
-	task/gain-hyperbolic
-	task/task
-	task/task-conti
-	task/task-unilateral
+  task/gain-adaptive
+  task/task-pd
+  task/constraint
+  task/gain-hyperbolic
+  task/task
+  task/task-conti
+  task/task-unilateral
 
-	feature/feature-point6d
-	feature/feature-vector3
-	feature/feature-generic
-	feature/feature-joint-limits
-	feature/feature-1d
-	feature/feature-point6d-relative
-	feature/feature-visual-point
-	feature/feature-task
-	feature/feature-line-distance
-	feature/feature-posture
-	feature/visual-point-projecter
+  feature/feature-point6d
+  feature/feature-vector3
+  feature/feature-generic
+  feature/feature-joint-limits
+  feature/feature-1d
+  feature/feature-point6d-relative
+  feature/feature-visual-point
+  feature/feature-task
+  feature/feature-line-distance
+  feature/feature-posture
+  feature/visual-point-projecter
 
-	traces/reader
+  traces/reader
 
-	tools/time-stamp
-	tools/timer
-	tools/seq-play
-	tools/sequencer
-	tools/robot-simu
-	tools/motion-period
-	tools/neck-limitation
-	tools/mailbox-vector
-	tools/kalman
-	tools/joint-limitator
-	tools/gripper-control
-	tools/com-freezer
-	tools/clamp-workspace
-	tools/binary-int-to-uint
-	tools/periodic-call-entity
-        tools/trajectory
-        tools/joint-trajectory-entity
+  tools/time-stamp
+  tools/timer
+  tools/seq-play
+  tools/sequencer
+  tools/robot-simu
+  tools/motion-period
+  tools/neck-limitation
+  tools/mailbox-vector
+  tools/kalman
+  tools/joint-limitator
+  tools/gripper-control
+  tools/com-freezer
+  tools/clamp-workspace
+  tools/binary-int-to-uint
+  tools/periodic-call-entity
+  tools/joint-trajectory-entity
 
-	control/control-gr
-	control/control-pd
-)
+  control/control-gr
+  control/control-pd
+  )
 
 # TODO
 IF(WIN32)
-	LIST(REMOVE_ITEM plugins
-	tools/mailbox-vector
-	matrix/binary-op
-	matrix/derivator
-	matrix/fir-filter
-	matrix/integrator-abstract
-	matrix/integrator-euler
-	)
+  LIST(REMOVE_ITEM plugins
+    tools/mailbox-vector
+    matrix/binary-op
+    matrix/derivator
+    matrix/fir-filter
+    matrix/integrator-abstract
+    matrix/integrator-euler
+    )
 ENDIF(WIN32)
-	
+
 set(ADDITIONAL_feature-task_LIBS feature-generic task)
 set(ADDITIONAL_feature-point6d-relative_LIBS feature-point6d)
 
@@ -132,44 +131,44 @@ SET(LIBRARY_NAME ${SOTCORE_LIB_NAME})
 
 #sot-core library sources
 SET(${LIBRARY_NAME}_SOURCES
-	debug/debug.cpp
-	debug/contiifstream.cpp
+  debug/debug.cpp
+  debug/contiifstream.cpp
 
-	exception/exception-abstract.cpp
-	exception/exception-dynamic.cpp
-	exception/exception-factory.cpp
-	exception/exception-feature.cpp
-	exception/exception-signal.cpp
-	exception/exception-task.cpp
-	exception/exception-tools.cpp
+  exception/exception-abstract.cpp
+  exception/exception-dynamic.cpp
+  exception/exception-factory.cpp
+  exception/exception-feature.cpp
+  exception/exception-signal.cpp
+  exception/exception-task.cpp
+  exception/exception-tools.cpp
 
-	signal/signal-cast.cpp
+  signal/signal-cast.cpp
 
-	math/matrix-force.cpp
-	math/matrix-homogeneous.cpp
-	math/matrix-rotation.cpp
-	math/matrix-twist.cpp
-	math/vector-quaternion.cpp
-	math/vector-roll-pitch-yaw.cpp
-	math/vector-utheta.cpp
+  math/matrix-force.cpp
+  math/matrix-homogeneous.cpp
+  math/matrix-rotation.cpp
+  math/matrix-twist.cpp
+  math/vector-quaternion.cpp
+  math/vector-roll-pitch-yaw.cpp
+  math/vector-utheta.cpp
 
-	feature/feature-abstract.cpp
+  feature/feature-abstract.cpp
 
-	task/task-abstract.cpp
-	task/multi-bound.cpp
+  task/task-abstract.cpp
+  task/multi-bound.cpp
 
-	sot/flags.cpp
-	sot/memory-task-sot.cpp
-	sot/rotation-simple.cpp
-	sot/solver-hierarchical-inequalities.cpp
+  sot/flags.cpp
+  sot/memory-task-sot.cpp
+  sot/rotation-simple.cpp
+  sot/solver-hierarchical-inequalities.cpp
 
-	factory/pool.cpp
+  factory/pool.cpp
 
-	tools/utils-windows
-	tools/periodic-call
-	tools/device
-        tools/trajectory
-)
+  tools/utils-windows
+  tools/periodic-call
+  tools/device
+  tools/trajectory
+  )
 
 ADD_LIBRARY(${LIBRARY_NAME}
   SHARED
@@ -192,6 +191,7 @@ IF(UNIX AND NOT APPLE)
   TARGET_LINK_LIBRARIES(${LIBRARY_NAME} pthread)
 ENDIF(UNIX AND NOT APPLE)
 
+TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${Boost_LIBRARIES})
 
 INSTALL(TARGETS ${LIBRARY_NAME} 
   DESTINATION ${CMAKE_INSTALL_LIBDIR})
@@ -199,56 +199,57 @@ INSTALL(TARGETS ${LIBRARY_NAME}
 #Plugins compilation, link, and installation
 #Compiles a plugin. The plugin library is ${LIBRARY_NAME}
 FOREACH(plugin ${plugins})
-	#retrieve plugin name
-	GET_FILENAME_COMPONENT(LIBRARY_NAME ${plugin} NAME)
+  #retrieve plugin name
+  GET_FILENAME_COMPONENT(LIBRARY_NAME ${plugin} NAME)
+  
+  # only one source file per plugin
+  ADD_LIBRARY(${LIBRARY_NAME}
+    SHARED
+    ${plugin}.cpp)
 
-	# only one source file per plugin
-	ADD_LIBRARY(${LIBRARY_NAME}
-	  SHARED
-	  ${plugin}.cpp)
+  #remove the "lib" prefix from the plugin output name
+  SET_TARGET_PROPERTIES(${LIBRARY_NAME}
+    PROPERTIES
+    PREFIX "")
 
-	#remove the "lib" prefix from the plugin output name
-	SET_TARGET_PROPERTIES(${LIBRARY_NAME}
-		PROPERTIES
-		PREFIX "")
+  SET_TARGET_PROPERTIES(${LIBRARY_NAME}
+    PROPERTIES
+    SOVERSION ${PROJECT_VERSION}
+    INSTALL_RPATH ${DYNAMIC_GRAPH_PLUGINDIR})
 
-	SET_TARGET_PROPERTIES(${LIBRARY_NAME}
-	  PROPERTIES
-	  SOVERSION ${PROJECT_VERSION}
-	  INSTALL_RPATH ${DYNAMIC_GRAPH_PLUGINDIR})
+  # Link with sot-core library
+  TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${SOTCORE_LIB_NAME})
+  MESSAGE(STATUS ${Boost_LIBRARIES})
+  TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${Boost_LIBRARIES})
 
-	# Link with sot-core library
-	TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${SOTCORE_LIB_NAME})
-	TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${Boost_LIBRARIES})
+  ADD_DEPENDENCIES	 (${LIBRARY_NAME} ${SOTCORE_LIB_NAME})
 
-	ADD_DEPENDENCIES	 (${LIBRARY_NAME} ${SOTCORE_LIB_NAME})
+  IF(ADDITIONAL_${LIBRARY_NAME}_LIBS)
+    ADD_DEPENDENCIES(${LIBRARY_NAME} ${ADDITIONAL_${LIBRARY_NAME}_LIBS})
+    TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${ADDITIONAL_${LIBRARY_NAME}_LIBS})
+  ENDIF(ADDITIONAL_${LIBRARY_NAME}_LIBS)	
+  
+  # Linux dynamic loading library flags
+  IF(UNIX)
+    TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${CMAKE_DL_LIBS})
+  ENDIF(UNIX)
 
-	IF(ADDITIONAL_${LIBRARY_NAME}_LIBS)
-	  ADD_DEPENDENCIES(${LIBRARY_NAME} ${ADDITIONAL_${LIBRARY_NAME}_LIBS})
-	  TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${ADDITIONAL_${LIBRARY_NAME}_LIBS})
-	ENDIF(ADDITIONAL_${LIBRARY_NAME}_LIBS)	
-	
-	# Linux dynamic loading library flags
-	IF(UNIX)
-	  TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${CMAKE_DL_LIBS})
-	ENDIF(UNIX)
+  IF(UNIX AND NOT APPLE)
+    TARGET_LINK_LIBRARIES(${LIBRARY_NAME} dl pthread)
+  ENDIF(UNIX AND NOT APPLE)
 
-	IF(UNIX AND NOT APPLE)
-	  TARGET_LINK_LIBRARIES(${LIBRARY_NAME} dl pthread)
-	ENDIF(UNIX AND NOT APPLE)
+  PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} jrl-mal)
+  PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} dynamic-graph)
 
-	PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} jrl-mal)
-	PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} dynamic-graph)
-
-	# build python submodule
-	STRING(REPLACE - _ PYTHON_LIBRARY_NAME ${LIBRARY_NAME})
-	DYNAMIC_GRAPH_PYTHON_MODULE("sot/core/${PYTHON_LIBRARY_NAME}"
-	  ${LIBRARY_NAME}
-	  sot-core-${PYTHON_LIBRARY_NAME}-wrap
-	  )
-	# Install plugins
-	INSTALL(TARGETS ${LIBRARY_NAME}
-	  DESTINATION ${DYNAMIC_GRAPH_PLUGINDIR})
+  # build python submodule
+  STRING(REPLACE - _ PYTHON_LIBRARY_NAME ${LIBRARY_NAME})
+  DYNAMIC_GRAPH_PYTHON_MODULE("sot/core/${PYTHON_LIBRARY_NAME}"
+    ${LIBRARY_NAME}
+    sot-core-${PYTHON_LIBRARY_NAME}-wrap
+    )
+  # Install plugins
+  INSTALL(TARGETS ${LIBRARY_NAME}
+    DESTINATION ${DYNAMIC_GRAPH_PLUGINDIR})
 ENDFOREACH(plugin)
 
 # Bindings Python
