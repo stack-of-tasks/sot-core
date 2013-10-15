@@ -58,12 +58,11 @@ namespace ml = maal::boost;
 
 
 /*! @ingroup stackoftasks
+  \class dynamicgraph::sot::SotQr
   \brief This class implements the Stack of Task.
   It allows to deal with the priority of the controllers
   through the shell. The controllers can be either constraints
   either tasks.
-
-
 */
 
 namespace dynamicgraph { namespace sot {

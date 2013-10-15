@@ -56,7 +56,7 @@ namespace dg = dynamicgraph;
 
 /*!
   \class FeaturePoint6d
-  \brief Class that defines point-3d control feature
+  \brief Class that defines point-6d control feature
 */
 class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
   : public FeatureAbstract, public FeatureReferenceHelper<FeaturePoint6d>

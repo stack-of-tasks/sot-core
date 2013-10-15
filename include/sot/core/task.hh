@@ -58,11 +58,13 @@ namespace ml = maal::boost;
 /* --------------------------------------------------------------------- */
 /*!
   @ingroup tasks
-  This class defines the basic elements of a task.
+  @class dynamicgraph::sot::Task task.hh "Definition"
+  @brief Class that defines the basic elements of a task.
+
   A task is defined as \f$ {\bf s}  ={\bf e}({\bf q}) \f$
   where \f${\bf s} \f$ is a set of features and \f${\bf q}\f$ the
   actuated joints of the robot. <br>
-  It is assume that \f$ {\bf e} = - \lambda \dot{\bf e} \f$.
+  It is assumes that \f$ \dot{\bf e} = - \lambda {\bf e} \f$.
   Moreover as it assumed that this task can provide:
   \f$ {\bf J} = \frac{\delta f}{\delta {\bf q}} \f$
   It then possible to compute
@@ -75,8 +77,6 @@ namespace ml = maal::boost;
   This class makes also possible to select some of the
   listed of features to compute the control law through setControlSelection,
   addControlSelection, clearControlSelection.
-
-
  */
 
 namespace dynamicgraph { namespace sot {

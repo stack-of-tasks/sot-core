@@ -45,7 +45,8 @@ namespace dynamicgraph {
     using command::Command;
     using command::Value;
 
-    /* Feature that observes the posture of the robot, ie whose Jacobian is the
+    /*! @class dynamicgraph::sot::FeaturePosture feature-posture.hh
+     * Feature that observes the posture of the robot, ie whose Jacobian is the
      * identity, or slices of the identity. This feature can be exactly
      * obtained with a generic posture, given the identity matrix as the input
      * Jacobian, the identity matrix. It is even prefereable, as the reference
