@@ -74,10 +74,10 @@ namespace dynamicgraph {
 
       void display(std::ostream &os)
       {
-        boost::array<std::string, 4> names = { "Positions", 
-                                               "Velocities", 
-                                               "Accelerations",
-                                               "Effort"};
+        boost::array<std::string, 4> names={ std::string("Positions"), 
+              std::string("Velocities"), 
+              std::string("Accelerations"),
+              std::string("Effort") };
         
         std::vector<double> *points=0;
 
