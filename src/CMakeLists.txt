@@ -93,7 +93,6 @@ SET(plugins
 	tools/clamp-workspace
 	tools/binary-int-to-uint
 	tools/periodic-call-entity
-        tools/trajectory
         tools/joint-trajectory-entity
 
 	control/control-gr
