@@ -42,7 +42,7 @@ namespace sot {
 RulesJointTrajectory::RulesJointTrajectory(Trajectory &aTrajectoryToFill):
     TrajectoryToFill_(aTrajectoryToFill),
     dbg_level(0),
-    float_str_re("[0-9]+\\.[0-9]*"),
+    float_str_re("[-0-9]+\\.[0-9]*"),
       
     // Header Regular Expression
     seq_str_re("([0-9]+)"),
@@ -103,7 +103,8 @@ search_exp_sub_string(std::string &text,
   }
   else
   {
-    std::cout << "** No Match found **\n";
+    if (dbg_level>5)
+      std::cout << "** No Match found **\n";
     sub_text = text;
     nb_failures++;
     if (nb_failures>100)
@@ -208,7 +209,7 @@ parse_seq(std::string &trajectory,
             is.str(aString);
             double aValue;
             is >> aValue;
-            //if (dbg_level>5)
+            if (dbg_level>5)
             { std::cout << aString << " | " << aValue << std::endl; }
             
             seq.push_back(aValue);
@@ -242,36 +243,27 @@ parse_point(std::string &trajectory,
   boost::match_results<std::string::const_iterator> what;
   JointTrajectoryPoint aJTP;
 
-  std::cout << "Start point: first sequence" << trajectory << std::endl;
   if (!search_exp_sub_string(trajectory,what,bg_pt_re,sub_text1)) return false;
   sub_text2=sub_text1;
 
   if (!parse_seq(sub_text2,sub_text1,aJTP.positions_)) return false;
   sub_text2= sub_text1;
 
-  std::cout << "Position:" << position.size() << std::endl;
-  for(std::vector<double>::size_type i=0;
-      i<position.size();i++)
-    std::cout << position[i] << std::endl;
-
   if (!search_exp_sub_string(sub_text2,what,comma_pt_re,sub_text1)) return false;
   sub_text2=sub_text1;
 
   if (!parse_seq(sub_text2,sub_text1,aJTP.velocities_)) return false;
   sub_text2= sub_text1;
-  std::cout << "Velocities" << std::endl;
         
   if (!search_exp_sub_string(sub_text2,what,comma_pt_re,sub_text1)) return false;
   sub_text2=sub_text1;
 
   if (!parse_seq(sub_text2,sub_text1,aJTP.accelerations_)) return false;
   sub_text2= sub_text1;
-  std::cout << "Finito accelerations" << std::endl;
 
   if (!search_exp_sub_string(sub_text2,what,comma_pt_re,sub_text1)) return false;
   sub_text2=sub_text1;
   if (!parse_seq(sub_text2,sub_text1,aJTP.efforts_)) return false;
-  std::cout << "Finito efforts" << std::endl;
 
   TrajectoryToFill_.points_.push_back(aJTP);    
   return true;
@@ -342,6 +334,7 @@ parse_string(std::string &atext)
 Trajectory::Trajectory(void)
 {
 }
+  
 Trajectory::Trajectory(const Trajectory &copy)
 {
   header_ = copy.header_;
@@ -360,22 +353,21 @@ int Trajectory::deserialize(std::istringstream &is)
   RulesJointTrajectory aRJT(*this);
   aRJT.parse_string(aStr);
 
-  display(std::cout);
   return 0;
 }
 
-void Trajectory::display(std::ostream& os)
+void Trajectory::display(std::ostream& os) const
 {
   unsigned int index=0;
   os << "-- Trajectory --" << std::endl;
-  for (std::vector<std::string>::iterator it_joint_name = 
+  for (std::vector<std::string>::const_iterator it_joint_name = 
            joint_names_.begin();
        it_joint_name != joint_names_.end();
        it_joint_name++,index++)
     os << "Joint("<<index<<")="<< *(it_joint_name) << std::endl;
 
   os << " Number of points: " << points_.size() << std::endl;
-  for(std::vector<JointTrajectoryPoint>::iterator 
+  for(std::vector<JointTrajectoryPoint>::const_iterator 
           it_point = points_.begin();
       it_point != points_.end();
       it_point++)
