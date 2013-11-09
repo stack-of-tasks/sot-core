@@ -22,6 +22,8 @@
 
 #include <list>
 
+#include <deque>
+
 // Maal
 #include <jrl/mal/boost.hh>
 namespace ml= maal::boost;
@@ -142,6 +144,9 @@ protected:
 
   /// \brief Initial state of the trajectory.
   sot::Trajectory init_traj_;
+
+  /// \brief Queue of trajectories.
+  std::deque<sot::Trajectory> deque_traj_;
 
   /// \brief Update the entity with the current point of the trajectory.
   void UpdatePoint(const JointTrajectoryPoint &aJTP);
