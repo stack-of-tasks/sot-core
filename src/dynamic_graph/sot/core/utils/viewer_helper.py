@@ -7,6 +7,7 @@ def stateFullSize(robot,additionalData = () ):
 
 def refreshView( robot ):
     if robot.name=='robot':       name='hrp'
+    if robot.name=='robot_device':       name='hrp'
     else:                         name=robot.name
     robot.viewer.updateElementConfig(name,robot.stateFullSize())
 
