@@ -118,6 +118,11 @@ public:
       return false;
     return true;   
   }
+  friend std::ostream& operator <<(std::ostream& stream, const timestamp& ats)
+  {
+    stream << ats.secs_ + 0.000001*ats.nsecs_;
+    return stream;
+  }
 };
 
 class SOT_CORE_EXPORT Header
@@ -126,6 +131,8 @@ public:
   unsigned int seq_;
   timestamp stamp_;
   std::string frame_id_;
+  Header(): seq_(0),stamp_(0,0),frame_id_("initial_trajectory")
+    {}
 };
 
 
@@ -140,12 +147,12 @@ public:
 
   typedef std::vector<double> vec_ref;
 
-  void display(std::ostream &os)
+  void display(std::ostream &os) const
   {
     boost::array<std::string, 4> names=
       ba::list_of("Positions")("Velocities")("Accelerations")("Effort");
         
-    std::vector<double> *points=0;
+    const std::vector<double> *points=0;
 
     for(std::size_t arrayId=0;arrayId<names.size();++arrayId)
     {
@@ -163,7 +170,7 @@ public:
           assert(0);
       }
 
-      std::vector<double>::iterator it_db;
+      std::vector<double>::const_iterator it_db;
       os << names[arrayId] << std::endl
          << "---------" << std::endl;
       for(it_db = points->begin();
@@ -210,7 +217,7 @@ public:
   std::vector<JointTrajectoryPoint> points_;
       
   int deserialize(std::istringstream &is);
-  void display(std::ostream &);
+  void display(std::ostream &) const;
 
 };
 } // namespace sot

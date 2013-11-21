@@ -16,8 +16,8 @@
  * have received a copy of the GNU Lesser General Public License along
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
-#define VP_DEBUG
-#define VP_DEBUG_MODE 45
+//#define VP_DEBUG
+//#define VP_DEBUG_MODE 10
 #include <sot/core/debug.hh>
 #ifdef VP_DEBUG
  class sotJTE__INIT
@@ -72,13 +72,19 @@ SotJointTrajectoryEntity(const std::string &n):
            "SotJointTrajectory("+n+")::output(MatrixHomogeneous)::waist"),
   trajectorySIN(NULL,"SotJointTrajectory("+n+")::input(trajectory)::trajectoryIN"),
   index_(0),
-  traj_timestamp_(0,0)
+  traj_timestamp_(0,0),
+  deque_traj_(0)
+  
 {
   using namespace command;
   sotDEBUGIN(5);
+
+
   signalRegistration( positionSOUT << comSOUT << zmpSOUT 
                       << waistSOUT << trajectorySIN);
   refresherSINTERN.setDependencyType( TimeDependency<int>::ALWAYS_READY );
+  refresherSINTERN.setReady(true);
+
   std::string docstring;
   docstring ="    \n"
     "    initialize the first trajectory.\n"
@@ -96,6 +102,7 @@ SotJointTrajectoryEntity(const std::string &n):
 
 void SotJointTrajectoryEntity::UpdatePoint(const JointTrajectoryPoint &aJTP)
 {
+
   sotDEBUGIN(5);
   // Posture
   std::vector<JointTrajectoryPoint>::size_type possize = 
@@ -106,88 +113,144 @@ void SotJointTrajectoryEntity::UpdatePoint(const JointTrajectoryPoint &aJTP)
   pose_.resize(aJTP.positions_.size());
   for(std::vector<JointTrajectoryPoint>::size_type i=0;
       i<possize-5;i++)
-    pose_(i) = aJTP.positions_[i];
+    {
+      pose_(i) = aJTP.positions_[i];
+      sotDEBUG(5) << pose_(i) << " " << std::endl;
+    }
 
-  sotDEBUG(5) << std::endl;
   // Center of Mass
   com_.resize(3);
   for(std::vector<JointTrajectoryPoint>::size_type i=possize-5,j=0;
       i<possize-2;i++,j++)
     com_(j) = aJTP.positions_[i];
 
-  sotDEBUG(5) << std::endl;
-  // The waist is provided in the 2D plane
+  sotDEBUG(5) << "com: " << com_ << std::endl;
+
+  // Add a constant height TODO: make it variable
   ml::Vector waistXYZTheta;
   waistXYZTheta.resize(4);
-  for(std::vector<JointTrajectoryPoint>::size_type i=possize-5,j=0;
-      i<possize-3;i++,j++)
-    waistXYZTheta(j) = aJTP.positions_[i];
 
-  sotDEBUG(5) << std::endl;
-  // Add a constant height TODO: make it variable
+  waistXYZTheta(0) = com_(0); 
+  waistXYZTheta(1) = com_(1);
   waistXYZTheta(2) = 0.65; 
   waistXYZTheta(3) = com_(2);
   waist_ = XYZThetaToMatrixHomogeneous(waistXYZTheta);
 
-  sotDEBUG(5) << std::endl;
+  sotDEBUG(5) << "waist: " << waist_ << std::endl;
   // Center of Pressure
   cop_.resize(3);
   for(std::vector<JointTrajectoryPoint>::size_type i=possize-2,j=0;
       i<possize;i++,j++)
     cop_(j) = aJTP.positions_[i];
-  sotDEBUGOUT(5);
+  cop_(2)=-0.055;
+  sotDEBUG(5) << "cop_: " << cop_ << std::endl;
+  sotDEBUGOUT(5) ;
 }
 
 void SotJointTrajectoryEntity::UpdateTrajectory(const Trajectory &aTrajectory)
 {
-  sotDEBUGIN(5);
-  if (traj_timestamp_==aTrajectory.header_.stamp_)
+  sotDEBUGIN(3);
+  sotDEBUG(3) << "traj_timestamp: " << traj_timestamp_
+              <<  " aTrajectory.header_.stamp_" << aTrajectory.header_.stamp_ ;
+  
+  // Do we have the same trajectory, or are we at the initialization phase ?
+  if ((traj_timestamp_==aTrajectory.header_.stamp_) && (deque_traj_.size()!=0))
     index_++; 
   else 
     {
-      index_=0;
-      traj_timestamp_ = aTrajectory.header_.stamp_;
+      // No we have a new trajectory.
+      sotDEBUG(3) << "index: " << index_ 
+                    << " aTrajectory.points_.size(): " << aTrajectory.points_.size();
+      
+      // Put the new trajectory in the queue
+      
+      // if there is nothing 
+      if (deque_traj_.size()==0)
+        {
+          deque_traj_.push_back(aTrajectory);
+          index_=0;
+        }
+      else
+        {
+          index_++;
+          // if it is not already inside the queue.
+          if (deque_traj_.back().header_.stamp_ == aTrajectory.header_.stamp_) {}
+          else deque_traj_.push_back(aTrajectory);
+        }
     }
 
-  sotDEBUG(5) << "step 1 " << std::endl
+
+
+  sotDEBUG(3) << "step 1 " << std::endl
               << "header: " << std::endl
               << "  timestamp:" 
               << aTrajectory.header_.stamp_.secs_ +
     0.000000001 *aTrajectory.header_.stamp_.nsecs_ 
               << " seq:" << aTrajectory.header_.seq_ << " " 
               << " frame_id:" << aTrajectory.header_.frame_id_
-              << std::endl;
-  
-  if (index_== aTrajectory.points_.size())
-    {
-      
-      if (aTrajectory.points_.size()==0)
-        {
-          sotDEBUG(5) << "aTrajectory.points_.size()="
-                      << aTrajectory.points_.size() << std::endl;
-          return;
-        }
-
-      index_=aTrajectory.points_.size()-1;
-      sotDEBUG(5) << "index_=aTrajectory.points_.size()-1;" << std::endl;
-    }
-  
-  sotDEBUG(5) << "index_:" << index_ 
+              << " index_: " << index_ 
               << " aTrajectory.points_.size():" << aTrajectory.points_.size()
               << std::endl;
 
-  UpdatePoint(aTrajectory.points_[index_]);
-  sotDEBUGOUT(5);
+  // Strategy at the end of the trajectory.
+  if (index_>= deque_traj_.front().points_.size())
+    {
+
+      if (deque_traj_.size()>1)
+        {
+          deque_traj_.pop_front();
+          index_=0;
+        }
+
+      // If the new trajectory has a problem 
+      if (deque_traj_.front().points_.size()==0)
+        {
+          // then neutralize the entity
+          index_=0;
+          sotDEBUG(3) << "current_traj_.points_.size()="
+                      << deque_traj_.front().points_.size() << std::endl;
+          return;
+        }
+
+      // Strategy at the end of the trajectory when no new information is available:
+      // It is assumed that the last pose is balanced, and we keep providing
+      // this pose to the robot.
+      if ((index_!=0) && (deque_traj_.size()==1))
+        {
+          index_= deque_traj_.front().points_.size()-1;
+        }
+      sotDEBUG(3) << "index_=current_traj_.points_.size()-1;" << std::endl;
+    }
+  
+  sotDEBUG(3) << "index_:" << index_ 
+              << " current_traj_.points_.size():" << deque_traj_.front().points_.size()
+              << std::endl;
+
+  UpdatePoint(deque_traj_.front().points_[index_]);
+  sotDEBUGOUT(3);
 }
 
 int & SotJointTrajectoryEntity::OneStepOfUpdate(int &dummy,const int & time)
 {
-  sotDEBUGIN(5);
-  if (!trajectorySIN.getReady())
-    UpdateTrajectory(init_traj_);
-  else
-    UpdateTrajectory(trajectorySIN(time));
-  sotDEBUGOUT(5);
+  sotDEBUGIN(4);
+  const Trajectory & atraj = trajectorySIN(time);
+  if ((atraj.header_.stamp_.secs_!=deque_traj_.front().header_.stamp_.secs_) ||
+      (atraj.header_.stamp_.nsecs_!=deque_traj_.front().header_.stamp_.nsecs_))
+    {
+      if (index_ < deque_traj_.front().points_.size()-1)
+        {
+          sotDEBUG(4) << "Overwrite trajectory without completion." 
+                      << index_  << " " 
+                      << deque_traj_.front().points_.size()
+                      <<std::endl;
+        }
+    }
+  sotDEBUG(4) << "Finished to read trajectorySIN" << std::endl;
+  UpdateTrajectory(atraj);
+
+  sotDEBUG(4) << "Finished to update trajectory" << std::endl;
+
+  sotDEBUGOUT(4);
   return dummy;
 }
 
@@ -220,7 +283,8 @@ getNextPosition(ml::Vector &pos,
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   pos = pose_;
-  sotDEBUGOUT(5);
+  sotDEBUG(5) << pos;
+  sotDEBUGOUT(5) ;
   return pos;
 }
    
@@ -292,5 +356,7 @@ setInitTraj(const std::string &as)
   sotDEBUGIN(5);
   std::istringstream is(as);
   init_traj_.deserialize(is);
+  UpdateTrajectory(init_traj_);
+
   sotDEBUGOUT(5);
 }

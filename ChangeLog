@@ -1,7 +1,77 @@
 CHANGELOG
 ----------------------
 
-[Current]
+
+[v2.9.0]
+ * Correct the exception catching
+ * Fixes issue #19 : Remove wrong commands of python metatask FeaturePosition
+ * Remove useless header.
+ * Added type and dimension case for reference vector
+ * Added possible posture ranges
+ * Merge pull request #20 from francesco-morsillo/master
+ * Correct documentation generation by adding sphinx.
+ * Correct LD_LIBRARY_PATH for test and remove hard-coded 'plugin'
+ * Synchronize.
+ * Correct doxygen installation.
+ * Correct sphinx documentation.
+ * Add trajectory.hh in the installation scheme.
+ * Add trajectory data structure.
+ * First workable version of trajectories.
+ * [cmake] Synchronize
+ * Taking into account Thomas comments
+ * Improved coding style.
+ * Merge pull request #21 from olivier-stasse/master
+ * Replace signals in/out by sin/sout to avoid python error.
+ * Correct documentation.
+ * [trajectory] Add waist signal + squash several commits.
+ * Fix bug in reading initial trajectory from command line + minor fixes.
+ * [tools] Add queue of trajectories in joint-trajectory-entity.
+ * [cmake] Remove debug message in src/CMakeLists.txt
+
+[v2.8.0]
+ * Update CMakeLists.txt
+ * Synchronize
+ * Update lib installation path (multiarch portability).
+ * Fix exportation of graph in a file
+ * Fix a bug in FeaturePoint6dRelative
+ * Add a command to clear features in Task class.
+ * Merge pull request #12 from francesco-morsillo/master
+ * Remove blank line at beggining of comment in command.
+ * class MetaTaskRelative added to library with goto functions redefinition
+ * Added tuple-matrix to generic6dReference conversion
+ * Fixed bug in last commit
+ * Added tuple-matrix to generic6dReference conversion
+ * Merge branch 'master' of github.com:francesco-morsillo/sot-core
+ * second order integration added in device
+ * Working second order integration on device.cpp
+ * Control in acceleration mode added in Device
+ * Merge branch 'master' of git://github.com/jrl-umi3218/sot-core
+ * Indentation adjustments
+ * dummy commit
+ * Changed command name from setNbDofs to setSize in sot.cpp
+ * Working control on robot but dirty
+ * Working 2nd_ord integration with command to set of velocity size
+ * Deleted command to set velocity size (automatically set by setState)
+ * Corrected commentary in thread_interruptible_loop.py
+ * Added explicit set of velocity in device.cpp
+ * [travis] Add Travis and coveralls.io support
+ * [travis] Fix push URL
+ * Update README.md
+ * Remove unwanted files.
+ * [travis] Add push token
+ * Synchronize
+ * Rename test traces into test_traces.
+ * Fix test_traces dependencies
+ * Merge pull request #11 from pal-robotics/master
+ * Synchronize
+ * Remove useless code (copy-pasted and unreachable).
+ * Update Reader: add the python interface, remove the old one.
+ * Update GripperControl: add the python interface, remove the old one.
+ * Reintroduce WeightAdder.
+ * Correct the path to the plugin directory of dynamic-graph.
+ * Synchronize
+
+[v2.7.0]
  * Do not import SE3, SO3 and R3 anymore
  * Move se3.py to sot-tools.
  * Add left multiplication by a float
