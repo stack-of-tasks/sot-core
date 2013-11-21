@@ -73,7 +73,7 @@ class MetaTaskPosture(object):
                     qdes[limbRange,0] = vectorToTuple(jointValues)
                 else: qdes[limbRange,0] = jointValues
         self.ref = vectorToTuple(qdes)
-        self.feature.selec.value = toFlags(act)
+        if(len(act)>0): self.feature.selec.value = toFlags(act)
         setGain(self.gain,gain)
 
 class MetaTaskKinePosture(MetaTaskPosture):
