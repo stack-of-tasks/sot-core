@@ -115,7 +115,7 @@ computeErrorDot( ml::Vector& res,int time )
 
   sotDEBUG(25) << "Dim = " << dim << std::endl;
 
-  if( isReferenceSet () && getReferenceAbstract ()->errordotSIN.isPluged ())
+  if( isReferenceSet () && getReferenceAbstract ()->errordotSIN.isPlugged ())
     {
       const ml::Vector& errdotDes = getReferenceAbstract ()->errordotSIN(time);
       sotDEBUG(15) << "Err* = " << errdotDes;
