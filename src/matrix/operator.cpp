@@ -480,6 +480,17 @@ namespace dynamicgraph {
     };
     REGISTER_UNARY_OP(HomoToRotation,HomoToRotation);
 
+    struct MatrixHomoToPose
+       : public UnaryOpHeader<MatrixHomogeneous,Vector>
+    {
+      void operator()( const MatrixHomogeneous& M,Vector& res )
+      {
+        res.resize(3);
+        M.extract(res);
+      }
+    };
+    REGISTER_UNARY_OP(MatrixHomoToPose,MatrixHomoToPose);
+
     struct RPYToMatrix
        : public UnaryOpHeader<VectorRollPitchYaw,MatrixRotation>
    {

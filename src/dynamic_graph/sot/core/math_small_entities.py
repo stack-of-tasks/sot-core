@@ -13,6 +13,7 @@ from operator import Selec_of_vector
 from operator import Component_of_vector
 from operator import Selec_of_matrix
 from operator import Selec_column_of_matrix
+from operator import MatrixHomoToPose
 from operator import MatrixHomoToPoseUTheta
 from operator import SkewSymToVector
 from operator import PoseUThetaToMatrixHomo
