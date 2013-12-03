@@ -90,7 +90,7 @@ protected:
 	  res = memory; res *= -1;
 	  memory = SIN(time);
 	  res += memory;
-	  if( timestep!=1. ) res*=timestep;
+	  if( timestep!=1. ) res *= (1./timestep);
 	} else {
 	  initialized = true;
 	  memory = SIN(time);
@@ -99,11 +99,6 @@ protected:
 	}
       return res;
     }
-
- public: /* --- PARAMS --- */
-/*   virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs, */
-/* 			    std::ostream& os ) {} */
-
 };
 
 } /* namespace sot */} /* namespace dynamicgraph */
