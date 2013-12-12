@@ -80,6 +80,9 @@ public:
   /// \brief Return the next waist.
   sot::MatrixHomogeneous& getNextWaist(sot::MatrixHomogeneous& waist, const int& time );
 
+  /// \brief Return the current seq identified of the current trajectory.
+  unsigned int & getSeqId(unsigned int &seqid, const int& time );
+
   /// \brief Convert a xyztheta vector into an homogeneous matrix
   sot::MatrixHomogeneous XYZThetaToMatrixHomogeneous (const ml::Vector& xyztheta);
 
@@ -117,6 +120,9 @@ public:
 
   /// \brief Publish waist for each evaluation of the graph.
   dynamicgraph::SignalTimeDependent<sot::MatrixHomogeneous,int> waistSOUT;
+
+  /// \brief Publish ID of the trajectory currently realized.
+  dynamicgraph::SignalTimeDependent<unsigned int,int> seqIdSOUT;
       
   /// \brief Read a trajectory.
   dynamicgraph::SignalPtr<Trajectory,int> trajectorySIN;
@@ -141,6 +147,9 @@ protected:
 
   /// \brief Store the waist position.
   sot::MatrixHomogeneous waist_;
+
+  /// \brief Store the current seq identifier.
+  unsigned int seqid_;
 
   /// \brief Initial state of the trajectory.
   sot::Trajectory init_traj_;

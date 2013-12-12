@@ -70,11 +70,15 @@ SotJointTrajectoryEntity(const std::string &n):
                        this,_1,_2),
            OneStepOfUpdateS,
            "SotJointTrajectory("+n+")::output(MatrixHomogeneous)::waist"),
+  seqIdSOUT(boost::bind(&SotJointTrajectoryEntity::getSeqId,
+                       this,_1,_2),
+            OneStepOfUpdateS,
+            "SotJointTrajectory("+n+")::output(uint)::seqid"),
   trajectorySIN(NULL,"SotJointTrajectory("+n+")::input(trajectory)::trajectoryIN"),
   index_(0),
   traj_timestamp_(0,0),
+  seqid_(0),
   deque_traj_(0)
-  
 {
   using namespace command;
   sotDEBUGIN(5);
@@ -225,7 +229,8 @@ void SotJointTrajectoryEntity::UpdateTrajectory(const Trajectory &aTrajectory)
   sotDEBUG(3) << "index_:" << index_ 
               << " current_traj_.points_.size():" << deque_traj_.front().points_.size()
               << std::endl;
-
+  
+  seqid_ = deque_traj_.front().header_.seq_;
   UpdatePoint(deque_traj_.front().points_[index_]);
   sotDEBUGOUT(3);
 }
@@ -319,6 +324,17 @@ getNextWaist(sot::MatrixHomogeneous &waist,
   waist = waist_;
   sotDEBUGOUT(5);
   return waist_;
+}
+
+unsigned int &SotJointTrajectoryEntity::
+getSeqId(unsigned int &seqid,
+         const int & time)
+{
+  sotDEBUGIN(5);
+  OneStepOfUpdateS(time);
+  seqid = seqid_;
+  sotDEBUGOUT(5);
+  return seqid;
 }
 
 void SotJointTrajectoryEntity::
