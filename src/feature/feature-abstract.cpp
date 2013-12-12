@@ -34,20 +34,21 @@ FeatureAbstract::CLASS_NAME = "FeatureAbstract";
 FeatureAbstract::
 FeatureAbstract( const std::string& name ) 
   :Entity(name)
-   ,selectionSIN(NULL,"sotFeatureAbstract("+name+")::input(flag)::selec")
+  ,selectionSIN(NULL,"sotFeatureAbstract("+name+")::input(flag)::selec")
   ,errordotSIN (NULL,"sotFeatureAbstract("+name+")::input(vector)::errordotIN" )
-   ,errorSOUT( boost::bind(&FeatureAbstract::computeError,this,_1,_2),
-	       selectionSIN,
-	       "sotFeatureAbstract("+name+")::output(vector)::error" )
-   ,jacobianSOUT( boost::bind(&FeatureAbstract::computeJacobian,this,_1,_2),
-		  selectionSIN,
-		  "sotFeatureAbstract("+name+")::output(matrix)::jacobian" )
-   ,dimensionSOUT( boost::bind(&FeatureAbstract::getDimension,this,_1,_2),
-		   selectionSIN,
-		   "sotFeatureAbstract("+name+")::output(uint)::dim" )
+  ,errorSOUT( boost::bind(&FeatureAbstract::computeError,this,_1,_2),
+              selectionSIN,
+              "sotFeatureAbstract("+name+")::output(vector)::error" )
   ,errordotSOUT (boost::bind(&FeatureAbstract::computeErrorDot,this,_1,_2),
 		 selectionSIN << errordotSIN,
 		 "sotFeatureAbstract("+name+")::output(vector)::errordot" )
+   
+  ,jacobianSOUT( boost::bind(&FeatureAbstract::computeJacobian,this,_1,_2),
+                 selectionSIN,
+                 "sotFeatureAbstract("+name+")::output(matrix)::jacobian" )
+  ,dimensionSOUT( boost::bind(&FeatureAbstract::getDimension,this,_1,_2),
+                  selectionSIN,
+                  "sotFeatureAbstract("+name+")::output(uint)::dim" )
 {
   selectionSIN = true;
   signalRegistration( selectionSIN

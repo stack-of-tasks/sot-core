@@ -106,7 +106,7 @@ namespace dynamicgraph {
       return res;
     }
 
-    ml::Matrix& FeaturePosture::computeJacobian( ml::Matrix& res, int t)
+    ml::Matrix& FeaturePosture::computeJacobian( ml::Matrix& res, int )
     {
       res = jacobian_;
       return res;
