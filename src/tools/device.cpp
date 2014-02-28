@@ -217,7 +217,7 @@ setStateSize( const unsigned int& size )
 
 void Device::
 setVelocitySize( const unsigned int& size )
-{ 
+{
   velocity_.resize(size);
   velocity_.fill(.0);
   velocitySOUT.setConstant( velocity_ );
@@ -269,19 +269,6 @@ increment( const double & dt )
 {
   int time = stateSOUT.getTime();
   sotDEBUG(25) << "Time : " << time << std::endl;
-
-  /* Position the signals corresponding to sensors. */
-  stateSOUT .setConstant( state_ ); stateSOUT.setTime( time+1 );
-  if( secondOrderIntegration_  )
-    {
-      velocitySOUT.setConstant( velocity_ );
-      velocitySOUT.setTime( time+1 );
-    }
-  for( int i=0;i<4;++i ){
-    if(  !withForceSignals[i] ) forcesSOUT[i]->setConstant(forceZero6);
-  }
-  ml::Vector zmp(3); zmp.fill( .0 );
-  ZMPPreviousControllerSOUT .setConstant( zmp );
 
   // Run Synchronous commands and evaluate signals outside the main
   // connected component of the graph.
@@ -342,6 +329,19 @@ increment( const double & dt )
 	<< " running periodical commands (after)" << std::endl;
     }
 
+      /* Position the signals corresponding to sensors. */
+  stateSOUT .setConstant( state_ ); stateSOUT.setTime( time+1 );
+  if( secondOrderIntegration_  )
+    {
+      velocitySOUT.setConstant( velocity_ );
+      velocitySOUT.setTime( time+1 );
+    }
+  for( int i=0;i<4;++i ){
+    if(  !withForceSignals[i] ) forcesSOUT[i]->setConstant(forceZero6);
+  }
+  ml::Vector zmp(3); zmp.fill( .0 );
+  ZMPPreviousControllerSOUT .setConstant( zmp );
+
   // Others signals.
   motorcontrolSOUT .setConstant( state_ );
 }
@@ -349,7 +349,7 @@ increment( const double & dt )
 void Device::integrate( const double & dt )
 {
   const ml::Vector & control = controlSIN.accessCopy();
-  
+
   if( !vel_controlInit_ )
     {
       vel_control_ = ml::Vector(control.size());
@@ -362,7 +362,7 @@ void Device::integrate( const double & dt )
   // freedom as a translation and roll pitch yaw.
   unsigned int offset = 6;
 
-  
+
 
   if (secondOrderIntegration_)
     {
@@ -382,7 +382,7 @@ void Device::integrate( const double & dt )
     offset = 0;
     integrateRollPitchYaw(state_, vel_control_, dt);
   }
-  
+
   for( unsigned int i=6;i<state_.size();++i )
     { state_(i) += (vel_control_(i-offset)*dt); }
 }
