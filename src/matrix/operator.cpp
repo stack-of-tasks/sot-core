@@ -309,6 +309,25 @@ namespace dynamicgraph {
     REGISTER_UNARY_OP( Inverser<MatrixHomogeneous>, Inverse_of_matrixHomo);
     REGISTER_UNARY_OP( Inverser<MatrixTwist>, Inverse_of_matrixtwist);
 
+
+
+    struct Normalize
+      : public UnaryOpHeader<dg::Vector,double>
+    {
+      void operator()( const dg::Vector& m, double& res ) const
+      { res = m.norm(); }
+
+      virtual std::string getDocString () const
+      {
+	std::string docString
+	  ("Computes the norm of a vector\n"
+	   "  - input  vector\n""  - output double");
+	return docString;
+      }
+    };
+    REGISTER_UNARY_OP( Normalize, Norm_of_vector);
+
+
     struct InverserRotation
       : public UnaryOpHeader<MatrixRotation,MatrixRotation>
     {
