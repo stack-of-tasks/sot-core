@@ -304,6 +304,19 @@ increment( const double & dt )
   integrate( dt );
   sotDEBUG(25) << "q" << time << " = " << state_ << endl;
 
+  /* Position the signals corresponding to sensors. */
+  stateSOUT .setConstant( state_ ); stateSOUT.setTime( time+1 );
+  if( secondOrderIntegration_  )
+    {
+      velocitySOUT.setConstant( velocity_ );
+      velocitySOUT.setTime( time+1 );
+    }
+  for( int i=0;i<4;++i ){
+    if(  !withForceSignals[i] ) forcesSOUT[i]->setConstant(forceZero6);
+  }
+  ml::Vector zmp(3); zmp.fill( .0 );
+  ZMPPreviousControllerSOUT .setConstant( zmp );
+
   // Run Synchronous commands and evaluate signals outside the main
   // connected component of the graph.
   try
@@ -329,18 +342,6 @@ increment( const double & dt )
 	<< " running periodical commands (after)" << std::endl;
     }
 
-      /* Position the signals corresponding to sensors. */
-  stateSOUT .setConstant( state_ ); stateSOUT.setTime( time+1 );
-  if( secondOrderIntegration_  )
-    {
-      velocitySOUT.setConstant( velocity_ );
-      velocitySOUT.setTime( time+1 );
-    }
-  for( int i=0;i<4;++i ){
-    if(  !withForceSignals[i] ) forcesSOUT[i]->setConstant(forceZero6);
-  }
-  ml::Vector zmp(3); zmp.fill( .0 );
-  ZMPPreviousControllerSOUT .setConstant( zmp );
 
   // Others signals.
   motorcontrolSOUT .setConstant( state_ );
