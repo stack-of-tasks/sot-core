@@ -36,19 +36,19 @@ namespace dynamicgraph {
       std::vector<double> values_;
 
     public:
-      NamedVector() {};
-      ~NamedVector() {};
+      NamedVector() {}
+      ~NamedVector() {}
 
-      const std::string & getName()
+      const std::string & getName() const
       { return name_;}
 
       void setName(const std::string & aname)
       { name_ = aname;}
 
-      const std::vector<double> & getValues()
+      const std::vector<double> & getValues() const
       { return values_;}
 
-      void setValues(std::vector<double> values)
+      void setValues(const std::vector<double> & values)
       { values_ = values;}
 
     };
@@ -59,9 +59,9 @@ namespace dynamicgraph {
     {
     public:
 
-      AbstractSotExternalInterface(){};
+      AbstractSotExternalInterface(){}
 
-      virtual ~AbstractSotExternalInterface(){};
+      virtual ~AbstractSotExternalInterface(){}
 
       virtual void setupSetSensors(std::map<std::string,SensorValues> &sensorsIn)=0;
       
