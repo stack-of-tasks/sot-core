@@ -141,11 +141,14 @@ Device( const std::string& n )
   forcesSOUT[3] =
     new Signal<ml::Vector, int>("OpenHRP::output(vector6)::forceLARM");
 
-  signalRegistration( controlSIN<<stateSOUT<<attitudeSOUT<<attitudeSIN<<zmpSIN
-		      <<*forcesSOUT[0]<<*forcesSOUT[1]<<*forcesSOUT[2]<<*forcesSOUT[3]
-		      <<previousControlSOUT <<pseudoTorqueSOUT
-		      << motorcontrolSOUT << ZMPPreviousControllerSOUT );
+  signalRegistration( controlSIN<<stateSOUT<<velocitySOUT<<attitudeSOUT
+              <<attitudeSIN<<zmpSIN <<*forcesSOUT[0]<<*forcesSOUT[1]
+              <<*forcesSOUT[2]<<*forcesSOUT[3] <<previousControlSOUT
+              <<pseudoTorqueSOUT << motorcontrolSOUT << ZMPPreviousControllerSOUT );
   state_.fill(.0); stateSOUT.setConstant( state_ );
+
+  velocity_.resize(state_.size()); velocity_.setZero();
+  velocitySOUT.setConstant( velocity_ );
 
   /* --- Commands --- */
   {
@@ -258,7 +261,6 @@ void Device::
 setSecondOrderIntegration()
 {
   secondOrderIntegration_ = true;
-  signalRegistration( velocitySOUT );
   velocity_.resize(state_.size());
   velocity_.setZero();
   velocitySOUT.setConstant( velocity_ );
@@ -306,9 +308,15 @@ increment( const double & dt )
 
   /* Position the signals corresponding to sensors. */
   stateSOUT .setConstant( state_ ); stateSOUT.setTime( time+1 );
+   //computation of the velocity signal
   if( secondOrderIntegration_  )
     {
       velocitySOUT.setConstant( velocity_ );
+      velocitySOUT.setTime( time+1 );
+    }
+  else
+    {
+      velocitySOUT.setConstant( controlSIN.accessCopy() );
       velocitySOUT.setTime( time+1 );
     }
   for( int i=0;i<4;++i ){
