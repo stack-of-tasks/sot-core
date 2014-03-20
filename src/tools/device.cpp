@@ -299,7 +299,7 @@ increment( const double & dt )
 
 
   /* Force the recomputation of the control. */
-  controlSIN( time+1 );
+  controlSIN( time );
   sotDEBUG(25) << "u" <<time<<" = " << controlSIN.accessCopy() << endl;
 
   /* Integration of numerical values. This function is virtual. */
