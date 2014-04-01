@@ -59,40 +59,45 @@ namespace dynamicgraph { namespace sot {
 
 namespace dg = dynamicgraph;
 
+/*! \brief The goal of this entity is to ensure that the maximal torque will not
+ * be exceeded during a grasping task.
+ * If the maximal torque is reached, then the current position of the gripper is 
+kept
+ *
+ */
 class SOTGRIPPERCONTROL_EXPORT GripperControl
 {
  protected:
 
   double offset;
   static const double OFFSET_DEFAULT;
+  //! \brief The multiplication
   ml::Vector factor;
 
  public:
   GripperControl( void );
 
+  //! \brief Computes the
+  // if the torque limit is reached, the normalized position is reduced by
+  // (offset)
   void computeIncrement( const ml::Vector& torques,
-			 const ml::Vector& torqueLimits,
-			 const ml::Vector& currentNormPos );
+                         const ml::Vector& torqueLimits,
+                         const ml::Vector& currentNormVel );
 
-  static void computeNormalizedPosition( const ml::Vector& currentPos,
-					 const ml::Vector& upperLim,
-					 const ml::Vector& lowerLim,
-					 ml::Vector& currentNormPos );
-  static void computeDenormalizedPosition( const ml::Vector& currentNormPos,
-					   const ml::Vector& upperLim,
-					   const ml::Vector& lowerLim,
-					   ml::Vector& currentPos );
-
+  //! \brief
   ml::Vector& computeDesiredPosition( const ml::Vector& currentPos,
-				      const ml::Vector& torques,
-				      const ml::Vector& upperLim,
-				      const ml::Vector& lowerLim,
-				      const ml::Vector& torqueLimits,
-				      ml::Vector& desPos );
+                                      const ml::Vector& desiredPos,
+                                      const ml::Vector& torques,
+                                      const ml::Vector& torqueLimits,
+                                      ml::Vector& referencePos );
+
+  /*! \brief select only some of the values of the vector fullsize,
+  *   based on the Flags vector.
+  */
 
   static ml::Vector& selector( const ml::Vector& fullsize,
-			       const Flags& selec,
-			       ml::Vector& desPos );
+                               const Flags& selec,
+                               ml::Vector& desPos );
 };
 
 /* --------------------------------------------------------------------- */
@@ -119,8 +124,7 @@ class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
 
   /* --- INPUTS --- */
   dg::SignalPtr<ml::Vector,int> positionSIN;
-  dg::SignalPtr<ml::Vector,int> upperLimitSIN;
-  dg::SignalPtr<ml::Vector,int> lowerLimitSIN;
+  dg::SignalPtr<ml::Vector,int> positionDesSIN;
   dg::SignalPtr<ml::Vector,int> torqueSIN;
   dg::SignalPtr<ml::Vector,int> torqueLimitSIN;
   dg::SignalPtr<Flags,int> selectionSIN;
@@ -128,10 +132,6 @@ class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
   /* --- INTERMEDIARY --- */
   dg::SignalPtr<ml::Vector,int> positionFullSizeSIN;
   dg::SignalTimeDependent<ml::Vector,int> positionReduceSOUT;
-  dg::SignalPtr<ml::Vector,int> upperLimitFullSizeSIN;
-  dg::SignalTimeDependent<ml::Vector,int> upperLimitReduceSOUT;
-  dg::SignalPtr<ml::Vector,int> lowerLimitFullSizeSIN;
-  dg::SignalTimeDependent<ml::Vector,int> lowerLimitReduceSOUT;
   dg::SignalPtr<ml::Vector,int> torqueFullSizeSIN;
   dg::SignalTimeDependent<ml::Vector,int> torqueReduceSOUT;
   dg::SignalPtr<ml::Vector,int> torqueLimitFullSizeSIN;
