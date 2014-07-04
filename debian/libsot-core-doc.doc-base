@@ -1,9 +1,0 @@
-Document: sot-core
-Title: Debian sot-core Manual
-Author: Thomas Moulard <thomas.moulard@gmail.com>
-Abstract: Doxygen documentation of sot-core.
-Section: Programming
-
-Format: HTML
-Index: /opt/openrobots/share/doc/sot-core/html/index.html
-Files: /opt/openrobots/share/doc/sot-core/html/*.html
