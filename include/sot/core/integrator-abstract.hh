@@ -76,55 +76,6 @@ class IntegratorAbstract
 
   virtual sigT& integrate( sigT& res,int time ) = 0;
 
- public:  /* --- INHERITANCE --- */
-  virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,std::ostream& os )
-  {
-    if( cmdLine == "pushNumCoef" )
-    {
-      std::string objname, signame;
-      // Florent: remove reference to g_shell
-      //dg::Interpreter::objectNameParser(cmdArgs, objname, signame);
-      dg::Entity& obj = dg::PoolStorage::getInstance()->getEntity(objname);
-      dg::SignalBase<int>& sig = obj.getSignal(signame);
-      try {
-	dg::Signal<coefT,int>& sigc = dynamic_cast<dg::Signal<coefT,int>&>(sig);
-	pushNumCoef(sigc.accessCopy());
-      }
-      catch(std::bad_cast& bc) {
-	os << "Command ignored: bad_cast exception...";
-      }
-      cmdArgs >> std::ws;
-    }
-    else if( cmdLine == "pushDenomCoef" )
-    {
-      std::string objname, signame;
-      // Florent: remove reference to g_shell
-      //dg::Interpreter::objectNameParser(cmdArgs, objname, signame);
-      dg::Entity& obj = dg::PoolStorage::getInstance()->getEntity(objname);
-      dg::SignalBase<int>& sig = obj.getSignal(signame);
-      try {
-	dg::Signal<coefT,int>& sigc = dynamic_cast<dg::Signal<coefT,int>&>(sig);
-	pushDenomCoef(sigc.accessCopy());
-      }
-      catch(std::bad_cast& bc) {
-	os << "Command ignored: bad_cast exception...";
-      }
-      cmdArgs >> std::ws;
-    }
-    else if( cmdLine == "popNumCoef" )
-    {
-      popNumCoef();
-    }
-    else if( cmdLine == "popDenomCoef" )
-    {
-      popDenomCoef();
-    }
-    else 
-    {
-    	dg::Entity::commandLine(cmdLine, cmdArgs, os);
-    }
-  }
-
  public:
   void pushNumCoef(const coefT& numCoef) { numerator.push_back(numCoef); }
   void pushDenomCoef(const coefT& denomCoef) { denominator.push_back(denomCoef); }

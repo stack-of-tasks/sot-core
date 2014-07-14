@@ -171,30 +171,6 @@ display( std::ostream& os ) const
 }
 
 
-void FeatureGeneric::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine == "help" )
-    {
-      os << "FeatureGeneric: " 
-	 << "  - dimDefault [<int>]: get/set the dimension value. " << std::endl;
-    }
-  else if( cmdLine == "dimDefault" )
-    {
-      cmdArgs >>std::ws; 
-      if( cmdArgs.good() )
-	{
-	  unsigned int val; cmdArgs>>val; 
-	  dimensionDefault = val;
-	}
-      else { os << "dimensionDefault = " << dimensionDefault << std::endl;}
-    }
-  else { Entity::commandLine( cmdLine,cmdArgs,os); }
-}
-
-
 /*
  * Local variables:
  * c-basic-offset: 2

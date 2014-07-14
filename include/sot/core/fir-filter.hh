@@ -224,12 +224,6 @@ namespace dynamicgraph {
 	return coefs [rank];
       }
       
-      virtual void commandLine( const std::string& ,
-				std::istringstream&,
-				std::ostream&  )
-      {
-      }
-      
       static void reset_signal(sigT& /*res*/, const sigT& /*sample*/ ) { }
       
     public:

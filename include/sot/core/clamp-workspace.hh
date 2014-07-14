@@ -87,9 +87,6 @@ class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace
   virtual MatrixHomogeneous& computeRef( MatrixHomogeneous& res, int time );
 
   virtual void display( std::ostream& ) const;
-  void commandLine( const std::string& cmdLine,
-		    std::istringstream& cmdArgs,
-		    std::ostream& os );
 
  private:
 

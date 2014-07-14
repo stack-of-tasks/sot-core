@@ -178,49 +178,6 @@ static std::string readLineStr( istringstream& args )
   return res;
 }
 
-bool PeriodicCall::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine == "help" )
-    {
-      os << "PeriodicCall:"<<endl
-	 <<"  - addSignal/rmSignal  <int> " <<endl
-	 <<"  - addCmd/rmCmd  " <<endl
-	 <<"  - runSignal/runCmd " <<endl
-	 <<"  - run" <<endl;
-    }
-  else if( cmdLine == "addSignal" )
-    {
-      std::string sigpath; cmdArgs >> std::skipws >> sigpath;
-      addSignal( sigpath );
-    }
-  else if( cmdLine == "rmSignal" )
-    {
-      std::string sigpath; cmdArgs >> std::skipws >> sigpath;
-      rmSignal( sigpath );
-    }
-  else if( cmdLine == "runSignals" )
-    {      runSignals( innerTime++ );    }
-
-  else if( cmdLine == "addCmd" )
-    {      addCmd( readLineStr(cmdArgs) );    }
-  else if( cmdLine == "rmCmd" )
-    {      rmCmd( readLineStr(cmdArgs) );    }
-  else if( cmdLine == "runCmds" )
-    {      runCmds();    }
-
-  else if( cmdLine == "run" )
-    {      run( innerTime++ );    }
-  else if( cmdLine == "clear" )
-    {     clear();    }
-  else if( cmdLine == "print" )
-    { display(os) ; }
-  else { return false; }
-  return true;
-}
-
 #define ADD_COMMAND( name,def )                                     \
 if (commandMap.count(prefix+name) != 0) {                            \
   DG_THROW ExceptionFactory(ExceptionFactory::OBJECT_CONFLICT,        \

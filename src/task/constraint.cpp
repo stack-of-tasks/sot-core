@@ -157,31 +157,3 @@ namespace dynamicgraph {
 } // namespace dynamicgraph
 
 
-  /* --- PARAMS --------------------------------------------------------------- */
-  /* --- PARAMS --------------------------------------------------------------- */
-  /* --- PARAMS --------------------------------------------------------------- */
-void Constraint::
-commandLine( const std::string& cmdLine
-	     ,std::istringstream& cmdArgs
-	     ,std::ostream& os )
-{
-  if( cmdLine=="help" )
-    {
-      os << "Constraint: "<<endl
-	 << "  - add <obj.signal>"<<endl
-	 << "  - clear"<<endl;
-      //TaskAbstract
-      Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-  else if( cmdLine=="add" )
-    {
-    }
-  else if( cmdLine=="clear" )
-    {
-      clearJacobianList();
-      jacobianSOUT.setReady();
-    }
-  else 
-    TaskAbstract::commandLine( cmdLine,cmdArgs,os );
-
-}

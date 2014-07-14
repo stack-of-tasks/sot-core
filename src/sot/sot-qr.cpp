@@ -986,12 +986,6 @@ operator<< ( std::ostream& os,const SotQr& sot )
 /* --- COMMAND --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void SotQr::
-commandLine( const std::string& ,std::istringstream& ,
-	     std::ostream&  )
-{
-}
-
 std::ostream& SotQr::
 writeGraph( std::ostream& os ) const
 {

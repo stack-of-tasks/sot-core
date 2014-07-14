@@ -80,12 +80,6 @@ public:
 
   MatrixRotation& computeRotation( const ml::Vector& angles,
 				      MatrixRotation& res );
-
-
-  virtual void commandLine( const std::string& cmdLine,
-			    std::istringstream& cmdArgs,
-			    std::ostream& os );
-
 };
 
 } /* namespace sot */} /* namespace dynamicgraph */

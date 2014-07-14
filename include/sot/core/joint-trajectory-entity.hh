@@ -163,12 +163,6 @@ protected:
   /// \brief Update the entity with the trajectory aTrajectory.
   void UpdateTrajectory(const Trajectory & aTrajectory);
 
-  /// \brief Command Line to dynamically modify parameters:
-  /// initTraj: specify the initial vector of data to send.
-  virtual void commandLine(const std::string & cmdLine,
-                           std::istringstream & cmdArs,
-                           std::ostream &os);
-
   /// \brief Implements the parsing and the affectation of initial trajectory.
   void setInitTraj(const std::string &os);
   

@@ -74,10 +74,6 @@ class SOTTASKPD_EXPORT TaskPD
   dg::SignalTimeDependent< ml::Vector,int > errorDotSOUT;
   dg::SignalPtr< ml::Vector,int > errorDotSIN;
 
-  /* --- PARAMS --- */
-  virtual void commandLine( const std::string& cmdLine
-			    ,std::istringstream& cmdArgs
-			    ,std::ostream& os );
   void initCommand( void );
 
 };

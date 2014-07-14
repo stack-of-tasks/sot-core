@@ -128,10 +128,6 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   /*! \brief Display the information related to this generic implementation. */
   virtual void display( std::ostream& os ) const;
 
-  void commandLine( const std::string& cmdLine,
-		    std::istringstream& cmdArgs,
-		    std::ostream& os );
-
   /*! \name Dealing with the reference value to be reach with this feature.
     @{
   */

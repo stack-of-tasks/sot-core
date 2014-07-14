@@ -105,38 +105,3 @@ getTimeStampDouble( const ml::Vector& vect,double& res )
   sotDEBUGOUT(15);
   return res;
 }
-
-
-void TimeStamp::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine=="help" )
-    {
-      os << "TimeStamp: "<<std::endl
-	 << " - offset [{<value>|now}] : set/get the offset for double sig." << std::endl;      
-      Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-  else if( cmdLine=="offset" )
-    {
-      cmdArgs >> std::ws; 
-      if( cmdArgs.good() )
-	{ 
-	  std::string offnow; 
-	  cmdArgs >> offnow;  
-	  if(offnow=="now") 
-	    {
-	      gettimeofday( &val,NULL );
-	      offsetValue = val.tv_sec;
-	    }
-	  else { offsetValue = atoi(offnow.c_str()); }
-	  offsetSet = ( offsetValue>0 );
-	} else {
-	  os << "offset = " << (offsetSet ? offsetValue : 0) << std::endl;
-	} 
-    }
-  else { Entity::commandLine( cmdLine,cmdArgs,os ); }
-}
-
-

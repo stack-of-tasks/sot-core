@@ -84,9 +84,6 @@ class SOTSOTH_EXPORT SotH
       virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
       dg::Signal< ml::Matrix,int > jacobianConstrainedSINOUT;
       dg::Signal< ml::Vector,int > diffErrorSINOUT;
-      virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
-                                std::ostream& os );
-
     };
   /* --- \ SPECIFIC MEM ------------------------------------------------ */
 
@@ -123,8 +120,6 @@ class SOTSOTH_EXPORT SotH
  public: /* --- DISPLAY --- */
 
  public: /* --- COMMANDS --- */
-  virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
-                            std::ostream& os );
   virtual void defineNbDof( const unsigned int& nbDof );
 
 };

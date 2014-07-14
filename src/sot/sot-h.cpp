@@ -86,35 +86,6 @@ defineNbDof( const unsigned int& nbDof )
   sotDEBUGOUT(15);
 }
 
-void SotH::
-commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  sotDEBUGIN(15);
-
-  if( cmdLine == "help")
-    {
-      os << "Stack of Tasks Inequality: "<<endl
-	 << " - fillMemorySignal [boolean] "<<endl;
-      Sot::commandLine( cmdLine,cmdArgs,os );
-    }
-  else if( cmdLine == "fillMemorySignal")
-    {
-      cmdArgs >> std::ws;
-      if( cmdArgs.good() )
-	{  cmdArgs >> fillMemorySignal; }
-      else
-	{ os << "fillMemorySignal = " << ((fillMemorySignal)?"true":"false"); }
-    }
- else
-   {
-     Sot::commandLine( cmdLine,cmdArgs,os );
-   }
-
-
-  sotDEBUGOUT(15);
-}
-
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -409,13 +380,6 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 
 
 const std::string SotH::MemoryTaskSOTH::CLASS_NAME = "MemoryTaskSOTH";
-
-void SotH::MemoryTaskSOTH::
-commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
-             std::ostream& os )
-{
-  Entity::commandLine( cmdLine,cmdArgs,os );
-}
 
 void SotH::MemoryTaskSOTH::
 display( std::ostream& /*os*/ ) const {} //TODO

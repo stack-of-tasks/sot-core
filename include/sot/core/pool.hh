@@ -124,19 +124,6 @@ class SOT_CORE_EXPORT PoolStorage
   TaskAbstract& getTask( const std::string& name );
   /*! @} */
 
-  /*! \brief This method looks for the object named objectName,
-    and ask to provide the function functionName with the arguments cmdArg.
-    If the method of the object displays some information this will
-    be done on os.
-
-    The commands specific to the <b>pool<\b> object are:
-    \li <b>list</b> : List all the entities registered in the pool.
-    \li <b>listFeature</b> : List all the features registered in the pool.
-    \li <b>listTask</b> : List all the tasks registered in the pool.
-  */
-  void commandLine( const std::string& objectName,const std::string& functionName,
-		    std::istringstream& cmdArg, std::ostream& os );
-
   /*! \brief This method write a graph description on the file named FileName. */
   void writeGraph(const std::string &aFileName);
   void writeCompletionList(std::ostream& os);

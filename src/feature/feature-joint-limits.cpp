@@ -203,38 +203,6 @@ display( std::ostream& os ) const
   os <<"JointLimits <"<<name<<"> ... TODO";
 }
 
-
-void FeatureJointLimits::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine == "help" )
-    {
-      os << "FeatureJointLimits:"<<endl
-	 <<"  - setThreshold  <int> " <<endl
-	 <<"  - getThreshold  " <<endl;
-    }
-  else if( cmdLine == "setThreshold" )
-    {
-      double th;
-      cmdArgs >> th; if( th<0. ) th=0.;if( th>1. ) th=1.;
-      threshold = th;
-    }
-  else if( cmdLine == "getThreshold" )
-    {
-      os << "threshold = " << threshold <<endl; 
-    }
-  else if( cmdLine == "actuate" )
-    {
-      Flags fl( 63 ); //0x0000003f = 00000000000000000000000000111111
-      selectionSIN =  (! fl);
-    }
-  else { FeatureAbstract::commandLine( cmdLine,cmdArgs,os ); }
-}
-
-
-
 /*
  * Local variables:
  * c-basic-offset: 2

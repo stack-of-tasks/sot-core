@@ -107,9 +107,6 @@ class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic
  protected:
   double& computeGain( double& res,int t );
 
- public: /* --- PARAMS --- */
-  virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
-			    std::ostream& os );
 };
 
 } /* namespace sot */} /* namespace dynamicgraph */

@@ -82,10 +82,6 @@ public:
   void setTransformationBySignalName( std::istringstream& cmdArgs );
   const MatrixHomogeneous& getTransformation( void );
 
-  virtual void commandLine( const std::string& cmdLine,
-			    std::istringstream& cmdArgs,
-			    std::ostream& os );
-
  private:
   MatrixHomogeneous transformation;
 

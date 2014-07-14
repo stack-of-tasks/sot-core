@@ -67,9 +67,6 @@ public:
   virtual unsigned& computeOutput( unsigned& res,int time );
 
   virtual void display( std::ostream& os ) const;
-  void commandLine( const std::string& cmdLine,
-		    std::istringstream& cmdArgs,
-		    std::ostream& os );
 };
 
 

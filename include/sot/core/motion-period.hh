@@ -104,9 +104,6 @@ class SOTMOTIONPERIOD_EXPORT MotionPeriod
   ml::Vector& computeMotion( ml::Vector& res,const int& time ); 
   
   virtual void display( std::ostream& os ) const;
-  void commandLine( const std::string& cmdLine,
-		    std::istringstream& cmdArgs,
-		    std::ostream& os );
 } ;
 
 } /* namespace sot */} /* namespace dynamicgraph */

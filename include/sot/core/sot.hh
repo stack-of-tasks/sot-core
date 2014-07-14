@@ -256,33 +256,6 @@ namespace dynamicgraph {
       /*! @} */
 
     public: /* --- COMMANDS --- */
-      /*! \brief This method deals with the command line.
-	The command given in argument is send to the stack of tasks by the shell.
-	The command understood by sot are:
-	<ul>
-	<li> Tasks
-	<ul>
-	<li> push <task> : Push a task in the stack (FILO).
-	<li> pop : Remove the task push in the stack.
-	<li> down <task> : Make the task have a higher priority, i.e.
-	swap with the task immediatly superior in priority.
-	<li> up <task> : Make the task have a lowest priority, i.e.
-	swap with the task immediatly inferior in priority.
-	<li> rm <task> : Remove the task from the stack.
-	</ul>
-	<li> Constraints
-	<ul>
-	<li> addConstraint <constraint> : Add the constraint in the stack (FILO).
-	<li> rmConstraint <constraint> : Remove the constraint.
-	<li> clearConstraint : Remove all the constraints.
-	<li> printConstraint :
-	</ol>
-	</ul>
-      */
-      virtual void commandLine(const std::string& cmdLine,
-			       std::istringstream& cmdArgs,
-			       std::ostream& os );
-
       /*! \brief This method write the priority between tasks in the output stream os. */
       virtual std::ostream & writeGraph(std::ostream & os) const;
     };

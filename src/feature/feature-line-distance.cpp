@@ -237,25 +237,6 @@ display( std::ostream& os ) const
   os <<"LineDistance <"<<name<<">";
 }
 
-
-
-void FeatureLineDistance::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine=="help" )
-    {
-      os << "FeaturePoint: "<<endl;
-      Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-  else  //FeatureAbstract::
-    Entity::commandLine( cmdLine,cmdArgs,os );
-
-}
-
-
-
 /*
  * Local variables:
  * c-basic-offset: 2

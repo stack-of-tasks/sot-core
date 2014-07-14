@@ -89,10 +89,6 @@ namespace dynamicgraph {
       /* --- DISPLAY ------------------------------------------------------------ */
       SOTCONSTRAINT_EXPORT friend std::ostream& operator<< ( std::ostream& os,const Constraint& t );
 
-      /* --- PARAMS --- */
-      virtual void commandLine( const std::string& cmdLine
-				,std::istringstream& cmdArgs
-				,std::ostream& os );
     };
   } // namespace sot
 } // namespace dynamicgraph

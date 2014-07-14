@@ -100,12 +100,6 @@ class TimeStamp_EXPORT TimeStamp
  protected: /* --- SIGNAL FUNCTIONS --- */
   ml::Vector& getTimeStamp( ml::Vector& res,const int& time );
   double& getTimeStampDouble( const ml::Vector& vect,double& res );
-
- public: /* --- COMMANDS --- */
-  virtual void commandLine( const std::string& cmdLine,
-			    std::istringstream& cmdArgs,
-			    std::ostream& os );
-
 };
 
 

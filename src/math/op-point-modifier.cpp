@@ -158,33 +158,3 @@ OpPointModifier::setTransformationBySignalName( std::istringstream& cmdArgs )
     (PoolStorage::getInstance()->getSignal( cmdArgs ));
   setTransformation(sig.accessCopy());
 }
-
-
-void OpPointModifier::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine == "transfo" )
-    {
-      MatrixHomogeneous tr;
-      cmdArgs >> tr;
-      setTransformation(tr);
-    }
-  else if( cmdLine == "transfoSignal" )
-    {
-      setTransformationBySignalName(cmdArgs);
-    }
-  else if( cmdLine == "getTransfo" )
-    {
-      os << "Transformation: " << endl << transformation <<endl;
-    }
-  else if( cmdLine == "help" )
-    {
-      os << "sotOpPointModifior"<<endl
-	 << "  - transfo MatrixHomo"<<endl
-	 << "  - transfoSignal ent.signal<matrixhomo>"<<endl
-	 << "  - getTransfo"<<endl;
-    }
-  else Entity::commandLine(cmdLine,cmdArgs,os);
-}

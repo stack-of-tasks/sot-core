@@ -201,14 +201,6 @@ namespace dynamicgraph {
     {
     }
 
-
-
-
-    void Kalman::
-    commandLine( const std::string&, std::istringstream&, std::ostream& )
-    {
-    }
-
   } // namespace sot
 } // namespace dynamicgraph
 

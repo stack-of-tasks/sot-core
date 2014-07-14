@@ -108,9 +108,6 @@ namespace dynamicgraph {
       /*! \brief The ZMP reference send by the previous controller. */
       dynamicgraph::Signal<ml::Vector,int> ZMPPreviousControllerSOUT;
 
-    public: /* --- COMMANDS --- */
-      void commandLine(const std::string&, std::istringstream&,
-		       std::ostream&){}
     protected:
       /// Compute roll pitch yaw angles of freeflyer joint.
       void integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,

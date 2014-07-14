@@ -181,12 +181,6 @@ namespace dynamicgraph {
     }
 
 
-    void PoolStorage::
-    commandLine( const std::string&,const std::string&,
-		 std::istringstream&, std::ostream& )
-    {
-    }
-
     PoolStorage* PoolStorage::getInstance()
     {
       if (instance_ == 0) {

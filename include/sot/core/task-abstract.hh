@@ -71,9 +71,6 @@ namespace dynamicgraph {
 	MemoryTaskAbstract( void ) : timeLastChange(0) {};
 	virtual ~MemoryTaskAbstract( void ) {};
       public:
-	virtual void commandLine( const std::string& cmdLine
-				  ,std::istringstream& cmdArgs
-				  ,std::ostream& os ) = 0;
 	virtual void display( std::ostream& os ) const = 0;
 	friend std::ostream& operator<<( std::ostream& os,
 					 const MemoryTaskAbstract& tcm )
@@ -93,11 +90,6 @@ namespace dynamicgraph {
 
       dg::SignalTimeDependent< VectorMultiBound,int > taskSOUT;
       dg::SignalTimeDependent< ml::Matrix,int > jacobianSOUT;
-
-    public: /* --- PARAMS --- */
-      virtual void commandLine( const std::string& cmdLine
-				,std::istringstream& cmdArgs
-				,std::ostream& os ) ;
     };
 
   } /* namespace sot */

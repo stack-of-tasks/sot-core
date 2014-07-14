@@ -71,9 +71,6 @@ class SOT_CORE_EXPORT MemoryTaskSOT
   dg::Signal< ml::Matrix,int > singularBaseImageSINOUT;
   dg::Signal< unsigned int,int > rankSINOUT;
 
- public: /* --- PARAMS --- */
-  virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
-			    std::ostream& os );
 };
 
 } /* namespace sot */} /* namespace dynamicgraph */

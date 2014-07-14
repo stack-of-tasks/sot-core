@@ -143,25 +143,6 @@ display( std::ostream& os ) const
   os <<"Vector3 <"<<name<<">";
 }
 
-
-
-void FeatureVector3::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine=="help" )
-    {
-      os << "FeatureVector: "<<endl;
-      Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-  else  //FeatureAbstract::
-    Entity::commandLine( cmdLine,cmdArgs,os );
-
-}
-
-
-
 /*
  * Local variables:
  * c-basic-offset: 2

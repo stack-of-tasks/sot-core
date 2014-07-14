@@ -104,10 +104,6 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
   inline static Flags selectActuated( void );
 
   virtual void display( std::ostream& os ) const;
-  void commandLine( const std::string& cmdLine,
-		    std::istringstream& cmdArgs,
-		    std::ostream& os );
-
 
 } ;
 

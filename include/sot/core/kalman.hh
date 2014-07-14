@@ -190,9 +190,6 @@ public:
   Kalman( const std::string & name ) ;
   /* --- Entity --- */
   void display( std::ostream& os ) const;
-  void commandLine( const std::string& cmdLine,
-		    std::istringstream& cmdArgs,
-		    std::ostream& os );
     
 } ;
 

@@ -58,10 +58,6 @@ namespace dynamicgraph {
 
       SignalTimeDependent<ml::Matrix,int> SOUT;
 
-      virtual void commandLine( const std::string& cmdLine,
-				std::istringstream& cmdArgs, 
-				std::ostream& os );
-
     };
     
   } // namespace sot

@@ -354,19 +354,6 @@ display(std::ostream &os) const
 }
 
 void SotJointTrajectoryEntity::
-commandLine( const std::string & cmdLine,
-             std::istringstream & cmdArgs,
-             std::ostream &)
-{
-  sotDEBUGIN(5);
-  
-  if (cmdLine=="initTraj")
-    { std::string as = cmdArgs.str();
-      setInitTraj(as);}
-  sotDEBUGOUT(5);
-}
-
-void SotJointTrajectoryEntity::
 setInitTraj(const std::string &as)
 {
   sotDEBUGIN(5);
