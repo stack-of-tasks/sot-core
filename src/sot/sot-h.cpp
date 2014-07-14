@@ -24,7 +24,7 @@
 //#define VP_DEBUG_MODE 45
 #include <sot/core/debug.hh>
 #include <sot/core/sot-h.hh>
-#include <sot/core/pool.hh>
+#include <dynamic-graph/pool.h>
 #include <sot/core/task.hh>
 #include <sot/core/task-unilateral.hh>
 #include <sot/core/factory.hh>

@@ -26,7 +26,7 @@
 #include <sot/core/task.hh>
 #include <sot/core/debug.hh>
 
-#include <sot/core/pool.hh>
+#include <dynamic-graph/pool.h>
 #include "../src/task/task-command.h"
 #include <dynamic-graph/all-commands.h>
 
@@ -123,7 +123,7 @@ void Task::
 addFeatureFromName( const std::string & featureName )
 {
   FeatureAbstract& feature =
-    PoolStorage::getInstance()->getFeature(featureName);
+    dynamic_cast<FeatureAbstract&> (PoolStorage::getInstance()->getEntity(featureName));
   addFeature(feature);
 }
 

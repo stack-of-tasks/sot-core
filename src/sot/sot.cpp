@@ -36,7 +36,7 @@
 #endif //#ifdef VP_DEBUG
 
 #include <sot/core/sot.hh>
-#include <sot/core/pool.hh>
+#include <dynamic-graph/pool.h>
 #include <sot/core/task.hh>
 #include <sot/core/memory-task-sot.hh>
 #include <sot/core/factory.hh>

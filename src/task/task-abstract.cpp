@@ -24,7 +24,7 @@
 
 /* SOT */
 #include <sot/core/task-abstract.hh>
-#include <sot/core/pool.hh>
+#include <dynamic-graph/pool.h>
 
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
@@ -42,13 +42,6 @@ TaskAbstract( const std::string& n )
   ,taskSOUT( "sotTaskAbstract("+n+")::output(vector)::task" )
   ,jacobianSOUT( "sotTaskAbstract("+n+")::output(matrix)::jacobian" )
 {
-  taskRegistration();
   signalRegistration( taskSOUT<<jacobianSOUT );
 }
 
-
-void TaskAbstract::
-taskRegistration( void )
-{
-  PoolStorage::getInstance()->registerTask(name,this);
-}

@@ -32,7 +32,7 @@ sotSOTQr__INIT sotSOTQr_initiator;
 
 
 #include <sot/core/sot-qr.hh>
-#include <sot/core/pool.hh>
+#include <dynamic-graph/pool.h>
 #include <sot/core/task.hh>
 #include <sot/core/sot.hh>
 #include <sot/core/memory-task-sot.hh>

@@ -43,7 +43,6 @@ SET(NEWHEADERS
   sot/core/additional-functions.hh
   sot/core/factory.hh
   sot/core/macros-signal.hh
-  sot/core/pool.hh
   sot/core/matrix-force.hh
   sot/core/matrix-twist.hh
   sot/core/op-point-modifier.hh

@@ -19,7 +19,7 @@
  */
 
 #include <dynamic-graph/signal-caster.h>
-#include <sot/core/pool.hh>
+#include <dynamic-graph/pool.h>
 #include <iomanip>
 
 #include <sot/core/feature-abstract.hh>
@@ -83,7 +83,7 @@ namespace dynamicgraph
     FeatureAbstract* ref;
     std::string name; iss >> name;
     if( name.length())
-      ref = &dynamicgraph::sot::PoolStorage::getInstance()->getFeature(name); 
+      ref = & dynamic_cast<FeatureAbstract&>(PoolStorage::getInstance()->getEntity(name));
     else ref = 0; 
     return ref;
   }

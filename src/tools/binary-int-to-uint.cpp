@@ -19,7 +19,7 @@
  */
 
 /* --- SOT --- */
-#include <sot/core/pool.hh>
+#include <dynamic-graph/pool.h>
 #include <sot/core/binary-int-to-uint.hh>
 #include <sot/core/exception-feature.hh>
 #include <sot/core/debug.hh>

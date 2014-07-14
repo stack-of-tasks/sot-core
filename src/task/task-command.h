@@ -50,7 +50,7 @@ namespace dynamicgraph { namespace sot {
 	  std::vector<Value> values = getParameterValues();
 	  std::string featureName = values[0].value();
 	  FeatureAbstract& feature =
-	    PoolStorage::getInstance()->getFeature(featureName);
+	    dynamic_cast<FeatureAbstract&> (PoolStorage::getInstance()->getEntity(featureName));
 	  task.addFeature(feature);
 	  // return void
 	  return Value();

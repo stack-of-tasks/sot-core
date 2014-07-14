@@ -25,7 +25,7 @@
 /* SOT */
 #include <sot/core/weighted-sot.hh>
 #include <sot/core/memory-task-sot.hh>
-#include <sot/core/pool.hh>
+#include <dynamic-graph/pool.h>
 #include <sot/core/task.hh>
 #include <sot/core/debug.hh>
 using namespace std;

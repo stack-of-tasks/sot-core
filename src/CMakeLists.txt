@@ -162,8 +162,6 @@ SET(${LIBRARY_NAME}_SOURCES
   sot/rotation-simple.cpp
   sot/solver-hierarchical-inequalities.cpp
 
-  factory/pool.cpp
-
   tools/utils-windows
   tools/periodic-call
   tools/device

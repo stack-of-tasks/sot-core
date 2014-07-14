@@ -33,7 +33,7 @@ namespace ml = maal::boost;
 #include <sot/core/flags.hh>
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
-#include <sot/core/pool.hh>
+#include <dynamic-graph/pool.h>
 #include "sot/core/api.hh"
 #include "sot/core/deprecated.hh"
 
@@ -78,9 +78,6 @@ namespace dynamicgraph {
 
       /*! \brief Returns the name class. */
       virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
-
-      /*! \brief Register the feature in the stack of tasks. */
-      void featureRegistration( void );
 
       void initCommands( void );
 
@@ -229,7 +226,7 @@ namespace dynamicgraph {
       FeatureAbstract * ptrA;
 
     public:
-      FeatureReferenceHelper( void ) : ptr (NULL) {}
+      FeatureReferenceHelper( void ) : ptr (NULL), ptrA(NULL) {}
 
       void setReference( FeatureAbstract * sdes );
       //void setReferenceByName( const std::string & name );

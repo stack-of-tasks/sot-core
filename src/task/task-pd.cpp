@@ -113,7 +113,6 @@ computeTaskModif( VectorMultiBound& task,int time )
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
-#include <sot/core/pool.hh>
 
 void TaskPD::
 initCommand( void )

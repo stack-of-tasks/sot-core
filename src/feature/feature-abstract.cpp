@@ -19,7 +19,7 @@
  */
 
 #include <sot/core/feature-abstract.hh>
-#include <sot/core/pool.hh>
+#include <dynamic-graph/pool.h>
 #include "sot/core/debug.hh"
 #include "sot/core/exception-feature.hh"
 #include <dynamic-graph/all-commands.h>
@@ -53,7 +53,6 @@ FeatureAbstract( const std::string& name )
   selectionSIN = true;
   signalRegistration( selectionSIN
 		      <<errorSOUT<<jacobianSOUT<<dimensionSOUT );
-  featureRegistration();
   initCommands();
 }
 
@@ -69,12 +68,6 @@ initCommands( void )
 	     new dynamicgraph::command::Getter<FeatureAbstract, std::string>
 	     (*this, &FeatureAbstract::getReferenceByName,
 	      "Get the name of the reference feature.\nOutput: a string (feature name)."));
-}
-
-void FeatureAbstract::
-featureRegistration( void )
-{
-  PoolStorage::getInstance()->registerFeature(name,this);
 }
 
 std::ostream& FeatureAbstract::
@@ -96,7 +89,7 @@ writeGraph( std::ostream& os ) const
 void FeatureAbstract::
 setReferenceByName( const std::string& name )
 {
-  setReference( &dynamicgraph::sot::PoolStorage::getInstance()->getFeature(name));
+  setReference( & dynamic_cast<FeatureAbstract&>(PoolStorage::getInstance()->getEntity(name)));
 }
 
 std::string FeatureAbstract::

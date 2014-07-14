@@ -80,9 +80,6 @@ namespace dynamicgraph {
     public:
       MemoryTaskAbstract * memoryInternal;
 
-    protected:
-      void taskRegistration( void );
-
     public:
       TaskAbstract( const std::string& n );
 
