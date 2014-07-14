@@ -61,6 +61,7 @@ FeatureVector3( const string& pointName )
 
   signalRegistration( vectorSIN<<positionSIN
                       <<articularJacobianSIN<<positionRefSIN );
+  NO_REFERENCE = false;
 }
 
 

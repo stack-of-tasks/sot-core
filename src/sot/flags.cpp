@@ -203,7 +203,7 @@ operator&= ( const Flags& f2 )
   char c; int pos = 0;
   for( unsigned int i=0;i<max;++i )
     {
-      c=f1[i]&f2[i]; if(revres)  c=0xff-c; 
+      c=f1[i]&f2[i]; if(revres)  c=0xff-c;
       flags[i]=c; if(c) pos=i+1;
     }
   flags.resize(pos);reverse=revres;
@@ -259,7 +259,8 @@ std::istream& operator>> (std::istream& is, Flags& fl )
   sotDEBUGIN(15);
   std::list<char> listing;
   unsigned char count = 0,total = 0;
-  char c,cur=0;
+  char c;
+  unsigned char cur=0;
   bool reverse=false,contin=true;
   do
     {

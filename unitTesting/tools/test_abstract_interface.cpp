@@ -42,7 +42,7 @@ protected:
   std::string dynamicLibraryName_;
 
 public:
-  PluginLoader() {};
+  PluginLoader() { sotController_ = NULL;};
   ~PluginLoader() {};
 
   int parseOptions(int argc, char *argv[])

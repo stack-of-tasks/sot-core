@@ -221,10 +221,6 @@ void PeriodicCall::addSpecificCommands(Entity& ent,
 }
 
 
-
-
-
-
 /*
  * Local variables:
  * c-basic-offset: 2

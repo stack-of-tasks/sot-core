@@ -1460,7 +1460,7 @@ updateRankOneDowndate( void )
   for( unsigned int i=0;i<ranks;++i )
     {
       const unsigned int col = orderS[i];
-      if( (i+1<freeRank)&&(fabsf(QhJsU(rankh+i+1,col))>THRESHOLD_ZERO) )
+      if( (i+1<freeRank)&&(fabs(QhJsU(rankh+i+1,col))>THRESHOLD_ZERO) )
         {
           sotRotationSimpleGiven Gr( QhJsU,rankh+i,rankh+i+1,col ); Gr.inverse();
           Gr.multiplyRightTranspose(QhJsU);

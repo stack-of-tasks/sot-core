@@ -323,7 +323,7 @@ public: // protected:
   double beta;
 
 public:
-  sotRotationSimpleHouseholder( void ) { v.resize(0);}
+  sotRotationSimpleHouseholder( void ) { v.resize(0); beta=0;}
   sotRotationSimpleHouseholder( const unsigned int n )
   { v.resize(n); v = bub::zero_vector<double>(n); beta=0;}
   sotRotationSimpleHouseholder( const bubVector& _v, const double& _beta )
@@ -443,9 +443,10 @@ public:
         double& v1=x(0);
         const double x1sq=v1*v1;
         const double mu= sqrt(x1sq+sigma); // mu = ||x||
-        int signRes;
-        if(v1<=0) { v1 -= mu;  signRes = 1; }
-        else { v1 = -sigma/(v1+mu); signRes = -1; }
+        if(v1<=0)
+        	v1 -= mu;
+        else
+        	v1 = -sigma/(v1+mu);
 
         const double v1sq=v1*v1;
         const double v1inv=1/v1;

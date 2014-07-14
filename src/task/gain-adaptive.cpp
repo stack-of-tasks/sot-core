@@ -194,7 +194,7 @@ display( std::ostream& os ) const
   try {
     os <<" = "<<double(gainSOUT.accessCopy ());
   }
-  catch (ExceptionSignal e) {}
+  catch (ExceptionSignal& e) {}
   os <<" ("<<coeff_a<<";"<<coeff_b<<";"<<coeff_c<<") ";
 }
 

@@ -81,7 +81,7 @@ namespace dynamicgraph {
 	  void setName( const std::string& name_ ) { name = name_; }
 	  int eventType;
 	public:
-	sotEventAbstract( const std::string & name ) : name(name) {};
+	sotEventAbstract( const std::string & name ) : name(name), eventType(-1) {};
 	  virtual ~sotEventAbstract( void ) {}
 	  virtual const std::string& getName() const { return name; }
 	  int getEventType(  ) const { return eventType; }

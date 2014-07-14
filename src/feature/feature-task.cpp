@@ -46,6 +46,7 @@ FeatureTask::
 FeatureTask( const string& pointName )
   : FeatureGeneric( pointName )
 {
+	taskPtr = NULL;
 }
 
 /* --------------------------------------------------------------------- */

@@ -39,7 +39,7 @@ protected:
   AbstractSotExternalInterface * sotController_;
   
 public:
-  Plugin() {};
+  Plugin() { sotController_ = NULL; };
   ~Plugin() {};
   
   void Initialization(std::string &dynamicLibraryName)

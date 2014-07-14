@@ -270,7 +270,7 @@ display( std::ostream& os ) const
 	  os << featureNames[i];
 	}
     os<<") ";
-  }  catch(ExceptionAbstract e){ os<< " selectSIN not set."; }
+  }  catch(ExceptionAbstract& e){ os<< " selectSIN not set."; }
 }
 
 
