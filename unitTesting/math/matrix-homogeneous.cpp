@@ -20,12 +20,14 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/test/floating_point_comparison.hpp>
 #include <boost/test/output_test_stream.hpp>
+#include <boost/math/constants/constants.hpp>
 
 #include <jrl/mal/boost.hh>
 #include <sot/core/matrix-homogeneous.hh>
 #include "sot/core/matrix-twist.hh"
 
 using boost::test_tools::output_test_stream;
+using boost::math::constants::pi;
 
 namespace ml = maal::boost;
 
@@ -69,18 +71,18 @@ BOOST_AUTO_TEST_CASE (product)
     tx = (10.*rand())/RAND_MAX - 5.;
     ty = (10.*rand())/RAND_MAX - 5.;
     tz = (10.*rand())/RAND_MAX - 5.;
-    roll = (M_PI*rand())/RAND_MAX - .5*M_PI;
-    pitch = (M_PI*rand())/RAND_MAX - .5*M_PI;
-    yaw = (2*M_PI*rand())/RAND_MAX - M_PI;
+    roll = (pi<double>()*rand())/RAND_MAX - .5*pi<double>();
+    pitch = (pi<double>()*rand())/RAND_MAX - .5*pi<double>();
+    yaw = (2*pi<double>()*rand())/RAND_MAX - pi<double>();
     MATRIX_HOMO_INIT(H1, tx, ty, tz, roll, pitch, yaw);
     ml::Matrix M1(H1);
     dynamicgraph::sot::MatrixHomogeneous H2;
     tx = (10.*rand())/RAND_MAX;
     ty = (10.*rand())/RAND_MAX - 5.;
     tz = (10.*rand())/RAND_MAX - 5.;
-    roll = (M_PI*rand())/RAND_MAX - .5*M_PI;
-    pitch = (M_PI*rand())/RAND_MAX - .5*M_PI;
-    yaw = (2*M_PI*rand())/RAND_MAX - M_PI;
+    roll = (pi<double>()*rand())/RAND_MAX - .5*pi<double>();
+    pitch = (pi<double>()*rand())/RAND_MAX - .5*pi<double>();
+    yaw = (2*pi<double>()*rand())/RAND_MAX - pi<double>();
     MATRIX_HOMO_INIT(H2, tx, ty, tz, roll, pitch, yaw);
     ml::Matrix M2(H2);
     dynamicgraph::sot::MatrixHomogeneous H3 = H1*H2;
@@ -99,17 +101,17 @@ BOOST_AUTO_TEST_CASE (inverse)
     tx = (10.*rand())/RAND_MAX - 5.;
     ty = (10.*rand())/RAND_MAX - 5.;
     tz = (10.*rand())/RAND_MAX - 5.;
-    roll = (M_PI*rand())/RAND_MAX - .5*M_PI;
-    pitch = (M_PI*rand())/RAND_MAX - .5*M_PI;
-    yaw = (2*M_PI*rand())/RAND_MAX - M_PI;
+    roll = (pi<double>()*rand())/RAND_MAX - .5*pi<double>();
+    pitch = (pi<double>()*rand())/RAND_MAX - .5*pi<double>();
+    yaw = (2*pi<double>()*rand())/RAND_MAX - pi<double>();
     MATRIX_HOMO_INIT(H1, tx, ty, tz, roll, pitch, yaw);
     dynamicgraph::sot::MatrixHomogeneous H2;
     tx = (10.*rand())/RAND_MAX;
     ty = (10.*rand())/RAND_MAX - 5.;
     tz = (10.*rand())/RAND_MAX - 5.;
-    roll = (M_PI*rand())/RAND_MAX - .5*M_PI;
-    pitch = (M_PI*rand())/RAND_MAX - .5*M_PI;
-    yaw = (2*M_PI*rand())/RAND_MAX - M_PI;
+    roll = (pi<double>()*rand())/RAND_MAX - .5*pi<double>();
+    pitch = (pi<double>()*rand())/RAND_MAX - .5*pi<double>();
+    yaw = (2*pi<double>()*rand())/RAND_MAX - pi<double>();
     MATRIX_HOMO_INIT(H2, tx, ty, tz, roll, pitch, yaw);
     dynamicgraph::sot::MatrixHomogeneous H3 = H1*H2;
     dynamicgraph::sot::MatrixHomogeneous invH1, invH2, invH3;
