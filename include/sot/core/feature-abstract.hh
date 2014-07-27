@@ -189,7 +189,7 @@ namespace dynamicgraph {
       virtual std::ostream & writeGraph(std::ostream & os) const;
 
       /// Return true for children that provide the errordot output signal
-      virtual bool withErrorDot( void ) const SOT_CORE_DEPRECATED
+      SOT_CORE_DEPRECATED virtual bool withErrorDot( void ) const
       {
 	return true;
       }
