@@ -37,7 +37,7 @@ namespace ml= maal::boost;
 // API
 
 #if defined (WIN32)
-#  if defined (sot_joint_trajectory_entity_EXPORTS)
+#  if defined (joint_trajectory_entity_EXPORTS)
 #    define SOTJOINT_TRAJECTORY_ENTITY_EXPORT __declspec(dllexport)
 #  else
 #    define SOTJOINT_TRAJECTORY_ENTITY_EXPORT __declspec(dllimport)

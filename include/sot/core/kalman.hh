@@ -34,13 +34,27 @@
 #include <sot/core/constraint.hh>
 
 /* -------------------------------------------------------------------------- */
+/* --- API ------------------------------------------------------------------ */
+/* -------------------------------------------------------------------------- */
+
+#if defined (WIN32)
+#  if defined (kalman_EXPORTS)
+#    define SOT_KALMAN_EXPORT __declspec(dllexport)
+#  else
+#    define SOT_KALMAN_EXPORT __declspec(dllimport)
+#  endif
+#else
+#  define SOT_KALMAN_EXPORT
+#endif
+
+/* -------------------------------------------------------------------------- */
 /* --- CLASSE --------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
 namespace dynamicgraph {
   namespace sot {
 
-class SOT_CORE_EXPORT Kalman
+class SOT_KALMAN_EXPORT Kalman
 :public Entity
 {
  public: 

@@ -24,7 +24,7 @@
 
 #define SOT_CALL_SIG(sotName,sotType)          \
   boost::bind(&Signal<sotType,int>::access, \
-	      &sotName,_2)
+              &sotName,_2)
 
 /* --- STATIC MACROS -------------------------------------------------------- */
 /* --- STATIC MACROS -------------------------------------------------------- */
@@ -33,7 +33,7 @@
 #define SOT_INIT_SIGNAL_1(sotFunction,             \
 			  sotArg1,sotArg1Type)     \
 boost::bind(&sotFunction,                          \
-	    SOT_CALL_SIG(sotArg1,sotArg1Type),_1), \
+            SOT_CALL_SIG(sotArg1,sotArg1Type),_1), \
   sotArg1
 
 #define SOT_INIT_SIGNAL_2(sotFunction,             \
@@ -121,7 +121,7 @@ boost::bind(&sotFunction,                          \
 #define SOT_MEMBER_SIGNAL_1(sotFunction,             \
 			    sotArg1,sotArg1Type)    \
 boost::bind(&sotFunction,this,                       \
-	    SOT_CALL_SIG(sotArg1,sotArg1Type),_1),   \
+            SOT_CALL_SIG(sotArg1,sotArg1Type),_1),   \
   sotArg1
 
 #define SOT_MEMBER_SIGNAL_2(sotFunction,             \
@@ -131,6 +131,21 @@ boost::bind(&sotFunction,this,                       \
 	    SOT_CALL_SIG(sotArg1,sotArg1Type),       \
 	    SOT_CALL_SIG(sotArg2,sotArg2Type),_1),   \
   sotArg1<<sotArg2
+
+#define SOT_MEMBER_SIGNAL_4(sotFunction,             \
+			    sotArg1,sotArg1Type,     \
+			    sotArg2,sotArg2Type,     \
+			    sotArg3,sotArg3Type,     \
+			    sotArg4,sotArg4Type)     \
+boost::bind(&sotFunction,this,                       \
+	    SOT_CALL_SIG(sotArg1,sotArg1Type),       \
+	    SOT_CALL_SIG(sotArg2,sotArg2Type),       \
+	    SOT_CALL_SIG(sotArg3,sotArg3Type),       \
+	    SOT_CALL_SIG(sotArg4,sotArg4Type),_1),   \
+  sotArg1<<sotArg2<<sotArg3<<sotArg4
+
+
+
 #define SOT_MEMBER_SIGNAL_5(sotFunction,             \
 			    sotArg1,sotArg1Type,     \
 			    sotArg2,sotArg2Type,     \
