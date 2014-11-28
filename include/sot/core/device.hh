@@ -75,12 +75,12 @@ namespace dynamicgraph {
       /* --- DESTRUCTION --- */
       virtual ~Device();
       
-      void setStateSize(const unsigned int& size);
-      void setState(const ml::Vector& st);
+      virtual void setStateSize(const unsigned int& size);
+      virtual void setState(const ml::Vector& st);
       void setVelocitySize(const unsigned int& size);
-      void setVelocity(const ml::Vector & vel);
-      void setSecondOrderIntegration();
-      void increment(const double & dt = 5e-2);
+      virtual void setVelocity(const ml::Vector & vel);
+      virtual void setSecondOrderIntegration();
+      virtual void increment(const double & dt = 5e-2);
       
     public: /* --- DISPLAY --- */
       virtual void display(std::ostream& os) const;
@@ -123,8 +123,8 @@ namespace dynamicgraph {
       /// Get freeflyer pose
       const MatrixHomogeneous& freeFlyerPose() const;
     public:
-      void setRoot( const ml::Matrix & root );
-      void setRoot( const MatrixHomogeneous & worldMwaist );
+      virtual void setRoot( const ml::Matrix & root );
+      virtual void setRoot( const MatrixHomogeneous & worldMwaist );
     private:
       // Intermediate variable to avoid dynamic allocation
       ml::Vector forceZero6;
