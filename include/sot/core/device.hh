@@ -43,20 +43,20 @@ namespace dynamicgraph {
     /* --------------------------------------------------------------------- */
 
     class SOT_CORE_EXPORT Device
-      :public Entity
+        :public Entity
     {
     public:
       static const std::string CLASS_NAME;
       virtual const std::string& getClassName(void) const {
-	return CLASS_NAME;
+        return CLASS_NAME;
       }
       
       enum ForceSignalSource
       {
-	FORCE_SIGNAL_RLEG,
-	FORCE_SIGNAL_LLEG,
-	FORCE_SIGNAL_RARM,
-	FORCE_SIGNAL_LARM
+        FORCE_SIGNAL_RLEG,
+        FORCE_SIGNAL_LLEG,
+        FORCE_SIGNAL_RARM,
+        FORCE_SIGNAL_LARM
       };
       
     protected:
@@ -85,8 +85,8 @@ namespace dynamicgraph {
     public: /* --- DISPLAY --- */
       virtual void display(std::ostream& os) const;
       SOT_CORE_EXPORT friend std::ostream&
-	operator<<(std::ostream& os,const Device& r) {
-	r.display(os); return os;
+      operator<<(std::ostream& os,const Device& r) {
+        r.display(os); return os;
       }
 
     public: /* --- SIGNALS --- */
@@ -110,11 +110,11 @@ namespace dynamicgraph {
 
     public: /* --- COMMANDS --- */
       void commandLine(const std::string&, std::istringstream&,
-		       std::ostream&){}
+                       std::ostream&){}
     protected:
       /// Compute roll pitch yaw angles of freeflyer joint.
       void integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
-				 double dt);
+                                 double dt);
       /// Store Position of free flyer joint
       MatrixHomogeneous ffPose_;
       /// Compute the new position, from the current control.
