@@ -38,6 +38,20 @@ namespace ml= maal::boost;
 namespace dynamicgraph {
   namespace sot {
 
+    /// Define the type of input expected by the robot
+    enum ControlInput
+    {
+      CONTROL_INPUT_POSITION=0,
+      CONTROL_INPUT_VELOCITY=1,
+      CONTROL_INPUT_ACCELERATION=2,
+      CONTROL_INPUT_SIZE=3
+    };
+
+    const std::string ControlInput_s[] =
+    {
+      "position", "velocity", "acceleration"
+    };
+
     /* --------------------------------------------------------------------- */
     /* --- CLASS ----------------------------------------------------------- */
     /* --------------------------------------------------------------------- */
@@ -64,7 +78,7 @@ namespace dynamicgraph {
       ml::Vector velocity_;
       bool vel_controlInit_;
       ml::Vector vel_control_;
-      bool secondOrderIntegration_;
+      ControlInput controlInputType_;
       bool withForceSignals[4];
       PeriodicCall periodicCallBefore_;
       PeriodicCall periodicCallAfter_;
@@ -80,6 +94,7 @@ namespace dynamicgraph {
       void setVelocitySize(const unsigned int& size);
       virtual void setVelocity(const ml::Vector & vel);
       virtual void setSecondOrderIntegration();
+      virtual void setControlInputType(const std::string& cit);
       virtual void increment(const double & dt = 5e-2);
       
     public: /* --- DISPLAY --- */

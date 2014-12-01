@@ -47,10 +47,10 @@ void Device::integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
   jrlMathTools::Vector3D<double> omega;
   // Translation part
   for (unsigned int i=0; i<3; i++) {
-      state(i) += control(i)*dt;
-      ffPose_(i,3) = state(i);
-      omega(i) = control(i+3);
-    }
+    state(i) += control(i)*dt;
+    ffPose_(i,3) = state(i);
+    omega(i) = control(i+3);
+  }
   // Rotation part
   double roll = state(3);
   double pitch = state(4);
@@ -73,20 +73,20 @@ void Device::integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
   // Apply Rodrigues (1795–1851) formula for rotation about omega vector
   double angle = dt*omega.norm();
   if (angle == 0) {
-      return;
-    }
+    return;
+  }
   jrlMathTools::Vector3D<double> k = omega/omega.norm();
   // ei <- ei cos(angle) + sin(angle)(k ^ ei) + (k.ei)(1-cos(angle))k
   for (unsigned int i=0; i<3; i++) {
-      jrlMathTools::Vector3D<double> ei = column[i];
-      column[i] = ei*cos(angle) + (k^ei)*sin(angle) + k*((k*ei)*(1-cos(angle)));
-    }
+    jrlMathTools::Vector3D<double> ei = column[i];
+    column[i] = ei*cos(angle) + (k^ei)*sin(angle) + k*((k*ei)*(1-cos(angle)));
+  }
   // Store new position if ffPose_ member.
   for (unsigned int r = 0; r < 3; r++) {
-      for (unsigned int c = 0; c < 3; c++) {
-          ffPose_(r,c) = column[c](r);
-        }
+    for (unsigned int c = 0; c < 3; c++) {
+      ffPose_(r,c) = column[c](r);
     }
+  }
   const double & nx = column[2](2);
   const double & ny = column[1](2);
 
@@ -106,8 +106,8 @@ Device::
 ~Device( )
 {
   for( unsigned int i=0; i<4; ++i ) {
-      delete forcesSOUT[i];
-    }
+    delete forcesSOUT[i];
+  }
 }
 
 Device::
@@ -115,7 +115,7 @@ Device( const std::string& n )
   :Entity(n)
   ,state_(6)
   ,vel_controlInit_(false)
-  ,secondOrderIntegration_(false)
+  ,controlInputType_(CONTROL_INPUT_VELOCITY)
   ,controlSIN( NULL,"Device("+n+")::input(double)::control" )
   //,attitudeSIN(NULL,"Device::input(matrixRot)::attitudeIN")
   ,attitudeSIN(NULL,"Device::input(vector3)::attitudeIN")
@@ -196,6 +196,17 @@ Device( const std::string& n )
                command::makeCommandVoid0(*this,&Device::setSecondOrderIntegration,
                                          docstring));
 
+    /* SET of control input type. */
+    docstring =
+        "\n"
+        "    Set the type of control input which can be  \n"
+        "    acceleration, velocity, or position\n"
+        "\n";
+
+    addCommand("setControlInputType",
+               new command::Setter<Device,string>
+               (*this, &Device::setControlInputType, docstring));
+
     // Handle commands and signals called in a synchronous way.
     periodicCallBefore_.addSpecificCommands(*this, commandMap, "before.");
     periodicCallAfter_.addSpecificCommands(*this, commandMap, "after.");
@@ -260,10 +271,23 @@ setRoot( const MatrixHomogeneous & worldMwaist )
 void Device::
 setSecondOrderIntegration()
 {
-  secondOrderIntegration_ = true;
+  controlInputType_ = CONTROL_INPUT_ACCELERATION;
   velocity_.resize(state_.size());
   velocity_.setZero();
   velocitySOUT.setConstant( velocity_ );
+}
+
+void Device::
+setControlInputType(const std::string& cit)
+{
+  for(int i=0; i<CONTROL_INPUT_SIZE; i++)
+    if(cit==ControlInput_s[i])
+    {
+      controlInputType_ = (ControlInput)i;
+      sotDEBUG(25)<<"Control input type: "<<ControlInput_s[i]<<endl;
+      return;
+    }
+  sotDEBUG(25)<<"Unrecognized control input type: "<<cit<<endl;
 }
 
 void Device::
@@ -309,19 +333,19 @@ increment( const double & dt )
   /* Position the signals corresponding to sensors. */
   stateSOUT .setConstant( state_ ); stateSOUT.setTime( time+1 );
   //computation of the velocity signal
-  if( secondOrderIntegration_  )
-    {
-      velocitySOUT.setConstant( velocity_ );
-      velocitySOUT.setTime( time+1 );
-    }
+  if( controlInputType_==CONTROL_INPUT_ACCELERATION )
+  {
+    velocitySOUT.setConstant( velocity_ );
+    velocitySOUT.setTime( time+1 );
+  }
   else
-    {
-      velocitySOUT.setConstant( controlSIN.accessCopy() );
-      velocitySOUT.setTime( time+1 );
-    }
+  {
+    velocitySOUT.setConstant( controlSIN.accessCopy() );
+    velocitySOUT.setTime( time+1 );
+  }
   for( int i=0;i<4;++i ){
-      if(  !withForceSignals[i] ) forcesSOUT[i]->setConstant(forceZero6);
-    }
+    if(  !withForceSignals[i] ) forcesSOUT[i]->setConstant(forceZero6);
+  }
   ml::Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
 
@@ -359,12 +383,18 @@ void Device::integrate( const double & dt )
 {
   const ml::Vector & control = controlSIN.accessCopy();
 
+  if (controlInputType_==CONTROL_INPUT_POSITION)
+  {
+    state_ = control;
+    return;
+  }
+
   if( !vel_controlInit_ )
-    {
-      vel_control_ = ml::Vector(control.size());
-      vel_control_.setZero();
-      vel_controlInit_ = true;
-    }
+  {
+    vel_control_ = ml::Vector(control.size());
+    vel_control_.setZero();
+    vel_controlInit_ = true;
+  }
 
   // If control size is state size - 6, integrate joint angles,
   // if control and state are of same size, integrate 6 first degrees of
@@ -373,27 +403,27 @@ void Device::integrate( const double & dt )
 
 
 
-  if (secondOrderIntegration_)
+  if (controlInputType_==CONTROL_INPUT_ACCELERATION)
+  {
+    for( unsigned int i=0;i<control.size();++i )
     {
-      for( unsigned int i=0;i<control.size();++i )
-        {
-          if(control.size() == velocity_.size()) offset = 0;
-          vel_control_(i) = velocity_(i+offset) + control(i)*dt*0.5;
-          velocity_(i+offset) = velocity_(i+offset) + control(i)*dt;
-        }
+      if(control.size() == velocity_.size()) offset = 0;
+      vel_control_(i) = velocity_(i+offset) + control(i)*dt*0.5;
+      velocity_(i+offset) = velocity_(i+offset) + control(i)*dt;
     }
+  }
   else
-    {
-      vel_control_ = control;
-    }
+  {
+    vel_control_ = control;
+  }
 
   if (vel_control_.size() == state_.size()) {
-      offset = 0;
-      integrateRollPitchYaw(state_, vel_control_, dt);
-    }
+    offset = 0;
+    integrateRollPitchYaw(state_, vel_control_, dt);
+  }
 
   for( unsigned int i=6;i<state_.size();++i )
-    { state_(i) += (vel_control_(i-offset)*dt); }
+  { state_(i) += (vel_control_(i-offset)*dt); }
 }
 
 /* --- DISPLAY ------------------------------------------------------------ */
