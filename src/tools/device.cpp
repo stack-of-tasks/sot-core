@@ -385,7 +385,9 @@ void Device::integrate( const double & dt )
 
   if (controlInputType_==CONTROL_INPUT_POSITION)
   {
-    state_ = control;
+    assert(state_.size()==control.size()+6);
+    for( unsigned int i=0;i<control.size();++i )
+      state_(i+6) = control(i);
     return;
   }
 
