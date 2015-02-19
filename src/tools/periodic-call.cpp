@@ -62,7 +62,7 @@ setPyInterpreter( dynamicgraph::python::Interpreter* ptr )
 void PeriodicCall::
 addSignal( const std::string &name, SignalBase<int>& sig )
 {
-  signalMap[ name ] = &sig;
+  signalMap[ name ] = SignalToCall(&sig);
   return ;
 }
 
@@ -72,6 +72,22 @@ addSignal( const std::string& sigpath )
   istringstream sigISS( sigpath );
   SignalBase<int>& signal = ::dynamicgraph::PoolStorage::getInstance()->getSignal( sigISS );
   addSignal( sigpath,signal );
+  return ;
+}
+
+void PeriodicCall::
+addDownsampledSignal( const std::string &name, SignalBase<int>& sig, const unsigned int& downsamplingFactor )
+{
+  signalMap[ name ] = SignalToCall(&sig,downsamplingFactor);
+  return ;
+}
+
+void PeriodicCall::
+addDownsampledSignal( const std::string& sigpath, const unsigned int& downsamplingFactor )
+{
+  istringstream sigISS( sigpath );
+  SignalBase<int>& signal = ::dynamicgraph::PoolStorage::getInstance()->getSignal( sigISS );
+  addDownsampledSignal( sigpath,signal,downsamplingFactor );
   return ;
 }
 
@@ -111,7 +127,8 @@ runSignals( const int& t )
   for( SignalMapType::iterator iter = signalMap.begin();
        signalMap.end()!=iter; ++iter )
     {
-      (*iter).second ->recompute( t );
+      if(t%iter->second.downsamplingFactor == 0)
+        (*iter).second.signal->recompute( t );
     }
   return ;
 }
@@ -240,6 +257,8 @@ void PeriodicCall::addSpecificCommands(Entity& ent,
   boost::function< void( const std::string& ) >
     addSignal  = boost::bind( &PeriodicCall::addSignal, this,_1 ),
     rmSignal = boost::bind( &PeriodicCall::rmSignal, this,_1 );
+  boost::function< void( const std::string&, const unsigned int& ) >
+    addDownsampledSignal  = boost::bind( &PeriodicCall::addDownsampledSignal, this,_1,_2);
   boost::function< void( void ) >
     clear  = boost::bind( &PeriodicCall::clear, this );
   boost::function< void( std::ostream& ) >
@@ -249,6 +268,11 @@ void PeriodicCall::addSpecificCommands(Entity& ent,
    	      makeCommandVoid1(ent,addSignal,
    			       docCommandVoid1("Add the signal to the refresh list",
    					       "string (sig name)")));
+   ADD_COMMAND("addDownsampledSignal",
+              makeCommandVoid2(ent,addDownsampledSignal,
+                               docCommandVoid2("Add the signal to the refresh list",
+                                               "string (sig name)",
+                                               "unsigned int (downsampling factor, 1 means every time, 2 means every other time, etc...")));
    ADD_COMMAND("rmSignal",
 	       makeCommandVoid1(ent,rmSignal,
 				docCommandVoid1("Remove the signal to the refresh list",
