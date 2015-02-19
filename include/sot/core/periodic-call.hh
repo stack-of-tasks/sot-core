@@ -54,7 +54,25 @@ namespace sot {
 class SOT_CORE_EXPORT PeriodicCall
 {
  protected:
-  typedef std::map< std::string,dynamicgraph::SignalBase<int>* > SignalMapType;
+  struct SignalToCall
+  {
+    dynamicgraph::SignalBase<int>* signal;
+    unsigned int downsamplingFactor;
+
+    SignalToCall()
+    {
+      signal = NULL;
+      downsamplingFactor = 1;
+    }
+
+    SignalToCall(dynamicgraph::SignalBase<int>* s, unsigned int df=1)
+    {
+      signal = s;
+      downsamplingFactor = df;
+    }
+  };
+
+  typedef std::map< std::string,SignalToCall > SignalMapType;
   SignalMapType signalMap;
 
   typedef std::list< std::string > CmdListType;
@@ -67,6 +85,9 @@ class SOT_CORE_EXPORT PeriodicCall
  public:
   PeriodicCall( void );
   virtual ~PeriodicCall( void ) {}
+
+  void addDownsampledSignal( const std::string &name, dynamicgraph::SignalBase<int>& sig, const unsigned int& downsamplingFactor );
+  void addDownsampledSignal( const std::string& sigpath, const unsigned int& downsamplingFactor );
 
   void addSignal( const std::string &name, dynamicgraph::SignalBase<int>& sig );
   void addSignal( const std::string& args );
