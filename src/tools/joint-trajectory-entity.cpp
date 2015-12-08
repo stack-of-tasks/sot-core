@@ -19,6 +19,7 @@
 //#define VP_DEBUG
 //#define VP_DEBUG_MODE 10
 #include <sot/core/debug.hh>
+#include <sot/core/matrix-geometry.hh>
 #ifdef VP_DEBUG
  class sotJTE__INIT
  {
@@ -28,14 +29,11 @@
 #endif //#ifdef VP_DEBUG
 
 
-#include <jrl/mathtools/angle.hh>
-
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/command-bind.h>
 
 #include <sot/core/joint-trajectory-entity.hh>
-#include <sot/core/vector-roll-pitch-yaw.hh>
 
 #include "joint-trajectory-command.hh"
 
@@ -131,7 +129,7 @@ void SotJointTrajectoryEntity::UpdatePoint(const JointTrajectoryPoint &aJTP)
   sotDEBUG(5) << "com: " << com_ << std::endl;
 
   // Add a constant height TODO: make it variable
-  ml::Vector waistXYZTheta;
+  dynamicgraph::Vector waistXYZTheta;
   waistXYZTheta.resize(4);
 
   waistXYZTheta(0) = com_(0); 
@@ -261,28 +259,23 @@ int & SotJointTrajectoryEntity::OneStepOfUpdate(int &dummy,const int & time)
 
 sot::MatrixHomogeneous 
 SotJointTrajectoryEntity::
-XYZThetaToMatrixHomogeneous (const ml::Vector& xyztheta)
+XYZThetaToMatrixHomogeneous (const dynamicgraph::Vector& xyztheta)
 {
   assert (xyztheta.size () == 4);
-  ml::Vector t (3);
+  dynamicgraph::Vector t (3);
   t (0) = xyztheta (0);
   t (1) = xyztheta (1);
   t (2) = xyztheta (2);
-
-
-  jrlMathTools::Angle theta (xyztheta (3));
-
-  sot::VectorRollPitchYaw vR;
-  vR (2) = theta.value ();
-  sot::MatrixRotation R;
-  vR.toMatrix (R);
+  Eigen::Affine3d trans;
+  trans = Eigen::Translation3d(t);
+  Eigen::Affine3d _Rd(Eigen::AngleAxisd(xyztheta (3),Eigen::Vector3d::UnitZ()));
   sot::MatrixHomogeneous res;
-  res.buildFrom (R, t);
+  res = _Rd*trans;
   return res;
 }
 
-ml::Vector &SotJointTrajectoryEntity::
-getNextPosition(ml::Vector &pos,
+dynamicgraph::Vector &SotJointTrajectoryEntity::
+getNextPosition(dynamicgraph::Vector &pos,
                 const int & time)
 {
   sotDEBUGIN(5);
@@ -293,8 +286,8 @@ getNextPosition(ml::Vector &pos,
   return pos;
 }
    
-ml::Vector &SotJointTrajectoryEntity::
-getNextCoM(ml::Vector &com,
+dynamicgraph::Vector &SotJointTrajectoryEntity::
+getNextCoM(dynamicgraph::Vector &com,
                 const int & time)
 {
   sotDEBUGIN(5);
@@ -304,8 +297,8 @@ getNextCoM(ml::Vector &com,
   return com;
 }
 
-ml::Vector &SotJointTrajectoryEntity::
-getNextCoP(ml::Vector &cop,
+dynamicgraph::Vector &SotJointTrajectoryEntity::
+getNextCoP(dynamicgraph::Vector &cop,
                 const int & time)
 {
   sotDEBUGIN(5);

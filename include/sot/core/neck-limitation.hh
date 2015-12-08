@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/entity.h>
@@ -89,11 +89,11 @@ class NeckLimitation_EXPORT NeckLimitation
   virtual ~NeckLimitation( void );
 
  public: /* --- SIGNAL --- */
-  dg::SignalPtr<ml::Vector,int> jointSIN;
-  dg::SignalTimeDependent<ml::Vector,int> jointSOUT;
+  dg::SignalPtr<dg::Vector,int> jointSIN;
+  dg::SignalTimeDependent<dg::Vector,int> jointSOUT;
 
  public: /* --- FUNCTIONS --- */
-  ml::Vector& computeJointLimitation( ml::Vector& jointLimited,const int& timeSpec );
+  dg::Vector& computeJointLimitation( dg::Vector& jointLimited,const int& timeSpec );
   
  public: /* --- PARAMS --- */
   virtual void display( std::ostream& os ) const; 

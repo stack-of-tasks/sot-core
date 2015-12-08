@@ -50,9 +50,9 @@ namespace dynamicgraph {
 	  {
 	    MatrixConstant& mc = static_cast<MatrixConstant&>(owner());
 	    std::vector<Value> values = getParameterValues();
-	    unsigned nbRows = values[0].value();
-	    unsigned nbCols = values[1].value();
-	    ml::Matrix m(nbRows, nbCols);
+	    unsigned rows = values[0].value();
+	    unsigned cols = values[1].value();
+	    dynamicgraph::Matrix m(rows, cols);
 	    m.fill(mc.color);
 	    mc.SOUT.setConstant(m);
 	    

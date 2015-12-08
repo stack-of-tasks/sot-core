@@ -139,7 +139,7 @@ namespace dynamicgraph {
   namespace dynamicgraph {                      \
     namespace sot {							\
       template void Mailbox<S>::post(const S& obj );			\
-      template maal::boost::Vector&  Mailbox<S>::getObject( S& res,const int& time ); \
+      template dynamicgraph::Vector&  Mailbox<S>::getObject( S& res,const int& time ); \
       template bool Mailbox<S>::hasBeenUpdated(void);			\
       template Mailbox<S>::~Mailbox();					\
       template Mailbox<S>::sotTimestampedObject& Mailbox<S>::get( Mailbox<S>::sotTimestampedObject& res,const int& dummy ); \

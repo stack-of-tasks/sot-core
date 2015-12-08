@@ -32,6 +32,8 @@
 #include <dynamic-graph/command-getter.h>
 #include <dynamic-graph/command-bind.h>
 
+#include <Eigen/LU>
+
 #include <sot/core/debug.hh>
 #include <sot/core/feature-point6d.hh>
 #include <sot/core/exception-feature.hh>
@@ -58,8 +60,7 @@ FeaturePoint6d( const string& pointName )
     ,positionSIN( NULL,"sotFeaturePoint6d("+name+")::input(matrixHomo)::position" )
   ,velocitySIN (NULL, "sotFeaturePoint6d("+name+")::input(vector)::velocity")
     ,articularJacobianSIN( NULL,"sotFeaturePoint6d("+name+")::input(matrix)::Jq" )
-  , v_ (3), omega_ (3), errordot_t_ (3), errordot_th_ (3),
-    Rreftomega_ (3), t_ (3), tref_ (3), error_th_ (),
+  , error_th_ (),
     R_ (), Rref_ (), Rt_ (), Rreft_ (), P_ (3, 3), Pinv_ (3, 3),
     accuracy_ (1e-8)
 {
@@ -179,12 +180,12 @@ getDimension( unsigned int & dim, int time )
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-ml::Matrix& FeaturePoint6d::
-computeJacobian( ml::Matrix& J,int time )
+Matrix& FeaturePoint6d::
+computeJacobian( Matrix& J,int time )
 {
   sotDEBUG(15)<<"# In {"<<endl;
 
-  const ml::Matrix & Jq = articularJacobianSIN(time);
+  const Matrix & Jq = articularJacobianSIN(time);
   const int & dim = dimensionSOUT(time);
   const Flags &fl = selectionSIN(time);
 
@@ -195,23 +196,23 @@ computeJacobian( ml::Matrix& J,int time )
 
   sotDEBUG(15) <<"Dimension="<<dim<<std::endl;
 
-  const unsigned int cJ = Jq.nbCols();
+  const unsigned int cJ = Jq.cols();
   J.resize(dim,cJ) ;
-  ml::Matrix LJq(6,cJ);
+  Matrix LJq(6,cJ);
 
   if( FRAME_CURRENT==computationFrame_ )
     {
       /* The Jacobian on rotation is equal to Jr = - hdRh Jr6d.
        * The Jacobian in translation is equalt to Jt = [hRw(wthd-wth)]x Jr - Jt. */
       const MatrixHomogeneous& wMh = positionSIN(time);
-      MatrixRotation wRh;      wMh.extract(wRh);
+      MatrixRotation wRh;      wRh = wMh.linear();
       MatrixRotation wRhd;
-      ml::Vector hdth(3),Rhdth(3);
+      Vector hdth(3),Rhdth(3);
 
       if( isReferenceSet() )
         {
           const MatrixHomogeneous& wMhd = getReference()->positionSIN(time);
-          wMhd.extract(wRhd);
+          wRhd = wMhd.linear();
           for( unsigned int i=0;i<3;++i ) hdth(i)=wMhd(i,3)-wMh(i,3);
         }
       else
@@ -219,10 +220,10 @@ computeJacobian( ml::Matrix& J,int time )
           wRhd.setIdentity();
           for( unsigned int i=0;i<3;++i ) hdth(i)=-wMh(i,3);
         }
-      wRh.inverse().multiply(hdth,Rhdth);
-      MatrixRotation hdRh; wRhd.inverse().multiply(wRh,hdRh);
+      Rhdth=(wRh.inverse())*hdth;
+      MatrixRotation hdRh; hdRh = (wRhd.inverse())*wRh;
 
-      ml::Matrix Lx(6,6);
+      Matrix Lx(6,6);
       for(unsigned int i=0;i<3;i++)
 	{for(unsigned int j=0;j<3;j++)
             {
@@ -237,21 +238,21 @@ computeJacobian( ml::Matrix& J,int time )
       Lx(0,3) =  0 ;      Lx(1,4) =  0 ;       Lx(2,5) = 0 ;
       sotDEBUG(15) << "Lx= "<<Lx<<endl;
 
-      Lx.multiply(Jq,LJq);
+      LJq=Lx*Jq;
     }
   else
     {
       /* The Jacobian in rotation is equal to Jr = hdJ = hdRh Jr.
        * The Jacobian in translation is equal to Jr = hdJ = hdRh Jr. */
       const MatrixHomogeneous& wMh = positionSIN(time);
-      MatrixRotation wRh; wMh.extract(wRh);
+      MatrixRotation wRh; wRh = wMh.linear();
       MatrixRotation hdRh;
 
       if( isReferenceSet() )
         {
           const MatrixHomogeneous& wMhd = getReference()->positionSIN(time);
-          MatrixRotation wRhd; wMhd.extract(wRhd);
-          wRhd.inverse().multiply( wRh,hdRh );
+          MatrixRotation wRhd; wRhd = wMhd.linear();
+          hdRh = (wRhd.inverse())*wRh;
         }
       else
         { hdRh = wRh; }
@@ -282,19 +283,19 @@ computeJacobian( ml::Matrix& J,int time )
   return J;
 }
 
-#define SOT_COMPUTE_H1MH2(wMh,wMhd,hMhd) {                 \
-	MatrixHomogeneous hMw; wMh.inverse(hMw);        \
-	sotDEBUG(15)<<"hMw = "<<hMw<<endl;                 \
-	hMw.multiply( wMhd,hMhd );                         \
-	sotDEBUG(15)<<"hMhd = "<<hMhd<<endl;               \
-      }
+#define SOT_COMPUTE_H1MH2(wMh,wMhd,hMhd) {			\
+    MatrixHomogeneous hMw; hMw = wMh.inverse(Eigen::Affine);	\
+    sotDEBUG(15)<<"hMw = "<<hMw<<endl;				\
+    hMhd = hMw * wMhd;						\
+    sotDEBUG(15)<<"hMhd = "<<hMhd<<endl;			\
+  }
 
 
 /** Compute the error between two visual features from a subset
  * a the possible features.
  */
-ml::Vector&
-FeaturePoint6d::computeError( ml::Vector& error,int time )
+Vector&
+FeaturePoint6d::computeError( Vector& error,int time )
 {
   sotDEBUGIN(15);
 
@@ -344,21 +345,23 @@ FeaturePoint6d::computeError( ml::Vector& error,int time )
 
   if(fl(3)||fl(4)||fl(5))
     {
-      MatrixRotation hRhd; hMhd.extract( hRhd );
-      error_th_.fromMatrix (hRhd);
-      for( unsigned int i=0;i<3;++i )
-        { if( fl(i+3) ) error(cursor++) = error_th_ (i); }
+      MatrixRotation hRhd; hRhd = hMhd.linear();
+      error_th_.fromRotationMatrix(hRhd);
+      for( unsigned int i=0;i<3;++i ) {
+	if( fl(i+3) ) 
+	  error(cursor++) = error_th_.angle()*error_th_.axis()(i);
+      }
     }
-
+  
   sotDEBUGOUT(15);
   return error ;
 }
 
 void FeaturePoint6d::inverseJacobianRodrigues ()
 {
-      const double& r1 = error_th_(0);
-      const double& r2 = error_th_(1);
-      const double& r3 = error_th_(2);
+      const double& r1 = error_th_.angle()*error_th_.axis()(0);
+      const double& r2 = error_th_.angle()*error_th_.axis()(1);
+      const double& r3 = error_th_.angle()*error_th_.axis()(2);
       double r1_2 = r1*r1;
       double r2_2 = r2*r2;
       double r3_2 = r3*r3;
@@ -383,10 +386,10 @@ void FeaturePoint6d::inverseJacobianRodrigues ()
       P_ (2,0) = -(r1*r3*sqrt(norm_2)*sin(sqrt(norm_2))+(r2*r3_2+r2_3+r1_2*r2)*cos(sqrt(norm_2))-r1*r3_3-r2*r3_2+(-r1*r2_2-r1_3)*r3-r2_3-r1_2*r2)/(r3_4+(2*r2_2+2*r1_2)*r3_2+r2_4+2*r1_2*r2_2+r1_4);
       P_ (2,1) = -(r2*r3*sqrt(norm_2)*sin(sqrt(norm_2))+(-r1*r3_2-r1*r2_2-r1_3)*cos(sqrt(norm_2))-r2*r3_3+r1*r3_2+(-r2_3-r1_2*r2)*r3+r1*r2_2+r1_3)/(r3_4+(2*r2_2+2*r1_2)*r3_2+r2_4+2*r1_2*r2_2+r1_4);
       P_ (2,2) = ((r2_2+r1_2)*sqrt(norm_2)*sin(sqrt(norm_2))+r3_4+(r2_2+r1_2)*r3_2)/(r3_4+(2*r2_2+2*r1_2)*r3_2+r2_4+2*r1_2*r2_2+r1_4);
-      P_.inverse (Pinv_);
+      Pinv_= P_.inverse ();
 }
 
-ml::Vector& FeaturePoint6d::computeErrordot( ml::Vector& errordot,int time )
+Vector& FeaturePoint6d::computeErrordot( Vector& errordot,int time )
 {
   if(isReferenceSet()) {
     const Vector& velocity = getReference()->velocitySIN(time);
@@ -400,24 +403,24 @@ ml::Vector& FeaturePoint6d::computeErrordot( ml::Vector& errordot,int time )
     omega_ (0) = velocity (3);
     omega_ (1) = velocity (4);
     omega_ (2) = velocity (5);
-    M.extract(R_);
-    M.extract(t_);
-    R_.transpose (Rt_);
-    Mref.extract (Rref_);
-    Mref.extract (tref_);
-    Rref_.transpose (Rreft_);
+    R_ = M.linear();
+    t_ = M.translation();
+    Rt_ = R_.transpose ();
+    Rref_ = Mref.linear();
+    tref_= Mref.translation();
+    Rreft_ = Rref_.transpose ();
     errorSOUT.recompute (time);
     inverseJacobianRodrigues ();
     switch (computationFrame_) {
     case FRAME_CURRENT:
       // \dot{e}_{t} = R^{T} v
-      Rt_.multiply (v_, errordot_t_);
+      errordot_t_ = Rt_* v_;
       // \dot{e}_{\theta} = P^{-1}(e_{theta})R^{*T}\omega
-      Rreft_.multiply (omega_, Rreftomega_);
-      Pinv_.multiply (Rreftomega_, errordot_th_);
+      Rreftomega_ = Rreft_*omega_;
+      errordot_th_ = Pinv_ * Rreftomega_;
       break;
     case FRAME_DESIRED:
-      errordot_t_ = Rreft_ * (omega_.crossProduct (tref_ - t_) - v_);
+      errordot_t_ = Rreft_ * (omega_.cross(tref_ - t_) - v_);
       errordot_th_ = -Pinv_ * (Rt_ * omega_);
       break;
     }

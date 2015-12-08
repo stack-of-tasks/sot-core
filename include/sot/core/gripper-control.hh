@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/entity.h>
@@ -72,7 +72,7 @@ class SOTGRIPPERCONTROL_EXPORT GripperControl
   double offset;
   static const double OFFSET_DEFAULT;
   //! \brief The multiplication
-  ml::Vector factor;
+  dg::Vector factor;
 
  public:
   GripperControl( void );
@@ -80,24 +80,24 @@ class SOTGRIPPERCONTROL_EXPORT GripperControl
   //! \brief Computes the
   // if the torque limit is reached, the normalized position is reduced by
   // (offset)
-  void computeIncrement( const ml::Vector& torques,
-                         const ml::Vector& torqueLimits,
-                         const ml::Vector& currentNormVel );
+  void computeIncrement( const dg::Vector& torques,
+                         const dg::Vector& torqueLimits,
+                         const dg::Vector& currentNormVel );
 
   //! \brief
-  ml::Vector& computeDesiredPosition( const ml::Vector& currentPos,
-                                      const ml::Vector& desiredPos,
-                                      const ml::Vector& torques,
-                                      const ml::Vector& torqueLimits,
-                                      ml::Vector& referencePos );
+  dg::Vector& computeDesiredPosition( const dg::Vector& currentPos,
+                                      const dg::Vector& desiredPos,
+                                      const dg::Vector& torques,
+                                      const dg::Vector& torqueLimits,
+                                      dg::Vector& referencePos );
 
   /*! \brief select only some of the values of the vector fullsize,
   *   based on the Flags vector.
   */
 
-  static ml::Vector& selector( const ml::Vector& fullsize,
+  static dg::Vector& selector( const dg::Vector& fullsize,
                                const Flags& selec,
-                               ml::Vector& desPos );
+                               dg::Vector& desPos );
 };
 
 /* --------------------------------------------------------------------- */
@@ -123,22 +123,22 @@ class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
  public: /* --- SIGNAL --- */
 
   /* --- INPUTS --- */
-  dg::SignalPtr<ml::Vector,int> positionSIN;
-  dg::SignalPtr<ml::Vector,int> positionDesSIN;
-  dg::SignalPtr<ml::Vector,int> torqueSIN;
-  dg::SignalPtr<ml::Vector,int> torqueLimitSIN;
+  dg::SignalPtr<dg::Vector,int> positionSIN;
+  dg::SignalPtr<dg::Vector,int> positionDesSIN;
+  dg::SignalPtr<dg::Vector,int> torqueSIN;
+  dg::SignalPtr<dg::Vector,int> torqueLimitSIN;
   dg::SignalPtr<Flags,int> selectionSIN;
 
   /* --- INTERMEDIARY --- */
-  dg::SignalPtr<ml::Vector,int> positionFullSizeSIN;
-  dg::SignalTimeDependent<ml::Vector,int> positionReduceSOUT;
-  dg::SignalPtr<ml::Vector,int> torqueFullSizeSIN;
-  dg::SignalTimeDependent<ml::Vector,int> torqueReduceSOUT;
-  dg::SignalPtr<ml::Vector,int> torqueLimitFullSizeSIN;
-  dg::SignalTimeDependent<ml::Vector,int> torqueLimitReduceSOUT;
+  dg::SignalPtr<dg::Vector,int> positionFullSizeSIN;
+  dg::SignalTimeDependent<dg::Vector,int> positionReduceSOUT;
+  dg::SignalPtr<dg::Vector,int> torqueFullSizeSIN;
+  dg::SignalTimeDependent<dg::Vector,int> torqueReduceSOUT;
+  dg::SignalPtr<dg::Vector,int> torqueLimitFullSizeSIN;
+  dg::SignalTimeDependent<dg::Vector,int> torqueLimitReduceSOUT;
 
   /* --- OUTPUTS --- */
-  dg::SignalTimeDependent<ml::Vector,int> desiredPositionSOUT;
+  dg::SignalTimeDependent<dg::Vector,int> desiredPositionSOUT;
 
 
  public: /* --- COMMANDLINE --- */

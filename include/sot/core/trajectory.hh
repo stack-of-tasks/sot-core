@@ -22,14 +22,14 @@
 
 
 // Matrix 
-#include <jrl/mal/boost.hh>
+#include <dynamic-graph/linear-algebra.h>
 #include <sot/core/api.hh>
 
 #include <boost/assign/list_of.hpp> 
 #include <boost/array.hpp>
 #include <boost/regex.hpp>
 
-namespace ml = maal::boost;
+namespace dg = dynamicgraph;
 namespace ba = boost::assign;
 
 namespace dynamicgraph {

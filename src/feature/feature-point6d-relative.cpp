@@ -27,9 +27,7 @@
 #include <sot/core/feature-point6d-relative.hh>
 #include <sot/core/exception-feature.hh>
 
-#include <sot/core/matrix-homogeneous.hh>
-#include <sot/core/matrix-rotation.hh>
-#include <sot/core/matrix-twist.hh>
+#include <sot/core/matrix-geometry.hh>
 #include <dynamic-graph/pool.h>
 #include <dynamic-graph/all-commands.h>
 
@@ -81,23 +79,24 @@ FeaturePoint6dRelative( const string& pointName )
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-ml::Matrix& FeaturePoint6dRelative::
-computeJacobian( ml::Matrix& Jres,int time )
+Matrix& FeaturePoint6dRelative::
+computeJacobian( Matrix& Jres,int time )
 {
   sotDEBUG(15)<<"# In {"<<endl;
 
-  const ml::Matrix & Jq = articularJacobianSIN(time);
-  const ml::Matrix & JqRef = articularJacobianReferenceSIN(time);
+  const Matrix & Jq = articularJacobianSIN(time);
+  const Matrix & JqRef = articularJacobianReferenceSIN(time);
   const MatrixHomogeneous & wMp = positionSIN(time);
   const MatrixHomogeneous & wMpref = positionReferenceSIN(time);
 
-  const unsigned int cJ = Jq.nbCols();
-  ml::Matrix J(6,cJ);
+  const unsigned int cJ = Jq.cols();
+  Matrix J(6,cJ);
   {
-    MatrixHomogeneous pMw;  wMp.inverse(pMw);
-    MatrixHomogeneous pMpref; pMw.multiply( wMpref,pMpref );
-    MatrixTwist pVpref; pVpref.buildFrom(pMpref );
-    pVpref.multiply( JqRef,J );
+    MatrixHomogeneous pMw;  pMw = wMp.inverse(Eigen::Affine);
+    MatrixHomogeneous pMpref; pMpref= pMw*wMpref;
+
+    MatrixTwist pVpref;    buildFrom(pMpref, pVpref );
+    J = pVpref*JqRef;
     J -= Jq;
   }
 
@@ -122,8 +121,8 @@ computeJacobian( ml::Matrix& Jres,int time )
 /** Compute the error between two visual features from a subset
  * a the possible features.
  */
-ml::Vector&
-FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
+Vector&
+FeaturePoint6dRelative::computeError( Vector& error,int time )
 {
   sotDEBUGIN(15);
 
@@ -133,8 +132,8 @@ FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
   const MatrixHomogeneous & wMp = positionSIN(time);
   const MatrixHomogeneous & wMpref = positionReferenceSIN(time);
 
-  MatrixHomogeneous pMw;  wMp.inverse(pMw);
-  MatrixHomogeneous pMpref; pMw.multiply( wMpref,pMpref );
+  MatrixHomogeneous pMw;  pMw = wMp.inverse(Eigen::Affine);
+  MatrixHomogeneous pMpref; pMpref = pMw*wMpref;
 
   MatrixHomogeneous Merr;
   try
@@ -147,16 +146,16 @@ FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
 	    {
 	         const MatrixHomogeneous & wMp_des = sdes6d->positionSIN(time);
 		 const MatrixHomogeneous & wMpref_des = sdes6d->positionReferenceSIN(time);
-		 MatrixHomogeneous pMw_des;  wMp_des.inverse(pMw_des);
-		 MatrixHomogeneous pMpref_des; pMw_des.multiply( wMpref_des,pMpref_des );
-		 MatrixHomogeneous Minv; pMpref_des.inverse(Minv);
-		 pMpref.multiply(Minv,Merr);
+		 MatrixHomogeneous pMw_des;  pMw_des = wMp_des.inverse(Eigen::Affine);
+		 MatrixHomogeneous pMpref_des; pMpref_des=pMw_des*wMpref_des;
+		 MatrixHomogeneous Minv; Minv = pMpref_des.inverse(Eigen::Affine);
+		 Merr=pMpref*Minv;
 	    }
 	  else
 	    {
 	      const MatrixHomogeneous & Mref = getReference()->positionSIN(time);
-	      MatrixHomogeneous Minv; Mref.inverse(Minv);
-	      pMpref.multiply(Minv,Merr);
+	      MatrixHomogeneous Minv; Minv = Mref.inverse(Eigen::Affine);
+	      Merr=pMpref*Minv;
 	    }
 	}
       else
@@ -165,8 +164,8 @@ FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
 	}
     } catch( ... ) { Merr=pMpref; }
 
-  MatrixRotation Rerr; Merr.extract( Rerr );
-  VectorUTheta rerr; rerr.fromMatrix( Rerr );
+  MatrixRotation Rerr; Rerr = Merr.linear();
+  VectorUTheta rerr(Rerr);
 
   const Flags &fl = selectionSIN(time);
   error.resize(dimensionSOUT(time)) ;
@@ -174,7 +173,7 @@ FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
   for( unsigned int i=0;i<3;++i )
     { if( fl(i) ) error(cursor++) = Merr(i,3); }
   for( unsigned int i=0;i<3;++i )
-    { if( fl(i+3) ) error(cursor++) = rerr(i); }
+    { if( fl(i+3) ) error(cursor++) = rerr.angle()*rerr.axis()(i); }
 
   sotDEBUGOUT(15);
   return error ;
@@ -185,8 +184,8 @@ FeaturePoint6dRelative::computeError( ml::Vector& error,int time )
  *
  * This is computed by the desired feature.
  */
-ml::Vector&
-FeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
+Vector&
+FeaturePoint6dRelative::computeErrorDot( Vector& errordot,int time )
 {
   sotDEBUGIN(15);
 
@@ -201,40 +200,40 @@ FeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
   sotDEBUG(15) << "wdMpref :" <<wdMpref << endl;
 
   MatrixRotation dRerr;
-  ml::Vector dtrerr;
+  Vector dtrerr;
 
   try
     {
-      MatrixRotation wRp;    wMp.extract(wRp);
-      MatrixRotation wRpref; wMpref.extract(wRpref );
-      MatrixRotation wdRp; wdMp.extract(wdRp);
-      MatrixRotation wdRpref; wdMpref.extract(wdRpref );
+      MatrixRotation wRp;      wRp      = wMp.linear();
+      MatrixRotation wRpref;   wRpref   = wMpref.linear();
+      MatrixRotation wdRp;     wdRp     = wdMp.linear();
+      MatrixRotation wdRpref;  wdRpref  = wdMpref.linear();
 
-      ml::Vector trp(3); wMp.extract(trp);
-      ml::Vector trpref(3); wMpref.extract(trpref);
-      ml::Vector trdp(3); wdMp.extract(trdp);
-      ml::Vector trdpref(3); wdMpref.extract(trdpref);
+      Vector trp(3);       trp      = wMp.translation();
+      Vector trpref(3);    trpref   = wMpref.translation();
+      Vector trdp(3);      trdp     = wdMp.translation();
+      Vector trdpref(3);   trdpref  = wdMpref.translation();
 
       sotDEBUG(15) << "Everything is extracted" <<endl;
       MatrixRotation wdRpt,wRpt,op1,op2;
-      wdRp.transpose(wdRpt);wdRpt.multiply(wRpref, op1);
-      wRp.transpose(wRpt);wRpt.multiply(wdRpref,op2);
-      op1.addition(op2,dRerr);
+      wdRpt = wdRp.transpose();op1=wdRpt*wRpref;
+      wRpt = wRp.transpose();op2=wRpt*wdRpref;
+      dRerr = op1+op2;
 
       sotDEBUG(15) << "dRerr" << dRerr << endl;
-      ml::Vector trtmp1(3),vop1(3),vop2(3);
-      trpref.substraction(trp,trtmp1);
-      wdRpt.multiply(trtmp1,vop1);
-      trdpref.substraction(trdp,trtmp1);
-      wRpt.multiply(trtmp1,vop2);
-      vop1.addition(vop2,dtrerr);
+      Vector trtmp1(3),vop1(3),vop2(3);
+      trtmp1 = trpref-trp;
+      vop1=wdRpt*trtmp1;
+      trtmp1 = trdpref-trdp;
+      vop2=wRpt*trtmp1;
+      dtrerr = vop1-vop2;
 
       sotDEBUG(15) << "dtrerr" << dtrerr << endl;
 
 
     } catch( ... ) { sotDEBUG(15) << "You've got a problem with errordot." << std::endl; }
 
-  VectorUTheta rerr; rerr.fromMatrix( dRerr );
+  VectorUTheta rerr(dRerr);
 
   const Flags &fl = selectionSIN(time);
   errordot.resize(dimensionSOUT(time)) ;
@@ -242,7 +241,7 @@ FeaturePoint6dRelative::computeErrorDot( ml::Vector& errordot,int time )
   for( unsigned int i=0;i<3;++i )
     { if( fl(i) ) errordot(cursor++) = dtrerr(i); }
   for( unsigned int i=0;i<3;++i )
-    { if( fl(i+3) ) errordot(cursor++) = rerr(i); }
+    { if( fl(i+3) ) errordot(cursor++) = rerr.angle()*rerr.axis()(i); }
 
   sotDEBUGOUT(15);
   return errordot ;

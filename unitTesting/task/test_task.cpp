@@ -27,17 +27,16 @@
 #include <sot/core/debug.hh>
 #include <sot/core/task.hh>
 #include <sot/core/gain-adaptive.hh>
-
+#include <dynamic-graph/linear-algebra.h>
 using namespace std;
 using namespace dynamicgraph::sot;
 
-namespace ml = maal::boost;
 
 double drand( void ) { return 2*((double)rand())/RAND_MAX-1; }
-ml::Matrix& mrand( ml::Matrix& J )
+dynamicgraph::Matrix& mrand( dynamicgraph::Matrix& J )
 {
-  for( unsigned int i=0;i<J.nbRows();++i)
-    for( unsigned int j=0;j<J.nbCols();++j)
+  for( int i=0;i<J.rows();++i)
+    for( int j=0;j<J.cols();++j)
       J(i,j) = drand();
   return J;
 }
@@ -45,9 +44,9 @@ ml::Matrix& mrand( ml::Matrix& J )
 int main( void )
 {
   srand(12);
-  ml::Matrix Jq(6,6); Jq.setIdentity();
+  dynamicgraph::Matrix Jq(6,6); Jq.setIdentity();
 
-  ml::Vector p1xy(2); p1xy(0)=1.; p1xy(1)=-2;
+  dynamicgraph::Vector p1xy(2); p1xy(0)=1.; p1xy(1)=-2;
 
   sotDEBUGF("Create feature");
   FeatureVisualPoint * p1 = new FeatureVisualPoint("p1");
@@ -58,10 +57,10 @@ int main( void )
   p1->setReference(p1des);
   p1->xySIN = p1xy;
 
-  p1des->xySIN = ml::Vector(2);
+  p1des->xySIN = dynamicgraph::Vector(2);
 
   sotDEBUGF("Create Task");
-  sotDEBUG(0) << ml::MATLAB;
+  //  sotDEBUG(0) << dynamicgraph::MATLAB;
 
   Task * task = new Task("t");
   task->addFeature(*p1);
@@ -77,7 +76,7 @@ int main( void )
   task->jacobianSOUT.display(cout)<<endl;
   task->jacobianSOUT.displayDependencies(cout)<<endl;
 
-  sotDEBUG(0) << ml::MATLAB << "J"<< task->jacobianSOUT(2);
+  //  sotDEBUG(0) << dynamicgraph::MATLAB << "J"<< task->jacobianSOUT(2);
   sotDEBUG(0) <<"e"<< task->errorSOUT(2) <<endl;
 
   return 0;

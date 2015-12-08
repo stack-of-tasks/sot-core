@@ -18,7 +18,7 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot/core/vector-quaternion.hh>
+#include <sot/core/matrix-geometry.hh>
 #include <sot/core/debug.hh>
 
 using namespace std;
@@ -33,7 +33,7 @@ fromMatrix( const MatrixRotation& rot )
 {
   sotDEBUGIN(15) ;
   
-  const ml::Matrix& rotmat = rot;
+  const dynamicgraph::Matrix& rotmat = rot;
 
   double d0 = rotmat(0,0), d1 = rotmat(1,1), d2 = rotmat(2,2);
 
@@ -124,7 +124,6 @@ fromMatrix( const MatrixRotation& rot )
 }
 
 
-#include <sot/core/vector-utheta.hh>
 
 VectorRotation& VectorQuaternion::
 fromVector( const VectorUTheta& ut )
@@ -149,7 +148,7 @@ toMatrix( MatrixRotation& rot ) const
 {
   sotDEBUGIN(15) ;
 
-  ml::Matrix& rotmat = rot;
+  dynamicgraph::Matrix& rotmat = rot;
 
   const double& _x = vector(1);
   const double& _y = vector(2);

@@ -41,7 +41,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(GripperControlPlugin,"GripperControl");
   sotName##FullSizeSIN(NULL,"GripperControl("+name+")::input(vector)::"	\
 		       +#sotName+"FullIN")				\
     ,sotName##ReduceSOUT( SOT_INIT_SIGNAL_2( GripperControlPlugin::selector, \
-					     sotName##FullSizeSIN,ml::Vector, \
+					     sotName##FullSizeSIN,dynamicgraph::Vector, \
 					     selectionSIN,Flags ),	\
 			  "GripperControl("+name+")::input(vector)::"	\
 			  +#sotName+"ReducedOUT") 
@@ -73,10 +73,10 @@ GripperControlPlugin( const std::string & name )
   ,SOT_FULL_TO_REDUCED( torque )
   ,SOT_FULL_TO_REDUCED( torqueLimit )
   ,desiredPositionSOUT( SOT_MEMBER_SIGNAL_4( GripperControl::computeDesiredPosition,
-                                             positionSIN,ml::Vector,
-                                             positionDesSIN,ml::Vector,
-                                             torqueSIN,ml::Vector,
-                                             torqueLimitSIN,ml::Vector ),
+                                             positionSIN,dynamicgraph::Vector,
+                                             positionDesSIN,dynamicgraph::Vector,
+                                             torqueSIN,dynamicgraph::Vector,
+                                             torqueLimitSIN,dynamicgraph::Vector ),
                         "GripperControl("+name+")::output(vector)::reference" )
 {
   sotDEBUGIN(5);
@@ -113,11 +113,11 @@ getDocString () const
 /* --- SIGNALS -------------------------------------------------------------- */
 
 void GripperControl::
-computeIncrement( const ml::Vector& torques,
-		  const ml::Vector& torqueLimits,
-		  const ml::Vector& currentNormVel )
+computeIncrement( const dynamicgraph::Vector& torques,
+		  const dynamicgraph::Vector& torqueLimits,
+		  const dynamicgraph::Vector& currentNormVel )
 {
-  const unsigned int SIZE = currentNormVel.size();
+  const int SIZE = currentNormVel.size();
 
   // initialize factor, if needed.
   if( factor.size()!=SIZE ) { factor.resize(SIZE); factor.fill(1.); }
@@ -129,7 +129,7 @@ computeIncrement( const ml::Vector& torques,
     return;
   }
 
-  for( unsigned int i=0;i<SIZE;++i )
+  for( int i=0;i<SIZE;++i )
   {
     // apply a reduction factor if the torque limits are exceeded
     // and the velocity goes in the same way
@@ -145,19 +145,19 @@ computeIncrement( const ml::Vector& torques,
   }
 }
 
-ml::Vector& GripperControl::
-computeDesiredPosition( const ml::Vector& currentPos,
-			const ml::Vector& desiredPos,
-			const ml::Vector& torques,
-			const ml::Vector& torqueLimits,
-			ml::Vector& referencePos )
+dynamicgraph::Vector& GripperControl::
+computeDesiredPosition( const dynamicgraph::Vector& currentPos,
+			const dynamicgraph::Vector& desiredPos,
+			const dynamicgraph::Vector& torques,
+			const dynamicgraph::Vector& torqueLimits,
+			dynamicgraph::Vector& referencePos )
 {
   const unsigned int SIZE = currentPos.size();
   //  if( (SIZE==torques.size()) )
   //    { /* ERROR ... */ }
 
   // compute the desired velocity
-  ml::Vector velocity = (desiredPos - currentPos)* (1. / DT);
+  dynamicgraph::Vector velocity = (desiredPos - currentPos)* (1. / DT);
 
   computeIncrement(torques, torqueLimits, velocity);  
 
@@ -165,8 +165,8 @@ computeDesiredPosition( const ml::Vector& currentPos,
   sotDEBUG(25) << " factor " << factor << std::endl;
 
   // multiply the velocity elmt per elmt
-  ml::Vector weightedVel(SIZE);
-  velocity.multiply(factor, weightedVel);
+  dynamicgraph::Vector weightedVel(SIZE);
+  weightedVel = velocity * factor;
   sotDEBUG(25) << " weightedVel " << weightedVel << std::endl;
 
   // integrate the desired velocity
@@ -177,18 +177,18 @@ computeDesiredPosition( const ml::Vector& currentPos,
 
 
 
-ml::Vector& GripperControl::
-selector( const ml::Vector& fullsize,
+dynamicgraph::Vector& GripperControl::
+selector( const dynamicgraph::Vector& fullsize,
 	  const Flags& selec,
-	  ml::Vector& desPos )
+	  dynamicgraph::Vector& desPos )
 {
-  unsigned int size = 0;
-  for( unsigned int i=0;i<fullsize.size();++i )
+  int size = 0;
+  for( int i=0;i<fullsize.size();++i )
     { if( selec(i) ) size++; }
 
-  unsigned int curs=0;
+  int curs=0;
   desPos.resize(size);
-  for( unsigned int i=0;i<fullsize.size();++i )
+  for( int i=0;i<fullsize.size();++i )
     { if( selec(i) ) desPos(curs++)=fullsize(i); }
 
   return desPos;

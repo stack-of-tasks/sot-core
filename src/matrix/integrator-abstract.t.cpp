@@ -36,7 +36,6 @@ using namespace dynamicgraph;
   getClassName( void ) const { return CLASS_NAME; }
 
 
-using namespace ml;
 namespace dynamicgraph {
   namespace sot {
     SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(IntegratorAbstract,double,double,

@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/all-signals.h>
@@ -102,7 +102,7 @@ class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic
   void forceConstant( void );
 
  public:  /* --- SIGNALS --- */
-  dg::SignalPtr<ml::Vector,int> errorSIN;
+  dg::SignalPtr<dg::Vector,int> errorSIN;
   dg::SignalTimeDependent<double,int> gainSOUT;
  protected:
   double& computeGain( double& res,int t );

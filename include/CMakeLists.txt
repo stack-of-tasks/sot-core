@@ -18,10 +18,8 @@ SET(NEWHEADERS
   sot/core/abstract-sot-external-interface.hh
   sot/core/device.hh
   sot/core/robot-simu.hh
-  sot/core/matrix-homogeneous.hh
-  sot/core/matrix-rotation.hh
-  sot/core/vector-utheta.hh
-  sot/core/vector-rotation.hh
+  sot/core/matrix-geometry.hh
+  sot/core/matrix-svd.hh
   sot/core/contiifstream.hh
   sot/core/debug.hh
   sot/core/exception-abstract.hh
@@ -44,11 +42,7 @@ SET(NEWHEADERS
   sot/core/factory.hh
   sot/core/macros-signal.hh
   sot/core/pool.hh
-  sot/core/matrix-force.hh
-  sot/core/matrix-twist.hh
   sot/core/op-point-modifier.hh
-  sot/core/vector-quaternion.hh
-  sot/core/vector-roll-pitch-yaw.hh
   sot/core/feature-point6d.hh
   sot/core/feature-vector3.hh
   sot/core/feature-abstract.hh
@@ -71,13 +65,8 @@ SET(NEWHEADERS
   sot/core/task.hh
   sot/core/gain-hyperbolic.hh
   sot/core/flags.hh
-  sot/core/sot-qr.hh
   sot/core/memory-task-sot.hh
-  sot/core/sot-h.hh
   sot/core/sot.hh
-  sot/core/rotation-simple.hh
-  sot/core/weighted-sot.hh
-  sot/core/solver-hierarchical-inequalities.hh
   sot/core/reader.hh
   sot/core/utils-windows.hh
   sot/core/time-stamp.hh

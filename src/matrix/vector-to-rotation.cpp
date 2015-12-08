@@ -40,7 +40,7 @@ VectorToRotation( const std::string& name )
   ,size(0),axes(0)
   ,SIN( NULL,"sotVectorToRotation("+name+")::output(vector)::sin" )
   ,SOUT( SOT_MEMBER_SIGNAL_1( VectorToRotation::computeRotation,
-			    SIN,ml::Vector),
+			    SIN,dynamicgraph::Vector),
 	 "sotVectorToRotation("+name+")::output(matrixRotation)::sout" )
 {
 
@@ -51,7 +51,7 @@ VectorToRotation( const std::string& name )
 /* --------------------------------------------------------------------- */
 
 MatrixRotation& VectorToRotation::
-computeRotation( const ml::Vector& angles,
+computeRotation( const dynamicgraph::Vector& angles,
 		 MatrixRotation& res )
 {
   res.setIdentity();
@@ -85,7 +85,7 @@ computeRotation( const ml::Vector& angles,
 	}
       
       sotDEBUG(15) << "R" << i << " = " << Ra;
-      res.multiply(Ra,Rtmp);
+      Rtmp = res*Ra;
       res=Rtmp;
     }
 

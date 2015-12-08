@@ -22,18 +22,16 @@
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 #include <sot/core/debug.hh>
-#include <dynamic-graph/all-signals.h>
-#include <iostream>
-
-#include <jrl/mal/boost.hh>
-#include <sot/core/vector-utheta.hh>
 #include <sot/core/exception-abstract.hh>
+#include <dynamic-graph/all-signals.h>
+#include <dynamic-graph/linear-algebra.h>
+#include <iostream>
+#include <sot/core/matrix-geometry.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
-namespace ml = maal::boost;
 
 
 
@@ -53,7 +51,7 @@ public:
     for( list< SignalTimeDependent<double,int>* >::iterator it=inputsig.begin();
 	 it!=inputsig.end();++it )
        { sotDEBUG(5) << *(*it) << endl; (*it)->access(timedata);}
-    for( list< SignalTimeDependent<ml::Vector,int>* >::iterator it=inputsigV.begin();
+    for( list< SignalTimeDependent<dynamicgraph::Vector,int>* >::iterator it=inputsigV.begin();
 	 it!=inputsigV.end();++it )
       { sotDEBUG(5) << *(*it) << endl; (*it)->access(timedata);}
 
@@ -61,10 +59,10 @@ public:
   }
 
   list< SignalTimeDependent<double,int>* > inputsig;
-  list< SignalTimeDependent<ml::Vector,int>* > inputsigV;
+  list< SignalTimeDependent<dynamicgraph::Vector,int>* > inputsigV;
 
   void add( SignalTimeDependent<double,int>& sig ){ inputsig.push_back(&sig); }
-  void add( SignalTimeDependent<ml::Vector,int>& sig ){ inputsigV.push_back(&sig); }
+  void add( SignalTimeDependent<dynamicgraph::Vector,int>& sig ){ inputsigV.push_back(&sig); }
 
   Res operator() ( void );
 
@@ -84,7 +82,7 @@ double DummyClass<double>::operator() (void)
   res=appel*timedata; return res;
 }
 template<>
-ml::Vector DummyClass<ml::Vector>::operator() (void)
+dynamicgraph::Vector DummyClass<dynamicgraph::Vector>::operator() (void)
 {
   res.resize(3);
   res.fill(appel*timedata); return res;
@@ -92,7 +90,9 @@ ml::Vector DummyClass<ml::Vector>::operator() (void)
 template<>
 VectorUTheta DummyClass<VectorUTheta>::operator() (void)
 {
-  res.fill(12.6); return res;
+  res.angle() = 0.26;
+  res.axis() = Eigen::Vector3d::UnitX();
+  return res;
 }
 
 
@@ -101,7 +101,7 @@ VectorUTheta DummyClass<VectorUTheta>::operator() (void)
 //   for( unsigned int i=0;i<ar.rank;++i ) sotDEBUG(5)<<*ar.array[i]<<endl;
 // }
 
-void funtest( ml::Vector& /*v*/ ){ }
+void funtest( dynamicgraph::Vector& /*v*/ ){ }
 
 #include <vector>
 int main( void )
@@ -109,12 +109,12 @@ int main( void )
    DummyClass<VectorUTheta> pro3;
 
    SignalTimeDependent<VectorUTheta,int> sig3(sotNOSIGNAL,"Sig3");
-   SignalPtr<ml::Vector,int> sigTo3( NULL,"SigTo3" );
+   SignalPtr<dynamicgraph::Vector,int> sigTo3( NULL,"SigTo3" );
 
-   ml::Vector v;
+   dynamicgraph::Vector v;
    VectorUTheta v3;
    funtest(v);
-   funtest(v3);
+   //funtest(v3.axis());
 
    sig3.setFunction( boost::bind(&DummyClass<VectorUTheta>::fun,pro3,_1,_2) );
    try

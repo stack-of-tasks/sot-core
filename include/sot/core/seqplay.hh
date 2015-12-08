@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* -- MaaL --- */
-#include <jrl/mal/boost.hh>
-namespace ml= maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 /* SOT */
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
@@ -63,7 +63,7 @@ class SOTSEQPLAY_EXPORT SeqPlay
 
  protected:
 
-  typedef  std::list<ml::Vector> StateList;
+  typedef  std::list<dg::Vector> StateList;
   StateList stateList;
   StateList::iterator currPos; unsigned int currRank;
   bool init;
@@ -77,7 +77,7 @@ class SOTSEQPLAY_EXPORT SeqPlay
 
   void loadFile( const std::string& name );
 
-  ml::Vector& getNextPosition( ml::Vector& pos, const int& time );
+  dg::Vector& getNextPosition( dg::Vector& pos, const int& time );
 
  public: /* --- DISPLAY --- */
   virtual void display( std::ostream& os ) const;
@@ -86,10 +86,10 @@ class SOTSEQPLAY_EXPORT SeqPlay
 
  public: /* --- SIGNALS --- */
 
-  //dynamicgraph::SignalPtr<ml::Vector,int> positionSIN;
-  //dynamicgraph::SignalTimeDependant<ml::Vector,int> velocitySOUT;
+  //dynamicgraph::SignalPtr<dg::Vector,int> positionSIN;
+  //dynamicgraph::SignalTimeDependant<dg::Vector,int> velocitySOUT;
   dynamicgraph::SignalTimeDependent<int,int> refresherSINTERN;
-  dynamicgraph::SignalTimeDependent<ml::Vector,int> positionSOUT;
+  dynamicgraph::SignalTimeDependent<dg::Vector,int> positionSOUT;
 
  public: /* --- COMMANDS --- */
   virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,

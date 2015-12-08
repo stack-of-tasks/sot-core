@@ -26,8 +26,8 @@
 #include <dynamic-graph/all-signals.h>
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* --------------------------------------------------------------------- */
 /* --- VECTOR ---------------------------------------------------------- */
@@ -56,10 +56,10 @@ namespace dynamicgraph {
 
       virtual ~VectorConstant( void ){}
 
-      SignalTimeDependent<ml::Vector,int> SOUT;
+      SignalTimeDependent<dg::Vector,int> SOUT;
 
       /// \brief Set value of vector (and therefore of output signal)
-      void setValue(const ml::Vector& inValue);
+      void setValue(const dg::Vector& inValue);
 
       virtual void commandLine( const std::string& cmdLine,
 				std::istringstream& cmdArgs,

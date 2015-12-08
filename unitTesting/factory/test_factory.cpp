@@ -26,6 +26,7 @@
 
 #include <sot/core/factory.hh>
 #include <dynamic-graph/entity.h>
+#include <dynamic-graph/linear-algebra.h>
 #include "../test-paths.h"
 #include <sot/core/feature-visual-point.hh>
 #include <sot/core/exception-feature.hh>
@@ -54,9 +55,9 @@ public:
   virtual ~TestFeature( void ) {}
   virtual unsigned int& getDimension( unsigned int& res,int /*time*/ ) {return res;}
 
-  virtual ml::Vector& computeError( ml::Vector& res, int /*time*/ ) {return res;}
-  virtual ml::Matrix& computeJacobian( ml::Matrix& res, int /*time*/ ) {return res;}
-  virtual ml::Vector& computeActivation( ml::Vector& res, int /*time*/ ) {return res;}
+  virtual dg::Vector& computeError( dg::Vector& res, int /*time*/ ) {return res;}
+  virtual dg::Matrix& computeJacobian( dg::Matrix& res, int /*time*/ ) {return res;}
+  virtual dg::Vector& computeActivation( dg::Vector& res, int /*time*/ ) {return res;}
 };
 
 

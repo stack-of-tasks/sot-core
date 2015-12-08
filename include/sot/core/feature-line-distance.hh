@@ -28,8 +28,7 @@
 /* SOT */
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/exception-task.hh>
-#include <sot/core/matrix-homogeneous.hh>
-
+#include <sot/core/matrix-geometry.hh>
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -68,10 +67,10 @@ class SOTFEATURELINEDISTANCE_EXPORT FeatureLineDistance
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
   dg::SignalPtr< MatrixHomogeneous,int > positionSIN;
-  dg::SignalPtr< ml::Matrix,int > articularJacobianSIN;
-  dg::SignalPtr< ml::Vector,int > positionRefSIN;
-  dg::SignalPtr< ml::Vector,int > vectorSIN;
-  dg::SignalTimeDependent<ml::Vector,int> lineSOUT;
+  dg::SignalPtr< dg::Matrix,int > articularJacobianSIN;
+  dg::SignalPtr< dg::Vector,int > positionRefSIN;
+  dg::SignalPtr< dg::Vector,int > vectorSIN;
+  dg::SignalTimeDependent<dg::Vector,int> lineSOUT;
 
   using FeatureAbstract::selectionSIN;
   using FeatureAbstract::jacobianSOUT;
@@ -90,9 +89,9 @@ class SOTFEATURELINEDISTANCE_EXPORT FeatureLineDistance
 
   virtual unsigned int& getDimension( unsigned int & dim, int time );
 
-  virtual ml::Vector& computeError( ml::Vector& res,int time );
-  virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
-  ml::Vector& computeLineCoordinates( ml::Vector& cood,int time );
+  virtual dg::Vector& computeError( dg::Vector& res,int time );
+  virtual dg::Matrix& computeJacobian( dg::Matrix& res,int time );
+  dg::Vector& computeLineCoordinates( dg::Vector& cood,int time );
 
   virtual void display( std::ostream& os ) const;
 

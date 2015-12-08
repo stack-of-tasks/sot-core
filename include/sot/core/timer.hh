@@ -31,7 +31,7 @@
 #include <sys/time.h>
 #else  /*WIN32*/
 // When including Winsock2.h, the MAL must be included first
-#include <jrl/mal/boost.hh>
+#include <dynamic-graph/linear-algebra.h>
 #include <sot/core/utils-windows.hh>
 #include <Winsock2.h>
 #endif /*WIN32*/

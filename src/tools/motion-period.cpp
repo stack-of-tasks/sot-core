@@ -28,8 +28,7 @@
 #include <sot/core/debug.hh>
 #include <sot/core/factory.hh>
 
-#include <jrl/mal/matrixabstractlayer.hh>
-
+#include <dynamic-graph/linear-algebra.h>
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
@@ -59,8 +58,8 @@ MotionPeriod( const string& fName )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-ml::Vector&
-MotionPeriod::computeMotion( ml::Vector& res,const int& time )
+dynamicgraph::Vector&
+MotionPeriod::computeMotion( dynamicgraph::Vector& res,const int& time )
 {
   sotDEBUGIN(15);
 

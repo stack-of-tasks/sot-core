@@ -22,8 +22,8 @@
 #include <dynamic-graph/all-signals.h>
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* --------------------------------------------------------------------- */
 /* --- MATRIX ---------------------------------------------------------- */
@@ -49,14 +49,14 @@ namespace dynamicgraph {
       int rows,cols;
       double color;
 
-      void setValue(const ml::Matrix& inValue);
+      void setValue(const dg::Matrix& inValue);
 
     public:
       MatrixConstant( const std::string& name );
 
       virtual ~MatrixConstant( void ){}
 
-      SignalTimeDependent<ml::Matrix,int> SOUT;
+      SignalTimeDependent<dg::Matrix,int> SOUT;
 
       virtual void commandLine( const std::string& cmdLine,
 				std::istringstream& cmdArgs, 

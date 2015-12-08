@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/entity.h>
@@ -95,13 +95,13 @@ class SOTMOTIONPERIOD_EXPORT MotionPeriod
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
 
-  dg::SignalTimeDependent< ml::Vector,int > motionSOUT;
+  dg::SignalTimeDependent< dg::Vector,int > motionSOUT;
 
  public:
   MotionPeriod( const std::string& name );
   virtual ~MotionPeriod( void ) {}
 
-  ml::Vector& computeMotion( ml::Vector& res,const int& time ); 
+  dg::Vector& computeMotion( dg::Vector& res,const int& time ); 
   
   virtual void display( std::ostream& os ) const;
   void commandLine( const std::string& cmdLine,

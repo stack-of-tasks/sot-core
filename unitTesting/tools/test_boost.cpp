@@ -23,10 +23,10 @@
 #endif
 #include <iostream>
 #include <sot/core/debug.hh>
-#include <sot/core/matrix-homogeneous.hh>
-#include <sot/core/matrix-twist.hh>
-
-#include <jrl/mal/boost.hh>
+#include <sot/core/matrix-geometry.hh>
+#include <sot/core/matrix-svd.hh>
+#include <sot/core/memory-task-sot.hh>
+#include <dynamic-graph/linear-algebra.h>
 
 #ifndef WIN32
 #include <unistd.h>
@@ -37,7 +37,6 @@
 
 using namespace dynamicgraph::sot;
 using namespace std;
-namespace ml = maal::boost;
 
 #define INIT_CHRONO(name) \
    struct timeval t0##_##name,t1##_##name;  double dt##_##name
@@ -58,7 +57,7 @@ namespace ml = maal::boost;
 
 double timerCounter;
 
-// static void inverseCounter( ublas::matrix<double>& matrix, ml::Matrix& invMatrix )
+// static void inverseCounter( ublas::matrix<double>& matrix, dynamicgraph::Matrix& invMatrix )
 // {							
 //   INIT_CHRONO(inv);
 
@@ -129,7 +128,6 @@ double timerCounter;
 /* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
-#include <jrl/mal/matrixabstractlayerboost.hh>
 
 int main( int argc,char** argv )
 {
@@ -141,11 +139,11 @@ int main( int argc,char** argv )
   unsigned int c=30;if( argc>2 ) c=atoi(argv[2]);
   static const int  BENCH = 100;
 
-  ml::Matrix M(r,c);
-  ml::Matrix M1(r,c);
-  ml::Matrix Minv(c,r);
+  dynamicgraph::Matrix M(r,c);
+  dynamicgraph::Matrix M1(r,c);
+  dynamicgraph::Matrix Minv(c,r);
 
-  ml::Matrix U,V,S;
+  dynamicgraph::Matrix U,V,S;
 
   unsigned int nbzeros=0;
   for( unsigned int j=0;j<c;++j )
@@ -161,47 +159,47 @@ int main( int argc,char** argv )
     for( unsigned int j=0;j<c;++j )
       M1(i,j) = M(i,j); //+ ((rand()+1.) / RAND_MAX*2-1) * 1e-28 ;
 
-  sotDEBUG(15) << ml::MATLAB <<"M = "<< M <<endl;
+  //sotDEBUG(15) << dynamicgraph::MATLAB <<"M = "<< M <<endl;
   sotDEBUG(15) <<"M1 = " << M1<<endl;
   sotDEBUG(5) <<"Nb zeros = " << nbzeros<<endl;
 
   INIT_CHRONO(inv);
 
   START_CHRONO(inv);
-  for( int i=0;i<BENCH;++i )M.pseudoInverse( Minv );
+  for( int i=0;i<BENCH;++i ) Eigen::pseudoInverse(M, Minv);
   STOP_CHRONO(inv,"init");
   sotDEBUG(15) <<"Minv = " << Minv <<endl;
 
   START_CHRONO(inv);
-  for( int i=0;i<BENCH;++i )M.pseudoInverse( Minv );
+  for( int i=0;i<BENCH;++i ) Eigen::pseudoInverse(M, Minv );
   STOP_CHRONO(inv,"M+standard");
   cout << dt_inv << endl;
 
 //   START_CHRONO(inv);
 //   for( int i=0;i<BENCH;++i ) M.pseudoInverse( Minv,1e-6,&U,&S,&V );
 //   STOP_CHRONO(inv,"M+");
-//   sotDEBUG(15) << ml::MATLAB <<"Minv = "<< Minv <<endl;
+//   sotDEBUG(15) << dynamicgraph::MATLAB <<"Minv = "<< Minv <<endl;
 
 //   timerCounter=0;
 //   START_CHRONO(inv);
 //   for( int i=0;i<BENCH;++i ) inverseCounter( M1.matrix,Minv );
 //   STOP_CHRONO(inv,"M1+");
 //   sotDEBUG(5) << "Counter: " << timerCounter << endl;
-//   sotDEBUG(15) << ml::MATLAB <<"M1inv = "<< Minv <<endl;
+//   sotDEBUG(15) << dynamicgraph::MATLAB <<"M1inv = "<< Minv <<endl;
 
-//   ml::Matrix M1diag = U.transpose()*M1*V;
+//   dynamicgraph::Matrix M1diag = U.transpose()*M1*V;
 //   timerCounter=0;
 //   START_CHRONO(inv);
 //   for( int i=0;i<BENCH;++i ) inverseCounter( M1diag.matrix,Minv );
 //   STOP_CHRONO(inv,"M1diag+");
 //   sotDEBUG(5) << "Counter: " << timerCounter << endl;
-//   sotDEBUG(8) << ml::MATLAB <<"M1diag = "<< M1diag <<endl;
-//   sotDEBUG(15) << ml::MATLAB <<"M1diaginv = "<< Minv <<endl;
+//   sotDEBUG(8) << dynamicgraph::MATLAB <<"M1diag = "<< M1diag <<endl;
+//   sotDEBUG(15) << dynamicgraph::MATLAB <<"M1diaginv = "<< Minv <<endl;
   
   START_CHRONO(inv);
   std::list< unsigned int > nonzeros; 
-  ml::Matrix Mcreuse;
-  ml::Matrix Mcreuseinv;
+  dynamicgraph::Matrix Mcreuse;
+  dynamicgraph::Matrix Mcreuseinv;
   for( int ib=0;ib<BENCH;++ib ) 
     {
 
@@ -221,7 +219,7 @@ int main( int argc,char** argv )
 	}
       
 
-      //ml::Matrix Mcreuse( r,parc ); 
+      //dynamicgraph::Matrix Mcreuse( r,parc ); 
       
       parc=0;
       for( std::list< unsigned int >::iterator iter=nonzeros.begin();
@@ -231,10 +229,9 @@ int main( int argc,char** argv )
 	  parc++;
 	}
       
-      //ml::Matrix Mcreuseinv( Mcreuse.nbCols(),r ); 
-      Mcreuseinv.resize( Mcreuse.nbCols(),r ); 
-      Mcreuse.pseudoInverse( Mcreuseinv );
-
+      //dynamicgraph::Matrix Mcreuseinv( Mcreuse.nbCols(),r ); 
+      Mcreuseinv.resize( Mcreuse.cols(),r ); 
+      Eigen::pseudoInverse(Mcreuse, Mcreuseinv );
       parc=0;
       Minv.fill(0.);
       for( std::list< unsigned int >::iterator iter=nonzeros.begin();
@@ -247,15 +244,15 @@ int main( int argc,char** argv )
       
       if(!ib)
 	{
-	  sotDEBUG(15) << ml::MATLAB <<"M = "<< M <<endl;
-	  sotDEBUG(15) << ml::MATLAB <<"Mcreuse = "<< Mcreuse <<endl;
-	  sotDEBUG(15) << ml::MATLAB <<"Minvnc = "<< Minv <<endl;
+	  //	  sotDEBUG(15) << dynamicgraph::MATLAB <<"M = "<< M <<endl;
+	  //	  sotDEBUG(15) << dynamicgraph::MATLAB <<"Mcreuse = "<< Mcreuse <<endl;
+	  //	  sotDEBUG(15) << dynamicgraph::MATLAB <<"Minvnc = "<< Minv <<endl;
 	}
 
 
     }
   STOP_CHRONO(inv,"M+creuse");
-  //sotDEBUG(15) << ml::MATLAB <<"Minv = "<< Minv <<endl;
+  //sotDEBUG(15) << dynamicgraph::MATLAB <<"Minv = "<< Minv <<endl;
   
     {
 
@@ -268,7 +265,7 @@ int main( int argc,char** argv )
 	  if( sumsq > 1e-6 )  {   nonzeros.push_back(j);  parc++;  }
 	}
 
-      ml::Matrix Mcreuse( r,parc ); parc=0;
+      dynamicgraph::Matrix Mcreuse( r,parc ); parc=0;
       for( std::list< unsigned int >::iterator iter=nonzeros.begin();
 	   iter!=nonzeros.end();++iter )
 	{
@@ -276,11 +273,11 @@ int main( int argc,char** argv )
 	  parc++;
 	}
       
-      ml::Matrix Mcreuseinv( Mcreuse.nbCols(),r ); 
+      dynamicgraph::Matrix Mcreuseinv( Mcreuse.cols(),r ); 
       START_CHRONO(inv);
       for( int ib=0;ib<BENCH;++ib ) 
 	{ 
-	  Mcreuse.pseudoInverse( Mcreuseinv );
+	  Eigen::pseudoInverse( Mcreuse, Mcreuseinv );
 	}
       STOP_CHRONO(inv,"M+creuseseule");
   
@@ -295,9 +292,9 @@ int main( int argc,char** argv )
 	}
       
 	{
-	  sotDEBUG(15) << ml::MATLAB <<"M = "<< M <<endl;
-	  sotDEBUG(15) << ml::MATLAB <<"Mcreuse = "<< Mcreuse <<endl;
-	  sotDEBUG(15) << ml::MATLAB <<"Minvnc = "<< Minv <<endl;
+	  //	  sotDEBUG(15) << dynamicgraph::MATLAB <<"M = "<< M <<endl;
+	  //	  sotDEBUG(15) << dynamicgraph::MATLAB <<"Mcreuse = "<< Mcreuse <<endl;
+	  //	  sotDEBUG(15) << dynamicgraph::MATLAB <<"Minvnc = "<< Minv <<endl;
 	}
 
 

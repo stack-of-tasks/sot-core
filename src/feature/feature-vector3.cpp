@@ -29,9 +29,7 @@
 #include <sot/core/feature-vector3.hh>
 #include <sot/core/exception-feature.hh>
 
-#include <sot/core/matrix-homogeneous.hh>
-#include <sot/core/matrix-rotation.hh>
-#include <sot/core/vector-utheta.hh>
+#include <sot/core/matrix-geometry.hh>
 #include <sot/core/factory.hh>
 
 using namespace dynamicgraph::sot;
@@ -82,26 +80,26 @@ getDimension( unsigned int & dim, int /*time*/ )
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-ml::Matrix& FeatureVector3::
-computeJacobian( ml::Matrix& J,int time )
+Matrix& FeatureVector3::
+computeJacobian( Matrix& J,int time )
 {
   sotDEBUG(15)<<"# In {"<<endl;
 
-  const ml::Matrix & Jq = articularJacobianSIN(time);
-  const ml::Vector & vect = vectorSIN(time);
+  const Matrix & Jq = articularJacobianSIN(time);
+  const Vector & vect = vectorSIN(time);
   const MatrixHomogeneous & M = positionSIN(time);
-  MatrixRotation R; M.extract(R);
+  MatrixRotation R; R = M.linear();
 
-  ml::Matrix Skew(3,3);
+  Matrix Skew(3,3);
   Skew( 0,0 ) = 0        ; Skew( 0,1 )=-vect( 2 );  Skew( 0,2 ) = vect( 1 );
   Skew( 1,0 ) = vect( 2 ); Skew( 1,1 )= 0        ;  Skew( 1,2 ) =-vect( 0 );
   Skew( 2,0 ) =-vect( 1 ); Skew( 2,1 )= vect( 0 );  Skew( 2,2 ) = 0        ;
 
-  ml::Matrix RSk(3,3); R.multiply(Skew,RSk);
+  Matrix RSk(3,3); RSk = R*Skew;
 
-  J.resize(3,Jq.nbCols());
+  J.resize(3,Jq.cols());
   for( unsigned int i=0;i<3;++i )
-    for( unsigned int j=0;j<Jq.nbCols();++j )
+    for( int j=0;j<Jq.cols();++j )
       {
         J(i,j)=0;
         for( unsigned int k=0;k<3;++k )
@@ -115,22 +113,22 @@ computeJacobian( ml::Matrix& J,int time )
 /** Compute the error between two visual features from a subset
 *a the possible features.
  */
-ml::Vector&
-FeatureVector3::computeError( ml::Vector& Mvect3,int time )
+Vector&
+FeatureVector3::computeError( Vector& Mvect3,int time )
 {
   sotDEBUGIN(15);
 
   const MatrixHomogeneous & M = positionSIN(time);
-  const ml::Vector & vect = vectorSIN(time);
-  const ml::Vector & vectdes = positionRefSIN(time);
+  const Vector & vect = vectorSIN(time);
+  const Vector & vectdes = positionRefSIN(time);
 
   sotDEBUG(15) << "M = " << M << std::endl;
   sotDEBUG(15) << "v = " << vect << std::endl;
   sotDEBUG(15) << "vd = " << vectdes << std::endl;
 
-  MatrixRotation R; M.extract(R);
+  MatrixRotation R; R = M.linear();
   Mvect3.resize(3);
-  R.multiply(vect,Mvect3);
+  Mvect3 = R*vect;
   Mvect3 -= vectdes;
 
   sotDEBUGOUT(15);

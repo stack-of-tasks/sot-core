@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* STD */
 #include <string>
@@ -74,8 +74,8 @@ class SOTREADER_EXPORT sotReader
  public: 
 
   SignalPtr< Flags,int > selectionSIN;
-  SignalTimeDependent<ml::Vector,int> vectorSOUT;
-  SignalTimeDependent<ml::Matrix,int> matrixSOUT;
+  SignalTimeDependent<dg::Vector,int> vectorSOUT;
+  SignalTimeDependent<dg::Matrix,int> matrixSOUT;
 
  public:
   sotReader( const std::string n );
@@ -92,10 +92,10 @@ class SOTREADER_EXPORT sotReader
   DataType::const_iterator currentData;
   bool iteratorSet;
 
-  unsigned int nbRows,nbCols;
+  int rows,cols;
 
-  ml::Vector& getNextData( ml::Vector& res, const unsigned int time );
-  ml::Matrix& getNextMatrix( ml::Matrix& res, const unsigned int time );
+  dg::Vector& getNextData( dg::Vector& res, const unsigned int time );
+  dg::Matrix& getNextMatrix( dg::Matrix& res, const unsigned int time );
   void resize(const int & nbRow, const int & nbCol);
 
  public:

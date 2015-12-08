@@ -24,8 +24,8 @@
 
 /* SOT */
 #include <sot/core/timer.hh>
-#include <jrl/mal/boost.hh>
-#include <sot/core/matrix-homogeneous.hh>
+#include <dynamic-graph/linear-algebra.h>
+#include <sot/core/matrix-geometry.hh>
 #include <sot/core/factory.hh>
 
 using namespace dynamicgraph::sot;
@@ -35,11 +35,11 @@ using namespace dynamicgraph;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-typedef Timer<maal::boost::Vector> timevect;
+typedef Timer<dynamicgraph::Vector> timevect;
 template <> 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timevect,"Timer<Vector>");
 
-typedef Timer<maal::boost::Matrix> timematrix;
+typedef Timer<dynamicgraph::Matrix> timematrix;
 template <> 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timematrix,"Timer<Matrix>");
 

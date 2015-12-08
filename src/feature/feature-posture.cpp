@@ -22,7 +22,6 @@
 
 #include "sot/core/feature-posture.hh"
 
-namespace ml = ::maal::boost;
 namespace dg = ::dynamicgraph;
 
 using ::dynamicgraph::command::Setter;
@@ -90,10 +89,10 @@ namespace dynamicgraph {
       return res;
     }
 
-    ml::Vector& FeaturePosture::computeError( ml::Vector& res, int t)
+    dg::Vector& FeaturePosture::computeError( dg::Vector& res, int t)
     {
-      ml::Vector state = state_.access (t);
-      ml::Vector posture = posture_.access (t);
+      dg::Vector state = state_.access (t);
+      dg::Vector posture = posture_.access (t);
 
       res.resize (nbActiveDofs_);
       std::size_t index=0;
@@ -106,13 +105,13 @@ namespace dynamicgraph {
       return res;
     }
 
-    ml::Matrix& FeaturePosture::computeJacobian( ml::Matrix& res, int )
+    dg::Matrix& FeaturePosture::computeJacobian( dg::Matrix& res, int )
     {
       res = jacobian_;
       return res;
     }
 
-    ml::Vector& FeaturePosture::computeActivation( ml::Vector& res, int )
+    dg::Vector& FeaturePosture::computeActivation( dg::Vector& res, int )
     {
       return res;
     }
@@ -120,9 +119,9 @@ namespace dynamicgraph {
     void
     FeaturePosture::selectDof (unsigned dofId, bool control)
     {
-      ml::Vector state = state_.accessCopy();
-      ml::Vector posture = posture_.accessCopy ();
-      std::size_t dim = state.size();
+      dg::Vector state = state_.accessCopy();
+      dg::Vector posture = posture_.accessCopy ();
+      int dim = state.size();
 
       if (dim != posture.size ()) {
 	throw std::runtime_error

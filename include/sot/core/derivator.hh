@@ -26,15 +26,14 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
 
 /* SOT */
 #include <sot/core/flags.hh>
 #include <sot/core/pool.hh>
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
-#include <sot/core/vector-quaternion.hh>
+#include <sot/core/matrix-geometry.hh>
 
 /* STD */
 #include <string>

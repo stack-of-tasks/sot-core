@@ -97,13 +97,13 @@ getDimension( unsigned int & dim, int time )
   return dim;
 }
 
-ml::Vector&
-FeatureJointLimits::computeWidthJl( ml::Vector& res,const int& time )
+Vector&
+FeatureJointLimits::computeWidthJl( Vector& res,const int& time )
 {
   sotDEBUGIN(15);
 
-  const ml::Vector UJL = upperJlSIN.access(time);
-  const ml::Vector LJL = lowerJlSIN.access(time);
+  const Vector UJL = upperJlSIN.access(time);
+  const Vector LJL = lowerJlSIN.access(time);
   const unsigned int SIZE=UJL.size();
   res.resize(SIZE);
 
@@ -117,18 +117,18 @@ FeatureJointLimits::computeWidthJl( ml::Vector& res,const int& time )
 /** Compute the interaction matrix from a subset of
  * the possible features. 
  */
-ml::Matrix& FeatureJointLimits::
-computeJacobian( ml::Matrix& J,int time )
+Matrix& FeatureJointLimits::
+computeJacobian( Matrix& J,int time )
 {
   sotDEBUG(15)<<"# In {"<<endl;
 
   const unsigned int SIZE=dimensionSOUT.access(time);
-  const ml::Vector q = jointSIN.access(time);
+  const Vector q = jointSIN.access(time);
   const Flags &fl = selectionSIN(time);
   //const unsigned int SIZE_FF=SIZE+freeFloatingSize;
   const unsigned int SIZE_TOTAL=q.size();
-  const ml::Vector WJL = widthJlSINTERN.access(time);
-  J.resize( SIZE,SIZE_TOTAL ); J.fill(0.);
+  const Vector WJL = widthJlSINTERN.access(time);
+  J.resize( SIZE,SIZE_TOTAL ); J.setZero();
  
   unsigned int idx=0;
   for( unsigned int i=0;i<SIZE_TOTAL;++i ) 
@@ -160,18 +160,18 @@ computeJacobian( ml::Matrix& J,int time )
 /** Compute the error between two visual features from a subset
  * a the possible features.
  */
-ml::Vector&
-FeatureJointLimits::computeError( ml::Vector& error,int time )
+Vector&
+FeatureJointLimits::computeError( Vector& error,int time )
 {
   sotDEBUGIN(15);
 
   const Flags &fl = selectionSIN(time);
-  const ml::Vector q = jointSIN.access(time);
-  const ml::Vector UJL = upperJlSIN.access(time);
-  const ml::Vector LJL = lowerJlSIN.access(time);
-  const ml::Vector WJL = widthJlSINTERN.access(time);
-  const unsigned int SIZE=dimensionSOUT.access(time);
-  const unsigned int SIZE_TOTAL=q.size();
+  const Vector q = jointSIN.access(time);
+  const Vector UJL = upperJlSIN.access(time);
+  const Vector LJL = lowerJlSIN.access(time);
+  const Vector WJL = widthJlSINTERN.access(time);
+  const int SIZE=dimensionSOUT.access(time);
+  const int SIZE_TOTAL=q.size();
 
   sotDEBUG(25) << "q = " << q << endl;
   sotDEBUG(25) << "ljl = " << LJL << endl;
@@ -186,7 +186,7 @@ FeatureJointLimits::computeError( ml::Vector& error,int time )
   error.resize(SIZE);
   
   unsigned int parcerr = 0;
-  for( unsigned int i=0;i<SIZE_TOTAL;++i )
+  for( int i=0;i<SIZE_TOTAL;++i )
     {
       if( fl(i) )
 	{	  error(parcerr++) = (q(i)-LJL(i))/WJL(i)*2-1;	}

@@ -27,9 +27,7 @@
 #include <sot/core/feature-line-distance.hh>
 #include <sot/core/exception-feature.hh>
 
-#include <sot/core/matrix-homogeneous.hh>
-#include <sot/core/matrix-rotation.hh>
-#include <sot/core/vector-utheta.hh>
+#include <sot/core/matrix-geometry.hh>
 
 using namespace std;
 
@@ -77,8 +75,8 @@ getDimension( unsigned int & dim, int /*time*/ )
 }
 
 /* --------------------------------------------------------------------- */
-ml::Vector& FeatureLineDistance::
-computeLineCoordinates( ml::Vector& cood,int time )
+Vector& FeatureLineDistance::
+computeLineCoordinates( Vector& cood,int time )
 {
   sotDEBUGIN(15);
 
@@ -86,9 +84,9 @@ computeLineCoordinates( ml::Vector& cood,int time )
 
   /* Line coordinates */
   const MatrixHomogeneous &pos = positionSIN(time);
-  const ml::Vector & vect = vectorSIN(time);
-  MatrixRotation R; pos.extract(R);
-  ml::Vector v(3); R.multiply(vect,v);
+  const Vector & vect = vectorSIN(time);
+  MatrixRotation R; R = pos.linear();
+  Vector v(3); v = R*vect;
 
   cood(0)= pos(0,3);
   cood(1)= pos(1,3);
@@ -106,30 +104,30 @@ computeLineCoordinates( ml::Vector& cood,int time )
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-ml::Matrix& FeatureLineDistance::
-computeJacobian( ml::Matrix& J,int time )
+Matrix& FeatureLineDistance::
+computeJacobian( Matrix& J,int time )
 {
   sotDEBUG(15)<<"# In {"<<endl;
 
   /* --- Compute the jacobian of the line coordinates --- */
-  ml::Matrix Jline;
+  Matrix Jline;
   {
-    const ml::Matrix & Jq = articularJacobianSIN(time);
+    const Matrix & Jq = articularJacobianSIN(time);
 
-    const ml::Vector & vect = vectorSIN(time);
+    const Vector & vect = vectorSIN(time);
     const MatrixHomogeneous & M = positionSIN(time);
-    MatrixRotation R; M.extract(R); // wRh
+    MatrixRotation R; R= M.linear(); // wRh
 
-    ml::Matrix Skew(3,3);
+    Matrix Skew(3,3);
     Skew( 0,0 ) = 0        ; Skew( 0,1 )=-vect( 2 );  Skew( 0,2 ) = vect( 1 );
     Skew( 1,0 ) = vect( 2 ); Skew( 1,1 )= 0        ;  Skew( 1,2 ) =-vect( 0 );
     Skew( 2,0 ) =-vect( 1 ); Skew( 2,1 )= vect( 0 );  Skew( 2,2 ) = 0        ;
 
-    ml::Matrix RSk(3,3); R.multiply(Skew,RSk);
+    Matrix RSk(3,3); RSk = R*Skew;
 
-    Jline.resize(6,Jq.nbCols());
+    Jline.resize(6,Jq.cols());
     for( unsigned int i=0;i<3;++i )
-      for( unsigned int j=0;j<Jq.nbCols();++j )
+      for( int j=0;j<Jq.cols();++j )
         {
           Jline(i,j)   = 0;
           Jline(i+3,j) = 0;
@@ -142,7 +140,7 @@ computeJacobian( ml::Matrix& J,int time )
   }
 
   /* --- Compute the jacobian wrt the line coordinates --- */
-  const ml::Vector &line = lineSOUT(time);
+  const Vector &line = lineSOUT(time);
   const double & x0 = line(0);
   const double & y0 = line(1);
   const double & z0 = line(2);
@@ -150,7 +148,7 @@ computeJacobian( ml::Matrix& J,int time )
   const double & b0 = line(4);
   const double & c0 = line(5);
 
-  const ml::Vector &posRef = positionRefSIN(time);
+  const Vector &posRef = positionRefSIN(time);
   const double & x1 = posRef(0);
   const double & y1 = posRef(1);
   const double & z1 = posRef(2);
@@ -172,7 +170,7 @@ computeJacobian( ml::Matrix& J,int time )
   const double diffa0 = 2*b0*c1*x0*a0*b1*b1 + 2*c0*b1*b1*x0*b0*a1 + 2*c0*c0*b1*x0*c1*a1 + 2*c1*c1*y0*c0*a1*a0 - 2*b0*c1*c1*x0*c0*a1 - 2*b0*b0*c1*x0*b1*a1 - 2*c1*c1*y0*c0*b1*b0 + 2*b0*b0*c1*x1*b1*a1 + 2*b0*c1*c1*x1*c0*a1 - 2*b0*c1*x1*a0*b1*b1 - c1*y0*c0*c0*a1*a1 + c1*y0*c0*c0*b1*b1 + c1*y0*b0*b0*a1*a1 - c1*y0*a0*a0*b1*b1 + c1*y1*c0*c0*a1*a1 - c1*y1*c0*c0*b1*b1 - c1*y1*b0*b0*a1*a1 + c1*y1*a0*a0*b1*b1 - b1*z0*c0*c0*a1*a1 + b1*z0*b0*b0*a1*a1 - b1*z0*b0*b0*c1*c1 + b1*z0*a0*a0*c1*c1 + b1*z1*c0*c0*a1*a1 - b1*z1*b0*b0*a1*a1 + b1*z1*b0*b0*c1*c1 - b1*z1*a0*a0*c1*c1 + 2*b0* c1_3*x0*a0 - 2*b0* c1_3*x1*a0 - 2*c0* b1_3*x0*a0 + 2*c0* b1_3*x1*a0 + c1_3*y0*b0*b0 - c1_3*y0*a0*a0 - c1_3*y1*b0*b0 + c1_3*y1*a0*a0 - b1_3*z0*c0*c0 + b1_3*z0*a0*a0 + b1_3*z1*c0*c0 - b1_3*z1*a0*a0 - 2*c1*c1*y1*c0*a1*a0 + 2*c1*c1*y1*c0*b1*b0 + 2*b1*b1*z0*c0*b0*c1 - 2*b1*b1*z0*b0*a1*a0 - 2*b1*b1*z1*c0*b0*c1 + 2*b1*b1*z1*b0*a1*a0 - 2*c0*b1*x0*a0*c1*c1 - 2*c0*b1*b1*x1*b0*a1 - 2*c0*c0*b1*x1*c1*a1 + 2*c0*b1*x1*a0*c1*c1 + 2*c0*a1*y0*a0*b1*b1 - 2*c0*a1*a1*y0*b1*b0 - 2*c0*a1*y1*a0*b1*b1 + 2*c0*a1*a1*y1*b1*b0 + 2*b0*a1*a1*z0*c1*c0 - 2*b0*a1*z0*a0*c1*c1 - 2*b0*a1*a1*z1*c1*c0 + 2*b0*a1*z1*a0*c1*c1;
   const double diffb0 = -2*c1*c1*x0*c0*b1*b0 + 2*c1*c1*x0*c0*a1*a0 - c1*x0*c0*c0*a1*a1 + c1*x0*c0*c0*b1*b1 + c1*x0*b0*b0*a1*a1 - c1*x0*a0*a0*b1*b1 + c1*x1*c0*c0*a1*a1 - c1*x1*c0*c0*b1*b1 - c1*x1*b0*b0*a1*a1 + c1*x1*a0*a0*b1*b1 + a1*z0*c0*c0*b1*b1 - a1*z0*b0*b0*c1*c1 - a1*z0*a0*a0*b1*b1 + a1*z0*a0*a0*c1*c1 - a1*z1*c0*c0*b1*b1 + a1*z1*b0*b0*c1*c1 + a1*z1*a0*a0*b1*b1 - a1*z1*a0*a0*c1*c1 - 2*a0* c1_3*y0*b0 + 2*a0* c1_3*y1*b0 + c1_3*x0*b0*b0 - c1_3*x0*a0*a0 - c1_3*x1*b0*b0 + c1_3*x1*a0*a0 + a1_3*z0*c0*c0 - 2*c1*c1*x1*c0*a1*a0 + 2*c1*c1*x1*c0*b1*b0 - 2*a1*a1*z0*c0*a0*c1 + 2*a1*a1*z0*b0*a0*b1 - a1_3*z0*b0*b0 - a1_3*z1*c0*c0 + a1_3*z1*b0*b0 + 2*a1*a1*z1*c0*a0*c1 - 2*a1*a1*z1*b0*a0*b1 + 2*c0*b1*b1*x0*a1*a0 - 2*c0*b1*x0*b0*a1*a1 - 2*c0*b1*b1*x1*a1*a0 + 2*c0*b1*x1*b0*a1*a1 + 2*a0*a0*c1*y0*a1*b1 - 2*a0*c1*y0*b0*a1*a1 + 2*a0*c1*c1*y0*c0*b1 - 2*a0*a0*c1*y1*a1*b1 + 2*a0*c1*y1*b0*a1*a1 - 2*a0*c1*c1*y1*c0*b1 - 2*c0*a1*a1*y0*a0*b1 + 2*c0* a1_3*y0*b0 - 2*c0* a1_3*y1*b0 + 2*c0*a1*y0*b0*c1*c1 - 2*c0*c0*a1*y0*c1*b1 + 2*c0*a1*a1*y1*a0*b1 - 2*c0*a1*y1*b0*c1*c1 + 2*c0*c0*a1*y1*c1*b1 + 2*a0*b1*z0*b0*c1*c1 - 2*a0*b1*b1*z0*c1*c0 - 2*a0*b1*z1*b0*c1*c1 + 2*a0*b1*b1*z1*c1*c0;
 
-  ml::Matrix diffh(1,6);
+  Matrix diffh(1,6);
   diffh(0,0)=diffx0/K;
   diffh(0,1)=diffy0/K;
   diffh(0,2)=diffz0/K;
@@ -182,8 +180,8 @@ computeJacobian( ml::Matrix& J,int time )
   diffh(0,5)=0;
 
   /* --- Multiply Jline=dline/dq with diffh=de/dline --- */
-   J.resize(1,J.nbCols());
-   diffh.multiply(Jline,J);
+   J.resize(1,J.cols());
+   J= diffh*Jline;
   //J=Jline;
 
 
@@ -194,13 +192,13 @@ computeJacobian( ml::Matrix& J,int time )
 /** Compute the error between two visual features from a subset
 *a the possible features.
  */
-ml::Vector&
-FeatureLineDistance::computeError( ml::Vector& error,int time )
+Vector&
+FeatureLineDistance::computeError( Vector& error,int time )
 {
   sotDEBUGIN(15);
 
   /* Line coordinates */
-  const ml::Vector &line = lineSOUT(time);
+  const Vector &line = lineSOUT(time);
   const double & x0 = line(0);
   const double & y0 = line(1);
   const double & z0 = line(2);
@@ -208,7 +206,7 @@ FeatureLineDistance::computeError( ml::Vector& error,int time )
   const double & b0 = line(4);
   const double & c0 = line(5);
 
-  const ml::Vector &posRef = positionRefSIN(time);
+  const Vector &posRef = positionRefSIN(time);
   const double & x1 = posRef(0);
   const double & y1 = posRef(1);
   const double & z1 = posRef(2);

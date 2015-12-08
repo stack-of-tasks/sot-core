@@ -23,8 +23,7 @@
 #include <dynamic-graph/all-commands.h>
 
 #include <sot/core/op-point-modifier.hh>
-#include <sot/core/matrix-twist.hh>
-#include <sot/core/matrix-rotation.hh>
+#include <sot/core/matrix-geometry.hh>
 
 
 using namespace std;
@@ -60,10 +59,10 @@ OpPointModifier( const std::string& name )
   {
     using namespace dynamicgraph::command;
     addCommand("getTransformation",
-	       makeDirectGetter(*this,&(ml::Matrix&)transformation,
+	       makeDirectGetter(*this,&(dynamicgraph::Matrix&)transformation,
 				docDirectGetter("transformation","matrix 4x4 homo")));
     addCommand("setTransformation",
-	       makeDirectSetter(*this, &(ml::Matrix&)transformation,
+	       makeDirectSetter(*this, &(dynamicgraph::Matrix&)transformation,
 				docDirectSetter("dimension","matrix 4x4 homo")));
     addCommand("getEndEffector",
 	       makeDirectGetter(*this,&isEndEffector,
@@ -76,15 +75,15 @@ OpPointModifier( const std::string& name )
   sotDEBUGOUT(15);
 }
 
-ml::Matrix&
-OpPointModifier::jacobianSOUT_function( ml::Matrix& res,const int& iter )
+dynamicgraph::Matrix&
+OpPointModifier::jacobianSOUT_function( dynamicgraph::Matrix& res,const int& iter )
 {
   if( isEndEffector )
     {
-      const ml::Matrix& aJa = jacobianSIN( iter );
+      const dynamicgraph::Matrix& aJa = jacobianSIN( iter );
       const MatrixHomogeneous & aMb = transformation;
-
-      MatrixTwist bVa( aMb.inverse () );
+      
+      MatrixTwist bVa; buildFrom(aMb.inverse (), bVa );
       res = bVa * aJa; // res := bJb
       return res;
     }
@@ -99,15 +98,15 @@ OpPointModifier::jacobianSOUT_function( ml::Matrix& res,const int& iter )
        * with oAB = oRb bAB = oRb (-bRa aAB ) = -oRa aAB, and aAB = translation(aMb).
        */
 
-      const ml::Matrix& oJa = jacobianSIN( iter );
+      const dynamicgraph::Matrix& oJa = jacobianSIN( iter );
       const MatrixHomogeneous & aMb = transformation;
       const MatrixHomogeneous & oMa = positionSIN(iter);
-      MatrixRotation oRa; oMa.extract(oRa);
-      ml::Vector aAB(3); aMb.extract(aAB);
-      ml::Vector oAB = oRa*aAB;
+      MatrixRotation oRa; oRa = oMa.linear();
+      dynamicgraph::Vector aAB(3); aAB = aMb.translation();
+      dynamicgraph::Vector oAB = oRa*aAB;
 
-      const int nq = oJa.nbCols();
-      res.resize( 6,oJa.nbCols() );
+      const int nq = oJa.cols();
+      res.resize( 6,oJa.cols() );
       for( int j=0;j<nq;++j )
 	{
 	  /* This is a I*Jtrans + skew*Jrot product, unrolled by hand ... */
@@ -130,7 +129,7 @@ OpPointModifier::positionSOUT_function( MatrixHomogeneous& res,const int& iter )
   sotDEBUGIN(15) << iter << " " << positionSIN.getTime()
 		 << positionSOUT.getTime() << endl;
   const MatrixHomogeneous& position = positionSIN( iter );
-  position.multiply(transformation,res);
+  res = position*transformation;
   sotDEBUGOUT(15);
   return res;
 }

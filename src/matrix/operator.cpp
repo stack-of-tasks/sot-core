@@ -23,20 +23,14 @@
 
 #include <sot/core/unary-op.hh>
 #include <sot/core/binary-op.hh>
-#include <jrl/mal/boost.hh>
 
-#include <sot/core/matrix-homogeneous.hh>
-#include <sot/core/matrix-twist.hh>
-#include <sot/core/vector-utheta.hh>
-#include <sot/core/vector-roll-pitch-yaw.hh>
-#include <sot/core/vector-quaternion.hh>
+#include <sot/core/matrix-geometry.hh>
 
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/factory.h>
 
 #include <dynamic-graph/linear-algebra.h>
 #include <sot/core/factory.hh>
-#include <sot/core/matrix-rotation.hh>
 #include <sot/core/debug.hh>
 
 #include <deque>
@@ -121,10 +115,10 @@ namespace dynamicgraph {
       {
 	assert( (imin<=imax) && (imax <= m.size()) );
 	res.resize( imax-imin );
-	for( unsigned int i=imin;i<imax;++i ) res(i-imin)=m(i);
+	for( int i=imin;i<imax;++i ) res(i-imin)=m(i);
       }
 
-      unsigned int imin,imax;
+      int imin,imax;
       void setBounds( const int & m,const int & M ) { imin = m; imax = M; }
 
       void addSpecificCommands(Entity& ent,
@@ -153,7 +147,7 @@ namespace dynamicgraph {
 	res = m(index);
       }
 
-      unsigned int index;
+      int index;
       void setIndex (const int & m) { index = m; }
 
       void addSpecificCommands(Entity& ent,
@@ -185,17 +179,17 @@ namespace dynamicgraph {
     {
        void operator()( const Matrix& m,Matrix& res ) const
       {
-	assert ((imin<=imax)&&(imax<=m.nbRows()));
-	assert ((jmin<=jmax)&&(jmax<=m.nbCols()));
+	assert ((imin<=imax)&&(imax<=m.rows()));
+	assert ((jmin<=jmax)&&(jmax<=m.cols()));
 	res.resize( imax-imin,jmax-jmin );
-	for( unsigned int i=imin;i<imax;++i )
-	  for( unsigned int j=jmin;j<jmax;++j )
+	for( int i=imin;i<imax;++i )
+	  for( int j=jmin;j<jmax;++j )
 	    res(i-imin,j-jmin)=m(i,j);
       }
 
     public:
-      unsigned int imin,imax;
-      unsigned int jmin,jmax;
+      int imin,imax;
+      int jmin,jmax;
 
       void setBoundsRow( const int & m,const int & M ) { imin = m; imax = M; }
       void setBoundsCol( const int & m,const int & M ) { jmin = m; jmax = M; }
@@ -227,16 +221,16 @@ namespace dynamicgraph {
     public:
       void operator()( const Tin& m,Tout& res ) const
       {
-	assert ((imin<=imax)&&(imax<=m.nbRows()));
-	assert (jcol<m.nbCols());
+	assert ((imin<=imax)&&(imax<=m.rows()));
+	assert (jcol<m.cols());
 
 	res.resize( imax-imin );
-	for( unsigned int i=imin;i<imax;++i )
+	for( int i=imin;i<imax;++i )
 	  res(i-imin)=m(i,jcol);
       }
 
-      unsigned int imin,imax;
-      unsigned int jcol;
+      int imin,imax;
+      int jcol;
       void selectCol( const int & m ) { jcol=m; }
       void setBoundsRow( const int & m,const int & M ) { imin = m; imax = M; }
 
@@ -302,7 +296,7 @@ namespace dynamicgraph {
       typedef typename UnaryOpHeader<matrixgen,matrixgen>::Tin Tin;
       typedef typename UnaryOpHeader<matrixgen,matrixgen>::Tout Tout;
       void operator()( const Tin& m,Tout& res ) const
-      {	m.inverse(res); }
+      {	res = m.inverse(); }
     };
 
     REGISTER_UNARY_OP( Inverser<dg::Matrix>, Inverse_of_matrix);
@@ -332,7 +326,7 @@ namespace dynamicgraph {
       : public UnaryOpHeader<MatrixRotation,MatrixRotation>
     {
       void operator()( const Tin& m,Tout& res )
-	const { m.transpose(res); }
+	const { res = m.transpose(); }
     };
     REGISTER_UNARY_OP( InverserRotation, Inverse_of_matrixrotation);
 
@@ -340,7 +334,7 @@ namespace dynamicgraph {
       : public UnaryOpHeader<VectorQuaternion,VectorQuaternion>
     {
       void operator()( const Tin& m,Tout& res )
-	const { m.conjugate(res); }
+	const { res = m.conjugate(); }
     };
     REGISTER_UNARY_OP( InverserQuaternion, Inverse_of_unitquat);
 
@@ -353,12 +347,12 @@ namespace dynamicgraph {
     {
       void operator()( const MatrixHomogeneous& M,dg::Vector& res )
       {
-	MatrixRotation R; M.extract(R);
-	VectorUTheta r; r.fromMatrix(R);
-	dg::Vector t(3); M.extract(t);
+	MatrixRotation R; R = M.linear();
+	VectorUTheta r(R);
+	dg::Vector t(3); t = M.translation();
 	res.resize(6);
 	for( int i=0;i<3;++i ) res(i)=t(i);
-	for( int i=0;i<3;++i ) res(i+3)=r(i);
+	for( int i=0;i<3;++i ) res(i+3)=r.angle()*r.axis()(i);
       }
     };
     REGISTER_UNARY_OP( HomogeneousMatrixToVector,MatrixHomoToPoseUTheta);
@@ -382,15 +376,11 @@ namespace dynamicgraph {
       void operator()( const dg::Vector& v,MatrixHomogeneous& res )
       {
 	assert( v.size()>=6 );
-	VectorUTheta ruth; dg::Vector trans(3);
-	for( int i=0;i<3;++i )
-	  {
-	    trans(i)=v(i);
-	    ruth(i)=v(i+3);
-	  }
-
-	MatrixRotation R; ruth.toMatrix(R);
-	res.buildFrom(R,trans);
+	Eigen::Affine3d trans;
+	trans = Eigen::Translation3d(v.head<3>());
+	dg::Vector ruth = v.tail<3>();
+	Eigen::Affine3d R(Eigen::AngleAxisd(ruth.norm(), ruth.normalized()));
+	res = R*trans;
       }
     };
     REGISTER_UNARY_OP(PoseUThetaToMatrixHomo,PoseUThetaToMatrixHomo);
@@ -400,12 +390,12 @@ namespace dynamicgraph {
     {
       void operator()( const MatrixHomogeneous& M,Vector& res )
       {
-	MatrixRotation R; M.extract(R);
-	VectorQuaternion r; r.fromMatrix(R);
-	dg::Vector t(3); M.extract(t);
+	MatrixRotation R; R = M.linear();
+	VectorQuaternion r(R);
+	dg::Vector t(3); t = M.translation();
 	res.resize(7);
 	for( int i=0;i<3;++i ) res(i)=t(i);
-	for( int i=0;i<4;++i ) res(i+3)=r(i);
+	for( int i=0;i<4;++i ) res(i+3)=r.coeffs()(i);
       }
     };
     REGISTER_UNARY_OP(MatrixHomoToPoseQuaternion,MatrixHomoToPoseQuaternion);
@@ -415,9 +405,8 @@ namespace dynamicgraph {
     {
       void operator()( const MatrixHomogeneous& M,dg::Vector& res )
       {
-	MatrixRotation R; M.extract(R);
-	VectorRollPitchYaw r; r.fromMatrix(R);
-	dg::Vector t(3); M.extract(t);
+	VectorRollPitchYaw r = (M.linear().eulerAngles(2,1,0)).reverse();
+	dg::Vector t(3); t = M.translation();
 	res.resize(6);
 	for( unsigned int i=0;i<3;++i ) res(i)=t(i);
 	for( unsigned int i=0;i<3;++i ) res(i+3)=r(i);
@@ -433,11 +422,15 @@ namespace dynamicgraph {
 
 	VectorRollPitchYaw r;
 	for( unsigned int i=0;i<3;++i ) r(i)=vect(i+3);
-	MatrixRotation R;  r.toMatrix(R);
-
+	MatrixRotation R = (Eigen::AngleAxisd(r(2),Eigen::Vector3d::UnitZ())*
+			    Eigen::AngleAxisd(r(1),Eigen::Vector3d::UnitY())*
+			    Eigen::AngleAxisd(r(0),Eigen::Vector3d::UnitX())).toRotationMatrix();
+	
 	dg::Vector t(3);
 	for( unsigned int i=0;i<3;++i ) t(i)=vect(i);
-	Mres.buildFrom(R,t);
+
+	//buildFrom(R,t);
+	Mres = Eigen::Translation3d(t)*R;
       }
     };
     REGISTER_UNARY_OP(PoseRollPitchYawToMatrixHomo,PoseRollPitchYawToMatrixHomo);
@@ -449,15 +442,17 @@ namespace dynamicgraph {
       {
 	VectorRollPitchYaw r;
 	for( unsigned int i=0;i<3;++i ) r(i)=vect(i+3);
-	MatrixRotation R;  r.toMatrix(R);
+	MatrixRotation R = (Eigen::AngleAxisd(r(2),Eigen::Vector3d::UnitZ())*
+			    Eigen::AngleAxisd(r(1),Eigen::Vector3d::UnitY())*
+			    Eigen::AngleAxisd(r(0),Eigen::Vector3d::UnitX())).toRotationMatrix();
 
-	VectorUTheta rrot; rrot.fromMatrix(R);
+	VectorUTheta rrot(R);
 
 	vectres .resize(6);
 	for( unsigned int i=0;i<3;++i )
 	  {
 	    vectres(i)=vect(i);
-	    vectres(i+3)=rrot(i);
+	    vectres (i+3) = rrot.angle()*rrot.axis()(i);
 	  }
       }
     };
@@ -474,8 +469,8 @@ namespace dynamicgraph {
     struct MatrixToHomo
       : public UnaryOpHeader<Matrix,MatrixHomogeneous>
     {
-      void operator()( const dg::Matrix& M,MatrixHomogeneous& res )
-      {  res=M;  }
+      void operator()( const Eigen::Matrix<double,4,4>& M,MatrixHomogeneous& res )
+      {  res= M;  }
     };
     REGISTER_UNARY_OP(MatrixToHomo,MatrixToHomo);
 
@@ -484,7 +479,19 @@ namespace dynamicgraph {
     {
       void operator()( const MatrixHomogeneous& M,MatrixTwist& res )
       {
-	res.buildFrom( M );
+
+	Eigen::Vector3d _t = M.translation();
+	MatrixRotation R(M.linear());
+	Eigen::Matrix3d Tx;
+	Tx << 0, -_t(2), _t(1),
+	  _t(2), 0, -_t(0),
+	  -_t(1), _t(0), 0;
+
+	Eigen::Matrix3d sk; sk = Tx*R;
+	res.block<3,3>(0,0) = R;
+	res.block<3,3>(0,3) = sk;
+	res.block<3,3>(3,0) = Eigen::Matrix3d::Zero();
+	res.block<3,3>(3,3) = R;
       }
     };
     REGISTER_UNARY_OP(HomoToTwist,HomoToTwist);
@@ -494,7 +501,7 @@ namespace dynamicgraph {
     {
       void operator()( const MatrixHomogeneous& M,MatrixRotation& res )
       {
-	M.extract(res);
+	res = M.linear();
       }
     };
     REGISTER_UNARY_OP(HomoToRotation,HomoToRotation);
@@ -505,7 +512,7 @@ namespace dynamicgraph {
       void operator()( const MatrixHomogeneous& M,Vector& res )
       {
         res.resize(3);
-        M.extract(res);
+        res = M.translation();
       }
     };
     REGISTER_UNARY_OP(MatrixHomoToPose,MatrixHomoToPose);
@@ -515,7 +522,9 @@ namespace dynamicgraph {
    {
       void operator()( const VectorRollPitchYaw& r,MatrixRotation& res )
       {
-	r.toMatrix(res);
+	res = (Eigen::AngleAxisd(r(2),Eigen::Vector3d::UnitZ())*
+	       Eigen::AngleAxisd(r(1),Eigen::Vector3d::UnitY())*
+	       Eigen::AngleAxisd(r(0),Eigen::Vector3d::UnitX())).toRotationMatrix();
       }
     };
     REGISTER_UNARY_OP(RPYToMatrix,RPYToMatrix);
@@ -525,7 +534,7 @@ namespace dynamicgraph {
     {
       void operator()( const MatrixRotation& r,VectorRollPitchYaw & res )
       {
-	res.fromMatrix(r);
+	res = (r.eulerAngles(2,1,0)).reverse();
       }
     };
     REGISTER_UNARY_OP(MatrixToRPY,MatrixToRPY);
@@ -535,7 +544,7 @@ namespace dynamicgraph {
     {
       void operator()( const VectorQuaternion& r,MatrixRotation& res )
       {
-	r.toMatrix(res);
+	res = r.toRotationMatrix();
       }
     };
     REGISTER_UNARY_OP(QuaternionToMatrix,QuaternionToMatrix);
@@ -545,7 +554,7 @@ namespace dynamicgraph {
     {
       void operator()( const MatrixRotation& r,VectorQuaternion & res )
       {
-	res.fromMatrix(r);
+	res = r;
       }
     };
     REGISTER_UNARY_OP(MatrixToQuaternion,MatrixToQuaternion);
@@ -555,7 +564,7 @@ namespace dynamicgraph {
     {
       void operator()( const MatrixRotation& r,VectorUTheta & res )
       {
-	res.fromMatrix(r);
+	res = r;
       }
     };
     REGISTER_UNARY_OP(MatrixToUTheta,MatrixToUTheta);
@@ -565,7 +574,7 @@ namespace dynamicgraph {
     {
       void operator()( const VectorUTheta& r,VectorQuaternion& res )
       {
-	res.fromVector(r);
+	res = r;
       }
     };
     REGISTER_UNARY_OP(UThetaToQuaternion,UThetaToQuaternion);
@@ -653,8 +662,8 @@ namespace dynamicgraph {
     };
 
 
-    REGISTER_BINARY_OP(Adder<ml::Matrix>,Add_of_matrix);
-    REGISTER_BINARY_OP(Adder<ml::Vector>,Add_of_vector);
+    REGISTER_BINARY_OP(Adder<dynamicgraph::Matrix>,Add_of_matrix);
+    REGISTER_BINARY_OP(Adder<dynamicgraph::Vector>,Add_of_vector);
     REGISTER_BINARY_OP(Adder<double>,Add_of_double);
 
 
@@ -664,14 +673,14 @@ namespace dynamicgraph {
     struct Multiplier
       : public BinaryOpHeader<T,T,T>
     {
-      void operator()( const T& v1,const T& v2,T& res ) const { v1.multiply(v2,res); }
+      void operator()( const T& v1,const T& v2,T& res ) const { res = v1*v2; }
     };
     template<> void Multiplier<double>::
     operator()( const double& v1,const double& v2,double& res ) const
     { res=v1; res*=v2; }
 
-    REGISTER_BINARY_OP(Multiplier<ml::Matrix>,Multiply_of_matrix);
-    REGISTER_BINARY_OP(Multiplier<ml::Vector>,Multiply_of_vector);
+    REGISTER_BINARY_OP(Multiplier<dynamicgraph::Matrix>,Multiply_of_matrix);
+    REGISTER_BINARY_OP(Multiplier<dynamicgraph::Vector>,Multiply_of_vector);
     REGISTER_BINARY_OP(Multiplier<MatrixRotation>,Multiply_of_matrixrotation);
     REGISTER_BINARY_OP(Multiplier<MatrixHomogeneous>,Multiply_of_matrixHomo);
     REGISTER_BINARY_OP(Multiplier<MatrixTwist>,Multiply_of_matrixtwist);
@@ -682,15 +691,23 @@ namespace dynamicgraph {
     struct Multiplier_FxE__E
       : public BinaryOpHeader<F,E,E>
     {
-      void operator()( const F& f,const E& e, E& res ) const { f.multiply(e,res); }
+      void operator()( const F& f,const E& e, E& res ) const { res = f*e; }
     };
-    template<> void Multiplier_FxE__E<double,ml::Vector>::
-    operator()( const double& x,const ml::Vector& v,ml::Vector& res ) const
-    { res=v; res*=x; }
 
-    typedef Multiplier_FxE__E<double,ml::Vector> Multiplier_double_vector;
-    typedef Multiplier_FxE__E<ml::Matrix,ml::Vector> Multiplier_matrix_vector;
-    typedef Multiplier_FxE__E<MatrixHomogeneous,ml::Vector> Multiplier_matrixHomo_vector;
+    template<>
+    void Multiplier_FxE__E<dynamicgraph::sot::MatrixHomogeneous,dynamicgraph::Vector>::
+    operator()( const dynamicgraph::sot::MatrixHomogeneous& f,
+		const dynamicgraph::Vector& e,
+		dynamicgraph::Vector& res ) const
+    { res=f.matrix()*e; }
+    
+    template<> void Multiplier_FxE__E<double,dynamicgraph::Vector>::
+    operator()( const double& x,const dynamicgraph::Vector& v,dynamicgraph::Vector& res ) const
+    { res=v; res*=x; }
+    
+    typedef Multiplier_FxE__E<double,dynamicgraph::Vector> Multiplier_double_vector;
+    typedef Multiplier_FxE__E<dynamicgraph::Matrix,dynamicgraph::Vector> Multiplier_matrix_vector;
+    typedef Multiplier_FxE__E<MatrixHomogeneous,dynamicgraph::Vector> Multiplier_matrixHomo_vector;
     REGISTER_BINARY_OP( Multiplier_double_vector,Multiply_double_vector);
     REGISTER_BINARY_OP( Multiplier_matrix_vector,Multiply_matrix_vector);
     REGISTER_BINARY_OP( Multiplier_matrixHomo_vector,Multiply_matrixHomo_vector);
@@ -701,26 +718,26 @@ namespace dynamicgraph {
       : public BinaryOpHeader<T,T,T>
     { void operator()( const T& v1,const T& v2,T& r ) const { r=v1; r-=v2; } };
 
-    REGISTER_BINARY_OP(Substraction<ml::Matrix>,Substract_of_matrix);
-    REGISTER_BINARY_OP(Substraction<ml::Vector>,Substract_of_vector);
+    REGISTER_BINARY_OP(Substraction<dynamicgraph::Matrix>,Substract_of_matrix);
+    REGISTER_BINARY_OP(Substraction<dynamicgraph::Vector>,Substract_of_vector);
     REGISTER_BINARY_OP(Substraction<double>,Substract_of_double);
 
     /* --- STACK ------------------------------------------------------------ */
     struct VectorStack
-      : public BinaryOpHeader<ml::Vector,ml::Vector,ml::Vector>
+      : public BinaryOpHeader<dynamicgraph::Vector,dynamicgraph::Vector,dynamicgraph::Vector>
     {
     public:
-      unsigned int v1min,v1max;
-      unsigned int v2min,v2max;
-      void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const
+      int v1min,v1max;
+      int v2min,v2max;
+      void operator()( const dynamicgraph::Vector& v1,const dynamicgraph::Vector& v2,dynamicgraph::Vector& res ) const
       {
 	assert( (v1max>=v1min)&&(v1.size()>=v1max) );
 	assert( (v2max>=v2min)&&(v2.size()>=v2max) );
 
-	const unsigned int v1size = v1max-v1min, v2size = v2max-v2min;
+	const int v1size = v1max-v1min, v2size = v2max-v2min;
 	res.resize( v1size+v2size );
-	for( unsigned int i=0;i<v1size;++i ) { res(i) = v1(i+v1min); }
-	for( unsigned int i=0;i<v2size;++i ) { res(v1size+i) = v2(i+v2min); }
+	for( int i=0;i<v1size;++i ) { res(i) = v1(i+v1min); }
+	for( int i=0;i<v2size;++i ) { res(v1size+i) = v2(i+v2min); }
       }
 
       void selec1( const int & m, const int M) { v1min=m; v1max=M; }
@@ -750,9 +767,9 @@ namespace dynamicgraph {
     /* ---------------------------------------------------------------------- */
 
     struct Composer
-      : public BinaryOpHeader<ml::Matrix,ml::Vector,MatrixHomogeneous>
+      : public BinaryOpHeader<dynamicgraph::Matrix,dynamicgraph::Vector,MatrixHomogeneous>
     {
-      void operator() ( const ml::Matrix& R,const ml::Vector& t, MatrixHomogeneous& H ) const
+      void operator() ( const dynamicgraph::Matrix& R,const dynamicgraph::Vector& t, MatrixHomogeneous& H ) const
       {
 	for( int i=0;i<3;++i )
 	  {
@@ -768,36 +785,36 @@ namespace dynamicgraph {
 
     /* --- CONVOLUTION PRODUCT ---------------------------------------------- */
     struct ConvolutionTemporal
-      : public BinaryOpHeader<ml::Vector,ml::Matrix,ml::Vector>
+      : public BinaryOpHeader<dynamicgraph::Vector,dynamicgraph::Matrix,dynamicgraph::Vector>
     {
-      typedef std::deque<ml::Vector> MemoryType;
+      typedef std::deque<dynamicgraph::Vector> MemoryType;
       MemoryType memory;
 
-      void convolution( const MemoryType &f1,const ml::Matrix & f2,ml::Vector &res )
+      void convolution( const MemoryType &f1,const dynamicgraph::Matrix & f2,dynamicgraph::Vector &res )
       {
-	const unsigned int nconv = f1.size(),nsig=f2.nbRows();
+	const int nconv = f1.size(),nsig=f2.rows();
 	sotDEBUG(15) << "Size: " << nconv << "x" << nsig << std::endl;
-	if( nconv>f2.nbCols() ) return; // TODO: error, this should not happen
+	if( nconv>f2.cols() ) return; // TODO: error, this should not happen
 
 	res.resize( nsig ); res.fill(0);
 	unsigned int j=0;
 	for( MemoryType::const_iterator iter=f1.begin();iter!=f1.end();iter++ )
 	  {
-	    const ml::Vector & s_tau = *iter;
+	    const dynamicgraph::Vector & s_tau = *iter;
 	    sotDEBUG(45) << "Sig"<<j<< ": " << s_tau ;
 	    if( s_tau.size()!=nsig )
 	      return; // TODO: error throw;
-	    for( unsigned int i=0;i<nsig;++i )
+	    for( int i=0;i<nsig;++i )
 	      {
 		res(i)+=f2(i,j)*s_tau(i);
 	      }
 	    j++;
 	  }
       }
-      void operator()( const ml::Vector& v1,const ml::Matrix& m2,ml::Vector& res )
+      void operator()( const dynamicgraph::Vector& v1,const dynamicgraph::Matrix& m2,dynamicgraph::Vector& res )
       {
 	memory.push_front( v1 );
-	while( memory.size()>m2.nbCols() ) memory.pop_back();
+	while( memory.size()>m2.cols() ) memory.pop_back();
 	convolution( memory,m2,res );
       }
     };
@@ -844,8 +861,8 @@ namespace dynamicgraph {
       }
     };
 
-    REGISTER_BINARY_OP(WeightedAdder<ml::Matrix>,WeightAdd_of_matrix);
-    REGISTER_BINARY_OP(WeightedAdder<ml::Vector>,WeightAdd_of_vector);
+    REGISTER_BINARY_OP(WeightedAdder<dynamicgraph::Matrix>,WeightAdd_of_matrix);
+    REGISTER_BINARY_OP(WeightedAdder<dynamicgraph::Vector>,WeightAdd_of_vector);
     REGISTER_BINARY_OP(WeightedAdder<double>,WeightAdd_of_double);
     }
 }
@@ -859,7 +876,7 @@ namespace dynamicgraph {
 // struct WeightedDirection
 // {
 // public:
-//   void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const
+//   void operator()( const dynamicgraph::Vector& v1,const dynamicgraph::Vector& v2,dynamicgraph::Vector& res ) const
 //   {
 //     const double norm1 = v1.norm();
 //     const double norm2 = v2.norm();
@@ -876,7 +893,7 @@ namespace dynamicgraph {
 // struct Nullificator
 // {
 // public:
-//   void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const
+//   void operator()( const dynamicgraph::Vector& v1,const dynamicgraph::Vector& v2,dynamicgraph::Vector& res ) const
 //   {
 //     const unsigned int s = std::max( v1.size(),v2.size() );
 //     res.resize(s);
@@ -900,7 +917,7 @@ namespace dynamicgraph {
 // public:
 //   double spring;
 
-//   void operator()( const ml::Vector& pos,const ml::Vector& ref,ml::Vector& res ) const
+//   void operator()( const dynamicgraph::Vector& pos,const dynamicgraph::Vector& ref,dynamicgraph::Vector& res ) const
 //   {
 //     double norm = ref.norm();
 //     double dist = ref.scalarProduct(pos) / (norm*norm);

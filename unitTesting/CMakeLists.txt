@@ -73,7 +73,6 @@ SET (tests
 	signal/test_ptrcast
 
 	sot/tsot
-	sot/test_solverSoth
 
 	traces/files
 	traces/test_traces
@@ -137,7 +136,6 @@ FOREACH(test ${tests})
 		TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${CMAKE_DL_LIBS})
 	ENDIF(UNIX)
 
-	PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} jrl-mal)
 	PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} dynamic-graph)
 	PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} dynamic-graph-python)
 

@@ -18,16 +18,11 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot/core/matrix-rotation.hh>
-#include <sot/core/vector-utheta.hh>
+#include <sot/core/matrix-geometry.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;
 
 
-void MatrixRotation::fromVector( VectorUTheta& vec )
-{
-  vec.toMatrix( *this );
-}
-  
+ 
 

@@ -26,8 +26,7 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
 
 /* SOT */
 #include <sot/core/flags.hh>

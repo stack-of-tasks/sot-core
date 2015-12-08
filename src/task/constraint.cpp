@@ -67,7 +67,7 @@ Constraint( const std::string& n )
 
 
 void Constraint::
-addJacobian( Signal< ml::Matrix,int >& sig )
+addJacobian( Signal< dynamicgraph::Matrix,int >& sig )
 {
   sotDEBUGIN(15);
   jacobianList.push_back(&sig);
@@ -81,7 +81,7 @@ clearJacobianList( void )
   for(   JacobianList::iterator iter = jacobianList.begin();
 	 iter!=jacobianList.end(); ++iter )
     {
-      Signal< ml::Matrix,int >& s = **iter;
+      Signal< dynamicgraph::Matrix,int >& s = **iter;
       jacobianSOUT.removeDependency( s );
     }
 
@@ -92,8 +92,8 @@ clearJacobianList( void )
 /* --- COMPUTATION ---------------------------------------------------------- */
 /* --- COMPUTATION ---------------------------------------------------------- */
 
-ml::Matrix& Constraint::
-computeJacobian( ml::Matrix& J,int time )
+dynamicgraph::Matrix& Constraint::
+computeJacobian( dynamicgraph::Matrix& J,int time )
 {
   sotDEBUG(15) << "# In {" << endl;
 
@@ -103,8 +103,8 @@ computeJacobian( ml::Matrix& J,int time )
   // 			      "Empty feature list") ) ; }
 
   try {
-    unsigned int dimJ = J .nbRows();
-    unsigned int nbc = J.nbCols();
+    int dimJ = J .rows();
+    int nbc = J.cols();
     if( 0==dimJ ){ dimJ = 1; J.resize(dimJ,nbc); }
 
     int cursorJ = 0;
@@ -113,29 +113,29 @@ computeJacobian( ml::Matrix& J,int time )
     for( JacobianList::iterator iter = jacobianList.begin();
 	 iter!=jacobianList.end(); ++iter )
       {
-	Signal< ml::Matrix,int >& jacobian = ** iter;
+	Signal< dynamicgraph::Matrix,int >& jacobian = ** iter;
 
 	/* Get s, and store it in the s vector. */
-	const ml::Matrix& partialJacobian = jacobian(time);
-	const unsigned int nbr = partialJacobian.nbRows();
+	const dynamicgraph::Matrix& partialJacobian = jacobian(time);
+	const int nbr = partialJacobian.rows();
 	
-	if( 0==nbc ) { nbc = partialJacobian.nbCols(); J.resize(nbc,dimJ); }
-	else if( partialJacobian.nbCols() != nbc )
+	if( 0==nbc ) { nbc = partialJacobian.cols(); J.conservativeResize(nbc,dimJ); }
+	else if( partialJacobian.cols() != nbc )
 	  {SOT_THROW ExceptionTask(ExceptionTask::NON_ADEQUATE_FEATURES,
 				   "Features from the list don't "
 				   "have compatible-size jacobians.");}
 	sotDEBUG(25) << "Jp =" <<endl<< partialJacobian<<endl;
 
 	while( cursorJ+nbr>=dimJ ) 
-	  { dimJ *= 2; J.resize(dimJ,nbc,false); }
-	for( unsigned int kc=0;kc<nbc;++kc ) 
-	  for( unsigned int k=0;k<nbr;++k )
+	  { dimJ *= 2; J.resize(dimJ,nbc); }
+	for( int kc=0;kc<nbc;++kc ) 
+	  for( int k=0;k<nbr;++k )
 	    { J(cursorJ+k,kc) = partialJacobian(k,kc); }
 	cursorJ += nbr;
       }
     
     /* If too much memory has been allocated, resize. */
-    J .resize(cursorJ,nbc,false);
+    J.conservativeResize(cursorJ,nbc);
   } catch SOT_RETHROW;
 
   sotDEBUG(15) << "# Out }" << endl;

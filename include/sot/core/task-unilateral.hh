@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* STD */
 #include <string>
@@ -80,9 +80,9 @@ class SOTTASKUNILATERAL_EXPORT TaskUnilateral
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
 
-  dg::SignalPtr< ml::Vector,int > positionSIN;
-  dg::SignalPtr< ml::Vector,int > referenceInfSIN;
-  dg::SignalPtr< ml::Vector,int > referenceSupSIN;
+  dg::SignalPtr< dg::Vector,int > positionSIN;
+  dg::SignalPtr< dg::Vector,int > referenceInfSIN;
+  dg::SignalPtr< dg::Vector,int > referenceSupSIN;
   dg::SignalPtr< double,int > dtSIN;
 
   /* --- DISPLAY ------------------------------------------------------------ */

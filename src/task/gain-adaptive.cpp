@@ -238,7 +238,7 @@ double& GainAdaptive::
 computeGain( double&res, int t )
 {
   sotDEBUGIN(15);
-  const ml::Vector& error = errorSIN(t);
+  const dynamicgraph::Vector& error = errorSIN(t);
   const double norm =  error.norm();
   res = coeff_a * exp( -coeff_b*norm ) + coeff_c;
 

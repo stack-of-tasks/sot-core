@@ -21,9 +21,6 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/* jrl-mathtools */
-#include <jrl/mathtools/vector3.hh>
-
 /* SOT */
 #include "sot/core/device.hh"
 #include <sot/core/debug.hh>
@@ -31,6 +28,9 @@ using namespace std;
 
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/all-commands.h>
+#include <Eigen/Geometry>
+#include <dynamic-graph/linear-algebra.h>
+#include <sot/core/matrix-geometry.hh>
 
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
@@ -41,10 +41,10 @@ const std::string Device::CLASS_NAME = "Device";
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void Device::integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
+void Device::integrateRollPitchYaw(Vector& state, const Vector& control,
                                    double dt)
 {
-  jrlMathTools::Vector3D<double> omega;
+  Eigen::Vector3d omega;
   // Translation part
   for (unsigned int i=0; i<3; i++) {
     state(i) += control(i)*dt;
@@ -55,7 +55,7 @@ void Device::integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
   double roll = state(3);
   double pitch = state(4);
   double yaw = state(5);
-  jrlMathTools::Vector3D<double> column [3];
+  Eigen::Vector3d column [3];
 
   // Build rotation matrix as a vector of colums
   column [0](0) = cos(pitch)*cos(yaw);
@@ -75,11 +75,11 @@ void Device::integrateRollPitchYaw(ml::Vector& state, const ml::Vector& control,
   if (angle == 0) {
     return;
   }
-  jrlMathTools::Vector3D<double> k = omega/omega.norm();
+  Eigen::Vector3d k = omega/omega.norm();
   // ei <- ei cos(angle) + sin(angle)(k ^ ei) + (k.ei)(1-cos(angle))k
   for (unsigned int i=0; i<3; i++) {
-    jrlMathTools::Vector3D<double> ei = column[i];
-    column[i] = ei*cos(angle) + (k^ei)*sin(angle) + k*((k*ei)*(1-cos(angle)));
+    Eigen::Vector3d ei = column[i];
+    column[i] = ei*cos(angle) + (k.cross(ei))*sin(angle) + k*((k.dot(ei))*(1-cos(angle)));
   }
   // Store new position if ffPose_ member.
   for (unsigned int r = 0; r < 3; r++) {
@@ -133,13 +133,13 @@ Device( const std::string& n )
   /* --- SIGNALS --- */
   for( int i=0;i<4;++i ){ withForceSignals[i] = false; }
   forcesSOUT[0] =
-      new Signal<ml::Vector, int>("OpenHRP::output(vector6)::forceRLEG");
+      new Signal<Vector, int>("OpenHRP::output(vector6)::forceRLEG");
   forcesSOUT[1] =
-      new Signal<ml::Vector, int>("OpenHRP::output(vector6)::forceLLEG");
+      new Signal<Vector, int>("OpenHRP::output(vector6)::forceLLEG");
   forcesSOUT[2] =
-      new Signal<ml::Vector, int>("OpenHRP::output(vector6)::forceRARM");
+      new Signal<Vector, int>("OpenHRP::output(vector6)::forceRARM");
   forcesSOUT[3] =
-      new Signal<ml::Vector, int>("OpenHRP::output(vector6)::forceLARM");
+      new Signal<Vector, int>("OpenHRP::output(vector6)::forceLARM");
 
   signalRegistration( controlSIN<<stateSOUT<<velocitySOUT<<attitudeSOUT
                       <<attitudeSIN<<zmpSIN <<*forcesSOUT[0]<<*forcesSOUT[1]
@@ -177,7 +177,7 @@ Device( const std::string& n )
                new command::Setter<Device, Vector>
                (*this, &Device::setVelocity, docstring));
 
-    void(Device::*setRootPtr)(const ml::Matrix&) = &Device::setRoot;
+    void(Device::*setRootPtr)(const Matrix&) = &Device::setRoot;
     docstring
         = command::docCommandVoid1("Set the root position.",
                                    "matrix homogeneous");
@@ -225,7 +225,7 @@ setStateSize( const unsigned int& size )
 
   Device::setVelocitySize(size);
 
-  ml::Vector zmp(3); zmp.fill( .0 );
+  Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
 }
 
@@ -238,7 +238,7 @@ setVelocitySize( const unsigned int& size )
 }
 
 void Device::
-setState( const ml::Vector& st )
+setState( const Vector& st )
 {
   state_ = st;
   stateSOUT .setConstant( state_ );
@@ -246,25 +246,26 @@ setState( const ml::Vector& st )
 }
 
 void Device::
-setVelocity( const ml::Vector& vel )
+setVelocity( const Vector& vel )
 {
   velocity_ = vel;
   velocitySOUT .setConstant( velocity_ );
 }
 
 void Device::
-setRoot( const ml::Matrix & root )
+setRoot( const Matrix & root )
 {
-  setRoot( (MatrixHomogeneous) root );
+  Eigen::Matrix4d _matrix4d(root);
+  MatrixHomogeneous _root(_matrix4d);
+  setRoot( _root );
 }
+
 void Device::
 setRoot( const MatrixHomogeneous & worldMwaist )
 {
-  MatrixRotation R; worldMwaist.extract(R);
-  VectorRollPitchYaw r; r.fromMatrix(R);
-
-  ml::Vector q = state_;
-  worldMwaist.extract(q); // abusive ... but working.
+  VectorRollPitchYaw r = (worldMwaist.linear().eulerAngles(2,1,0)).reverse();
+  Vector q = state_;
+  q = worldMwaist.translation(); // abusive ... but working.
   for( unsigned int i=0;i<3;++i ) q(i+3) = r(i);
 }
 
@@ -346,7 +347,7 @@ increment( const double & dt )
   for( int i=0;i<4;++i ){
     if(  !withForceSignals[i] ) forcesSOUT[i]->setConstant(forceZero6);
   }
-  ml::Vector zmp(3); zmp.fill( .0 );
+  Vector zmp(3); zmp.fill( .0 );
   ZMPPreviousControllerSOUT .setConstant( zmp );
 
   // Run Synchronous commands and evaluate signals outside the main
@@ -381,19 +382,19 @@ increment( const double & dt )
 
 void Device::integrate( const double & dt )
 {
-  const ml::Vector & control = controlSIN.accessCopy();
+  const Vector & control = controlSIN.accessCopy();
 
   if (controlInputType_==CONTROL_INPUT_POSITION)
   {
     assert(state_.size()==control.size()+6);
-    for( unsigned int i=0;i<control.size();++i )
+    for( int i=0;i<control.size();++i )
       state_(i+6) = control(i);
     return;
   }
 
   if( !vel_controlInit_ )
   {
-    vel_control_ = ml::Vector(control.size());
+    vel_control_ = Vector(control.size());
     vel_control_.setZero();
     vel_controlInit_ = true;
   }
@@ -407,7 +408,7 @@ void Device::integrate( const double & dt )
 
   if (controlInputType_==CONTROL_INPUT_ACCELERATION)
   {
-    for( unsigned int i=0;i<control.size();++i )
+    for( int i=0;i<control.size();++i )
     {
       if(control.size() == velocity_.size()) offset = 0;
       vel_control_(i) = velocity_(i+offset) + control(i)*dt*0.5;
@@ -424,7 +425,7 @@ void Device::integrate( const double & dt )
     integrateRollPitchYaw(state_, vel_control_, dt);
   }
 
-  for( unsigned int i=6;i<state_.size();++i )
+  for( int i=6;i<state_.size();++i )
   { state_(i) += (vel_control_(i-offset)*dt); }
 }
 

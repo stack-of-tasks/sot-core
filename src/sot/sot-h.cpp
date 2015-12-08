@@ -120,12 +120,12 @@ commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 void buildTaskVectors( const VectorMultiBound& err,
-                       const ml::Matrix & JK,
+                       const dynamicgraph::Matrix & JK,
                        bubVector & ee,bubVector & eiinf,bubVector & eisup,
                        ConstraintMem::BoundSideVector& bounds,
                        bubMatrix & Je,bubMatrix & Ji )
 {
-  const unsigned int nJ = JK.nbCols();
+  const unsigned int nJ = JK.cols();
 
   sotDEBUG(25) << "/* Compute the task sizes. */"<< std::endl;
   unsigned int sizei=0,sizee=0;
@@ -212,16 +212,16 @@ void buildTaskVectors( const VectorMultiBound& err,
 
 SOT_DEFINE_CHRONO;
 
-ml::Vector& SotH::
-computeControlLaw( ml::Vector& control,const int& iterTime )
+dynamicgraph::Vector& SotH::
+computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 {
   sotDEBUGIN(15);
 
   SOT_INIT_CHRONO;
 
   SolverHierarchicalInequalities::THRESHOLD_ZERO = inversionThresholdSIN(iterTime);
-  const ml::Matrix &K = constraintSOUT(iterTime);
-  const unsigned int nJ = K.nbCols();
+  const dynamicgraph::Matrix &K = constraintSOUT(iterTime);
+  const unsigned int nJ = K.cols();
 
   try
     {
@@ -232,7 +232,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
   catch (...)
     {
       if( nJ!=control.size() ) { control.resize( nJ ); }
-      control.fill(0.);
+      control.setZero();
       sotDEBUG(25) << "No initial velocity." <<endl;
     }
   SOT_CHRONO;
@@ -265,7 +265,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
       sotDEBUGF(5,"Rank %d.",iterTask);
       TaskAbstract & task = **iter;
       sotDEBUG(15) << "Task: e_" << task.getName() << std::endl;
-      const ml::Matrix &Jac = task.jacobianSOUT(iterTime);
+      const dynamicgraph::Matrix &Jac = task.jacobianSOUT(iterTime);
       const VectorMultiBound &err = task.taskSOUT(iterTime);
       unsigned int ntask=err.size();
 
@@ -281,7 +281,7 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 
       sotDEBUG(25) << "/* --- Resize J --- */" << std::endl;
       mem->JK.resize( ntask,nJ );
-      mem->Jff.resize( ntask,Jac.nbCols()-nJ );
+      mem->Jff.resize( ntask,Jac.cols()-nJ );
       mem->Jact.resize( ntask,nJ );
 
       sotDEBUG(25) << "/* --- COMPUTE JK --- */" << std::endl;
@@ -376,9 +376,9 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
         MemoryTaskSOTH * mem = dynamic_cast<MemoryTaskSOTH *>( task.memoryInternal );
         if( mem == NULL ) continue;
         VectorMultiBound taskVector = task.taskSOUT(iterTime);
-        const ml::Matrix JK = mem->jacobianConstrainedSINOUT.accessCopy();
-        ml::Vector JKu(taskVector.size()); JKu = JK*control;
-        ml::Vector diff(taskVector.size());
+        const dynamicgraph::Matrix JK = mem->jacobianConstrainedSINOUT.accessCopy();
+        dynamicgraph::Vector JKu(taskVector.size()); JKu = JK*control;
+        dynamicgraph::Vector diff(taskVector.size());
 
         for( unsigned int i=0;i<taskVector.size();++i )
           {

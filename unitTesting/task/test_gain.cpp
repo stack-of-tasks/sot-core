@@ -23,20 +23,20 @@
 /* -------------------------------------------------------------------------- */
 
 #include <dynamic-graph/signal.h>
+#include <dynamic-graph/linear-algebra.h>
 #include <sot/core/gain-adaptive.hh>
 #include <iostream>
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
-namespace ml = maal::boost;
 
 class DummyClass
 {
 public:
-  ml::Vector err;
+  dynamicgraph::Vector err;
 
-  ml::Vector& getError( ml::Vector& res,int t )
+  dynamicgraph::Vector& getError( dynamicgraph::Vector& res,int t )
   {
     cout << "Dummy::getError ["<< t<< "] "<<endl;
     return res=err;
@@ -59,7 +59,7 @@ int main( void )
 
   GainAdaptive * gain = new GainAdaptive("gain",4,1,5);
 
-  Signal<ml::Vector,int> errSig("test");
+  Signal<dynamicgraph::Vector,int> errSig("test");
   errSig.setFunction( boost::bind(&DummyClass::getError,dummy,_1,_2) );
 
   gain->errorSIN.plug( &errSig );

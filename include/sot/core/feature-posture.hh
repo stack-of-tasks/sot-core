@@ -65,27 +65,27 @@ namespace dynamicgraph {
       DYNAMIC_GRAPH_ENTITY_DECL();
 
     public:
-      typedef dynamicgraph::SignalPtr<ml::Vector, int> signalIn_t;
-      typedef dynamicgraph::SignalTimeDependent<ml::Vector, int> signalOut_t;
+      typedef dynamicgraph::SignalPtr<dg::Vector, int> signalIn_t;
+      typedef dynamicgraph::SignalTimeDependent<dg::Vector, int> signalOut_t;
 
       DECLARE_NO_REFERENCE;
 
       explicit FeaturePosture (const std::string& name);
       virtual ~FeaturePosture ();
       virtual unsigned int& getDimension( unsigned int& res,int );
-      void setPosture (const ml::Vector& posture);
+      void setPosture (const dg::Vector& posture);
       void selectDof (unsigned dofId, bool control);
 
     protected:
 
-      virtual ml::Vector& computeError( ml::Vector& res, int );
-      virtual ml::Matrix& computeJacobian( ml::Matrix& res, int );
-      virtual ml::Vector& computeActivation( ml::Vector& res, int );
+      virtual dg::Vector& computeError( dg::Vector& res, int );
+      virtual dg::Matrix& computeJacobian( dg::Matrix& res, int );
+      virtual dg::Vector& computeActivation( dg::Vector& res, int );
 
       signalIn_t state_;
       signalIn_t posture_;
       signalOut_t error_;
-      ml::Matrix jacobian_;
+      dg::Matrix jacobian_;
     private:
       std::vector <bool> activeDofs_;
       std::size_t nbActiveDofs_;

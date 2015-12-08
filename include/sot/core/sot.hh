@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* Classes standards. */
 #include <list>                    /* Classe std::list   */
@@ -60,7 +60,6 @@ namespace ml = maal::boost;
 
 namespace dynamicgraph {
   namespace sot {
-    namespace dg = dynamicgraph;
 
     /*! @ingroup stackoftasks
       \brief This class implements the Stack of Task.
@@ -115,7 +114,7 @@ namespace dynamicgraph {
       TaskAbstract* taskGradient;
 
       /*! Projection used to compute the control law. */
-      ml::Matrix Proj;
+      dg::Matrix Proj;
 
       /*! Force the recomputation at each step. */
       bool recomputeEachTime;
@@ -131,14 +130,14 @@ namespace dynamicgraph {
       /*! \brief Number of joints by default. */
       static const unsigned int NB_JOINTS_DEFAULT; // = 48;
 
-      static ml::Matrix & computeJacobianConstrained( const ml::Matrix& Jac,
-						      const ml::Matrix& K,
-						      ml::Matrix& JK,
-						      ml::Matrix& Jff,
-						      ml::Matrix& Jact );
-      static ml::Matrix & computeJacobianConstrained( const TaskAbstract& task,
-						      const ml::Matrix& K );
-      static ml::Vector
+      static dg::Matrix & computeJacobianConstrained( const dg::Matrix& Jac,
+						      const dg::Matrix& K,
+						      dg::Matrix& JK,
+						      dg::Matrix& Jff,
+						      dg::Matrix& Jact );
+      static dg::Matrix & computeJacobianConstrained( const TaskAbstract& task,
+						      const dg::Matrix& K );
+      static dg::Vector
 	taskVectorToMlVector(const VectorMultiBound& taskVector);
 
     public:
@@ -216,11 +215,11 @@ namespace dynamicgraph {
       */
 
       /*! \brief Compute the control law. */
-      virtual ml::Vector& computeControlLaw(ml::Vector& control,
+      virtual dg::Vector& computeControlLaw(dg::Vector& control,
 					    const int& time);
 
       /*! \brief Compute the projector of the constraint. */
-      virtual ml::Matrix& computeConstraintProjector(ml::Matrix& Proj,
+      virtual dg::Matrix& computeConstraintProjector(dg::Matrix& Proj,
 						     const int& time );
 
       /*! @} */
@@ -245,14 +244,14 @@ namespace dynamicgraph {
        * the recurence of the SOT (e.g. velocity comming from the other
        * OpenHRP plugins).
        */
-      SignalPtr<ml::Vector,int> q0SIN;
+      SignalPtr<dg::Vector,int> q0SIN;
       /*! \brief This signal allow to change the threshold for the
 	damped pseudo-inverse on-line */
       SignalPtr<double,int> inversionThresholdSIN;
       /*! \brief Allow to get the result of the Constraint projector. */
-      SignalTimeDependent<ml::Matrix,int> constraintSOUT;
+      SignalTimeDependent<dg::Matrix,int> constraintSOUT;
       /*! \brief Allow to get the result of the computed control law. */
-      SignalTimeDependent<ml::Vector,int> controlSOUT;
+      SignalTimeDependent<dg::Vector,int> controlSOUT;
       /*! @} */
 
     public: /* --- COMMANDS --- */

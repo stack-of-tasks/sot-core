@@ -26,9 +26,9 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-#include <jrl/mal/boostmatrixsvd.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+#include <Eigen/SVD>
+namespace dg = dynamicgraph;
 
 /* STD */
 #include <string>
@@ -46,7 +46,6 @@ namespace ml = maal::boost;
 
 namespace dynamicgraph {
   namespace sot {
-    namespace dg = dynamicgraph;
 
     /// Hierarchical element of the stack of tasks.
     ///
@@ -92,7 +91,7 @@ namespace dynamicgraph {
     public: /* --- SIGNALS --- */
 
       dg::SignalTimeDependent< VectorMultiBound,int > taskSOUT;
-      dg::SignalTimeDependent< ml::Matrix,int > jacobianSOUT;
+      dg::SignalTimeDependent< dg::Matrix,int > jacobianSOUT;
 
     public: /* --- PARAMS --- */
       virtual void commandLine( const std::string& cmdLine

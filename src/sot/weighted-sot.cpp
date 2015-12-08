@@ -75,15 +75,15 @@ WeightedSot( const std::string& name )
 /* --- A inv ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#include <jrl/mal/boostspecific.hh>
+#include <dynamic-graph/linear-algebra.h>
 
-ml::Matrix& WeightedSot::
-computeSquareRootInvWeight( ml::Matrix& S5i,const int& time )
+dynamicgraph::Matrix& WeightedSot::
+computeSquareRootInvWeight( dynamicgraph::Matrix& S5i,const int& time )
 {
   sotDEBUGIN(15);
 
-  const ml::Matrix& A = constrainedWeightSIN( time );
-  if( A.nbCols()!= A.nbRows() )
+  const dynamicgraph::Matrix& A = constrainedWeightSIN( time );
+  if( A.cols()!= A.rows() )
     {
       SOT_THROW ExceptionTask( ExceptionTask::MATRIX_SIZE,
 				  "Weight matrix should be square.","" );
@@ -97,9 +97,9 @@ computeSquareRootInvWeight( ml::Matrix& S5i,const int& time )
    * of A minus the scalar product of column i and j of s, divided by the diag
    * of S: s_ij = (a_ij - sum(k=0:i) s_ik.s_jk ) / s_ii .
    */
-  ml::Matrix S5( A.nbRows(),A.nbRows() ); S5.fill(0.);
-  //S5.resize( A.nbRows(),A.nbRows() ); S5.fill(0.);
-  for( unsigned int i=0;i<A.nbCols();++i )
+  dynamicgraph::Matrix S5( A.rows(),A.rows() ); S5.setZero();
+  //S5.resize( A.rows(),A.rows() ); S5.setZero();
+  for( unsigned int i=0;i<A.cols();++i )
     {
       double x=A(i,i);
       for( unsigned int k=0;k<i;++k )
@@ -107,7 +107,7 @@ computeSquareRootInvWeight( ml::Matrix& S5i,const int& time )
       double sq=sqrt(x);
       S5(i,i)=sq;
 
-      for( unsigned int j=i+1;j<A.nbCols();++j )
+      for( unsigned int j=i+1;j<A.cols();++j )
 	{
 	  x=A(i,j);
 	  for( unsigned int k=0;k<i;++k )
@@ -126,11 +126,11 @@ computeSquareRootInvWeight( ml::Matrix& S5i,const int& time )
    * S*A. p_ik = [S*A]_ik = 0 = sum(k=i:j) s_ik a_kj = 0. Then
    * s_ij = - [ sum(k=i:j-1) s_ik a_kj ] / a_ii
    */
-  S5i.resize( A.nbRows(),A.nbRows() ); S5i.fill(0.);
-  for( unsigned int l=0;l<A.nbRows();++l )
-    for( unsigned int i=0;i<A.nbCols();++i )
+  S5i.resize( A.rows(),A.rows() ); S5i.setZero();
+  for( unsigned int l=0;l<A.rows();++l )
+    for( unsigned int i=0;i<A.cols();++i )
       {
- 	unsigned int j=i+l; if(j>=A.nbCols()) continue;
+ 	unsigned int j=i+l; if(j>=A.cols()) continue;
  	if( j==i ) S5i(j,j)=1/S5(j,j);
  	else
  	  {
@@ -151,14 +151,14 @@ computeSquareRootInvWeight( ml::Matrix& S5i,const int& time )
 /* --- CONTROL --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-ml::Matrix& WeightedSot::
-computeConstrainedWeight( ml::Matrix& KAK,const int& iterTime )
+dynamicgraph::Matrix& WeightedSot::
+computeConstrainedWeight( dynamicgraph::Matrix& KAK,const int& iterTime )
 {
   sotDEBUGIN(15);
 
-  const ml::Matrix &K = constraintSOUT(iterTime);
-  const ml::Matrix &A = weightSIN(iterTime);
-  const unsigned int mJ = K.nbCols();
+  const dynamicgraph::Matrix &K = constraintSOUT(iterTime);
+  const dynamicgraph::Matrix &A = weightSIN(iterTime);
+  const unsigned int mJ = K.cols();
 
 //   const unsigned int rhand=28, lhand=40;
 //   for( unsigned int i=0;i<6;++i )
@@ -175,7 +175,7 @@ computeConstrainedWeight( ml::Matrix& KAK,const int& iterTime )
 
   KAK.resize( mJ,mJ ); KAK.fill(0);
   {
-    ml::Matrix KA( mJ,6 ); KA.fill( 0. );
+    dynamicgraph::Matrix KA( mJ,6 ); KA.fill( 0. );
     for( unsigned int i=0;i<mJ;++i )
       for( unsigned int j=0;j<6;++j )
 	for( unsigned int k=0;k<6;++k )
@@ -235,8 +235,8 @@ computeConstrainedWeight( ml::Matrix& KAK,const int& iterTime )
 
 
 
-ml::Vector& WeightedSot::
-computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
+dynamicgraph::Vector& WeightedSot::
+computeWeightedControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 {
   sotDEBUGIN(15);
   sotDEBUGF(5, " --- Time %d -------------------", iterTime );
@@ -251,14 +251,14 @@ computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
   sotSTART_CHRONO1;
   sotSTARTPARTCOUNTERS;
 
-  ml::Matrix P;
+  dynamicgraph::Matrix P;
   const double &th = inversionThresholdSIN(iterTime);
-  const ml::Matrix &K = constraintSOUT(iterTime);
-  const unsigned int mJ = K.nbCols();
-  //ml::Matrix A = weightSIN(iterTime);
-  const ml::Matrix &S5i = squareRootInvWeightSIN(iterTime);
-  ml::Matrix Ai(mJ,mJ);
-  S5i.multiply(S5i.transpose(),Ai); // TODO: Optimize by considering the triangular shape!
+  const dynamicgraph::Matrix &K = constraintSOUT(iterTime);
+  const unsigned int mJ = K.cols();
+  //dynamicgraph::Matrix A = weightSIN(iterTime);
+  const dynamicgraph::Matrix &S5i = squareRootInvWeightSIN(iterTime);
+  dynamicgraph::Matrix Ai(mJ,mJ);
+  Ai = S5i.multiply*(S5i.transpose()); // TODO: Optimize by considering the triangular shape!
   sotDEBUG(35) << "Ai = " << Ai << endl;
 
   /* --- Q0 --- */
@@ -271,7 +271,7 @@ computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
   catch (...)
     {
       if( mJ!=control.size() ) { control.resize( mJ ); }
-      control.fill(0.);
+      control.setZero();
       sotDEBUG(25) << "No initial velocity." <<endl;
     }
 
@@ -284,9 +284,9 @@ computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
       sotCOUNTER(0,0b); // Direct Dynamic
       sotDEBUGF(5,"Rank %d.",iterTask);
       TaskAbstract & task = **iter;
-      const ml::Matrix &JacRO = task.jacobianSOUT(iterTime);
-      const ml::Vector err = Sot::taskVectorToMlVector(task.taskSOUT(iterTime));
-      const unsigned int nJ = JacRO.nbRows();
+      const dynamicgraph::Matrix &JacRO = task.jacobianSOUT(iterTime);
+      const dynamicgraph::Vector err = Sot::taskVectorToMlVector(task.taskSOUT(iterTime));
+      const unsigned int nJ = JacRO.rows();
       sotCOUNTER(0b,1); // Direct Dynamic
 
       /* Init memory. */
@@ -298,13 +298,13 @@ computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
           task.memoryInternal = mem;
         }
 
-      ml::Matrix Jp,V; unsigned int rankJ;
-      ml::Matrix Jac(nJ,mJ);
-      ml::Matrix Jt(nJ,mJ);
+      dynamicgraph::Matrix Jp,V; unsigned int rankJ;
+      dynamicgraph::Matrix Jac(nJ,mJ);
+      dynamicgraph::Matrix Jt(nJ,mJ);
 
       if( (task.jacobianSOUT.getTime()>mem->jacobianInvSINOUT.getTime())
-	  ||(mem->jacobianInvSINOUT.accessCopy().nbRows()!=mJ)
-	  ||(mem->jacobianInvSINOUT.accessCopy().nbCols()!=nJ)
+	  ||(mem->jacobianInvSINOUT.accessCopy().rows()!=mJ)
+	  ||(mem->jacobianInvSINOUT.accessCopy().cols()!=nJ)
 	  ||(task.jacobianSOUT.getTime()>mem->jacobianConstrainedSINOUT.getTime())
 	  ||(task.jacobianSOUT.getTime()>mem->rankSINOUT.getTime())
 	  ||(task.jacobianSOUT.getTime()>mem->singularBaseImageSINOUT.getTime()) )
@@ -312,9 +312,9 @@ computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
 	sotDEBUG(15) <<"Recompute inverse."<<endl;
 
 	/* --- FIRST ALLOCS --- */
-	const unsigned int FF_SIZE=JacRO.nbCols()-mJ;
-	ml::Matrix Jff( nJ,FF_SIZE );
-	ml::Matrix Jact( nJ,mJ );
+	const unsigned int FF_SIZE=JacRO.cols()-mJ;
+	dynamicgraph::Matrix Jff( nJ,FF_SIZE );
+	dynamicgraph::Matrix Jact( nJ,mJ );
 	Jp.resize( mJ,nJ );
 	/***/sotCOUNTER(1,2); // first allocs
 
@@ -322,20 +322,20 @@ computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
 	for( unsigned int i=0;i<nJ;++i )
 	  {
 	    for( unsigned int j=0;j<FF_SIZE;++j ) Jff(i,j)=JacRO(i,j);
-	    for( unsigned int j=FF_SIZE;j<JacRO.nbCols();++j )
+	    for( unsigned int j=FF_SIZE;j<JacRO.cols();++j )
 	      Jact(i,j-FF_SIZE)=JacRO(i,j);
 	  }
-	Jff.multiply(K,Jac);
+	Jac = Jff*K;
 	Jac+=Jact;
 	/***/sotCOUNTER(2,3); // compute JK
 	
 	/* --- COMPUTE Jt --- */
-	if( mJ==P.nbCols() ) Jac.multiply(P,Jt);
+	if( mJ==P.cols() ) Jt = Jac*P;
 	else { Jt = Jac; }
 	/***/sotCOUNTER(3,4); // compute Jt
 	
 	/* --- COMPUTE S --- */	
-	ml::Matrix Kact(mJ,mJ); Kact=S5i;
+	dynamicgraph::Matrix Kact(mJ,mJ); Kact=S5i;
 	Task* taskSpec = dynamic_cast<Task*>( &task );
 	if( NULL!=taskSpec )
 	  {
@@ -363,8 +363,8 @@ computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
 		    /***/sotCOUNTER(4a,4b); // compute Kh
 	
 		    /* Q = H*Ai*H, H being the unactivation matrix. */
-		    ml::Matrix Q(unactiveSize,unactiveSize);
-		    ml::Matrix Sir(unactiveSize,mJ);
+		    dynamicgraph::Matrix Q(unactiveSize,unactiveSize);
+		    dynamicgraph::Matrix Sir(unactiveSize,mJ);
 		    for( unsigned int i=0;i<unactiveSize;++i )
 		     {
 		       for( unsigned int j=0;j<unactiveSize;++j )
@@ -378,18 +378,18 @@ computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
 		    /***/sotCOUNTER(4b,4c); // compute Kh
 
 		    /* Qi = inv(Q), always positive. */
-		    ml::Matrix Qi(unactiveSize,unactiveSize);
+		    dynamicgraph::Matrix Qi(unactiveSize,unactiveSize);
 		    Q.inverse(Qi);
 		    sotDEBUG(25) << "Qi"<<iterTask<<" = " << Qi << endl;
 		    /***/sotCOUNTER(4c,4d); // compute Kh
 
 		    /* Kact = (HSi)^+ HSi = Si_red^T Qi Si_red. */
-		    ml::Matrix SrQi(mJ,unactiveSize);
-		    ml::Matrix SrQiSr(mJ,mJ);
-		    ml::Matrix ArQiSr(mJ,mJ);
-		    Sir.transpose().multiply(Qi,SrQi);
-		    SrQi.multiply(Sir,SrQiSr);
-		    S5i.multiply(SrQiSr,ArQiSr);
+		    dynamicgraph::Matrix SrQi(mJ,unactiveSize);
+		    dynamicgraph::Matrix SrQiSr(mJ,mJ);
+		    dynamicgraph::Matrix ArQiSr(mJ,mJ);
+		    SrQi = (Sir.transpose())*Qi;
+		    SrQiSr = SrQi*Sir;
+		    ArQiSr = S5i*SrQiSr;
 		    Kact-=ArQiSr; // TODO: optimizer ce merdier! Kact est sparse!
 
 		    sotDEBUG(15) << "Kact"<<iterTask<<" = "<<Kact<<endl;
@@ -409,15 +409,15 @@ computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
 	/***/sotCOUNTER(4,5); // compute Kh
 
 	/* --- PINV --- */
-	ml::Matrix U; ml::Vector S;
-	ml::Matrix JtA( Jt.nbRows(),Jt.nbCols() );
-	ml::Matrix JtAp( Jt.nbCols(),Jt.nbRows() );
+	dynamicgraph::Matrix U; dynamicgraph::Vector S;
+	dynamicgraph::Matrix JtA( Jt.rows(),Jt.cols() );
+	dynamicgraph::Matrix JtAp( Jt.cols(),Jt.rows() );
 
-	Jt.multiply( Kact,JtA );
+	JtA = Jt * Kact;
 	JtA.pseudoInverse( JtAp,th,&U,&S,&V );
-	S5i.multiply( JtAp,Jp ); // TODO: S5i*JtAp = Kact*JtAp, and Kact is sparse.
+	Jp = S5i * JtAp; // TODO: S5i*JtAp = Kact*JtAp, and Kact is sparse.
 
-	if(  mJ==P.nbCols() ) Jp = P*Jp; // P is not idempotent
+	if(  mJ==P.cols() ) Jp = P*Jp; // P is not idempotent
 	/***/sotCOUNTER(5,6); // PINV
 
 	/* --- RANK --- */
@@ -470,10 +470,10 @@ computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
       /***/sotCOUNTER(7,8); // QDOT
 
 
-      if( mJ!=P.nbCols() ) { P.resize( mJ,mJ ); P.setIdentity(); }
+      if( mJ!=P.cols() ) { P.resize( mJ,mJ ); P.setIdentity(); }
       {
-	ml::Matrix Kp( mJ,mJ );
-	Jp.multiply( Jt,Kp );
+	dynamicgraph::Matrix Kp( mJ,mJ );
+	Kp = Jp*Jt;
 	P -= Kp;
       }
       sotCOUNTER(8,9); // Projo
@@ -498,10 +498,3 @@ computeWeightedControlLaw( ml::Vector& control,const int& iterTime )
   sotDEBUGOUT(15);
   return control;
 }
-
-
-
-
-
-
-

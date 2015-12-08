@@ -53,7 +53,7 @@ sotReader::sotReader( const std::string n )
    ,dataSet()
    ,currentData()
    ,iteratorSet(false)
-  ,nbRows(0),nbCols(0)
+  ,rows(0),cols(0)
 {
   signalRegistration( selectionSIN<<vectorSOUT<<matrixSOUT );
   selectionSIN = true;
@@ -114,8 +114,8 @@ rewind( void )
   sotDEBUGOUT(15);
 }
 
-ml::Vector& sotReader::
-getNextData( ml::Vector& res, const unsigned int time )
+dynamicgraph::Vector& sotReader::
+getNextData( dynamicgraph::Vector& res, const unsigned int time )
 {
   sotDEBUGIN(15);
 
@@ -139,25 +139,25 @@ getNextData( ml::Vector& res, const unsigned int time )
   for( unsigned int i=0;i<curr.size();++i ) if( selection(i) ) dim++;
 
   res.resize(dim);
-  unsigned int cursor=0;
-  for( unsigned int i=0;i<curr.size();++i ) 
+  int cursor=0;
+  for( int i=0;i<curr.size();++i ) 
     if( selection(i) ) res(cursor++)=curr[i];
   
   sotDEBUGOUT(15);
   return res;
 }
 
-ml::Matrix& sotReader::
-getNextMatrix( ml::Matrix& res, const unsigned int time )
+dynamicgraph::Matrix& sotReader::
+getNextMatrix( dynamicgraph::Matrix& res, const unsigned int time )
 {
   sotDEBUGIN(15);
-  const ml::Vector& vect = vectorSOUT(time);
-  if( vect.size()<nbRows*nbCols ) return res;
+  const dynamicgraph::Vector& vect = vectorSOUT(time);
+  if( vect.size()<rows*cols ) return res;
 
-  res.resize( nbRows,nbCols );
-  for( unsigned int i=0;i<nbRows;++i )
-    for( unsigned int j=0;j<nbCols;++j )
-      res(i,j)=vect(i*nbCols+j);
+  res.resize( rows,cols );
+  for( int i=0;i<rows;++i )
+    for(int j=0;j<cols;++j )
+      res(i,j)=vect(i*cols+j);
 
   sotDEBUGOUT(15);
   return res;
@@ -198,8 +198,8 @@ void sotReader::initCommands()
     " "));
 }
 
-void sotReader::resize(const int & nbRow, const int & nbCol)
+void sotReader::resize(const int & row, const int & col)
 {
-  nbRows = nbRow;
-  nbCols = nbCol;
+  rows = row;
+  cols = col;
 }

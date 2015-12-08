@@ -94,8 +94,8 @@ void SmoothReach::
 setSmoothing( const int & mode, const double & param )
 { smoothMode= mode; smoothParam = param; }
 
-ml::Vector& SmoothReach::
-goalSOUT_function( ml::Vector & res, const int& time)
+dynamicgraph::Vector& SmoothReach::
+goalSOUT_function( dynamicgraph::Vector & res, const int& time)
 {
   if( isParam )
     {
@@ -119,14 +119,14 @@ goalSOUT_function( ml::Vector & res, const int& time)
 }
 
 void SmoothReach::
-set( const ml::Vector & goalDes, const int & lengthDes )
+set( const dynamicgraph::Vector & goalDes, const int & lengthDes )
 {
   goal = goalDes;
   lengthTime = lengthDes;
   isParam = true;
 }
 
-const ml::Vector & SmoothReach::
+const dynamicgraph::Vector & SmoothReach::
 getGoal( void )   { return goal; }
 
 const int & SmoothReach::

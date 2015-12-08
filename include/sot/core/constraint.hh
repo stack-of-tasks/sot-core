@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* STD */
 #include <string>
@@ -66,7 +66,7 @@ namespace dynamicgraph {
       : public TaskAbstract
     {
     protected:
-      typedef std::list< Signal<ml::Matrix,int>* > JacobianList;
+      typedef std::list< Signal<dg::Matrix,int>* > JacobianList;
       JacobianList jacobianList;
   
     public: 
@@ -76,7 +76,7 @@ namespace dynamicgraph {
     public:
       Constraint( const std::string& n );
 
-      void addJacobian( Signal<ml::Matrix,int>& sig );
+      void addJacobian( Signal<dg::Matrix,int>& sig );
       void clearJacobianList( void );
 
       void setControlSelection( const Flags& act );
@@ -84,7 +84,7 @@ namespace dynamicgraph {
       void clearControlSelection( void );
 
       /* --- COMPUTATION --- */
-      ml::Matrix& computeJacobian( ml::Matrix& J,int time );
+      dg::Matrix& computeJacobian( dg::Matrix& J,int time );
 
       /* --- DISPLAY ------------------------------------------------------------ */
       SOTCONSTRAINT_EXPORT friend std::ostream& operator<< ( std::ostream& os,const Constraint& t );

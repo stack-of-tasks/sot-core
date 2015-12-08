@@ -68,7 +68,7 @@ ClampWorkspace( const string& fName )
   ,frame(FRAME_POINT)
 
 {
-  alpha.fill(0.);
+  alpha.setZero();
   alphabar.fill(1.);
   bounds[0] = std::make_pair(0.15, 0.5);
   bounds[1] = std::make_pair(-0.4, -0.25);
@@ -82,15 +82,15 @@ void ClampWorkspace::update( int time )
 {
   if( time<=timeUpdate ){ return; }
 
-  alpha.fill(0.);
+  alpha.setZero();
   alphabar.setIdentity();
 
   const MatrixHomogeneous& posref = positionrefSIN.access( time );
   const MatrixHomogeneous& pos = positionSIN.access ( time );
 
-  MatrixHomogeneous prefMw = posref.inverse();
-  prefMw.multiply(pos, prefMp);
-  ml::Vector x(3); prefMp.extract(x);
+  MatrixHomogeneous prefMw = posref.inverse(Eigen::Affine);
+  prefMp = prefMw*pos;
+  Vector x(prefMp.translation());
 
   for(int i = 0; i < 3; ++i) {
     double check_min = std::max(x(i) - bounds[i].first, 0.);
@@ -129,19 +129,20 @@ void ClampWorkspace::update( int time )
 
   if(frame == FRAME_POINT) {
     MatrixHomogeneous prefMp_tmp = prefMp;
-    MatrixHomogeneous pMpref = prefMp.inverse();
+    MatrixHomogeneous pMpref = prefMp.inverse(Eigen::Affine);
     for( int i = 0;i<3;++i ) {
       pMpref(i,3) = 0;
       prefMp_tmp(i,3) = 0;
     }
-    MatrixTwist pTpref(pMpref);
-    MatrixTwist prefTp(prefMp_tmp);
 
-    ml::Matrix tmp; alpha.multiply(prefTp, tmp);
-    pTpref.multiply(tmp, alpha);
-
-    alphabar.multiply(prefTp, tmp);
-    pTpref.multiply(tmp, alphabar);
+    MatrixTwist pTpref;  buildFrom(pMpref, pTpref );
+    MatrixTwist prefTp; buildFrom(prefMp_tmp, prefTp );
+   
+    Matrix tmp; tmp = alpha*prefTp;
+    alpha = pTpref*tmp;
+    
+    tmp = alphabar*prefTp;
+    alphabar = pTpref*tmp;
   }
 
   for(int i = 0; i < 3; ++i) {
@@ -154,23 +155,29 @@ void ClampWorkspace::update( int time )
   rpy(2) = theta_min + 
     (theta_max - theta_min) *
     (x(1) - bounds[1].first)/(bounds[1].second - bounds[1].first);
-  rpy.toMatrix(Rd);
+  
+  Eigen::Affine3d _Rd(Eigen::AngleAxisd(rpy(2),Eigen::Vector3d::UnitZ())*
+		      Eigen::AngleAxisd(rpy(1),Eigen::Vector3d::UnitY())*
+		      Eigen::AngleAxisd(rpy(0),Eigen::Vector3d::UnitX()));
+  Rd = _Rd.linear();
+  
+  Eigen::Affine3d _tmpaffine;
+  _tmpaffine = Eigen::Translation3d(pd);
 
-  handref.buildFrom(Rd, pd);
-
+  handref = (_tmpaffine * _Rd);
   timeUpdate = time;
 }
 
-ml::Matrix&
-ClampWorkspace::computeOutput( ml::Matrix& res,int time )
+Matrix&
+ClampWorkspace::computeOutput( Matrix& res,int time )
 {
   update(time);
   res = alpha;
   return res;
 }
 
-ml::Matrix&
-ClampWorkspace::computeOutputBar( ml::Matrix& res,int time )
+Matrix&
+ClampWorkspace::computeOutputBar( Matrix& res,int time )
 {
   update(time);
   res = alphabar;

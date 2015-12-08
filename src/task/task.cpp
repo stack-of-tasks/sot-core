@@ -172,8 +172,8 @@ getWithDerivative( void )
 /* --- COMPUTATION ---------------------------------------------------------- */
 /* --- COMPUTATION ---------------------------------------------------------- */
 
-ml::Vector& Task::
-computeError( ml::Vector& error,int time )
+dynamicgraph::Vector& Task::
+computeError( dynamicgraph::Vector& error,int time )
 {
   sotDEBUG(15) << "# In " << getName() << " {" << endl;
 
@@ -199,7 +199,7 @@ computeError( ml::Vector& error,int time )
     int dimError = error .size();
     if( 0==dimError ){ dimError = 1; error.resize(dimError); }
 
-    ml::Vector vectTmp;
+    dynamicgraph::Vector vectTmp;
     int cursorError = 0;
 
     /* For each cell of the list, recopy value of s, s_star and error. */
@@ -210,7 +210,7 @@ computeError( ml::Vector& error,int time )
 
 	/* Get s, and store it in the s vector. */
 	sotDEBUG(45) << "Feature <" << feature.getName() << ">." << std::endl;
-	const ml::Vector& partialError = feature.errorSOUT(time);
+	const dynamicgraph::Vector& partialError = feature.errorSOUT(time);
 
 	const int dim = partialError.size();
 	while( cursorError+dim>dimError )  // DEBUG It was >=
@@ -230,8 +230,8 @@ computeError( ml::Vector& error,int time )
   return error;
 }
 
-ml::Vector& Task::
-computeErrorTimeDerivative( ml::Vector & res, int time)
+dynamicgraph::Vector& Task::
+computeErrorTimeDerivative( dynamicgraph::Vector & res, int time)
 {
   res.resize( errorSOUT(time).size() );
   int cursor = 0;
@@ -241,7 +241,7 @@ computeErrorTimeDerivative( ml::Vector & res, int time)
       {
 	FeatureAbstract &feature = **iter;
 
-	const ml::Vector& partialErrorDot = feature.getErrorDot()(time);
+	const dynamicgraph::Vector& partialErrorDot = feature.getErrorDot()(time);
 	const int dim = partialErrorDot.size();
 	for( int k=0;k<dim;++k ){ res(cursor++) = partialErrorDot(k); }
       }
@@ -254,7 +254,7 @@ VectorMultiBound& Task::
 computeTaskExponentialDecrease( VectorMultiBound& errorRef,int time )
 {
   sotDEBUG(15) << "# In {" << endl;
-  const ml::Vector & errSingleBound = errorSOUT(time);
+  const dynamicgraph::Vector & errSingleBound = errorSOUT(time);
   const double & gain = controlGainSIN(time);
   errorRef.resize( errSingleBound.size() );
 
@@ -263,7 +263,7 @@ computeTaskExponentialDecrease( VectorMultiBound& errorRef,int time )
 
   if( withDerivative )
     {
-      const ml::Vector & de = errorTimeDerivativeSOUT(time);
+      const dynamicgraph::Vector & de = errorTimeDerivativeSOUT(time);
       for( unsigned int i=0;i<errorRef.size(); ++i )
 	errorRef[i] = errorRef[i].getSingleBound() - de(i);
     }
@@ -272,8 +272,8 @@ computeTaskExponentialDecrease( VectorMultiBound& errorRef,int time )
   return errorRef;
 }
 
-ml::Matrix& Task::
-computeJacobian( ml::Matrix& J,int time )
+dynamicgraph::Matrix& Task::
+computeJacobian( dynamicgraph::Matrix& J,int time )
 {
   sotDEBUG(15) << "# In {" << endl;
 
@@ -282,8 +282,8 @@ computeJacobian( ml::Matrix& J,int time )
 			      "Empty feature list") ) ; }
 
   try {
-    unsigned int dimJ = J .nbRows();
-    unsigned int nbc = J.nbCols();
+    unsigned int dimJ = J .rows();
+    int nbc = J.cols();
     if( 0==dimJ ){ dimJ = 1; J.resize(dimJ,nbc); }
 
     int cursorJ = 0;
@@ -297,18 +297,18 @@ computeJacobian( ml::Matrix& J,int time )
 	sotDEBUG(25) << "Feature <" << feature.getName() <<">"<< endl;
 
 	/* Get s, and store it in the s vector. */
-	const ml::Matrix& partialJacobian = feature.jacobianSOUT(time);
-	const unsigned int nbr = partialJacobian.nbRows();
+	const dynamicgraph::Matrix& partialJacobian = feature.jacobianSOUT(time);
+	const unsigned int nbr = partialJacobian.rows();
 	sotDEBUG(25) << "Jp =" <<endl<< partialJacobian<<endl;
 
-	if( 0==nbc ) { nbc = partialJacobian.nbCols(); J.resize(nbc,dimJ); }
-	else if( partialJacobian.nbCols() != nbc )
+	if( 0==nbc ) { nbc = partialJacobian.cols(); J.resize(nbc,dimJ); }
+	else if( partialJacobian.cols() != nbc )
 	  throw ExceptionTask(ExceptionTask::NON_ADEQUATE_FEATURES,
 				 "Features from the list don't have compatible-size jacobians.");
 
 	while( cursorJ+nbr>=dimJ )
-	  { dimJ *= 2; J.resize(dimJ,nbc,false); }
-	for( unsigned int kc=0;kc<nbc;++kc )
+	  { dimJ *= 2; J.conservativeResize(dimJ,nbc); }
+	for( int kc=0;kc<nbc;++kc )
 	  {
 	    // 	  if( selection(kc) )
 	    for( unsigned int k=0;k<nbr;++k )
@@ -320,7 +320,7 @@ computeJacobian( ml::Matrix& J,int time )
       }
 
     /* If too much memory has been allocated, resize. */
-    J .resize(cursorJ,nbc,false);
+    J .conservativeResize(cursorJ,nbc);
   } catch SOT_RETHROW;
 
 

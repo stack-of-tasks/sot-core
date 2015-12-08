@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/signal-time-dependent.h>
@@ -88,18 +88,18 @@ namespace dynamicgraph {
 
     public:  /* --- SIGNALS --- */
 
-      SignalPtr<ml::Vector,int> KpSIN;
-      SignalPtr<ml::Vector,int> KdSIN;
-      SignalPtr<ml::Vector,int> positionSIN;
-      SignalPtr<ml::Vector,int> desiredpositionSIN;
-      SignalPtr<ml::Vector,int> velocitySIN;
-      SignalPtr<ml::Vector,int> desiredvelocitySIN;
-      SignalTimeDependent<ml::Vector,int> controlSOUT;
+      SignalPtr<dg::Vector,int> KpSIN;
+      SignalPtr<dg::Vector,int> KdSIN;
+      SignalPtr<dg::Vector,int> positionSIN;
+      SignalPtr<dg::Vector,int> desiredpositionSIN;
+      SignalPtr<dg::Vector,int> velocitySIN;
+      SignalPtr<dg::Vector,int> desiredvelocitySIN;
+      SignalTimeDependent<dg::Vector,int> controlSOUT;
 
     protected:
 
       double& setsize(int dimension);
-      ml::Vector& computeControl( ml::Vector& tau,int t );
+      dg::Vector& computeControl( dg::Vector& tau,int t );
 
     };
 

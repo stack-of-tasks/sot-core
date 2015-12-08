@@ -236,10 +236,6 @@ defineFreeFloatingJoints( const unsigned int& first,const unsigned int& last )
 /* --------------------------------------------------------------------- */
 
 
-namespace bub = boost::numeric::ublas;
-typedef bub::vector<double> bubVector;
-typedef bub::matrix<double> bubMatrix;
-
 //std::ostringstream MATLAB;
 class MATLAB
 {
@@ -248,7 +244,7 @@ public:
   friend std::ostream & operator << (std::ostream & os, const MATLAB & m )
   {return os << m.str; }
 
-  MATLAB( const bubVector& v1 )
+  MATLAB( const Vector& v1 )
   {
     std::ostringstream os; os << "[ ";
     for( unsigned int i=0;i<v1.size();++i )
@@ -259,7 +255,7 @@ public:
       }
     str = os.str();
   }
-  MATLAB( const bubMatrix& m1)
+  MATLAB( const Matrix& m1)
   {
     std::ostringstream os; os << "[ ";
     for( unsigned int i=0;i<m1.size1();++i )
@@ -292,7 +288,7 @@ namespace boost { namespace numeric { namespace bindings { namespace lapack
 {
 
   inline int geqp (bub::matrix<double,bub::column_major> &A,
-		   bub::vector< int >& jp, bubVector& tau)
+		   bub::vector< int >& jp, Vector& tau)
   {
     #ifndef NDEBUG
     const int m = A.size1();
@@ -403,16 +399,16 @@ void invGeneralizeCholeskiUpdate( bubTemplateMatrix & Rx )
 class sotHouseholdMatrix
 {
 public: // protected:
-  bubVector v;
+  Vector v;
   double beta;
 
 public:
   sotHouseholdMatrix( void ) { v.resize(0);}
   sotHouseholdMatrix( const unsigned int n )
   { v.resize(n); std::fill(v.begin(),v.end(),0); beta=0;}
-  sotHouseholdMatrix( const bubVector& _v, const double& _beta )
+  sotHouseholdMatrix( const Vector& _v, const double& _beta )
   { v= _v; beta=_beta; }
-  sotHouseholdMatrix( const bubMatrix& _v, const double& _beta )
+  sotHouseholdMatrix( const Matrix& _v, const double& _beta )
   {
     v.resize(_v.size1());
     for( unsigned int i=0;i<_v.size1();++i )
@@ -425,7 +421,7 @@ public:
   /* TODO: vstar is computed with many 0. same for vstar^T.
    * The computation should be optimized using only A22 instead of
    * A = [A11 A12; A21 A22]; */
-  void multiplyRight( bubVector& a ) const // P*a
+  void multiplyRight( Vector& a ) const // P*a
   {
     const unsigned int m=a.size();
     const unsigned int kv = v.size();
@@ -441,13 +437,13 @@ public:
       { a(i+m_kv)-=v(i)*w; }
   }
 
-  void multiplyRight( bubMatrix& A ) const // P*A
+  void multiplyRight( Matrix& A ) const // P*A
   {
     const unsigned int m=A.size1(), n=A.size2();
     const unsigned int kv = v.size();
     const unsigned int m_kv = m-kv;
 
-    bubVector w(n); w*=0;
+    Vector w(n); w*=0;
     // W <- b v' A = b [ 0 ... 0 1 v' ] A
     for( unsigned int j=0;j<n;++j )
       {
@@ -477,7 +473,7 @@ public: // protected:
 
 public:
   sotHouseholdMatrices( void ) { matrices.resize(0);}
-  sotHouseholdMatrices( const bubMatrix & RQ, const bubVector & betas )
+  sotHouseholdMatrices( const Matrix & RQ, const Vector & betas )
   { this->push_back(RQ,betas);  }
 
   void push_back( const sotHouseholdMatrix& P )
@@ -486,7 +482,7 @@ public:
   /* <nbVector> is the number of vector to consider. If nbVector<0, all
    * the householder vectors are added. */
   void push_back( const bub::matrix<double> & RQ,
-		  const bubVector & betas,
+		  const Vector & betas,
 		  const int nbVector=-1 )
   {
     const unsigned int nToProceed
@@ -501,7 +497,7 @@ public:
     for( unsigned int i=0;i<nToProceed;++i )
 
       {
-	bubVector v(m-i);  v(0)=1;
+	Vector v(m-i);  v(0)=1;
 	for( unsigned int j=1;j<m-i;++j ) v(j)=RQ(j+i,i);
 	sotHouseholdMatrix(v,betas(i));
 	this->push_back( sotHouseholdMatrix(v,betas(i)) );
@@ -515,13 +511,13 @@ public:
   }
 
   /* --- Vectors --- */
-  virtual void multiplyRight( bubVector& a ) const // Q*a = P1*P2*...*Pn*a
+  virtual void multiplyRight( Vector& a ) const // Q*a = P1*P2*...*Pn*a
   {
     for( HouseholdList::const_reverse_iterator Pi = matrices.rbegin();
 	 Pi!=matrices.rend(); ++Pi )
       {	Pi->multiplyRight(a);      }
   }
-  virtual void multiplyTransposeRight( bubVector& a ) const // Q*a = Pn*...*P2*P1*a
+  virtual void multiplyTransposeRight( Vector& a ) const // Q*a = Pn*...*P2*P1*a
   {
     for( HouseholdList::const_iterator Pi=matrices.begin();
 	 Pi!=matrices.end(); ++Pi )
@@ -534,41 +530,41 @@ public:
    * the very first product. All the other P's have to be multiply in full.
    * Consequently, I will not waste any more time to save some 4 or 5
    * double product. */
-  virtual void multiplyRangeRight( const bubVector& a, // N*A = Q*[0;I]*A = P1*...*Pn*[0;A]
-				   bubVector& res,
+  virtual void multiplyRangeRight( const Vector& a, // N*A = Q*[0;I]*A = P1*...*Pn*[0;A]
+				   Vector& res,
 				   const unsigned int zeroBefore,
 				   const unsigned int zeroAfter ) const
   {
     const unsigned int m=a.size(); //n =1;
     const unsigned int mpp=m+zeroBefore+zeroAfter;
-    bubVector &app = res; app.resize( mpp ); app.assign(bub::zero_vector<double>(mpp));
-    bub::vector_range< bubVector > acopy(app,bub::range(zeroBefore,zeroBefore+m));
+    Vector &app = res; app.resize( mpp ); app.assign(bub::zero_vector<double>(mpp));
+    bub::vector_range< Vector > acopy(app,bub::range(zeroBefore,zeroBefore+m));
     acopy.assign(a);
     multiplyRight(app);
   }
 
   /* Same as before, no optimization done here. */
   // N'*a = [0 I]*Q'*a = subrange( P1*...*Pn*A )
-  virtual void multiplyTransposeRangeRight( const bubVector& a,
-					    bubVector& res,
+  virtual void multiplyTransposeRangeRight( const Vector& a,
+					    Vector& res,
 					    const unsigned int zeroBefore,
 					    const unsigned int zeroAfter ) const
   {
-    bubVector acopy = a; multiplyTransposeRight(acopy);
+    Vector acopy = a; multiplyTransposeRight(acopy);
     const unsigned int mres = a.size() - zeroBefore - zeroAfter;
-    //bub::matrix_range< bubMatrix > asub (acopy,bub::range(zeroBefore,mres));
+    //bub::matrix_range< Matrix > asub (acopy,bub::range(zeroBefore,mres));
     res.resize(mres); res.assign( bub::project( acopy,bub::range(zeroBefore,mres)) );
   }
 
   /* --- Matrices --- */
-  virtual void multiplyRight( bubMatrix& A ) const // Q*A = P1*P2*...*Pn*A
+  virtual void multiplyRight( Matrix& A ) const // Q*A = P1*P2*...*Pn*A
   {
     for( HouseholdList::const_reverse_iterator Pi = matrices.rbegin();
 	 Pi!=matrices.rend(); ++Pi )
       {	Pi->multiplyRight(A);      }
   }
 
-  virtual void multiplyTransposeRight( bubMatrix& A ) const // Q*A = Pn*...*P2*P1*A
+  virtual void multiplyTransposeRight( Matrix& A ) const // Q*A = Pn*...*P2*P1*A
   {
     for( HouseholdList::const_iterator Pi = matrices.begin();
 	 Pi!=matrices.end(); ++Pi )
@@ -596,10 +592,10 @@ const double sotHouseholdMatrices::THRESHOLD = 1e-9;
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
 
-typedef bub::triangular_adaptor< bub::matrix_range< bub::matrix<double,boost::numeric::ublas::column_major> >, bub::upper> bubMatrixTriSquare;
+typedef bub::triangular_adaptor< bub::matrix_range< bub::matrix<double,boost::numeric::ublas::column_major> >, bub::upper> MatrixTriSquare;
 
 /* Assuming a diagonal-ordered triangular matrix. */
-unsigned int rankDetermination( const bubMatrix& A,
+unsigned int rankDetermination( const Matrix& A,
 				const double threshold = 1e-6 )
 {
   const unsigned int n = traits::leading_dimension (A);
@@ -654,8 +650,8 @@ unsigned int rankDetermination( const bubMatrix& A,
 #   define sotPRINTCOUNTER(nbc1)
 #endif // #ifdef  WITH_CHRONO
 
-ml::Vector& SotQr::
-computeControlLaw( ml::Vector& control,const int& iterTime )
+dynamicgraph::Vector& SotQr::
+computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 {
   sotDEBUGIN(15);
 
@@ -666,20 +662,20 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
   sotSTARTPARTCOUNTERS;
 
   //const double &th = inversionThresholdSIN(iterTime);
-  const ml::Matrix &K = constraintSOUT(iterTime);
-  const unsigned int nJ = K.nbCols();
+  const dynamicgraph::Matrix &K = constraintSOUT(iterTime);
+  const unsigned int nJ = K.cols();
 
   sotHouseholdMatrices Q;
   unsigned int freeRank = nJ;
-  bubVector u(nJ); u.assign( bub::zero_vector<double>(nJ) );
+  Vector u(nJ); u.assign( bub::zero_vector<double>(nJ) );
 
   sotDEBUGF(5, " --- Time %d -------------------", iterTime );
   /* First stage. */
   {
     TaskAbstract & task = **(stack.begin());
-    const ml::Matrix &Jac = task.jacobianSOUT(iterTime);
-    const ml::Vector err = Sot::taskVectorToMlVector(task.taskSOUT(iterTime));
-    const unsigned int mJ = Jac.nbRows();
+    const dynamicgraph::Matrix &Jac = task.jacobianSOUT(iterTime);
+    const dynamicgraph::Vector err = Sot::taskVectorToMlVector(task.taskSOUT(iterTime));
+    const unsigned int mJ = Jac.rows();
     /***/sotCOUNTER(0,1); // Direct Dynamic
 
     /* --- INIT MEMORY --- */
@@ -693,21 +689,21 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
     /***/sotCOUNTER(1,2); // Direct Dynamic
 
     /* --- COMPUTE JK --- */
-    ml::Matrix &JK = mem->JK;
+    dynamicgraph::Matrix &JK = mem->JK;
     JK.resize( mJ,nJ );
-    mem->Jff.resize( mJ,Jac.nbCols()-nJ );
+    mem->Jff.resize( mJ,Jac.cols()-nJ );
     mem->Jact.resize( mJ,nJ );
     Sot::computeJacobianConstrained( task,K );
     /***/sotCOUNTER(2,3); // compute JK
 
-    const bubMatrix & J1 = JK.accessToMotherLib();
-    const bubVector & e1 = err.accessToMotherLib();
+    const Matrix & J1 = JK.accessToMotherLib();
+    const Vector & e1 = err.accessToMotherLib();
     const unsigned int & m1 = e1.size();
 
     /* --- Compute the QR decomposition. --- */
-    bub::matrix<double,boost::numeric::ublas::column_major> QR1(nJ,m1);
-    bubVector beta1(m1);
-    bub::vector<int> perm1(m1);
+    Matrix QR1(nJ,m1);
+    Vector beta1(m1);
+    Eigen::VectorXi perm1(m1);
     QR1 = bub::trans(J1);
     boost::numeric::bindings::lapack::geqp(QR1,perm1,beta1);
     const unsigned int & rank1 = rankDetermination(QR1);
@@ -726,22 +722,22 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
       }
     bub::matrix_range< bub::matrix<double,boost::numeric::ublas::column_major> >
       QR1sup( QR1,bub::range(0,rank1),bub::range(0,rank1) );
-    const bubMatrixTriSquare R1(QR1sup);
+    const MatrixTriSquare R1(QR1sup);
 
     /* --- Compute the control law. --- */
-    bubVector b1(nJ);
+    Vector b1(nJ);
     /* b <- J'e */
     bub::axpy_prod( e1,J1,b1,true );
     /* b <- Q' J' e */
     Q.multiplyTransposeRight(b1);
     /* Qe1 <- M' J' e */
-    bub::vector_range<bubVector> Qe1(b1,bub::range(0,rank1));
+    bub::vector_range<Vector> Qe1(b1,bub::range(0,rank1));
     /* Qe1 <- R-1 M' J' e */
     bub::lu_substitute(R1,Qe1);
     /* Qe1 <- R'-1 R-1 M' J' e */
-    bub::lu_substitute(Qe1,(const bubMatrix &)R1);
+    bub::lu_substitute(Qe1,(const Matrix &)R1);
     /* b <- [ Qe1; 0 ] */
-    bub::vector_range<bubVector> Ne1(b1,bub::range(rank1,nJ));
+    bub::vector_range<Vector> Ne1(b1,bub::range(rank1,nJ));
     Ne1.assign( bub::zero_vector<double>( nJ-rank1-1 ) );
     /* b <- Q [ Qe1;0] = M R'-1 R-1 M' J' e */
     Q.multiplyRight(b1);
@@ -768,9 +764,9 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
       sotDEBUG(45) << " * --- Stage " << stage << " ----------------------- *" << std::endl;
 
       TaskAbstract & task = **iter;
-      const ml::Matrix &Jac = task.jacobianSOUT(iterTime);
-      const ml::Vector err = Sot::taskVectorToMlVector(task.taskSOUT(iterTime));
-      const unsigned int mJ = Jac.nbRows();
+      const dynamicgraph::Matrix &Jac = task.jacobianSOUT(iterTime);
+      const dynamicgraph::Vector err = Sot::taskVectorToMlVector(task.taskSOUT(iterTime));
+      const unsigned int mJ = Jac.rows();
       /***/sotCOUNTER(0,1); // Direct Dynamic
 
       /* --- INIT MEMORY --- */
@@ -781,27 +777,27 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
           mem = new MemoryTaskSOT( task.getName()+"_memSOT",nJ,mJ );
           task.memoryInternal = mem;
         }
-      ml::Matrix &JK = mem->JK;
+      dynamicgraph::Matrix &JK = mem->JK;
 
       /* --- COMPUTE JK --- */
       JK.resize( mJ,nJ );
-      mem->Jff.resize( mJ,Jac.nbCols()-nJ );
+      mem->Jff.resize( mJ,Jac.cols()-nJ );
       mem->Jact.resize( mJ,nJ );
       Sot::computeJacobianConstrained( task,K );
       /***/sotCOUNTER(2,3); // compute JK
 
-      const bubMatrix & J2 = JK.accessToMotherLib();
-      const bubVector & e2 = err.accessToMotherLib();
+      const Matrix & J2 = JK.accessToMotherLib();
+      const Vector & e2 = err.accessToMotherLib();
       const unsigned int & m2 = e2.size();
 
       /* --- Compute the limited matrix. --- */
-      bubMatrix QJt2( nJ,m2 ); QJt2.assign( bub::trans(J2) );
+      Matrix QJt2( nJ,m2 ); QJt2.assign( bub::trans(J2) );
       Q.multiplyTransposeRight(QJt2);
-      bub::matrix_range<bubMatrix> Jt2( QJt2,bub::range(nJ-freeRank,nJ),bub::range(0,m2));
+      bub::matrix_range<Matrix> Jt2( QJt2,bub::range(nJ-freeRank,nJ),bub::range(0,m2));
 
     /* --- Compute the QR decomposition. --- */
     bub::matrix<double,boost::numeric::ublas::column_major> QR2(freeRank,m2);
-    bubVector beta2(m2);
+    Vector beta2(m2);
     bub::vector<int> perm2(m2);
     QR2.assign(Jt2);
     boost::numeric::bindings::lapack::geqp(QR2,perm2,beta2);
@@ -818,27 +814,27 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
      }
     bub::matrix_range< bub::matrix<double,boost::numeric::ublas::column_major> >
       QR2sup( QR2,bub::range(0,rank2),bub::range(0,rank2) );
-    const bubMatrixTriSquare R2(QR2sup);
+    const MatrixTriSquare R2(QR2sup);
 
     /* --- Compute the control law. --- */
-    bubVector b2(freeRank);
-    bubVector u2(nJ);
+    Vector b2(freeRank);
+    Vector u2(nJ);
 
     /* et <- e - J2'u1 */
-    bubVector et2( m2 ); et2.assign( e2 );
+    Vector et2( m2 ); et2.assign( e2 );
     bub::axpy_prod( J2,-u,et2,false );
     /* b <- Jt'et */
     bub::axpy_prod( Jt2,et2,b2,true );
     /* b <- Q' Jt' et */
     Q2.multiplyTransposeRight(b2);
     /* Qe2 <- M' Jt' et */
-    bub::vector_range<bubVector> Qe2(b2,bub::range(0,rank2));
+    bub::vector_range<Vector> Qe2(b2,bub::range(0,rank2));
     /* Qe2 <- R-2 M' Jt' et */
     bub::lu_substitute(R2,Qe2);
     /* Qe2 <- R'-1 R-1 M' Jt' et */
-    bub::lu_substitute(Qe2,(const bubMatrix &)R2);
+    bub::lu_substitute(Qe2,(const Matrix &)R2);
     /* b <- [ Qe2; 0 ] */
-    bub::vector_range<bubVector> Ne2(b2,bub::range(rank2,freeRank));
+    bub::vector_range<Vector> Ne2(b2,bub::range(rank2,freeRank));
     Ne2.assign( bub::zero_vector<double>( freeRank-rank2-1 ) );
     /* b <- Q [ Qe2;0] = M R'-1 R-1 M' Jt' et */
     Q2.multiplyRight(b2);
@@ -878,11 +874,11 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
     {
       TaskAbstract & task = **iter;
       MemoryTaskSOT * mem = dynamic_cast<MemoryTaskSOT *>( task.memoryInternal );
-      const ml::Matrix &Jac = mem->JK;
-      const ml::Vector &err = Sot::taskVectorToMlVector(task.taskSOUT.accessCopy());
+      const dynamicgraph::Matrix &Jac = mem->JK;
+      const dynamicgraph::Vector &err = Sot::taskVectorToMlVector(task.taskSOUT.accessCopy());
 
-      ml::Vector diffErr(err.size());
-      Jac.multiply(control,diffErr);
+      dynamicgraph::Vector diffErr(err.size());
+      diffErr = Jac*control;
       diffErr-=err;
       sotDEBUG(45)<<diffErr<<std::endl;
     }
@@ -894,11 +890,11 @@ computeControlLaw( ml::Vector& control,const int& iterTime )
 
 
 
-ml::Matrix& SotQr::
-computeConstraintProjector( ml::Matrix& ProjK, const int& time )
+dynamicgraph::Matrix& SotQr::
+computeConstraintProjector( dynamicgraph::Matrix& ProjK, const int& time )
 {
   sotDEBUGIN(15);
-  const ml::Matrix *Jptr;
+  const dynamicgraph::Matrix *Jptr;
   if( 0==constraintList.size() )
     {
       const unsigned int FF_SIZE = ffJointIdLast-ffJointIdFirst;
@@ -914,14 +910,14 @@ computeConstraintProjector( ml::Matrix& ProjK, const int& time )
 				  "Not implemented yet." );
     }
 
-  const ml::Matrix &J = *Jptr;
+  const dynamicgraph::Matrix &J = *Jptr;
   sotDEBUG(12) << "J = "<< J;
 
-  const unsigned int nJc = J.nbCols();
-  ml::Matrix Jff( J.nbRows(),ffJointIdLast-ffJointIdFirst );
-  ml::Matrix Jc( J.nbRows(),nJc-ffJointIdLast+ffJointIdFirst );
+  const unsigned int nJc = J.cols();
+  dynamicgraph::Matrix Jff( J.rows(),ffJointIdLast-ffJointIdFirst );
+  dynamicgraph::Matrix Jc( J.rows(),nJc-ffJointIdLast+ffJointIdFirst );
 
-  for( unsigned int i=0;i<J.nbRows();++i )
+  for( unsigned int i=0;i<J.rows();++i )
     {
       if( ffJointIdFirst )
 	for( unsigned int j=0;j<ffJointIdFirst;++j )
@@ -935,12 +931,12 @@ computeConstraintProjector( ml::Matrix& ProjK, const int& time )
   sotDEBUG(25) << "Jc = "<< Jc;
   sotDEBUG(25) << "Jff = "<< Jff;
 
-  ml::Matrix Jffinv( Jff.nbCols(),Jff.nbRows() );
+  dynamicgraph::Matrix Jffinv( Jff.cols(),Jff.rows() );
   Jff.pseudoInverse( Jffinv );   Jffinv *= -1;
 
-  ml::Matrix& Jffc = ProjK;
-  Jffc.resize( Jffinv.nbRows(),Jc.nbCols() );
-  Jffinv.multiply( Jc,Jffc );
+  dynamicgraph::Matrix& Jffc = ProjK;
+  Jffc.resize( Jffinv.rows(),Jc.cols() );
+  Jffc = Jffinv*Jc;
   sotDEBUG(15) << "Jffc = "<< Jffc;
 
   sotDEBUGOUT(15);

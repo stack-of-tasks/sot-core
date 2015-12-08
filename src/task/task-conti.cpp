@@ -25,7 +25,7 @@
 /* SOT */
 #include <sot/core/task-conti.hh>
 #include <sot/core/debug.hh>
-#include <jrl/mal/boostvector.hh>
+#include <dynamic-graph/linear-algebra.h>
 #include <sot/core/factory.hh>
 
 using namespace std;
@@ -57,23 +57,23 @@ computeContiDesiredVelocity( VectorMultiBound& desvel2b,const int & timecurr )
 {
   sotDEBUG(15) << "# In {" << endl;
 
-  ml::Vector desvel = errorSOUT(timecurr);
+  dynamicgraph::Vector desvel = errorSOUT(timecurr);
   const double &  lambda = controlGainSIN(timecurr);
 
   try{
-    const ml::Matrix & J = jacobianSOUT(timecurr);
+    const dynamicgraph::Matrix & J = jacobianSOUT(timecurr);
 
-    ml::Vector deref( J.nbRows() );
+    dynamicgraph::Vector deref( J.rows() );
     sotDEBUG(15) << "q0 = " << q0 << std::endl;
     sotDEBUG(25) << "J = " << J << std::endl;
-    if( q0.size() != (J.nbCols()-6) ) throw; // TODO
-    for( unsigned int i=0;i<J.nbRows();++i )
+    if( q0.size() != (J.cols()-6) ) throw; // TODO
+    for( int i=0;i<J.rows();++i )
       {
 	deref(i)=0;
-	for( unsigned int j=6;j<J.nbCols();++j )
+	for( int j=6;j<J.cols();++j )
 	  deref(i) += J(i,j)*q0(j-6);
       }
-    //J.multiply( q0,deref );
+
 
     if( timeRef==TIME_REF_TO_BE_SET ) { timeRef = timecurr; }
     if( timeRef<0 ) { sotDEBUG(10) << "Time not used. " << std::endl; throw 1;}
@@ -93,7 +93,7 @@ computeContiDesiredVelocity( VectorMultiBound& desvel2b,const int & timecurr )
     sotDEBUG(25) << "task: " << desvel <<std::endl;
 
     desvel2b.resize(desvel.size());
-    for( unsigned int i=0;i<desvel.size(); ++i )
+    for( int i=0;i<desvel.size(); ++i )
       desvel2b[i] = desvel(i);
 
 
@@ -101,10 +101,10 @@ computeContiDesiredVelocity( VectorMultiBound& desvel2b,const int & timecurr )
     return desvel2b;
   } catch (...)
     {
-      const ml::Vector & desvel = errorSOUT(timecurr);
+      const dynamicgraph::Vector & desvel = errorSOUT(timecurr);
       const double & gain = controlGainSIN(timecurr);
       desvel2b.resize(desvel.size());
-      for( unsigned int i=0;i<desvel.size(); ++i )
+      for( int i=0;i<desvel.size(); ++i )
         desvel2b[i] = -gain*desvel(i);
       return desvel2b;
     }
@@ -159,8 +159,8 @@ commandLine( const std::string& cmdLine
     }
   else if( cmdLine=="touch" )
     {
-      Signal<ml::Vector,int> & sig
-	= dynamic_cast< Signal<ml::Vector,int>& >
+      Signal<dynamicgraph::Vector,int> & sig
+	= dynamic_cast< Signal<dynamicgraph::Vector,int>& >
 	(dg::PoolStorage::getInstance()->getSignal(cmdArgs));
       timeRef = TIME_REF_TO_BE_SET; //sig.getTime();
       q0 = sig.accessCopy();

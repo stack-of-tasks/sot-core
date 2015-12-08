@@ -33,6 +33,6 @@
 		IntegratorAbstract<double,double> (name) {}
 
   IntegratorAbstractVector::IntegratorAbstractVector( const std::string& name ) : 
-		IntegratorAbstract<ml::Vector,ml::Matrix> (name) {}
+		IntegratorAbstract<dynamicgraph::Vector,dynamicgraph::Matrix> (name) {}
 #endif
 

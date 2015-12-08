@@ -25,13 +25,13 @@
 #include <deque>
 
 // Maal
-#include <jrl/mal/boost.hh>
-namespace ml= maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 // SOT 
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
 #include <sot/core/trajectory.hh>
-#include <sot/core/matrix-homogeneous.hh>
+#include <sot/core/matrix-geometry.hh>
 
 #include <sstream>
 // API
@@ -69,13 +69,13 @@ public:
   void loadFile( const std::string& name );
 
   /// \brief Return the next pose for the legs.
-  ml::Vector& getNextPosition( ml::Vector& pos, const int& time );
+  dg::Vector& getNextPosition( dg::Vector& pos, const int& time );
 
   /// \brief Return the next com.
-  ml::Vector& getNextCoM( ml::Vector& com, const int& time );
+  dg::Vector& getNextCoM( dg::Vector& com, const int& time );
 
   /// \brief Return the next cop.
-  ml::Vector& getNextCoP( ml::Vector& cop, const int& time );
+  dg::Vector& getNextCoP( dg::Vector& cop, const int& time );
 
   /// \brief Return the next waist.
   sot::MatrixHomogeneous& getNextWaist(sot::MatrixHomogeneous& waist, const int& time );
@@ -84,7 +84,7 @@ public:
   unsigned int & getSeqId(unsigned int &seqid, const int& time );
 
   /// \brief Convert a xyztheta vector into an homogeneous matrix
-  sot::MatrixHomogeneous XYZThetaToMatrixHomogeneous (const ml::Vector& xyztheta);
+  sot::MatrixHomogeneous XYZThetaToMatrixHomogeneous (const dg::Vector& xyztheta);
 
   /// \brief Perform one update of the signals.
   int & OneStepOfUpdate(int &dummy, const int& time);
@@ -110,13 +110,13 @@ public:
   SignalTimeDependent<Dummy,int> OneStepOfUpdateS;
 
   /// \brief Publish pose for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<ml::Vector,int> positionSOUT;
+  dynamicgraph::SignalTimeDependent<dg::Vector,int> positionSOUT;
 
   /// \brief Publish com for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<ml::Vector,int> comSOUT;
+  dynamicgraph::SignalTimeDependent<dg::Vector,int> comSOUT;
       
   /// \brief Publish zmp for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<ml::Vector,int> zmpSOUT;
+  dynamicgraph::SignalTimeDependent<dg::Vector,int> zmpSOUT;
 
   /// \brief Publish waist for each evaluation of the graph.
   dynamicgraph::SignalTimeDependent<sot::MatrixHomogeneous,int> waistSOUT;
@@ -137,13 +137,13 @@ protected:
   timestamp traj_timestamp_;
 
   /// \brief Store the pos;
-  ml::Vector pose_;
+  dg::Vector pose_;
 
   /// \brief Store the center of mass.
-  ml::Vector com_;
+  dg::Vector com_;
       
   /// \brief Store the center of pressure ZMP.
-  ml::Vector cop_;
+  dg::Vector cop_;
 
   /// \brief Store the waist position.
   sot::MatrixHomogeneous waist_;

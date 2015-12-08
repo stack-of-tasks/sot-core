@@ -20,7 +20,7 @@
 
 #include <sot/core/memory-task-sot.hh>
 #include <sot/core/debug.hh>
-
+#include <sot/core/matrix-svd.hh>
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
@@ -69,17 +69,17 @@ initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsiz
 
    JK.fill(0);
    if (atConstruction) {
-     Jt.fill(0.);
-     Jp.fill(0.);
-     PJp.fill(0.);
-     Jff.fill(0.);
-     Jact.fill(0.);
-     JK.fill(0.);
-     U.fill(0.);
-     V.fill(0.);
-     S.fill(0.);
+     Jt.setZero();
+     Jp.setZero();
+     PJp.setZero();
+     Jff.setZero();
+     Jact.setZero();
+     JK.setZero();
+     U.setZero();
+     V.setZero();
+     S.setZero();
    } else {
-     Jt.pseudoInverse(Jp);
+     Eigen::pseudoInverse(Jt,Jp);
    }
  }
 

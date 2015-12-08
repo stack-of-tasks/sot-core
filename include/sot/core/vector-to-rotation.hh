@@ -24,11 +24,11 @@
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/all-signals.h>
-#include <sot/core/matrix-rotation.hh>
+#include <sot/core/matrix-geometry.hh>
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* STD */
 #include <vector>
@@ -75,10 +75,10 @@ public:
 
   virtual ~VectorToRotation( void ){}
 
-  dg::SignalPtr<ml::Vector,int> SIN;
+  dg::SignalPtr<dg::Vector,int> SIN;
   dg::SignalTimeDependent<MatrixRotation,int> SOUT;
 
-  MatrixRotation& computeRotation( const ml::Vector& angles,
+  MatrixRotation& computeRotation( const dg::Vector& angles,
 				      MatrixRotation& res );
 
 

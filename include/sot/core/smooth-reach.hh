@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/entity.h>
@@ -64,7 +64,7 @@ class SOTSMOOTHREACH_EXPORT SmoothReach
     virtual const std::string & getClassName() const { return CLASS_NAME; }
 
   private:
-    ml::Vector start,goal;
+    dg::Vector start,goal;
     int startTime, lengthTime;
     bool isStarted, isParam;
     int smoothMode; double smoothParam;
@@ -76,15 +76,15 @@ class SOTSMOOTHREACH_EXPORT SmoothReach
     virtual ~SmoothReach(void) {};
 
   public: /* --- SIGNAL --- */
-    dg::SignalPtr<ml::Vector, int> startSIN;
-    dg::SignalTimeDependent<ml::Vector, int> goalSOUT;
+    dg::SignalPtr<dg::Vector, int> startSIN;
+    dg::SignalTimeDependent<dg::Vector, int> goalSOUT;
     //dg::SignalTimeDependent<double, int> percentSOUT;
 
   public: /* --- FUNCTION --- */
-    ml::Vector& goalSOUT_function(ml::Vector & goal, const int& time);
+    dg::Vector& goalSOUT_function(dg::Vector & goal, const int& time);
 
-    void set( const ml::Vector & goal, const int & length );
-    const ml::Vector & getGoal( void );
+    void set( const dg::Vector & goal, const int & length );
+    const dg::Vector & getGoal( void );
     const int & getLength( void );
     const int & getStart( void );
 

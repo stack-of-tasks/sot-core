@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* STD */
 #include <string>
@@ -73,7 +73,7 @@ class SOTTASKCONTI_EXPORT TaskConti
 
   int timeRef;
   double mu;
-  ml::Vector q0;
+  dg::Vector q0;
 
  public:
   static const std::string CLASS_NAME;
@@ -92,7 +92,7 @@ class SOTTASKCONTI_EXPORT TaskConti
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dg::SignalPtr< ml::Vector,int > controlPrevSIN;
+  dg::SignalPtr< dg::Vector,int > controlPrevSIN;
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display( std::ostream& os ) const;

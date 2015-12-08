@@ -67,12 +67,12 @@ TaskPD( const std::string& n )
 /* --- COMPUTATION ---------------------------------------------------------- */
 /* --- COMPUTATION ---------------------------------------------------------- */
 
-ml::Vector& TaskPD::
-computeErrorDot( ml::Vector& errorDot,int time )
+dynamicgraph::Vector& TaskPD::
+computeErrorDot( dynamicgraph::Vector& errorDot,int time )
 {
   sotDEBUG(15) << "# In {" << endl;
 
-  const ml::Vector & errCur = errorSOUT(time);
+  const dynamicgraph::Vector & errCur = errorSOUT(time);
   if(  previousError.size() == errCur.size() )
     {
       errorDot = errCur;
@@ -82,7 +82,7 @@ computeErrorDot( ml::Vector& errorDot,int time )
   else
     {
       errorDot.resize( errCur.size() );
-      errorDot.fill(0.);
+      errorDot.setZero();
       previousError = errCur;
     }
   sotDEBUG(15) << "# Out }" << endl;
@@ -94,7 +94,7 @@ computeTaskModif( VectorMultiBound& task,int time )
 {
   sotDEBUG(15) << "# In {" << endl;
 
-  const ml::Vector & errorDot = errorDotSIN(time);
+  const dynamicgraph::Vector & errorDot = errorDotSIN(time);
   Task::computeTaskExponentialDecrease(task,time);
 
   sotDEBUG(25) << " Task = " << task;

@@ -18,8 +18,8 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __SOT_MATRIX_HOMOGENEOUS_H__
-#define __SOT_MATRIX_HOMOGENEOUS_H__
+#ifndef __SOT_MATRIX_GEOMETRY_H__
+#define __SOT_MATRIX_GEOMETRY_H__
 
 
 /* --- Matrix --- */
@@ -28,6 +28,8 @@
 #include <Eigen/Core>
 #include <dynamic-graph/linear-algebra.h>
 #include <dynamic-graph/eigen-io.h>
+
+#  define MRAWDATA(x) x.data()
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -98,4 +100,4 @@ namespace Eigen {
   }
 }
  
-#endif /* #ifndef __SOT_MATRIX_HOMOGENEOUS_H__ */
+#endif /* #ifndef __SOT_MATRIX_GEOMETRY_H__ */

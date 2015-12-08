@@ -23,27 +23,27 @@
 /* -------------------------------------------------------------------------- */
 #include <dynamic-graph/all-signals.h>
 #include <iostream>
-#include <jrl/mal/boost.hh>
+#include <dynamic-graph/linear-algebra.h>
 using namespace std;
 using namespace dynamicgraph;
 
-namespace ml = maal::boost;
+
 
 class DummyClass
 {
 
 public:
-  ml::Vector& fun( ml::Vector& res,double j )
+  dynamicgraph::Vector& fun( dynamicgraph::Vector& res,double j )
   { res.resize(3); res.fill(j); return res; }
 
 
 };
 
-ml::Vector data(6);
-Signal<ml::Vector,double> sig("sigtest");
+dynamicgraph::Vector data(6);
+Signal<dynamicgraph::Vector,double> sig("sigtest");
 DummyClass dummy;
 
-ml::Vector& fun( ml::Vector& res,double /*j*/ ) { return res=data; }
+dynamicgraph::Vector& fun( dynamicgraph::Vector& res,double /*j*/ ) { return res=data; }
 
 int main( void )
 {

@@ -24,7 +24,7 @@
 /* --- SOT PLUGIN  --- */
 #include <sot/core/mailbox.hh>
 
-#include <jrl/mal/boost.hh>
+#include <dynamic-graph/linear-algebra.h>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -47,13 +47,13 @@
 namespace dynamicgraph {
   namespace sot {
 #ifdef WIN32
-    class MAILBOX_VECTOR_EXPORT MailboxVector : public Mailbox<maal::boost::Vector> 
+    class MAILBOX_VECTOR_EXPORT MailboxVector : public Mailbox<dynamicgraph::Vector> 
     {
     public:
       MailboxVector( const std::string& name );
     };
 #else
-    typedef Mailbox<maal::boost::Vector> MailboxVector;
+    typedef Mailbox<dynamicgraph::Vector> MailboxVector;
 #endif
   } // namespace sot
 } // namespace dynamicgraph

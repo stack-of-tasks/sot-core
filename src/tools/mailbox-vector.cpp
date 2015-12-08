@@ -19,7 +19,7 @@
  */
 
 /* --- SOT PLUGIN  --- */
-#include <jrl/mal/boost.hh>
+#include <dynamic-graph/linear-algebra.h>
 #include <sot/core/debug.hh>
 #include <sot/core/factory.hh>
 #include <sot/core/mailbox.hxx>
@@ -30,9 +30,9 @@ using namespace dynamicgraph;
 
 // Explicit template specialization
 #ifdef WIN32
-MailboxVector::MailboxVector( const std::string& name): Mailbox<maal::boost::Vector> (name){}
+MailboxVector::MailboxVector( const std::string& name): Mailbox<dynamicgraph::Vector> (name){}
 #else
-MAILBOX_TEMPLATE_SPE(maal::boost::Vector)
+MAILBOX_TEMPLATE_SPE(dynamicgraph::Vector)
 #endif
 
 template<>DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MailboxVector,"Mailbox<Vector>");

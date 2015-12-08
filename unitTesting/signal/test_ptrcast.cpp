@@ -22,18 +22,17 @@
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 #include <dynamic-graph/all-signals.h>
-#include <sot/core/matrix-rotation.hh>
+#include <sot/core/matrix-geometry.hh>
+#include <dynamic-graph/linear-algebra.h>
 #include <iostream>
-#include <jrl/mal/boost.hh>
 using namespace std;
 using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
 
-namespace ml = maal::boost;
 
-Signal<ml::Matrix,int> base("base");
-Signal<ml::Matrix,int> sig("matrix");
-SignalPtr<ml::Matrix,int> sigptr(&base);
+Signal<dynamicgraph::Matrix,int> base("base");
+Signal<dynamicgraph::Matrix,int> sig("matrix");
+SignalPtr<dynamicgraph::Matrix,int> sigptr(&base);
 
 Signal<MatrixRotation,int> sigMR("matrixRot");
 

@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/entity.h>
@@ -64,7 +64,7 @@ class SOTCOMFREEZER_EXPORT CoMFreezer
     virtual const std::string & getClassName() const { return CLASS_NAME; }
 
   private:
-    ml::Vector m_lastCoM;
+    dg::Vector m_lastCoM;
     bool m_previousPGInProcess;
     int m_lastStopTime;
 
@@ -73,12 +73,12 @@ class SOTCOMFREEZER_EXPORT CoMFreezer
     virtual ~CoMFreezer(void);
 
   public: /* --- SIGNAL --- */
-    dg::SignalPtr<ml::Vector, int> CoMRefSIN;
+    dg::SignalPtr<dg::Vector, int> CoMRefSIN;
     dg::SignalPtr<unsigned, int>  PGInProcessSIN;
-    dg::SignalTimeDependent<ml::Vector, int> freezedCoMSOUT;
+    dg::SignalTimeDependent<dg::Vector, int> freezedCoMSOUT;
 
   public: /* --- FUNCTION --- */
-    ml::Vector& computeFreezedCoM(ml::Vector & freezedCoM, const int& time);
+    dg::Vector& computeFreezedCoM(dg::Vector & freezedCoM, const int& time);
 
   public: /* --- PARAMS --- */
     virtual void display(std::ostream & os) const;

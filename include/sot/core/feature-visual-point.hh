@@ -63,17 +63,17 @@ class SOTFEATUREVISUALPOINT_EXPORT FeatureVisualPoint
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
  protected:
-  ml::Matrix L;
+  dg::Matrix L;
 
 
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dg::SignalPtr< ml::Vector,int > xySIN;
+  dg::SignalPtr< dg::Vector,int > xySIN;
   /** FeatureVisualPoint depth (required to compute the interaction matrix)
    * default Z = 1m. */
   dg::SignalPtr< double,int > ZSIN;
-  dg::SignalPtr< ml::Matrix,int > articularJacobianSIN;
+  dg::SignalPtr< dg::Matrix,int > articularJacobianSIN;
 
   using FeatureAbstract::selectionSIN;
   using FeatureAbstract::jacobianSOUT;
@@ -87,8 +87,8 @@ class SOTFEATUREVISUALPOINT_EXPORT FeatureVisualPoint
 
   virtual unsigned int& getDimension( unsigned int & dim, int time );
 
-  virtual ml::Vector& computeError( ml::Vector& res,int time );
-  virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time );
+  virtual dg::Vector& computeError( dg::Vector& res,int time );
+  virtual dg::Matrix& computeJacobian( dg::Matrix& res,int time );
 
   /** Static Feature selection. */
   inline static Flags selectX( void ) { return FLAG_LINE_1; }

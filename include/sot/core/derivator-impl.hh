@@ -22,7 +22,7 @@
 #define __SOT_DERIVATOR_IMPL_H__
 
 #include <sot/core/derivator.hh>
-#include <sot/core/vector-quaternion.hh>
+#include <sot/core/matrix-geometry.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -58,8 +58,8 @@ namespace dg = dynamicgraph;
 #endif
 
 DECLARE_SPECIFICATION(DerivatorDouble,double)
-DECLARE_SPECIFICATION(DerivatorVector,ml::Vector)
-DECLARE_SPECIFICATION(DerivatorMatrix,ml::Matrix)
+DECLARE_SPECIFICATION(DerivatorVector,dg::Vector)
+DECLARE_SPECIFICATION(DerivatorMatrix,dg::Matrix)
 DECLARE_SPECIFICATION(DerivatorVectorQuaternion,VectorQuaternion)
 } /* namespace sot */} /* namespace dynamicgraph */
 

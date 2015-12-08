@@ -26,8 +26,8 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* SOT */
 #include <sot/core/flags.hh>
@@ -131,20 +131,20 @@ namespace dynamicgraph {
 	\par[in] time: The time at which the error is computed.
 	\return The vector res with the appropriate value.
       */
-      virtual ml::Vector& computeError( ml::Vector& res,int time ) = 0;
+      virtual dg::Vector& computeError( dg::Vector& res,int time ) = 0;
 
       /*! \brief Compute the Jacobian of the error according the robot state.
 
 	\par[out] res: The matrix in which the error will be written.
 	\return The matrix res with the appropriate values.
       */
-      virtual ml::Matrix& computeJacobian( ml::Matrix& res,int time ) = 0;
+      virtual dg::Matrix& computeJacobian( dg::Matrix& res,int time ) = 0;
 
       /// Callback for signal errordotSOUT
       ///
       /// Copy components of the input signal errordotSIN defined by selection
       /// flag selectionSIN.
-      virtual ml::Vector& computeErrorDot (ml::Vector& res,int time);
+      virtual dg::Vector& computeErrorDot (dg::Vector& res,int time);
 
       /*! @} */
 
@@ -164,7 +164,7 @@ namespace dynamicgraph {
       SignalPtr< Flags,int > selectionSIN;
 
       /// Derivative of the reference value.
-      SignalPtr< ml::Vector,int > errordotSIN;
+      SignalPtr< dg::Vector,int > errordotSIN;
 
       /*! @} */
 
@@ -173,14 +173,14 @@ namespace dynamicgraph {
 
       /*! \brief This signal returns the error between the desired value and
 	the current value : \f$ {\bf s}^*(t) - {\bf s}(t)\f$ */
-      SignalTimeDependent<ml::Vector,int> errorSOUT;
+      SignalTimeDependent<dg::Vector,int> errorSOUT;
 
       /// Derivative of the reference value.
-      SignalTimeDependent< ml::Vector,int > errordotSOUT;
+      SignalTimeDependent< dg::Vector,int > errordotSOUT;
 
       /*! \brief This signal returns the Jacobian of the current value
 	according to the robot state: \f$ J(t) = \frac{\delta{\bf s}^*(t)}{\delta {\bf q}(t)}\f$ */
-      SignalTimeDependent<ml::Matrix,int> jacobianSOUT;
+      SignalTimeDependent<dg::Matrix,int> jacobianSOUT;
 
       /*! \brief Returns the dimension of the feature as an output signal. */
       SignalTimeDependent<unsigned int,int> dimensionSOUT;
@@ -193,7 +193,7 @@ namespace dynamicgraph {
       {
 	return true;
       }
-      virtual SignalTimeDependent<ml::Vector,int>& getErrorDot()
+      virtual SignalTimeDependent<dg::Vector,int>& getErrorDot()
       {
 	return errordotSOUT;
       }

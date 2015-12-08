@@ -21,15 +21,12 @@
 #include <boost/test/floating_point_comparison.hpp>
 #include <boost/test/output_test_stream.hpp>
 #include <boost/math/constants/constants.hpp>
-
-#include <jrl/mal/boost.hh>
-#include <sot/core/matrix-homogeneous.hh>
-#include "sot/core/matrix-twist.hh"
+#include <sot/core/matrix-geometry.hh>
 
 using boost::test_tools::output_test_stream;
 using boost::math::constants::pi;
 
-namespace ml = maal::boost;
+namespace dg = dynamicgraph;
 
 #define MATRIX_BOOST_REQUIRE_CLOSE(N, M, LEFT, RIGHT, TOLERANCE)	\
   for (unsigned i = 0; i < N; ++i)					\
@@ -75,7 +72,7 @@ BOOST_AUTO_TEST_CASE (product)
     pitch = (pi<double>()*rand())/RAND_MAX - .5*pi<double>();
     yaw = (2*pi<double>()*rand())/RAND_MAX - pi<double>();
     MATRIX_HOMO_INIT(H1, tx, ty, tz, roll, pitch, yaw);
-    ml::Matrix M1(H1);
+    dg::Matrix M1(H1.matrix());
     dynamicgraph::sot::MatrixHomogeneous H2;
     tx = (10.*rand())/RAND_MAX;
     ty = (10.*rand())/RAND_MAX - 5.;
@@ -84,11 +81,11 @@ BOOST_AUTO_TEST_CASE (product)
     pitch = (pi<double>()*rand())/RAND_MAX - .5*pi<double>();
     yaw = (2*pi<double>()*rand())/RAND_MAX - pi<double>();
     MATRIX_HOMO_INIT(H2, tx, ty, tz, roll, pitch, yaw);
-    ml::Matrix M2(H2);
+    dg::Matrix M2(H2.matrix());
     dynamicgraph::sot::MatrixHomogeneous H3 = H1*H2;
-    ml::Matrix M3 = M1*M2;
+    dg::Matrix M3 = M1*M2;
 
-    MATRIX_4x4_BOOST_REQUIRE_CLOSE (M3, H3, 0.0001);
+    MATRIX_4x4_BOOST_REQUIRE_CLOSE (M3, H3.matrix(), 0.0001);
   }
 }
 
@@ -115,9 +112,9 @@ BOOST_AUTO_TEST_CASE (inverse)
     MATRIX_HOMO_INIT(H2, tx, ty, tz, roll, pitch, yaw);
     dynamicgraph::sot::MatrixHomogeneous H3 = H1*H2;
     dynamicgraph::sot::MatrixHomogeneous invH1, invH2, invH3;
-    H1.inverse(invH1);
-    H2.inverse(invH2);
-    H3.inverse(invH3);
+    invH1 = H1.inverse();
+    invH2 = H2.inverse();
+    invH3 = H3.inverse();
 
     dynamicgraph::sot::MatrixHomogeneous I4;
     dynamicgraph::sot::MatrixHomogeneous P1 = H1*invH1;

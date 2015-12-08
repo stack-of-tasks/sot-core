@@ -40,9 +40,6 @@ SET(SOTCORE_LIB_NAME ${PROJECT_NAME})
 
 #This project will create many plugins as shared libraries, listed here
 SET(plugins
-  sot/sot-qr
-  sot/weighted-sot
-  sot/sot-h
   sot/sot
 
   math/op-point-modifier
@@ -115,10 +112,6 @@ set(ADDITIONAL_feature-task_LIBS feature-generic task)
 set(ADDITIONAL_feature-point6d-relative_LIBS feature-point6d)
 
 set(ADDITIONAL_sot_LIBS constraint task)
-set(ADDITIONAL_sot-h_LIBS sot)
-set(ADDITIONAL_sot-h_LIBS sot)
-set(ADDITIONAL_sot-qr_LIBS sot constraint)
-set(ADDITIONAL_weighted-sot_LIBS sot task)
 
 set(ADDITIONAL_sequencer_LIBS sot)
 
@@ -144,14 +137,6 @@ SET(${LIBRARY_NAME}_SOURCES
 
   signal/signal-cast.cpp
 
-  math/matrix-force.cpp
-  math/matrix-homogeneous.cpp
-  math/matrix-rotation.cpp
-  math/matrix-twist.cpp
-  math/vector-quaternion.cpp
-  math/vector-roll-pitch-yaw.cpp
-  math/vector-utheta.cpp
-
   feature/feature-abstract.cpp
 
   task/task-abstract.cpp
@@ -159,8 +144,6 @@ SET(${LIBRARY_NAME}_SOURCES
 
   sot/flags.cpp
   sot/memory-task-sot.cpp
-  sot/rotation-simple.cpp
-  sot/solver-hierarchical-inequalities.cpp
 
   factory/pool.cpp
 
@@ -179,7 +162,6 @@ SET_TARGET_PROPERTIES(${LIBRARY_NAME}
   SOVERSION ${PROJECT_VERSION}
   INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
 
-PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} jrl-mal)
 PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} dynamic-graph)
 PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} dynamic-graph-python)
 
@@ -237,7 +219,6 @@ FOREACH(plugin ${plugins})
     TARGET_LINK_LIBRARIES(${LIBRARY_NAME} dl pthread)
   ENDIF(UNIX AND NOT APPLE)
 
-  PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} jrl-mal)
   PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} dynamic-graph)
 
   # build python submodule

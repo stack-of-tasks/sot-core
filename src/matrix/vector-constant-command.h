@@ -49,7 +49,7 @@ namespace dynamicgraph { namespace sot {
 	  VectorConstant& vc = static_cast<VectorConstant&>(owner());
 	  std::vector<Value> values = getParameterValues();
 	  unsigned size = values[0].value();
-	  ml::Vector m(size);
+	  dynamicgraph::Vector m(size);
 	  m.fill(vc.color);
 	  vc.SOUT.setConstant(m);
 

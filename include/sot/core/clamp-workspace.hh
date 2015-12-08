@@ -25,17 +25,14 @@
 #include <utility>
 
 /* Matrix */
-#include <jrl/mal/boost.hh>
-namespace ml = maal::boost;
+#include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/entity.h>
 #include <sot/core/exception-task.hh>
 #include <dynamic-graph/all-signals.h>
-#include <sot/core/vector-roll-pitch-yaw.hh>
-#include <sot/core/matrix-rotation.hh>
-#include <sot/core/matrix-homogeneous.hh>
-#include <sot/core/matrix-twist.hh>
+#include <sot/core/matrix-geometry.hh>
 
 
 /* --------------------------------------------------------------------- */
@@ -71,8 +68,8 @@ class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace
 
   dg::SignalPtr< MatrixHomogeneous,int > positionrefSIN;
   dg::SignalPtr< MatrixHomogeneous,int > positionSIN;
-  dg::SignalTimeDependent< ml::Matrix,int > alphaSOUT;
-  dg::SignalTimeDependent< ml::Matrix,int > alphabarSOUT;
+  dg::SignalTimeDependent< dg::Matrix,int > alphaSOUT;
+  dg::SignalTimeDependent< dg::Matrix,int > alphabarSOUT;
   dg::SignalTimeDependent< MatrixHomogeneous,int > handrefSOUT;
 
  public:
@@ -82,8 +79,8 @@ class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace
 
   void update( int time );
 
-  virtual ml::Matrix& computeOutput( ml::Matrix& res, int time );
-  virtual ml::Matrix& computeOutputBar( ml::Matrix& res, int time );
+  virtual dg::Matrix& computeOutput( dg::Matrix& res, int time );
+  virtual dg::Matrix& computeOutputBar( dg::Matrix& res, int time );
   virtual MatrixHomogeneous& computeRef( MatrixHomogeneous& res, int time );
 
   virtual void display( std::ostream& ) const;
@@ -95,10 +92,10 @@ class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace
 
   int timeUpdate;
 
-  ml::Matrix alpha;
-  ml::Matrix alphabar;
+  dg::Matrix alpha;
+  dg::Matrix alphabar;
   MatrixHomogeneous prefMp;
-  ml::Vector pd;
+  dg::Vector pd;
   MatrixRotation Rd;
   MatrixHomogeneous handref;
 
