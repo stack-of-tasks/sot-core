@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE (product)
     MATRIX_HOMO_INIT(H2, tx, ty, tz, roll, pitch, yaw);
     dg::Matrix M2(H2.matrix());
     dynamicgraph::sot::MatrixHomogeneous H3 = H1*H2;
-    dg::Matrix M3 = M1*M2;
+    dg::Matrix M3; M3 = M1*M2;
 
     MATRIX_4x4_BOOST_REQUIRE_CLOSE (M3, H3.matrix(), 0.0001);
   }

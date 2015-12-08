@@ -64,40 +64,5 @@ namespace dynamicgraph {
   } // namespace sot
 } // namespace dynamicgraph
 
-namespace Eigen {
-  inline std::ostream& operator << (std::ostream &os, 
-				    Eigen::AngleAxis<double> inst) {
-    os << inst.toRotationMatrix() <<std::endl;
-    return os;
-  }
-  
-  inline std::ostream& operator << (std::ostream &os, 
-				    Eigen::Transform<double, 3, Eigen::Affine> inst) {
-    os << inst.matrix() <<std::endl;
-    return os;
-  }
-  
-  //TODO : CHECK TYPE AND WRITE PROPER
-  inline std::istringstream& operator >> (std::istringstream &iss, 
-					  Eigen::Transform<double,3,Eigen::Affine> &inst)  {
-    std::string ss("new test string");
-    Matrix3d m;
-    m = AngleAxisd(0.0, Vector3d::UnitZ());
-    inst = m;
-    iss >> ss;
-    return iss;
-  }
-  
-  //TODO : CHECK TYPE AND WRITE PROPER
-  inline std::istringstream& operator >> (std::istringstream &iss, 
-					  Eigen::AngleAxis<double> &inst)  {
-    std::string ss("new test string");
-    Matrix3d m;
-    m = AngleAxisd(0.0, Vector3d::UnitZ());
-    inst = m;
-    iss >> ss;
-    return iss;
-  }
-}
  
 #endif /* #ifndef __SOT_MATRIX_GEOMETRY_H__ */

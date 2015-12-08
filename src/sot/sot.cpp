@@ -331,15 +331,15 @@ computeJacobianConstrained( const dynamicgraph::Matrix& Jac,
                             dynamicgraph::Matrix& Jff,
                             dynamicgraph::Matrix& Jact )
 {
-  const unsigned int nJ = Jac.rows();
-  const unsigned int mJ = K.cols();
-  const unsigned int nbConstraints = Jac.cols() - mJ;
+  const int nJ = Jac.rows();
+  const int mJ = K.cols();
+  const int nbConstraints = Jac.cols() - mJ;
 
   if (nbConstraints == 0) {
     JK = Jac;
     return JK;
   }
-  for( unsigned int i=0;i<nJ;++i )
+  for( int i=0;i<nJ;++i )
     {
       for( int j=0;j<nbConstraints;++j ) Jff(i,j)=Jac(i,j);
       for( int j=nbConstraints;j<Jac.cols();++j )
@@ -663,13 +663,13 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	 vtmp1 = MRAWDATA(V);
 	 /***/sotCOUNTER(6,7); // Ppre
 
-	 for( unsigned int i=0;i<mJ;++i )
+	 for( int i=0;i<mJ;++i )
 	   {
 	     vtmp2 = MRAWDATA(V);
-	     for( unsigned int j=0;j<mJ;++j )
+	     for( int j=0;j<mJ;++j )
 	       {
 		 v1 = vtmp1;   v2 =vtmp2;
-		 for( unsigned int k=0;k<rankJ;++k )
+		 for(unsigned int k=0;k<rankJ;++k )
 		   //for( unsigned int k=0;k<mJ;++k )
 		   {
 		     (*p) -=( *v1) * (*v2);
@@ -744,7 +744,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 
       /* --- COMPUTE ERR --- */
       dynamicgraph::Vector Herr( err.size() );
-      for( unsigned int i=0;i<err.size(); ++i )
+      for( int i=0;i<err.size(); ++i )
 	{
 	  Herr(i) = err(i);
 	}

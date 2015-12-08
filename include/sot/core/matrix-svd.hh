@@ -35,7 +35,7 @@ namespace Eigen {
 
     void pseudoInverse( dg::Matrix& _inputMatrix,
 			dg::Matrix& _inverseMatrix,
-			const float threshold = 1e-6)
+			const double threshold = 1e-6)
     {
       JacobiSVD<dg::Matrix> svd(_inputMatrix, ComputeThinU | ComputeThinV);
       JacobiSVD<dg::Matrix>::SingularValuesType m_singularValues=svd.singularValues();
@@ -51,7 +51,7 @@ namespace Eigen {
 
     void dampedInverse( dg::Matrix& _inputMatrix,
 			dg::Matrix& _inverseMatrix,
-			const float threshold = 1e-6,
+			const double threshold = 1e-6,
 			dg::Matrix* Uref = NULL,
 			dg::Vector* Sref = NULL,
 			dg::Matrix* Vref = NULL) {

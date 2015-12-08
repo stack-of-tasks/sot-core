@@ -32,7 +32,7 @@
 #include <dynamic-graph/linear-algebra.h>
 #include <sot/core/factory.hh>
 #include <sot/core/debug.hh>
-
+#include <boost/numeric/conversion/cast.hpp>
 #include <deque>
 
 namespace dg = ::dynamicgraph;
@@ -814,7 +814,7 @@ namespace dynamicgraph {
       void operator()( const dynamicgraph::Vector& v1,const dynamicgraph::Matrix& m2,dynamicgraph::Vector& res )
       {
 	memory.push_front( v1 );
-	while( memory.size()>m2.cols() ) memory.pop_back();
+	while( memory.size() > m2.cols() ) memory.pop_back();
 	convolution( memory,m2,res );
       }
     };

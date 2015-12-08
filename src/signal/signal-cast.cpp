@@ -18,6 +18,7 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <sot/core/matrix-geometry.hh>
 #include <dynamic-graph/signal-caster.h>
 #include <dynamic-graph/eigen-io.h>
 #include <Eigen/Core>
@@ -26,7 +27,6 @@
 
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/trajectory.hh>
-#include <sot/core/matrix-geometry.hh>
 #include <sot/core/flags.hh>
 #include <sot/core/multi-bound.hh>
 #include <dynamic-graph/signal-caster.h>

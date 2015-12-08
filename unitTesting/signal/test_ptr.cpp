@@ -32,10 +32,6 @@ using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
-
-
-
-
 template< class Res=double >
 class DummyClass
 {
@@ -107,22 +103,18 @@ void funtest( dynamicgraph::Vector& /*v*/ ){ }
 int main( void )
 {
    DummyClass<VectorUTheta> pro3;
-
    SignalTimeDependent<VectorUTheta,int> sig3(sotNOSIGNAL,"Sig3");
-   SignalPtr<dynamicgraph::Vector,int> sigTo3( NULL,"SigTo3" );
-
+   SignalPtr<Eigen::AngleAxisd,int> sigTo3( NULL,"SigTo3" );
    dynamicgraph::Vector v;
    VectorUTheta v3;
    funtest(v);
-   //funtest(v3.axis());
-
+   
    sig3.setFunction( boost::bind(&DummyClass<VectorUTheta>::fun,pro3,_1,_2) );
    try
      {
        sigTo3.plug(&sig3);
      }
-   catch( sot::ExceptionAbstract& e ) { cout << e << endl; exit(1); }
-
+   catch( sot::ExceptionAbstract& e ) { cout << "Plugin error "<<e << endl; exit(1); }
    sig3.access(1); sig3.setReady();
    sigTo3.access(2);
    cout << sigTo3.access(2);

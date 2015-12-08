@@ -79,9 +79,9 @@ using boost::test_tools::output_test_stream;
 //                 [0   ; R^T    ]
 
 
-BOOST_AUTO_TEST_CASE (constructor_trivial)
+BOOST_AUTO_TEST_CASE (constructor_trivial_identity)
 {
-  dynamicgraph::sot::MatrixHomogeneous M;
+  dynamicgraph::sot::MatrixHomogeneous M(Eigen::Matrix4d::Identity());
   dynamicgraph::sot::MatrixTwist twist;  dynamicgraph::sot::buildFrom(M, twist);
 
   dynamicgraph::Matrix twistRef (6, 6);
@@ -102,12 +102,7 @@ BOOST_AUTO_TEST_CASE (constructor_rotation_only)
 		   1.,  0.,  0., 0.,
 		   0., -1.,  0., 0.,
 		   0.,  0.,  0., 1.);
-  std::cout<<"M"<<M<<std::endl;
   dynamicgraph::sot::MatrixTwist twist;  dynamicgraph::sot::buildFrom(M, twist);
-  std::cout<<"M rotation"<<M.rotation()<<std::endl;
-  std::cout<<"M rotation"<<M.translation()<<std::endl;
-  std::cout<<"twist"<<twist<<std::endl;
-
   dynamicgraph::Matrix twistRef (6, 6);
   MATRIX_6x6_INIT (twistRef,
 		   0.,  0.,  1., 0.,  0., 0.,
@@ -192,7 +187,7 @@ BOOST_AUTO_TEST_CASE (inverse_translation_only)
 		   0., 0.,  0., 1.);
   dynamicgraph::sot::MatrixTwist twist; dynamicgraph::sot::buildFrom (M, twist);
 
-  dynamicgraph::sot::MatrixTwist twistInv = twist.inverse ();
+  dynamicgraph::sot::MatrixTwist twistInv(twist.inverse ());
 
   dynamicgraph::sot::MatrixTwist twistInv_;
   twistInv_ = twist.inverse ();
@@ -226,7 +221,7 @@ BOOST_AUTO_TEST_CASE (inverse_translation_rotation)
 		   0.,  0., 0., 1.);
   dynamicgraph::sot::MatrixTwist twist; dynamicgraph::sot::buildFrom(M, twist);
 
-  dynamicgraph::sot::MatrixTwist twistInv = twist.inverse ();
+  dynamicgraph::sot::MatrixTwist twistInv(twist.inverse ());
 
   dynamicgraph::sot::MatrixTwist twistInv_;
   twistInv_ = twist.inverse ();

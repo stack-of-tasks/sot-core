@@ -20,8 +20,8 @@
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/pool.h>
 
-#include "sot/core/feature-posture.hh"
-
+#include <sot/core/feature-posture.hh>
+#include <boost/numeric/conversion/cast.hpp>
 namespace dg = ::dynamicgraph;
 
 using ::dynamicgraph::command::Setter;
@@ -121,19 +121,18 @@ namespace dynamicgraph {
     {
       dg::Vector state = state_.accessCopy();
       dg::Vector posture = posture_.accessCopy ();
-      int dim = state.size();
+      unsigned int dim = state.size();
 
       if (dim != posture.size ()) {
 	throw std::runtime_error
 	  ("Posture and State should have same dimension.");
       }
-
       // If activeDof_ vector not initialized, initialize it
       if (activeDofs_.size () != dim) {
 	activeDofs_ = std::vector <bool> (dim, false);
 	nbActiveDofs_ = 0;
       }
-
+      
       // Check that selected dof id is valid
       if ((dofId < 6) || (dofId >= dim))
 	{

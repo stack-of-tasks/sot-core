@@ -40,8 +40,8 @@ int main( void )
 {
   sigptr.plug(&sig);
   cout << "Correctly plugged matrix" << endl;
-  sigptr.plug(&sigMR);
-  cout << "Correctly plugged matrix rotation" << endl;
+  //  sigptr.plug(&sigMR);
+  //  cout << "Correctly plugged matrix rotation" << endl;
 
   return 0;
 }

@@ -140,7 +140,7 @@ getNextData( dynamicgraph::Vector& res, const unsigned int time )
 
   res.resize(dim);
   int cursor=0;
-  for( int i=0;i<curr.size();++i ) 
+  for(unsigned int i=0;i<curr.size();++i ) 
     if( selection(i) ) res(cursor++)=curr[i];
   
   sotDEBUGOUT(15);
