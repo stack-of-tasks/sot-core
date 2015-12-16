@@ -26,7 +26,7 @@ class FeaturePosition (Entity):
         a string: name of the feature,
         a signal<MatrixHomo>: defining the value of the feature,
         a signal<Matrix>: defining the jacobian of the feature with respect
-                          to the robot configuration,
+        to the robot configuration,
         an homogeneous matrix: defining the reference value of the feature.
 
       Members containing a signal:
