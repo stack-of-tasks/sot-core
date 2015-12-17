@@ -46,8 +46,8 @@ SET(BOOST_COMPONENTS thread filesystem program_options unit_test_framework syste
 SEARCH_FOR_BOOST()
 SEARCH_FOR_EIGEN()
 
-ADD_REQUIRED_DEPENDENCY("dynamic-graph >= 1.0.0")
-ADD_REQUIRED_DEPENDENCY("dynamic-graph-python")
+ADD_REQUIRED_DEPENDENCY("dynamic-graph >= 3.0.0")
+ADD_REQUIRED_DEPENDENCY("dynamic-graph-python >= 3.0.0")
 
 ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(src)
