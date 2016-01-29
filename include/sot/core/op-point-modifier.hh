@@ -78,9 +78,9 @@ public:
 
   dg::Matrix& jacobianSOUT_function( dg::Matrix& res,const int& time );
   MatrixHomogeneous& positionSOUT_function( MatrixHomogeneous& res,const int& time );
-  void setTransformation( const MatrixHomogeneous& tr );
+  void setTransformation( const Eigen::Matrix4d& tr );
   void setTransformationBySignalName( std::istringstream& cmdArgs );
-  const MatrixHomogeneous& getTransformation( void );
+  const Eigen::Matrix4d& getTransformation( void );
 
   virtual void commandLine( const std::string& cmdLine,
 			    std::istringstream& cmdArgs,

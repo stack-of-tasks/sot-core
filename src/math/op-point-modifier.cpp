@@ -55,14 +55,14 @@ OpPointModifier( const std::string& name )
   sotDEBUGIN(15);
 
   signalRegistration( jacobianSIN<<positionSIN<<jacobianSOUT<<positionSOUT );
-
   {
+    
     using namespace dynamicgraph::command;
     addCommand("getTransformation",
-	       makeDirectGetter(*this,&(dynamicgraph::Matrix&)transformation,
+	       makeDirectGetter(*this,&transformation.matrix(),
 				docDirectGetter("transformation","matrix 4x4 homo")));
     addCommand("setTransformation",
-	       makeDirectSetter(*this, &(dynamicgraph::Matrix&)transformation,
+	       makeDirectSetter(*this, &transformation.matrix(),
 				docDirectSetter("dimension","matrix 4x4 homo")));
     addCommand("getEndEffector",
 	       makeDirectGetter(*this,&isEndEffector,
@@ -135,11 +135,11 @@ OpPointModifier::positionSOUT_function( MatrixHomogeneous& res,const int& iter )
 }
 
 void
-OpPointModifier::setTransformation( const MatrixHomogeneous& tr )
-{ transformation = tr; }
-const MatrixHomogeneous&
+OpPointModifier::setTransformation( const Eigen::Matrix4d& tr )
+{ transformation.matrix() = tr; }
+const Eigen::Matrix4d&
 OpPointModifier::getTransformation( void )
-{ return transformation; }
+{ return transformation.matrix(); }
 
 
 /* The following function needs an access to a specific signal via
@@ -152,8 +152,8 @@ OpPointModifier::getTransformation( void )
 void
 OpPointModifier::setTransformationBySignalName( std::istringstream& cmdArgs )
 {
-  Signal< MatrixHomogeneous,int > &sig
-    = dynamic_cast< Signal< MatrixHomogeneous,int >& >
+  Signal< Eigen::Matrix4d,int > &sig
+    = dynamic_cast< Signal< Eigen::Matrix4d,int >& >
     (PoolStorage::getInstance()->getSignal( cmdArgs ));
   setTransformation(sig.accessCopy());
 }
@@ -166,7 +166,7 @@ commandLine( const std::string& cmdLine,
 {
   if( cmdLine == "transfo" )
     {
-      MatrixHomogeneous tr;
+      Eigen::Matrix4d tr;
       cmdArgs >> tr;
       setTransformation(tr);
     }
