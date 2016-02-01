@@ -214,7 +214,7 @@ computeError( dynamicgraph::Vector& error,int time )
 
 	const int dim = partialError.size();
 	while( cursorError+dim>dimError )  // DEBUG It was >=
-	  { dimError *= 2; error.resize(dimError,false); }
+	  { dimError *= 2; error.resize(dimError); }
 
 	for( int k=0;k<dim;++k ){ error(cursorError++) = partialError(k); }
 	sotDEBUG(35) << "feature: "<< partialError << std::endl;
@@ -222,7 +222,7 @@ computeError( dynamicgraph::Vector& error,int time )
       }
 
     /* If too much memory has been allocated, resize. */
-    error .resize(cursorError,false);
+    error .resize(cursorError);
   } catch SOT_RETHROW;
 
   sotDEBUG(35) << "error_final: "<< error << std::endl;
