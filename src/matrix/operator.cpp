@@ -710,21 +710,61 @@ namespace dynamicgraph {
       : public BinaryOpHeader<ml::Vector,ml::Vector,ml::Vector>
     {
     public:
-      unsigned int v1min,v1max;
-      unsigned int v2min,v2max;
+      int v1min,v1max;
+      int v2min,v2max;
+      bool toEnd1,toEnd2;
+
+      VectorStack():v1min(0),v1max(0),v2min(0),v2max(0),toEnd1(true),toEnd2(true)
+      {}
+
       void operator()( const ml::Vector& v1,const ml::Vector& v2,ml::Vector& res ) const
       {
-	assert( (v1max>=v1min)&&(v1.size()>=v1max) );
-	assert( (v2max>=v2min)&&(v2.size()>=v2max) );
+        int v1minP,v1maxP,v2minP,v2maxP;// positive versions of vi(min/max)
+        if (v1min>=0)
+          v1minP = v1min;
+        else
+          v1minP = v1.size()+v1min;
 
-	const unsigned int v1size = v1max-v1min, v2size = v2max-v2min;
-	res.resize( v1size+v2size );
-	for( unsigned int i=0;i<v1size;++i ) { res(i) = v1(i+v1min); }
-	for( unsigned int i=0;i<v2size;++i ) { res(v1size+i) = v2(i+v2min); }
+        if (toEnd1)
+          v1maxP = v1.size();
+        else if (v1max>=0)
+          v1maxP = v1max;
+        else
+          v1maxP = v1.size()+v1max;
+
+        if (v2min>=0)
+          v2minP = v2min;
+        else
+          v2minP = v2.size()+v2min;
+
+        if (toEnd2)
+          v2maxP = v2.size();
+        else if (v2max>=0)
+          v2maxP = v2max;
+        else
+          v2maxP = v2.size()+v2max;
+
+
+        assert( (v1maxP>=v1minP)&&(v1.size()>=v1maxP) );
+        assert( (v2maxP>=v2minP)&&(v2.size()>=v2maxP) );
+
+        const unsigned int v1size = v1maxP-v1minP, v2size = v2maxP-v2minP;
+        res.resize( v1size+v2size );
+        for( unsigned int i=0; i<v1size; ++i )
+        {
+          res(i) = v1(i+v1minP);
+        }
+        for( unsigned int i=0; i<v2size; ++i )
+        {
+          res(v1size+i) = v2(i+v2minP);
+        }
       }
 
-      void selec1( const int & m, const int M) { v1min=m; v1max=M; }
-      void selec2( const int & m, const int M) { v2min=m; v2max=M; }
+      void selec1( const int & m, const int M) { v1min=m; v1max=M; toEnd1=false;}
+      void selec2( const int & m, const int M) { v2min=m; v2max=M; toEnd2=false;}
+
+      void selecIndextoEnd1( const int & m) { v1min=m; toEnd1=true;}
+      void selecIndextoEnd2( const int & m) { v2min=m; toEnd2=true;}
 
       void addSpecificCommands(Entity& ent,
        			       Entity::CommandMap_t& commandMap )
@@ -737,12 +777,23 @@ namespace dynamicgraph {
 	boost::function< void( const int&, const int& ) > selec2
 	  = boost::bind( &VectorStack::selec2,this,_1,_2 );
 
+    boost::function< void( const int& ) > selecIndextoEnd1
+	  = boost::bind( &VectorStack::selecIndextoEnd1,this,_1 );
+	boost::function< void( const int&) > selecIndextoEnd2
+	  = boost::bind( &VectorStack::selecIndextoEnd2,this,_1 );
+
 	ADD_COMMAND( "selec1",
 	 	     makeCommandVoid2(ent,selec1,docCommandVoid2("set the min and max of selection.",
 	 							 "int (imin)","int (imax)")));
 	ADD_COMMAND( "selec2",
 	 	     makeCommandVoid2(ent,selec2,docCommandVoid2("set the min and max of selection.",
 	 							 "int (imin)","int (imax)")));
+	ADD_COMMAND( "selec1toEnd",
+	 	     makeCommandVoid1(ent,selecIndextoEnd1,docCommandVoid1("set the min of selection (max is vector size).",
+	 							 "int (imin)")));
+	ADD_COMMAND( "selec2toEnd",
+	 	     makeCommandVoid1(ent,selecIndextoEnd2,docCommandVoid1("set the min of selection (max is vector size).",
+	 							 "int (imin)")));
       }
     };
     REGISTER_BINARY_OP(VectorStack,Stack_of_vector);
