@@ -197,7 +197,7 @@ computeError( dynamicgraph::Vector& error,int time )
     /* First assumption: vector dimensions have not changed. If 0, they are
      * initialized to dim 1.*/
     int dimError = error .size();
-    if( 0==dimError ){ dimError = 1; error.resize(dimError); }
+    if( 0==dimError ){ dimError = 1; error.resize(dimError); error.setZero();}
 
     dynamicgraph::Vector vectTmp;
     int cursorError = 0;
@@ -214,7 +214,7 @@ computeError( dynamicgraph::Vector& error,int time )
 
 	const int dim = partialError.size();
 	while( cursorError+dim>dimError )  // DEBUG It was >=
-	  { dimError *= 2; error.resize(dimError); }
+	  { dimError *= 2; error.resize(dimError); error.setZero(); }
 
 	for( int k=0;k<dim;++k ){ error(cursorError++) = partialError(k); }
 	sotDEBUG(35) << "feature: "<< partialError << std::endl;
@@ -222,7 +222,7 @@ computeError( dynamicgraph::Vector& error,int time )
       }
 
     /* If too much memory has been allocated, resize. */
-    error .resize(cursorError);
+    error.conservativeResize(cursorError);
   } catch SOT_RETHROW;
 
   sotDEBUG(35) << "error_final: "<< error << std::endl;

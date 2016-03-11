@@ -33,46 +33,69 @@ namespace dg = dynamicgraph;
 /* --------------------------------------------------------------------- */
 namespace Eigen {
 
-    void pseudoInverse( dg::Matrix& _inputMatrix,
-			dg::Matrix& _inverseMatrix,
-			const double threshold = 1e-6)
-    {
-      JacobiSVD<dg::Matrix> svd(_inputMatrix, ComputeThinU | ComputeThinV);
-      JacobiSVD<dg::Matrix>::SingularValuesType m_singularValues=svd.singularValues();
-      JacobiSVD<dg::Matrix>::SingularValuesType singularValues_inv;
-      singularValues_inv.resizeLike(m_singularValues);
-      for ( long i=0; i<m_singularValues.size(); ++i) {
-        if ( m_singularValues(i) > threshold )
-	  singularValues_inv(i)=1.0/m_singularValues(i);
-	else singularValues_inv(i)=0;
-      }
-      _inverseMatrix = (svd.matrixV()*singularValues_inv.asDiagonal()*svd.matrixU().transpose());
-    }    
+void pseudoInverse( dg::Matrix& _inputMatrix,
+		    dg::Matrix& _inverseMatrix,
+		    const double threshold = 1e-6)  {
+  JacobiSVD<dg::Matrix> svd(_inputMatrix, ComputeThinU | ComputeThinV);
+  JacobiSVD<dg::Matrix>::SingularValuesType m_singularValues=svd.singularValues();
+  JacobiSVD<dg::Matrix>::SingularValuesType singularValues_inv;
+  singularValues_inv.resizeLike(m_singularValues);
+  for ( long i=0; i<m_singularValues.size(); ++i) {
+    if ( m_singularValues(i) > threshold )
+      singularValues_inv(i)=1.0/m_singularValues(i);
+    else singularValues_inv(i)=0;
+  }
+  _inverseMatrix = (svd.matrixV()*singularValues_inv.asDiagonal()*svd.matrixU().transpose());
+}    
 
-    void dampedInverse( dg::Matrix& _inputMatrix,
-			dg::Matrix& _inverseMatrix,
-			const double threshold = 1e-6,
-			dg::Matrix* Uref = NULL,
-			dg::Vector* Sref = NULL,
-			dg::Matrix* Vref = NULL) {
-      JacobiSVD<dg::Matrix> svd(_inputMatrix, ComputeThinU | ComputeThinV);
-      JacobiSVD<dg::Matrix>::SingularValuesType m_singularValues=svd.singularValues();
-      JacobiSVD<dg::Matrix>::SingularValuesType singularValues_inv;
-      singularValues_inv.resizeLike(m_singularValues);
-      for ( long i=0; i<m_singularValues.size(); ++i) {
-        if ( m_singularValues(i) > threshold )
-	  singularValues_inv(i)=m_singularValues(i)/(m_singularValues(i)*m_singularValues(i)+threshold*threshold);
-	else singularValues_inv(i)=0;
-      }
-      MatrixXd svd_matrixV = svd.matrixV();
-      MatrixXd svd_matrixU = svd.matrixU();
-      
-      _inverseMatrix = (svd_matrixV*singularValues_inv.asDiagonal()*svd_matrixU.transpose());
+void dampedInverse( dg::Matrix& _inputMatrix,
+		    dg::Matrix& _inverseMatrix,
+		    dg::Matrix& Uref,
+		    dg::Vector& Sref,
+		    dg::Matrix& Vref,
+		    const double threshold = 1e-6) {
+  sotDEBUGIN(15);
+  sotDEBUG(5) << "Input Matrix: "<<_inputMatrix<<std::endl;
+  JacobiSVD<dg::Matrix> svd(_inputMatrix, ComputeThinU | ComputeThinV);
+  JacobiSVD<dg::Matrix>::SingularValuesType m_singularValues=svd.singularValues();
+  JacobiSVD<dg::Matrix>::SingularValuesType singularValues_inv;
+  singularValues_inv.resizeLike(m_singularValues);
+  for ( long i=0; i<m_singularValues.size(); ++i) {
+    if ( m_singularValues(i) > threshold )
+      singularValues_inv(i)=m_singularValues(i)/(m_singularValues(i)*m_singularValues(i)+threshold*threshold);
+    else singularValues_inv(i)=0;
+  }
+  dg::Matrix matrix_U(svd.matrixU());
+  dg::Matrix matrix_V(svd.matrixV());
+  _inverseMatrix = (matrix_V*singularValues_inv.asDiagonal()*matrix_U.transpose());
+  Uref = matrix_U; Vref = matrix_V;  Sref = m_singularValues;
+  
+  sotDEBUGOUT(15);
+}    
 
-      if( Uref ) Uref = &svd_matrixU;
-      if( Vref ) Vref = &svd_matrixV;
-      if( Sref ) Sref = &singularValues_inv;
-    }    
+void dampedInverse( dg::Matrix& _inputMatrix,
+		    dg::Matrix& _inverseMatrix,
+		    const double threshold = 1e-6) {
+  sotDEBUGIN(15);
+  sotDEBUG(5) << "Input Matrix: "<<_inputMatrix<<std::endl;
+  JacobiSVD<dg::Matrix> svd(_inputMatrix, ComputeThinU | ComputeThinV);
+  JacobiSVD<dg::Matrix>::SingularValuesType m_singularValues=svd.singularValues();
+  JacobiSVD<dg::Matrix>::SingularValuesType singularValues_inv;
+  singularValues_inv.resizeLike(m_singularValues);
+  for ( long i=0; i<m_singularValues.size(); ++i) {
+    if ( m_singularValues(i) > threshold )
+      singularValues_inv(i)=m_singularValues(i)/(m_singularValues(i)*m_singularValues(i)+threshold*threshold);
+    else singularValues_inv(i)=0;
+  }
+  dg::Matrix Uref(svd.matrixU());
+  dg::Matrix Vref(svd.matrixV());
+  
+  _inverseMatrix = (Vref*singularValues_inv.asDiagonal()*Uref.transpose());
+  
+  sotDEBUGOUT(15);
+}    
+
+
 
 
 }

@@ -447,12 +447,13 @@ static void computeJacobianActivated( Task* taskSpec,
 dynamicgraph::Vector Sot::
 taskVectorToMlVector( const VectorMultiBound& taskVector )
 {
-  dynamicgraph::Vector res(taskVector.size()); unsigned int i=0;
+  dynamicgraph::Vector res(taskVector.size()); res.setZero();
+  unsigned int i=0;
+  
   for( VectorMultiBound::const_iterator iter=taskVector.begin();
-       iter!=taskVector.end();++iter,++i )
-    {
-      res(i)=iter->getSingleBound();
-    }
+       iter!=taskVector.end();++iter,++i ) {
+    res(i)=iter->getSingleBound();
+  }
   return res;
 }
 
@@ -475,11 +476,11 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
   try {
     control = q0SIN( iterTime );
     sotDEBUG(15) << "initial velocity q0 = " << control << endl;
-    if( mJ!=control.size() ) { control.resize( mJ ); control.fill(.0); }
+    if( mJ!=control.size() ) { control.resize( mJ ); control.setZero(); }
   }
   catch (...)
     {
-      if( mJ!=control.size() ) { control.resize( mJ ); }
+      if( mJ!=control.size() ) { control.resize( mJ );}
       control.setZero();
       sotDEBUG(25) << "No initial velocity." <<endl;
     }
@@ -561,7 +562,8 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	/***/sotCOUNTER(4,5); // Jt*S
 	
 	/* --- PINV --- */
-	Eigen::dampedInverse(Jt,Jp,th,NULL,&S,&V);
+	Eigen::MatrixXd EMPTY(0,0);
+	Eigen::dampedInverse(Jt,Jp,EMPTY,S,V,th);
 	/***/sotCOUNTER(5,6); // PINV
 	sotDEBUG(2) << "V after dampedInverse." << V <<endl;
 	/* --- RANK --- */
@@ -580,6 +582,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	//sotDEBUG(45) << "U"<<iterTask<<" = "<< U<<endl;
 	sotDEBUG(45) << "S"<<iterTask<<" = "<< S<<endl;
 	sotDEBUG(45) << "V"<<iterTask<<" = "<< V<<endl;
+	sotDEBUG(45) << "U"<<iterTask<<" = "<< EMPTY<<endl;
 
 	mem->jacobianInvSINOUT = Jp;
 	mem->jacobianInvSINOUT.setTime( iterTime );
@@ -610,7 +613,6 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       if( iterTask==0 ) control += Jp*err; else
 	control += Jp*(err - JK*control);
       /***/sotCOUNTER(7,8); // QDOT
-
 
       /* --- OPTIMAL FORM: To debug. --- */
       if( 0==iterTask )
@@ -651,7 +653,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       sotDEBUG(2) << "V = " << V;
       sotDEBUG(2) << "Jt = " << Jt;
       sotDEBUG(2) << "JpxJt = " << Jp*Jt;
-      sotDEBUG(2) << "Ptmp" << iterTask <<" = " << Jp*Jt;
+      sotDEBUG(25) << "Proj-Jp*Jt"<<iterTask<<" = "<< (Proj-Jp*Jt) <<endl;
 
       /* NON OPTIMAL FORM: to be replaced after debug. */
       if (1)

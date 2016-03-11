@@ -8,7 +8,7 @@ class MetaTaskCom(object):
     def __init__(self,dyn,name="com"):
         self.dyn=dyn
         self.name=name
-        dyn.setProperty('ComputeCoM','true')
+        #dyn.setProperty('ComputeCoM','true')
 
         self.feature    = FeatureGeneric('feature'+name)
         self.featureDes = FeatureGeneric('featureDes'+name)

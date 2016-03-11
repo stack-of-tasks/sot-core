@@ -115,7 +115,7 @@ namespace dynamicgraph {
 
       /*! Projection used to compute the control law. */
       dg::Matrix Proj;
-
+      //Eigen::MatrixXd<double,Eigen::Dynamic,Eigen::Dynamic, Eigen::RowMajor> Proj;
       /*! Force the recomputation at each step. */
       bool recomputeEachTime;
 
