@@ -45,6 +45,7 @@ void Device::integrateRollPitchYaw(Vector& state, const Vector& control,
                                    double dt)
 {
   Eigen::Vector3d omega;
+  //TODO: EIGEN OPTIMISE
   // Translation part
   for (unsigned int i=0; i<3; i++) {
     state(i) += control(i)*dt;
