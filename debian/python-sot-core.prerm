@@ -1,0 +1,17 @@
+#!/bin/sh
+# prerm script for sot-core
+#
+# see: dh_installdeb(1)
+
+set -e
+
+if which pyclean >/dev/null 2>&1; then
+    pyclean -p python-sot-core
+else
+    dpkg -L python-sot-core | grep \.py$ | while read file
+    do
+	rm -f "${file}"[co] >/dev/null
+    done
+fi
+
+#DEBHELPER#

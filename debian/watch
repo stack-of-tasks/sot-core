@@ -1,0 +1,3 @@
+version=3
+opts=filenamemangle=s/.+\/v?(\d\S*)\.tar\.gz/sot-core$1\.tar\.gz/ \
+  https://github.com/proyan/sot-core/releases .*/v?(\d\S*)\.tar\.gz

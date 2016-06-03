@@ -1,0 +1,14 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0
+Upstream-Name: sot-core
+Upstream-Contact: HPP mailing list <hpp@laas.fr>
+Source: https://github.com/proyan/sot-core
+
+Files: *
+Copyright: 2010-2016 JRL, CNRS/AIST.
+License: LGPL-3
+  See `/usr/share/common-licenses/LGPL-3'.	 
+
+Files: debian/*
+Copyright: 2016 Rohan Budhiraja
+License: LGPL-3
+  See `/usr/share/common-licenses/LGPL-3'.
