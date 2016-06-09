@@ -59,6 +59,7 @@ Description: Python bindings for sot-core library
 Package: libsot-core3.0.0
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Pre-Depends: ${misc:Pre-Depends}
 Description: Stack of tasks solver plugin library for Dynamic graph
  The sot core library provides heirarchical task solver and task management
  interface in Python. The library provides a stack of tasks solver plugin
