@@ -29,7 +29,6 @@ Package: libsot-core-dev
 Section: libdevel
 Architecture: any
 Depends: libsot-core3.0.0 (= ${binary:Version}),
-	 python-sot-core,
 	 ${misc:Depends}
 Suggests: libsot-core-doc
 Description: Provides Heirarchical task solver for Dynamic graph
@@ -45,6 +44,8 @@ Architecture: any
 Suggests: libsot-core-doc
 Provides: ${python:Provides}
 Depends: libsot-core3.0.0 (= ${binary:Version}),
+	 python-dynamic-graph-dev (>=3.0.0),
+	 python-dynamic-graph (>=3.0.0),
 	 ${shlibs:Depends},
 	 ${python:Depends},
 	 ${misc:Depends}
