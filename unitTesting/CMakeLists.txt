@@ -104,7 +104,7 @@ IF(UNIX)
   tools/test_abstract_interface.cpp
   )
   TARGET_LINK_LIBRARIES(test_abstract_interface
-    pluginabstract dl ${Boost_LIBRARIES})
+    pluginabstract ${CMAKE_DL_LIBS} ${Boost_LIBRARIES})
 
   LINK_DIRECTORIES(${SOT_PLUGIN_OUT_DIR} ${FULLPLUGINDIR})
 ENDIF(UNIX)
