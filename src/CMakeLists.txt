@@ -153,9 +153,13 @@ SET(${LIBRARY_NAME}_SOURCES
   math/vector-utheta.cpp
 
   feature/feature-abstract.cpp
+  feature/feature-point6d.cpp
 
   task/task-abstract.cpp
   task/multi-bound.cpp
+
+  task/task.cpp
+  task/task-pd.cpp
 
   sot/flags.cpp
   sot/memory-task-sot.cpp
