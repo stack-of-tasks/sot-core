@@ -70,6 +70,7 @@ namespace dynamicgraph {
       virtual void cleanupSetSensors(std::map<std::string,SensorValues> &sensorsIn)=0;
 
       virtual void getControl(std::map<std::string,ControlValues> &)=0;
+      virtual void setSecondOrderIntegration(void)=0;
     };
   }
 }
