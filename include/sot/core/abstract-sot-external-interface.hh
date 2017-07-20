@@ -71,6 +71,7 @@ namespace dynamicgraph {
 
       virtual void getControl(std::map<std::string,ControlValues> &)=0;
       virtual void setSecondOrderIntegration(void)=0;
+      virtual void setNoIntegration(void)=0;
     };
   }
 }

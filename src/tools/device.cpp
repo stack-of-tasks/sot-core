@@ -115,8 +115,10 @@ Device::
 Device( const std::string& n )
   :Entity(n)
   ,state_(6)
+  ,robotState_("Device(" + n + ")::output(vector)::robotState")
+  ,robotVelocity_("Device(" + n + ")::output(vector)::robotVelocity")
   ,vel_controlInit_(false)
-  ,controlInputType_(CONTROL_INPUT_VELOCITY)
+  ,controlInputType_(CONTROL_INPUT_ONE_INTEGRATION)
   ,controlSIN( NULL,"Device("+n+")::input(double)::control" )
   //,attitudeSIN(NULL,"Device::input(matrixRot)::attitudeIN")
   ,attitudeSIN(NULL,"Device::input(vector3)::attitudeIN")
@@ -142,7 +144,8 @@ Device( const std::string& n )
   forcesSOUT[3] =
       new Signal<Vector, int>("OpenHRP::output(vector6)::forceLARM");
 
-  signalRegistration( controlSIN<<stateSOUT<<velocitySOUT<<attitudeSOUT
+  signalRegistration( controlSIN<<stateSOUT<<robotState_<<robotVelocity_
+                      <<velocitySOUT<<attitudeSOUT
                       <<attitudeSIN<<zmpSIN <<*forcesSOUT[0]<<*forcesSOUT[1]
                       <<*forcesSOUT[2]<<*forcesSOUT[3] <<previousControlSOUT
                       <<pseudoTorqueSOUT << motorcontrolSOUT << ZMPPreviousControllerSOUT );
@@ -273,7 +276,16 @@ setRoot( const MatrixHomogeneous & worldMwaist )
 void Device::
 setSecondOrderIntegration()
 {
-  controlInputType_ = CONTROL_INPUT_ACCELERATION;
+  controlInputType_ = CONTROL_INPUT_TWO_INTEGRATION;
+  velocity_.resize(state_.size());
+  velocity_.setZero();
+  velocitySOUT.setConstant( velocity_ );
+}
+
+void Device::
+setNoIntegration()
+{
+  controlInputType_ = CONTROL_INPUT_NO_INTEGRATION;
   velocity_.resize(state_.size());
   velocity_.setZero();
   velocitySOUT.setConstant( velocity_ );
@@ -335,12 +347,12 @@ increment( const double & dt )
   /* Position the signals corresponding to sensors. */
   stateSOUT .setConstant( state_ ); stateSOUT.setTime( time+1 );
   //computation of the velocity signal
-  if( controlInputType_==CONTROL_INPUT_ACCELERATION )
+  if( controlInputType_==CONTROL_INPUT_TWO_INTEGRATION )
   {
     velocitySOUT.setConstant( velocity_ );
     velocitySOUT.setTime( time+1 );
   }
-  else
+  else if (controlInputType_==CONTROL_INPUT_ONE_INTEGRATION)
   {
     velocitySOUT.setConstant( controlSIN.accessCopy() );
     velocitySOUT.setTime( time+1 );
@@ -383,19 +395,19 @@ increment( const double & dt )
 
 void Device::integrate( const double & dt )
 {
-  const Vector & control = controlSIN.accessCopy();
+  const Vector & controlIN = controlSIN.accessCopy();
 
-  if (controlInputType_==CONTROL_INPUT_POSITION)
+  if (controlInputType_==CONTROL_INPUT_NO_INTEGRATION)
   {
-    assert(state_.size()==control.size()+6);
-    for( int i=0;i<control.size();++i )
-      state_(i+6) = control(i);
+    assert(state_.size()==controlIN.size()+6);
+    for( int i=0;i<controlIN.size();++i )
+      state_(i+6) = controlIN(i);
     return;
   }
 
   if( !vel_controlInit_ )
   {
-    vel_control_ = Vector(control.size());
+    vel_control_ = Vector(controlIN.size());
     vel_control_.setZero();
     vel_controlInit_ = true;
   }
@@ -405,20 +417,18 @@ void Device::integrate( const double & dt )
   // freedom as a translation and roll pitch yaw.
   unsigned int offset = 6;
 
-
-
-  if (controlInputType_==CONTROL_INPUT_ACCELERATION)
+  if (controlInputType_==CONTROL_INPUT_TWO_INTEGRATION)
   {
-    for( int i=0;i<control.size();++i )
+    for( int i=0;i<controlIN.size();++i )
     {
-      if(control.size() == velocity_.size()) offset = 0;
-      vel_control_(i) = velocity_(i+offset) + control(i)*dt*0.5;
-      velocity_(i+offset) = velocity_(i+offset) + control(i)*dt;
+      if(controlIN.size() == velocity_.size()) offset = 0;
+      vel_control_(i) = velocity_(i+offset) + controlIN(i)*dt*0.5;
+      velocity_(i+offset) = velocity_(i+offset) + controlIN(i)*dt;
     }
   }
   else
   {
-    vel_control_ = control;
+    vel_control_ = controlIN;
   }
 
   if (vel_control_.size() == state_.size()) {

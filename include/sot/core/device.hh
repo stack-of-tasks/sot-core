@@ -40,15 +40,15 @@ namespace dynamicgraph {
     /// Define the type of input expected by the robot
     enum ControlInput
     {
-      CONTROL_INPUT_POSITION=0,
-      CONTROL_INPUT_VELOCITY=1,
-      CONTROL_INPUT_ACCELERATION=2,
+      CONTROL_INPUT_NO_INTEGRATION=0,
+      CONTROL_INPUT_ONE_INTEGRATION=1,
+      CONTROL_INPUT_TWO_INTEGRATION=2,
       CONTROL_INPUT_SIZE=3
     };
 
     const std::string ControlInput_s[] =
     {
-      "position", "velocity", "acceleration"
+      "noInteg", "oneInteg", "twoInteg"
     };
 
     /* --------------------------------------------------------------------- */
@@ -93,6 +93,7 @@ namespace dynamicgraph {
       void setVelocitySize(const unsigned int& size);
       virtual void setVelocity(const dg::Vector & vel);
       virtual void setSecondOrderIntegration();
+      virtual void setNoIntegration();
       virtual void setControlInputType(const std::string& cit);
       virtual void increment(const double & dt = 5e-2);
       
@@ -110,6 +111,12 @@ namespace dynamicgraph {
       dynamicgraph::SignalPtr<dg::Vector,int> zmpSIN;
 
       dynamicgraph::Signal<dg::Vector,int> stateSOUT;
+      /// This corresponds to the real encoders values and take into
+      /// account the stabilization step. Therefore, this usually
+      /// does *not* match the state control input signal.
+      ///
+      dynamicgraph::Signal<dg::Vector, int> robotState_;
+      dynamicgraph::Signal<dg::Vector, int> robotVelocity_;
       dynamicgraph::Signal<dg::Vector,int> velocitySOUT;
       dynamicgraph::Signal<MatrixRotation,int> attitudeSOUT;
       dynamicgraph::Signal<dg::Vector,int>* forcesSOUT[4];
