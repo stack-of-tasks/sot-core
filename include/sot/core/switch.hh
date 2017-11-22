@@ -45,7 +45,7 @@ namespace dynamicgraph {
      
     public: /* --- SIGNAL --- */
       DYNAMIC_GRAPH_ENTITY_DECL();
-      dynamicgraph::SignalTimeDependent<bool,int> outSOUT;
+      dynamicgraph::Signal<bool,int> outSOUT;
       
     protected:
       bool signalOutput;
@@ -58,9 +58,9 @@ namespace dynamicgraph {
     public:
       Switch( const std::string& name )
 	: Entity(name)
-	,outSOUT( boost::bind(&Switch::switchOutput,this,_1,_2),
-                  sotNOSIGNAL,"Switch("+name+")::output(bool)::out")
+	,outSOUT("Switch("+name+")::output(bool)::out")
       {
+        outSOUT.setFunction(boost::bind(&Switch::switchOutput,this,_1,_2));
         signalOutput = false;
         signalRegistration (outSOUT );
         addCommand ("turnOn",
