@@ -106,6 +106,13 @@ void Task::initCommands( void )
 
   addCommand("clear",
 	     makeCommandVoid0(*this,&Task::clearFeatureList, docstring));
+  // List features
+  docstring = "    \n"
+    "    Returns the list of features of the task\n"
+    "    \n";
+
+  addCommand("list",
+	     new command::task::ListFeatures (*this, docstring));
 }
 
 
