@@ -81,11 +81,10 @@ namespace dynamicgraph {
 	return CLASS_NAME;
       }
 
-    protected:
-
       /*! \brief Defines a type for a list of tasks */
       typedef std::list<TaskAbstract*> StackType;
 
+    protected:
 
       /*! \brief This field is a list of controllers
 	managed by the stack of tasks. */
@@ -149,6 +148,7 @@ namespace dynamicgraph {
       /*! \name Methods to handle the stack.
 	@{
       */
+      virtual const StackType& tasks () const { return stack; }
 
       /*! \brief Push the task in the stack.
 	It has a lowest priority than the previous ones.
