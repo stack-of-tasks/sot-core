@@ -24,4 +24,3 @@ script:
   - ./.travis/run ../travis_custom/custom_build
 after_success: ./.travis/run after_success
 after_failure: ./.travis/run after_failure
-before_install: ./.travis/run before_install
