@@ -18,7 +18,7 @@ export APT_DEPENDENCIES="doxygen libboost-system-dev libboost-test-dev libboost-
 # Add Python dependency
 export APT_DEPENDENCIES=$APT_DEPENDENCIES" libboost-python-dev robotpkg-eigenpy python2.7-dev python-numpy python-sphinx"
 
-
+sudo sh -c "chmod a+rw -R /opt/openrobots"
 # When this script is called the current directory is ./custom_travis
 . ./.travis/run ../.travis/before_install
 
