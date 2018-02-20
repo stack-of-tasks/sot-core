@@ -18,7 +18,10 @@ branches:
 matrix: 
   allow_failures: 
   - compiler: clang
-script: ./.travis/run build
+before_install: ./travis_custom/custom_before_install  
+script:
+  - sudo free -m -t
+  - ./.travis/run ../travis_custom/custom_build
 after_success: ./.travis/run after_success
 after_failure: ./.travis/run after_failure
 before_install: ./.travis/run before_install

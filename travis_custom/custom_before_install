@@ -1,0 +1,23 @@
+#!/bin/bash
+set -e
+
+# Set debug mode
+set -x
+set -v
+
+# Add robotpkg 
+sudo sh -c "echo \"deb [arch=amd64] http://robotpkg.openrobots.org/packages/debian/pub trusty robotpkg\" >> /etc/apt/sources.list "
+curl http://robotpkg.openrobots.org/packages/debian/robotpkg.key | sudo apt-key add -
+
+# show memory usage before install
+sudo free -m -t
+
+# Setup environment variables.
+export APT_DEPENDENCIES="doxygen libboost-system-dev libboost-test-dev libboost-filesystem-dev libboost-program-options-dev libeigen3-dev libtinyxml-dev libconsole-bridge-dev robotpkg-pinocchio robotpkg-dynamic-graph-v3 robotpkg-py27-dynamic-graph-v3 robotpkg-sot-core-v3 "
+
+# When this script is called the current directory is ./custom_travis
+. ./.travis/run ../.travis/before_install
+
+# End debug mode
+set +v
+set +x
