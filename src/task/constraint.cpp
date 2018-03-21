@@ -105,7 +105,24 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
   try {
     int dimJ = J .rows();
     int nbc = J.cols();
-    if( 0==dimJ ){ dimJ = 1; J.resize(dimJ,nbc); }
+    if( 0==dimJ ) {
+      // Compute the correct size
+      for( JacobianList::iterator iter = jacobianList.begin();
+           iter!=jacobianList.end(); ++iter )
+        {
+          Signal< dynamicgraph::Matrix,int >& jacobian = ** iter;
+          const dynamicgraph::Matrix& partialJacobian = jacobian(time);
+          dimJ += partialJacobian.rows();
+          if (nbc == 0)
+            nbc = partialJacobian.cols();
+          else if (nbc != partialJacobian.cols()) {
+            SOT_THROW ExceptionTask(ExceptionTask::NON_ADEQUATE_FEATURES,
+                                    "Features from the list don't "
+                                    "have compatible-size jacobians.");
+          }
+        }
+      J.resize (dimJ, nbc);
+    }
 
     int cursorJ = 0;
 
@@ -119,23 +136,12 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
 	const dynamicgraph::Matrix& partialJacobian = jacobian(time);
 	const int nbr = partialJacobian.rows();
 	
-	if( 0==nbc ) { nbc = partialJacobian.cols(); J.conservativeResize(nbc,dimJ); }
-	else if( partialJacobian.cols() != nbc )
-	  {SOT_THROW ExceptionTask(ExceptionTask::NON_ADEQUATE_FEATURES,
-				   "Features from the list don't "
-				   "have compatible-size jacobians.");}
 	sotDEBUG(25) << "Jp =" <<endl<< partialJacobian<<endl;
 
-	while( cursorJ+nbr>=dimJ ) 
-	  { dimJ *= 2; J.resize(dimJ,nbc); }
-	for( int kc=0;kc<nbc;++kc ) 
-	  for( int k=0;k<nbr;++k )
-	    { J(cursorJ+k,kc) = partialJacobian(k,kc); }
+        J.middleRows (cursorJ, nbr) = partialJacobian;
 	cursorJ += nbr;
       }
     
-    /* If too much memory has been allocated, resize. */
-    J.conservativeResize(cursorJ,nbc);
   } catch SOT_RETHROW;
 
   sotDEBUG(15) << "# Out }" << endl;
