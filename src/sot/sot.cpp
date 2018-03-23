@@ -161,6 +161,13 @@ Sot( const std::string& name )
   addCommand("clear",
 	     new command::classSot::Clear(*this, docstring));
 
+  // List
+  docstring ="    \n"
+    "    returns the list of tasks pushed inside the stack.\n"
+    "    \n";
+  addCommand("list",
+	     new command::classSot::List(*this, docstring));
+
 
 }
 

@@ -183,6 +183,38 @@ namespace dynamicgraph { namespace sot {
 	}
       }; // class Display
 
+      // Command List
+      class List : public Command
+      {
+      public:
+	virtual ~List() {}
+	/// Create command and store it in Entity
+	/// \param entity instance of Entity owning this command
+	/// \param docstring documentation of the command
+      List(Sot& entity, const std::string& docstring) :
+	Command(entity, std::vector<Value::Type> (), docstring)
+	  {
+	  }
+	virtual Value doExecute()
+	{
+	  Sot& sot = static_cast<Sot&>(owner());
+	  typedef Sot::StackType StackType;
+          const StackType& stack = sot.tasks();
+
+	  std::stringstream returnString;
+          returnString << "( ";
+          for (StackType::const_iterator it = stack.begin();
+               it != stack.end(); ++it)
+          {
+            returnString << '"' << (*it)->getName() << "\", ";
+          }
+          returnString << ")";
+
+	  // return the stack
+	  return Value(returnString.str());
+	}
+      }; // class List
+
       // Command Clear
       class Clear : public Command
       {
