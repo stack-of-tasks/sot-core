@@ -61,9 +61,7 @@ void dampedInverse( dg::Matrix& _inputMatrix,
   JacobiSVD<dg::Matrix>::SingularValuesType singularValues_inv;
   singularValues_inv.resizeLike(m_singularValues);
   for ( long i=0; i<m_singularValues.size(); ++i) {
-    if ( m_singularValues(i) > threshold )
-      singularValues_inv(i)=m_singularValues(i)/(m_singularValues(i)*m_singularValues(i)+threshold*threshold);
-    else singularValues_inv(i)=0;
+    singularValues_inv(i)=m_singularValues(i)/(m_singularValues(i)*m_singularValues(i)+threshold*threshold);
   }
   dg::Matrix matrix_U(svd.matrixU());
   dg::Matrix matrix_V(svd.matrixV());
@@ -83,9 +81,7 @@ void dampedInverse( dg::Matrix& _inputMatrix,
   JacobiSVD<dg::Matrix>::SingularValuesType singularValues_inv;
   singularValues_inv.resizeLike(m_singularValues);
   for ( long i=0; i<m_singularValues.size(); ++i) {
-    if ( m_singularValues(i) > threshold )
-      singularValues_inv(i)=m_singularValues(i)/(m_singularValues(i)*m_singularValues(i)+threshold*threshold);
-    else singularValues_inv(i)=0;
+    singularValues_inv(i)=m_singularValues(i)/(m_singularValues(i)*m_singularValues(i)+threshold*threshold);
   }
   dg::Matrix Uref(svd.matrixU());
   dg::Matrix Vref(svd.matrixV());
