@@ -346,14 +346,9 @@ computeJacobianConstrained( const dynamicgraph::Matrix& Jac,
     JK = Jac;
     return JK;
   }
-  for( int i=0;i<nJ;++i )
-    {
-      for( int j=0;j<nbConstraints;++j ) Jff(i,j)=Jac(i,j);
-      for( int j=nbConstraints;j<Jac.cols();++j )
-	Jact(i,j-nbConstraints)=Jac(i,j);
-    }
-  JK = Jff*K;
-  JK+=Jact;
+  JK.resize(nJ, mJ);
+  JK.noalias() = Jac.leftCols (nbConstraints) * K;
+  JK.noalias() += Jac.rightCols (Jac.cols() - nbConstraints);
 
   return JK;
 }
@@ -800,26 +795,19 @@ computeConstraintProjector( dynamicgraph::Matrix& ProjK, const int& time )
   dynamicgraph::Matrix Jff( J.rows(),ffJointIdLast-ffJointIdFirst );
   dynamicgraph::Matrix Jc( J.rows(),nJc-ffJointIdLast+ffJointIdFirst );
 
-  for( int i=0;i<J.rows();++i )
-    {
-      if( ffJointIdFirst )
-	for( unsigned int j=0;j<ffJointIdFirst;++j )
-	  Jc(i,j)=J(i,j);
-      if( ffJointIdLast<nJc )
-	for( unsigned int j=ffJointIdLast;j<nJc;++j )
-	    Jc(i,j+ffJointIdFirst-ffJointIdLast)=J(i,j);
-      for( unsigned int j=ffJointIdFirst;j<ffJointIdLast;++j )
-	Jff( i,j-ffJointIdFirst )=J(i,j);
-    }
+  Jc.leftCols (ffJointIdFirst)    = J.leftCols  (ffJointIdFirst);
+  Jc.rightCols(nJc-ffJointIdLast) = J.rightCols (nJc-ffJointIdLast);
+  Jff = J.middleCols(ffJointIdFirst, ffJointIdLast);
+
   sotDEBUG(25) << "Jc = "<< Jc;
   sotDEBUG(25) << "Jff = "<< Jff;
 
   dynamicgraph::Matrix Jffinv( Jff.cols(),Jff.rows() );
-  Eigen::pseudoInverse(Jff, Jffinv);   Jffinv *= -1;
+  Eigen::pseudoInverse(Jff, Jffinv);
   
   dynamicgraph::Matrix& Jffc = ProjK;
   Jffc.resize( Jffinv.rows(),Jc.cols() );
-  Jffc = Jffinv*Jc;
+  Jffc = -Jffinv*Jc;
   sotDEBUG(15) << "Jffc = "<< Jffc;
 
   sotDEBUGOUT(15);

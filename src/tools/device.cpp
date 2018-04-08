@@ -419,9 +419,9 @@ void Device::integrate( const double & dt )
 
   if (controlInputType_==CONTROL_INPUT_TWO_INTEGRATION)
   {
+    if(controlIN.size() == velocity_.size()) offset = 0;
     for( int i=0;i<controlIN.size();++i )
     {
-      if(controlIN.size() == velocity_.size()) offset = 0;
       vel_control_(i) = velocity_(i+offset) + controlIN(i)*dt*0.5;
       velocity_(i+offset) = velocity_(i+offset) + controlIN(i)*dt;
     }
