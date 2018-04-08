@@ -5,7 +5,8 @@ set -e
 set -x
 set -v
 
-# Add robotpkg 
+# Add robotpkg
+sudo sh -c "echo \"deb [arch=amd64] http://robotpkg.openrobots.org/wip/packages/debian/pub trusty robotpkg\" >> /etc/apt/sources.list "
 sudo sh -c "echo \"deb [arch=amd64] http://robotpkg.openrobots.org/packages/debian/pub trusty robotpkg\" >> /etc/apt/sources.list "
 curl http://robotpkg.openrobots.org/packages/debian/robotpkg.key | sudo apt-key add -
 
@@ -16,7 +17,7 @@ sudo free -m -t
 export APT_DEPENDENCIES="doxygen libboost-system-dev libboost-test-dev libboost-filesystem-dev libboost-program-options-dev libeigen3-dev libtinyxml-dev libconsole-bridge-dev robotpkg-pinocchio robotpkg-dynamic-graph-v3 robotpkg-py27-dynamic-graph-v3 robotpkg-sot-core-v3 "
 
 # Add Python dependency
-export APT_DEPENDENCIES=$APT_DEPENDENCIES" libboost-python-dev robotpkg-eigenpy python2.7-dev python-numpy python-sphinx"
+export APT_DEPENDENCIES=$APT_DEPENDENCIES" libboost-python-dev robotpkg-py27-eigenpy python2.7-dev python-numpy python-sphinx"
 
 # When this script is called the current directory is ./custom_travis
 . ./.travis/run ../.travis/before_install
