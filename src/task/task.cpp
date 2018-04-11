@@ -251,7 +251,8 @@ computeErrorTimeDerivative( dynamicgraph::Vector & res, int time)
 
 	const dynamicgraph::Vector& partialErrorDot = feature.getErrorDot()(time);
 	const int dim = partialErrorDot.size();
-	for( int k=0;k<dim;++k ){ res(cursor++) = partialErrorDot(k); }
+        res.segment (cursor, dim) = partialErrorDot;
+        cursor += dim;
       }
 
   return res;
