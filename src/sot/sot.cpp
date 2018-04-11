@@ -622,6 +622,8 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	{ Proj.resize( mJ,mJ ); Proj.setIdentity(); }
 
       /* --- OLIVIER START  --- */
+      // Update by Joseph Mirabel to match Eigen API
+
       sotDEBUG(2) << "Proj non optimal (rankJ= " <<rankJ
 		  << ", iterTask ="  << iterTask
 		  << ")";
@@ -630,7 +632,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       sotDEBUG(2) << "JpxJt = " << Jp*Jt;
       sotDEBUG(25) << "Proj-Jp*Jt"<<iterTask<<" = "<< (Proj-Jp*Jt) <<endl;
 
-      Proj.noalias() -= Jp * Jt;
+      Proj.noalias() -= svd.matrixV().leftCols(rankJ) * svd.matrixV().leftCols(rankJ).adjoint();
 
        /* --- OLIVIER END --- */
 
