@@ -48,7 +48,19 @@ void pseudoInverse( dg::Matrix& _inputMatrix,
   _inverseMatrix = (svd.matrixV()*singularValues_inv.asDiagonal()*svd.matrixU().transpose());
 }    
 
-void dampedInverse( dg::Matrix& _inputMatrix,
+void dampedInverse( const JacobiSVD <dg::Matrix>& svd,
+		    dg::Matrix& _inverseMatrix,
+		    const double threshold = 1e-6) {
+  typedef JacobiSVD<dg::Matrix>::SingularValuesType SV_t;
+  ArrayWrapper<const SV_t> sigmas (svd.singularValues());
+
+  SV_t sv_inv (sigmas / (sigmas.cwiseAbs2() + threshold * threshold));
+
+  _inverseMatrix.noalias() =
+    ( svd.matrixV() * sv_inv.asDiagonal() * svd.matrixU().transpose());
+}    
+
+void dampedInverse( const dg::Matrix& _inputMatrix,
 		    dg::Matrix& _inverseMatrix,
 		    dg::Matrix& Uref,
 		    dg::Vector& Sref,
@@ -57,37 +69,25 @@ void dampedInverse( dg::Matrix& _inputMatrix,
   sotDEBUGIN(15);
   sotDEBUG(5) << "Input Matrix: "<<_inputMatrix<<std::endl;
   JacobiSVD<dg::Matrix> svd(_inputMatrix, ComputeThinU | ComputeThinV);
-  JacobiSVD<dg::Matrix>::SingularValuesType m_singularValues=svd.singularValues();
-  JacobiSVD<dg::Matrix>::SingularValuesType singularValues_inv;
-  singularValues_inv.resizeLike(m_singularValues);
-  for ( long i=0; i<m_singularValues.size(); ++i) {
-    singularValues_inv(i)=m_singularValues(i)/(m_singularValues(i)*m_singularValues(i)+threshold*threshold);
-  }
-  dg::Matrix matrix_U(svd.matrixU());
-  dg::Matrix matrix_V(svd.matrixV());
-  _inverseMatrix = (matrix_V*singularValues_inv.asDiagonal()*matrix_U.transpose());
-  Uref = matrix_U; Vref = matrix_V;  Sref = m_singularValues;
+
+  dampedInverse (svd, _inverseMatrix, threshold);
+
+  Uref = svd.matrixU();
+  Vref = svd.matrixV();
+  Sref = svd.singularValues();
   
   sotDEBUGOUT(15);
 }    
 
-void dampedInverse( dg::Matrix& _inputMatrix,
+void dampedInverse( const dg::Matrix& _inputMatrix,
 		    dg::Matrix& _inverseMatrix,
 		    const double threshold = 1e-6) {
   sotDEBUGIN(15);
   sotDEBUG(5) << "Input Matrix: "<<_inputMatrix<<std::endl;
+
   JacobiSVD<dg::Matrix> svd(_inputMatrix, ComputeThinU | ComputeThinV);
-  JacobiSVD<dg::Matrix>::SingularValuesType m_singularValues=svd.singularValues();
-  JacobiSVD<dg::Matrix>::SingularValuesType singularValues_inv;
-  singularValues_inv.resizeLike(m_singularValues);
-  for ( long i=0; i<m_singularValues.size(); ++i) {
-    singularValues_inv(i)=m_singularValues(i)/(m_singularValues(i)*m_singularValues(i)+threshold*threshold);
-  }
-  dg::Matrix Uref(svd.matrixU());
-  dg::Matrix Vref(svd.matrixV());
-  
-  _inverseMatrix = (Vref*singularValues_inv.asDiagonal()*Uref.transpose());
-  
+  dampedInverse (svd, _inverseMatrix, threshold);
+
   sotDEBUGOUT(15);
 }    
 

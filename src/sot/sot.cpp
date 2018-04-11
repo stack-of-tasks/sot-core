@@ -383,7 +383,7 @@ static void computeJacobianActivated( Task* taskSpec,
 	      for( int i=0;i<Jt.cols();++i )
 		{
 		  if(! controlSelec(i) )
-		    {for( int j=0;j<Jt.rows();++j ) { Jt(j,i)=0.; }}
+		    { Jt.col (i).setZero(); }
 		}
 	    }
 	  else
@@ -514,6 +514,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       dynamicgraph::Matrix &V = mem->V;
       dynamicgraph::Matrix &JK = mem->JK;
       dynamicgraph::Matrix &Jt = mem->Jt;
+      MemoryTaskSOT::SVD_t& svd = mem->svd;
 
       Jp.resize( mJ,nJ );
       V.resize( mJ,mJ );
@@ -531,14 +532,11 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	sotDEBUG(2) <<"Recompute inverse."<<endl;
 
 	/* --- FIRST ALLOCS --- */
-	dynamicgraph::Vector &S = mem->S;
-
 	sotDEBUG(1) << "Size = "
-		    << S.size() + mem->Jff.cols()*mem->Jff.rows()
+		    << std::min(nJ, mJ) + mem->Jff.cols()*mem->Jff.rows()
 	  + mem->Jact.cols()*mem->Jact.rows() << std::endl;
 
 	sotDEBUG(1) << std::endl;
-	S.resize( std::min(nJ,mJ) );
 	sotDEBUG(1) << "nJ=" << nJ << " " << "Jac.cols()=" << Jac.cols()
 		    <<" "<< "mJ=" << mJ<<std::endl;
 	mem->Jff.resize( nJ,Jac.cols()-mJ ); // number dofs, number constraints
@@ -546,7 +544,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	mem->Jact.resize( nJ,mJ );
 	sotDEBUG(1) << std::endl;
 	sotDEBUG(1) << "Size = "
-		    << S.size() + mem->Jff.cols()*mem->Jff.rows()
+		    << std::min(nJ, mJ) + mem->Jff.cols()*mem->Jff.rows()
 	  + mem->Jact.cols()*mem->Jact.rows() << std::endl;
 
 	/***/sotCOUNTER(1,2); // first allocs
@@ -556,7 +554,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	/***/sotCOUNTER(2,3); // compute JK
 
 	/* --- COMPUTE Jt --- */
-	if( 0<iterTask ) Jt = JK*Proj; else { Jt = JK; }
+	if( 0<iterTask ) Jt.noalias() = JK*Proj; else { Jt = JK; }
 	/***/sotCOUNTER(3,4); // compute Jt
 
 	/* --- COMPUTE S --- */
@@ -564,14 +562,17 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	/***/sotCOUNTER(4,5); // Jt*S
 	
 	/* --- PINV --- */
-	Eigen::MatrixXd EMPTY(0,0);
-	Eigen::dampedInverse(Jt,Jp,EMPTY,S,V,th);
+        svd.compute (Jt);
+        Eigen::dampedInverse (svd, Jp, th);
+        V.noalias() = svd.matrixV();
 	/***/sotCOUNTER(5,6); // PINV
 	sotDEBUG(2) << "V after dampedInverse." << V <<endl;
 	/* --- RANK --- */
 	{
-	  const unsigned int Jmax = S.size(); rankJ=0;
-	  for( unsigned i=0;i<Jmax;++i ) { if( S(i)>th ) rankJ++; }
+          rankJ = 0;
+          while ( rankJ < svd.singularValues().size()
+              &&  th    < svd.singularValues()[rankJ])
+          { ++rankJ; }
 	}
 
 	sotDEBUG(45) << "control"<<iterTask<<" = "<<control<<endl;
@@ -582,9 +583,9 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	sotDEBUG(15) << "e"<<iterTask<<" = "<<err<<endl;
 	sotDEBUG(45) << "JJp"<<iterTask<<" = "<< JK*Jp <<endl;
 	//sotDEBUG(45) << "U"<<iterTask<<" = "<< U<<endl;
-	sotDEBUG(45) << "S"<<iterTask<<" = "<< S<<endl;
+	sotDEBUG(45) << "S"<<iterTask<<" = "<< svd.singularValues()<<endl;
 	sotDEBUG(45) << "V"<<iterTask<<" = "<< V<<endl;
-	sotDEBUG(45) << "U"<<iterTask<<" = "<< EMPTY<<endl;
+	sotDEBUG(45) << "U"<<iterTask<<" = "<< svd.matrixU()<<endl;
 
 	mem->jacobianInvSINOUT = Jp;
 	mem->jacobianInvSINOUT.setTime( iterTime );
@@ -612,43 +613,17 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       /* --- COMPUTE QDOT AND P --- */
       /*DEBUG: normally, the first iter (ie the test below)
       * is the same than the other, starting with control_0 = q0SIN. */
-      if( iterTask==0 ) control += Jp*err; else
-	control += Jp*(err - JK*control);
+      if( iterTask==0 ) control.noalias() += Jp*err;
+      else              control           += Jp*(err - JK*control);
       /***/sotCOUNTER(7,8); // QDOT
 
       /* --- OPTIMAL FORM: To debug. --- */
       if( 0==iterTask )
 	{ Proj.resize( mJ,mJ ); Proj.setIdentity(); }
 
-//        {
-// 	double *p,*v1,*v2,*vtmp1,*vtmp2;
-// 	p = traits::matrix_storage(Proj.matrix);
-// 	v1 = traits::matrix_storage(V.matrix);
-// 	v2 = traits::matrix_storage(V.matrix);
-// 	vtmp1 = traits::matrix_storage(V.matrix);
-// 	/***/sotCOUNTER(6,7); // Ppre
-
-// 	for( unsigned int i=0;i<mJ;++i )
-// 	  {
-// 	    vtmp2 = traits::matrix_storage(V.matrix);
-// 	    for( unsigned int j=0;j<mJ;++j )
-// 	      {
-// 		v1 = vtmp1;   v2 = vtmp2;
-// 		for( unsigned int k=0;k<rankJ;++k )
-// 		  {
-// 		    (*p) -=( *v1) * (*v2);
-// 		    v2++;v1++;
-// 		  }
-// 		p++;   vtmp2 += mJ;
-// 	      }
-// 	    vtmp1 += mJ;
-// 	/***/sotCOUNTER(7,8); // P
-// 	  }
-//       }
-       /* NON OPTIMAL FORM: to be replaced after debug. */
-      //       Proj-=Jp*Jt;
-
       /* --- OLIVIER START  --- */
+      // Update by Joseph Mirabel to match Eigen API
+
       sotDEBUG(2) << "Proj non optimal (rankJ= " <<rankJ
 		  << ", iterTask ="  << iterTask
 		  << ")";
@@ -657,36 +632,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       sotDEBUG(2) << "JpxJt = " << Jp*Jt;
       sotDEBUG(25) << "Proj-Jp*Jt"<<iterTask<<" = "<< (Proj-Jp*Jt) <<endl;
 
-      /* NON OPTIMAL FORM: to be replaced after debug. */
-      if (1)
-       {
-	 double *p,*v1,*v2,*vtmp1,*vtmp2;
-	 p = MRAWDATA(Proj);
-	 v1 = MRAWDATA(V);
-	 v2 = MRAWDATA(V);
-	 vtmp1 = MRAWDATA(V);
-	 /***/sotCOUNTER(6,7); // Ppre
-
-	 for( int i=0;i<mJ;++i )
-	   {
-	     vtmp2 = MRAWDATA(V);
-	     for( int j=0;j<mJ;++j )
-	       {
-		 v1 = vtmp1;   v2 =vtmp2;
-		 for(unsigned int k=0;k<rankJ;++k )
-		   //for( unsigned int k=0;k<mJ;++k )
-		   {
-		     (*p) -=( *v1) * (*v2);
-		     v2+=mJ;v1+=mJ;
-		   }
-		 p++; vtmp2 ++;
-	       }
-	     vtmp1++;
-	   }
-	 /***/sotCOUNTER(7,8); // P
-       }
-      else
-	{ Proj-=Jp*Jt;}
+      Proj.noalias() -= svd.matrixV().leftCols(rankJ) * svd.matrixV().leftCols(rankJ).adjoint();
 
        /* --- OLIVIER END --- */
 
@@ -727,6 +673,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       dynamicgraph::Matrix &Jp = mem->Jp;
       dynamicgraph::Matrix &PJp = mem->PJp;
       dynamicgraph::Matrix &Jt = mem->Jt;
+      MemoryTaskSOT::SVD_t& svd = mem->svd;
 
       mem->JK.resize( nJ,mJ );
       mem->Jt.resize( nJ,mJ );
@@ -743,18 +690,17 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       sotDEBUG(35) << "Jgrad = " << JK <<endl;
 
       // Use optimized-memory Jt to do the p-inverse.
-      Jt=JK; Eigen::dampedInverse( Jt, Jp,th );
-      PJp = Proj*Jp;
+      Jt=JK;
+      svd.compute (Jt);
+      // TODO the two next lines could be replaced by
+      Eigen::dampedInverse( svd, Jp,th );
+      PJp.noalias() = Proj*Jp;
 
       /* --- COMPUTE ERR --- */
-      dynamicgraph::Vector Herr( err.size() );
-      for( int i=0;i<err.size(); ++i )
-	{
-	  Herr(i) = err(i);
-	}
+      const dynamicgraph::Vector& Herr( err );
 
       /* --- COMPUTE CONTROL --- */
-      control += PJp*Herr;
+      control.noalias() += PJp*Herr;
 
       /* ---  TRACE  --- */
       sotDEBUG(45) << "Pgrad = " << (PJp*Herr) <<endl;

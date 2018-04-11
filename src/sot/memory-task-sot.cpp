@@ -63,9 +63,9 @@ initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsiz
    Jact.resize( nJ,mJ );
 
    JK.resize( nJ,mJ );
-   U.resize( nJ,nJ );
    V.resize( mJ,mJ );
-   S.resize( std::min( nJ,mJ ) );
+
+   svd = SVD_t (nJ, mJ, Eigen::ComputeThinU | Eigen::ComputeThinV);
 
    JK.fill(0);
    if (atConstruction) {
@@ -75,9 +75,7 @@ initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsiz
      Jff.setZero();
      Jact.setZero();
      JK.setZero();
-     U.setZero();
      V.setZero();
-     S.setZero();
    } else {
      Eigen::pseudoInverse(Jt,Jp);
    }

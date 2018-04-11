@@ -50,6 +50,7 @@ Task( const std::string& n )
    ,withDerivative(false)
    ,controlGainSIN( NULL,"sotTask("+n+")::input(double)::controlGain" )
    ,dampingGainSINOUT( NULL,"sotTask("+n+")::in/output(double)::damping" )
+   // TODO As far as I understand, this is not used in this class.
    ,controlSelectionSIN( NULL,"sotTask("+n+")::input(flag)::controlSelec" )
    ,errorSOUT( boost::bind(&Task::computeError,this,_1,_2),
 	       sotNOSIGNAL,
@@ -250,7 +251,8 @@ computeErrorTimeDerivative( dynamicgraph::Vector & res, int time)
 
 	const dynamicgraph::Vector& partialErrorDot = feature.getErrorDot()(time);
 	const int dim = partialErrorDot.size();
-	for( int k=0;k<dim;++k ){ res(cursor++) = partialErrorDot(k); }
+        res.segment (cursor, dim) = partialErrorDot;
+        cursor += dim;
       }
 
   return res;
@@ -315,6 +317,9 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
 
 	while( cursorJ+nbr>=dimJ )
 	  { dimJ *= 2; J.conservativeResize(dimJ,nbc); }
+        // TODO If controlSelectionSIN is really to be removed,
+        // then the following loop is equivalent to:
+        // J.middleRows (cursorJ, nbr) = partialJacobian;
 	for( int kc=0;kc<nbc;++kc )
 	  {
 	    // 	  if( selection(kc) )
