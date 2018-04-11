@@ -532,14 +532,11 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	sotDEBUG(2) <<"Recompute inverse."<<endl;
 
 	/* --- FIRST ALLOCS --- */
-	dynamicgraph::Vector &S = mem->S;
-
 	sotDEBUG(1) << "Size = "
-		    << S.size() + mem->Jff.cols()*mem->Jff.rows()
+		    << std::min(nJ, mJ) + mem->Jff.cols()*mem->Jff.rows()
 	  + mem->Jact.cols()*mem->Jact.rows() << std::endl;
 
 	sotDEBUG(1) << std::endl;
-	S.resize( std::min(nJ,mJ) );
 	sotDEBUG(1) << "nJ=" << nJ << " " << "Jac.cols()=" << Jac.cols()
 		    <<" "<< "mJ=" << mJ<<std::endl;
 	mem->Jff.resize( nJ,Jac.cols()-mJ ); // number dofs, number constraints
@@ -547,7 +544,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	mem->Jact.resize( nJ,mJ );
 	sotDEBUG(1) << std::endl;
 	sotDEBUG(1) << "Size = "
-		    << S.size() + mem->Jff.cols()*mem->Jff.rows()
+		    << std::min(nJ, mJ) + mem->Jff.cols()*mem->Jff.rows()
 	  + mem->Jact.cols()*mem->Jact.rows() << std::endl;
 
 	/***/sotCOUNTER(1,2); // first allocs
@@ -568,9 +565,6 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
         svd.compute (Jt);
         Eigen::dampedInverse (svd, Jp, th);
         V.noalias() = svd.matrixV();
-        // TODO I think variable S could be removed as it is not used when
-        // not recomputing the pseudo inverse.
-        S.noalias() = svd.singularValues();
 	/***/sotCOUNTER(5,6); // PINV
 	sotDEBUG(2) << "V after dampedInverse." << V <<endl;
 	/* --- RANK --- */
@@ -589,7 +583,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	sotDEBUG(15) << "e"<<iterTask<<" = "<<err<<endl;
 	sotDEBUG(45) << "JJp"<<iterTask<<" = "<< JK*Jp <<endl;
 	//sotDEBUG(45) << "U"<<iterTask<<" = "<< U<<endl;
-	sotDEBUG(45) << "S"<<iterTask<<" = "<< S<<endl;
+	sotDEBUG(45) << "S"<<iterTask<<" = "<< svd.singularValues()<<endl;
 	sotDEBUG(45) << "V"<<iterTask<<" = "<< V<<endl;
 	sotDEBUG(45) << "U"<<iterTask<<" = "<< svd.matrixU()<<endl;
 

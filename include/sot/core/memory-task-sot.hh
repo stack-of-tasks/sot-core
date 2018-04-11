@@ -47,7 +47,6 @@ namespace dynamicgraph {
       dg::Matrix JK; //(nJ,mJ);
       
       dg::Matrix U,V;
-      dg::Vector S;
 
       typedef Eigen::JacobiSVD<dg::Matrix> SVD_t;
       SVD_t svd;
