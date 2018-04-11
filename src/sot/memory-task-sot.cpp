@@ -67,6 +67,8 @@ initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsiz
    V.resize( mJ,mJ );
    S.resize( std::min( nJ,mJ ) );
 
+   svd = SVD_t (nJ, mJ, Eigen::ComputeThinU | Eigen::ComputeThinV);
+
    JK.fill(0);
    if (atConstruction) {
      Jt.setZero();

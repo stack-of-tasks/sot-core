@@ -48,6 +48,9 @@ namespace dynamicgraph {
       
       dg::Matrix U,V;
       dg::Vector S;
+
+      typedef Eigen::JacobiSVD<dg::Matrix> SVD_t;
+      SVD_t svd;
       
     public:
       /* mJ is the number of actuated joints, nJ the number of feature in the task,
