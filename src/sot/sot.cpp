@@ -627,34 +627,6 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       if( 0==iterTask )
 	{ Proj.resize( mJ,mJ ); Proj.setIdentity(); }
 
-//        {
-// 	double *p,*v1,*v2,*vtmp1,*vtmp2;
-// 	p = traits::matrix_storage(Proj.matrix);
-// 	v1 = traits::matrix_storage(V.matrix);
-// 	v2 = traits::matrix_storage(V.matrix);
-// 	vtmp1 = traits::matrix_storage(V.matrix);
-// 	/***/sotCOUNTER(6,7); // Ppre
-
-// 	for( unsigned int i=0;i<mJ;++i )
-// 	  {
-// 	    vtmp2 = traits::matrix_storage(V.matrix);
-// 	    for( unsigned int j=0;j<mJ;++j )
-// 	      {
-// 		v1 = vtmp1;   v2 = vtmp2;
-// 		for( unsigned int k=0;k<rankJ;++k )
-// 		  {
-// 		    (*p) -=( *v1) * (*v2);
-// 		    v2++;v1++;
-// 		  }
-// 		p++;   vtmp2 += mJ;
-// 	      }
-// 	    vtmp1 += mJ;
-// 	/***/sotCOUNTER(7,8); // P
-// 	  }
-//       }
-       /* NON OPTIMAL FORM: to be replaced after debug. */
-      //       Proj-=Jp*Jt;
-
       /* --- OLIVIER START  --- */
       sotDEBUG(2) << "Proj non optimal (rankJ= " <<rankJ
 		  << ", iterTask ="  << iterTask
@@ -664,36 +636,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       sotDEBUG(2) << "JpxJt = " << Jp*Jt;
       sotDEBUG(25) << "Proj-Jp*Jt"<<iterTask<<" = "<< (Proj-Jp*Jt) <<endl;
 
-      /* NON OPTIMAL FORM: to be replaced after debug. */
-      if (1)
-       {
-	 double *p,*v1,*v2,*vtmp1,*vtmp2;
-	 p = MRAWDATA(Proj);
-	 v1 = MRAWDATA(V);
-	 v2 = MRAWDATA(V);
-	 vtmp1 = MRAWDATA(V);
-	 /***/sotCOUNTER(6,7); // Ppre
-
-	 for( int i=0;i<mJ;++i )
-	   {
-	     vtmp2 = MRAWDATA(V);
-	     for( int j=0;j<mJ;++j )
-	       {
-		 v1 = vtmp1;   v2 =vtmp2;
-		 for(unsigned int k=0;k<rankJ;++k )
-		   //for( unsigned int k=0;k<mJ;++k )
-		   {
-		     (*p) -=( *v1) * (*v2);
-		     v2+=mJ;v1+=mJ;
-		   }
-		 p++; vtmp2 ++;
-	       }
-	     vtmp1++;
-	   }
-	 /***/sotCOUNTER(7,8); // P
-       }
-      else
-	{ Proj-=Jp*Jt;}
+      Proj.noalias() -= Jp * Jt;
 
        /* --- OLIVIER END --- */
 
@@ -734,6 +677,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       dynamicgraph::Matrix &Jp = mem->Jp;
       dynamicgraph::Matrix &PJp = mem->PJp;
       dynamicgraph::Matrix &Jt = mem->Jt;
+      MemoryTaskSOT::SVD_t& svd = mem->svd;
 
       mem->JK.resize( nJ,mJ );
       mem->Jt.resize( nJ,mJ );
@@ -750,18 +694,17 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       sotDEBUG(35) << "Jgrad = " << JK <<endl;
 
       // Use optimized-memory Jt to do the p-inverse.
-      Jt=JK; Eigen::dampedInverse( Jt, Jp,th );
-      PJp = Proj*Jp;
+      Jt=JK;
+      svd.compute (Jt);
+      // TODO the two next lines could be replaced by
+      Eigen::dampedInverse( svd, Jp,th );
+      PJp.noalias() = Proj*Jp;
 
       /* --- COMPUTE ERR --- */
-      dynamicgraph::Vector Herr( err.size() );
-      for( int i=0;i<err.size(); ++i )
-	{
-	  Herr(i) = err(i);
-	}
+      const dynamicgraph::Vector& Herr( err );
 
       /* --- COMPUTE CONTROL --- */
-      control += PJp*Herr;
+      control.noalias() += PJp*Herr;
 
       /* ---  TRACE  --- */
       sotDEBUG(45) << "Pgrad = " << (PJp*Herr) <<endl;
