@@ -383,7 +383,7 @@ static void computeJacobianActivated( Task* taskSpec,
 	      for( int i=0;i<Jt.cols();++i )
 		{
 		  if(! controlSelec(i) )
-		    {for( int j=0;j<Jt.rows();++j ) { Jt(j,i)=0.; }}
+		    { Jt.col (i).setZero(); }
 		}
 	    }
 	  else
@@ -557,7 +557,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	/***/sotCOUNTER(2,3); // compute JK
 
 	/* --- COMPUTE Jt --- */
-	if( 0<iterTask ) Jt = JK*Proj; else { Jt = JK; }
+	if( 0<iterTask ) Jt.noalias() = JK*Proj; else { Jt = JK; }
 	/***/sotCOUNTER(3,4); // compute Jt
 
 	/* --- COMPUTE S --- */
@@ -619,8 +619,8 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       /* --- COMPUTE QDOT AND P --- */
       /*DEBUG: normally, the first iter (ie the test below)
       * is the same than the other, starting with control_0 = q0SIN. */
-      if( iterTask==0 ) control += Jp*err; else
-	control += Jp*(err - JK*control);
+      if( iterTask==0 ) control.noalias() += Jp*err;
+      else              control           += Jp*(err - JK*control);
       /***/sotCOUNTER(7,8); // QDOT
 
       /* --- OPTIMAL FORM: To debug. --- */
