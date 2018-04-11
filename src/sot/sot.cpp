@@ -514,6 +514,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       dynamicgraph::Matrix &V = mem->V;
       dynamicgraph::Matrix &JK = mem->JK;
       dynamicgraph::Matrix &Jt = mem->Jt;
+      MemoryTaskSOT::SVD_t& svd = mem->svd;
 
       Jp.resize( mJ,nJ );
       V.resize( mJ,mJ );
@@ -564,14 +565,20 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	/***/sotCOUNTER(4,5); // Jt*S
 	
 	/* --- PINV --- */
-	Eigen::MatrixXd EMPTY(0,0);
-	Eigen::dampedInverse(Jt,Jp,EMPTY,S,V,th);
+        svd.compute (Jt);
+        Eigen::dampedInverse (svd, Jp, th);
+        V.noalias() = svd.matrixV();
+        // TODO I think variable S could be removed as it is not used when
+        // not recomputing the pseudo inverse.
+        S.noalias() = svd.singularValues();
 	/***/sotCOUNTER(5,6); // PINV
 	sotDEBUG(2) << "V after dampedInverse." << V <<endl;
 	/* --- RANK --- */
 	{
-	  const unsigned int Jmax = S.size(); rankJ=0;
-	  for( unsigned i=0;i<Jmax;++i ) { if( S(i)>th ) rankJ++; }
+          rankJ = 0;
+          while ( rankJ < svd.singularValues().size()
+              &&  th    < svd.singularValues()[rankJ])
+          { ++rankJ; }
 	}
 
 	sotDEBUG(45) << "control"<<iterTask<<" = "<<control<<endl;
@@ -584,7 +591,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	//sotDEBUG(45) << "U"<<iterTask<<" = "<< U<<endl;
 	sotDEBUG(45) << "S"<<iterTask<<" = "<< S<<endl;
 	sotDEBUG(45) << "V"<<iterTask<<" = "<< V<<endl;
-	sotDEBUG(45) << "U"<<iterTask<<" = "<< EMPTY<<endl;
+	sotDEBUG(45) << "U"<<iterTask<<" = "<< svd.matrixU()<<endl;
 
 	mem->jacobianInvSINOUT = Jp;
 	mem->jacobianInvSINOUT.setTime( iterTime );
