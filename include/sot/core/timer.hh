@@ -110,6 +110,7 @@ class Timer_EXPORT Timer
       sotDEBUG(15) << "t1: "<< t1.tv_sec << " - " << t1.tv_usec << std::endl;
 
       timerSOUT = dt;
+      timerSOUT.setTime (time);
 
       sotDEBUGOUT(15);
       return t;
@@ -147,7 +148,7 @@ Timer( const std::string& name )
   :Entity(name)
    ,t0(),t1()
    ,dt(0.)
-   ,sigSIN( NULL,"Timer("+name+")::output(T)::sin" )
+   ,sigSIN( NULL,"Timer("+name+")::input(T)::sin" )
    ,sigSOUT(  boost::bind(&Timer::compute,this,_1,_2),
 	      sigSIN,
 	      "Timer("+name+")::output(T)::sout" )
