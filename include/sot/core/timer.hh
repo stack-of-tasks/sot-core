@@ -167,7 +167,7 @@ Timer( const std::string& name )
 	      "Timer("+name+")::output(T)::sout" )
    ,sigClockSOUT(  boost::bind(&Timer::compute<true>,this,_1,_2),
 	      sigSIN,
-	      "Timer("+name+")::output(T)::sout" )
+	      "Timer("+name+")::output(T)::clockSout" )
    ,timerSOUT( "Timer("+name+")::output(double)::timer" )
 {
   sotDEBUGIN(15);
