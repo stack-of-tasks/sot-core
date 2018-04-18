@@ -72,7 +72,6 @@ namespace dynamicgraph {
       explicit FeaturePosture (const std::string& name);
       virtual ~FeaturePosture ();
       virtual unsigned int& getDimension( unsigned int& res,int );
-      void setPosture (const dg::Vector& posture);
       void selectDof (unsigned dofId, bool control);
 
     protected:
