@@ -65,7 +65,7 @@ initMemory( const Matrix::Index nJ,const Matrix::Index mJ,const Matrix::Index ff
    JK.resize( nJ,mJ );
    V.resize( mJ,mJ );
 
-   svd = SVD_t (nJ, mJ, Eigen::ComputeThinU | Eigen::ComputeThinV);
+   svd = SVD_t (nJ, mJ, Eigen::ComputeThinU | Eigen::ComputeFullV);
 
    JK.fill(0);
    if (atConstruction) {

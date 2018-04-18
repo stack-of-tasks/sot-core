@@ -615,8 +615,12 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       /***/sotCOUNTER(7,8); // QDOT
 
       /* --- OPTIMAL FORM: To debug. --- */
-      if( 0==iterTask )
-	{ Proj.resize( mJ,mJ ); Proj.setIdentity(); }
+      if( 0==iterTask ) {
+        Proj.resize( mJ,mJ ); Proj.setIdentity();
+      } else {
+        // Proj.noalias() -= svd.matrixV().leftCols(rankJ) * svd.matrixV().leftCols(rankJ).adjoint();
+        Proj = Proj * svd.matrixV().rightCols(svd.matrixV().cols()-rankJ);
+      }
 
       /* --- OLIVIER START  --- */
       // Update by Joseph Mirabel to match Eigen API
@@ -628,8 +632,6 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       sotDEBUG(2) << "Jt = " << Jt;
       sotDEBUG(2) << "JpxJt = " << Jp*Jt;
       sotDEBUG(25) << "Proj-Jp*Jt"<<iterTask<<" = "<< (Proj-Jp*Jt) <<endl;
-
-      Proj.noalias() -= svd.matrixV().leftCols(rankJ) * svd.matrixV().leftCols(rankJ).adjoint();
 
        /* --- OLIVIER END --- */
 
