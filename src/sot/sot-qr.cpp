@@ -674,7 +674,8 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
   {
     TaskAbstract & task = **(stack.begin());
     const dynamicgraph::Matrix &Jac = task.jacobianSOUT(iterTime);
-    const dynamicgraph::Vector err = Sot::taskVectorToMlVector(task.taskSOUT(iterTime));
+    const dynamicgraph::Vector err;
+    Sot::taskVectorToMlVector(task.taskSOUT(iterTime), err);
     const unsigned int mJ = Jac.rows();
     /***/sotCOUNTER(0,1); // Direct Dynamic
 
@@ -765,7 +766,8 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 
       TaskAbstract & task = **iter;
       const dynamicgraph::Matrix &Jac = task.jacobianSOUT(iterTime);
-      const dynamicgraph::Vector err = Sot::taskVectorToMlVector(task.taskSOUT(iterTime));
+      const dynamicgraph::Vector err;
+      Sot::taskVectorToMlVector(task.taskSOUT(iterTime), err);
       const unsigned int mJ = Jac.rows();
       /***/sotCOUNTER(0,1); // Direct Dynamic
 
@@ -875,7 +877,8 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       TaskAbstract & task = **iter;
       MemoryTaskSOT * mem = dynamic_cast<MemoryTaskSOT *>( task.memoryInternal );
       const dynamicgraph::Matrix &Jac = mem->JK;
-      const dynamicgraph::Vector &err = Sot::taskVectorToMlVector(task.taskSOUT.accessCopy());
+      const dynamicgraph::Vector err;
+      Sot::taskVectorToMlVector(task.taskSOUT.accessCopy(), err);
 
       dynamicgraph::Vector diffErr(err.size());
       diffErr = Jac*control;

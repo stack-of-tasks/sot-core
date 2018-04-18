@@ -136,8 +136,8 @@ namespace dynamicgraph {
 						      dg::Matrix& Jact );
       static dg::Matrix & computeJacobianConstrained( const TaskAbstract& task,
 						      const dg::Matrix& K );
-      static dg::Vector
-	taskVectorToMlVector(const VectorMultiBound& taskVector);
+      static void
+	taskVectorToMlVector(const VectorMultiBound& taskVector, Vector& err);
 
     public:
 

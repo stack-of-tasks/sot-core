@@ -446,17 +446,16 @@ static void computeJacobianActivated( Task* taskSpec,
 #   define sotPRINTCOUNTER(nbc1)
 #endif // #ifdef  WITH_CHRONO
 
-dynamicgraph::Vector Sot::
-taskVectorToMlVector( const VectorMultiBound& taskVector )
+void Sot::
+taskVectorToMlVector( const VectorMultiBound& taskVector, Vector& res )
 {
-  dynamicgraph::Vector res(taskVector.size()); res.setZero();
+  res.resize(taskVector.size());
   unsigned int i=0;
   
   for( VectorMultiBound::const_iterator iter=taskVector.begin();
        iter!=taskVector.end();++iter,++i ) {
     res(i)=iter->getSingleBound();
   }
-  return res;
 }
 
 dynamicgraph::Vector& Sot::
@@ -495,7 +494,6 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       TaskAbstract & task = **iter;
       sotDEBUG(15) << "Task: e_" << task.getName() << std::endl;
       const dynamicgraph::Matrix &Jac = task.jacobianSOUT(iterTime);
-      const dynamicgraph::Vector err = taskVectorToMlVector(task.taskSOUT(iterTime));
       sotCOUNTER(0,1); // Direct Dynamic
 
       unsigned int rankJ;
@@ -515,6 +513,9 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       dynamicgraph::Matrix &JK = mem->JK;
       dynamicgraph::Matrix &Jt = mem->Jt;
       MemoryTaskSOT::SVD_t& svd = mem->svd;
+
+      taskVectorToMlVector(task.taskSOUT(iterTime), mem->err);
+      const dynamicgraph::Vector &err = mem->err;
 
       Jp.resize( mJ,nJ );
       V.resize( mJ,mJ );
@@ -650,8 +651,6 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 
   if( 0!=taskGradient )
     {
-      const dynamicgraph::Vector err
-        = taskVectorToMlVector(taskGradient->taskSOUT.access(iterTime));
       const dynamicgraph::Matrix & Jac = taskGradient->jacobianSOUT.access(iterTime);
 
       const unsigned int nJ = Jac.rows();
@@ -665,6 +664,9 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
           mem = new MemoryTaskSOT( taskGradient->getName()+"_memSOT",nJ,mJ );
           taskGradient->memoryInternal = mem;
         }
+
+      taskVectorToMlVector(taskGradient->taskSOUT.access(iterTime), mem->err);
+      const dynamicgraph::Vector& err = mem->err;
 
       sotDEBUG(45) << "K = " << K <<endl;
       sotDEBUG(45) << "Jff = " << Jac <<endl;

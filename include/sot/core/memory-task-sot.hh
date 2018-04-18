@@ -38,6 +38,7 @@ namespace dynamicgraph {
     {
     public://   protected:
       /* Internal memory to reduce the dynamic allocation at task resolution. */
+      dg::Vector err;
       dg::Matrix Jt;  //( nJ,mJ );
       dg::Matrix Jp;
       dg::Matrix PJp;
