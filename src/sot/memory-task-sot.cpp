@@ -30,9 +30,9 @@ const std::string MemoryTaskSOT::CLASS_NAME = "MemoryTaskSOT";
 
 MemoryTaskSOT::
 MemoryTaskSOT( const std::string & name
-                  ,const unsigned int nJ
-                  ,const unsigned int mJ
-                  ,const unsigned int ffsize )
+                  ,const Matrix::Index nJ
+                  ,const Matrix::Index mJ
+                  ,const Matrix::Index ffsize )
     :
   Entity( name )
   ,jacobianInvSINOUT( "sotTaskAbstract("+name+")::inout(matrix)::Jinv" )
@@ -49,7 +49,7 @@ MemoryTaskSOT( const std::string & name
 
 
 void MemoryTaskSOT::
-initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsize,
+initMemory( const Matrix::Index nJ,const Matrix::Index mJ,const Matrix::Index ffsize,
 	    bool atConstruction )
 {
    sotDEBUG(15) << "Task-mermory " << getName() << ": resize " 

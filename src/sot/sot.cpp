@@ -334,13 +334,11 @@ defineNbDof( const unsigned int& nbDof )
 dynamicgraph::Matrix & Sot::
 computeJacobianConstrained( const dynamicgraph::Matrix& Jac,
                             const dynamicgraph::Matrix& K,
-                            dynamicgraph::Matrix& JK,
-                            dynamicgraph::Matrix& Jff,
-                            dynamicgraph::Matrix& Jact )
+                            dynamicgraph::Matrix& JK)
 {
-  const int nJ = Jac.rows();
-  const int mJ = K.cols();
-  const int nbConstraints = Jac.cols() - mJ;
+  const Matrix::Index nJ = Jac.rows();
+  const Matrix::Index mJ = K.cols();
+  const Matrix::Index nbConstraints = Jac.cols() - mJ;
 
   if (nbConstraints == 0) {
     JK = Jac;
@@ -361,10 +359,8 @@ computeJacobianConstrained( const TaskAbstract& task,
   const dynamicgraph::Matrix &Jac = task.jacobianSOUT.accessCopy ();
   MemoryTaskSOT * mem = dynamic_cast<MemoryTaskSOT *>( task.memoryInternal );
   if( NULL==mem ) throw; // TODO
-  dynamicgraph::Matrix &Jff = mem->Jff;
-  dynamicgraph::Matrix &Jact = mem->Jact;
   dynamicgraph::Matrix &JK = mem->JK;
-  return computeJacobianConstrained(Jac,K,JK,Jff,Jact);
+  return computeJacobianConstrained(Jac,K,JK);
 }
 
 static void computeJacobianActivated( Task* taskSpec,
@@ -423,15 +419,15 @@ static void computeJacobianActivated( Task* taskSpec,
 #   define sotSTART_CHRONO1  gettimeofday(&t0,NULL)
 #   define sotCHRONO1 \
       gettimeofday(&t1,NULL);\
-      dt = ( (t1.tv_sec-t0.tv_sec) * 1000.* 1000.\
-	     + (t1.tv_usec-t0.tv_usec+0.)  );\
+      dt = ( (double)(t1.tv_sec-t0.tv_sec) * 1000.* 1000.\
+	     + (double)(t1.tv_usec-t0.tv_usec)  );\
       sotDEBUG(1) << "dt: "<< dt / 1000. << std::endl
 #   define sotINITPARTCOUNTERS  struct timeval tpart0
 #   define sotSTARTPARTCOUNTERS  gettimeofday(&tpart0,NULL)
 #   define sotCOUNTER(nbc1,nbc2) \
 	  gettimeofday(&tpart##nbc2,NULL); \
-	  dt##nbc2 += ( (tpart##nbc2.tv_sec-tpart##nbc1.tv_sec) * 1000.* 1000. \
-		   + (tpart##nbc2.tv_usec-tpart##nbc1.tv_usec+0.)  )
+	  dt##nbc2 += ( (double)(tpart##nbc2.tv_sec-tpart##nbc1.tv_sec) * 1000.* 1000. \
+		   +    (double)(tpart##nbc2.tv_usec-tpart##nbc1.tv_usec)  )
 #   define sotINITCOUNTER(nbc1) \
    struct timeval tpart##nbc1; double dt##nbc1=0;
 #   define sotPRINTCOUNTER(nbc1)  sotDEBUG(1) << "dt" << nbc1 << " = " << dt##nbc1 << std::endl
@@ -471,8 +467,8 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
   sotSTARTPARTCOUNTERS;
 
   const double &th = inversionThresholdSIN(iterTime);
-  const dynamicgraph::Matrix &K = constraintSOUT(iterTime);
-  const int mJ = K.cols(); // number dofs - number constraints
+  const Matrix &K = constraintSOUT(iterTime);
+  const Matrix::Index mJ = K.cols(); // number dofs - number constraints
 
   try {
     control = q0SIN( iterTime );
@@ -497,7 +493,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       sotCOUNTER(0,1); // Direct Dynamic
 
       unsigned int rankJ;
-      const int nJ = Jac.rows(); // number dofs
+      const Matrix::Index nJ = Jac.rows(); // number dofs
 
       /* Init memory. */
       MemoryTaskSOT * mem = dynamic_cast<MemoryTaskSOT *>( task.memoryInternal );
@@ -653,7 +649,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
     {
       const dynamicgraph::Matrix & Jac = taskGradient->jacobianSOUT.access(iterTime);
 
-      const unsigned int nJ = Jac.rows();
+      const Matrix::Index nJ = Jac.rows();
 
       MemoryTaskSOT * mem
         = dynamic_cast<MemoryTaskSOT *>( taskGradient->memoryInternal );
@@ -739,7 +735,7 @@ computeConstraintProjector( dynamicgraph::Matrix& ProjK, const int& time )
   const dynamicgraph::Matrix &J = *Jptr;
   sotDEBUG(12) << "J = "<< J;
 
-  const unsigned int nJc = J.cols();
+  const Matrix::Index nJc = J.cols();
   dynamicgraph::Matrix Jff( J.rows(),ffJointIdLast-ffJointIdFirst );
   dynamicgraph::Matrix Jc( J.rows(),nJc-ffJointIdLast+ffJointIdFirst );
 

@@ -131,9 +131,7 @@ namespace dynamicgraph {
 
       static dg::Matrix & computeJacobianConstrained( const dg::Matrix& Jac,
 						      const dg::Matrix& K,
-						      dg::Matrix& JK,
-						      dg::Matrix& Jff,
-						      dg::Matrix& Jact );
+						      dg::Matrix& JK);
       static dg::Matrix & computeJacobianConstrained( const TaskAbstract& task,
 						      const dg::Matrix& K );
       static void
