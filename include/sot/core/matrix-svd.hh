@@ -55,9 +55,10 @@ void dampedInverse( const JacobiSVD <dg::Matrix>& svd,
   ArrayWrapper<const SV_t> sigmas (svd.singularValues());
 
   SV_t sv_inv (sigmas / (sigmas.cwiseAbs2() + threshold * threshold));
+  const dg::Matrix::Index m = std::min(svd.rows(), svd.cols());
 
   _inverseMatrix.noalias() =
-    ( svd.matrixV() * sv_inv.asDiagonal() * svd.matrixU().transpose());
+    ( svd.matrixV().rightCols(m) * sv_inv.asDiagonal() * svd.matrixU().rightCols(m).transpose());
 }    
 
 void dampedInverse( const dg::Matrix& _inputMatrix,
