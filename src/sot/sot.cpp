@@ -606,12 +606,13 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       }
       /***/sotCOUNTER(6,7); // TRACE
 
+      if (rankJ == 0) break;
 
       /* --- COMPUTE QDOT AND P --- */
       /*DEBUG: normally, the first iter (ie the test below)
       * is the same than the other, starting with control_0 = q0SIN. */
       if( iterTask==0 ) control.noalias() += Jp*err;
-      else              control           += Jp*(err - JK*control);
+      else              control           += Proj * (Jp*(err - JK*control));
       /***/sotCOUNTER(7,8); // QDOT
 
       /* --- OPTIMAL FORM: To debug. --- */
