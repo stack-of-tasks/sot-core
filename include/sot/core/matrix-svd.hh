@@ -55,10 +55,10 @@ void dampedInverse( const JacobiSVD <dg::Matrix>& svd,
   ArrayWrapper<const SV_t> sigmas (svd.singularValues());
 
   SV_t sv_inv (sigmas / (sigmas.cwiseAbs2() + threshold * threshold));
-  const dg::Matrix::Index m = std::min(svd.rows(), svd.cols());
+  const dg::Matrix::Index m = sv_inv.size();
 
   _inverseMatrix.noalias() =
-    ( svd.matrixV().rightCols(m) * sv_inv.asDiagonal() * svd.matrixU().rightCols(m).transpose());
+    ( svd.matrixV().leftCols(m) * sv_inv.asDiagonal() * svd.matrixU().leftCols(m).transpose());
 }    
 
 void dampedInverse( const dg::Matrix& _inputMatrix,
@@ -86,7 +86,7 @@ void dampedInverse( const dg::Matrix& _inputMatrix,
   sotDEBUGIN(15);
   sotDEBUG(5) << "Input Matrix: "<<_inputMatrix<<std::endl;
 
-  JacobiSVD<dg::Matrix> svd(_inputMatrix, ComputeThinU | ComputeThinV);
+  JacobiSVD<dg::Matrix> svd(_inputMatrix, ComputeThinU | ComputeFullV);
   dampedInverse (svd, _inverseMatrix, threshold);
 
   sotDEBUGOUT(15);
