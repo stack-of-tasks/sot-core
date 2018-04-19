@@ -63,7 +63,6 @@ initMemory( const Matrix::Index nJ,const Matrix::Index mJ,const Matrix::Index ff
    Jact.resize( nJ,mJ );
 
    JK.resize( nJ,mJ );
-   V.resize( mJ,mJ );
 
    svd = SVD_t (nJ, mJ, Eigen::ComputeThinU | Eigen::ComputeFullV);
 
@@ -75,7 +74,6 @@ initMemory( const Matrix::Index nJ,const Matrix::Index mJ,const Matrix::Index ff
      Jff.setZero();
      Jact.setZero();
      JK.setZero();
-     V.setZero();
    } else {
      Eigen::pseudoInverse(Jt,Jp);
    }
