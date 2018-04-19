@@ -92,8 +92,8 @@ namespace dynamicgraph {
 
     dg::Vector& FeaturePosture::computeError( dg::Vector& res, int t)
     {
-      dg::Vector state = state_.access (t);
-      dg::Vector posture = posture_.access (t);
+      const dg::Vector& state = state_.access (t);
+      const dg::Vector& posture = posture_.access (t);
 
       res.resize (nbActiveDofs_);
       std::size_t index=0;
@@ -135,11 +135,11 @@ namespace dynamicgraph {
     void
     FeaturePosture::selectDof (unsigned dofId, bool control)
     {
-      dg::Vector state = state_.accessCopy();
-      dg::Vector posture = posture_.accessCopy ();
-      unsigned int dim = state.size();
+      const Vector& state = state_.accessCopy();
+      const Vector& posture = posture_.accessCopy ();
+      std::size_t dim (state.size());
 
-      if (dim != posture.size ()) {
+      if (dim != (std::size_t)posture.size ()) {
 	throw std::runtime_error
 	  ("Posture and State should have same dimension.");
       }
