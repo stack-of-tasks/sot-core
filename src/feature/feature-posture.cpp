@@ -53,11 +53,12 @@ namespace dynamicgraph {
       : FeatureAbstract(name),
 	state_(NULL, "FeaturePosture("+name+")::input(Vector)::state"),
 	posture_(0, "FeaturePosture("+name+")::input(Vector)::posture"),
+	postureDot_(0, "FeaturePosture("+name+")::input(Vector)::postureDot"),
 	jacobian_(),
 	activeDofs_ (),
 	nbActiveDofs_ (0)
     {
-      signalRegistration (state_ << posture_);
+      signalRegistration (state_ << posture_ << postureDot_);
 
       errorSOUT.addDependency (state_);
 
@@ -113,6 +114,21 @@ namespace dynamicgraph {
 
     dg::Vector& FeaturePosture::computeActivation( dg::Vector& res, int )
     {
+      return res;
+    }
+
+    dg::Vector& FeaturePosture::computeErrorDot( dg::Vector& res, int t)
+    {
+      const Vector& postureDot = postureDot_.access (t);
+
+      res.resize (nbActiveDofs_);
+      std::size_t index=0;
+      for (std::size_t i=0; i<activeDofs_.size (); ++i) {
+	if (activeDofs_ [i]) {
+	  res (index) = postureDot (i);
+	  index ++;
+	}
+      }
       return res;
     }
 
