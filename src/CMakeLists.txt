@@ -152,6 +152,8 @@ SET(${LIBRARY_NAME}_SOURCES
   tools/periodic-call
   tools/device
   tools/trajectory
+
+  matrix/matrix-svd
   )
 
 ADD_LIBRARY(${LIBRARY_NAME}
