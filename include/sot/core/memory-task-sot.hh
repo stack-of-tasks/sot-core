@@ -38,6 +38,7 @@ namespace dynamicgraph {
     {
     public://   protected:
       /* Internal memory to reduce the dynamic allocation at task resolution. */
+      dg::Vector err;
       dg::Matrix Jt;  //( nJ,mJ );
       dg::Matrix Jp;
       dg::Matrix PJp;
@@ -46,7 +47,7 @@ namespace dynamicgraph {
       dg::Matrix Jact; //( nJ,mJ );     // Activated part
       dg::Matrix JK; //(nJ,mJ);
       
-      dg::Matrix V;
+      dg::Matrix Proj;
 
       typedef Eigen::JacobiSVD<dg::Matrix> SVD_t;
       SVD_t svd;
@@ -54,12 +55,12 @@ namespace dynamicgraph {
     public:
       /* mJ is the number of actuated joints, nJ the number of feature in the task,
        * and ffsize the number of unactuated DOF. */
-      MemoryTaskSOT( const std::string & name,const unsigned int nJ=0,
-		     const unsigned int mJ=0,const unsigned int ffsize =0 );
+      MemoryTaskSOT( const std::string & name,const Matrix::Index nJ=0,
+		     const Matrix::Index mJ=0,const Matrix::Index ffsize =0 );
       
-      virtual void initMemory( const unsigned int nJ,
-			       const unsigned int mJ,
-			       const unsigned int ffsize,
+      virtual void initMemory( const Matrix::Index nJ,
+			       const Matrix::Index mJ,
+			       const Matrix::Index ffsize,
 			       bool atConstruction = false);
       
     public: /* --- ENTITY INHERITANCE --- */

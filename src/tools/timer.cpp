@@ -37,19 +37,19 @@ using namespace dynamicgraph;
 
 typedef Timer<dynamicgraph::Vector> timevect;
 template <> 
-DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timevect,"Timer<Vector>");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timevect,"TimerVector");
 
 typedef Timer<dynamicgraph::Matrix> timematrix;
 template <> 
-DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timematrix,"Timer<Matrix>");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timematrix,"TimerMatrix");
 
 typedef Timer<MatrixHomogeneous> timematrixhomo;
 template <> 
-DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timematrixhomo,"Timer<MatrixHomo>");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timematrixhomo,"TimerMatrixHomo");
 
 typedef Timer<double> timedouble;
 template <> 
-DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timedouble,"Timer<double>");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timedouble,"TimerDouble");
 
 
 /* --------------------------------------------------------------------- */

@@ -68,8 +68,8 @@ int main( int ,char** )
       //prod(J.matrix,P.matrix,JK.matrix);
       JK = J*P;
       gettimeofday(&t1,NULL);
-      dt += ( (t1.tv_sec-t0.tv_sec)
-	     + (t1.tv_usec-t0.tv_usec+0.)  / 1000. / 1000. );
+      dt += ( (double)(t1.tv_sec-t0.tv_sec)
+	     + (double)(t1.tv_usec-t0.tv_usec)  / 1000. / 1000. );
 
     }
   //sotCHRONO1 <<endl;

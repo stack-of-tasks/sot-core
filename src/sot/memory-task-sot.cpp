@@ -30,9 +30,9 @@ const std::string MemoryTaskSOT::CLASS_NAME = "MemoryTaskSOT";
 
 MemoryTaskSOT::
 MemoryTaskSOT( const std::string & name
-                  ,const unsigned int nJ
-                  ,const unsigned int mJ
-                  ,const unsigned int ffsize )
+                  ,const Matrix::Index nJ
+                  ,const Matrix::Index mJ
+                  ,const Matrix::Index ffsize )
     :
   Entity( name )
   ,jacobianInvSINOUT( "sotTaskAbstract("+name+")::inout(matrix)::Jinv" )
@@ -49,7 +49,7 @@ MemoryTaskSOT( const std::string & name
 
 
 void MemoryTaskSOT::
-initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsize,
+initMemory( const Matrix::Index nJ,const Matrix::Index mJ,const Matrix::Index ffsize,
 	    bool atConstruction )
 {
    sotDEBUG(15) << "Task-mermory " << getName() << ": resize " 
@@ -63,9 +63,8 @@ initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsiz
    Jact.resize( nJ,mJ );
 
    JK.resize( nJ,mJ );
-   V.resize( mJ,mJ );
 
-   svd = SVD_t (nJ, mJ, Eigen::ComputeThinU | Eigen::ComputeThinV);
+   svd = SVD_t (nJ, mJ, Eigen::ComputeThinU | Eigen::ComputeFullV);
 
    JK.fill(0);
    if (atConstruction) {
@@ -75,7 +74,6 @@ initMemory( const unsigned int nJ,const unsigned int mJ,const unsigned int ffsiz
      Jff.setZero();
      Jact.setZero();
      JK.setZero();
-     V.setZero();
    } else {
      Eigen::pseudoInverse(Jt,Jp);
    }

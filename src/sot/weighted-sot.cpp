@@ -285,7 +285,8 @@ computeWeightedControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       sotDEBUGF(5,"Rank %d.",iterTask);
       TaskAbstract & task = **iter;
       const dynamicgraph::Matrix &JacRO = task.jacobianSOUT(iterTime);
-      const dynamicgraph::Vector err = Sot::taskVectorToMlVector(task.taskSOUT(iterTime));
+      const dynamicgraph::Vector err;
+      Sot::taskVectorToMlVector(task.taskSOUT(iterTime), err);
       const unsigned int nJ = JacRO.rows();
       sotCOUNTER(0b,1); // Direct Dynamic
 

@@ -71,6 +71,7 @@ class Timer_EXPORT Timer
  protected:
 
   struct timeval t0,t1;
+  clock_t c0, c1;
   double dt;
 
  public:
@@ -87,6 +88,7 @@ class Timer_EXPORT Timer
 
   dg::SignalPtr<T,int> sigSIN;
   dg::SignalTimeDependent<T,int> sigSOUT;
+  dg::SignalTimeDependent<T,int> sigClockSOUT;
   dg::Signal<double,int> timerSOUT;
 
 
@@ -96,20 +98,33 @@ class Timer_EXPORT Timer
       sigSIN = &sig; dt=0.;
     }
 
+  template <bool UseClock>
   T& compute( T& t,const int& time )
     {
       sotDEBUGIN(15);
-      gettimeofday(&t0,NULL);
-      sotDEBUG(15) << "t0: "<< t0.tv_sec << " - " << t0.tv_usec << std::endl;
+      if (UseClock) {
+        c0 = clock();
+        sotDEBUG(15) << "t0: "<< c0 << std::endl;
+      } else {
+        gettimeofday(&t0,NULL);
+        sotDEBUG(15) << "t0: "<< t0.tv_sec << " - " << t0.tv_usec << std::endl;
+      }
 
       t = sigSIN( time );
 
-      gettimeofday(&t1,NULL);
-      dt = ( (t1.tv_sec-t0.tv_sec) * 1000.
-	     + (t1.tv_usec-t0.tv_usec+0.) / 1000. );
-      sotDEBUG(15) << "t1: "<< t1.tv_sec << " - " << t1.tv_usec << std::endl;
+      if (UseClock) {
+        c1 = clock();
+        sotDEBUG(15) << "t1: "<< c0 << std::endl;
+        dt = ((double)(c1 - c0) * 1000 ) / CLOCKS_PER_SEC;
+      } else {
+        gettimeofday(&t1,NULL);
+        dt = ( (t1.tv_sec-t0.tv_sec) * 1000.
+               + (t1.tv_usec-t0.tv_usec+0.) / 1000. );
+        sotDEBUG(15) << "t1: "<< t1.tv_sec << " - " << t1.tv_usec << std::endl;
+      }
 
       timerSOUT = dt;
+      timerSOUT.setTime (time);
 
       sotDEBUGOUT(15);
       return t;
@@ -145,18 +160,20 @@ template< class T >
 Timer<T>::
 Timer( const std::string& name )
   :Entity(name)
-   ,t0(),t1()
    ,dt(0.)
-   ,sigSIN( NULL,"Timer("+name+")::output(T)::sin" )
-   ,sigSOUT(  boost::bind(&Timer::compute,this,_1,_2),
+   ,sigSIN( NULL,"Timer("+name+")::input(T)::sin" )
+   ,sigSOUT(  boost::bind(&Timer::compute<false>,this,_1,_2),
 	      sigSIN,
 	      "Timer("+name+")::output(T)::sout" )
+   ,sigClockSOUT(  boost::bind(&Timer::compute<true>,this,_1,_2),
+	      sigSIN,
+	      "Timer("+name+")::output(T)::clockSout" )
    ,timerSOUT( "Timer("+name+")::output(double)::timer" )
 {
   sotDEBUGIN(15);
   timerSOUT.setFunction(  boost::bind(&Timer::getDt,this,_1,_2) );
 
-  signalRegistration( sigSIN<<sigSOUT<<timerSOUT );
+  signalRegistration( sigSIN<<sigSOUT<<sigClockSOUT<<timerSOUT );
   sotDEBUGOUT(15);
 }
 

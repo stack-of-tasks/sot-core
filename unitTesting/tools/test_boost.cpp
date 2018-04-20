@@ -45,8 +45,8 @@ using namespace std;
   sotDEBUG(25) << "t0 "<<#name<<": "<< t0##_##name.tv_sec << " - " << t0##_##name.tv_usec << std::endl
 #define STOP_CHRONO(name,commentaire) \
   gettimeofday(&t1##_##name,NULL); \
-  dt##_##name = ( (t1##_##name.tv_sec-t0##_##name.tv_sec) * 1000.  \
-	 + (t1##_##name.tv_usec-t0##_##name.tv_usec+0.) / 1000. );\
+  dt##_##name = ( (double)(t1##_##name.tv_sec-t0##_##name.tv_sec) * 1000.  \
+	 + (double)(t1##_##name.tv_usec-t0##_##name.tv_usec) / 1000. );\
   sotDEBUG(25) << "t1 "<<#name<<": "<< t1##_##name.tv_sec << " - " << t1##_##name.tv_usec << std::endl; \
   sotDEBUG(1) << "Time spent "<<#name " " commentaire<<" = " << dt##_##name << std::endl
 
