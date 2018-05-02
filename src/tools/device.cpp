@@ -74,6 +74,11 @@ void Device::integrateRollPitchYaw(Vector& state, const Vector& control,
   // Apply Rodrigues (1795–1851) formula for rotation about omega vector
   double angle = dt*omega.norm();
   if (angle == 0) {
+    for (unsigned int r = 0; r < 3; r++) {
+      for (unsigned int c = 0; c < 3; c++) {
+        ffPose_(r,c) = column[c](r);
+      }
+    }
     return;
   }
   Eigen::Vector3d k = omega/omega.norm();
