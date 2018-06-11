@@ -65,12 +65,16 @@ class IntegratorEuler
  public:
   IntegratorEuler( const std::string& name )
     : IntegratorAbstract<sigT,coefT>( name )
+    , derivativeSOUT(boost::bind(&IntegratorEuler<sigT,coefT>::derivative,this,_1,_2),
+		     SOUT,
+		     "sotIntegratorAbstract("+name+")::output(vector)::derivativesout")
   {
+    this->signalRegistration( derivativeSOUT );
+
     using namespace dg::command;
 
     setSamplingPeriod (0.005);
 
-    SOUT.addDependency(SIN);
     this->addCommand ("setSamplingPeriod",
         new Setter<IntegratorEuler,double> (*this,
           &IntegratorEuler::setSamplingPeriod,
@@ -91,6 +95,8 @@ class IntegratorEuler
 protected:
   std::vector<sigT> inputMemory;
   std::vector<sigT> outputMemory;
+
+  dg::SignalTimeDependent<sigT, int> derivativeSOUT;
 
   double dt;
   double invdt;
@@ -145,6 +151,16 @@ public:
 
     sotDEBUG(15)<<"# Out }"<<std::endl;
     return res;
+  }
+
+  sigT& derivative ( sigT& res, int time )
+  {
+    if (outputMemory.size() < 2)
+      throw dg::ExceptionSignal (dg::ExceptionSignal::GENERIC,
+          "Integrator does not compute the derivative.");
+
+    SOUT.recompute(time);
+    res = outputMemory[1];
   }
 
   void setSamplingPeriod (const double& period)
