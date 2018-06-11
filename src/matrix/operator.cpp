@@ -764,6 +764,58 @@ namespace dynamicgraph {
     };
     REGISTER_BINARY_OP(VectorStack,Stack_of_vector);
 
+    /* --- STACK ------------------------------------------------------------ */
+    struct VectorMix
+      : public BinaryOpHeader<dynamicgraph::Vector,dynamicgraph::Vector,dynamicgraph::Vector>
+    {
+    public:
+      std::vector<bool> useV1;
+      std::vector<int> idx1, idx2;
+      void operator()( const dynamicgraph::Vector& v1,const dynamicgraph::Vector& v2,dynamicgraph::Vector& res ) const
+      {
+        res.resize(useV1.size());
+        std::size_t k1=0, k2=0;
+        for (std::size_t i = 0; i < useV1.size(); ++i)
+        {
+          if (useV1[i]) {
+            assert (k1 < idx1.size());
+            res[i] = v1[idx1[k1]];
+            ++k1;
+          } else {
+            assert (k2 < idx2.size());
+            res[i] = v2[idx2[k2]];
+            ++k2;
+          }
+        }
+        assert (k1 == idx1.size());
+        assert (k2 == idx2.size());
+      }
+
+      void addSelec1( const int & i) { useV1.push_back(true ); idx1.push_back(i); }
+      void addSelec2( const int & i) { useV1.push_back(false); idx2.push_back(i); }
+
+      void addSpecificCommands(Entity& ent,
+       			       Entity::CommandMap_t& commandMap )
+      {
+	using namespace dynamicgraph::command;
+
+	boost::function< void( const int& ) > selec1
+	  = boost::bind( &VectorMix::addSelec1,this,_1 );
+	boost::function< void( const int& ) > selec2
+	  = boost::bind( &VectorMix::addSelec2,this,_1 );
+
+        ADD_COMMAND( "addSelec1",
+            makeCommandVoid1(ent, selec1,
+              docCommandVoid1("append value from vector 1.",
+                "int (index in vector 1)")));
+        ADD_COMMAND( "addSelec2",
+            makeCommandVoid1(ent, selec2,
+              docCommandVoid1("append value from vector 2.",
+                "int (index in vector 2)")));
+      }
+    };
+    REGISTER_BINARY_OP(VectorMix,Mix_of_vector);
+
     /* ---------------------------------------------------------------------- */
 
     struct Composer
