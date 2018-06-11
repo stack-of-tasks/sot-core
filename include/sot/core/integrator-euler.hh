@@ -27,6 +27,8 @@
 
 /* SOT */
 #include <sot/core/integrator-abstract.hh>
+#include <dynamic-graph/command-setter.h>
+#include <dynamic-graph/command-getter.h>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -64,7 +66,17 @@ class IntegratorEuler
   IntegratorEuler( const std::string& name )
     : IntegratorAbstract<sigT,coefT>( name )
   {
+    setSamplingPeriod (0.005);
+
     SOUT.addDependency(SIN);
+    this->addCommand ("setSamplingPeriod",
+        new dg::command::Setter<IntegratorEuler,double> (*this,
+          &IntegratorEuler::setSamplingPeriod,
+          "Set the time during two sampling."));
+    this->addCommand ("getSamplingPeriod",
+        new dg::command::Getter<IntegratorEuler,double> (*this,
+          &IntegratorEuler::getSamplingPeriod,
+          "Get the time during two sampling."));
   }
 
   virtual ~IntegratorEuler( void ) {}
@@ -73,13 +85,13 @@ protected:
   std::vector<sigT> inputMemory;
   std::vector<sigT> outputMemory;
 
+  double dt;
+  double invdt;
+
 public:
   sigT& integrate( sigT& res, int time )
   {
     sotDEBUG(15)<<"# In {"<<std::endl;
-
-    const double dt = 0.005;
-    const double invdt = 200;
 
     sigT sum;
     sigT tmp1, tmp2;
@@ -126,6 +138,17 @@ public:
 
     sotDEBUG(15)<<"# Out }"<<std::endl;
     return res;
+  }
+
+  void setSamplingPeriod (const double& period)
+  {
+    dt = period;
+    invdt = 1/period;
+  }
+
+  double getSamplingPeriod () const
+  {
+    return dt;
   }
 };
 
