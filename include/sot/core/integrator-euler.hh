@@ -66,17 +66,24 @@ class IntegratorEuler
   IntegratorEuler( const std::string& name )
     : IntegratorAbstract<sigT,coefT>( name )
   {
+    using namespace dg::command;
+
     setSamplingPeriod (0.005);
 
     SOUT.addDependency(SIN);
     this->addCommand ("setSamplingPeriod",
-        new dg::command::Setter<IntegratorEuler,double> (*this,
+        new Setter<IntegratorEuler,double> (*this,
           &IntegratorEuler::setSamplingPeriod,
           "Set the time during two sampling."));
     this->addCommand ("getSamplingPeriod",
-        new dg::command::Getter<IntegratorEuler,double> (*this,
+        new Getter<IntegratorEuler,double> (*this,
           &IntegratorEuler::getSamplingPeriod,
           "Get the time during two sampling."));
+
+    this->addCommand ("initialize",
+        makeCommandVoid0 (*this, &IntegratorEuler::initialize,
+          docCommandVoid0 ("Initialize internal memory from current value of input")
+          ));
   }
 
   virtual ~IntegratorEuler( void ) {}
@@ -106,28 +113,28 @@ public:
     // End of step 1. Here, sum is b_0 X
 
     // Step 2
-    int denomsize = denom.size();
-    for(int i = 1; i < denomsize; ++i)
+    int numsize = num.size();
+    for(int i = 1; i < numsize; ++i)
     {
       tmp2 = inputMemory[i-1] - tmp1;
       tmp2 *= invdt;
       tmp1 = inputMemory[i];
       inputMemory[i] = tmp2;
-      sum += (denom[i] * inputMemory[i]);
+      sum += (num[i] * inputMemory[i]);
     }
     // End of step 2. Here, sum is b_m * d(m)X / dt^m + ... - b_0 X
 
     // Step 3
-    int numsize = num.size() - 1;
-    for(int i = 0; i < numsize; ++i)
+    int denomsize = denom.size() - 1;
+    for(int i = 0; i < denomsize; ++i)
     {
-      sum -= (num[i] * outputMemory[i]);
+      sum -= (denom[i] * outputMemory[i]);
     }
     // End of step 3. Here, sum is b_m * d(m)X / dt^m + ... - b_0 X - a_0 Y - ... a_n-1 d(n-1)Y / dt^(n-1)
 
     // Step 4
-    outputMemory[numsize] = sum;
-    for(int i = numsize - 1; i >= 0; --i)
+    outputMemory[denomsize] = sum;
+    for(int i = denomsize-1; i >= 0; --i)
     {
       outputMemory[i] += (outputMemory[i+1] * dt);
     }
@@ -149,6 +156,25 @@ public:
   double getSamplingPeriod () const
   {
     return dt;
+  }
+
+  void initialize ()
+  {
+    std::size_t numsize = numerator.size();
+    inputMemory.resize(numsize);
+
+    inputMemory[0] = SIN.accessCopy();
+    for(std::size_t i = 1; i < numsize; ++i)
+    {
+      inputMemory[i] = inputMemory[0];
+    }
+
+    std::size_t denomsize = denominator.size();
+    outputMemory.resize(denomsize);
+    for(std::size_t i = 0; i < denomsize; ++i)
+    {
+      outputMemory[i] = inputMemory[0];
+    }
   }
 };
 

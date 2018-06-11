@@ -29,18 +29,17 @@ using namespace dynamicgraph;
   std::string sotClassType<sotSigType,sotCoefType>::                                        \
   getTypeName( void ) { return #sotSigType; }                                               \
   template<>                                                                                \
-  const std::string sotClassType<sotSigType,sotCoefType>::CLASS_NAME                        \
-     = std::string(className)+"<"+#sotSigType+","+#sotCoefType+">";                         \
+  const std::string sotClassType<sotSigType,sotCoefType>::CLASS_NAME = className;           \
   template<>                                                                                \
   const std::string& sotClassType<sotSigType,sotCoefType>::                                 \
-  getClassName( void ) const { return CLASS_NAME; }                                               \
+  getClassName( void ) const { return CLASS_NAME; }                                         \
   extern "C" {                                                                              \
-    Entity *regFunction##_##sotSigType( const std::string& objname )                     \
+    Entity *regFunction##_##sotSigType( const std::string& objname )                        \
     {                                                                                       \
       return new sotClassType<sotSigType,sotCoefType>( objname );                           \
     }                                                                                       \
-    EntityRegisterer                                                                     \
-    regObj##_##sotSigType(std::string(className)+"<"+#sotSigType+","+#sotCoefType+">",      \
+    EntityRegisterer                                                                        \
+    regObj##_##sotSigType(sotClassType<sotSigType,sotCoefType>::CLASS_NAME,                 \
                           &regFunction##_##sotSigType );                                    \
   }
 
@@ -48,6 +47,6 @@ using namespace std;
 namespace dynamicgraph { 
   namespace sot {
     SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_EULER(IntegratorEuler,Vector,Matrix,
-				       "integratorEuler")
+				       "IntegratorEulerVectorMatrix")
   } // namespace sot
 } // namespace dynamicgraph
