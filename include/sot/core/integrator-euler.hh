@@ -115,7 +115,7 @@ public:
     tmp1 = inputMemory[0];
     inputMemory[0] = SIN.access(time);
     sum.resize(tmp1.size());
-    sum = denom[0] * inputMemory[0];
+    sum = num[0] * inputMemory[0];
     // End of step 1. Here, sum is b_0 X
 
     // Step 2
