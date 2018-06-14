@@ -46,9 +46,15 @@ using namespace dynamicgraph;
 using namespace std;
 namespace dynamicgraph { 
   namespace sot {
+    SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_EULER(IntegratorEuler,double,double,
+				       "IntegratorEulerDoubleDouble")
     SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_EULER(IntegratorEuler,Vector,Matrix,
 				       "IntegratorEulerVectorMatrix")
     SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_EULER(IntegratorEuler,Vector,double,
 				       "IntegratorEulerVectorDouble")
+
+    template class IntegratorEuler<double,double>;
+    template class IntegratorEuler<Vector,double>;
+    template class IntegratorEuler<Vector,Matrix>;
   } // namespace sot
 } // namespace dynamicgraph

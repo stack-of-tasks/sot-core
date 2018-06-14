@@ -52,7 +52,7 @@ class IntegratorEuler
 {
 
  public: 
-  virtual const std::string& getClassName( void ) const { return dg::Entity::getClassName(); }
+  virtual const std::string& getClassName( void ) const;
   static std::string getTypeName( void ) { return "Unknown"; }
   static const std::string CLASS_NAME;
 
@@ -67,7 +67,7 @@ class IntegratorEuler
     : IntegratorAbstract<sigT,coefT>( name )
     , derivativeSOUT(boost::bind(&IntegratorEuler<sigT,coefT>::derivative,this,_1,_2),
 		     SOUT,
-		     "sotIntegratorAbstract("+name+")::output(vector)::derivativesout")
+		     "sotIntegratorEuler("+name+")::output(vector)::derivativesout")
   {
     this->signalRegistration( derivativeSOUT );
 
@@ -114,7 +114,6 @@ public:
     // Step 1
     tmp1 = inputMemory[0];
     inputMemory[0] = SIN.access(time);
-    sum.resize(tmp1.size());
     sum = num[0] * inputMemory[0];
     // End of step 1. Here, sum is b_0 X
 
