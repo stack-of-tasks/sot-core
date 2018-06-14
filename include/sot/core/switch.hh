@@ -45,13 +45,17 @@ namespace dynamicgraph {
      
     public: /* --- SIGNAL --- */
       DYNAMIC_GRAPH_ENTITY_DECL();
-      dynamicgraph::Signal<bool,int> outSOUT;
+      Signal<bool,int> outSOUT;
+      Signal<bool,int> turnOnSOUT;
+      Signal<bool,int> turnOffSOUT;
       
     protected:
       bool signalOutput;
       void turnOn(){ signalOutput = true; }
+      bool& turnOnSwitch(bool& res, int){ res = signalOutput = true; return res; }
 
       void turnOff(){ signalOutput = false; }
+      bool& turnOffSwitch(bool& res, int){ res = signalOutput = false; return res; }
 
       bool& switchOutput(bool& res, int){ res = signalOutput; return res; }
 
@@ -59,10 +63,14 @@ namespace dynamicgraph {
       Switch( const std::string& name )
 	: Entity(name)
 	,outSOUT("Switch("+name+")::output(bool)::out")
+	,turnOnSOUT ("Switch("+name+")::output(bool)::turnOnSout")
+	,turnOffSOUT("Switch("+name+")::output(bool)::turnOffSout")
       {
         outSOUT.setFunction(boost::bind(&Switch::switchOutput,this,_1,_2));
+        turnOnSOUT .setFunction(boost::bind(&Switch::turnOnSwitch ,this,_1,_2));
+        turnOffSOUT.setFunction(boost::bind(&Switch::turnOffSwitch,this,_1,_2));
         signalOutput = false;
-        signalRegistration (outSOUT );
+        signalRegistration (outSOUT << turnOnSOUT << turnOffSOUT);
         addCommand ("turnOn",
                     makeCommandVoid0 (*this, &Switch::turnOn,
                                       docCommandVoid0 ("Turn on the switch")));
