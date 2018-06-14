@@ -119,7 +119,7 @@ public:
     // End of step 1. Here, sum is b_0 X
 
     // Step 2
-    int numsize = num.size();
+    int numsize = (int)num.size();
     for(int i = 1; i < numsize; ++i)
     {
       tmp2 = inputMemory[i-1] - tmp1;
@@ -131,7 +131,7 @@ public:
     // End of step 2. Here, sum is b_m * d(m)X / dt^m + ... - b_0 X
 
     // Step 3
-    int denomsize = denom.size() - 1;
+    int denomsize = (int)denom.size() - 1;
     for(int i = 0; i < denomsize; ++i)
     {
       sum -= (denom[i] * outputMemory[i]);
@@ -161,6 +161,7 @@ public:
 
     SOUT.recompute(time);
     res = outputMemory[1];
+    return res;
   }
 
   void setSamplingPeriod (const double& period)

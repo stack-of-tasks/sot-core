@@ -58,6 +58,7 @@
 namespace dynamicgraph { 
   namespace sot {
 	DECLARE_SPECIFICATION(IntegratorEulerVectorMatrix,dg::Vector,dg::Matrix)
+	DECLARE_SPECIFICATION(IntegratorEulerVectorDouble,dg::Vector,double)
   }
 }
 

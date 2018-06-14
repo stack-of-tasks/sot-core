@@ -34,13 +34,13 @@ using namespace dynamicgraph;
   const std::string& sotClassType<sotSigType,sotCoefType>::                                 \
   getClassName( void ) const { return CLASS_NAME; }                                         \
   extern "C" {                                                                              \
-    Entity *regFunction##_##sotSigType( const std::string& objname )                        \
+    Entity *regFunction##_##sotSigType##_##sotCoefType( const std::string& objname )        \
     {                                                                                       \
       return new sotClassType<sotSigType,sotCoefType>( objname );                           \
     }                                                                                       \
     EntityRegisterer                                                                        \
-    regObj##_##sotSigType(sotClassType<sotSigType,sotCoefType>::CLASS_NAME,                 \
-                          &regFunction##_##sotSigType );                                    \
+    regObj##_##sotSigType##_##sotCoefType(sotClassType<sotSigType,sotCoefType>::CLASS_NAME, \
+                          &regFunction##_##sotSigType##_##sotCoefType );                    \
   }
 
 using namespace std;
@@ -48,5 +48,7 @@ namespace dynamicgraph {
   namespace sot {
     SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_EULER(IntegratorEuler,Vector,Matrix,
 				       "IntegratorEulerVectorMatrix")
+    SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_EULER(IntegratorEuler,Vector,double,
+				       "IntegratorEulerVectorDouble")
   } // namespace sot
 } // namespace dynamicgraph
