@@ -92,6 +92,7 @@ SET(plugins
   tools/periodic-call-entity
   tools/joint-trajectory-entity
   tools/latch
+  tools/switch
 
   control/control-gr
   control/control-pd

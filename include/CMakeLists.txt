@@ -86,6 +86,7 @@ SET(NEWHEADERS
   sot/core/periodic-call.hh
   sot/core/periodic-call-entity.hh
   sot/core/trajectory.hh
+  sot/core/switch.hh
   )
 INSTALL(FILES ${NEWHEADERS}
   DESTINATION include/sot/core
