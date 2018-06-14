@@ -31,7 +31,7 @@ SET(NEWHEADERS
   sot/core/exception-tools.hh
   sot/core/binary-op.hh
   sot/core/derivator.hh
-  sot/core/switch.hh
+  sot/core/latch.hh
   sot/core/fir-filter.hh
   sot/core/integrator-abstract.hh
   sot/core/integrator-euler.hh

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-, Rohan Budhiraja, CNRS
+ * Copyright 2017-, Rohan Budhiraja, Joseph Mirabel, CNRS
  *
  * This file is part of sot-core.
  * sot-core is free software: you can redistribute it and/or
@@ -14,8 +14,8 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __SOT_SWITCH_H__
-#define __SOT_SWITCH_H__
+#ifndef __SOT_LATCH_H__
+#define __SOT_LATCH_H__
 
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */
@@ -40,7 +40,7 @@ namespace dynamicgraph {
     using dynamicgraph::command::makeCommandVoid0;
     using dynamicgraph::command::docCommandVoid0;
 
-    class Switch : public Entity
+    class Latch : public Entity
     {
      
     public: /* --- SIGNAL --- */
@@ -52,34 +52,34 @@ namespace dynamicgraph {
     protected:
       bool signalOutput;
       void turnOn(){ signalOutput = true; }
-      bool& turnOnSwitch(bool& res, int){ res = signalOutput = true; return res; }
+      bool& turnOnLatch(bool& res, int){ res = signalOutput = true; return res; }
 
       void turnOff(){ signalOutput = false; }
-      bool& turnOffSwitch(bool& res, int){ res = signalOutput = false; return res; }
+      bool& turnOffLatch(bool& res, int){ res = signalOutput = false; return res; }
 
-      bool& switchOutput(bool& res, int){ res = signalOutput; return res; }
+      bool& latchOutput(bool& res, int){ res = signalOutput; return res; }
 
     public:
-      Switch( const std::string& name )
+      Latch( const std::string& name )
 	: Entity(name)
-	,outSOUT("Switch("+name+")::output(bool)::out")
-	,turnOnSOUT ("Switch("+name+")::output(bool)::turnOnSout")
-	,turnOffSOUT("Switch("+name+")::output(bool)::turnOffSout")
+	,outSOUT("Latch("+name+")::output(bool)::out")
+	,turnOnSOUT ("Latch("+name+")::output(bool)::turnOnSout")
+	,turnOffSOUT("Latch("+name+")::output(bool)::turnOffSout")
       {
-        outSOUT.setFunction(boost::bind(&Switch::switchOutput,this,_1,_2));
-        turnOnSOUT .setFunction(boost::bind(&Switch::turnOnSwitch ,this,_1,_2));
-        turnOffSOUT.setFunction(boost::bind(&Switch::turnOffSwitch,this,_1,_2));
+        outSOUT.setFunction(boost::bind(&Latch::latchOutput,this,_1,_2));
+        turnOnSOUT .setFunction(boost::bind(&Latch::turnOnLatch ,this,_1,_2));
+        turnOffSOUT.setFunction(boost::bind(&Latch::turnOffLatch,this,_1,_2));
         signalOutput = false;
         signalRegistration (outSOUT << turnOnSOUT << turnOffSOUT);
         addCommand ("turnOn",
-                    makeCommandVoid0 (*this, &Switch::turnOn,
-                                      docCommandVoid0 ("Turn on the switch")));
+                    makeCommandVoid0 (*this, &Latch::turnOn,
+                                      docCommandVoid0 ("Turn on the latch")));
         addCommand ("turnOff",
-                    makeCommandVoid0 (*this, &Switch::turnOff,
-                                      docCommandVoid0 ("Turn off the switch")));
+                    makeCommandVoid0 (*this, &Latch::turnOff,
+                                      docCommandVoid0 ("Turn off the latch")));
       }
       
-        virtual ~Switch( void ) {};
+        virtual ~Latch( void ) {};
 
 };
 } /* namespace sot */
@@ -87,4 +87,4 @@ namespace dynamicgraph {
 
 
 
-#endif // #ifndef __SOT_SWITCH_H__
+#endif // #ifndef __SOT_LATCH_H__

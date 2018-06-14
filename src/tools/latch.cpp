@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-, Rohan Budhiraja, CNRS
+ * Copyright 2017-2018, Rohan Budhiraja, Joseph Mirabel, CNRS
  *
  * CNRS/AIST
  *
@@ -16,11 +16,11 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot/core/switch.hh>
+#include <sot/core/latch.hh>
 #include <sot/core/factory.hh>
 
 namespace dynamicgraph {
   namespace sot {
-    DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN (Switch, "Switch");
+    DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN (Latch, "Latch");
   } // namespace sot
 } // namespace dynamicgraph

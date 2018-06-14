@@ -91,7 +91,7 @@ SET(plugins
   tools/binary-int-to-uint
   tools/periodic-call-entity
   tools/joint-trajectory-entity
-  tools/switch
+  tools/latch
 
   control/control-gr
   control/control-pd
