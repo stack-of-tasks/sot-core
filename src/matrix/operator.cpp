@@ -853,6 +853,74 @@ namespace dynamicgraph {
     };
     REGISTER_BINARY_OP( ConvolutionTemporal,ConvolutionTemporal );
 
+    /* --- BOOLEAN REDUCTION ------------------------------------------------ */
+
+    template < typename T > struct Comparison
+      : public BinaryOpHeader <T, T, bool>
+    {
+      void operator()( const T& a,const T& b, bool& res ) const
+      {
+        res = ( a < b);
+      }
+      virtual std::string getDocString () const
+      {
+        typedef BinaryOpHeader<T,T,bool> Base;
+        return std::string
+          ("Comparison of inputs:\n"
+           "  - input  ") + Base::nameTypeIn1 () +
+          std::string ("\n"
+              "  -        ") + Base::nameTypeIn2 () +
+          std::string ("\n"
+              "  - output ") + Base::nameTypeOut () +
+          std::string ("\n""  sout = ( sin1 < sin2 )\n");
+      }
+    };
+
+    template < typename T1, typename T2 = T1 > struct MatrixComparison
+      : public BinaryOpHeader <T1, T2, bool>
+    {
+      // TODO T1 or T2 could be a scalar type.
+      typedef Eigen::Array<bool, T1::RowsAtCompileTime, T1::ColsAtCompileTime> Array;
+      void operator()( const T1& a,const T2& b, bool& res ) const
+      {
+        Array r;
+        if (equal) r = (a.array() <= b.array());
+        else       r = (a.array() <  b.array());
+        if (any) res = r.any();
+        else     res = r.all();
+      }
+      virtual std::string getDocString () const
+      {
+        typedef BinaryOpHeader<T1,T2,bool> Base;
+        return std::string
+          ("Comparison of inputs:\n"
+           "  - input  ") + Base::nameTypeIn1 () +
+          std::string ("\n"
+              "  -        ") + Base::nameTypeIn2 () +
+          std::string ("\n"
+              "  - output ") + Base::nameTypeOut () +
+          std::string ("\n""  sout = ( sin1 < sin2 ).op()\n") +
+          std::string ("\n""  where op is either any (default) or all. The comparison can be made <=.\n");
+      }
+      MatrixComparison () : any (true), equal (false) {}
+      void addSpecificCommands(Entity& ent,
+                   Entity::CommandMap_t& commandMap)
+      {
+        using namespace dynamicgraph::command;
+        ADD_COMMAND( "setTrueIfAny",
+            makeDirectSetter(ent,&any,docDirectSetter("trueIfAny","bool")));
+        ADD_COMMAND( "getTrueIfAny",
+            makeDirectGetter(ent,&any,docDirectGetter("trueIfAny","bool")));
+        ADD_COMMAND( "setEqual",
+            makeDirectSetter(ent,&equal,docDirectSetter("equal","bool")));
+        ADD_COMMAND( "getEqual",
+            makeDirectGetter(ent,&equal,docDirectGetter("equal","bool")));
+      }
+      bool any, equal;
+    };
+
+    REGISTER_BINARY_OP (Comparison<double>, CompareDouble);
+    REGISTER_BINARY_OP (MatrixComparison<Vector>, CompareVector);
 } /* namespace sot */} /* namespace dynamicgraph */
 
 
