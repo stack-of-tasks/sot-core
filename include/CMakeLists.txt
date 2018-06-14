@@ -22,6 +22,7 @@ SET(NEWHEADERS
   sot/core/matrix-svd.hh
   sot/core/contiifstream.hh
   sot/core/debug.hh
+  sot/core/event.hh
   sot/core/exception-abstract.hh
   sot/core/exception-dynamic.hh
   sot/core/exception-factory.hh

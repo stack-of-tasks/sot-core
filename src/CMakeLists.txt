@@ -75,6 +75,7 @@ SET(plugins
 
   traces/reader
 
+  tools/event
   tools/time-stamp
   tools/timer
   tools/seq-play
