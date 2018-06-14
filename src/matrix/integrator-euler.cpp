@@ -20,7 +20,6 @@
 
 #include <sot/core/integrator-euler.hh>
 
-#include "integrator-abstract.t.cpp"
 #include "integrator-euler.t.cpp"
 
 #include <sot/core/integrator-euler-impl.hh>

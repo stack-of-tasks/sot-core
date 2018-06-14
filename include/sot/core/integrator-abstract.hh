@@ -57,11 +57,6 @@ class IntegratorAbstract
 :public dg::Entity
 {
  public:
-  virtual const std::string& getClassName() const { return dg::Entity::getClassName(); }
-  static std::string getTypeName( void ) { return "Unknown"; }
-  static const std::string CLASS_NAME;
-
- public:
   IntegratorAbstract ( const std::string& name )
     :dg::Entity(name)
      ,SIN(NULL,"sotIntegratorAbstract("+name+")::input(vector)::sin")
