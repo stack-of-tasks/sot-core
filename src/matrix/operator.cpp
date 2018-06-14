@@ -54,6 +54,7 @@ namespace dynamicgraph {
 #define ADD_KNOWN_TYPE( typeid ) \
     template<>const std::string TypeNameHelper<typeid>::typeName = #typeid
 
+    ADD_KNOWN_TYPE(bool);
     ADD_KNOWN_TYPE(double);
     ADD_KNOWN_TYPE(Vector);
     ADD_KNOWN_TYPE(Matrix);
