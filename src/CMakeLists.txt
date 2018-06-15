@@ -75,6 +75,7 @@ SET(plugins
 
   traces/reader
 
+  tools/event
   tools/time-stamp
   tools/timer
   tools/seq-play
@@ -91,6 +92,7 @@ SET(plugins
   tools/binary-int-to-uint
   tools/periodic-call-entity
   tools/joint-trajectory-entity
+  tools/latch
   tools/switch
 
   control/control-gr

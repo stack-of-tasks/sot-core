@@ -1,7 +1,5 @@
 /*
- * Copyright 2010,
- * François Bleibel,
- * Olivier Stasse,
+ * Copyright 2017-2018, Rohan Budhiraja, Joseph Mirabel, CNRS
  *
  * CNRS/AIST
  *
@@ -18,19 +16,11 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <sot/core/integrator-euler.hh>
+#include <sot/core/latch.hh>
+#include <sot/core/factory.hh>
 
-#include "integrator-euler.t.cpp"
-
-#include <sot/core/integrator-euler-impl.hh>
-
-#ifdef WIN32
-  IntegratorEulerVectorMatrix::IntegratorEulerVectorMatrix( const std::string& name ) : 
-	IntegratorEuler<Vector,Matrix>(name) {}
-  std::string IntegratorEulerVectorMatrix::getTypeName( void ) { return "IntegratorEulerVectorMatrix"; }
-
-  IntegratorEulerVectorDouble::IntegratorEulerVectorDouble( const std::string& name ) : 
-	IntegratorEuler<Vector,double>(name) {}
-  std::string IntegratorEulerVectorDouble::getTypeName( void ) { return "IntegratorEulerVectorDouble"; }
-#endif // WIN32
-
+namespace dynamicgraph {
+  namespace sot {
+    DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN (Latch, "Latch");
+  } // namespace sot
+} // namespace dynamicgraph

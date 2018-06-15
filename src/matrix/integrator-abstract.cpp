@@ -20,9 +20,6 @@
 
 #include <sot/core/integrator-abstract.hh>
 
-// The specilization
-#include "integrator-abstract.t.cpp"
-
 // This ends the specialization part.
 // Note that on WIN32, the specialization has to be realized 
 //  before the declaration of the general model. 
@@ -34,5 +31,8 @@
 
   IntegratorAbstractVector::IntegratorAbstractVector( const std::string& name ) : 
 		IntegratorAbstract<dynamicgraph::Vector,dynamicgraph::Matrix> (name) {}
+
+  IntegratorAbstractVector::IntegratorAbstractVectorDouble( const std::string& name ) : 
+		IntegratorAbstract<dynamicgraph::Vector,double> (name) {}
 #endif
 

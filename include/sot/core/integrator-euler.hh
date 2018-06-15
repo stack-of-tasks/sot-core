@@ -27,6 +27,8 @@
 
 /* SOT */
 #include <sot/core/integrator-abstract.hh>
+#include <dynamic-graph/command-setter.h>
+#include <dynamic-graph/command-getter.h>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -50,7 +52,7 @@ class IntegratorEuler
 {
 
  public: 
-  virtual const std::string& getClassName( void ) const { return dg::Entity::getClassName(); }
+  virtual const std::string& getClassName( void ) const;
   static std::string getTypeName( void ) { return "Unknown"; }
   static const std::string CLASS_NAME;
 
@@ -63,8 +65,29 @@ class IntegratorEuler
  public:
   IntegratorEuler( const std::string& name )
     : IntegratorAbstract<sigT,coefT>( name )
+    , derivativeSOUT(boost::bind(&IntegratorEuler<sigT,coefT>::derivative,this,_1,_2),
+		     SOUT,
+		     "sotIntegratorEuler("+name+")::output(vector)::derivativesout")
   {
-    SOUT.addDependency(SIN);
+    this->signalRegistration( derivativeSOUT );
+
+    using namespace dg::command;
+
+    setSamplingPeriod (0.005);
+
+    this->addCommand ("setSamplingPeriod",
+        new Setter<IntegratorEuler,double> (*this,
+          &IntegratorEuler::setSamplingPeriod,
+          "Set the time during two sampling."));
+    this->addCommand ("getSamplingPeriod",
+        new Getter<IntegratorEuler,double> (*this,
+          &IntegratorEuler::getSamplingPeriod,
+          "Get the time during two sampling."));
+
+    this->addCommand ("initialize",
+        makeCommandVoid0 (*this, &IntegratorEuler::initialize,
+          docCommandVoid0 ("Initialize internal memory from current value of input")
+          ));
   }
 
   virtual ~IntegratorEuler( void ) {}
@@ -73,13 +96,15 @@ protected:
   std::vector<sigT> inputMemory;
   std::vector<sigT> outputMemory;
 
+  dg::SignalTimeDependent<sigT, int> derivativeSOUT;
+
+  double dt;
+  double invdt;
+
 public:
   sigT& integrate( sigT& res, int time )
   {
     sotDEBUG(15)<<"# In {"<<std::endl;
-
-    const double dt = 0.005;
-    const double invdt = 200;
 
     sigT sum;
     sigT tmp1, tmp2;
@@ -89,33 +114,32 @@ public:
     // Step 1
     tmp1 = inputMemory[0];
     inputMemory[0] = SIN.access(time);
-    sum.resize(tmp1.size());
-    sum = denom[0] * inputMemory[0];
+    sum = num[0] * inputMemory[0];
     // End of step 1. Here, sum is b_0 X
 
     // Step 2
-    int denomsize = denom.size();
-    for(int i = 1; i < denomsize; ++i)
+    int numsize = (int)num.size();
+    for(int i = 1; i < numsize; ++i)
     {
       tmp2 = inputMemory[i-1] - tmp1;
       tmp2 *= invdt;
       tmp1 = inputMemory[i];
       inputMemory[i] = tmp2;
-      sum += (denom[i] * inputMemory[i]);
+      sum += (num[i] * inputMemory[i]);
     }
     // End of step 2. Here, sum is b_m * d(m)X / dt^m + ... - b_0 X
 
     // Step 3
-    int numsize = num.size() - 1;
-    for(int i = 0; i < numsize; ++i)
+    int denomsize = (int)denom.size() - 1;
+    for(int i = 0; i < denomsize; ++i)
     {
-      sum -= (num[i] * outputMemory[i]);
+      sum -= (denom[i] * outputMemory[i]);
     }
     // End of step 3. Here, sum is b_m * d(m)X / dt^m + ... - b_0 X - a_0 Y - ... a_n-1 d(n-1)Y / dt^(n-1)
 
     // Step 4
-    outputMemory[numsize] = sum;
-    for(int i = numsize - 1; i >= 0; --i)
+    outputMemory[denomsize] = sum;
+    for(int i = denomsize-1; i >= 0; --i)
     {
       outputMemory[i] += (outputMemory[i+1] * dt);
     }
@@ -126,6 +150,47 @@ public:
 
     sotDEBUG(15)<<"# Out }"<<std::endl;
     return res;
+  }
+
+  sigT& derivative ( sigT& res, int time )
+  {
+    if (outputMemory.size() < 2)
+      throw dg::ExceptionSignal (dg::ExceptionSignal::GENERIC,
+          "Integrator does not compute the derivative.");
+
+    SOUT.recompute(time);
+    res = outputMemory[1];
+    return res;
+  }
+
+  void setSamplingPeriod (const double& period)
+  {
+    dt = period;
+    invdt = 1/period;
+  }
+
+  double getSamplingPeriod () const
+  {
+    return dt;
+  }
+
+  void initialize ()
+  {
+    std::size_t numsize = numerator.size();
+    inputMemory.resize(numsize);
+
+    inputMemory[0] = SIN.accessCopy();
+    for(std::size_t i = 1; i < numsize; ++i)
+    {
+      inputMemory[i] = inputMemory[0];
+    }
+
+    std::size_t denomsize = denominator.size();
+    outputMemory.resize(denomsize);
+    for(std::size_t i = 0; i < denomsize; ++i)
+    {
+      outputMemory[i] = inputMemory[0];
+    }
   }
 };
 

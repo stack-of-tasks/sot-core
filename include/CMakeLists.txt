@@ -22,6 +22,7 @@ SET(NEWHEADERS
   sot/core/matrix-svd.hh
   sot/core/contiifstream.hh
   sot/core/debug.hh
+  sot/core/event.hh
   sot/core/exception-abstract.hh
   sot/core/exception-dynamic.hh
   sot/core/exception-factory.hh
@@ -31,7 +32,7 @@ SET(NEWHEADERS
   sot/core/exception-tools.hh
   sot/core/binary-op.hh
   sot/core/derivator.hh
-  sot/core/switch.hh
+  sot/core/latch.hh
   sot/core/fir-filter.hh
   sot/core/integrator-abstract.hh
   sot/core/integrator-euler.hh
@@ -86,6 +87,7 @@ SET(NEWHEADERS
   sot/core/periodic-call.hh
   sot/core/periodic-call-entity.hh
   sot/core/trajectory.hh
+  sot/core/switch.hh
   )
 INSTALL(FILES ${NEWHEADERS}
   DESTINATION include/sot/core

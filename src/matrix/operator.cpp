@@ -3,6 +3,7 @@
  * François Bleibel,
  * Olivier Stasse,
  * Nicolas Mansard
+ * Joseph Mirabel
  *
  * CNRS/AIST
  *
@@ -35,6 +36,8 @@
 #include <boost/numeric/conversion/cast.hpp>
 #include <deque>
 
+#include "../tools/type-name-helper.hh"
+
 namespace dg = ::dynamicgraph;
 
 /* ---------------------------------------------------------------------------*/
@@ -43,26 +46,6 @@ namespace dg = ::dynamicgraph;
 
 namespace dynamicgraph {
   namespace sot {
-    template< typename TypeRef >
-    struct TypeNameHelper
-    {
-      static const std::string typeName;
-    };
-    template< typename TypeRef >
-    const std::string TypeNameHelper<TypeRef>::typeName = "unspecified";
-
-#define ADD_KNOWN_TYPE( typeid ) \
-    template<>const std::string TypeNameHelper<typeid>::typeName = #typeid
-
-    ADD_KNOWN_TYPE(double);
-    ADD_KNOWN_TYPE(Vector);
-    ADD_KNOWN_TYPE(Matrix);
-    ADD_KNOWN_TYPE(MatrixRotation);
-    ADD_KNOWN_TYPE(MatrixTwist);
-    ADD_KNOWN_TYPE(MatrixHomogeneous);
-    ADD_KNOWN_TYPE(VectorQuaternion);
-    ADD_KNOWN_TYPE(VectorRollPitchYaw);
-
     template< typename TypeIn, typename TypeOut >
     struct UnaryOpHeader
     {
@@ -80,8 +63,6 @@ namespace dynamicgraph {
 	  std::string ("\n");
       }
     };
-
-
   } /* namespace sot */
 } /* namespace dynamicgraph */
 
@@ -764,6 +745,58 @@ namespace dynamicgraph {
     };
     REGISTER_BINARY_OP(VectorStack,Stack_of_vector);
 
+    /* --- STACK ------------------------------------------------------------ */
+    struct VectorMix
+      : public BinaryOpHeader<dynamicgraph::Vector,dynamicgraph::Vector,dynamicgraph::Vector>
+    {
+    public:
+      std::vector<bool> useV1;
+      std::vector<int> idx1, idx2;
+      void operator()( const dynamicgraph::Vector& v1,const dynamicgraph::Vector& v2,dynamicgraph::Vector& res ) const
+      {
+        res.resize(useV1.size());
+        std::size_t k1=0, k2=0;
+        for (std::size_t i = 0; i < useV1.size(); ++i)
+        {
+          if (useV1[i]) {
+            assert (k1 < idx1.size());
+            res[i] = v1[idx1[k1]];
+            ++k1;
+          } else {
+            assert (k2 < idx2.size());
+            res[i] = v2[idx2[k2]];
+            ++k2;
+          }
+        }
+        assert (k1 == idx1.size());
+        assert (k2 == idx2.size());
+      }
+
+      void addSelec1( const int & i) { useV1.push_back(true ); idx1.push_back(i); }
+      void addSelec2( const int & i) { useV1.push_back(false); idx2.push_back(i); }
+
+      void addSpecificCommands(Entity& ent,
+       			       Entity::CommandMap_t& commandMap )
+      {
+	using namespace dynamicgraph::command;
+
+	boost::function< void( const int& ) > selec1
+	  = boost::bind( &VectorMix::addSelec1,this,_1 );
+	boost::function< void( const int& ) > selec2
+	  = boost::bind( &VectorMix::addSelec2,this,_1 );
+
+        ADD_COMMAND( "addSelec1",
+            makeCommandVoid1(ent, selec1,
+              docCommandVoid1("append value from vector 1.",
+                "int (index in vector 1)")));
+        ADD_COMMAND( "addSelec2",
+            makeCommandVoid1(ent, selec2,
+              docCommandVoid1("append value from vector 2.",
+                "int (index in vector 2)")));
+      }
+    };
+    REGISTER_BINARY_OP(VectorMix,Mix_of_vector);
+
     /* ---------------------------------------------------------------------- */
 
     struct Composer
@@ -820,6 +853,74 @@ namespace dynamicgraph {
     };
     REGISTER_BINARY_OP( ConvolutionTemporal,ConvolutionTemporal );
 
+    /* --- BOOLEAN REDUCTION ------------------------------------------------ */
+
+    template < typename T > struct Comparison
+      : public BinaryOpHeader <T, T, bool>
+    {
+      void operator()( const T& a,const T& b, bool& res ) const
+      {
+        res = ( a < b);
+      }
+      virtual std::string getDocString () const
+      {
+        typedef BinaryOpHeader<T,T,bool> Base;
+        return std::string
+          ("Comparison of inputs:\n"
+           "  - input  ") + Base::nameTypeIn1 () +
+          std::string ("\n"
+              "  -        ") + Base::nameTypeIn2 () +
+          std::string ("\n"
+              "  - output ") + Base::nameTypeOut () +
+          std::string ("\n""  sout = ( sin1 < sin2 )\n");
+      }
+    };
+
+    template < typename T1, typename T2 = T1 > struct MatrixComparison
+      : public BinaryOpHeader <T1, T2, bool>
+    {
+      // TODO T1 or T2 could be a scalar type.
+      typedef Eigen::Array<bool, T1::RowsAtCompileTime, T1::ColsAtCompileTime> Array;
+      void operator()( const T1& a,const T2& b, bool& res ) const
+      {
+        Array r;
+        if (equal) r = (a.array() <= b.array());
+        else       r = (a.array() <  b.array());
+        if (any) res = r.any();
+        else     res = r.all();
+      }
+      virtual std::string getDocString () const
+      {
+        typedef BinaryOpHeader<T1,T2,bool> Base;
+        return std::string
+          ("Comparison of inputs:\n"
+           "  - input  ") + Base::nameTypeIn1 () +
+          std::string ("\n"
+              "  -        ") + Base::nameTypeIn2 () +
+          std::string ("\n"
+              "  - output ") + Base::nameTypeOut () +
+          std::string ("\n""  sout = ( sin1 < sin2 ).op()\n") +
+          std::string ("\n""  where op is either any (default) or all. The comparison can be made <=.\n");
+      }
+      MatrixComparison () : any (true), equal (false) {}
+      void addSpecificCommands(Entity& ent,
+                   Entity::CommandMap_t& commandMap)
+      {
+        using namespace dynamicgraph::command;
+        ADD_COMMAND( "setTrueIfAny",
+            makeDirectSetter(ent,&any,docDirectSetter("trueIfAny","bool")));
+        ADD_COMMAND( "getTrueIfAny",
+            makeDirectGetter(ent,&any,docDirectGetter("trueIfAny","bool")));
+        ADD_COMMAND( "setEqual",
+            makeDirectSetter(ent,&equal,docDirectSetter("equal","bool")));
+        ADD_COMMAND( "getEqual",
+            makeDirectGetter(ent,&equal,docDirectGetter("equal","bool")));
+      }
+      bool any, equal;
+    };
+
+    REGISTER_BINARY_OP (Comparison<double>, CompareDouble);
+    REGISTER_BINARY_OP (MatrixComparison<Vector>, CompareVector);
 } /* namespace sot */} /* namespace dynamicgraph */
 
 

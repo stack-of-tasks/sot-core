@@ -33,6 +33,7 @@
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/pool.h>
 #include <dynamic-graph/all-signals.h>
+#include <dynamic-graph/command-bind.h>
 #include <sot/core/debug.hh>
 
 /* STD */
@@ -56,11 +57,6 @@ class IntegratorAbstract
 :public dg::Entity
 {
  public:
-  virtual const std::string& getClassName() const { return dg::Entity::getClassName(); }
-  static std::string getTypeName( void ) { return "Unknown"; }
-  static const std::string CLASS_NAME;
-
- public:
   IntegratorAbstract ( const std::string& name )
     :dg::Entity(name)
      ,SIN(NULL,"sotIntegratorAbstract("+name+")::input(vector)::sin")
@@ -69,6 +65,29 @@ class IntegratorAbstract
 		 "sotIntegratorAbstract("+name+")::output(vector)::sout")
   {
     signalRegistration( SIN<<SOUT );
+
+    using namespace dg::command;
+
+    const std::string typeName =
+      Value::typeName(dg::command::ValueHelper<coefT>::TypeID);
+
+    addCommand ("pushNumCoef",
+        makeCommandVoid1 (*this, &IntegratorAbstract::pushNumCoef,
+          docCommandVoid1 ("Push a new numerator coefficient", typeName)
+          ));
+    addCommand ("pushDenomCoef",
+        makeCommandVoid1 (*this, &IntegratorAbstract::pushDenomCoef,
+          docCommandVoid1 ("Push a new denomicator coefficient", typeName)
+          ));
+
+    addCommand ("popNumCoef",
+        makeCommandVoid0 (*this, &IntegratorAbstract::popNumCoef,
+          docCommandVoid0 ("Pop a new numerator coefficient")
+          ));
+    addCommand ("popDenomCoef",
+        makeCommandVoid0 (*this, &IntegratorAbstract::popDenomCoef,
+          docCommandVoid0 ("Pop a new denomicator coefficient")
+          ));
   }
 
   virtual ~IntegratorAbstract() {}
