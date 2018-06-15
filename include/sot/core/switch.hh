@@ -52,6 +52,12 @@ namespace dynamicgraph {
           "    Set number of input signals\n";
         addCommand ("setSignalNumber", makeCommandVoid1
             (*this, &Switch::setSignalNumber, docstring));
+
+        docstring =
+          "\n"
+          "    Get number of input signals\n";
+        addCommand ("getSignalNumber",
+            new command::Getter<Switch, int> (*this, &Switch::getSignalNumber, docstring));
       }
 
       ~Switch () {}
@@ -83,6 +89,11 @@ namespace dynamicgraph {
           signals[i] = new Signal_t (NULL,oss.str());
           signalRegistration(*signals[i]);
         }
+      }
+
+      int getSignalNumber () const
+      {
+        return (int)signals.size();
       }
 
       private:
