@@ -95,13 +95,25 @@ namespace dynamicgraph {
     {
       void operator()( const Tin& m,Vector& res ) const
       {
-	assert( (imin<=imax) && (imax <= m.size()) );
-	res.resize( imax-imin );
-	for( int i=imin;i<imax;++i ) res(i-imin)=m(i);
+        res.resize(size);
+        Vector::Index r=0;
+        for (std::size_t i = 0; i < idxs.size(); ++i) {
+          const Vector::Index&  R = idxs[i].first;
+          const Vector::Index& nr = idxs[i].second;
+          assert( (nr>=0) && (R+nr <= m.size()) );
+          res.segment(r,nr) = m.segment(R,nr);
+          r += nr;
+        }
+        assert (r == size);
       }
 
-      int imin,imax;
-      void setBounds( const int & m,const int & M ) { imin = m; imax = M; }
+      typedef std::pair <Vector::Index,Vector::Index> segment_t;
+      typedef std::vector <segment_t> segments_t;
+      segments_t idxs;
+      Vector::Index size;
+
+      void setBounds( const int & m,const int & M ) { idxs = segments_t (1, segment_t(m, M-m)); size = M-m; }
+      void addBounds( const int & m,const int & M ) { idxs    .push_back(   segment_t(m, M-m)); size += M-m; }
 
       void addSpecificCommands(Entity& ent,
        			       Entity::CommandMap_t& commandMap )
@@ -113,7 +125,12 @@ namespace dynamicgraph {
 	  = boost::bind( &VectorSelecter::setBounds,this,_1,_2 );
 	doc = docCommandVoid2("Set the bound of the selection [m,M[.","int (min)","int (max)");
 	ADD_COMMAND( "selec", makeCommandVoid2(ent,setBound,doc) );
+	boost::function< void( const int&, const int& ) > addBound
+	  = boost::bind( &VectorSelecter::setBounds,this,_1,_2 );
+	doc = docCommandVoid2("Add a segment to be selected [m,M[.","int (min)","int (max)");
+	ADD_COMMAND( "addSelec", makeCommandVoid2(ent,setBound,doc) );
       }
+      VectorSelecter () : size (0) {}
     };
     REGISTER_UNARY_OP( VectorSelecter,Selec_of_vector );
 
@@ -829,14 +846,12 @@ namespace dynamicgraph {
       : public BinaryOpHeader <T1, T2, bool>
     {
       // TODO T1 or T2 could be a scalar type.
-      typedef Eigen::Array<bool, T1::RowsAtCompileTime, T1::ColsAtCompileTime> Array;
       void operator()( const T1& a,const T2& b, bool& res ) const
       {
-        Array r;
-        if (equal) r = (a.array() <= b.array());
-        else       r = (a.array() <  b.array());
-        if (any) res = r.any();
-        else     res = r.all();
+        if      ( equal &&  any) res = (a.array() <= b.array()).any();
+        else if ( equal && !any) res = (a.array() <= b.array()).all();
+        else if (!equal &&  any) res = (a.array() <  b.array()).any();
+        else if (!equal && !any) res = (a.array() <  b.array()).all();
       }
       virtual std::string getDocString () const
       {
