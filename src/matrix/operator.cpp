@@ -24,6 +24,7 @@
 
 #include <sot/core/unary-op.hh>
 #include <sot/core/binary-op.hh>
+#include <sot/core/variadic-op.hh>
 
 #include <sot/core/matrix-geometry.hh>
 
@@ -745,58 +746,6 @@ namespace dynamicgraph {
     };
     REGISTER_BINARY_OP(VectorStack,Stack_of_vector);
 
-    /* --- STACK ------------------------------------------------------------ */
-    struct VectorMix
-      : public BinaryOpHeader<dynamicgraph::Vector,dynamicgraph::Vector,dynamicgraph::Vector>
-    {
-    public:
-      std::vector<bool> useV1;
-      std::vector<int> idx1, idx2;
-      void operator()( const dynamicgraph::Vector& v1,const dynamicgraph::Vector& v2,dynamicgraph::Vector& res ) const
-      {
-        res.resize(useV1.size());
-        std::size_t k1=0, k2=0;
-        for (std::size_t i = 0; i < useV1.size(); ++i)
-        {
-          if (useV1[i]) {
-            assert (k1 < idx1.size());
-            res[i] = v1[idx1[k1]];
-            ++k1;
-          } else {
-            assert (k2 < idx2.size());
-            res[i] = v2[idx2[k2]];
-            ++k2;
-          }
-        }
-        assert (k1 == idx1.size());
-        assert (k2 == idx2.size());
-      }
-
-      void addSelec1( const int & i) { useV1.push_back(true ); idx1.push_back(i); }
-      void addSelec2( const int & i) { useV1.push_back(false); idx2.push_back(i); }
-
-      void addSpecificCommands(Entity& ent,
-       			       Entity::CommandMap_t& commandMap )
-      {
-	using namespace dynamicgraph::command;
-
-	boost::function< void( const int& ) > selec1
-	  = boost::bind( &VectorMix::addSelec1,this,_1 );
-	boost::function< void( const int& ) > selec2
-	  = boost::bind( &VectorMix::addSelec2,this,_1 );
-
-        ADD_COMMAND( "addSelec1",
-            makeCommandVoid1(ent, selec1,
-              docCommandVoid1("append value from vector 1.",
-                "int (index in vector 1)")));
-        ADD_COMMAND( "addSelec2",
-            makeCommandVoid1(ent, selec2,
-              docCommandVoid1("append value from vector 2.",
-                "int (index in vector 2)")));
-      }
-    };
-    REGISTER_BINARY_OP(VectorMix,Mix_of_vector);
-
     /* ---------------------------------------------------------------------- */
 
     struct Composer
@@ -967,6 +916,99 @@ namespace dynamicgraph {
     REGISTER_BINARY_OP(WeightedAdder<double>,WeightAdd_of_double);
     }
 }
+
+#define REGISTER_VARIADIC_OP( OpType,name )				\
+  template<>								\
+  const std::string VariadicOp< OpType >::CLASS_NAME = std::string(#name); \
+  Entity *regFunction##_##name( const std::string& objname )		\
+  {									\
+    return new VariadicOp< OpType >( objname );				\
+  }									\
+  EntityRegisterer regObj##_##name( std::string(#name),&regFunction##_##name)
+
+namespace dynamicgraph {
+  namespace sot {
+    template< typename Tin, typename Tout, typename Time >
+    std::string VariadicAbstract<Tin,Tout,Time>::getTypeInName (void) { return TypeNameHelper<Tin>::typeName; }
+    template< typename Tin, typename Tout, typename Time >
+    std::string VariadicAbstract<Tin,Tout,Time>::getTypeOutName(void) { return TypeNameHelper<Tout>::typeName; }
+
+    template< typename TypeIn, typename TypeOut >
+    struct VariadicOpHeader
+    {
+      typedef TypeIn  Tin ;
+      typedef TypeOut Tout;
+      static const std::string & nameTypeIn (void) { return TypeNameHelper<Tin >::typeName; }
+      static const std::string & nameTypeOut(void) { return TypeNameHelper<Tout>::typeName; }
+      template <typename Op>
+      void initialize(VariadicOp<Op>*, Entity::CommandMap_t& ) {}
+      virtual std::string getDocString () const
+      {
+	return std::string (
+            "Undocumented variadic operator\n"
+            "  - input  " + nameTypeIn  () +
+            "\n"
+            "  - output " + nameTypeOut () +
+            "\n");
+      }
+    };
+
+    /* --- VectorMix ------------------------------------------------------------ */
+    struct VectorMix
+      : public VariadicOpHeader<Vector,Vector>
+    {
+    public:
+      typedef VariadicOp<VectorMix> Base;
+      struct segment_t {
+        Vector::Index index, size, input;
+        std::size_t sigIdx;
+        segment_t (Vector::Index i, Vector::Index s, std::size_t sig) : index (i), size(s), sigIdx (sig) {}
+      };
+      typedef std::vector <segment_t> segments_t;
+      Base* entity;
+      segments_t idxs;
+      void operator()( const std::vector<const Vector*>& vs, Vector& res ) const
+      {
+        res = *vs[0];
+        for (std::size_t i = 0; i < idxs.size(); ++i)
+        {
+          const segment_t& s = idxs[i];
+          if (s.sigIdx >= vs.size())
+            throw std::invalid_argument ("Index out of range in VectorMix");
+          res.segment (s.index, s.size) = *vs[s.sigIdx];
+        }
+      }
+
+      void addSelec( const int & sigIdx, const int & i, const int& s) { idxs.push_back(segment_t(i,s,sigIdx)); }
+
+      void initialize(Base* ent,
+                      Entity::CommandMap_t& commandMap )
+      {
+	using namespace dynamicgraph::command;
+        entity = ent;
+
+        ent->addSignal ("default");
+
+	boost::function< void( const int&, const int&, const int& ) > selec
+	  = boost::bind( &VectorMix::addSelec,this,_1,_2,_3 );
+
+        ADD_COMMAND( "setSignalNumber", makeCommandVoid1(*(typename Base::Base*)ent, &Base::setSignalNumber,
+              docCommandVoid1("set the number of input vector.", "int (size)")));
+
+        commandMap.insert(std::make_pair( "getSignalNumber",
+            new Getter<Base, int> (*ent, &Base::getSignalNumber,
+              "Get the number of input vector.")));
+
+        commandMap.insert(std::make_pair("addSelec",
+            makeCommandVoid3<Base,int,int,int>(*ent, selec,
+              docCommandVoid3("add selection from a vector.",
+                "int (signal index >= 1)", "int (index)","int (size)"))));
+      }
+    };
+    REGISTER_VARIADIC_OP(VectorMix,Mix_of_vector);
+  }
+}
+
 
 /* --- TODO ------------------------------------------------------------------*/
 // The following commented lines are sot-v1 entities that are still waiting

@@ -1,0 +1,198 @@
+/*
+ * Copyright 2018,
+ * Mirabel Joseph
+ *
+ * CNRS/AIST
+ *
+ * This file is part of sot-core.
+ * sot-core is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ * sot-core is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.  You should
+ * have received a copy of the GNU Lesser General Public License along
+ * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef SOT_CORE_VARIADICOP_HH
+#define SOT_CORE_VARIADICOP_HH
+
+/* --------------------------------------------------------------------- */
+/* --- INCLUDE --------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+
+/* Matrix */
+#include <dynamic-graph/linear-algebra.h>
+
+/* SOT */
+#include <sot/core/flags.hh>
+#include <dynamic-graph/entity.h>
+#include <sot/core/pool.hh>
+#include <dynamic-graph/all-signals.h>
+#include <sot/core/matrix-geometry.hh>
+
+/* STD */
+#include <string>
+
+#include <boost/function.hpp>
+
+namespace dynamicgraph {
+  namespace sot {
+
+    /* --------------------------------------------------------------------- */
+    /* --- CLASS ----------------------------------------------------------- */
+    /* --------------------------------------------------------------------- */
+
+    template< typename Tin, typename Tout, typename Time >
+    class VariadicAbstract
+      :public Entity
+    {
+    public: /* --- CONSTRUCTION --- */
+
+      static std::string getTypeInName ( void );
+      static std::string getTypeOutName( void );
+
+      VariadicAbstract( const std::string& name , const std::string& className)
+	: Entity(name)
+	,SOUT( className+"("+name+")::output("+getTypeOutName()+")::sout")
+        ,baseSigname(className+"("+name+")::input("+getTypeInName()+")::")
+	{
+	  signalRegistration( SOUT );
+	}
+
+      virtual ~VariadicAbstract( void )
+      {
+        for (std::size_t i = 0; i < signalsIN.size(); ++i) {
+          _removeSignal (i);
+          delete signalsIN[i];
+        }
+      };
+
+    public: /* --- SIGNAL --- */
+
+      SignalTimeDependent<Tout,int> SOUT;
+
+      std::size_t addSignal ()
+      {
+        std::ostringstream oss; oss << "sin" << signalsIN.size();
+        return addSignal (oss.str());
+      }
+
+      std::size_t addSignal (const std::string& name)
+      {
+        signal_t* sig = new signal_t (NULL, baseSigname + name);
+        try {
+          _declareSignal(sig);
+          signalsIN.push_back (sig);
+          // names.push_back (name);
+          return signalsIN.size()-1;
+        } catch (const ExceptionAbstract&) {
+          delete sig;
+          throw;
+        }
+      }
+
+      void removeSignal ()
+      {
+        assert (signalsIN.size()>0);
+        _removeSignal (signalsIN().size()-1);
+        // names.pop_back();
+        signalsIN.pop_back();
+      }
+
+      void setSignalNumber (const int& n)
+      {
+        assert (n>=0);
+        const std::size_t oldSize = signalsIN.size();
+        for (std::size_t i = n; i < oldSize; ++i)
+          _removeSignal (i);
+        signalsIN.resize(n,NULL);
+        // names.resize(n);
+        
+        for (std::size_t i = oldSize; i < (std::size_t)n; ++i)
+        {
+          assert (signalsIN[i]==NULL);
+          std::ostringstream oss;
+          oss << baseSigname << "sin" << i;
+          // names[i] = oss.str();
+          // signal_t* s = new signal_t (NULL,names[i]);
+          signal_t* s = new signal_t (NULL,oss.str());
+          signalsIN[i] = s;
+          _declareSignal (s);
+        }
+      }
+
+      int getSignalNumber () const
+      {
+        return (int)signalsIN.size();
+      }
+
+    protected:
+      typedef SignalPtr<Tin,int> signal_t;
+      std::vector< signal_t* > signalsIN;
+      // Use signal->shortName instead
+      // std::vector< std::string > names;
+
+    private:
+      void _removeSignal (const std::size_t i)
+      {
+        // signalDeregistration(names[i]);
+        signalDeregistration(signalsIN[i]->shortName());
+        SOUT.removeDependency (*signalsIN[i]);
+        delete signalsIN[i];
+      }
+      void _declareSignal (signal_t* s)
+      {
+        signalRegistration(*s);
+        SOUT.addDependency (*s);
+      }
+      const std::string baseSigname;
+    };
+
+    template< typename Operator >
+    class VariadicOp
+      :public VariadicAbstract<typename Operator::Tin, typename Operator::Tout, int>
+    {
+      Operator op;
+      typedef typename Operator::Tin Tin;
+      typedef typename Operator::Tout Tout;
+      typedef VariadicOp<Operator> Self;
+
+    public: /* --- CONSTRUCTION --- */
+      typedef VariadicAbstract<Tin,Tout,int> Base;
+
+      // static std::string getTypeInName ( void ) { return Operator::nameTypeIn (); }
+      // static std::string getTypeOutName( void ) { return Operator::nameTypeOut(); }
+      static const std::string CLASS_NAME;
+      virtual const std::string& getClassName  () const { return CLASS_NAME; }
+      std::string getDocString () const { return op.getDocString ();}
+
+      VariadicOp( const std::string& name )
+	: Base(name, CLASS_NAME)
+	{
+          this->SOUT.setFunction (boost::bind(&Self::computeOperation,this,_1,_2));
+	  op.initialize(this,this->commandMap);
+	}
+
+      virtual ~VariadicOp( void ) {};
+
+    protected:
+      Tout& computeOperation( Tout& res,int time )
+	{
+          std::vector< const Tin* > in (this->signalsIN.size());
+          for (std::size_t i = 0; i < this->signalsIN.size(); ++i) {
+            const Tin& x = this->signalsIN[i]->access (time);
+            in[i] = &x;
+          }
+	  op(in,res);
+	  return res;
+	}
+    };
+  } // namespace sot
+} // namespace dynamicgraph
+
+
+#endif // #ifndef SOT_CORE_VARIADICOP_HH
