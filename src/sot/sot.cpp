@@ -560,13 +560,13 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	computeJacobianConstrained( task,K );
 	/***/sotCOUNTER(2,3); // compute JK
 
+	/* --- COMPUTE S --- */
+	computeJacobianActivated( dynamic_cast<Task*>( &task ),JK,iterTime );
+	/***/sotCOUNTER(3,4); // compute JK*S
+
 	/* --- COMPUTE Jt --- */
 	if( 0<iterTask ) Jt.noalias() = JK*(*PrevProj); else { Jt = JK; }
-	/***/sotCOUNTER(3,4); // compute Jt
-
-	/* --- COMPUTE S --- */
-	computeJacobianActivated( dynamic_cast<Task*>( &task ),Jt,iterTime );
-	/***/sotCOUNTER(4,5); // Jt*S
+	/***/sotCOUNTER(4,5); // compute Jt
 	
 	/* --- PINV --- */
         svd.compute (Jt);
