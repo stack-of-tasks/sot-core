@@ -201,6 +201,7 @@ namespace dynamicgraph {
 	defineFreeFloatingJoints(const unsigned int& jointIdFirst,
 				 const unsigned int& jointIdLast = -1);
       virtual void defineNbDof( const unsigned int& nbDof );
+      virtual const unsigned int& getNbDof() const { return nbJoints; }
 
       /*! @} */
     public: /* --- CONTROL --- */

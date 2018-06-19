@@ -111,6 +111,16 @@ Sot( const std::string& name )
 	     (*this, &Sot::defineNbDof, docstring));
 
   docstring ="    \n"
+    "    getNumberDofs.\n"
+    "    \n"
+    "      Output:\n"
+    "        - a positive integer : number of degrees of freedom of the robot.\n"
+    "    \n";
+  addCommand("getSize",
+	     new dynamicgraph::command::Getter<Sot, const unsigned int&>
+	     (*this, &Sot::getNbDof, docstring));
+
+  docstring ="    \n"
     "    push a task into the stack.\n"
     "    \n"
     "      Input:\n"
