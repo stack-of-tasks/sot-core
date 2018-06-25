@@ -259,11 +259,7 @@ namespace dynamicgraph {
     {
       void operator()( const dg::Vector& r,dg::Matrix & res )
       {
-	unsigned imax=r.size(),jmax=r.size();
-	if(( nbr!=0)&&(nbc!=0)) { imax=nbr; jmax=nbc; }
-	res.resize(imax,jmax);
-	for( unsigned int i=0;i<imax;++i )
-	  for( unsigned int j=0;j<jmax;++j ) if( i==j ) res(i,i)=r(i); else res(i,j)=0;
+        res = r.asDiagonal();
       }
     public:
       Diagonalizer( void ) : nbr(0),nbc(0) {}
@@ -461,7 +457,7 @@ namespace dynamicgraph {
       : public UnaryOpHeader<MatrixHomogeneous,Matrix>
     {
       void operator()( const MatrixHomogeneous& M,dg::Matrix& res )
-      {  res=(dg::Matrix&)M;  }
+      {  res=M.matrix();  }
     };
     REGISTER_UNARY_OP(HomoToMatrix,HomoToMatrix);
 
@@ -770,14 +766,8 @@ namespace dynamicgraph {
     {
       void operator() ( const dynamicgraph::Matrix& R,const dynamicgraph::Vector& t, MatrixHomogeneous& H ) const
       {
-	for( int i=0;i<3;++i )
-	  {
-	    H(i,3)=t(i);
-	    for( int j=0;j<3;++j )
-	      H(i,j) = R(i,j);
-	    H(3,i) = 0;
-	  }
-	H(3,3)=1.;
+        H.linear() = R;
+        H.translation() = t;
       }
     };
     REGISTER_BINARY_OP(Composer,Compose_R_and_T);
@@ -791,7 +781,7 @@ namespace dynamicgraph {
 
       void convolution( const MemoryType &f1,const dynamicgraph::Matrix & f2,dynamicgraph::Vector &res )
       {
-	const int nconv = f1.size(),nsig=f2.rows();
+	const Vector::Index nconv = (Vector::Index)f1.size(),nsig=f2.rows();
 	sotDEBUG(15) << "Size: " << nconv << "x" << nsig << std::endl;
 	if( nconv>f2.cols() ) return; // TODO: error, this should not happen
 
@@ -813,7 +803,7 @@ namespace dynamicgraph {
       void operator()( const dynamicgraph::Vector& v1,const dynamicgraph::Matrix& m2,dynamicgraph::Vector& res )
       {
 	memory.push_front( v1 );
-	while( memory.size() > m2.cols() ) memory.pop_back();
+	while( (Vector::Index)memory.size() > m2.cols() ) memory.pop_back();
 	convolution( memory,m2,res );
       }
     };
