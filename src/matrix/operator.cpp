@@ -664,24 +664,6 @@ namespace dynamicgraph {
 
     /* --- MULTIPLICATION --------------------------------------------------- */
 
-    template< typename T>
-    struct Multiplier
-      : public BinaryOpHeader<T,T,T>
-    {
-      void operator()( const T& v1,const T& v2,T& res ) const { res = v1*v2; }
-    };
-    template<> void Multiplier<double>::
-    operator()( const double& v1,const double& v2,double& res ) const
-    { res=v1; res*=v2; }
-
-    REGISTER_BINARY_OP(Multiplier<dynamicgraph::Matrix>,Multiply_of_matrix);
-    REGISTER_BINARY_OP(Multiplier<dynamicgraph::Vector>,Multiply_of_vector);
-    REGISTER_BINARY_OP(Multiplier<MatrixRotation>,Multiply_of_matrixrotation);
-    REGISTER_BINARY_OP(Multiplier<MatrixHomogeneous>,Multiply_of_matrixHomo);
-    REGISTER_BINARY_OP(Multiplier<MatrixTwist>,Multiply_of_matrixtwist);
-    REGISTER_BINARY_OP(Multiplier<VectorQuaternion>,Multiply_of_quaternion);
-    REGISTER_BINARY_OP(Multiplier<double>,Multiply_of_double);
-
     template< typename F,typename E>
     struct Multiplier_FxE__E
       : public BinaryOpHeader<F,E,E>
@@ -1011,6 +993,60 @@ namespace dynamicgraph {
       }
     };
     REGISTER_VARIADIC_OP(VectorMix,Mix_of_vector);
+
+    /* --- MULTIPLICATION --------------------------------------------------- */
+    template< typename T>
+    struct Multiplier
+      : public VariadicOpHeader<T,T>
+    {
+      typedef VariadicOp<Multiplier> Base;
+
+      void operator()( const std::vector<const T*>& vs,T& res ) const
+      {
+        if (vs.size() == 0) setIdentity(res);
+        else {
+          res = *vs[0];
+          for (std::size_t i = 1; i < vs.size(); ++i) res *= *vs[i];
+        }
+      }
+
+      void setIdentity (T& res) const { res.setIdentity(); }
+
+      void initialize(Base* ent,
+                      Entity::CommandMap_t& commandMap )
+      {
+	using namespace dynamicgraph::command;
+
+        ent->setSignalNumber (2);
+
+        ADD_COMMAND( "setSignalNumber", makeCommandVoid1(*(typename Base::Base*)ent, &Base::setSignalNumber,
+              docCommandVoid1("set the number of input vector.", "int (size)")));
+
+        commandMap.insert(std::make_pair( "getSignalNumber",
+            new Getter<Base, int> (*ent, &Base::getSignalNumber,
+              "Get the number of input vector.")));
+      }
+    };
+    template<> void Multiplier<double>::
+    setIdentity (double& res) const { res = 1; }
+    template<> void Multiplier<MatrixHomogeneous>::
+    operator()( const std::vector<const MatrixHomogeneous*>& vs, MatrixHomogeneous& res ) const
+    {
+      if (vs.size() == 0) setIdentity(res);
+      else {
+        res = *vs[0];
+        for (std::size_t i = 1; i < vs.size(); ++i) res = res * *vs[i];
+      }
+    }
+
+    REGISTER_VARIADIC_OP(Multiplier<Matrix           >,Multiply_of_matrix);
+    REGISTER_VARIADIC_OP(Multiplier<Vector           >,Multiply_of_vector);
+    REGISTER_VARIADIC_OP(Multiplier<MatrixRotation   >,Multiply_of_matrixrotation);
+    REGISTER_VARIADIC_OP(Multiplier<MatrixHomogeneous>,Multiply_of_matrixHomo);
+    REGISTER_VARIADIC_OP(Multiplier<MatrixTwist      >,Multiply_of_matrixtwist);
+    REGISTER_VARIADIC_OP(Multiplier<VectorQuaternion >,Multiply_of_quaternion);
+    REGISTER_VARIADIC_OP(Multiplier<double           >,Multiply_of_double);
+
   }
 }
 
