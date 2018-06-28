@@ -342,12 +342,10 @@ namespace dynamicgraph {
     {
       void operator()( const MatrixHomogeneous& M,dg::Vector& res )
       {
-	MatrixRotation R; R = M.linear();
-	VectorUTheta r(R);
-	dg::Vector t(3); t = M.translation();
-	res.resize(6);
-	for( int i=0;i<3;++i ) res(i)=t(i);
-	for( int i=0;i<3;++i ) res(i+3)=r.angle()*r.axis()(i);
+        res.resize(6);
+        VectorUTheta r(M.linear());
+        res.head<3>() = M.translation();
+        res.tail<3>() = r.angle()*r.axis();
       }
     };
     REGISTER_UNARY_OP( HomogeneousMatrixToVector,MatrixHomoToPoseUTheta);
@@ -371,11 +369,12 @@ namespace dynamicgraph {
       void operator()( const dg::Vector& v,MatrixHomogeneous& res )
       {
 	assert( v.size()>=6 );
-	Eigen::Affine3d trans;
-	trans = Eigen::Translation3d(v.head<3>());
-	dg::Vector ruth = v.tail<3>();
-	Eigen::Affine3d R(Eigen::AngleAxisd(ruth.norm(), ruth.normalized()));
-	res = R*trans;
+        res.translation() = v.head<3>();
+        double theta = v.tail<3>().norm();
+        if (theta > 0)
+          res.linear() = Eigen::AngleAxisd(theta, v.tail<3>() / theta).matrix();
+        else
+          res.linear().setIdentity();
       }
     };
     REGISTER_UNARY_OP(PoseUThetaToMatrixHomo,PoseUThetaToMatrixHomo);
@@ -385,12 +384,10 @@ namespace dynamicgraph {
     {
       void operator()( const MatrixHomogeneous& M,Vector& res )
       {
-	MatrixRotation R; R = M.linear();
-	VectorQuaternion r(R);
-	dg::Vector t(3); t = M.translation();
 	res.resize(7);
-	for( int i=0;i<3;++i ) res(i)=t(i);
-	for( int i=0;i<4;++i ) res(i+3)=r.coeffs()(i);
+        res.head<3>() = M.translation();
+        Eigen::Map<VectorQuaternion> q (res.tail<4>().data());
+        q = M.linear();
       }
     };
     REGISTER_UNARY_OP(MatrixHomoToPoseQuaternion,MatrixHomoToPoseQuaternion);
