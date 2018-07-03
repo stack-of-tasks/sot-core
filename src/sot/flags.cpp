@@ -85,7 +85,7 @@ operator[] (const unsigned int& i) const
     res = flags[i];
   else res=0; 
   //cout<<"["<<i<<"] "<<res+0<<"||"<<(!res)+0<<std::endl;
-  if( reverse ) return ~res;//(!res);
+  if( reverse ) return static_cast<char>(~res);//(!res);
   return res;
 }
 
@@ -94,8 +94,8 @@ char operator>> (const Flags& f,const int& i)
 {
   const div_t q = div(i,8); 
 
-  char res = f[q.quot] >> q.rem;
-  res |= f[q.quot+1] << (8-q.rem);
+  char res = static_cast<char>(f[q.quot] >> q.rem);
+  res = static_cast<char>(res | f[q.quot+1] << (8-q.rem));
   
   return res;
 }
@@ -126,7 +126,7 @@ set( const unsigned int & idx )
 {
   unsigned int d= (idx/8), m=(idx%8);
 
-  char brik = (reverse)?(255-(1<<m)):(1<<m);
+  char brik = static_cast<char>((reverse)?(255-(1<<m)):(1<<m));
 
   if( flags.size()>d )
     {
@@ -140,7 +140,7 @@ set( const unsigned int & idx )
 		   << flags.size() <<" "<<d << std::endl;
       if(! reverse )
 	{
-	  for( unsigned i=flags.size();i<d;++i ) add((char)0);
+	  for( std::vector<char>::size_type i=flags.size();i<d;++i ) add((char)0);
 	  add(brik);
 	}
     }
@@ -152,7 +152,7 @@ unset( const unsigned int & idx )
 {
   unsigned int d= (idx/8), m=(idx%8);
 
-  char brik = (reverse)?(1<<m):(255-(1<<m));
+  char brik = static_cast<char>((reverse)?(1<<m):(255-(1<<m)));
   if( flags.size()>d )
     {
       sotDEBUG(45) << "List long enough. Modify." << std::endl;
@@ -164,7 +164,7 @@ unset( const unsigned int & idx )
       sotDEBUG(45) << "List not long enough. Add." << std::endl;
      if( reverse )
        {
-	 for( unsigned i=flags.size();i<d;++i ) add((char)255);
+	 for( std::vector<char>::size_type i=flags.size();i<d;++i ) add((char)255);
 	 add(brik);
        }
     }
@@ -197,13 +197,13 @@ Flags& Flags::
 operator&= ( const Flags& f2 ) 
 { 
   Flags &f1=*this;
-  const unsigned int max=std::max(flags.size(),f2.flags.size());
+  const std::vector<char>::size_type max=std::max(flags.size(),f2.flags.size());
   if( flags.size()<max ){ flags.resize(max); }
   bool revres = reverse&&f2.reverse;
   char c; int pos = 0;
   for( unsigned int i=0;i<max;++i )
     {
-      c=f1[i]&f2[i]; if(revres)  c=0xff-c; 
+      c=f1[i]&f2[i]; if(revres)  c=static_cast<char>(0xff-c); 
       flags[i]=c; if(c) pos=i+1;
     }
   flags.resize(pos);reverse=revres;
@@ -214,7 +214,7 @@ Flags& Flags::
 operator|= ( const Flags& f2 ) 
 { 
   Flags &f1=*this;
-  const unsigned int max=std::max(flags.size(),f2.flags.size());
+  const std::vector<char>::size_type max=std::max(flags.size(),f2.flags.size());
   if( flags.size()<max ){ flags.resize(max); }
   bool revres = reverse||f2.reverse;
   char c; int pos = 0;
@@ -223,7 +223,7 @@ operator|= ( const Flags& f2 )
       //cout<<"DGi ";displaybool(cout,f1[i],false); cout<<" "; displaybool(cout,f2[i],false); cout<<endl; 
       c=f1[i]|f2[i]; 
       //cout<<"DGr ";displaybool(cout,c,false); cout<<" "; displaybool(cout,c,revres); cout<<endl; 
-      if(revres)  c=0xff-c; 
+      if(revres)  c=static_cast<char>(0xff-c); 
       flags[i]=c; if(c) pos=i+1;
     }
   flags.resize(pos); reverse=revres;
@@ -242,7 +242,7 @@ operator|= ( const bool& b ){ if(b) { flags.clear(); reverse=true; } return *thi
 std::ostream& operator<< (std::ostream& os, const Flags& fl )
 {
   if( fl.reverse ) os << "...11111 ";
-  unsigned int s = fl.flags.size();
+  std::vector<char>::size_type s = fl.flags.size();
   for( unsigned int i=0;i<fl.flags.size();++i )
     {
       char c=fl.flags[s-i-1];
@@ -279,8 +279,8 @@ std::istream& operator>> (std::istream& is, Flags& fl )
 	    else total=10;
 	    break;
 	  }
-	case '0': cur &= (~(0x01 << (7-count++))) ; break;
-	case '1': cur |= (0x01 << (7-count++)) ; break;
+	case '0': cur = static_cast<char>(cur & ~(0x01 << (7-count++))) ; break;
+	case '1': cur = static_cast<char>(cur | 0x01 << (7-count++)) ; break;
 	case '#': 
 	  {
 	    char cnot; is.get(cnot);
@@ -330,14 +330,14 @@ std::istream& operator>> (std::istream& is, Flags& fl )
   total=0;
   for( std::list<char>::iterator iter = listing.begin();iter!=listing.end();++iter )
     {
-      insert = ((*iter)<<count);
-      insert &= (~MASK[count]);
-      cur = (MASK[count])&(cur>>(8-count));
+      insert = static_cast<char>((*iter)<<count);
+      insert = static_cast<char>(insert & ~MASK[count]);
+      cur = static_cast<char>((MASK[count])&(cur>>(8-count)));
 
       insert |= cur;
       cur = *iter; 
       
-      if( reverse ) fl.flags[total++] = ~insert;
+      if( reverse ) fl.flags[total++] = static_cast<char>(~insert);
       else fl.flags[total++] = insert;
       sotDEBUG(25) << "Insert " << displaybool(insert) <<endl;
     }
@@ -345,20 +345,20 @@ std::istream& operator>> (std::istream& is, Flags& fl )
   if( count>0 )
     {
       sotDEBUG(25) << "Cur fin " << displaybool(cur) <<endl;
-      cur = (MASK[count])&(cur>>(8-count));
+      cur = static_cast<char>((MASK[count])&(cur>>(8-count)));
       
       sotDEBUG(25) << "Cur fin >> " <<8-count<<":" << displaybool(cur) <<endl;
       sotDEBUG(25) << "Mask fin "<<0+count<<": " << displaybool(MASK[count]) <<endl;
       
-      cur &= MASK[count];
+      cur = static_cast<char>(cur &MASK[count]);
       if( reverse ) 
 	{
-	  cur |= ~MASK[count];
-	  fl.flags[total++] = ~cur;
+	  cur = static_cast<char>(cur |~MASK[count]);
+	  fl.flags[total++] = static_cast<char>(~cur);
 	}
       else
 	{
-	  cur &= MASK[count];
+	  cur = static_cast<char>(cur &MASK[count]);
 	  fl.flags[total++] = cur;
 	}
       sotDEBUG(25) << "Insert fin " << displaybool(cur) <<endl;

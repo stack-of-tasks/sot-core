@@ -185,7 +185,7 @@ display( std::ostream& os ) const
 static std::string readLineStr( istringstream& args )
 {
   stringbuf* pbuf=args.rdbuf();
-  const unsigned int size = pbuf->in_avail();
+  const std::streamsize size = pbuf->in_avail();
   char * buffer = new char[ size+1 ];
   pbuf->sgetn( buffer,size );
 
