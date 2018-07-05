@@ -1035,6 +1035,15 @@ namespace dynamicgraph {
         for (std::size_t i = 1; i < vs.size(); ++i) res = res * *vs[i];
       }
     }
+    template<> void Multiplier<Vector>::
+    operator()( const std::vector<const Vector*>& vs, Vector& res ) const
+    {
+      if (vs.size() == 0) res.resize(0);
+      else {
+        res = *vs[0];
+        for (std::size_t i = 1; i < vs.size(); ++i) res.array() *= vs[i]->array();
+      }
+    }
 
     REGISTER_VARIADIC_OP(Multiplier<Matrix           >,Multiply_of_matrix);
     REGISTER_VARIADIC_OP(Multiplier<Vector           >,Multiply_of_vector);
