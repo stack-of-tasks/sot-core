@@ -24,6 +24,7 @@
 
 #include <sot/core/unary-op.hh>
 #include <sot/core/binary-op.hh>
+#include <sot/core/variadic-op.hh>
 
 #include <sot/core/matrix-geometry.hh>
 
@@ -94,13 +95,25 @@ namespace dynamicgraph {
     {
       void operator()( const Tin& m,Vector& res ) const
       {
-	assert( (imin<=imax) && (imax <= m.size()) );
-	res.resize( imax-imin );
-	for( int i=imin;i<imax;++i ) res(i-imin)=m(i);
+        res.resize(size);
+        Vector::Index r=0;
+        for (std::size_t i = 0; i < idxs.size(); ++i) {
+          const Vector::Index&  R = idxs[i].first;
+          const Vector::Index& nr = idxs[i].second;
+          assert( (nr>=0) && (R+nr <= m.size()) );
+          res.segment(r,nr) = m.segment(R,nr);
+          r += nr;
+        }
+        assert (r == size);
       }
 
-      int imin,imax;
-      void setBounds( const int & m,const int & M ) { imin = m; imax = M; }
+      typedef std::pair <Vector::Index,Vector::Index> segment_t;
+      typedef std::vector <segment_t> segments_t;
+      segments_t idxs;
+      Vector::Index size;
+
+      void setBounds( const int & m,const int & M ) { idxs = segments_t (1, segment_t(m, M-m)); size = M-m; }
+      void addBounds( const int & m,const int & M ) { idxs    .push_back(   segment_t(m, M-m)); size += M-m; }
 
       void addSpecificCommands(Entity& ent,
        			       Entity::CommandMap_t& commandMap )
@@ -112,7 +125,12 @@ namespace dynamicgraph {
 	  = boost::bind( &VectorSelecter::setBounds,this,_1,_2 );
 	doc = docCommandVoid2("Set the bound of the selection [m,M[.","int (min)","int (max)");
 	ADD_COMMAND( "selec", makeCommandVoid2(ent,setBound,doc) );
+	boost::function< void( const int&, const int& ) > addBound
+	  = boost::bind( &VectorSelecter::setBounds,this,_1,_2 );
+	doc = docCommandVoid2("Add a segment to be selected [m,M[.","int (min)","int (max)");
+	ADD_COMMAND( "addSelec", makeCommandVoid2(ent,setBound,doc) );
       }
+      VectorSelecter () : size (0) {}
     };
     REGISTER_UNARY_OP( VectorSelecter,Selec_of_vector );
 
@@ -241,11 +259,7 @@ namespace dynamicgraph {
     {
       void operator()( const dg::Vector& r,dg::Matrix & res )
       {
-	unsigned imax=r.size(),jmax=r.size();
-	if(( nbr!=0)&&(nbc!=0)) { imax=nbr; jmax=nbc; }
-	res.resize(imax,jmax);
-	for( unsigned int i=0;i<imax;++i )
-	  for( unsigned int j=0;j<jmax;++j ) if( i==j ) res(i,i)=r(i); else res(i,j)=0;
+        res = r.asDiagonal();
       }
     public:
       Diagonalizer( void ) : nbr(0),nbc(0) {}
@@ -328,12 +342,10 @@ namespace dynamicgraph {
     {
       void operator()( const MatrixHomogeneous& M,dg::Vector& res )
       {
-	MatrixRotation R; R = M.linear();
-	VectorUTheta r(R);
-	dg::Vector t(3); t = M.translation();
-	res.resize(6);
-	for( int i=0;i<3;++i ) res(i)=t(i);
-	for( int i=0;i<3;++i ) res(i+3)=r.angle()*r.axis()(i);
+        res.resize(6);
+        VectorUTheta r(M.linear());
+        res.head<3>() = M.translation();
+        res.tail<3>() = r.angle()*r.axis();
       }
     };
     REGISTER_UNARY_OP( HomogeneousMatrixToVector,MatrixHomoToPoseUTheta);
@@ -357,11 +369,12 @@ namespace dynamicgraph {
       void operator()( const dg::Vector& v,MatrixHomogeneous& res )
       {
 	assert( v.size()>=6 );
-	Eigen::Affine3d trans;
-	trans = Eigen::Translation3d(v.head<3>());
-	dg::Vector ruth = v.tail<3>();
-	Eigen::Affine3d R(Eigen::AngleAxisd(ruth.norm(), ruth.normalized()));
-	res = R*trans;
+        res.translation() = v.head<3>();
+        double theta = v.tail<3>().norm();
+        if (theta > 0)
+          res.linear() = Eigen::AngleAxisd(theta, v.tail<3>() / theta).matrix();
+        else
+          res.linear().setIdentity();
       }
     };
     REGISTER_UNARY_OP(PoseUThetaToMatrixHomo,PoseUThetaToMatrixHomo);
@@ -371,12 +384,10 @@ namespace dynamicgraph {
     {
       void operator()( const MatrixHomogeneous& M,Vector& res )
       {
-	MatrixRotation R; R = M.linear();
-	VectorQuaternion r(R);
-	dg::Vector t(3); t = M.translation();
 	res.resize(7);
-	for( int i=0;i<3;++i ) res(i)=t(i);
-	for( int i=0;i<4;++i ) res(i+3)=r.coeffs()(i);
+        res.head<3>() = M.translation();
+        Eigen::Map<VectorQuaternion> q (res.tail<4>().data());
+        q = M.linear();
       }
     };
     REGISTER_UNARY_OP(MatrixHomoToPoseQuaternion,MatrixHomoToPoseQuaternion);
@@ -443,7 +454,7 @@ namespace dynamicgraph {
       : public UnaryOpHeader<MatrixHomogeneous,Matrix>
     {
       void operator()( const MatrixHomogeneous& M,dg::Matrix& res )
-      {  res=(dg::Matrix&)M;  }
+      {  res=M.matrix();  }
     };
     REGISTER_UNARY_OP(HomoToMatrix,HomoToMatrix);
 
@@ -650,24 +661,6 @@ namespace dynamicgraph {
 
     /* --- MULTIPLICATION --------------------------------------------------- */
 
-    template< typename T>
-    struct Multiplier
-      : public BinaryOpHeader<T,T,T>
-    {
-      void operator()( const T& v1,const T& v2,T& res ) const { res = v1*v2; }
-    };
-    template<> void Multiplier<double>::
-    operator()( const double& v1,const double& v2,double& res ) const
-    { res=v1; res*=v2; }
-
-    REGISTER_BINARY_OP(Multiplier<dynamicgraph::Matrix>,Multiply_of_matrix);
-    REGISTER_BINARY_OP(Multiplier<dynamicgraph::Vector>,Multiply_of_vector);
-    REGISTER_BINARY_OP(Multiplier<MatrixRotation>,Multiply_of_matrixrotation);
-    REGISTER_BINARY_OP(Multiplier<MatrixHomogeneous>,Multiply_of_matrixHomo);
-    REGISTER_BINARY_OP(Multiplier<MatrixTwist>,Multiply_of_matrixtwist);
-    REGISTER_BINARY_OP(Multiplier<VectorQuaternion>,Multiply_of_quaternion);
-    REGISTER_BINARY_OP(Multiplier<double>,Multiply_of_double);
-
     template< typename F,typename E>
     struct Multiplier_FxE__E
       : public BinaryOpHeader<F,E,E>
@@ -745,58 +738,6 @@ namespace dynamicgraph {
     };
     REGISTER_BINARY_OP(VectorStack,Stack_of_vector);
 
-    /* --- STACK ------------------------------------------------------------ */
-    struct VectorMix
-      : public BinaryOpHeader<dynamicgraph::Vector,dynamicgraph::Vector,dynamicgraph::Vector>
-    {
-    public:
-      std::vector<bool> useV1;
-      std::vector<int> idx1, idx2;
-      void operator()( const dynamicgraph::Vector& v1,const dynamicgraph::Vector& v2,dynamicgraph::Vector& res ) const
-      {
-        res.resize(useV1.size());
-        std::size_t k1=0, k2=0;
-        for (std::size_t i = 0; i < useV1.size(); ++i)
-        {
-          if (useV1[i]) {
-            assert (k1 < idx1.size());
-            res[i] = v1[idx1[k1]];
-            ++k1;
-          } else {
-            assert (k2 < idx2.size());
-            res[i] = v2[idx2[k2]];
-            ++k2;
-          }
-        }
-        assert (k1 == idx1.size());
-        assert (k2 == idx2.size());
-      }
-
-      void addSelec1( const int & i) { useV1.push_back(true ); idx1.push_back(i); }
-      void addSelec2( const int & i) { useV1.push_back(false); idx2.push_back(i); }
-
-      void addSpecificCommands(Entity& ent,
-       			       Entity::CommandMap_t& commandMap )
-      {
-	using namespace dynamicgraph::command;
-
-	boost::function< void( const int& ) > selec1
-	  = boost::bind( &VectorMix::addSelec1,this,_1 );
-	boost::function< void( const int& ) > selec2
-	  = boost::bind( &VectorMix::addSelec2,this,_1 );
-
-        ADD_COMMAND( "addSelec1",
-            makeCommandVoid1(ent, selec1,
-              docCommandVoid1("append value from vector 1.",
-                "int (index in vector 1)")));
-        ADD_COMMAND( "addSelec2",
-            makeCommandVoid1(ent, selec2,
-              docCommandVoid1("append value from vector 2.",
-                "int (index in vector 2)")));
-      }
-    };
-    REGISTER_BINARY_OP(VectorMix,Mix_of_vector);
-
     /* ---------------------------------------------------------------------- */
 
     struct Composer
@@ -804,14 +745,8 @@ namespace dynamicgraph {
     {
       void operator() ( const dynamicgraph::Matrix& R,const dynamicgraph::Vector& t, MatrixHomogeneous& H ) const
       {
-	for( int i=0;i<3;++i )
-	  {
-	    H(i,3)=t(i);
-	    for( int j=0;j<3;++j )
-	      H(i,j) = R(i,j);
-	    H(3,i) = 0;
-	  }
-	H(3,3)=1.;
+        H.linear() = R;
+        H.translation() = t;
       }
     };
     REGISTER_BINARY_OP(Composer,Compose_R_and_T);
@@ -825,7 +760,7 @@ namespace dynamicgraph {
 
       void convolution( const MemoryType &f1,const dynamicgraph::Matrix & f2,dynamicgraph::Vector &res )
       {
-	const int nconv = f1.size(),nsig=f2.rows();
+	const Vector::Index nconv = (Vector::Index)f1.size(),nsig=f2.rows();
 	sotDEBUG(15) << "Size: " << nconv << "x" << nsig << std::endl;
 	if( nconv>f2.cols() ) return; // TODO: error, this should not happen
 
@@ -847,7 +782,7 @@ namespace dynamicgraph {
       void operator()( const dynamicgraph::Vector& v1,const dynamicgraph::Matrix& m2,dynamicgraph::Vector& res )
       {
 	memory.push_front( v1 );
-	while( memory.size() > m2.cols() ) memory.pop_back();
+	while( (Vector::Index)memory.size() > m2.cols() ) memory.pop_back();
 	convolution( memory,m2,res );
       }
     };
@@ -880,14 +815,12 @@ namespace dynamicgraph {
       : public BinaryOpHeader <T1, T2, bool>
     {
       // TODO T1 or T2 could be a scalar type.
-      typedef Eigen::Array<bool, T1::RowsAtCompileTime, T1::ColsAtCompileTime> Array;
       void operator()( const T1& a,const T2& b, bool& res ) const
       {
-        Array r;
-        if (equal) r = (a.array() <= b.array());
-        else       r = (a.array() <  b.array());
-        if (any) res = r.any();
-        else     res = r.all();
+        if      ( equal &&  any) res = (a.array() <= b.array()).any();
+        else if ( equal && !any) res = (a.array() <= b.array()).all();
+        else if (!equal &&  any) res = (a.array() <  b.array()).any();
+        else if (!equal && !any) res = (a.array() <  b.array()).all();
       }
       virtual std::string getDocString () const
       {
@@ -967,6 +900,162 @@ namespace dynamicgraph {
     REGISTER_BINARY_OP(WeightedAdder<double>,WeightAdd_of_double);
     }
 }
+
+#define REGISTER_VARIADIC_OP( OpType,name )				\
+  template<>								\
+  const std::string VariadicOp< OpType >::CLASS_NAME = std::string(#name); \
+  Entity *regFunction##_##name( const std::string& objname )		\
+  {									\
+    return new VariadicOp< OpType >( objname );				\
+  }									\
+  EntityRegisterer regObj##_##name( std::string(#name),&regFunction##_##name)
+
+namespace dynamicgraph {
+  namespace sot {
+    template< typename Tin, typename Tout, typename Time >
+    std::string VariadicAbstract<Tin,Tout,Time>::getTypeInName (void) { return TypeNameHelper<Tin>::typeName; }
+    template< typename Tin, typename Tout, typename Time >
+    std::string VariadicAbstract<Tin,Tout,Time>::getTypeOutName(void) { return TypeNameHelper<Tout>::typeName; }
+
+    template< typename TypeIn, typename TypeOut >
+    struct VariadicOpHeader
+    {
+      typedef TypeIn  Tin ;
+      typedef TypeOut Tout;
+      static const std::string & nameTypeIn (void) { return TypeNameHelper<Tin >::typeName; }
+      static const std::string & nameTypeOut(void) { return TypeNameHelper<Tout>::typeName; }
+      template <typename Op>
+      void initialize(VariadicOp<Op>*, Entity::CommandMap_t& ) {}
+      virtual std::string getDocString () const
+      {
+	return std::string (
+            "Undocumented variadic operator\n"
+            "  - input  " + nameTypeIn  () +
+            "\n"
+            "  - output " + nameTypeOut () +
+            "\n");
+      }
+    };
+
+    /* --- VectorMix ------------------------------------------------------------ */
+    struct VectorMix
+      : public VariadicOpHeader<Vector,Vector>
+    {
+    public:
+      typedef VariadicOp<VectorMix> Base;
+      struct segment_t {
+        Vector::Index index, size, input;
+        std::size_t sigIdx;
+        segment_t (Vector::Index i, Vector::Index s, std::size_t sig) : index (i), size(s), sigIdx (sig) {}
+      };
+      typedef std::vector <segment_t> segments_t;
+      Base* entity;
+      segments_t idxs;
+      void operator()( const std::vector<const Vector*>& vs, Vector& res ) const
+      {
+        res = *vs[0];
+        for (std::size_t i = 0; i < idxs.size(); ++i)
+        {
+          const segment_t& s = idxs[i];
+          if (s.sigIdx >= vs.size())
+            throw std::invalid_argument ("Index out of range in VectorMix");
+          res.segment (s.index, s.size) = *vs[s.sigIdx];
+        }
+      }
+
+      void addSelec( const int & sigIdx, const int & i, const int& s) { idxs.push_back(segment_t(i,s,sigIdx)); }
+
+      void initialize(Base* ent,
+                      Entity::CommandMap_t& commandMap )
+      {
+	using namespace dynamicgraph::command;
+        entity = ent;
+
+        ent->addSignal ("default");
+
+	boost::function< void( const int&, const int&, const int& ) > selec
+	  = boost::bind( &VectorMix::addSelec,this,_1,_2,_3 );
+
+        ADD_COMMAND( "setSignalNumber", makeCommandVoid1(*(typename Base::Base*)ent, &Base::setSignalNumber,
+              docCommandVoid1("set the number of input vector.", "int (size)")));
+
+        commandMap.insert(std::make_pair( "getSignalNumber",
+            new Getter<Base, int> (*ent, &Base::getSignalNumber,
+              "Get the number of input vector.")));
+
+        commandMap.insert(std::make_pair("addSelec",
+            makeCommandVoid3<Base,int,int,int>(*ent, selec,
+              docCommandVoid3("add selection from a vector.",
+                "int (signal index >= 1)", "int (index)","int (size)"))));
+      }
+    };
+    REGISTER_VARIADIC_OP(VectorMix,Mix_of_vector);
+
+    /* --- MULTIPLICATION --------------------------------------------------- */
+    template< typename T>
+    struct Multiplier
+      : public VariadicOpHeader<T,T>
+    {
+      typedef VariadicOp<Multiplier> Base;
+
+      void operator()( const std::vector<const T*>& vs,T& res ) const
+      {
+        if (vs.size() == 0) setIdentity(res);
+        else {
+          res = *vs[0];
+          for (std::size_t i = 1; i < vs.size(); ++i) res *= *vs[i];
+        }
+      }
+
+      void setIdentity (T& res) const { res.setIdentity(); }
+
+      void initialize(Base* ent,
+                      Entity::CommandMap_t& commandMap )
+      {
+	using namespace dynamicgraph::command;
+
+        ent->setSignalNumber (2);
+
+        ADD_COMMAND( "setSignalNumber", makeCommandVoid1(*(typename Base::Base*)ent, &Base::setSignalNumber,
+              docCommandVoid1("set the number of input vector.", "int (size)")));
+
+        commandMap.insert(std::make_pair( "getSignalNumber",
+            new Getter<Base, int> (*ent, &Base::getSignalNumber,
+              "Get the number of input vector.")));
+      }
+    };
+    template<> void Multiplier<double>::
+    setIdentity (double& res) const { res = 1; }
+    template<> void Multiplier<MatrixHomogeneous>::
+    operator()( const std::vector<const MatrixHomogeneous*>& vs, MatrixHomogeneous& res ) const
+    {
+      if (vs.size() == 0) setIdentity(res);
+      else {
+        res = *vs[0];
+        for (std::size_t i = 1; i < vs.size(); ++i) res = res * *vs[i];
+      }
+    }
+    template<> void Multiplier<Vector>::
+    operator()( const std::vector<const Vector*>& vs, Vector& res ) const
+    {
+      if (vs.size() == 0) res.resize(0);
+      else {
+        res = *vs[0];
+        for (std::size_t i = 1; i < vs.size(); ++i) res.array() *= vs[i]->array();
+      }
+    }
+
+    REGISTER_VARIADIC_OP(Multiplier<Matrix           >,Multiply_of_matrix);
+    REGISTER_VARIADIC_OP(Multiplier<Vector           >,Multiply_of_vector);
+    REGISTER_VARIADIC_OP(Multiplier<MatrixRotation   >,Multiply_of_matrixrotation);
+    REGISTER_VARIADIC_OP(Multiplier<MatrixHomogeneous>,Multiply_of_matrixHomo);
+    REGISTER_VARIADIC_OP(Multiplier<MatrixTwist      >,Multiply_of_matrixtwist);
+    REGISTER_VARIADIC_OP(Multiplier<VectorQuaternion >,Multiply_of_quaternion);
+    REGISTER_VARIADIC_OP(Multiplier<double           >,Multiply_of_double);
+
+  }
+}
+
 
 /* --- TODO ------------------------------------------------------------------*/
 // The following commented lines are sot-v1 entities that are still waiting

@@ -28,36 +28,40 @@
 #include <dynamic-graph/command-getter.h>
 
 #include <sot/core/config.hh>
+#include <sot/core/variadic-op.hh>
 
 namespace dynamicgraph {
   namespace sot {
     /// Switch
     template <typename Value, typename Time = int>
-    class SOT_CORE_DLLAPI Switch : public dynamicgraph::Entity
+    class SOT_CORE_DLLAPI Switch : public VariadicAbstract<Value,Value,Time>
     {
       DYNAMIC_GRAPH_ENTITY_DECL();
 
+      typedef VariadicAbstract<Value,Value,Time> Base;
+
       Switch (const std::string& name) :
-        Entity (name),
+        Base (name,CLASS_NAME),
         selectionSIN(NULL,"Switch("+name+")::input(int)::selection"),
-        boolSelectionSIN(NULL,"Switch("+name+")::input(bool)::boolSelection"),
-        signalSOUT  ("Switch("+name+")::output(" + typeName() + ")::sout")
+        boolSelectionSIN(NULL,"Switch("+name+")::input(bool)::boolSelection")
       {
-        signalSOUT.setFunction (boost::bind (&Switch::signal, this, _1, _2));
-        signalRegistration (selectionSIN << boolSelectionSIN << signalSOUT);
+        this->signalRegistration (selectionSIN << boolSelectionSIN);
+        this->SOUT.setFunction (boost::bind(&Switch::signal,this,_1,_2));
+        this->SOUT.addDependency (selectionSIN);
+        this->SOUT.addDependency (boolSelectionSIN);
 
         using command::makeCommandVoid1;
         std::string docstring =
           "\n"
           "    Set number of input signals\n";
-        addCommand ("setSignalNumber", makeCommandVoid1
-            (*this, &Switch::setSignalNumber, docstring));
+        this->addCommand ("setSignalNumber", makeCommandVoid1
+            (*(Base*)this, &Base::setSignalNumber, docstring));
 
         docstring =
           "\n"
           "    Get number of input signals\n";
-        addCommand ("getSignalNumber",
-            new command::Getter<Switch, int> (*this, &Switch::getSignalNumber, docstring));
+        this->addCommand ("getSignalNumber",
+            new command::Getter<Base, int> (*this, &Base::getSignalNumber, docstring));
       }
 
       ~Switch () {}
@@ -69,39 +73,7 @@ namespace dynamicgraph {
           "Dynamically select a given signal based on a input information.\n";
       }
 
-      void setSignalNumber (const int& n)
-      {
-        assert (n>=0);
-        const std::size_t oldSize = signals.size();
-        for (std::size_t i = n; i < oldSize; ++i)
-        {
-          std::ostringstream oss; oss << "sin" << i;
-          signalDeregistration(oss.str());
-          delete signals[i];
-        }
-        signals.resize(n,NULL);
-        
-        for (std::size_t i = oldSize; i < (std::size_t)n; ++i)
-        {
-          assert (signals[i]==NULL);
-          std::ostringstream oss;
-          oss << "Switch("<< getName()<< ")::input(" << typeName() << ")::sin" << i;
-          signals[i] = new Signal_t (NULL,oss.str());
-          signalRegistration(*signals[i]);
-        }
-      }
-
-      int getSignalNumber () const
-      {
-        return (int)signals.size();
-      }
-
       private:
-      typedef SignalPtr<Value, Time> Signal_t;
-      typedef std::vector<Signal_t*> Signals_t;
-
-      static const std::string& typeName ();
-
       Value& signal (Value& ret, const Time& time)
       {
         int sel;
@@ -111,18 +83,15 @@ namespace dynamicgraph {
           const bool& b = boolSelectionSIN(time);
           sel = b ? 1 : 0;
         }
-        if (sel < 0 || sel >= int(signals.size()))
+        if (sel < 0 || sel >= int(this->signalsIN.size()))
           throw std::runtime_error ("Signal selection is out of range.");
 
-        ret = (*signals[sel]) (time);
+        ret = this->signalsIN[sel]->access (time);
         return ret;
       }
 
-      Signals_t signals;
       SignalPtr <int, Time> selectionSIN;
       SignalPtr <bool, Time> boolSelectionSIN;
-
-      Signal <Value, Time> signalSOUT;
     };
   } // namespace sot
 } // namespace dynamicgraph

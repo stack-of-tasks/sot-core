@@ -88,6 +88,7 @@ SET(NEWHEADERS
   sot/core/periodic-call-entity.hh
   sot/core/trajectory.hh
   sot/core/switch.hh
+  sot/core/variadic-op.hh
   )
 INSTALL(FILES ${NEWHEADERS}
   DESTINATION include/sot/core

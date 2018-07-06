@@ -24,6 +24,7 @@
 #include <dynamic-graph/pool.h>
 #include <dynamic-graph/command-bind.h>
 #include <dynamic-graph/command-getter.h>
+#include <dynamic-graph/command-setter.h>
 
 #include <sot/core/config.hh>
 
@@ -57,6 +58,12 @@ namespace dynamicgraph {
           "    Get list of signals\n";
         addCommand ("list", new command::Getter<Event, std::string>
             (*this, &Event::getSignalsByName, docstring));
+
+        docstring =
+          "\n"
+          "    Triggers an event only when condition goes from False to True\n";
+        addCommand ("setOnlyUp", new command::Setter<Event, bool>
+            (*this, &Event::setOnlyUp, docstring));
       }
 
       ~Event () {}
@@ -87,6 +94,11 @@ namespace dynamicgraph {
         return oss.str();
       }
 
+      void setOnlyUp (const bool& up)
+      {
+        onlyUp_ = up;
+      }
+
       private:
       typedef SignalBase<int>* Trigger_t;
       typedef std::vector<Trigger_t> Triggers_t;
@@ -95,11 +107,14 @@ namespace dynamicgraph {
       {
         const bool& val = conditionSIN (time);
         ret = (val != lastVal_);
+        bool trigger = onlyUp_ ? (!lastVal_ && val) : ret;
         if (ret) {
           lastVal_ = val;
-          for (Triggers_t::const_iterator _s = triggers.begin();
-              _s != triggers.end(); ++_s)
-            (*_s)->recompute (time);
+          if (trigger) {
+            for (Triggers_t::const_iterator _s = triggers.begin();
+                _s != triggers.end(); ++_s)
+              (*_s)->recompute (time);
+          }
         }
         return ret;
       }
@@ -109,7 +124,7 @@ namespace dynamicgraph {
       Triggers_t triggers;
       SignalPtr <bool, int> conditionSIN;
 
-      bool lastVal_;
+      bool lastVal_, onlyUp_;
     };
   } // namespace sot
 } // namespace dynamicgraph
