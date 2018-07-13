@@ -120,7 +120,7 @@ public:
   }
   friend std::ostream& operator <<(std::ostream& stream, const timestamp& ats)
   {
-    stream << ats.secs_ + 0.000001*ats.nsecs_;
+    stream << ats.secs_ + 0.000001*(long double)ats.nsecs_;
     return stream;
   }
 };
