@@ -20,6 +20,7 @@ INCLUDE(cmake/boost.cmake)
 INCLUDE(cmake/eigen.cmake)
 INCLUDE(cmake/lapack.cmake)
 INCLUDE(cmake/cpack.cmake)
+INCLUDE(cmake/python.cmake)
 
 SET(PROJECT_NAME sot-core)
 SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
@@ -43,11 +44,20 @@ PKG_CONFIG_APPEND_LIBS("sot-core")
 # Search for dependencies.
 # Boost
 SET(BOOST_COMPONENTS thread filesystem program_options unit_test_framework system regex )
-SEARCH_FOR_BOOST()
 SEARCH_FOR_EIGEN()
 
 ADD_REQUIRED_DEPENDENCY("dynamic-graph >= 3.0.0")
-ADD_REQUIRED_DEPENDENCY("dynamic-graph-python >= 3.0.0")
+
+OPTION (BUILD_PYTHON_INTERFACE "Build the python binding" ON)
+IF(BUILD_PYTHON_INTERFACE)
+  FINDPYTHON()
+  STRING(REGEX REPLACE "-" "_" PY_NAME ${PROJECT_NAME})
+  SET(${PY_NAME}_INSTALL_DIR ${PYTHON_SITELIB}/${PY_NAME})
+  INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIRS})
+  ADD_REQUIRED_DEPENDENCY("dynamic-graph-python >= 3.0.0")
+ENDIF(BUILD_PYTHON_INTERFACE)
+
+SEARCH_FOR_BOOST()
 
 ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(src)
