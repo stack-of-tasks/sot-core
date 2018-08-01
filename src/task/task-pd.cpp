@@ -121,24 +121,3 @@ initCommand( void )
   using namespace command;
   addCommand("setBeta",makeDirectSetter(*this,&beta,docDirectSetter("beta","double")));
 }
-
-void TaskPD::
-commandLine( const std::string& cmdLine
-	     ,std::istringstream& cmdArgs
-	     ,std::ostream& os )
-{
-  if( cmdLine=="help" )
-    {
-      os << "TaskPD: "<<endl;
-      Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-  else if( cmdLine =="beta" )
-    {
-      cmdArgs >> ws;
-      if( cmdArgs.good() )
-	{ cmdArgs >> beta; } else { os << beta; }
-    }
-  else  //sotTaskPDAbstract::
-    Task::commandLine( cmdLine,cmdArgs,os );
-
-}

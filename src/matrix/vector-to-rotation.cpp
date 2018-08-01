@@ -83,52 +83,11 @@ computeRotation( const dynamicgraph::Vector& angles,
 	    break;
 	  }
 	}
-      
+
       sotDEBUG(15) << "R" << i << " = " << Ra;
       Rtmp = res*Ra;
       res=Rtmp;
     }
 
   return res;
-}
-
-
-/* --------------------------------------------------------------------- */
-/* --- VECTOR ---------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-void VectorToRotation::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs, 
-	     std::ostream& os )
-{
-  if( cmdLine == "size" )
-    {
-      cmdArgs>> std::ws;
-      if( cmdArgs.good() )
-	{ cmdArgs >>size; axes.resize(size); axes.assign(size,AXIS_X ); }
-      else { os <<"size = " << size << std::endl; }
-    }
-  else if( cmdLine == "axis" ) 
-    {
-      unsigned int i; cmdArgs >> i >> std::ws;
-      if( i<size )
-	{
-	  if( cmdArgs.good() )
-	    {
-	      std::string axname;  cmdArgs >> axname;
-	      if( "X"==axname ) { axes[i] = AXIS_X; }
-	      else if( "Y"==axname ) { axes[i] = AXIS_Y; }
-	      else if( "Z"==axname ) { axes[i] = AXIS_Z; }
-	      else { os << "!! Error in axis name '" << axname << "'" << std::endl; }
-	    }
-	  else { os << "axis[" << i << "] = " << axes[i] <<std::endl; }
-	} else { /* TODO ERROR */ }
-    }
-  else if( cmdLine == "help" )
-    {
-      os << "sotVectorToRotation"<<endl
-	 << "  - size [<size>] \t\t:get/set the input size." <<endl
-	 << "  - axis <axis_num> [X|Y|Z]\t\t:get/set the rotation axis number i."<<endl;
-    }
-  else Entity::commandLine(cmdLine,cmdArgs,os);
 }

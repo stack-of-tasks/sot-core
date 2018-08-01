@@ -66,21 +66,21 @@ dynamicgraph::Vector& SeqPlay::
 getNextPosition( dynamicgraph::Vector& pos, const int& /*time*/ )
 {
   sotDEBUGIN(15);
-  if( !init ) 
+  if( !init )
     {
-      if( stateList.empty() ) return pos; 
+      if( stateList.empty() ) return pos;
       currPos=stateList.begin(); init=true; currRank = 0;
     }
 
-  
+
     {
       const dynamicgraph::Vector& posCur = *currPos;
       pos=posCur;
-      
-      currPos++; 
+
+      currPos++;
       if( currPos==stateList.end() ) currPos--;
       else currRank++;
-    } 
+    }
 
   sotDEBUGOUT(15);
   return pos;
@@ -105,11 +105,11 @@ loadFile( const std::string& filename )
   while( file.good() )
     {
       file.getline( buffer,SIZE );
-      if( file.gcount()<5 ) break; 
+      if( file.gcount()<5 ) break;
 
       sotDEBUG(25) << buffer<<endl;
       std::istringstream iss( buffer );
-      
+
       iss>>time;      unsigned int i;
 
       for( i=0;iss.good();++i )
@@ -117,7 +117,7 @@ loadFile( const std::string& filename )
 	  if( i==ressize ) { ressize*=2; res.resize(ressize,false); }
 	  iss>>res(i); sotDEBUG(35) <<i<< ": " <<  res(i)<<endl;
 	}
-      ressize=i-1;  res.resize(ressize,false); 
+      ressize=i-1;  res.resize(ressize,false);
       stateList.push_back( res );
       sotDEBUG(15) << time << ": " <<  res << endl;
     }
@@ -134,41 +134,3 @@ loadFile( const std::string& filename )
 
 void SeqPlay::display ( std::ostream& os ) const
 {os <<name<<endl; }
-
-
-/* --- PARAMS --------------------------------------------------------------- */
-/* --- PARAMS --------------------------------------------------------------- */
-/* --- PARAMS --------------------------------------------------------------- */
-#include <dynamic-graph/pool.h>
-
-void SeqPlay::
-commandLine( const std::string& cmdLine
-	     ,std::istringstream& cmdArgs
-	     ,std::ostream& os )
-{
-  if( cmdLine=="help" )
-    {
-      os << "SeqPlay: "<<endl
-	 << "  - load <file>"<<endl
-	 << "  - size" <<endl;
-	Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-  else if( cmdLine=="load" )
-    {
-      std::string n; cmdArgs >> n;
-      loadFile(n);
-    }
-  else if( cmdLine == "empty" )
-    {
-      stateList.clear(); init=false;
-    }
-  else if( cmdLine == "size" ) 
-    {
-      os << "size = " << stateList.size() << endl; 
-      os << "rank = " << currRank << endl; 
-    }
-  else  
-    {
-      Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-}

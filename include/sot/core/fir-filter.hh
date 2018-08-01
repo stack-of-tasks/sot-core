@@ -82,7 +82,7 @@ namespace dynamicgraph {
     namespace command {
       using ::dynamicgraph::command::Command;
       using ::dynamicgraph::command::Value;
-      
+
       template <class sigT, class coefT>
       class SetElement : public Command
       {
@@ -101,7 +101,7 @@ namespace dynamicgraph {
 	Value doExecute ();
       }; // class SetElement
     } // namespace command
-    
+
     using ::dynamicgraph::command::Setter;
     using ::dynamicgraph::command::Getter;
 
@@ -119,7 +119,7 @@ namespace dynamicgraph {
 	return "Unknown";
       }
       static const std::string CLASS_NAME;
-      
+
       std::string getDocString () const
       {
 	return
@@ -173,7 +173,7 @@ namespace dynamicgraph {
 	addCommand ("setSize",
 		    new Setter < FIRFilter, unsigned >
 		    (*this, &FIRFilter::resizeBuffer, docstring));
-	
+
 	docstring =
 	  "  Get Number of coefficients\n"
 	  "\n"
@@ -182,22 +182,22 @@ namespace dynamicgraph {
 	addCommand ("getSize",
 		    new Getter < FIRFilter, unsigned >
 		    (*this, &FIRFilter::getBufferSize, docstring));
-	
+
       }
-      
+
       virtual ~FIRFilter() {}
-      
+
       virtual sigT& compute( sigT& res,int time )
       {
 	const sigT& in = SIN.access( time );
 	reset_signal( res, in );
 	data.push_front( in );
-	
+
 	size_t SIZE = std::min(data.size(), coefs.size());
 	for(size_t i = 0; i < SIZE; ++i) {
 	  res += coefs[i] * data[i];
 	}
-	
+
 	return res;
       }
 
@@ -207,35 +207,29 @@ namespace dynamicgraph {
 	data.reset_capacity(s);
 	coefs.resize (s);
       }
-      
+
       unsigned int getBufferSize () const
       {
 	return static_cast <unsigned int> (coefs.size ());
-	
+
       }
-      
+
       void setElement (const unsigned int& rank, const coefT& coef)
       {
 	coefs [rank] = coef;
       }
-      
+
       coefT getElement (const unsigned int& rank) const
       {
 	return coefs [rank];
       }
-      
-      virtual void commandLine( const std::string& ,
-				std::istringstream&,
-				std::ostream&  )
-      {
-      }
-      
+
       static void reset_signal(sigT& /*res*/, const sigT& /*sample*/ ) { }
-      
+
     public:
       SignalPtr<sigT, int> SIN;
       SignalTimeDependent<sigT, int> SOUT;
-      
+
     private:
       std::vector<coefT> coefs;
       detail::circular_buffer<sigT> data;

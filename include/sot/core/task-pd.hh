@@ -75,9 +75,6 @@ class SOTTASKPD_EXPORT TaskPD
   dg::SignalPtr< dg::Vector,int > errorDotSIN;
 
   /* --- PARAMS --- */
-  virtual void commandLine( const std::string& cmdLine
-			    ,std::istringstream& cmdArgs
-			    ,std::ostream& os );
   void initCommand( void );
 
 };

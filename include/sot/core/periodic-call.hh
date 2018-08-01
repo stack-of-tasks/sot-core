@@ -40,12 +40,6 @@
 /* --------------------------------------------------------------------- */
 
 namespace dynamicgraph {
-  namespace python {
-    class Interpreter;
-  }
-}
-
-namespace dynamicgraph {
 namespace sot {
 
 /*!
@@ -75,11 +69,7 @@ class SOT_CORE_EXPORT PeriodicCall
   typedef std::map< std::string,SignalToCall > SignalMapType;
   SignalMapType signalMap;
 
-  typedef std::list< std::string > CmdListType;
-  CmdListType cmdList;
-
   int innerTime;
-  dynamicgraph::python::Interpreter * py_sh;
 
   /* --- FUNCTIONS ------------------------------------------------------------ */
  public:
@@ -93,24 +83,15 @@ class SOT_CORE_EXPORT PeriodicCall
   void addSignal( const std::string& args );
   void rmSignal( const std::string &name );
 
-  void addCmd( const std::string& args );
-  void rmCmd( const std::string& args );
-
   void runSignals( const int& t );
-  void runCmds( void );
   void run( const int& t );
 
-  void clear( void ) { signalMap.clear(); cmdList.clear(); }
+  void clear( void ) { signalMap.clear(); }
 
   void display( std::ostream& os ) const;
-  bool commandLine( const std::string& cmdLine,
-		    std::istringstream& cmdArgs,
-		    std::ostream& os );
   void addSpecificCommands( dynamicgraph::Entity& ent,
 			    dynamicgraph::Entity::CommandMap_t& commap,
 			    const std::string & prefix = "" );
-
-  void setPyInterpreter( dynamicgraph::python::Interpreter * py_sh );
 };
 
 

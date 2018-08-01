@@ -457,7 +457,7 @@ taskVectorToMlVector( const VectorMultiBound& taskVector, Vector& res )
 {
   res.resize(taskVector.size());
   unsigned int i=0;
-  
+
   for( VectorMultiBound::const_iterator iter=taskVector.begin();
        iter!=taskVector.end();++iter,++i ) {
     res(i)=iter->getSingleBound();
@@ -567,7 +567,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	/* --- COMPUTE Jt --- */
 	if( 0<iterTask ) Jt.noalias() = JK*(*PrevProj); else { Jt = JK; }
 	/***/sotCOUNTER(4,5); // compute Jt
-	
+
 	/* --- PINV --- */
         svd.compute (Jt);
         Eigen::dampedInverse (svd, Jp, th);
@@ -760,7 +760,7 @@ computeConstraintProjector( dynamicgraph::Matrix& ProjK, const int& time )
 
   dynamicgraph::Matrix Jffinv( Jff.cols(),Jff.rows() );
   Eigen::pseudoInverse(Jff, Jffinv);
-  
+
   dynamicgraph::Matrix& Jffc = ProjK;
   Jffc.resize( Jffinv.rows(),Jc.cols() );
   Jffc = -Jffinv*Jc;
@@ -808,119 +808,6 @@ operator<< ( std::ostream& os,const Sot& sot )
 /* --------------------------------------------------------------------- */
 /* --- COMMAND --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-
-void Sot::
-commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  sotDEBUGIN(15);
-
-  if( cmdLine == "help")
-    {
-      os << "Stack of Tasks: "<<endl
-	 << " - push <task>"<< endl
-	 << " - pop"<< endl
-	 << " - down <task>"<< endl
-	 << " - up <task>"<< endl
-	 << " - rm <task>"<< endl
-	 << " - clear"<< endl
-	 << " - display"<< endl
-
-	 << " - addConstraint <constraint> "<<endl
-	 << " - rmConstraint <constraint> "<<endl
-	 << " - clearConstraint"<<endl
-	 << " - printConstraint "<<endl
-
-	 << " - nbJoints <nb> "<<endl
-         << " - recomputeEachTime [true|false]" << endl;
-      Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-  else if( cmdLine == "recomputeEachTime")
-    {
-      std::string tname; cmdArgs >> std::ws;
-      if( cmdArgs.good() ) cmdArgs >> recomputeEachTime;
-      else os << "recomputeEachTime = " << ((recomputeEachTime)?"true":"false") << std::endl;
-    }
-  else if( cmdLine == "clear")
-    {
-      clear();
-    }
-  else if( cmdLine == "push")
-    {
-    }
-  else if( cmdLine == "gradient")
-    {
-      std::string tname; cmdArgs >> std::ws;
-      if( cmdArgs.good() )
-	{
-	  cmdArgs >> tname;
-	  if( ( "0"==tname )||( "rm"==tname ) )
-	    { taskGradient = 0; }
-	  else
-	    {
-	    }
-	}
-      else
-	{
-	  os << "gradient = ";
-	  if( taskGradient ) os << (*taskGradient) << std::endl;
-	  else os << "undef. " << std::endl;
-	}
-      controlSOUT.setReady();
-    }
-  else if( cmdLine == "up")
-    {
-    }
-  else if( cmdLine == "down")
-    {
-    }
-  else if( cmdLine == "rm")
-    {
-    }
-  else if( cmdLine == "pop")
-    {
-      TaskAbstract& task = pop();
-      os << "Remove : "<< task << std::endl;
-    }
-
-  else if( cmdLine == "addConstraint" )
-    {
-    }
-  else if( cmdLine == "rmConstraint" )
-    {
-    }
-  else if( cmdLine == "clearConstraint" )
-    {
-      clearConstraint( );
-      constraintSOUT.setReady();
-    }
-  else if( cmdLine == "printConstraint" )
-    {
-      os<< "Constraints: "<<std::endl;
-      for( ConstraintListType::iterator it = constraintList.begin();
-	   it!=constraintList.end();++it )
-	{ os<< "  - "<< (*it)->getName() << endl; }
-    }
-  else if( cmdLine == "nbJoints")
-    {
-      cmdArgs>>ws;
-      if( cmdArgs.good() )
-	{
-          unsigned int nbDof;
-	  cmdArgs >> nbDof;
-          defineNbDof(nbDof);
-	} else { os << "nbJoints = "<< nbJoints <<endl; }
-    }
-  else if( cmdLine == "display")
-    {
-      display(os);
-    }
-  else
-    Entity::commandLine( cmdLine,cmdArgs,os );
-
-
-  sotDEBUGOUT(15);
-}
 
 std::ostream& Sot::
 writeGraph( std::ostream& os ) const

@@ -81,24 +81,3 @@ display( std::ostream& os ) const
   os << "PeriodicCallEntity <"<<name<<"> ";
   PeriodicCall::display( os );
 }
-
-
-
-
-void PeriodicCallEntity::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if(! PeriodicCall::commandLine( cmdLine,cmdArgs,os) )
-    { Entity::commandLine( cmdLine,cmdArgs,os ); }
-}
-
-
-
-/*
- * Local variables:
- * c-basic-offset: 2
- * End:
- */
-

@@ -96,11 +96,6 @@ class SOTTASKCONTI_EXPORT TaskConti
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display( std::ostream& os ) const;
-
-  /* --- PARAMS --- */
-  virtual void commandLine( const std::string& cmdLine,
-			    std::istringstream& cmdArgs,
-			    std::ostream& os );
 };
 
 } /* namespace sot */} /* namespace dynamicgraph */

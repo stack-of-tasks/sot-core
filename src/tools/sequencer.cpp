@@ -42,7 +42,7 @@ Sequencer( const std::string & name )
 		"Sequencer("+name+")::output(dummy)::trigger" )
 {
   sotDEBUGIN(5);
-  
+
   signalRegistration( triggerSOUT );
   triggerSOUT.setNeedUpdateFromAllChildren( true );
 
@@ -83,14 +83,14 @@ public:
       {
 	std::string taskname; cmdArgs >> taskname;
 	sotDEBUG(15) << "Add task " << taskname << std::endl;
-	taskPtr  
+	taskPtr
 	  = dynamic_cast< TaskAbstract* >
 	  (&dg::PoolStorage::getInstance()->getEntity(taskname));
       }
   }
-  virtual void display( std::ostream& os ) const 
+  virtual void display( std::ostream& os ) const
   { if( taskPtr ) os << taskPtr->getName(); else os << "NULL"; }
-  virtual const std::string& getName() const 
+  virtual const std::string& getName() const
   { if( taskPtr ) return taskPtr->getName(); else return defaultTaskName; }
 
 };
@@ -109,11 +109,11 @@ public:
   {
     sotDEBUGIN(15);
     sotDEBUG(45) << "Sot = " << sotptr << ". Task = " << taskPtr << "." << std::endl;
-    if( (NULL!=sotptr)&&(NULL!=taskPtr) ) sotptr->push(*taskPtr ); 
+    if( (NULL!=sotptr)&&(NULL!=taskPtr) ) sotptr->push(*taskPtr );
     sotDEBUGOUT(15);
   }
 
-  virtual void display( std::ostream& os ) const 
+  virtual void display( std::ostream& os ) const
   {os << "Add<"; sotEventTaskBased::display(os); os<<">"; }
 
 };
@@ -130,14 +130,14 @@ public:
   }
 
   void operator()( Sot* sotptr )
-  { 
+  {
     sotDEBUGIN(15);
     sotDEBUG(45) << "Sot = " << sotptr << ". Task = " << taskPtr << "." << std::endl;
     if( (NULL!=sotptr)&&(NULL!=taskPtr) ) sotptr->remove(*taskPtr );
     sotDEBUGOUT(15);
   }
 
-  virtual void display( std::ostream& os ) const 
+  virtual void display( std::ostream& os ) const
   { os << "Remove<"; sotEventTaskBased::display(os); os<<">"; }
 
 };
@@ -171,12 +171,12 @@ public:
     sotDEBUGOUT(15);
 	delete [] buffer;
   }
-  const std::string & getEventCmd() const 
+  const std::string & getEventCmd() const
   {	return cmd; }
-  virtual void display( std::ostream& os ) const 
+  virtual void display( std::ostream& os ) const
   { os << "Run: " << cmd; }
   virtual void operator() ( Sot* /*sotPtr*/ )
-  { 
+  {
     std::ostringstream onull; onull.clear( std::ios::failbit );
     std::istringstream iss( cmd );
     std::string cmdName; iss >> cmdName;
@@ -195,14 +195,14 @@ addTask( sotEventAbstract* task,const unsigned int timeSpec )
 {
   TaskMap::iterator listKey = taskMap.find( timeSpec );
   if( taskMap.end()==listKey )
-    {  
+    {
       sotDEBUG(15) << "New element at " << timeSpec << std::endl;
-      taskMap[timeSpec].push_back( task ); 
+      taskMap[timeSpec].push_back( task );
     }
-  else 
+  else
     {
       TaskList& tl = listKey->second;
-      tl.push_back( task ); 
+      tl.push_back( task );
   }
 }
 
@@ -216,7 +216,7 @@ rmTask( int eventType, const std::string & name,const unsigned int time )
 		TaskList& tl = listKey->second;
 		for( TaskList::iterator itL = tl.begin();  itL != tl.end(); ++itL)
 		{
-			if ((*itL)->getEventType() == eventType && (*itL)->getName() == name) 
+			if ((*itL)->getEventType() == eventType && (*itL)->getName() == name)
 			{
 				tl.remove(*itL);
 				break;
@@ -254,25 +254,25 @@ trigger( int& dummy,const int& timeSpec )
 {
   sotDEBUGIN(15);
 
-  if(! playMode ) return dummy; 
+  if(! playMode ) return dummy;
   if( -1==timeInit ) timeInit = timeSpec;
 
   sotDEBUG(15) << "Ref time: " << (timeSpec-timeInit) << std::endl;
   TaskMap::iterator listKey = taskMap.find( timeSpec-timeInit );
   if( taskMap.end()!=listKey )
-    {  
-      sotDEBUG(1) << "Time: "<< (timeSpec-timeInit) << ": we've got a task to do!" 
+    {
+      sotDEBUG(1) << "Time: "<< (timeSpec-timeInit) << ": we've got a task to do!"
 		  << std::endl;
       TaskList & tl = listKey->second;
       for( TaskList::iterator iter=tl.begin();iter!=tl.end();++iter )
 	{
 	  if( *iter )
-	    { 
+	    {
 	      (*iter)->operator() (sotPtr);
-	      if( NULL!=outputStreamPtr ) 
-		{ 
+	      if( NULL!=outputStreamPtr )
+		{
 		  (*outputStreamPtr) << "At time t=" << timeSpec << ": ";
-		  (*iter)->display(*outputStreamPtr); 
+		  (*iter)->display(*outputStreamPtr);
 		  (*outputStreamPtr) << std::endl;
 		}
 	    }
@@ -308,132 +308,3 @@ display( std::ostream& os ) const
     }
 
 }
-
-
-void Sequencer::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  sotDEBUG(25) << "Cmd " << cmdLine <<std::endl;
-
-  if( cmdLine == "help" )
-    {
-      os << "Sequencer: " << std::endl
-	 << " - sot [<sotname>]" << std::endl
-	 << " - addEvent: <eventType> <time> <args>" << std::endl
-	 << " - rmEvent: <eventType> <time> <args>" << std::endl
-	 << " - clear: erase all events" << std::endl
-	 << " - start/stop" << std::endl
-	 << " - reset: reset the t0 counter. " << std::endl
-	 << " - verbose/normal/mute: change output model : detailed/default (normal messages)/only errors" << std::endl;
-    }
-  else if( cmdLine == "sot" )
-    {
-      cmdArgs>>std::ws; if( cmdArgs.good() )
-	{
-	  std::string sotname; cmdArgs >> sotname;
-	  Sot * sotptr = dynamic_cast< Sot* >
-	    (&(dg::PoolStorage::getInstance()->getEntity(sotname)));
-	  if(! sotptr ) os << "! Entity <" << sotname << "> does not exist "
-			   << "(see you later, next patient please!"
-			   << std::endl;
-	  else setSotRef( sotptr );
-	} 
-      else
-	{ 
-	  if( sotPtr ) os << "sot = " << sotPtr->getName() << std::endl;
-	  else os << "No sot specified yet. " << std::endl;
-	}
-    }
-  else if( cmdLine == "addEvent" )
-    {
-      std::string eventType; 
-      unsigned int timeref=0;
-	
-
-      cmdArgs>>std::ws; if(! cmdArgs.good() ) 
-	  { if (!noOutput) {os <<"! addEvent: <eventType> <time> <args>" <<std::endl;} return; }
-      cmdArgs >> eventType >> std::ws;
-
-      if(! cmdArgs.good() ) 
-	  { if (!noOutput) {os <<"! addEvent: <eventType> <time> <args>" <<std::endl;} return; }
-      cmdArgs >> timeref ;
-      
-      sotEventTaskBased* event;
-      if( eventType=="add" )	 event = new sotEventAddATask();
-      else if( eventType=="rm" ) event = new sotEventRemoveATask();
-      else
-	{
-	  os<<"! Event type <" <<eventType <<"> is not recognized." <<std::endl; 
-	  return; 
-	}
-      event->init( cmdArgs );
-      addTask( event,timeref );
-    }
-  else if( cmdLine == "rmEvent" )
-  {
-	  std::string eventType; 
-	  unsigned int timeref=0;
-
-
-	  cmdArgs>>std::ws; if(! cmdArgs.good() ) 
-	  { if (!noOutput) {os <<"! rmEvent: <eventType> <time> <args>" <<std::endl;} return; }
-	  cmdArgs >> eventType >> std::ws;
-
-	  if(! cmdArgs.good() ) 
-	  { if (!noOutput) {os <<"! rmEvent: <eventType> <time> <args>" <<std::endl;} return; }
-	  cmdArgs >> timeref ;
-
-	  //the type of event
-	  int event;
-	  if( eventType=="add" )	 event = sotEventAbstract::EVENT_ADD;
-	  else if( eventType=="rm" ) event = sotEventAbstract::EVENT_RM;
-	  else
-	  {
-		  os<<"! Event type <" <<eventType <<"> is not recognized." <<std::endl; 
-		  return; 
-	  }
-
-	  //the name of the event
-	  std::string name;
-	  cmdArgs >> name;
-	  rmTask( event, name, timeref );
-  }
-  else if( cmdLine == "addCmd" )
-    {
-      unsigned int timeref=0; cmdArgs >> std::ws;
-      sotDEBUG(15)<<std::endl;
-      if(! cmdArgs.good() ) 
-	  { if (!noOutput) {os <<"! addEvent: <eventType> <time> <args>" <<std::endl;} return; }
-      sotDEBUG(15)<<std::endl;
-      cmdArgs >> timeref ;
-      sotDEBUG(15)<<std::endl;
-      sotEventCmd * eventcmd = new sotEventCmd();
-      sotDEBUG(15)<<std::endl;
-      eventcmd->init( cmdArgs );
-      addTask( eventcmd,timeref );
-    }
-  else if( cmdLine == "rmCmd" )
-    {
-      unsigned int timeref=0; cmdArgs >> std::ws;
-      if(! cmdArgs.good() ) 
-	  { if (!noOutput) {os <<"! addEvent: <eventType> <time> <args>" <<std::endl;} return; }
-      cmdArgs >> timeref ;
-	  int index = sotEventAbstract::EVENT_CMD;
-
-	  //get the name of the command
-	  std::string name;
-	  cmdArgs >>  name;
-      rmTask( index, name,timeref );
-    }
-  else if( "clear"==cmdLine ) { clearAll(); }
-  else if( "reset"==cmdLine ) { timeInit = -1; }
-  else if( "start"==cmdLine ) { playMode = true; }
-  else if( "stop"==cmdLine ) { playMode = false; }
-  else if( "verbose"==cmdLine ) { outputStreamPtr = &os; }
-  else if( "mute"==cmdLine ) { outputStreamPtr = NULL; noOutput=true;}
-  else if( "normal"==cmdLine ) { noOutput=false; }
-  else { Entity::commandLine( cmdLine,cmdArgs,os); }
-}
-

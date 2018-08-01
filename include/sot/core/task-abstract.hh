@@ -51,7 +51,7 @@ namespace dynamicgraph {
     ///
     /// A task computes a value and a Jacobian as output signals.
     /// Once stacked into a solver, the solver will compute the control
-    /// vector that makes the task values converge toward zero in the 
+    /// vector that makes the task values converge toward zero in the
     /// order defined by the priority levels.
     ///
     /// \image html pictures/task.png "Task diagram: Task types derive from TaskAbstract. The value and Jacobian of a Task are computed from the features that are stored in the task.
@@ -70,9 +70,6 @@ namespace dynamicgraph {
 	MemoryTaskAbstract( void ) : timeLastChange(0) {};
 	virtual ~MemoryTaskAbstract( void ) {};
       public:
-	virtual void commandLine( const std::string& cmdLine
-				  ,std::istringstream& cmdArgs
-				  ,std::ostream& os ) = 0;
 	virtual void display( std::ostream& os ) const = 0;
 	friend std::ostream& operator<<( std::ostream& os,
 					 const MemoryTaskAbstract& tcm )
@@ -92,11 +89,6 @@ namespace dynamicgraph {
 
       dg::SignalTimeDependent< VectorMultiBound,int > taskSOUT;
       dg::SignalTimeDependent< dg::Matrix,int > jacobianSOUT;
-
-    public: /* --- PARAMS --- */
-      virtual void commandLine( const std::string& cmdLine
-				,std::istringstream& cmdArgs
-				,std::ostream& os ) ;
     };
 
   } /* namespace sot */

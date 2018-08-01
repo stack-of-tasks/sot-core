@@ -82,7 +82,7 @@ void FeatureJointLimits::removeDependenciesFromReference( void ){}
 /* --------------------------------------------------------------------- */
 
 unsigned int& FeatureJointLimits::
-getDimension( unsigned int & dim, int time ) 
+getDimension( unsigned int & dim, int time )
 {
   sotDEBUG(25)<<"# In {"<<endl;
 
@@ -115,7 +115,7 @@ FeatureJointLimits::computeWidthJl( Vector& res,const int& time )
 }
 
 /** Compute the interaction matrix from a subset of
- * the possible features. 
+ * the possible features.
  */
 Matrix& FeatureJointLimits::
 computeJacobian( Matrix& J,int time )
@@ -129,27 +129,27 @@ computeJacobian( Matrix& J,int time )
   const unsigned int SIZE_TOTAL=q.size();
   const Vector WJL = widthJlSINTERN.access(time);
   J.resize( SIZE,SIZE_TOTAL ); J.setZero();
- 
+
   unsigned int idx=0;
-  for( unsigned int i=0;i<SIZE_TOTAL;++i ) 
+  for( unsigned int i=0;i<SIZE_TOTAL;++i )
     {
-      if( fl(i) ) 
+      if( fl(i) )
 	{
-	  if( fabs(WJL(i))>1e-3 ) J(idx,i)=1/WJL(i); 
+	  if( fabs(WJL(i))>1e-3 ) J(idx,i)=1/WJL(i);
 	  else J(idx,i)=1.;
 	  idx++;
 	}
     }
-//   if( 0!=freeFloatingIndex ) 
-//     for( unsigned int i=0;i<freeFloatingIndex;++i ) 
+//   if( 0!=freeFloatingIndex )
+//     for( unsigned int i=0;i<freeFloatingIndex;++i )
 //       {
 // 	if( fabs(WJL(i))>1e-3 ) J(i,i)=1/WJL(i); else J(i,i)=1.;
 //       }
 
-//   if( SIZE!=freeFloatingIndex ) 
-//     for( unsigned int i=freeFloatingIndex;i<SIZE;++i ) 
+//   if( SIZE!=freeFloatingIndex )
+//     for( unsigned int i=freeFloatingIndex;i<SIZE;++i )
 //       {
-// 	if( fabs(WJL(i))>1e-3 ) J(i,i+freeFloatingSIZE)=1/WJL(i); 
+// 	if( fabs(WJL(i))>1e-3 ) J(i,i+freeFloatingSIZE)=1/WJL(i);
 // 	else J(i,i)=1.;
 //       }
 
@@ -184,7 +184,7 @@ FeatureJointLimits::computeError( Vector& error,int time )
   assert( SIZE <= SIZE_TOTAL );
 
   error.resize(SIZE);
-  
+
   unsigned int parcerr = 0;
   for( int i=0;i<SIZE_TOTAL;++i )
     {
@@ -202,41 +202,3 @@ display( std::ostream& os ) const
 {
   os <<"JointLimits <"<<name<<"> ... TODO";
 }
-
-
-void FeatureJointLimits::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine == "help" )
-    {
-      os << "FeatureJointLimits:"<<endl
-	 <<"  - setThreshold  <int> " <<endl
-	 <<"  - getThreshold  " <<endl;
-    }
-  else if( cmdLine == "setThreshold" )
-    {
-      double th;
-      cmdArgs >> th; if( th<0. ) th=0.;if( th>1. ) th=1.;
-      threshold = th;
-    }
-  else if( cmdLine == "getThreshold" )
-    {
-      os << "threshold = " << threshold <<endl; 
-    }
-  else if( cmdLine == "actuate" )
-    {
-      Flags fl( 63 ); //0x0000003f = 00000000000000000000000000111111
-      selectionSIN =  (! fl);
-    }
-  else { FeatureAbstract::commandLine( cmdLine,cmdArgs,os ); }
-}
-
-
-
-/*
- * Local variables:
- * c-basic-offset: 2
- * End:
- */

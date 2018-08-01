@@ -27,7 +27,7 @@
 // Maal
 #include <dynamic-graph/linear-algebra.h>
 namespace dg = dynamicgraph;
-// SOT 
+// SOT
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
 #include <sot/core/trajectory.hh>
@@ -48,13 +48,13 @@ namespace dg = dynamicgraph;
 
 // Class
 
-namespace dynamicgraph { 
+namespace dynamicgraph {
 namespace sot {
 
 /** \brief This object handles trajectory of quantities and publish them as signals.
-    
+
  */
-  
+
 class SOTJOINT_TRAJECTORY_ENTITY_EXPORT SotJointTrajectoryEntity
     :public dynamicgraph::Entity
 {
@@ -92,21 +92,21 @@ public:
   /// @name Display
   /// @{
   virtual void display( std::ostream& os ) const;
-  SOTJOINT_TRAJECTORY_ENTITY_EXPORT 
-      friend std::ostream& operator<< 
+  SOTJOINT_TRAJECTORY_ENTITY_EXPORT
+      friend std::ostream& operator<<
       ( std::ostream& os,const SotJointTrajectoryEntity& r )
   { r.display(os); return os;}
   /// @}
-  
-public: 
+
+public:
   typedef int Dummy;
 
   /// @name Signals
   /// @{
   /// \brief Internal signal for synchronisation.
   dynamicgraph::SignalTimeDependent<int,int> refresherSINTERN;
-      
-  /// \brief Internal signal to trigger one step of the algorithm. 
+
+  /// \brief Internal signal to trigger one step of the algorithm.
   SignalTimeDependent<Dummy,int> OneStepOfUpdateS;
 
   /// \brief Publish pose for each evaluation of the graph.
@@ -114,7 +114,7 @@ public:
 
   /// \brief Publish com for each evaluation of the graph.
   dynamicgraph::SignalTimeDependent<dg::Vector,int> comSOUT;
-      
+
   /// \brief Publish zmp for each evaluation of the graph.
   dynamicgraph::SignalTimeDependent<dg::Vector,int> zmpSOUT;
 
@@ -123,13 +123,13 @@ public:
 
   /// \brief Publish ID of the trajectory currently realized.
   dynamicgraph::SignalTimeDependent<unsigned int,int> seqIdSOUT;
-      
+
   /// \brief Read a trajectory.
   dynamicgraph::SignalPtr<Trajectory,int> trajectorySIN;
   ///@}
 
 protected:
-      
+
   /// \brief Index on the point along the trajectory.
   unsigned int index_;
 
@@ -141,7 +141,7 @@ protected:
 
   /// \brief Store the center of mass.
   dg::Vector com_;
-      
+
   /// \brief Store the center of pressure ZMP.
   dg::Vector cop_;
 
@@ -163,22 +163,16 @@ protected:
   /// \brief Update the entity with the trajectory aTrajectory.
   void UpdateTrajectory(const Trajectory & aTrajectory);
 
-  /// \brief Command Line to dynamically modify parameters:
-  /// initTraj: specify the initial vector of data to send.
-  virtual void commandLine(const std::string & cmdLine,
-                           std::istringstream & cmdArs,
-                           std::ostream &os);
-
   /// \brief Implements the parsing and the affectation of initial trajectory.
   void setInitTraj(const std::string &os);
-  
+
 };
 
 
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // SOT_JOINT_TRAJECTORY_ENTITY_HH 
+#endif // SOT_JOINT_TRAJECTORY_ENTITY_HH
 
 
 

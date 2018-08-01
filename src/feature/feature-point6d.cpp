@@ -348,11 +348,11 @@ FeaturePoint6d::computeError( Vector& error,int time )
       MatrixRotation hRhd; hRhd = hMhd.linear();
       error_th_.fromRotationMatrix(hRhd);
       for( unsigned int i=0;i<3;++i ) {
-	if( fl(i+3) ) 
+	if( fl(i+3) )
 	  error(cursor++) = error_th_.angle()*error_th_.axis()(i);
       }
     }
-  
+
   sotDEBUGOUT(15);
   return error ;
 }
@@ -495,49 +495,3 @@ display( std::ostream& os ) const
     os<<") ";
   }  catch(ExceptionAbstract e){ os<< " selectSIN not set."; }
 }
-
-
-
-void FeaturePoint6d::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine=="help" )
-    {
-      os << "FeaturePoint: "<<endl
-	 << "  - frame [{desired|current}]: get/set the computation frame."<<endl
-	 << "  - keep: modify the desired position to servo at current pos."<<endl;
-      Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-  else if( cmdLine=="frame" )
-    {
-      cmdArgs>>std::ws;
-      if(cmdArgs.good())
-	{
-	  std::string frameStr; cmdArgs >> frameStr;
-	  if( frameStr =="current" ) { computationFrame_ = FRAME_CURRENT; }
-	  else { computationFrame_ = FRAME_DESIRED; }
-	}
-      else {
-	os << "frame = ";
-	if( FRAME_DESIRED==computationFrame_ ) os << "desired" << std::endl;
-	else if( FRAME_CURRENT==computationFrame_ ) os << "current" << std::endl;
-      }
-    }
-  else if( cmdLine=="keep" )
-    {
-      servoCurrentPosition();
-    }
-  else  //FeatureAbstract::
-    Entity::commandLine( cmdLine,cmdArgs,os );
-
-}
-
-
-
-/*
- * Local variables:
- * c-basic-offset: 2
- * End:
- */

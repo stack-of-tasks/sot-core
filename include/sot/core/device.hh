@@ -63,7 +63,7 @@ namespace dynamicgraph {
       virtual const std::string& getClassName(void) const {
         return CLASS_NAME;
       }
-      
+
       enum ForceSignalSource
       {
         FORCE_SIGNAL_RLEG,
@@ -71,7 +71,7 @@ namespace dynamicgraph {
         FORCE_SIGNAL_RARM,
         FORCE_SIGNAL_LARM
       };
-      
+
     protected:
       dg::Vector state_;
       dg::Vector velocity_;
@@ -82,12 +82,12 @@ namespace dynamicgraph {
       PeriodicCall periodicCallBefore_;
       PeriodicCall periodicCallAfter_;
     public:
-      
+
       /* --- CONSTRUCTION --- */
       Device(const std::string& name);
       /* --- DESTRUCTION --- */
       virtual ~Device();
-      
+
       virtual void setStateSize(const unsigned int& size);
       virtual void setState(const dg::Vector& st);
       void setVelocitySize(const unsigned int& size);
@@ -96,7 +96,7 @@ namespace dynamicgraph {
       virtual void setNoIntegration();
       virtual void setControlInputType(const std::string& cit);
       virtual void increment(const double & dt = 5e-2);
-      
+
     public: /* --- DISPLAY --- */
       virtual void display(std::ostream& os) const;
       SOT_CORE_EXPORT friend std::ostream&
@@ -129,9 +129,6 @@ namespace dynamicgraph {
       /*! \brief The ZMP reference send by the previous controller. */
       dynamicgraph::Signal<dg::Vector,int> ZMPPreviousControllerSOUT;
 
-    public: /* --- COMMANDS --- */
-      void commandLine(const std::string&, std::istringstream&,
-                       std::ostream&){}
     protected:
       /// Compute roll pitch yaw angles of freeflyer joint.
       void integrateRollPitchYaw(dg::Vector& state, const dg::Vector& control,
