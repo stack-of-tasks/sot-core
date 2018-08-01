@@ -28,6 +28,8 @@ SET(PROJECT_URL "http://github.com/jrl-umi3218/sot-core")
 
 SET(CUSTOM_HEADER_DIR "sot/core")
 
+SET(DOXYGEN_USE_MATHJAX YES)
+
 # Disable -Werror on Unix for now.
 SET(CXX_DISABLE_WERROR True)
 
