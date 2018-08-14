@@ -84,11 +84,7 @@ class PeriodicCallEntity_EXPORT PeriodicCallEntity
   virtual ~PeriodicCallEntity( void ) {}
 
   virtual void display( std::ostream& os ) const;
-  void commandLine( const std::string& cmdLine,
-		    std::istringstream& cmdArgs,
-		    std::ostream& os );
 } ;
-
 
 } // namespace sot
 } // namespace dynamicgraph

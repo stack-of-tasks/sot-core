@@ -64,12 +64,12 @@ class SOTMOTIONPERIOD_EXPORT MotionPeriod
 : public dg::Entity
 {
 
- public: 
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
  protected:
-  
+
   enum MotionPeriodType
     {
       MOTION_CONSTANT
@@ -88,7 +88,7 @@ class SOTMOTIONPERIOD_EXPORT MotionPeriod
 
   unsigned int size;
   std::vector< sotMotionParam > motionParams;
- 
+
   void resize( const unsigned int & size );
 
 
@@ -101,12 +101,9 @@ class SOTMOTIONPERIOD_EXPORT MotionPeriod
   MotionPeriod( const std::string& name );
   virtual ~MotionPeriod( void ) {}
 
-  dg::Vector& computeMotion( dg::Vector& res,const int& time ); 
-  
+  dg::Vector& computeMotion( dg::Vector& res,const int& time );
+
   virtual void display( std::ostream& os ) const;
-  void commandLine( const std::string& cmdLine,
-		    std::istringstream& cmdArgs,
-		    std::ostream& os );
 } ;
 
 } /* namespace sot */} /* namespace dynamicgraph */

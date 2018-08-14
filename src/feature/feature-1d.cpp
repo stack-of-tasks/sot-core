@@ -63,8 +63,8 @@ void Feature1D::removeDependenciesFromReference( void ){}
 /* --------------------------------------------------------------------- */
 
 unsigned int& Feature1D::
-getDimension( unsigned int & dim, int /*time*/ ) 
-{  
+getDimension( unsigned int & dim, int /*time*/ )
+{
   sotDEBUG(25)<<"# In {"<<endl;
 
   dim = 1;
@@ -76,11 +76,11 @@ getDimension( unsigned int & dim, int /*time*/ )
 
 dynamicgraph::Vector& Feature1D::
 computeError( dynamicgraph::Vector& res,int time )
-{ 
+{
   const dynamicgraph::Vector& err = errorSIN.access(time);
   res.resize(1); res(0)=err.dot(err)*.5;
 
-  return res; 
+  return res;
 
 }
 
@@ -88,7 +88,7 @@ computeError( dynamicgraph::Vector& res,int time )
 
 dynamicgraph::Matrix& Feature1D::
 computeJacobian( dynamicgraph::Matrix& res,int time )
-{ 
+{
   sotDEBUGIN(15);
 
   const dynamicgraph::Matrix& Jac = jacobianSIN.access(time);
@@ -98,9 +98,9 @@ computeJacobian( dynamicgraph::Matrix& res,int time )
   for( int j=0;j<Jac.cols();++j )
     for( int i=0;i<Jac.rows();++i )
       res(0,j)+=err(i)*Jac(i,j);
-      
+
   sotDEBUGOUT(15);
-  return res; 
+  return res;
 }
 
 /* --------------------------------------------------------------------- */
@@ -112,28 +112,8 @@ display( std::ostream& os ) const
 {
   os <<"1D <"<<name<<">: " <<std::endl;
 
-  try{ 
+  try{
     os << "  error= "<< errorSIN.accessCopy() << endl
        << "  J    = "<< jacobianSIN.accessCopy() << endl;
   }  catch(ExceptionAbstract e){ os<< " All SIN not set."; }
 }
-
-
-// void Feature1D::
-// commandLine( const std::string& cmdLine,
-// 	     std::istringstream& cmdArgs,
-// 	     std::ostream& os )
-// {
-//   if( cmdLine == "help" )
-//     {
-//       os << "Feature1D: " 
-//     }
-//   else { Entity::commandLine( cmdLine,cmdArgs,os); }
-// }
-
-
-/*
- * Local variables:
- * c-basic-offset: 2
- * End:
- */

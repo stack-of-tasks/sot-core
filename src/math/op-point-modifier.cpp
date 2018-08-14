@@ -56,7 +56,7 @@ OpPointModifier( const std::string& name )
 
   signalRegistration( jacobianSIN<<positionSIN<<jacobianSOUT<<positionSOUT );
   {
-    
+
     using namespace dynamicgraph::command;
     addCommand("getTransformation",
 	       makeDirectGetter(*this,&transformation.matrix(),
@@ -82,7 +82,7 @@ OpPointModifier::jacobianSOUT_function( dynamicgraph::Matrix& res,const int& ite
     {
       const dynamicgraph::Matrix& aJa = jacobianSIN( iter );
       const MatrixHomogeneous & aMb = transformation;
-      
+
       MatrixTwist bVa; buildFrom(aMb.inverse (), bVa );
       res = bVa * aJa; // res := bJb
       return res;
@@ -156,34 +156,4 @@ OpPointModifier::setTransformationBySignalName( std::istringstream& cmdArgs )
     = dynamic_cast< Signal< Eigen::Matrix4d,int >& >
     (PoolStorage::getInstance()->getSignal( cmdArgs ));
   setTransformation(sig.accessCopy());
-}
-
-
-void OpPointModifier::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine == "transfo" )
-    {
-      Eigen::Matrix4d tr;
-      cmdArgs >> tr;
-      setTransformation(tr);
-    }
-  else if( cmdLine == "transfoSignal" )
-    {
-      setTransformationBySignalName(cmdArgs);
-    }
-  else if( cmdLine == "getTransfo" )
-    {
-      os << "Transformation: " << endl << transformation <<endl;
-    }
-  else if( cmdLine == "help" )
-    {
-      os << "sotOpPointModifior"<<endl
-	 << "  - transfo MatrixHomo"<<endl
-	 << "  - transfoSignal ent.signal<matrixhomo>"<<endl
-	 << "  - getTransfo"<<endl;
-    }
-  else Entity::commandLine(cmdLine,cmdArgs,os);
 }

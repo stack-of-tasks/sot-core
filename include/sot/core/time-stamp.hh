@@ -101,11 +101,6 @@ class TimeStamp_EXPORT TimeStamp
   dg::Vector& getTimeStamp( dg::Vector& res,const int& time );
   double& getTimeStampDouble( const dg::Vector& vect,double& res );
 
- public: /* --- COMMANDS --- */
-  virtual void commandLine( const std::string& cmdLine,
-			    std::istringstream& cmdArgs,
-			    std::ostream& os );
-
 };
 
 

@@ -52,7 +52,7 @@ void MemoryTaskSOT::
 initMemory( const Matrix::Index nJ,const Matrix::Index mJ,const Matrix::Index ffsize,
 	    bool atConstruction )
 {
-   sotDEBUG(15) << "Task-mermory " << getName() << ": resize " 
+   sotDEBUG(15) << "Task-mermory " << getName() << ": resize "
                 << nJ << "x" << mJ << std::endl;
 
    Jt.resize( nJ,mJ );
@@ -79,29 +79,6 @@ initMemory( const Matrix::Index nJ,const Matrix::Index mJ,const Matrix::Index ff
    }
  }
 
-
- void MemoryTaskSOT::
- commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
-              std::ostream& os )
- {
-   if( cmdLine=="help" )
-     {
-       os << "TaskAbstract: " << std::endl
-          << " - initMemory <nbJoints> <dimTask> [<ffsize>=6]. " << std::endl;
-       Entity::commandLine( cmdLine,cmdArgs,os );
-     }
-   else if ( "initMemory"==cmdLine )
-     {
-       unsigned int nJ,mJ; cmdArgs >> nJ >> mJ;
-       unsigned int ffsize = 6;
-       cmdArgs >> std::ws; if( cmdArgs.good() ) cmdArgs >> ffsize;
-       initMemory( nJ,mJ,ffsize );
-     }
-   else
-     {
-       Entity::commandLine( cmdLine,cmdArgs,os );
-     }
- }
 
 void MemoryTaskSOT::
 display( std::ostream& /*os*/ ) const {} //TODO

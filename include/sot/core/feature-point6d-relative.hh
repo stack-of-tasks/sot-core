@@ -98,9 +98,7 @@ class SOTFEATUREPOINT6DRELATIVE_EXPORT FeaturePoint6dRelative
   virtual dg::Matrix& computeJacobian( dg::Matrix& res,int time );
 
   virtual void display( std::ostream& os ) const;
-  virtual void commandLine( const std::string& cmdLine,
-			    std::istringstream& cmdArgs,
-			    std::ostream& os );
+
   void initCommands( void );
   void initSdes( const std::string& featureDesiredName );
 

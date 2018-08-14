@@ -58,17 +58,17 @@ namespace dynamicgraph {
 class SOT_KALMAN_EXPORT Kalman
 :public Entity
 {
- public: 
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
-  
+
 
 protected:
   unsigned int size_state ;
   unsigned int size_measure ;
   double dt;
 
- public: 
+ public:
 
   SignalPtr< Vector,int > measureSIN;         // y
   SignalPtr< Matrix,int > modelTransitionSIN; // F
@@ -88,7 +88,7 @@ protected:
 public:
   virtual std::string getDocString () const
   {
-    return 
+    return
       "Implementation of extended Kalman filter     \n"
       "\n"
       "  Dynamics of the system:                    \n"
@@ -205,10 +205,6 @@ public:
   Kalman( const std::string & name ) ;
   /* --- Entity --- */
   void display( std::ostream& os ) const;
-  void commandLine( const std::string& cmdLine,
-		    std::istringstream& cmdArgs,
-		    std::ostream& os );
-    
 } ;
 
 

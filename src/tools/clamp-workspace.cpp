@@ -137,10 +137,10 @@ void ClampWorkspace::update( int time )
 
     MatrixTwist pTpref;  buildFrom(pMpref, pTpref );
     MatrixTwist prefTp; buildFrom(prefMp_tmp, prefTp );
-   
+
     Matrix tmp; tmp = alpha*prefTp;
     alpha = pTpref*tmp;
-    
+
     tmp = alphabar*prefTp;
     alphabar = pTpref*tmp;
   }
@@ -152,15 +152,15 @@ void ClampWorkspace::update( int time )
   VectorRollPitchYaw rpy;
   rpy(0) = 0;
   rpy(1) = -3.14159256 / 2;
-  rpy(2) = theta_min + 
+  rpy(2) = theta_min +
     (theta_max - theta_min) *
     (x(1) - bounds[1].first)/(bounds[1].second - bounds[1].first);
-  
+
   Eigen::Affine3d _Rd(Eigen::AngleAxisd(rpy(2),Eigen::Vector3d::UnitZ())*
 		      Eigen::AngleAxisd(rpy(1),Eigen::Vector3d::UnitY())*
 		      Eigen::AngleAxisd(rpy(0),Eigen::Vector3d::UnitX()));
   Rd = _Rd.linear();
-  
+
   Eigen::Affine3d _tmpaffine;
   _tmpaffine = Eigen::Translation3d(pd);
 
@@ -200,90 +200,4 @@ void ClampWorkspace::display( std:: ostream& os ) const
   os << "bounds: " << bounds[0].first << " " << bounds[0].second << " "
       << bounds[1].first << " " << bounds[1].second << " "
       << bounds[2].first << " " << bounds[2].second << endl;
-}
-
-void ClampWorkspace::commandLine( const std::string& cmdLine,
-				 std::istringstream& cmdArgs,
-				 std::ostream& os )
-{
-  if( cmdLine == "help" ) {
-    os << "ClampWorkspace:" << endl;
-    os << " - beta" << endl;
-    os << " - scale" << endl;
-    os << " - dm_min" << endl;
-    os << " - dm_max" << endl;
-    os << " - mode" << endl;
-    os << " - bounds" << endl;
-  }
-  else if( cmdLine == "beta") {
-    double tmp;
-    if( cmdArgs>>tmp ){ beta = tmp; }
-    os << "beta = " << beta << endl;
-  }
-  else if( cmdLine == "scale" ) {
-    double tmp;
-    if( cmdArgs>>tmp){ scale = tmp; }
-    os << "scale = " << scale << endl;
-  }
-  else if( cmdLine == "dm_min" ) {
-    double tmp;
-    if( cmdArgs>>tmp){ dm_min = tmp; }
-    os << "dm_min = " << dm_min << endl;
-  }
-  else if( cmdLine == "dm_max" ) {
-    double tmp;
-    if( cmdArgs>>tmp){ dm_max = tmp; }
-    os << "dm_max = " << dm_max << endl;
-  }
-  else if( cmdLine == "dm_min_yaw" ) {
-    double tmp;
-    if( cmdArgs>>tmp){ dm_min_yaw = tmp; }
-    os << "dm_min_yaw = " << dm_min_yaw << endl;
-  }
-  else if( cmdLine == "dm_max_yaw" ) {
-    double tmp;
-    if( cmdArgs>>tmp){ dm_max_yaw = tmp; }
-    os << "dm_max_yaw = " << dm_max_yaw << endl;
-  }
-  else if( cmdLine == "theta_min" ) {
-    double tmp;
-    if( cmdArgs>>tmp){ theta_min = tmp*3.14159256/180; }
-    os << "theta_min = " << theta_min << endl;
-  }
-  else if( cmdLine == "theta_max" ) {
-    double tmp;
-    if( cmdArgs>>tmp){ theta_max = tmp*3.14159256/180; }
-    os << "theta_max = " << theta_max << endl;
-  }
-  else if( cmdLine == "mode" ) {
-    int tmp;
-    if( cmdArgs>>tmp ){ mode = tmp; }
-    os << "mode = " << mode << endl;
-  }
-  else if( cmdLine == "bounds" ) {
-    int i = 0;
-    for( ;i<3;++i ) {
-      double tmp, tmp2;
-      if( cmdArgs>>tmp>>tmp2 ){ bounds[i] = std::make_pair(tmp, tmp2); }
-      else{ break; }
-    }
-    if((i == 3) || !i) {
-      os << "bounds: " << bounds[0].first << " " << bounds[0].second << " "
-	 << bounds[1].first << " " << bounds[1].second << " "
-	 << bounds[2].first << " " << bounds[2].second << endl;
-    }
-    else {
-      os << "syntax error" << endl;
-    }
-  }
-  else if( cmdLine == "frame" ) {
-    string prm;
-    if(cmdArgs>>prm) {
-      if(prm == "point"){ frame = FRAME_POINT; }
-      else{ frame = FRAME_REF; }
-    }
-    if(frame == FRAME_POINT){ os << "frame: point" << endl; }
-    else{ os << "frame: ref" << endl; }
-  }
-  else { Entity::commandLine( cmdLine,cmdArgs,os ); }
 }

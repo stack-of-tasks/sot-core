@@ -91,10 +91,6 @@ class SOTSEQPLAY_EXPORT SeqPlay
   dynamicgraph::SignalTimeDependent<int,int> refresherSINTERN;
   dynamicgraph::SignalTimeDependent<dg::Vector,int> positionSOUT;
 
- public: /* --- COMMANDS --- */
-  virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
-			    std::ostream& os );
-
 };
 
 

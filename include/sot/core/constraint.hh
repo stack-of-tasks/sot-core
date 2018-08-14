@@ -44,12 +44,12 @@ namespace dg = dynamicgraph;
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (constraint_EXPORTS)
 #    define SOTCONSTRAINT_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define SOTCONSTRAINT_EXPORT __declspec(dllimport)
-#  endif 
+#  endif
 #else
 #  define SOTCONSTRAINT_EXPORT
 #endif
@@ -68,8 +68,8 @@ namespace dynamicgraph {
     protected:
       typedef std::list< Signal<dg::Matrix,int>* > JacobianList;
       JacobianList jacobianList;
-  
-    public: 
+
+    public:
       static const std::string CLASS_NAME;
       virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
@@ -88,11 +88,6 @@ namespace dynamicgraph {
 
       /* --- DISPLAY ------------------------------------------------------------ */
       SOTCONSTRAINT_EXPORT friend std::ostream& operator<< ( std::ostream& os,const Constraint& t );
-
-      /* --- PARAMS --- */
-      virtual void commandLine( const std::string& cmdLine
-				,std::istringstream& cmdArgs
-				,std::ostream& os );
     };
   } // namespace sot
 } // namespace dynamicgraph

@@ -28,7 +28,6 @@
 #include <sot/core/debug.hh>
 #include <sot/core/exception-tools.hh>
 #include <algorithm>
-#include <dynamic-graph/python/interpreter.hh>
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/exception-factory.h>
 
@@ -45,16 +44,10 @@ using namespace dynamicgraph::sot;
 PeriodicCall::
 PeriodicCall( void )
   : signalMap()
-    ,cmdList()
     ,innerTime( 0 )
-  ,py_sh( NULL )
 {
 
 }
-
-void PeriodicCall::
-setPyInterpreter( dynamicgraph::python::Interpreter* ptr )
-{ py_sh = ptr; }
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -104,24 +97,6 @@ rmSignal( const std::string &name )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 void PeriodicCall::
-addCmd( const std::string& cmdLine )
-{
-  cmdList.push_back( cmdLine );
-  return ;
-}
-
-void PeriodicCall::
-rmCmd( const std::string& args )
-{
-  CmdListType::iterator iter = std::find( cmdList.begin(),cmdList.end(),args);
-  if( cmdList.end()!=iter ) { cmdList.erase( iter ); }
-  return ;
-}
-
-/* --------------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-void PeriodicCall::
 runSignals( const int& t )
 {
   for( SignalMapType::iterator iter = signalMap.begin();
@@ -134,25 +109,9 @@ runSignals( const int& t )
 }
 
 void PeriodicCall::
-runCmds( void )
-{
-  if( NULL==py_sh )
-    {
-      ExceptionTools( ExceptionTools::PY_SHELL_PTR,"Python interpreter not set." );
-    }
-
-  for( CmdListType::const_iterator iter = cmdList.begin();
-       cmdList.end()!=iter; ++iter )
-    {
-      py_sh->python( *iter );
-    }
-  return ;
-}
-
-void PeriodicCall::
 run( const int & t )
 {
-  runSignals( t ); runCmds();
+  runSignals( t );
   return ;
 }
 
@@ -173,13 +132,6 @@ display( std::ostream& os ) const
       os << " - " << (*iter).first << endl;
     }
 
-  os<<" -> CMDS:"<<endl;
-  for( CmdListType::const_iterator iter = cmdList.begin();
-       cmdList.end()!=iter; ++iter )
-    {
-      os << " - " <<  (*iter) << endl;
-    }
-
 }
 
 static std::string readLineStr( istringstream& args )
@@ -193,49 +145,6 @@ static std::string readLineStr( istringstream& args )
   std::string res( buffer );
   delete [] buffer;
   return res;
-}
-
-bool PeriodicCall::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine == "help" )
-    {
-      os << "PeriodicCall:"<<endl
-	 <<"  - addSignal/rmSignal  <int> " <<endl
-	 <<"  - addCmd/rmCmd  " <<endl
-	 <<"  - runSignal/runCmd " <<endl
-	 <<"  - run" <<endl;
-    }
-  else if( cmdLine == "addSignal" )
-    {
-      std::string sigpath; cmdArgs >> std::skipws >> sigpath;
-      addSignal( sigpath );
-    }
-  else if( cmdLine == "rmSignal" )
-    {
-      std::string sigpath; cmdArgs >> std::skipws >> sigpath;
-      rmSignal( sigpath );
-    }
-  else if( cmdLine == "runSignals" )
-    {      runSignals( innerTime++ );    }
-
-  else if( cmdLine == "addCmd" )
-    {      addCmd( readLineStr(cmdArgs) );    }
-  else if( cmdLine == "rmCmd" )
-    {      rmCmd( readLineStr(cmdArgs) );    }
-  else if( cmdLine == "runCmds" )
-    {      runCmds();    }
-
-  else if( cmdLine == "run" )
-    {      run( innerTime++ );    }
-  else if( cmdLine == "clear" )
-    {     clear();    }
-  else if( cmdLine == "print" )
-    { display(os) ; }
-  else { return false; }
-  return true;
 }
 
 #define ADD_COMMAND( name,def )                                     \

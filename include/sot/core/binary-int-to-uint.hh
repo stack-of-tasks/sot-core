@@ -34,12 +34,12 @@
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (binary_int_to_uint_EXPORTS)
 #    define SOTBINARYINTTOUINT_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define SOTBINARYINTTOUINT_EXPORT __declspec(dllimport)
-#  endif 
+#  endif
 #else
 #  define SOTBINARYINTTOUINT_EXPORT
 #endif
@@ -67,9 +67,6 @@ public:
   virtual unsigned& computeOutput( unsigned& res,int time );
 
   virtual void display( std::ostream& os ) const;
-  void commandLine( const std::string& cmdLine,
-		    std::istringstream& cmdArgs,
-		    std::ostream& os );
 };
 
 

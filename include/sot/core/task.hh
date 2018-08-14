@@ -128,11 +128,6 @@ class SOTTASK_EXPORT Task
   /* --- DISPLAY ------------------------------------------------------------ */
   void display( std::ostream& os ) const;
 
-  /* --- PARAMS --- */
-  virtual void commandLine( const std::string& cmdLine
-			    ,std::istringstream& cmdArgs
-			    ,std::ostream& os );
-
   /* --- Writing graph --- */
   virtual std::ostream& writeGraph( std::ostream& os ) const;
 };

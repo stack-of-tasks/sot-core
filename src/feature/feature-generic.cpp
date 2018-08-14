@@ -76,12 +76,12 @@ void FeatureGeneric::removeDependenciesFromReference( void )
 /* --------------------------------------------------------------------- */
 
 unsigned int& FeatureGeneric::
-getDimension( unsigned int & dim, int time ) 
-{  
+getDimension( unsigned int & dim, int time )
+{
   sotDEBUG(25)<<"# In {"<<endl;
 
   const Flags &fl = selectionSIN.access(time);
-  
+
   if( dimensionDefault==0 )  dimensionDefault = errorSIN.access(time).size();
 
   dim = 0;
@@ -94,7 +94,7 @@ getDimension( unsigned int & dim, int time )
 
 Vector& FeatureGeneric::
 computeError( Vector& res,int time )
-{ 
+{
   const Vector& err = errorSIN.access(time);
   const Flags &fl = selectionSIN.access(time);
   const int & dim = dimensionSOUT(time);
@@ -118,7 +118,7 @@ computeError( Vector& res,int time )
 					 "Error: dimension uncompatible with des->errorIN size."
 					 " (while considering feature <%s>).",getName().c_str() ); }
 
-      for( int i=0;i<err.size();++i ) if( fl(i) ) 
+      for( int i=0;i<err.size();++i ) if( fl(i) )
 	if( fl(i) ) res( curr++ ) = err(i)-errDes(i);
     }
   else
@@ -126,14 +126,14 @@ computeError( Vector& res,int time )
       for(int i=0;i<err.size();++i )
 	if( fl(i) ) res( curr++ ) = err(i);
     }
-  
-  return res; 
+
+  return res;
 
 }
 
 Matrix& FeatureGeneric::
 computeJacobian( Matrix& res,int time )
-{ 
+{
   sotDEBUGIN(15);
 
   const Matrix& Jac = jacobianSIN.access(time);
@@ -143,16 +143,16 @@ computeJacobian( Matrix& res,int time )
   unsigned int curr = 0;
   res.resize( dim,Jac.cols() );
 
-  for( unsigned int i=0;curr<dim;++i ) 
-    if( fl(i) ) 
+  for( unsigned int i=0;curr<dim;++i )
+    if( fl(i) )
       {
-	for( int j=0;j<Jac.cols();++j ) 
+	for( int j=0;j<Jac.cols();++j )
 	  res( curr,j ) = Jac(i,j);
 	curr++;
       }
-  
+
   sotDEBUGOUT(15);
-  return res; 
+  return res;
 }
 
 /* --------------------------------------------------------------------- */
@@ -164,39 +164,8 @@ display( std::ostream& os ) const
 {
   os <<"Generic <"<<name<<">: " <<std::endl;
 
-  try{ 
+  try{
     os << "  error= "<< errorSIN.accessCopy() << endl
        << "  J    = "<< jacobianSIN.accessCopy() << endl;
   }  catch(ExceptionSignal & e){ os << e.what(); }
 }
-
-
-void FeatureGeneric::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine == "help" )
-    {
-      os << "FeatureGeneric: " 
-	 << "  - dimDefault [<int>]: get/set the dimension value. " << std::endl;
-    }
-  else if( cmdLine == "dimDefault" )
-    {
-      cmdArgs >>std::ws; 
-      if( cmdArgs.good() )
-	{
-	  unsigned int val; cmdArgs>>val; 
-	  dimensionDefault = val;
-	}
-      else { os << "dimensionDefault = " << dimensionDefault << std::endl;}
-    }
-  else { Entity::commandLine( cmdLine,cmdArgs,os); }
-}
-
-
-/*
- * Local variables:
- * c-basic-offset: 2
- * End:
- */

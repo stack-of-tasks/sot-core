@@ -45,7 +45,7 @@ Constraint( const std::string& n )
   :TaskAbstract(n)
 {
   jacobianSOUT.setFunction( boost::bind(&Constraint::computeJacobian,this,_1,_2) );
-  
+
   signalDeregistration( taskSOUT.shortName() );
 
   //
@@ -135,17 +135,17 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
 	/* Get s, and store it in the s vector. */
 	const dynamicgraph::Matrix& partialJacobian = jacobian(time);
 	const int nbr = partialJacobian.rows();
-	
+
 	sotDEBUG(25) << "Jp =" <<endl<< partialJacobian<<endl;
 
         J.middleRows (cursorJ, nbr) = partialJacobian;
 	cursorJ += nbr;
       }
-    
+
   } catch SOT_RETHROW;
 
   sotDEBUG(15) << "# Out }" << endl;
-  return J; 
+  return J;
 }
 
 
@@ -155,39 +155,9 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
 /* --- DISPLAY ------------------------------------------------------------ */
 /* --- DISPLAY ------------------------------------------------------------ */
 
-namespace dynamicgraph { 
+namespace dynamicgraph {
   namespace sot {
     std::ostream& operator<< ( std::ostream& os,const Constraint& t )
     { return os << t.name; }
   } // namespace sot
 } // namespace dynamicgraph
-
-
-  /* --- PARAMS --------------------------------------------------------------- */
-  /* --- PARAMS --------------------------------------------------------------- */
-  /* --- PARAMS --------------------------------------------------------------- */
-void Constraint::
-commandLine( const std::string& cmdLine
-	     ,std::istringstream& cmdArgs
-	     ,std::ostream& os )
-{
-  if( cmdLine=="help" )
-    {
-      os << "Constraint: "<<endl
-	 << "  - add <obj.signal>"<<endl
-	 << "  - clear"<<endl;
-      //TaskAbstract
-      Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-  else if( cmdLine=="add" )
-    {
-    }
-  else if( cmdLine=="clear" )
-    {
-      clearJacobianList();
-      jacobianSOUT.setReady();
-    }
-  else 
-    TaskAbstract::commandLine( cmdLine,cmdArgs,os );
-
-}

@@ -43,7 +43,7 @@ NeckLimitation( const std::string & name )
    ,tiltRank( TILT_RANK_DEFAULT )
   ,coeffLinearPan( COEFF_LINEAR_DEFAULT )
    ,coeffAffinePan( COEFF_AFFINE_DEFAULT )
-   ,signTilt( SIGN_TILT_DEFAULT ) 
+   ,signTilt( SIGN_TILT_DEFAULT )
 
    ,jointSIN( NULL,"NeckLimitation("+name+")::input(vector)::joint" )
    ,jointSOUT( boost::bind(&NeckLimitation::computeJointLimitation,this,_1,_2),
@@ -51,7 +51,7 @@ NeckLimitation( const std::string & name )
 	       "NeckLimitation("+name+")::output(dummy)::jointLimited" )
 {
   sotDEBUGIN(5);
-  
+
   signalRegistration( jointSIN<<jointSOUT );
 
   sotDEBUGOUT(5);
@@ -78,7 +78,7 @@ computeJointLimitation( dynamicgraph::Vector& jointLimited,const int& timeSpec )
 
   const dynamicgraph::Vector & joint = jointSIN( timeSpec );
   jointLimited=joint;
-  
+
   const double & pan = joint(panRank);
   const double & tilt = joint(tiltRank);
   double & panLimited = jointLimited(panRank);
@@ -106,7 +106,7 @@ computeJointLimitation( dynamicgraph::Vector& jointLimited,const int& timeSpec )
 // 	    {
 // 	      double tmp = 1/(1+coeffLinearPan*coeffLinearPan);
 // 	      double tmp2=pan+coeffLinearPan*tilt;
-	      
+
 // 	      panLimited=(tmp2-coeffAffinePan*coeffLinearPan)*tmp;
 // 	      tiltLimited=(coeffLinearPan*tmp2+coeffAffinePan)*tmp;
 // 	    }
@@ -122,7 +122,7 @@ computeJointLimitation( dynamicgraph::Vector& jointLimited,const int& timeSpec )
 		   <<(-1*pan*coeffLinearPan) << std::endl;
       if( tilt*signTilt>(-pan*coeffLinearPan+coeffAffinePan) )
 	{
-	  
+
 // 	  sotDEBUG(15) << "Below" << std::endl;
 // 	  if( (tilt-coeffAffinePan)*coeffLinearPan<pan )
 // 	    {
@@ -133,7 +133,7 @@ computeJointLimitation( dynamicgraph::Vector& jointLimited,const int& timeSpec )
 // 	    {
 // 	      double tmp = 1/(1+coeffLinearPan*coeffLinearPan);
 // 	      double tmp2=pan-coeffLinearPan*tilt;
-	      
+
 // 	      panLimited=(tmp2+coeffAffinePan*coeffLinearPan)*tmp;
 // 	      tiltLimited=(-coeffLinearPan*tmp2+coeffAffinePan)*tmp;
 // 	    }
@@ -142,7 +142,7 @@ computeJointLimitation( dynamicgraph::Vector& jointLimited,const int& timeSpec )
 	}
       else { tiltLimited = tilt; panLimited = pan; }
     }
-    
+
 
 
   sotDEBUGOUT(15);
@@ -158,49 +158,3 @@ display( std::ostream& os ) const
 {
   os << "NeckLimitation " << getName() << "." << std::endl;
 }
-
-
-void NeckLimitation::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  sotDEBUG(25) << "Cmd " << cmdLine <<std::endl;
-
-  if( cmdLine == "help" )
-    {
-      os << "NeckLimitation: " << std::endl
-	 << " - rank [<pan> <tilt>]: get/set the rank of "
-	 << "the angles in the joint vector." << std::endl
-	 << " - coeff [<linear> <affine>]: get/set the coefficient of " 
-	 << "the affine limit. " << std::endl
-	 << " - sign [{+1|-1}]: if -1, the tilt is check to be" 
-	 << " above the limit. " << std::endl;
-    }
-  else if( cmdLine == "rank" )
-    {
-      cmdArgs >> std::ws; if(! cmdArgs.good() ) 
-	{ os << "rank = [pan=" << panRank 
-	     << ", tilt=" << tiltRank << "]" << std::endl; }
-      else { cmdArgs >> panRank >> tiltRank; }
-    }
-  else if( cmdLine == "coeff" )
-    {
-      cmdArgs >> std::ws; if(! cmdArgs.good() ) 
-	{ os << "rank = [linear=" << coeffLinearPan
-	     << ", affine=" << coeffAffinePan << "]" << std::endl; }
-      else { cmdArgs >> coeffLinearPan >> coeffAffinePan ; }
-    }
-  else if( cmdLine == "sign" )
-    {
-      cmdArgs >> std::ws; if(! cmdArgs.good() ) 
-	{ os << "sign = " << ((signTilt>0)?"+":"-") << std::endl; }
-      else 
-	{
-	  cmdArgs >> signTilt; 
-	  if( signTilt>0 ) signTilt=+1; else signTilt=-1; 
-	}
-    }
-  else { Entity::commandLine( cmdLine,cmdArgs,os); }
-}
-
