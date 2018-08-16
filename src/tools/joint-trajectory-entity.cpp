@@ -50,7 +50,7 @@ SotJointTrajectoryEntity(const std::string &n):
   Entity(n),
   refresherSINTERN("SotJointTrajectoryEntity("+n+")::intern(dummy)::refresher"),
   OneStepOfUpdateS(boost::bind(&SotJointTrajectoryEntity::OneStepOfUpdate,this,_1,_2),
-                   refresherSINTERN << trajectorySIN, 
+                   refresherSINTERN << trajectorySIN,
                    "SotJointTrajectory("+n+")::onestepofupdate"),
   positionSOUT(boost::bind(&SotJointTrajectoryEntity::getNextPosition,
                            this,_1,_2),
@@ -82,7 +82,7 @@ SotJointTrajectoryEntity(const std::string &n):
   sotDEBUGIN(5);
 
 
-  signalRegistration( positionSOUT << comSOUT << zmpSOUT 
+  signalRegistration( positionSOUT << comSOUT << zmpSOUT
                       << waistSOUT << seqIdSOUT << trajectorySIN);
   refresherSINTERN.setDependencyType( TimeDependency<int>::ALWAYS_READY );
   refresherSINTERN.setReady(true);
@@ -107,7 +107,7 @@ void SotJointTrajectoryEntity::UpdatePoint(const JointTrajectoryPoint &aJTP)
 
   sotDEBUGIN(5);
   // Posture
-  std::vector<JointTrajectoryPoint>::size_type possize = 
+  std::vector<JointTrajectoryPoint>::size_type possize =
     aJTP.positions_.size();
   if (possize==0)
     return;
@@ -132,9 +132,9 @@ void SotJointTrajectoryEntity::UpdatePoint(const JointTrajectoryPoint &aJTP)
   dynamicgraph::Vector waistXYZTheta;
   waistXYZTheta.resize(4);
 
-  waistXYZTheta(0) = com_(0); 
+  waistXYZTheta(0) = com_(0);
   waistXYZTheta(1) = com_(1);
-  waistXYZTheta(2) = 0.65; 
+  waistXYZTheta(2) = 0.65;
   waistXYZTheta(3) = com_(2);
   waist_ = XYZThetaToMatrixHomogeneous(waistXYZTheta);
 
@@ -154,19 +154,19 @@ void SotJointTrajectoryEntity::UpdateTrajectory(const Trajectory &aTrajectory)
   sotDEBUGIN(3);
   sotDEBUG(3) << "traj_timestamp: " << traj_timestamp_
               <<  " aTrajectory.header_.stamp_" << aTrajectory.header_.stamp_ ;
-  
+
   // Do we have the same trajectory, or are we at the initialization phase ?
   if ((traj_timestamp_==aTrajectory.header_.stamp_) && (deque_traj_.size()!=0))
-    index_++; 
-  else 
+    index_++;
+  else
     {
       // No we have a new trajectory.
-      sotDEBUG(3) << "index: " << index_ 
+      sotDEBUG(3) << "index: " << index_
                     << " aTrajectory.points_.size(): " << aTrajectory.points_.size();
-      
+
       // Put the new trajectory in the queue
-      
-      // if there is nothing 
+
+      // if there is nothing
       if (deque_traj_.size()==0)
         {
           deque_traj_.push_back(aTrajectory);
@@ -185,12 +185,12 @@ void SotJointTrajectoryEntity::UpdateTrajectory(const Trajectory &aTrajectory)
 
   sotDEBUG(3) << "step 1 " << std::endl
               << "header: " << std::endl
-              << "  timestamp:" 
+              << "  timestamp:"
               << aTrajectory.header_.stamp_.secs_ +
-    0.000000001 *aTrajectory.header_.stamp_.nsecs_ 
-              << " seq:" << aTrajectory.header_.seq_ << " " 
+    0.000000001 *aTrajectory.header_.stamp_.nsecs_
+              << " seq:" << aTrajectory.header_.seq_ << " "
               << " frame_id:" << aTrajectory.header_.frame_id_
-              << " index_: " << index_ 
+              << " index_: " << index_
               << " aTrajectory.points_.size():" << aTrajectory.points_.size()
               << std::endl;
 
@@ -204,7 +204,7 @@ void SotJointTrajectoryEntity::UpdateTrajectory(const Trajectory &aTrajectory)
           index_=0;
         }
 
-      // If the new trajectory has a problem 
+      // If the new trajectory has a problem
       if (deque_traj_.front().points_.size()==0)
         {
           // then neutralize the entity
@@ -223,11 +223,11 @@ void SotJointTrajectoryEntity::UpdateTrajectory(const Trajectory &aTrajectory)
         }
       sotDEBUG(3) << "index_=current_traj_.points_.size()-1;" << std::endl;
     }
-  
-  sotDEBUG(3) << "index_:" << index_ 
+
+  sotDEBUG(3) << "index_:" << index_
               << " current_traj_.points_.size():" << deque_traj_.front().points_.size()
               << std::endl;
-  
+
   seqid_ = deque_traj_.front().header_.seq_;
   UpdatePoint(deque_traj_.front().points_[index_]);
   sotDEBUGOUT(3);
@@ -242,8 +242,8 @@ int & SotJointTrajectoryEntity::OneStepOfUpdate(int &dummy,const int & time)
     {
       if (index_ < deque_traj_.front().points_.size()-1)
         {
-          sotDEBUG(4) << "Overwrite trajectory without completion." 
-                      << index_  << " " 
+          sotDEBUG(4) << "Overwrite trajectory without completion."
+                      << index_  << " "
                       << deque_traj_.front().points_.size()
                       <<std::endl;
         }
@@ -257,7 +257,7 @@ int & SotJointTrajectoryEntity::OneStepOfUpdate(int &dummy,const int & time)
   return dummy;
 }
 
-sot::MatrixHomogeneous 
+sot::MatrixHomogeneous
 SotJointTrajectoryEntity::
 XYZThetaToMatrixHomogeneous (const dynamicgraph::Vector& xyztheta)
 {
@@ -285,7 +285,7 @@ getNextPosition(dynamicgraph::Vector &pos,
   sotDEBUGOUT(5) ;
   return pos;
 }
-   
+
 dynamicgraph::Vector &SotJointTrajectoryEntity::
 getNextCoM(dynamicgraph::Vector &com,
                 const int & time)
@@ -334,7 +334,7 @@ void SotJointTrajectoryEntity::
 loadFile(const std::string &)
 {
   sotDEBUGIN(5);
-  //TODO  
+  //TODO
   sotDEBUGOUT(5);
 }
 
@@ -343,19 +343,6 @@ display(std::ostream &os) const
 {
   sotDEBUGIN(5);
   os << this;
-  sotDEBUGOUT(5);
-}
-
-void SotJointTrajectoryEntity::
-commandLine( const std::string & cmdLine,
-             std::istringstream & cmdArgs,
-             std::ostream &)
-{
-  sotDEBUGIN(5);
-  
-  if (cmdLine=="initTraj")
-    { std::string as = cmdArgs.str();
-      setInitTraj(as);}
   sotDEBUGOUT(5);
 }
 

@@ -302,36 +302,3 @@ initSdes( const std::string & nameSdes )
   sdes.positionSIN.setConstant( positionSIN.accessCopy() );
   sdes.positionReferenceSIN.setConstant( positionReferenceSIN.accessCopy() );
 }
-
-
-void FeaturePoint6dRelative::
-commandLine( const std::string& cmdLine,
-	     std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine=="help" )
-    {
-      os << "FeaturePoint6dRelative: "<<endl
-	 << "  - initSdes <feature>: init <feature> by copy of the current value."<<endl;
-      FeaturePoint6d::commandLine( cmdLine,cmdArgs,os );
-    }
-  else if( cmdLine=="initSdes" )
-    {
-      cmdArgs>>std::ws;
-      if(cmdArgs.good())
-	{
-	  std::string nameSdes; cmdArgs >> nameSdes;
-	  initSdes( nameSdes );
-	}
-    }
-  else
-    FeaturePoint6d::commandLine( cmdLine,cmdArgs,os );
-
-}
-
-
-/*
- * Local variables:
- * c-basic-offset: 2
- * End:
- */

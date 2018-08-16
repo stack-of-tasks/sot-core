@@ -42,7 +42,7 @@ namespace dynamicgraph {
       : public Entity
     {
       friend class command::matrixConstant::Resize;
-    public: 
+    public:
       static const std::string CLASS_NAME;
       virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
@@ -58,11 +58,7 @@ namespace dynamicgraph {
 
       SignalTimeDependent<dg::Matrix,int> SOUT;
 
-      virtual void commandLine( const std::string& cmdLine,
-				std::istringstream& cmdArgs, 
-				std::ostream& os );
-
     };
-    
+
   } // namespace sot
 } // namespace dynamicgraph

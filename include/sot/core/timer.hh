@@ -135,13 +135,6 @@ class Timer_EXPORT Timer
       res=dt;
       return res;
     }
-
-
- public: /* --- COMMANDS --- */
-  virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
-			    std::ostream& os );
-
-
 };
 
 void cmdChrono( const std::string& cmd,
@@ -184,30 +177,5 @@ display( std::ostream& os ) const
 {
   os << "Timer <"<< sigSIN << "> : " << dt << "ms." << std::endl;
 }
-/* --- COMMAND --------------------------------------------------------- */
-template< class T >
-void Timer<T>::
-commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  sotDEBUGIN(15);
-
-  if( cmdLine == "help")
-    {
-      os << "Timer: "<<std::endl;
-      Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-  else
-    Entity::commandLine( cmdLine,cmdArgs,os );
-
-
-  sotDEBUGOUT(15);
-}
-
-
 
 #endif /* #ifndef __SOT_SOT_HH */
-
-
-
-

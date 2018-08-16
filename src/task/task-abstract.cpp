@@ -52,31 +52,3 @@ taskRegistration( void )
 {
   PoolStorage::getInstance()->registerTask(name,this);
 }
-
-
-void TaskAbstract::
-commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
-	     std::ostream& os )
-{
-  if( cmdLine=="help" )
-    {
-      os << "TaskAbstract: " << std::endl
-	 << " - memory <CMD> <ARGS>. " << std::endl;
-      Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-  else if ( "memory"==cmdLine )
-    {
-      if( NULL==memoryInternal )
-        { os << "Internal Memory is null." << std::endl; }
-      else
-        {
-          std::string name; cmdArgs >> name;
-          memoryInternal->commandLine( name,cmdArgs,os );
-        }
-    }
-  else
-    {
-      Entity::commandLine( cmdLine,cmdArgs,os );
-    }
-}
-

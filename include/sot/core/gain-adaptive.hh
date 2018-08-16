@@ -107,9 +107,6 @@ class SOTGAINADAPTATIVE_EXPORT GainAdaptive
  protected:
   double& computeGain( double& res,int t );
 
- public: /* --- PARAMS --- */
-  virtual void commandLine( const std::string& cmdLine,std::istringstream& cmdArgs,
-			    std::ostream& os );
  private:
   void addCommands();
 };
