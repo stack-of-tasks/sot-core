@@ -126,12 +126,12 @@ Device( const std::string& n )
   ,controlInputType_(CONTROL_INPUT_ONE_INTEGRATION)
   ,controlSIN( NULL,"Device("+n+")::input(double)::control" )
   //,attitudeSIN(NULL,"Device::input(matrixRot)::attitudeIN")
-  ,attitudeSIN(NULL,"Device::input(vector3)::attitudeIN")
-  ,zmpSIN(NULL,"Device::input(vector3)::zmp")
+  ,attitudeSIN(NULL,"Device("+ n +")::input(vector3)::attitudeIN")
+  ,zmpSIN(NULL,"Device("+n+")::input(vector3)::zmp")
   ,stateSOUT( "Device("+n+")::output(vector)::state" )
   ,velocitySOUT( "Device("+n+")::output(vector)::velocity"  )
   ,attitudeSOUT( "Device("+n+")::output(matrixRot)::attitude" )
-  ,pseudoTorqueSOUT( "Device::output(vector)::ptorque" )
+  ,pseudoTorqueSOUT( "Device("+n+")::output(vector)::ptorque" )
   ,previousControlSOUT( "Device("+n+")::output(vector)::previousControl" )
   ,motorcontrolSOUT( "Device("+n+")::output(vector)::motorcontrol" )
   ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" ), ffPose_(),
@@ -141,13 +141,13 @@ Device( const std::string& n )
   /* --- SIGNALS --- */
   for( int i=0;i<4;++i ){ withForceSignals[i] = false; }
   forcesSOUT[0] =
-      new Signal<Vector, int>("OpenHRP::output(vector6)::forceRLEG");
+      new Signal<Vector, int>("Device("+n+")::output(vector6)::forceRLEG");
   forcesSOUT[1] =
-      new Signal<Vector, int>("OpenHRP::output(vector6)::forceLLEG");
+      new Signal<Vector, int>("Device("+n+")::output(vector6)::forceLLEG");
   forcesSOUT[2] =
-      new Signal<Vector, int>("OpenHRP::output(vector6)::forceRARM");
+      new Signal<Vector, int>("Device("+n+")::output(vector6)::forceRARM");
   forcesSOUT[3] =
-      new Signal<Vector, int>("OpenHRP::output(vector6)::forceLARM");
+      new Signal<Vector, int>("Device("+n+")::output(vector6)::forceLARM");
 
   signalRegistration( controlSIN<<stateSOUT<<robotState_<<robotVelocity_
                       <<velocitySOUT<<attitudeSOUT
