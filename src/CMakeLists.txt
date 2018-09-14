@@ -234,7 +234,9 @@ FOREACH(plugin ${plugins})
 ENDFOREACH(plugin)
 
 IF(BUILD_PYTHON_INTERFACE)
-  DYNAMIC_GRAPH_PYTHON_MODULE("sot/core" ${SOTCORE_LIB_NAME} wrap)
+  SET(NO_INSTALL_OF_INIT_PY 0)
+  DYNAMIC_GRAPH_PYTHON_MODULE("sot/core" ${SOTCORE_LIB_NAME} wrap
+    ${NO_INSTALL_OF_INIT_PY})
 
   # Install empty __init__.py files in intermediate directories.
   INSTALL(FILES
