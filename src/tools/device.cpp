@@ -32,6 +32,7 @@ using namespace std;
 #include <dynamic-graph/linear-algebra.h>
 #include <sot/core/matrix-geometry.hh>
 
+#include <pinocchio/multibody/liegroup/special-euclidean.hpp>
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
@@ -44,63 +45,26 @@ const std::string Device::CLASS_NAME = "Device";
 void Device::integrateRollPitchYaw(Vector& state, const Vector& control,
                                    double dt)
 {
-  Eigen::Vector3d omega;
-  //TODO: EIGEN OPTIMISE
-  // Translation part
-  for (unsigned int i=0; i<3; i++) {
-    state(i) += control(i)*dt;
-    ffPose_(i,3) = state(i);
-    omega(i) = control(i+3);
-  }
-  // Rotation part
-  double roll = state(3);
-  double pitch = state(4);
-  double yaw = state(5);
-  Eigen::Vector3d column [3];
+  using Eigen::AngleAxisd;
+  using Eigen::Vector3d;
+  using Eigen::Quaterniond;
+  Quaterniond quat = AngleAxisd(state(5), Vector3d::UnitZ())
+                * AngleAxisd(state(4), Vector3d::UnitY())
+                * AngleAxisd(state(3), Vector3d::UnitX());
 
-  // Build rotation matrix as a vector of colums
-  column [0](0) = cos(pitch)*cos(yaw);
-  column [0](1) = cos(pitch)*sin(yaw);
-  column [0](2) = -sin(pitch);
-
-  column [1](0) = sin(roll)*sin(pitch)*cos(yaw) - cos(roll)*sin(yaw);
-  column [1](1) = sin(roll)*sin(pitch)*sin(yaw) + cos(roll)*cos(yaw);
-  column [1](2) = sin(roll)*cos(pitch);
-
-  column [2](0) = cos(roll)*sin(pitch)*cos(yaw) + sin(roll)*sin(yaw);
-  column [2](1) = cos(roll)*sin(pitch)*sin(yaw) - sin(roll)*cos(yaw);
-  column [2](2) = cos(roll)*cos(pitch);
-
-  // Apply Rodrigues (1795–1851) formula for rotation about omega vector
-  double angle = dt*omega.norm();
-  if (angle == 0) {
-    for (unsigned int r = 0; r < 3; r++) {
-      for (unsigned int c = 0; c < 3; c++) {
-        ffPose_(r,c) = column[c](r);
-      }
-    }
-    return;
-  }
-  Eigen::Vector3d k = omega/omega.norm();
-  // ei <- ei cos(angle) + sin(angle)(k ^ ei) + (k.ei)(1-cos(angle))k
-  for (unsigned int i=0; i<3; i++) {
-    Eigen::Vector3d ei = column[i];
-    column[i] = ei*cos(angle) + (k.cross(ei))*sin(angle) + k*((k.dot(ei))*(1-cos(angle)));
-  }
-  // Store new position if ffPose_ member.
-  for (unsigned int r = 0; r < 3; r++) {
-    for (unsigned int c = 0; c < 3; c++) {
-      ffPose_(r,c) = column[c](r);
-    }
-  }
-  const double & nx = column[2](2);
-  const double & ny = column[1](2);
-
-  state(3) = atan2(ny,nx);
-  state(4) = atan2(-column[0](2),
-                   sqrt(ny*ny+nx*nx));
-  state(5) = atan2(column[0](1),column[0](0));
-
+  typedef se3::SpecialEuclideanOperation<3> SE3;
+  Eigen::Matrix<double, 7, 1> qin, qout;
+  qin << state.head<3>(), quat.coeffs();
+  SE3::integrate (qin, control.head<6>()*dt, qout);
+  state.head<3>() = qout.head<3>();
+  quat.coeffs() = qout.tail<4>();
+  Eigen::Matrix3d R (quat.toRotationMatrix());
+  Vector3d ea = R.eulerAngles(2,1,0);
+  Quaterniond quat2 = AngleAxisd(ea(2), Vector3d::UnitZ())
+                    * AngleAxisd(ea(1), Vector3d::UnitY())
+                    * AngleAxisd(ea(0), Vector3d::UnitX());
+  if (quat.isApprox(quat2)) std::cout << quat.coeffs().transpose() << " != " << quat2.coeffs().transpose() << std::endl;
+  state.segment<3>(3) = quat.toRotationMatrix().eulerAngles(2,1,0);
 }
 
 const MatrixHomogeneous& Device::freeFlyerPose() const
