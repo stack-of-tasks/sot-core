@@ -47,24 +47,21 @@ void Device::integrateRollPitchYaw(Vector& state, const Vector& control,
 {
   using Eigen::AngleAxisd;
   using Eigen::Vector3d;
-  using Eigen::Quaterniond;
-  Quaterniond quat = AngleAxisd(state(5), Vector3d::UnitZ())
-                * AngleAxisd(state(4), Vector3d::UnitY())
-                * AngleAxisd(state(3), Vector3d::UnitX());
+  using Eigen::QuaternionMapd;
 
   typedef se3::SpecialEuclideanOperation<3> SE3;
   Eigen::Matrix<double, 7, 1> qin, qout;
-  qin << state.head<3>(), quat.coeffs();
+  qin.head<3>() = state.head<3>();
+
+  QuaternionMapd quat (qin.tail<4>().data());
+  quat = AngleAxisd(state(5), Vector3d::UnitZ())
+       * AngleAxisd(state(4), Vector3d::UnitY())
+       * AngleAxisd(state(3), Vector3d::UnitX());
+
   SE3::integrate (qin, control.head<6>()*dt, qout);
   state.head<3>() = qout.head<3>();
-  quat.coeffs() = qout.tail<4>();
-  Eigen::Matrix3d R (quat.toRotationMatrix());
-  Vector3d ea = R.eulerAngles(2,1,0);
-  Quaterniond quat2 = AngleAxisd(ea(2), Vector3d::UnitZ())
-                    * AngleAxisd(ea(1), Vector3d::UnitY())
-                    * AngleAxisd(ea(0), Vector3d::UnitX());
-  if (quat.isApprox(quat2)) std::cout << quat.coeffs().transpose() << " != " << quat2.coeffs().transpose() << std::endl;
-  state.segment<3>(3) = quat.toRotationMatrix().eulerAngles(2,1,0);
+  state.segment<3>(3) = QuaternionMapd(qout.tail<4>().data())
+    .toRotationMatrix().eulerAngles(2,1,0);
 }
 
 const MatrixHomogeneous& Device::freeFlyerPose() const
