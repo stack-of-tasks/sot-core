@@ -27,7 +27,7 @@
 
 /* STD */
 #include <vector>
-#include <iostream>
+#include <ostream>
 
 /* SOT */
 #include "sot/core/api.hh"

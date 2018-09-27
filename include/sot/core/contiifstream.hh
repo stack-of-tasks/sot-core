@@ -26,7 +26,6 @@
 /* --------------------------------------------------------------------- */
 
 
-#include <iostream>
 #include <fstream>
 #include <sstream>
 #ifndef WIN32

@@ -19,6 +19,7 @@
 #define VP_DEBUG
 #define VP_DEBUG_MODE 45
 #include <sot/core/debug.hh>
+#include <iostream>
 // #ifdef VP_DEBUG
 //  class sotJTE__INIT
 //  {

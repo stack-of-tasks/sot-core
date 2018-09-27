@@ -22,7 +22,6 @@
 # define SOT_CORE_DEBUG_HH
 # include <cstdio>
 # include <cstdarg>
-# include <iostream>
 # include <fstream>
 # include <sstream>
 # include "sot/core/api.hh"
@@ -184,8 +183,8 @@ namespace dynamicgraph {
 #  define sotPREERROR				\
   "\t!! "<<__FILE__ << ": " <<__FUNCTION__	\
   << "(#" << __LINE__ << ") :"
-#  define sotDEBUG(level) if( 1 ) ; else std::cout
-#  define sotDEBUGMUTE(level) if( 1 ) ; else std::cout
+#  define sotDEBUG(level) if( 1 ) ; else ::dynamicgraph::sot::__null_stream()
+#  define sotDEBUGMUTE(level) if( 1 ) ; else ::dynamicgraph::sot::__null_stream()
 #  define sotERROR sotERRORFLOW.outputbuffer << sotPREERROR
 
 namespace dynamicgraph {
@@ -194,11 +193,16 @@ namespace dynamicgraph {
     inline void sotDEBUGF(const char*,...) {}
     inline void sotERRORF(const int, const char*,...) {}
     inline void sotERRORF(const char*,...) {}
+    inline std::ostream& __null_stream () {
+      // This function should never be called. With -O3,
+      // it should not appear in the generated binary.
+      static std::ostream os (NULL); return os;
+    }
   } // namespace sot
 } // namespace dynamicgraph
 
   // TEMPLATE
-#  define sotTDEBUG(level) if( 1 ) ; else std::cout
+#  define sotTDEBUG(level) if( 1 ) ; else ::dynamicgraph::sot::__null_stream()
 
 namespace dynamicgraph {
   namespace sot {
