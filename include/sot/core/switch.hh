@@ -17,8 +17,6 @@
 #ifndef __SOT_SWITCH_H__
 # define __SOT_SWITCH_H__
 
-#include <iostream>
-
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/signal.h>
 #include <dynamic-graph/signal-ptr.h>

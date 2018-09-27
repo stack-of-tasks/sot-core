@@ -27,7 +27,7 @@
 
 
 /* Classes standards. */
-#include <iostream>                /* Classe ostream.    */
+#include <ostream>                 /* Classe ostream.    */
 #include <string>                  /* Classe string.     */
 #include "sot/core/api.hh"
 #include <exception>
