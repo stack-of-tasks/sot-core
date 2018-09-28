@@ -58,7 +58,6 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Sot,"SOT");
 
 
 const double Sot::INVERSION_THRESHOLD_DEFAULT = 1e-4;
-const unsigned int Sot::NB_JOINTS_DEFAULT = 46;
 
 /* --------------------------------------------------------------------- */
 /* --- CONSTRUCTION ---------------------------------------------------- */
@@ -71,7 +70,7 @@ Sot( const std::string& name )
   ,ffJointIdFirst( FF_JOINT_ID_DEFAULT )
   ,ffJointIdLast( FF_JOINT_ID_DEFAULT+6 )
 
-  ,nbJoints( NB_JOINTS_DEFAULT )
+  ,nbJoints( 0 )
   ,taskGradient(0)
   ,recomputeEachTime(true)
   ,q0SIN( NULL,"sotSOT("+name+")::input(double)::q0" )
@@ -187,6 +186,8 @@ Sot( const std::string& name )
 void Sot::
 push( TaskAbstract& task )
 {
+  if (nbJoints == 0)
+    throw std::logic_error ("Set joint size of "+ getClassName() + " \""+getName()+"\" first");
   stack.push_back( &task );
   controlSOUT.addDependency( task.taskSOUT );
   controlSOUT.addDependency( task.jacobianSOUT );
