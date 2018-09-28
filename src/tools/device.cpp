@@ -22,11 +22,14 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
+#define ENABLE_RT_LOG
+
 #include "sot/core/device.hh"
 #include <sot/core/debug.hh>
 using namespace std;
 
 #include <dynamic-graph/factory.h>
+#include <dynamic-graph/real-time-logger.h>
 #include <dynamic-graph/all-commands.h>
 #include <Eigen/Geometry>
 #include <dynamic-graph/linear-algebra.h>
@@ -284,19 +287,19 @@ increment( const double & dt )
   }
   catch (std::exception& e)
   {
-    std::cerr
+    dgRTLOG()
         << "exception caught while running periodical commands (before): "
         << e.what () << std::endl;
   }
   catch (const char* str)
   {
-    std::cerr
+    dgRTLOG()
         << "exception caught while running periodical commands (before): "
         << str << std::endl;
   }
   catch (...)
   {
-    std::cerr
+    dgRTLOG()
         << "unknown exception caught while"
         << " running periodical commands (before)" << std::endl;
   }
@@ -337,19 +340,19 @@ increment( const double & dt )
   }
   catch (std::exception& e)
   {
-    std::cerr
+    dgRTLOG()
         << "exception caught while running periodical commands (after): "
         << e.what () << std::endl;
   }
   catch (const char* str)
   {
-    std::cerr
+    dgRTLOG()
         << "exception caught while running periodical commands (after): "
         << str << std::endl;
   }
   catch (...)
   {
-    std::cerr
+    dgRTLOG()
         << "unknown exception caught while"
         << " running periodical commands (after)" << std::endl;
   }
