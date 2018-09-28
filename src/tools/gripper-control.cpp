@@ -18,11 +18,14 @@
  * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define ENABLE_RT_LOG
+
 #include <sot/core/gripper-control.hh>
 #include <sot/core/debug.hh>
 #include <sot/core/factory.hh>
 #include <sot/core/macros-signal.hh>
 
+#include <dynamic-graph/real-time-logger.h>
 #include <dynamic-graph/all-commands.h>
 
 using namespace dynamicgraph::sot;
@@ -125,7 +128,7 @@ computeIncrement( const dynamicgraph::Vector& torques,
   // Torque not provided?
   if (torques.size() == 0)
   {
-    std::cerr << "torque is not provided " << std::endl;
+    dgRTLOG() << "torque is not provided " << std::endl;
     return;
   }
 
@@ -210,7 +213,7 @@ void GripperControlPlugin::initCommands()
 void GripperControlPlugin::setOffset(const double & value)
 {
   if( (value>0)&&(value<1) ) offset = value;
-  else std::cerr << "The offset should be in )0, 1(." << std::endl;
+  else throw std::invalid_argument ("The offset should be in )0, 1(.");
 }
 
 
