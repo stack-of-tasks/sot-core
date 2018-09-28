@@ -125,8 +125,6 @@ namespace dynamicgraph {
       /*   static const bool USE_CONTI_INVERSE_DEFAULT = false; */
 
       /*! \brief Number of joints by default. */
-      static const unsigned int NB_JOINTS_DEFAULT; // = 48;
-
       static dg::Matrix & computeJacobianConstrained( const dg::Matrix& Jac,
 						      const dg::Matrix& K,
 						      dg::Matrix& JK);

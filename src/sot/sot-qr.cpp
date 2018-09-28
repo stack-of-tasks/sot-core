@@ -52,7 +52,6 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SotQr,"SOTQr");
 
 
 const double SotQr::INVERSION_THRESHOLD_DEFAULT = 1e-4;
-const unsigned int SotQr::NB_JOINTS_DEFAULT = 46;
 
 /* --------------------------------------------------------------------- */
 /* --- CONSTRUCTION ---------------------------------------------------- */
@@ -65,7 +64,7 @@ SotQr( const std::string& name )
   ,ffJointIdFirst( FF_JOINT_ID_DEFAULT )
   ,ffJointIdLast( FF_JOINT_ID_DEFAULT+6 )
 
-  ,nbJoints( NB_JOINTS_DEFAULT )
+  ,nbJoints( 0 )
   ,taskGradient(0)
   ,q0SIN( NULL,"sotSOTQr("+name+")::input(double)::q0" )
    ,inversionThresholdSIN( NULL,"sotSOTQr("+name+")::input(double)::damping" )
@@ -87,6 +86,8 @@ SotQr( const std::string& name )
 void SotQr::
 push( TaskAbstract& task )
 {
+  if (nbJoints == 0)
+    throw std::logic_error ("Set joint size of "+ getClassName() + " \""+getName()+"\" first");
   stack.push_back( &task );
   controlSOUT.addDependency( task.taskSOUT );
   controlSOUT.addDependency( task.jacobianSOUT );
