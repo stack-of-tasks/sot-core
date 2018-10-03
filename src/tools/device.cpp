@@ -62,9 +62,13 @@ void Device::integrateRollPitchYaw(Vector& state, const Vector& control,
        * AngleAxisd(state(3), Vector3d::UnitX());
 
   SE3::integrate (qin, control.head<6>()*dt, qout);
+
+  // Update freeflyer pose
+  ffPose_.translation() = qout.head<3>();
   state.head<3>() = qout.head<3>();
-  state.segment<3>(3) = QuaternionMapd(qout.tail<4>().data())
-    .toRotationMatrix().eulerAngles(2,1,0);
+
+  ffPose_.linear() = QuaternionMapd(qout.tail<4>().data()).toRotationMatrix();
+  state.segment<3>(3) = ffPose_.linear().eulerAngles(2,1,0).reverse();
 }
 
 const MatrixHomogeneous& Device::freeFlyerPose() const
