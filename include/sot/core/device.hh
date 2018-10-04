@@ -75,11 +75,22 @@ namespace dynamicgraph {
     protected:
       dg::Vector state_;
       dg::Vector velocity_;
+      bool sanityCheck_;
       dg::Vector vel_control_;
       ControlInput controlInputType_;
       bool withForceSignals[4];
       PeriodicCall periodicCallBefore_;
       PeriodicCall periodicCallAfter_;
+
+      /// \name Robot bounds used for sanity checks
+      /// \{
+      Vector upperPosition_;
+      Vector upperVelocity_;
+      Vector upperTorque_;
+      Vector lowerPosition_;
+      Vector lowerVelocity_;
+      Vector lowerTorque_;
+      /// \}
     public:
 
       /* --- CONSTRUCTION --- */
@@ -95,6 +106,14 @@ namespace dynamicgraph {
       virtual void setNoIntegration();
       virtual void setControlInputType(const std::string& cit);
       virtual void increment(const double & dt = 5e-2);
+
+      /// \name Sanity check parameterization
+      /// \{
+      void setSanityCheck   (const bool & enableCheck);
+      void setPositionBounds(const Vector& lower, const Vector& upper);
+      void setVelocityBounds(const Vector& lower, const Vector& upper);
+      void setTorqueBounds  (const Vector& lower, const Vector& upper);
+      /// \}
 
     public: /* --- DISPLAY --- */
       virtual void display(std::ostream& os) const;
@@ -144,6 +163,17 @@ namespace dynamicgraph {
       /// Store Position of free flyer joint
       MatrixHomogeneous ffPose_;
       /// Compute the new position, from the current control.
+      ///
+      /// When sanity checks are enabled, this checks that the control is within
+      /// bounds. There are three cases, depending on what the control is:
+      /// - position: checks that the position is within bounds,
+      /// - velocity: checks that the velocity and the future position are
+      ///             within bounds,
+      /// - acceleration: checks that the acceleration, the future velocity and
+      ///                 position are within bounds.
+      ///                 \todo in order to check the acceleration, we need
+      ///                 pinocchio and the contact forces in order to estimate
+      ///                 the joint torques for the given acceleration.
       virtual void integrate( const double & dt );
     protected:
       /// Get freeflyer pose
