@@ -188,6 +188,29 @@ Device( const std::string& n )
                new command::Setter<Device,string>
                (*this, &Device::setControlInputType, docstring));
 
+    docstring =
+        "\n"
+        "    Enable/Disable sanity checks\n"
+        "\n";
+    addCommand("setSanityCheck",
+               new command::Setter<Device, bool>
+               (*this, &Device::setSanityCheck, docstring));
+
+    addCommand("setPositionBounds",
+               command::makeCommandVoid2(*this,&Device::setPositionBounds,
+                 command::docCommandVoid2 ("Set robot position bounds", "vector: lower bounds", "vector: upper bounds")
+                 ));
+
+    addCommand("setVelocityBounds",
+               command::makeCommandVoid2(*this,&Device::setVelocityBounds,
+                 command::docCommandVoid2 ("Set robot velocity bounds", "vector: lower bounds", "vector: upper bounds")
+                 ));
+
+    addCommand("setTorqueBounds",
+               command::makeCommandVoid2(*this,&Device::setTorqueBounds,
+                 command::docCommandVoid2 ("Set robot torque bounds", "vector: lower bounds", "vector: upper bounds")
+                 ));
+
     // Handle commands and signals called in a synchronous way.
     periodicCallBefore_.addSpecificCommands(*this, commandMap, "before.");
     periodicCallAfter_.addSpecificCommands(*this, commandMap, "after.");
