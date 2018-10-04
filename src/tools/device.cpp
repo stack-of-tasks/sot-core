@@ -99,11 +99,16 @@ Device( const std::string& n )
   //,attitudeSIN(NULL,"Device::input(matrixRot)::attitudeIN")
   ,velocitySOUT( "Device("+n+")::output(vector)::velocity"  )
   ,attitudeSOUT( "Device("+n+")::output(matrixRot)::attitude" )
-  ,pseudoTorqueSOUT( "Device("+n+")::output(vector)::ptorque" )
+  ,motorcontrolSOUT   ( "Device("+n+")::output(vector)::motorcontrol" )
   ,previousControlSOUT( "Device("+n+")::output(vector)::previousControl" )
-  ,motorcontrolSOUT( "Device("+n+")::output(vector)::motorcontrol" )
-  ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" ), ffPose_(),
-    forceZero6 (6)
+  ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" )
+
+  ,robotState_     ("Device("+n+")::output(vector)::robotState")
+  ,robotVelocity_  ("Device("+n+")::output(vector)::robotVelocity")
+  ,pseudoTorqueSOUT("Device("+n+")::output(vector)::ptorque" )
+
+  ,ffPose_()
+  ,forceZero6 (6)
 {
   forceZero6.fill (0);
   /* --- SIGNALS --- */
@@ -378,12 +383,8 @@ void Device::integrate( const double & dt )
     return;
   }
 
-  if( !vel_controlInit_ )
-  {
-    vel_control_ = Vector(controlIN.size());
-    vel_control_.setZero();
-    vel_controlInit_ = true;
-  }
+  if( vel_control_.size() == 0 )
+    vel_control_ = Vector::Zero(controlIN.size());
 
   // If control size is state size - 6, integrate joint angles,
   // if control and state are of same size, integrate 6 first degrees of
