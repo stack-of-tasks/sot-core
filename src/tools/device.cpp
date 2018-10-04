@@ -378,8 +378,7 @@ void Device::integrate( const double & dt )
   if (controlInputType_==CONTROL_INPUT_NO_INTEGRATION)
   {
     assert(state_.size()==controlIN.size()+6);
-    for( int i=0;i<controlIN.size();++i )
-      state_(i+6) = controlIN(i);
+    state_.tail(controlIN.size()) = controlIN;
     return;
   }
 
@@ -389,16 +388,13 @@ void Device::integrate( const double & dt )
   // If control size is state size - 6, integrate joint angles,
   // if control and state are of same size, integrate 6 first degrees of
   // freedom as a translation and roll pitch yaw.
-  unsigned int offset = 6;
 
   if (controlInputType_==CONTROL_INPUT_TWO_INTEGRATION)
   {
-    if(controlIN.size() == velocity_.size()) offset = 0;
-    for( int i=0;i<controlIN.size();++i )
-    {
-      vel_control_(i) = velocity_(i+offset) + controlIN(i)*dt*0.5;
-      velocity_(i+offset) = velocity_(i+offset) + controlIN(i)*dt;
-    }
+    // Position increment
+    vel_control_ = velocity_.tail(controlIN.size()) + (0.5*dt)*controlIN;
+    // Velocity integration.
+    velocity_.tail(controlIN.size()) += controlIN*dt;
   }
   else
   {
@@ -406,12 +402,11 @@ void Device::integrate( const double & dt )
   }
 
   if (vel_control_.size() == state_.size()) {
-    offset = 0;
     integrateRollPitchYaw(state_, vel_control_, dt);
   }
 
-  for( int i=6;i<state_.size();++i )
-  { state_(i) += (vel_control_(i-offset)*dt); }
+  // Position integration
+  state_.tail(controlIN.size()) += vel_control_ * dt;
 }
 
 /* --- DISPLAY ------------------------------------------------------------ */
