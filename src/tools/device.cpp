@@ -245,6 +245,33 @@ setVelocitySize( const unsigned int& size )
 void Device::
 setState( const Vector& st )
 {
+  if (sanityCheck_) {
+    const Vector::Index& s = st.size();
+    switch (controlInputType_) {
+      case CONTROL_INPUT_TWO_INTEGRATION:
+        dgRTLOG()
+          << "Sanity check for this control is not well supported. "
+             "In order to make it work, use pinocchio and the contact forces "
+             "to estimate the joint torques for the given acceleration.\n";
+        if (   s != lowerTorque_.size()
+            || s != upperTorque_.size() )
+          throw std::invalid_argument ("Upper and/or lower torque bounds "
+              "do not match state size. Set them first with setTorqueBounds");
+      case CONTROL_INPUT_ONE_INTEGRATION:
+        if (   s != lowerVelocity_.size()
+            || s != upperVelocity_.size() )
+          throw std::invalid_argument ("Upper and/or lower velocity bounds "
+              "do not match state size. Set them first with setVelocityBounds");
+      case CONTROL_INPUT_NO_INTEGRATION:
+        if (   s != lowerPosition_.size()
+            || s != upperPosition_.size() )
+          throw std::invalid_argument ("Upper and/or lower position bounds "
+              "do not match state size. Set them first with setPositionBounds");
+        break;
+      default:
+        throw std::invalid_argument ("Invalid control mode type.");
+    }
+  }
   state_ = st;
   stateSOUT .setConstant( state_ );
   motorcontrolSOUT .setConstant( state_ );
