@@ -75,7 +75,6 @@ namespace dynamicgraph {
     protected:
       dg::Vector state_;
       dg::Vector velocity_;
-      bool vel_controlInit_;
       dg::Vector vel_control_;
       ControlInput controlInputType_;
       bool withForceSignals[4];
@@ -110,24 +109,33 @@ namespace dynamicgraph {
       dynamicgraph::SignalPtr<dg::Vector,int> attitudeSIN;
       dynamicgraph::SignalPtr<dg::Vector,int> zmpSIN;
 
+      /// \name Device current state.
+      /// \{
       dynamicgraph::Signal<dg::Vector,int> stateSOUT;
+      dynamicgraph::Signal<dg::Vector,int> velocitySOUT;
+      dynamicgraph::Signal<MatrixRotation,int> attitudeSOUT;
+      /*! \brief The current state of the robot from the command viewpoint. */
+      dynamicgraph::Signal<dg::Vector,int> motorcontrolSOUT;
+      dynamicgraph::Signal<dg::Vector,int> previousControlSOUT;
+      /*! \brief The ZMP reference send by the previous controller. */
+      dynamicgraph::Signal<dg::Vector,int> ZMPPreviousControllerSOUT;
+      /// \}
+
+      /// \name Real robot current state
       /// This corresponds to the real encoders values and take into
       /// account the stabilization step. Therefore, this usually
       /// does *not* match the state control input signal.
-      ///
+      /// \{
+      /// Motor positions
       dynamicgraph::Signal<dg::Vector, int> robotState_;
+      /// Motor velocities
       dynamicgraph::Signal<dg::Vector, int> robotVelocity_;
-      dynamicgraph::Signal<dg::Vector,int> velocitySOUT;
-      dynamicgraph::Signal<MatrixRotation,int> attitudeSOUT;
+      /// The force torque sensors
       dynamicgraph::Signal<dg::Vector,int>* forcesSOUT[4];
-
+      /// Motor torques
+      /// \todo why pseudo ?
       dynamicgraph::Signal<dg::Vector,int> pseudoTorqueSOUT;
-      dynamicgraph::Signal<dg::Vector,int> previousControlSOUT;
-
-      /*! \brief The current state of the robot from the command viewpoint. */
-      dynamicgraph::Signal<dg::Vector,int> motorcontrolSOUT;
-      /*! \brief The ZMP reference send by the previous controller. */
-      dynamicgraph::Signal<dg::Vector,int> ZMPPreviousControllerSOUT;
+      /// \}
 
     protected:
       /// Compute roll pitch yaw angles of freeflyer joint.
