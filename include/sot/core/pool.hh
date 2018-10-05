@@ -124,11 +124,6 @@ class SOT_CORE_EXPORT PoolStorage
   TaskAbstract& getTask( const std::string& name );
   /*! @} */
 
-  /*! \brief This method looks for the object named objectName,
-    and ask to provide the function functionName with the arguments cmdArg.
-    If the method of the object displays some information this will
-    be done on os.
-
   /*! \brief This method write a graph description on the file named FileName. */
   void writeGraph(const std::string &aFileName);
   void writeCompletionList(std::ostream& os);
