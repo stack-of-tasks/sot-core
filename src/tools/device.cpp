@@ -526,6 +526,13 @@ void Device::integrate( const double & dt )
 {
   const Vector & controlIN = controlSIN.accessCopy();
 
+  if (sanityCheck_ && controlIN.hasNaN())
+  {
+    dgRTLOG () << "Device::integrate: Control has NaN values: " << '\n'
+               << controlIN.transpose() << '\n';
+    return;
+  }
+
   if (controlInputType_==CONTROL_INPUT_NO_INTEGRATION)
   {
     assert(state_.size()==controlIN.size()+6);
