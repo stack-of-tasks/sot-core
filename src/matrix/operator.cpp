@@ -1076,6 +1076,50 @@ namespace dynamicgraph {
     REGISTER_VARIADIC_OP(Multiplier<VectorQuaternion >,Multiply_of_quaternion);
     REGISTER_VARIADIC_OP(Multiplier<double           >,Multiply_of_double);
 
+    /* --- BOOLEAN --------------------------------------------------------- */
+    template <int operation>
+    struct BoolOp
+      : public VariadicOpHeader<bool,bool>
+    {
+      typedef VariadicOp<BoolOp> Base;
+
+      void operator()( const std::vector<const bool*>& vs, bool& res ) const
+      {
+        // TODO computation could be optimized with lazy evaluation of the
+        // signals. When the output result is know, the remaining signals are
+        // not computed.
+        assert (vs.size() == coeffs.size());
+        if (vs.size() == 0) return;
+        res = *vs[0];
+        for (std::size_t i = 1; i < vs.size(); ++i)
+          switch (operation) {
+            case 0:
+              if (!res) return;
+              res = *vs[i];
+              break;
+            case 1:
+              if (res) return;
+              res = *vs[i];
+              break;
+          }
+      }
+
+      void initialize(Base* ent,
+                      Entity::CommandMap_t& commandMap )
+      {
+        using namespace dynamicgraph::command;
+
+        ADD_COMMAND( "setSignalNumber", makeCommandVoid1(*(typename Base::Base*)ent, &Base::setSignalNumber,
+              docCommandVoid1("set the number of input boolean.", "int (size)")));
+
+        commandMap.insert(std::make_pair( "getSignalNumber",
+            new Getter<Base, int> (*ent, &Base::getSignalNumber,
+              "Get the number of input bool.")));
+      }
+    };
+    REGISTER_VARIADIC_OP(BoolOp<0>,And);
+    REGISTER_VARIADIC_OP(BoolOp<1>,Or);
+
   }
 }
 
