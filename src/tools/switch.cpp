@@ -30,5 +30,9 @@ namespace dynamicgraph {
     typedef Switch<Vector,int> SwitchVector;
     template<>
     DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN (SwitchVector, "SwitchVector");
+
+    typedef Switch<bool,int> SwitchBool;
+    template<>
+    DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN (SwitchBool, "SwitchBoolean");
   } // namespace sot
 } // namespace dynamicgraph
