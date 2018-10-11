@@ -616,49 +616,6 @@ namespace dynamicgraph {
 namespace dynamicgraph {
   namespace sot {
 
-    /* --- ADDITION --------------------------------------------------------- */
-    template< typename T>
-    struct Adder
-      : public BinaryOpHeader<T,T,T>
-    {
-      double coeff1, coeff2;
-      Adder () : coeff1 (1.), coeff2 (1.) {}
-      void operator()( const T& v1,const T& v2,T& res ) const
-      {
-	res=coeff1*v1; res+=coeff2*v2;
-      }
-
-      void addSpecificCommands(Entity& ent,
-       			       Entity::CommandMap_t& commandMap )
-      {
-	using namespace dynamicgraph::command;
-	std::string doc;
-
-	ADD_COMMAND( "setCoeff1",
-		     makeDirectSetter(ent,&coeff1,docDirectSetter("coeff1","double")));
-	ADD_COMMAND( "setCoeff2",
-		     makeDirectSetter(ent,&coeff2,docDirectSetter("coeff2","double")));
-      }
-      virtual std::string getDocString () const
-      {
-	return std::string
-	  ("Linear combination of inputs\n"
-	   "  - input  ") + BinaryOpHeader<T,T,T>::nameTypeIn1 () +
-	  std::string ("\n"
-	   "  -        ") + BinaryOpHeader<T,T,T>::nameTypeIn2 () +
-	  std::string ("\n"
-		       "  - output ") + BinaryOpHeader<T,T,T>::nameTypeOut () +
-	  std::string ("\n""  sout = coeff1 * sin1 + coeff2 * sin2\n"
-		       "  Coefficients are set by commands, default value is 1.\n");
-      }
-    };
-
-
-    REGISTER_BINARY_OP(Adder<dynamicgraph::Matrix>,Add_of_matrix);
-    REGISTER_BINARY_OP(Adder<dynamicgraph::Vector>,Add_of_vector);
-    REGISTER_BINARY_OP(Adder<double>,Add_of_double);
-
-
     /* --- MULTIPLICATION --------------------------------------------------- */
 
     template< typename F,typename E>
@@ -990,6 +947,72 @@ namespace dynamicgraph {
       }
     };
     REGISTER_VARIADIC_OP(VectorMix,Mix_of_vector);
+
+    /* --- ADDITION --------------------------------------------------------- */
+    template< typename T>
+    struct AdderVariadic
+      : public VariadicOpHeader<T,T>
+    {
+      typedef VariadicOp<AdderVariadic> Base;
+
+      Base* entity;
+      Vector coeffs;
+
+      AdderVariadic () : coeffs () {}
+      void operator()( const std::vector<const T*>& vs, T& res ) const
+      {
+        assert (vs.size() == coeffs.size());
+        if (vs.size() == 0) return;
+        res = coeffs[0]*(*vs[0]);
+        for (std::size_t i = 1; i < vs.size(); ++i)
+          res+=coeffs[i]*(*vs[i]);
+      }
+
+      void setCoeffs(const Vector& c) { coeffs = c; }
+      void setSignalNumber (const int& n)
+      {
+        coeffs = Vector::Ones(n);
+        entity->setSignalNumber(n);
+      }
+
+      void initialize(Base* ent,
+                      Entity::CommandMap_t& commandMap )
+      {
+	using namespace dynamicgraph::command;
+        entity = ent;
+
+        setSignalNumber (2);
+
+        commandMap.insert(std::make_pair( "getSignalNumber",
+            new Getter<Base, int> (*ent, &Base::getSignalNumber,
+              "Get the number of input vector.")));
+
+        commandMap.insert(std::make_pair("setSignalNumber",
+            makeCommandVoid1<Base,int>(*ent,
+              boost::function <void (const int&)> (boost::bind ( &AdderVariadic::setSignalNumber, this, _1)),
+              docCommandVoid1("set the number of input vector.", "int (size)"))));
+
+        commandMap.insert(std::make_pair("setCoeffs",
+            makeCommandVoid1<Base,Vector>(*ent,
+              boost::function <void (const Vector&)> (boost::bind ( &AdderVariadic::setCoeffs, this, _1)),
+              docCommandVoid1("set the multipliers.", "vector"))));
+      }
+
+      virtual std::string getDocString () const
+      {
+        return
+          "Linear combination of inputs\n"
+          "  - input  " + VariadicOpHeader<T,T>::nameTypeIn () +
+          "\n"
+          "  - output " + VariadicOpHeader<T,T>::nameTypeOut () +
+          "\n"
+          "  sout = sum ([coeffs[i] * sin[i] for i in range(n) ])\n"
+          "  Coefficients are set by commands, default value is 1.\n";
+      }
+    };
+    REGISTER_VARIADIC_OP(AdderVariadic<Matrix>,Add_of_matrix);
+    REGISTER_VARIADIC_OP(AdderVariadic<Vector>,Add_of_vector);
+    REGISTER_VARIADIC_OP(AdderVariadic<double>,Add_of_double);
 
     /* --- MULTIPLICATION --------------------------------------------------- */
     template< typename T>
