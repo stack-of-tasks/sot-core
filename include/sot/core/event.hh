@@ -103,21 +103,7 @@ namespace dynamicgraph {
       typedef SignalBase<int>* Trigger_t;
       typedef std::vector<Trigger_t> Triggers_t;
 
-      bool& check (bool& ret, const int& time)
-      {
-        const bool& val = conditionSIN (time);
-        ret = (val != lastVal_);
-        bool trigger = onlyUp_ ? (!lastVal_ && val) : ret;
-        if (ret) {
-          lastVal_ = val;
-          if (trigger) {
-            for (Triggers_t::const_iterator _s = triggers.begin();
-                _s != triggers.end(); ++_s)
-              (*_s)->recompute (time);
-          }
-        }
-        return ret;
-      }
+      bool& check (bool& ret, const int& time);
 
       Signal <bool, int> checkSOUT;
 
