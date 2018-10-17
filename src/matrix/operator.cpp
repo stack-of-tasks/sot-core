@@ -969,8 +969,15 @@ namespace dynamicgraph {
       }
 
       void setCoeffs(const Vector& c) { coeffs = c; }
+      void setCoeff1(const double& c) { assert(coeffs.size() == 2); coeffs(0) = c; }
+      void setCoeff2(const double& c) { assert(coeffs.size() == 2); coeffs(1) = c; }
+
       void setSignalNumber (const int& n)
       {
+        if (entity->getSignalNumber() == 2) {
+          entity->removeSignal();
+          entity->removeSignal();
+        }
         coeffs = Vector::Ones(n);
         entity->setSignalNumber(n);
       }
@@ -981,7 +988,9 @@ namespace dynamicgraph {
 	using namespace dynamicgraph::command;
         entity = ent;
 
-        setSignalNumber (2);
+        coeffs = Vector::Ones(2);
+        entity->addSignal ("sin1");
+        entity->addSignal ("sin2");
 
         commandMap.insert(std::make_pair( "getSignalNumber",
             new Getter<Base, int> (*ent, &Base::getSignalNumber,
@@ -996,6 +1005,17 @@ namespace dynamicgraph {
             makeCommandVoid1<Base,Vector>(*ent,
               boost::function <void (const Vector&)> (boost::bind ( &AdderVariadic::setCoeffs, this, _1)),
               docCommandVoid1("set the multipliers.", "vector"))));
+
+        // Add deprecated commands.
+        commandMap.insert(std::make_pair("setCoeff1",
+            makeCommandVoid1<Base,double>(*ent,
+              boost::function <void (const double&)> (boost::bind ( &AdderVariadic::setCoeff1, this, _1)),
+              docCommandVoid1("deprecated. Use setCoeffs.", "double"))));
+
+        commandMap.insert(std::make_pair("setCoeff2",
+            makeCommandVoid1<Base,double>(*ent,
+              boost::function <void (const double&)> (boost::bind ( &AdderVariadic::setCoeff2, this, _1)),
+              docCommandVoid1("deprecated. Use setCoeffs.", "double"))));
       }
 
       virtual std::string getDocString () const
