@@ -517,9 +517,8 @@ saturateBounds (double& val, const double& lower, const double& upper)
   for (int i = 0; i < val.size(); ++i) {                                       \
     double old = val(i);                                                       \
     if (saturateBounds (val(i), lower(i), upper(i)))                           \
-      if (std::abs(old-val(i)) > 1e-2)                                         \
-        dgRTLOG () << "Robot "what" bound violation at DoF " << i <<           \
-        ": requested " << old << " but set " << val(i) << '\n';                \
+      dgRTLOG () << "Robot "what" bound violation at DoF " << i <<             \
+      ": requested " << old << " but set " << val(i) << '\n';                  \
   }
 
 void Device::integrate( const double & dt )
