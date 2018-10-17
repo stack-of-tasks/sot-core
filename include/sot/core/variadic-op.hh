@@ -67,7 +67,6 @@ namespace dynamicgraph {
       {
         for (std::size_t i = 0; i < signalsIN.size(); ++i) {
           _removeSignal (i);
-          delete signalsIN[i];
         }
       };
 
@@ -98,7 +97,7 @@ namespace dynamicgraph {
       void removeSignal ()
       {
         assert (signalsIN.size()>0);
-        _removeSignal (signalsIN().size()-1);
+        _removeSignal (signalsIN.size()-1);
         // names.pop_back();
         signalsIN.pop_back();
       }
