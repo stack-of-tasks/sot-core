@@ -961,7 +961,7 @@ namespace dynamicgraph {
       AdderVariadic () : coeffs () {}
       void operator()( const std::vector<const T*>& vs, T& res ) const
       {
-        assert (vs.size() == coeffs.size());
+        assert (vs.size() == (std::size_t)coeffs.size());
         if (vs.size() == 0) return;
         res = coeffs[0]*(*vs[0]);
         for (std::size_t i = 1; i < vs.size(); ++i)
@@ -1088,7 +1088,6 @@ namespace dynamicgraph {
         // TODO computation could be optimized with lazy evaluation of the
         // signals. When the output result is know, the remaining signals are
         // not computed.
-        assert (vs.size() == coeffs.size());
         if (vs.size() == 0) return;
         res = *vs[0];
         for (std::size_t i = 1; i < vs.size(); ++i)
