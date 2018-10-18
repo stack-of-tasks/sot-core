@@ -61,7 +61,7 @@ void Device::integrateRollPitchYaw(Vector& state, const Vector& control,
        * AngleAxisd(state(4), Vector3d::UnitY())
        * AngleAxisd(state(3), Vector3d::UnitX());
 
-  SE3::integrate (qin, control.head<6>()*dt, qout);
+  SE3().integrate (qin, control.head<6>()*dt, qout);
 
   // Update freeflyer pose
   ffPose_.translation() = qout.head<3>();
