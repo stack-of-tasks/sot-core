@@ -105,7 +105,7 @@ OpPointModifier::jacobianSOUT_function( dynamicgraph::Matrix& res,const int& ite
       dynamicgraph::Vector aAB(3); aAB = aMb.translation();
       dynamicgraph::Vector oAB = oRa*aAB;
 
-      const int nq = oJa.cols();
+      const dynamicgraph::Matrix::Index nq = oJa.cols();
       res.resize( 6,oJa.cols() );
       for( int j=0;j<nq;++j )
 	{

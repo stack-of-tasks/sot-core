@@ -74,7 +74,7 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
  protected:
-  unsigned int dimensionDefault;
+  dg::Vector::Index dimensionDefault;
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:

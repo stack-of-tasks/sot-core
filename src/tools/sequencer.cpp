@@ -162,7 +162,7 @@ public:
   {
     sotDEBUGIN(15);
     std::stringbuf* pbuf=args.rdbuf();
-    const unsigned int size = pbuf->in_avail();
+    const unsigned int size = (unsigned int)(pbuf->in_avail());
     char * buffer  = new char [size+1];
     pbuf->sgetn( buffer,size );
 

@@ -110,7 +110,7 @@ computeControl( dynamicgraph::Vector &tau, int t )
   const dynamicgraph::Matrix& matrixA = matrixASIN(t);	  
   const dynamicgraph::Vector& acceleration = accelerationSIN(t);
   const dynamicgraph::Vector& gravity = gravitySIN(t);		  
-  unsigned size = acceleration.size();		
+  dynamicgraph::Vector::Index size = acceleration.size();		
   tau.resize(size); 
   //tau*=0;
  /* for(unsigned i = 0u; i < size; ++i)

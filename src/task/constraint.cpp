@@ -103,8 +103,8 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
   // 			      "Empty feature list") ) ; }
 
   try {
-    int dimJ = J .rows();
-    int nbc = J.cols();
+    dynamicgraph::Matrix::Index dimJ = J .rows();
+    dynamicgraph::Matrix::Index nbc = J.cols();
     if( 0==dimJ ) {
       // Compute the correct size
       for( JacobianList::iterator iter = jacobianList.begin();
@@ -124,7 +124,7 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
       J.resize (dimJ, nbc);
     }
 
-    int cursorJ = 0;
+    dynamicgraph::Matrix::Index cursorJ = 0;
 
     /* For each cell of the list, recopy value of s, s_star and error. */
     for( JacobianList::iterator iter = jacobianList.begin();
@@ -134,7 +134,7 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
 
 	/* Get s, and store it in the s vector. */
 	const dynamicgraph::Matrix& partialJacobian = jacobian(time);
-	const int nbr = partialJacobian.rows();
+	const dynamicgraph::Matrix::Index nbr = partialJacobian.rows();
 
 	sotDEBUG(25) << "Jp =" <<endl<< partialJacobian<<endl;
 

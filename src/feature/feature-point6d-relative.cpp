@@ -89,7 +89,7 @@ computeJacobian( Matrix& Jres,int time )
   const MatrixHomogeneous & wMp = positionSIN(time);
   const MatrixHomogeneous & wMpref = positionReferenceSIN(time);
 
-  const unsigned int cJ = Jq.cols();
+  const Matrix::Index cJ = Jq.cols();
   Matrix J(6,cJ);
   {
     MatrixHomogeneous pMw;  pMw = wMp.inverse(Eigen::Affine);

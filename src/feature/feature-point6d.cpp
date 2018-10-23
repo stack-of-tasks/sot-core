@@ -157,6 +157,7 @@ computationFrame() const
       return "desired";
     }
   assert( false&&"Case not handled" );
+  return "Case not handled";
 }
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -196,7 +197,7 @@ computeJacobian( Matrix& J,int time )
 
   sotDEBUG(15) <<"Dimension="<<dim<<std::endl;
 
-  const unsigned int cJ = Jq.cols();
+  const Matrix::Index cJ = Jq.cols();
   J.resize(dim,cJ) ;
   Matrix LJq(6,cJ);
 

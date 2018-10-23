@@ -87,11 +87,11 @@ getDimension( unsigned int & dim, int time )
   sotDEBUG(25)<<"# In {"<<endl;
 
   const Flags &fl = selectionSIN.access(time);
-  const unsigned int NBJL  = upperJlSIN.access(time).size();
+  const Matrix::Index NBJL  = upperJlSIN.access(time).size();
 
   dim = 0;
-  for( unsigned int i=0;i<NBJL;++i )
-    if( fl(i) ) dim++;
+  for( Matrix::Index i=0;i<NBJL;++i )
+    if( fl(static_cast<int>(i)) ) dim++;
 
   sotDEBUG(25)<<"# Out }"<<endl;
   return dim;
@@ -104,10 +104,10 @@ FeatureJointLimits::computeWidthJl( Vector& res,const int& time )
 
   const Vector UJL = upperJlSIN.access(time);
   const Vector LJL = lowerJlSIN.access(time);
-  const unsigned int SIZE=UJL.size();
+  const Vector::Index SIZE=UJL.size();
   res.resize(SIZE);
 
-  for( unsigned int i=0;i<SIZE;++i )
+  for( Vector::Index i=0;i<SIZE;++i )
     {      res(i)=UJL(i)-LJL(i);    }
 
   sotDEBUGOUT(15);
@@ -126,7 +126,7 @@ computeJacobian( Matrix& J,int time )
   const Vector q = jointSIN.access(time);
   const Flags &fl = selectionSIN(time);
   //const unsigned int SIZE_FF=SIZE+freeFloatingSize;
-  const unsigned int SIZE_TOTAL=q.size();
+  const Vector::Index SIZE_TOTAL=q.size();
   const Vector WJL = widthJlSINTERN.access(time);
   J.resize( SIZE,SIZE_TOTAL ); J.setZero();
 
@@ -171,7 +171,7 @@ FeatureJointLimits::computeError( Vector& error,int time )
   const Vector LJL = lowerJlSIN.access(time);
   const Vector WJL = widthJlSINTERN.access(time);
   const int SIZE=dimensionSOUT.access(time);
-  const int SIZE_TOTAL=q.size();
+  const Vector::Index SIZE_TOTAL=q.size();
 
   sotDEBUG(25) << "q = " << q << endl;
   sotDEBUG(25) << "ljl = " << LJL << endl;

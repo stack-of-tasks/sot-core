@@ -131,7 +131,7 @@ public:
 protected:
 
   /// \brief Index on the point along the trajectory.
-  unsigned int index_;
+  std::deque<sot::Trajectory>::size_type index_;
 
   /// \brief Keep the starting time as an identifier of the trajector
   timestamp traj_timestamp_;

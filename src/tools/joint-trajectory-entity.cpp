@@ -186,8 +186,8 @@ void SotJointTrajectoryEntity::UpdateTrajectory(const Trajectory &aTrajectory)
   sotDEBUG(3) << "step 1 " << std::endl
               << "header: " << std::endl
               << "  timestamp:"
-              << aTrajectory.header_.stamp_.secs_ +
-    0.000000001 *aTrajectory.header_.stamp_.nsecs_
+              << static_cast<double>(aTrajectory.header_.stamp_.secs_) +
+    0.000000001 * static_cast<double>(aTrajectory.header_.stamp_.nsecs_)
               << " seq:" << aTrajectory.header_.seq_ << " "
               << " frame_id:" << aTrajectory.header_.frame_id_
               << " index_: " << index_

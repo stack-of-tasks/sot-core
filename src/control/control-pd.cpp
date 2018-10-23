@@ -106,7 +106,7 @@ computeControl( dynamicgraph::Vector &tau, int t )
   const dynamicgraph::Vector& velocity = velocitySIN(t);		  
   const dynamicgraph::Vector& desiredvelocity = desiredvelocitySIN(t);
 		  
-  unsigned size = Kp.size();		
+  dynamicgraph::Vector::Index size = Kp.size();		
   tau.resize(size);
   for(unsigned i = 0u; i < size; ++i)
     {

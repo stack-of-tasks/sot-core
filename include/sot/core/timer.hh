@@ -118,8 +118,8 @@ class Timer_EXPORT Timer
         dt = ((double)(c1 - c0) * 1000 ) / CLOCKS_PER_SEC;
       } else {
         gettimeofday(&t1,NULL);
-        dt = ( (t1.tv_sec-t0.tv_sec) * 1000.
-               + (t1.tv_usec-t0.tv_usec+0.) / 1000. );
+        dt = ( (static_cast<double>(t1.tv_sec)-static_cast<double>(t0.tv_sec)) * 1000.
+               + (static_cast<double>(t1.tv_usec)-static_cast<double>(t0.tv_usec)+0.) / 1000. );
         sotDEBUG(15) << "t1: "<< t1.tv_sec << " - " << t1.tv_usec << std::endl;
       }
 

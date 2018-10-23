@@ -134,6 +134,7 @@ display( std::ostream& os ) const
 
 }
 
+/*
 static std::string readLineStr( istringstream& args )
 {
   stringbuf* pbuf=args.rdbuf();
@@ -146,7 +147,7 @@ static std::string readLineStr( istringstream& args )
   delete [] buffer;
   return res;
 }
-
+*/
 #define ADD_COMMAND( name,def )                                     \
 if (commandMap.count(prefix+name) != 0) {                            \
   DG_THROW ExceptionFactory(ExceptionFactory::OBJECT_CONFLICT,        \

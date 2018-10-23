@@ -41,13 +41,13 @@ int main( void )
   cout<<"1&2   "<<"\t"<<(f1&f2)<<endl;
   cout<<"TRUE  "<<"\t"<<(Flags(true))<<endl;
   cout<<"1&TRUE"<<"\t"<<(f1&Flags(true))<<endl;
-  cout<<"1&!2 "<<"\t"<<(f1&!f2)<<endl;
-  cout<<"1XOR2 "<<"\t"<<((f1&!f2)|(!f1&f2))<<endl;
+  cout<<"1&!2 "<<"\t"<<((!f2)&f1)<<endl;
+  cout<<"1XOR2 "<<"\t"<<(((!f2)&f1)|((!f1)&f2))<<endl;
 
   cout<<endl;
   cout<<"f1    "<<"\t"<<f1<<endl;
   cout<<"!2    "<<"\t"<<!f2<<endl;
-  cout<<"1|!2 "<<"\t"<<(f1|!f2)<<endl;
+  cout<<"1|!2 "<<"\t"<<(f1|(!f2))<<endl;
 
   cout<<endl;
   if( f1&f2 ) cout<<"TRUE"; else cout<<"FALSE";  cout<<endl;

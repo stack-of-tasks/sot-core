@@ -95,8 +95,8 @@ search_exp_sub_string(std::string &text,
     if (what.size()>=1)
     {
       unsigned int all_text = 0;
-      unsigned int pos = what.position(all_text);
-      unsigned int len = what.length(all_text);
+      boost::match_results<std::string::const_iterator>::difference_type pos = what.position(all_text);
+      boost::match_results<std::string::const_iterator>::difference_type len = what.length(all_text);
       sub_text = text.substr(pos+len);
       return true;
     }

@@ -56,7 +56,7 @@ JointLimitator::computeWidthJl (dynamicgraph::Vector& res,const int& time)
 
   const dynamicgraph::Vector UJL = upperJlSIN.access(time);
   const dynamicgraph::Vector LJL = lowerJlSIN.access(time);
-  const unsigned int SIZE=UJL.size();
+  const dynamicgraph::Vector::Index SIZE=UJL.size();
   res.resize(SIZE);
 
   for( unsigned int i=0;i<SIZE;++i )
@@ -77,10 +77,10 @@ JointLimitator::computeControl (dynamicgraph::Vector& uOUT,int time)
   const dynamicgraph::Vector& LJL = lowerJlSIN.access(time);
   const dynamicgraph::Vector& uIN = controlSIN.access(time);
 
-  unsigned int controlSize = uIN.size();
+  dynamicgraph::Vector::Index controlSize = uIN.size();
   uOUT.resize(controlSize); uOUT.setZero();
 
-  int offset = q.size() - uIN.size();
+  dynamicgraph::Vector::Index offset = q.size() - uIN.size();
   assert(offset >= 0);
 
   for( unsigned int i=0; i<controlSize; ++i )

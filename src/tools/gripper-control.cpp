@@ -117,7 +117,7 @@ computeIncrement( const dynamicgraph::Vector& torques,
 		  const dynamicgraph::Vector& torqueLimits,
 		  const dynamicgraph::Vector& currentNormVel )
 {
-  const int SIZE = currentNormVel.size();
+  const dynamicgraph::Vector::Index SIZE = currentNormVel.size();
 
   // initialize factor, if needed.
   if( factor.size()!=SIZE ) { factor.resize(SIZE); factor.fill(1.); }
@@ -152,7 +152,7 @@ computeDesiredPosition( const dynamicgraph::Vector& currentPos,
 			const dynamicgraph::Vector& torqueLimits,
 			dynamicgraph::Vector& referencePos )
 {
-  const unsigned int SIZE = currentPos.size();
+  const dynamicgraph::Vector::Index SIZE = currentPos.size();
   //  if( (SIZE==torques.size()) )
   //    { /* ERROR ... */ }
 

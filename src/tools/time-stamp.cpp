@@ -88,8 +88,8 @@ getTimeStamp( dynamicgraph::Vector& res,const int& /*time*/ )
   if( res.size()!=2 ) res.resize(2);
 
 
-    res(0) = val.tv_sec;
-  res(1) = val.tv_usec;
+  res(0) = static_cast<double>(val.tv_sec);
+  res(1) = static_cast<double>(val.tv_usec);
   sotDEBUGOUT(15);
   return res;
 }

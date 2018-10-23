@@ -204,7 +204,7 @@ computeError( dynamicgraph::Vector& error,int time )
 
     /* First assumption: vector dimensions have not changed. If 0, they are
      * initialized to dim 1.*/
-    int dimError = error .size();
+    dynamicgraph::Vector::Index dimError = error .size();
     if( 0==dimError ){ dimError = 1; error.resize(dimError); error.setZero();}
 
     dynamicgraph::Vector vectTmp;
@@ -220,7 +220,7 @@ computeError( dynamicgraph::Vector& error,int time )
 	sotDEBUG(45) << "Feature <" << feature.getName() << ">." << std::endl;
 	const dynamicgraph::Vector& partialError = feature.errorSOUT(time);
 
-	const int dim = partialError.size();
+	const dynamicgraph::Vector::Index dim = partialError.size();
 	while( cursorError+dim>dimError )  // DEBUG It was >=
 	  { dimError *= 2; error.resize(dimError); error.setZero(); }
 
@@ -242,7 +242,7 @@ dynamicgraph::Vector& Task::
 computeErrorTimeDerivative( dynamicgraph::Vector & res, int time)
 {
   res.resize( errorSOUT(time).size() );
-  int cursor = 0;
+  dynamicgraph::Vector::Index cursor = 0;
 
   for(   std::list< FeatureAbstract* >::iterator iter = featureList.begin();
 	 iter!=featureList.end(); ++iter )
@@ -250,7 +250,7 @@ computeErrorTimeDerivative( dynamicgraph::Vector & res, int time)
 	FeatureAbstract &feature = **iter;
 
 	const dynamicgraph::Vector& partialErrorDot = feature.getErrorDot()(time);
-	const int dim = partialErrorDot.size();
+	const dynamicgraph::Vector::Index dim = partialErrorDot.size();
         res.segment (cursor, dim) = partialErrorDot;
         cursor += dim;
       }
@@ -291,11 +291,11 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
 			      "Empty feature list") ) ; }
 
   try {
-    unsigned int dimJ = J .rows();
-    int nbc = J.cols();
+    dynamicgraph::Matrix::Index dimJ = J .rows();
+    dynamicgraph::Matrix::Index nbc = J.cols();
     if( 0==dimJ ){ dimJ = 1; J.resize(dimJ,nbc); }
 
-    int cursorJ = 0;
+    dynamicgraph::Matrix::Index cursorJ = 0;
     //const Flags& selection = controlSelectionSIN(time);
 
     /* For each cell of the list, recopy value of s, s_star and error. */
@@ -307,7 +307,7 @@ computeJacobian( dynamicgraph::Matrix& J,int time )
 
 	/* Get s, and store it in the s vector. */
 	const dynamicgraph::Matrix& partialJacobian = feature.jacobianSOUT(time);
-	const unsigned int nbr = partialJacobian.rows();
+	const dynamicgraph::Matrix::Index nbr = partialJacobian.rows();
 	sotDEBUG(25) << "Jp =" <<endl<< partialJacobian<<endl;
 
 	if( 0==nbc ) { nbc = partialJacobian.cols(); J.resize(nbc,dimJ); }
@@ -358,37 +358,6 @@ display( std::ostream& os ) const
 
 }
 
-/* --- PARAMS --------------------------------------------------------------- */
-/* --- PARAMS --------------------------------------------------------------- */
-/* --- PARAMS --------------------------------------------------------------- */
-
-static void readListIdx( std::istringstream& cmdArgs,
-			 unsigned int & idx_beg,unsigned int &idx_end,
-			 bool& no_end )
-{
-  char col;
-
-  cmdArgs >> ws;
-  if(! cmdArgs.good()) { idx_end=idx_beg=0; no_end=false; return; }
-  cmdArgs.get(col); if( col==':' )
-    { idx_beg=0; cmdArgs>>ws;}
-  else
-    {
-      cmdArgs.putback(col); cmdArgs>>idx_beg>>ws;
-      cmdArgs.get(col);
-      if( col!=':' ) { idx_end=idx_beg; no_end=false; return; }
-    }
-  cmdArgs>>ws;
-  if( cmdArgs.good() )
-    {
-      sotDEBUG(15) << "Read end" << endl;
-      cmdArgs >> idx_end; no_end=false;
-    }
-  else no_end = true;
-
-  sotDEBUG(25) <<"Selec: " << idx_beg << " : "<< idx_end
-	       << "(" << no_end <<")"<<endl;
-}
 
 std::ostream & Task::
 writeGraph(std::ostream &os) const

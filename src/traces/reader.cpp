@@ -79,7 +79,7 @@ load( const string& filename )
   while( datafile.good() )
     {
       datafile.getline( buffer,SIZE );
-      const unsigned int gcount = datafile.gcount(); 
+      const unsigned int gcount = (unsigned int)(datafile.gcount()); 
       if( gcount>=SIZE ) { /* TODO read error, line to long. */ }
       std::istringstream iss(buffer);
       newline.clear();

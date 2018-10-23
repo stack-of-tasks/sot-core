@@ -64,10 +64,12 @@ public:
       std::cerr << "Cannot load symbol create: " << dlsym_error << '\n';
       return ;
     }
-    
+
+    /*
     destroySotExternalInterface_t * destroyRobotController =
       (destroySotExternalInterface_t *) dlsym(SotRobotControllerLibrary, 
 					      "destroySotExternalInterface");
+    */
     dlsym_error = dlerror();
     if (dlsym_error) {
       std::cerr << "Cannot load symbol create: " << dlsym_error << '\n';
