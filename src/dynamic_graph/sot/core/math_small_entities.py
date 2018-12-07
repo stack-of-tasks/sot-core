@@ -32,6 +32,7 @@ from operator import MatrixToQuaternion
 from operator import MatrixToUTheta
 from operator import UThetaToQuaternion
 from operator import MatrixDiagonal
+from operator import MatrixTranspose
 
 from operator import Add_of_matrix
 from operator import Add_of_vector

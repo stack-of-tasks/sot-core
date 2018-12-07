@@ -253,6 +253,16 @@ namespace dynamicgraph {
     };
     REGISTER_UNARY_OP( MatrixColumnSelector,Selec_column_of_matrix );
 
+
+    /* ---------------------------------------------------------------------- */
+    struct MatrixTranspose
+      : public UnaryOpHeader<dg::Matrix,dg::Matrix>
+    {
+      void operator()( const Tin& m,Tout& res )
+	const { res = m.transpose(); }
+    };
+    REGISTER_UNARY_OP( MatrixTranspose, MatrixTranspose);
+
     /* ---------------------------------------------------------------------- */
     struct Diagonalizer
       : public UnaryOpHeader<Vector,Matrix>
