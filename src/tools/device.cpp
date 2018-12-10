@@ -52,7 +52,7 @@ void Device::integrateRollPitchYaw(Vector& state, const Vector& control,
   using Eigen::Vector3d;
   using Eigen::QuaternionMapd;
 
-  typedef se3::SpecialEuclideanOperation<3> SE3;
+  typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3;
   Eigen::Matrix<double, 7, 1> qin, qout;
   qin.head<3>() = state.head<3>();
 
