@@ -89,6 +89,8 @@ SET(plugins
   tools/joint-trajectory-entity
   tools/latch
   tools/switch
+  tools/exp-moving-avg
+  tools/gradient-ascent
 
   control/control-gr
   control/control-pd

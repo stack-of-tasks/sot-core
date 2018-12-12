@@ -17,7 +17,5 @@ from math_small_entities import *
 from visual_point_projecter import VisualPointProjecter
 from feature_visual_point import FeatureVisualPoint
 from kalman import Kalman
-
-
-
-
+from exp_moving_avg import ExpMovingAvg
+from gradient_ascent import GradientAscent
