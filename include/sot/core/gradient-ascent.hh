@@ -24,6 +24,7 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+#include <sot/core/config.hh>
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/signal-ptr.h>
 #include <dynamic-graph/signal-time-dependent.h>
@@ -34,20 +35,6 @@ namespace dynamicgraph {
   namespace sot {
 
 /* --------------------------------------------------------------------- */
-/* --- API ------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-#if defined (WIN32)
-#  if defined (reader_EXPORTS)
-#    define SOTGRADIENTASCENT_EXPORT __declspec(dllexport)
-#  else
-#    define SOTGRADIENTASCENT_EXPORT __declspec(dllimport)
-#  endif
-#else
-#  define SOTGRADIENTASCENT_EXPORT
-#endif
-
-/* --------------------------------------------------------------------- */
 /* --- TRACER ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
@@ -55,7 +42,7 @@ using dynamicgraph::Entity;
 using dynamicgraph::SignalPtr;
 using dynamicgraph::SignalTimeDependent;
 
-class SOTGRADIENTASCENT_EXPORT GradientAscent
+class SOT_CORE_DLLAPI GradientAscent
 : public Entity
 {
   DYNAMIC_GRAPH_ENTITY_DECL();
