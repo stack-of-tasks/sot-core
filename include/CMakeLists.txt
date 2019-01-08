@@ -89,6 +89,9 @@ SET(NEWHEADERS
   sot/core/trajectory.hh
   sot/core/switch.hh
   sot/core/variadic-op.hh
+  sot/core/logger.hh
+  sot/core/signal-helper.hh
+  sot/core/robot-utils.hh
   )
 INSTALL(FILES ${NEWHEADERS}
   DESTINATION include/sot/core

@@ -94,6 +94,8 @@ SET(plugins
 
   control/control-gr
   control/control-pd
+
+  robot-utils
   )
 
 # TODO
