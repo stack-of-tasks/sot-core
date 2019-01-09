@@ -93,7 +93,6 @@ SET(plugins
   control/control-gr
   control/control-pd
 
-  robot-utils
   )
 
 # TODO
@@ -153,6 +152,9 @@ SET(${LIBRARY_NAME}_SOURCES
   tools/trajectory
 
   matrix/matrix-svd
+
+  robot-utils
+  logger
   )
 
 ADD_LIBRARY(${LIBRARY_NAME}

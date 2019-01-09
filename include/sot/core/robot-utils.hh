@@ -38,11 +38,12 @@
 /* --------------------------------------------------------------------- */
 #include <iostream>
 #include <dynamic-graph/linear-algebra.h>
+#include <sot/core/signal-helper.hh>
 #include <sot/core/matrix-geometry.hh>
 #include <map>
 #include "boost/assign.hpp"
-#include <sot/core/signal-helper.hh>
 #include <sot/core/logger.hh>
+
 namespace dg = ::dynamicgraph;
 using namespace dg;
 
