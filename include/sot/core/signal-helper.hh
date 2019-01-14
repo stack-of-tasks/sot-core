@@ -1,17 +1,10 @@
 /*
- * Copyright 2011, Nicolas Mansard, LAAS-CNRS
+ * Copyright 2011, 2019 
+ * LAAS-CNRS
+ * Nicolas Mansard, François Bailly 
  *
- * This file is part of sot-torque-control.
- * sot-torque-control is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-torque-control is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-torque-control.  If not, see <http://www.gnu.org/licenses/>.
+ * This file is part of sot-core.
+ * See license file.
  */
 
 #ifndef __sot_torquecontrol_signal_helper_H__

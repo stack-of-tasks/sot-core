@@ -1,17 +1,10 @@
 /*
- * Copyright 2017, A. Del Prete, T. Flayols, O. Stasse, LAAS-CNRS
+ * Copyright 2017, 2019
+ * LAAS-CNRS
+ * A. Del Prete, T. Flayols, O. Stasse, F. Bailly
  *
- * This file is part of sot-torque-control.
- * sot-torque-control is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-torque-control is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-torque-control.  If not, see <http://www.gnu.org/licenses/>.
+ * This file is part of sot-core.
+ * See license file.
  */
 
 
@@ -24,12 +17,12 @@
 
 #if defined (WIN32)
 #  if defined (hrp2_common_EXPORTS)
-#    define HRP2COMMON_EXPORT __declspec(dllexport)
+#    define ROBOT_UTILS_COMMON_EXPORT __declspec(dllexport)
 #  else
-#    define HRP2COMMON_EXPORT __declspec(dllimport)
+#    define ROBOT_UTILS_COMMON_EXPORT __declspec(dllimport)
 #  endif
 #else
-#  define HRP2COMMON_EXPORT
+#  define ROBOT_UTILS_COMMON_EXPORT
 #endif
 
 
@@ -198,8 +191,8 @@ namespace dynamicgraph {
 	/// The joint limits map.
 	std::map<Index,JointLimits> m_limits_map;
 
-    /// The name of the joint IMU is attached to
-    std::string m_imu_joint_name;
+  /// The name of the joint IMU is attached to
+  std::string m_imu_joint_name;
 
 	/// This method creates the map between id and name.
 	/// It is called each time a new link between id and name is inserted 
