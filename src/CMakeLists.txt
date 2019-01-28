@@ -154,7 +154,6 @@ SET(${LIBRARY_NAME}_SOURCES
   matrix/matrix-svd
 
   robot-utils
-  logger
   )
 
 ADD_LIBRARY(${LIBRARY_NAME}

@@ -1,17 +1,10 @@
 /*
- * Copyright 2017, A. Del Prete, T. Flayols, O. Stasse, LAAS-CNRS
- *
- * This file is part of sot-torque-control.
- * sot-torque-control is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-torque-control is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-torque-control.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright 2017, 2019
+ * LAAS-CNRS
+ * A. Del Prete, T. Flayols, O. Stasse, F. Bailly
+ * 
+ * This file is part of sot-core.
+ * See license file.
  */
 
 #include <sot/core/robot-utils.hh>
@@ -257,7 +250,7 @@ namespace dynamicgraph
       }
       
       bool RobotUtil::
-      joints_urdf_to_sot(Eigen::ConstRefVector q_urdf, Eigen::RefVector q_sot)
+      joints_urdf_to_sot(ConstRefVector q_urdf, RefVector q_sot)
       {
     if (m_nbJoints==0)
       {
@@ -273,7 +266,7 @@ namespace dynamicgraph
       }
       
       bool RobotUtil::
-      joints_sot_to_urdf(Eigen::ConstRefVector q_sot, Eigen::RefVector q_urdf)
+      joints_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf)
       {
     assert(q_urdf.size()==static_cast<Eigen::VectorXd::Index>(m_nbJoints));
     assert(q_sot.size()==static_cast<Eigen::VectorXd::Index>(m_nbJoints));
@@ -290,8 +283,8 @@ namespace dynamicgraph
       }
       
       bool RobotUtil::
-      velocity_urdf_to_sot(Eigen::ConstRefVector q_urdf, Eigen::ConstRefVector v_urdf,
-                           Eigen::RefVector v_sot)
+      velocity_urdf_to_sot(ConstRefVector q_urdf, ConstRefVector v_urdf,
+                           RefVector v_sot)
       {
         assert(q_urdf.size()==m_nbJoints+7);
     assert(v_urdf.size()==m_nbJoints+6);
@@ -313,8 +306,8 @@ namespace dynamicgraph
       }
 
       bool RobotUtil::
-      velocity_sot_to_urdf(Eigen::ConstRefVector q_urdf, Eigen::ConstRefVector v_sot,
-                           Eigen::RefVector v_urdf)
+      velocity_sot_to_urdf(ConstRefVector q_urdf, ConstRefVector v_sot,
+                           RefVector v_urdf)
       {
         assert(q_urdf.size()==m_nbJoints+7);
     assert(v_urdf.size()==m_nbJoints+6);
@@ -337,7 +330,7 @@ namespace dynamicgraph
       }
 
       bool RobotUtil::
-      base_urdf_to_sot(Eigen::ConstRefVector q_urdf, Eigen::RefVector q_sot)
+      base_urdf_to_sot(ConstRefVector q_urdf, RefVector q_sot)
       {
     assert(q_urdf.size()==7);
         assert(q_sot.size()==6);
@@ -353,7 +346,7 @@ namespace dynamicgraph
       }
 
       bool RobotUtil::
-      base_sot_to_urdf(Eigen::ConstRefVector q_sot, Eigen::RefVector q_urdf)
+      base_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf)
       {
     assert(q_urdf.size()==7);
         assert(q_sot.size()==6);
@@ -378,7 +371,7 @@ namespace dynamicgraph
       }
       
       bool RobotUtil::
-      config_urdf_to_sot(Eigen::ConstRefVector q_urdf, Eigen::RefVector q_sot)
+      config_urdf_to_sot(ConstRefVector q_urdf, RefVector q_sot)
       {
         assert(q_urdf.size()==m_nbJoints+7);
         assert(q_sot.size()==m_nbJoints+6);
@@ -390,7 +383,7 @@ namespace dynamicgraph
       }
 
       bool RobotUtil::
-      config_sot_to_urdf(Eigen::ConstRefVector q_sot, Eigen::RefVector q_urdf)
+      config_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf)
       {
         assert(q_urdf.size()==m_nbJoints+7);
         assert(q_sot.size()==m_nbJoints+6);
@@ -435,9 +428,9 @@ namespace dynamicgraph
     os << std::endl;
 
       }
-      bool base_se3_to_sot(Eigen::ConstRefVector pos,
-               Eigen::ConstRefMatrix R,
-               Eigen::RefVector q_sot)
+      bool base_se3_to_sot(ConstRefVector pos,
+               ConstRefMatrix R,
+               RefVector q_sot)
       {
     assert(q_sot.size()==6);
     assert(pos.size()==3);
@@ -467,7 +460,7 @@ namespace dynamicgraph
     return true;
       }
 
-      bool base_urdf_to_sot(Eigen::ConstRefVector q_urdf, Eigen::RefVector q_sot)
+      bool base_urdf_to_sot(ConstRefVector q_urdf, RefVector q_sot)
       {
     assert(q_urdf.size()==7);
     assert(q_sot.size()==6);
@@ -480,7 +473,7 @@ namespace dynamicgraph
     return base_se3_to_sot(q_urdf.head<3>(), R, q_sot);
       }
 
-      bool base_sot_to_urdf(Eigen::ConstRefVector q_sot, Eigen::RefVector q_urdf)
+      bool base_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf)
       {
     assert(q_urdf.size()==7);
     assert(q_sot.size()==6);

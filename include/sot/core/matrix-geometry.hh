@@ -1,9 +1,7 @@
 /*
- * Copyright 2010,
- * François Bleibel,
- * Olivier Stasse,
- *
- * CNRS/AIST
+ * Copyright 2010,2019
+ *  CNRS/AIST
+ * François Bleibel, Olivier Stasse, François Bailly
  *
  * This file is part of sot-core.
  * sot-core is free software: you can redistribute it and/or
@@ -35,55 +33,55 @@
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace Eigen
-{
-  #define EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, Size, SizeSuffix)   \
-  /** \ingroup matrixtypedefs */                                    \
-  typedef Matrix<Type, Size, Size> Matrix##SizeSuffix##TypeSuffix;  \
-  /** \ingroup matrixtypedefs */                                    \
-  typedef Matrix<Type, Size, 1>    Vector##SizeSuffix##TypeSuffix;  \
-  /** \ingroup matrixtypedefs */                                    \
-  typedef Matrix<Type, 1, Size>    RowVector##SizeSuffix##TypeSuffix;
-
-  #define EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, Size)         \
-  /** \ingroup matrixtypedefs */                                    \
-  typedef Matrix<Type, Size, Dynamic> Matrix##Size##X##TypeSuffix;  \
-  /** \ingroup matrixtypedefs */                                    \
-  typedef Matrix<Type, Dynamic, Size> Matrix##X##Size##TypeSuffix;
-
-  #define EIGEN_MAKE_TYPEDEFS_ALL_SIZES(Type, TypeSuffix) \
-  EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 1, 1) \
-  EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 5, 5) \
-  EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 6, 6) \
-  EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 7, 7) \
-  EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 1) \
-  EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 5) \
-  EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 6) \
-  EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 7)
-
-  EIGEN_MAKE_TYPEDEFS_ALL_SIZES(int,                  i)
-  EIGEN_MAKE_TYPEDEFS_ALL_SIZES(float,                f)
-  EIGEN_MAKE_TYPEDEFS_ALL_SIZES(double,               d)
-  EIGEN_MAKE_TYPEDEFS_ALL_SIZES(std::complex<float>,  cf)
-  EIGEN_MAKE_TYPEDEFS_ALL_SIZES(std::complex<double>, cd)
-
-  #undef EIGEN_MAKE_TYPEDEFS_ALL_SIZES
-  #undef EIGEN_MAKE_TYPEDEFS
-
-  typedef Matrix<double,Dynamic,Dynamic,RowMajor>   MatrixRXd;
-  typedef Map<MatrixRXd>                            SigMatrixXd;
-  typedef Map<VectorXd>                             SigVectorXd;
-  typedef const Map<const MatrixRXd>                const_SigMatrixXd;
-  typedef const Map<const VectorXd>                 const_SigVectorXd;
-
-  typedef Eigen::Ref<Eigen::VectorXd>              RefVector;
-  typedef const Eigen::Ref<const Eigen::VectorXd>& ConstRefVector;
-  typedef Eigen::Ref<Eigen::MatrixXd>              RefMatrix;
-  typedef const Eigen::Ref<const Eigen::MatrixXd>  ConstRefMatrix;
-}
 
 namespace dynamicgraph {
   namespace sot {
+
+    #define EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, Size, SizeSuffix)   \
+    /** \ingroup matrixtypedefs */                                    \
+    typedef Eigen::Matrix<Type, Size, Size> Matrix##SizeSuffix##TypeSuffix;  \
+    /** \ingroup matrixtypedefs */                                    \
+    typedef Eigen::Matrix<Type, Size, 1>    Vector##SizeSuffix##TypeSuffix;  \
+    /** \ingroup matrixtypedefs */                                    \
+    typedef Eigen::Matrix<Type, 1, Size>    RowVector##SizeSuffix##TypeSuffix;
+
+    #define EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, Size)         \
+    /** \ingroup matrixtypedefs */                                    \
+    typedef Eigen::Matrix<Type, Size, Eigen::Dynamic> Matrix##Size##X##TypeSuffix;  \
+    /** \ingroup matrixtypedefs */                                    \
+    typedef Eigen::Matrix<Type, Eigen::Dynamic, Size> Matrix##X##Size##TypeSuffix;
+
+    #define EIGEN_MAKE_TYPEDEFS_ALL_SIZES(Type, TypeSuffix) \
+    EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 1, 1) \
+    EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 5, 5) \
+    EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 6, 6) \
+    EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 7, 7) \
+    EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 1) \
+    EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 5) \
+    EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 6) \
+    EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 7)
+
+    EIGEN_MAKE_TYPEDEFS_ALL_SIZES(int,                  i)
+    EIGEN_MAKE_TYPEDEFS_ALL_SIZES(float,                f)
+    EIGEN_MAKE_TYPEDEFS_ALL_SIZES(double,               d)
+    EIGEN_MAKE_TYPEDEFS_ALL_SIZES(std::complex<float>,  cf)
+    EIGEN_MAKE_TYPEDEFS_ALL_SIZES(std::complex<double>, cd)
+
+    #undef EIGEN_MAKE_TYPEDEFS_ALL_SIZES
+    #undef EIGEN_MAKE_TYPEDEFS
+
+    typedef Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor>   MatrixRXd;
+    typedef Eigen::Map<MatrixRXd>                                                 SigMatrixXd;
+    typedef Eigen::Map<Eigen::VectorXd>                                           SigVectorXd;
+    typedef const Eigen::Map<const MatrixRXd>                                     const_SigMatrixXd;
+    typedef const Eigen::Map<const Eigen::VectorXd>                               const_SigVectorXd;
+
+    typedef Eigen::Ref<Eigen::VectorXd>                      RefVector;
+    typedef const Eigen::Ref<const Eigen::VectorXd>&         ConstRefVector;
+    typedef Eigen::Ref<Eigen::MatrixXd>                      RefMatrix;
+    typedef const Eigen::Ref<const Eigen::MatrixXd>          ConstRefMatrix;
+
+
     typedef Eigen::Transform<double,3, Eigen::Affine> SOT_CORE_EXPORT MatrixHomogeneous;
     typedef Eigen::Matrix<double,3,3> SOT_CORE_EXPORT MatrixRotation;
     typedef Eigen::AngleAxis<double> SOT_CORE_EXPORT VectorUTheta;

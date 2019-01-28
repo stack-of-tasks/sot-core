@@ -31,11 +31,11 @@
 /* --------------------------------------------------------------------- */
 #include <iostream>
 #include <dynamic-graph/linear-algebra.h>
-#include <sot/core/signal-helper.hh>
+#include <dynamic-graph/signal-helper.h>
 #include <sot/core/matrix-geometry.hh>
 #include <map>
 #include "boost/assign.hpp"
-#include <sot/core/logger.hh>
+#include <dynamic-graph/logger.h>
 
 namespace dg = ::dynamicgraph;
 using namespace dg;
@@ -68,8 +68,8 @@ namespace dynamicgraph {
         Eigen::VectorXd lower;
 
         ForceLimits():
-          upper(Eigen::Vector6d::Zero()),
-          lower(Eigen::Vector6d::Zero())
+          upper(Vector6d::Zero()),
+          lower(Vector6d::Zero())
         {}
 
         ForceLimits(const Eigen::VectorXd& l, const Eigen::VectorXd& u):
@@ -232,21 +232,21 @@ namespace dynamicgraph {
 				     const double &lq,
 				     const double &uq);
 
-	bool joints_urdf_to_sot(Eigen::ConstRefVector q_urdf, Eigen::RefVector q_sot);
+	bool joints_urdf_to_sot(ConstRefVector q_urdf, RefVector q_sot);
 
-	bool joints_sot_to_urdf(Eigen::ConstRefVector q_sot, Eigen::RefVector q_urdf);
+	bool joints_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf);
 
-        bool velocity_urdf_to_sot(Eigen::ConstRefVector q_urdf,
-                                  Eigen::ConstRefVector v_urdf, Eigen::RefVector v_sot);
+        bool velocity_urdf_to_sot(ConstRefVector q_urdf,
+                                  ConstRefVector v_urdf, RefVector v_sot);
       
-        bool velocity_sot_to_urdf(Eigen::ConstRefVector q_urdf,
-                                  Eigen::ConstRefVector v_sot, Eigen::RefVector v_urdf);
+        bool velocity_sot_to_urdf(ConstRefVector q_urdf,
+                                  ConstRefVector v_sot, RefVector v_urdf);
 
-	bool config_urdf_to_sot(Eigen::ConstRefVector q_urdf, Eigen::RefVector q_sot);
-	bool config_sot_to_urdf(Eigen::ConstRefVector q_sot, Eigen::RefVector q_urdf);
+	bool config_urdf_to_sot(ConstRefVector q_urdf, RefVector q_sot);
+	bool config_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf);
 
-	bool base_urdf_to_sot(Eigen::ConstRefVector q_urdf, Eigen::RefVector q_sot);
-	bool base_sot_to_urdf(Eigen::ConstRefVector q_sot, Eigen::RefVector q_urdf);
+	bool base_urdf_to_sot(ConstRefVector q_urdf, RefVector q_sot);
+	bool base_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf);
 
 	
 	/** Given a joint id it finds the associated joint limits.
@@ -273,9 +273,9 @@ namespace dynamicgraph {
       bool isNameInRobotUtil(std::string &robotName);
       RobotUtil * createRobotUtil(std::string &robotName);
 
-      bool base_se3_to_sot(Eigen::ConstRefVector pos,
-                           Eigen::ConstRefMatrix R,
-                           Eigen::RefVector q_sot);
+      bool base_se3_to_sot(ConstRefVector pos,
+                           ConstRefMatrix R,
+                           RefVector q_sot);
 
   }      // namespace sot
 }        // namespace dynamicgraph
