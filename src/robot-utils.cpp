@@ -7,6 +7,7 @@
  * See license file.
  */
 
+#include <iostream>
 #include <sot/core/robot-utils.hh>
 #include <sot/core/debug.hh>
 #include <dynamic-graph/factory.h>
@@ -390,6 +391,7 @@ namespace dynamicgraph
     base_sot_to_urdf(q_sot.head<6>(), q_urdf.head<7>());
         joints_sot_to_urdf(q_sot.tail(m_nbJoints), 
                q_urdf.tail(m_nbJoints));
+    return true;
 
 
       }
