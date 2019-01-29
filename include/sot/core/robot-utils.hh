@@ -11,25 +11,10 @@
 #ifndef __sot_torque_control_common_H__
 #define __sot_torque_control_common_H__
 
-/* --------------------------------------------------------------------- */
-/* --- API ------------------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-#if defined (WIN32)
-#  if defined (hrp2_common_EXPORTS)
-#    define ROBOT_UTILS_COMMON_EXPORT __declspec(dllexport)
-#  else
-#    define ROBOT_UTILS_COMMON_EXPORT __declspec(dllimport)
-#  endif
-#else
-#  define ROBOT_UTILS_COMMON_EXPORT
-#endif
-
 
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-#include <iostream>
 #include <dynamic-graph/linear-algebra.h>
 #include <dynamic-graph/signal-helper.h>
 #include <sot/core/matrix-geometry.hh>
@@ -44,7 +29,7 @@ using namespace dg;
 namespace dynamicgraph {
   namespace sot {
 
-      struct JointLimits
+    struct SOT_CORE_EXPORT JointLimits
       {
         double upper;
         double lower;
@@ -62,7 +47,7 @@ namespace dynamicgraph {
 
       typedef Eigen::VectorXd::Index Index;
 
-      struct ForceLimits
+		struct SOT_CORE_EXPORT ForceLimits
       {
         Eigen::VectorXd upper;
         Eigen::VectorXd lower;
@@ -81,7 +66,7 @@ namespace dynamicgraph {
       };
 
       
-      struct ForceUtil
+    struct SOT_CORE_EXPORT ForceUtil
       {
 	std::map<Index,ForceLimits> m_force_id_to_limits;
 	std::map<std::string,Index> m_name_to_force_id;
@@ -151,9 +136,9 @@ namespace dynamicgraph {
 
 	void display(std::ostream & out) const;
 	
-      }; // struct ForceUtil
+    	}; // struct ForceUtil
 
-      struct FootUtil
+    struct SOT_CORE_EXPORT FootUtil
       {
         /// Position of the foot soles w.r.t. the frame of the foot
 	dynamicgraph::Vector m_Right_Foot_Sole_XYZ;
@@ -164,7 +149,7 @@ namespace dynamicgraph {
 	void display(std::ostream & os) const;
       };
 
-      struct RobotUtil
+struct SOT_CORE_EXPORT RobotUtil
       {
       public:
 
