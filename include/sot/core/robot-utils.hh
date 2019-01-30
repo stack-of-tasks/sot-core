@@ -150,8 +150,8 @@ namespace dynamicgraph {
       };
 
 struct SOT_CORE_EXPORT RobotUtil
-      {
-      public:
+{
+  public:
 
 	RobotUtil();
 
@@ -241,17 +241,26 @@ struct SOT_CORE_EXPORT RobotUtil
         const JointLimits & get_joint_limits_from_id(Index id);
         JointLimits cp_get_joint_limits_from_id(Index id);
 	
-	
-	void sendMsg(const std::string& msg, 
-		     MsgType t=MSG_TYPE_INFO, 
-		     const char* file="", int line=0)
-	{
-          getLogger().sendMsg("[FromURDFToSoT] "+msg, t, file, line);
-	}
+  /** \name Logger related methods */
+    /** \{*/
+    /// \brief Send messages \param msg with level t. Add string file and line to message.
+    void sendMsg(const std::string &msg,
+		 MsgType t=MSG_TYPE_INFO,
+		 const char *file="",
+		 int line=0);
+
+    /// \brief Specify the verbosity level of the logger.
+    void setLoggerVerbosityLevel(LoggerVerbosity lv)
+    {logger_.setVerbosity(lv);}
+
+    /// \brief Get the logger's verbosity level.
+    LoggerVerbosity getLoggerVerbosityLevel()
+    { return logger_.getVerbosity(); };	
 
 	void display(std::ostream &os) const;
-
-      }; // struct RobotUtil
+	protected:
+    Logger logger_;
+ }; // struct RobotUtil
       RobotUtil * RefVoidRobotUtil();
 
       RobotUtil * getRobotUtil(std::string &robotName);
