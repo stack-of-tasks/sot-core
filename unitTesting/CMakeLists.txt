@@ -65,6 +65,7 @@ SET(TEST_test_mailbox_LIBS
 #test paths and names (without .cpp extension)
 SET (tests
 	dummy
+	test_robot_utils
 
 	signal/test_signal
 	signal/test_depend
