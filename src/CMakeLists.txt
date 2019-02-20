@@ -152,10 +152,10 @@ SET(${LIBRARY_NAME}_SOURCES
   tools/periodic-call
   tools/device
   tools/trajectory
+  tools/robot-utils
 
   matrix/matrix-svd
 
-  robot-utils
   )
 
 ADD_LIBRARY(${LIBRARY_NAME}
