@@ -107,8 +107,8 @@ int main( void )
 
   /*Test config_urdf_to_sot and config_sot_to_urdf */
   dg::Vector q2_sot(9);
-  robot_util->config_urdf_to_sot(q2_sot,q2_urdf);
-  robot_util->config_sot_to_urdf(q2_urdf,q2_sot);
+  robot_util->config_urdf_to_sot(q2_urdf,q2_sot);
+  robot_util->config_sot_to_urdf(q2_sot,q2_urdf);
   std::cout << "config_urdf_to_sot and config_sot_to_urdf work !" << std::endl;
   
   robot_util->display(std::cout);
