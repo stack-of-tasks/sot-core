@@ -210,6 +210,9 @@ Device( const std::string& n )
                  command::docCommandVoid2 ("Set robot torque bounds", "vector: lower bounds", "vector: upper bounds")
                  ));
 
+    addCommand("getTimeStep",
+             makeDirectGetter (*this, &this->timestep_,
+                               docDirectGetter ("Time step", "double")));
     // Handle commands and signals called in a synchronous way.
     periodicCallBefore_.addSpecificCommands(*this, commandMap, "before.");
     periodicCallAfter_.addSpecificCommands(*this, commandMap, "after.");
