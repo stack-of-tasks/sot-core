@@ -81,7 +81,8 @@ namespace dynamicgraph {
       bool withForceSignals[4];
       PeriodicCall periodicCallBefore_;
       PeriodicCall periodicCallAfter_;
-
+      double timestep_;
+      
       /// \name Robot bounds used for sanity checks
       /// \{
       Vector upperPosition_;
