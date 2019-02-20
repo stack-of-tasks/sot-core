@@ -32,7 +32,7 @@ using dynamicgraph::Entity;
 									\
   template<>								\
   const std::string sotClassType<sotSigType,sotCoefType>::CLASS_NAME	\
-  = std::string(className)+"<"+#sotSigType+","+#sotCoefType+">";	\
+  = std::string(className)+"_"+#sotSigType+","+#sotCoefType+"_";	\
 									\
   template<>								\
   const std::string& sotClassType<sotSigType,sotCoefType>::		\
