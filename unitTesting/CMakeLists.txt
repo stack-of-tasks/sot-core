@@ -65,7 +65,6 @@ SET(TEST_test_mailbox_LIBS
 #test paths and names (without .cpp extension)
 SET (tests
 	dummy
-	test_robot_utils
 
 	signal/test_signal
 	signal/test_depend
@@ -86,6 +85,7 @@ SET (tests
 	tools/test_boost
 	tools/test_mailbox
 	tools/test_matrix
+	tools/test_robot_utils
 	math/matrix-twist
 	math/matrix-homogeneous
 	)
