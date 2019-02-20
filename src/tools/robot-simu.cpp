@@ -41,6 +41,18 @@ namespace dynamicgraph {
 		 command::makeCommandVoid1((Device&)*this,
 					   &Device::increment, docstring));
       
+      /* Set Time step. */
+      docstring =
+	"\n"
+	"    Set the time step provided\n"
+	"\n"
+	"      take one floating point number as input\n"
+	"\n";
+      addCommand("setTimeStep",
+		 makeDirectSetter (*this, &this->timestep_,
+				   docstring));
+		 
+
     }
   } // namespace sot
 } // namespace dynamicgraph
