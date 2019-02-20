@@ -211,8 +211,9 @@ Device( const std::string& n )
                  ));
 
     addCommand("getTimeStep",
-             makeDirectGetter (*this, &this->timestep_,
-                               docDirectGetter ("Time step", "double")));
+	       command::makeDirectGetter (*this, &this->timestep_,
+		command::docDirectGetter ("Time step", "double")));
+    
     // Handle commands and signals called in a synchronous way.
     periodicCallBefore_.addSpecificCommands(*this, commandMap, "before.");
     periodicCallAfter_.addSpecificCommands(*this, commandMap, "after.");
