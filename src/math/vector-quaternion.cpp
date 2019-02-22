@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <sot/core/matrix-geometry.hh>
@@ -32,7 +21,7 @@ VectorRotation& VectorQuaternion::
 fromMatrix( const MatrixRotation& rot )
 {
   sotDEBUGIN(15) ;
-  
+
   const dynamicgraph::Matrix& rotmat = rot;
 
   double d0 = rotmat(0,0), d1 = rotmat(1,1), d2 = rotmat(2,2);
@@ -52,27 +41,27 @@ fromMatrix( const MatrixRotation& rot )
       _y = (rotmat(0,2) - rotmat(2,0)) * s;
       _z = (rotmat(1,0) - rotmat(0,1)) * s;
       _r = 0.25 / s;
-    } 
-  else 
+    }
+  else
     {
       // Trace is less than zero, so need to determine which
       // major diagonal is largest
-      if ((d0 > d1) && (d0 > d2)) 
+      if ((d0 > d1) && (d0 > d2))
 	{
 	  double s = 0.5 / sqrt(1 + d0 - d1 - d2);
 	  _x = 0.5 * s;
 	  _y = (rotmat(0,1) + rotmat(1,0)) * s;
 	  _z = (rotmat(0,2) + rotmat(2,0)) * s;
 	  _r = (rotmat(1,2) + rotmat(2,1)) * s;
-	} 
-      else if (d1 > d2) 
+	}
+      else if (d1 > d2)
 	{
 	  double s = 0.5 / sqrt(1 + d0 - d1 - d2);
 	  _x = (rotmat(0,1) + rotmat(1,0)) * s;
 	  _y = 0.5 * s;
 	  _z = (rotmat(1,2) + rotmat(2,1)) * s;
 	  _r = (rotmat(0,2) + rotmat(2,0)) * s;
-	} 
+	}
       else
 	{
 	  double s = 0.5 / sqrt(1 + d0 - d1 - d2);
@@ -83,7 +72,7 @@ fromMatrix( const MatrixRotation& rot )
 	}
     }
 
-  // TRIAL (1) 
+  // TRIAL (1)
 
 //   const float trace = 1 + rotmat(0,0) + rotmat(1,1) + rotmat(2,2);
 //   if( trace>1e-6 )
@@ -118,7 +107,7 @@ fromMatrix( const MatrixRotation& rot )
 //       vector(2) = s / 4;
 //       vector(3) = (rotmat(1,0) - rotmat(0,1)) / s;
 //     }
-  
+
   sotDEBUGOUT(15) ;
   return *this;
 }
@@ -129,7 +118,7 @@ VectorRotation& VectorQuaternion::
 fromVector( const VectorUTheta& ut )
 {
   sotDEBUGIN(15) ;
-  
+
   double theta = sqrt( ut(0)*ut(0)+ut(1)*ut(1)+ut(2)*ut(2) );
   double si = sin(theta);
   double co = cos(theta);
@@ -137,7 +126,7 @@ fromVector( const VectorUTheta& ut )
   vector(1)=ut(1)/si;
   vector(2)=ut(2)/si;
   vector(3)=co;
-    
+
   sotDEBUGOUT(15) ;
   return *this;
 }
@@ -154,7 +143,7 @@ toMatrix( MatrixRotation& rot ) const
   const double& _y = vector(2);
   const double& _z = vector(3);
   const double& _r = vector(0);
-  
+
   double x2 = _x * _x;
   double y2 = _y * _y;
   double z2 = _z * _z;
@@ -191,15 +180,15 @@ toMatrix( MatrixRotation& rot ) const
 //   rotmat(0,0) = 1.0-(yY+zZ);
 //   rotmat(0,1) = xY-wZ;
 //   rotmat(0,2) = xZ+wY;
-  
+
 //   rotmat(1,0) = xY+wZ;
 //   rotmat(1,1) = 1.0-(xX+zZ);
 //   rotmat(1,2) = yZ-wX;
-  
+
 //   rotmat(2,0) = xZ-wY;
 //   rotmat(2,1) = yZ+wX;
 //   rotmat(2,2) = 1.0-(xX+yY);
-   
+
 
   // TRIAL (1)
 

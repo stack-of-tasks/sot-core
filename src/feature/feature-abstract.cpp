@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <iostream>
@@ -29,12 +18,12 @@
 using namespace dynamicgraph::sot;
 using dynamicgraph::sot::ExceptionFeature;
 
-const std::string 
+const std::string
 FeatureAbstract::CLASS_NAME = "FeatureAbstract";
 
 
 FeatureAbstract::
-FeatureAbstract( const std::string& name ) 
+FeatureAbstract( const std::string& name )
   :Entity(name)
   ,selectionSIN(NULL,"sotFeatureAbstract("+name+")::input(flag)::selec")
   ,errordotSIN (NULL,"sotFeatureAbstract("+name+")::input(vector)::errordotIN" )
@@ -44,7 +33,7 @@ FeatureAbstract( const std::string& name )
   ,errordotSOUT (boost::bind(&FeatureAbstract::computeErrorDot,this,_1,_2),
 		 selectionSIN << errordotSIN,
 		 "sotFeatureAbstract("+name+")::output(vector)::errordot" )
-   
+
   ,jacobianSOUT( boost::bind(&FeatureAbstract::computeJacobian,this,_1,_2),
                  selectionSIN,
                  "sotFeatureAbstract("+name+")::output(matrix)::jacobian" )
@@ -109,7 +98,7 @@ getReferenceByName() const
 
 dynamicgraph::Vector& FeatureAbstract::
 computeErrorDot( dynamicgraph::Vector& res,int time )
-{ 
+{
   const Flags &fl = selectionSIN.access(time);
   const int & dim = dimensionSOUT(time);
 
@@ -127,7 +116,7 @@ computeErrorDot( dynamicgraph::Vector& res,int time )
 					 "Error: dimension uncompatible with des->errorIN size."
 					 " (while considering feature <%s>).",getName().c_str() ); }
 
-      for( int i=0;i<errdotDes.size();++i ) if( fl(i) ) 
+      for( int i=0;i<errdotDes.size();++i ) if( fl(i) )
 	if( fl(i) ) res( curr++ ) = errdotDes(i);
     }
   else
@@ -135,6 +124,6 @@ computeErrorDot( dynamicgraph::Vector& res,int time )
       for( int i=0;i<dim;++i )
 	if( fl(i) ) res( curr++ ) = 0.0;
     }
-  
-  return res; 
+
+  return res;
 }

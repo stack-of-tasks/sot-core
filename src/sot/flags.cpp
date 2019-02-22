@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /* --------------------------------------------------------------------- */
@@ -42,7 +31,7 @@ static void displaybool( ostream& os, const char c, const bool reverse=false )
 {
   for( unsigned int j=sizeof(char)*8;j-->0; )
     {
-      //os<<i<<","<<j<<": "<<c+0<<std::endl; 
+      //os<<i<<","<<j<<": "<<c+0<<std::endl;
       if(reverse) os<< (!((c>>j)&0x1)); else os<< (((c>>j)&0x1));//?"1":"0");
     }
 }
@@ -51,14 +40,14 @@ static string displaybool(const char c, const bool reverse=false )
   stringstream oss;
   for( unsigned int j=sizeof(char)*8;j-->0; )
     {
-      //os<<i<<","<<j<<": "<<c+0<<std::endl; 
+      //os<<i<<","<<j<<": "<<c+0<<std::endl;
       if(reverse) oss<< (!((c>>j)&0x1)); else oss<< (((c>>j)&0x1));//?"1":"0");
     }
   return oss.str();
 }
 /* --------------------------------------------------------------------- */
 
-  
+
 Flags::
 Flags( const bool& b ) : flags(),reverse(b) { }
 
@@ -79,11 +68,11 @@ operator bool ( void ) const
 /* --------------------------------------------------------------------- */
 char Flags::
 operator[] (const unsigned int& i) const
-{ 
+{
   char res;
   if( i<flags.size() )
     res = flags[i];
-  else res=0; 
+  else res=0;
   //cout<<"["<<i<<"] "<<res+0<<"||"<<(!res)+0<<std::endl;
   if( reverse ) return static_cast<char>(~res);//(!res);
   return res;
@@ -92,11 +81,11 @@ operator[] (const unsigned int& i) const
 namespace dynamicgraph { namespace sot {
 char operator>> (const Flags& f,const int& i)
 {
-  const div_t q = div(i,8); 
+  const div_t q = div(i,8);
 
   char res = static_cast<char>(f[q.quot] >> q.rem);
   res = static_cast<char>(res | f[q.quot+1] << (8-q.rem));
-  
+
   return res;
 }
 } /* namespace sot */} /* namespace dynamicgraph */
@@ -110,16 +99,16 @@ operator() (const int& i) const
 
 /* --------------------------------------------------------------------- */
 void Flags::
-add( const char& c ) 
+add( const char& c )
 { flags.push_back( c );    }
 
 void Flags::
-add( const int& c4 ) 
+add( const int& c4 )
 {
-  const char* c4p = (const char*)&c4; 
+  const char* c4p = (const char*)&c4;
   for(unsigned int i=0;i<sizeof(int);++i) add(c4p[i]);
 }
- 
+
 /* --------------------------------------------------------------------- */
 void Flags::
 set( const unsigned int & idx )
@@ -179,23 +168,23 @@ Flags Flags::
 operator! (void) const
 {
   Flags res = *this;
-  res.reverse=!reverse; 
+  res.reverse=!reverse;
   return res;
 }
 
-Flags operator& ( const Flags& f1,const Flags& f2 ) 
+Flags operator& ( const Flags& f1,const Flags& f2 )
 {
   Flags res = f1; res &= f2; return res;
 }
 
-Flags operator| ( const Flags& f1,const Flags& f2 ) 
+Flags operator| ( const Flags& f1,const Flags& f2 )
 {
   Flags res = f1; res |= f2; return res;
 }
 
 Flags& Flags::
-operator&= ( const Flags& f2 ) 
-{ 
+operator&= ( const Flags& f2 )
+{
   Flags &f1=*this;
   const std::vector<char>::size_type max=std::max(flags.size(),f2.flags.size());
   if( flags.size()<max ){ flags.resize(max); }
@@ -203,7 +192,7 @@ operator&= ( const Flags& f2 )
   char c; int pos = 0;
   for( unsigned int i=0;i<max;++i )
     {
-      c=f1[i]&f2[i]; if(revres)  c=static_cast<char>(0xff-c); 
+      c=f1[i]&f2[i]; if(revres)  c=static_cast<char>(0xff-c);
       flags[i]=c; if(c) pos=i+1;
     }
   flags.resize(pos);reverse=revres;
@@ -211,8 +200,8 @@ operator&= ( const Flags& f2 )
 }
 
 Flags& Flags::
-operator|= ( const Flags& f2 ) 
-{ 
+operator|= ( const Flags& f2 )
+{
   Flags &f1=*this;
   const std::vector<char>::size_type max=std::max(flags.size(),f2.flags.size());
   if( flags.size()<max ){ flags.resize(max); }
@@ -220,10 +209,10 @@ operator|= ( const Flags& f2 )
   char c; int pos = 0;
   for( unsigned int i=0;i<max;++i )
     {
-      //cout<<"DGi ";displaybool(cout,f1[i],false); cout<<" "; displaybool(cout,f2[i],false); cout<<endl; 
-      c=f1[i]|f2[i]; 
-      //cout<<"DGr ";displaybool(cout,c,false); cout<<" "; displaybool(cout,c,revres); cout<<endl; 
-      if(revres)  c=static_cast<char>(0xff-c); 
+      //cout<<"DGi ";displaybool(cout,f1[i],false); cout<<" "; displaybool(cout,f2[i],false); cout<<endl;
+      c=f1[i]|f2[i];
+      //cout<<"DGr ";displaybool(cout,c,false); cout<<" "; displaybool(cout,c,revres); cout<<endl;
+      if(revres)  c=static_cast<char>(0xff-c);
       flags[i]=c; if(c) pos=i+1;
     }
   flags.resize(pos); reverse=revres;
@@ -281,51 +270,51 @@ std::istream& operator>> (std::istream& is, Flags& fl )
 	  }
 	case '0': cur = static_cast<char>(cur & ~(0x01 << (7-count++))) ; break;
 	case '1': cur = static_cast<char>(cur | 0x01 << (7-count++)) ; break;
-	case '#': 
+	case '#':
 	  {
 	    char cnot; is.get(cnot);
-	    if( cnot=='!' ) 
+	    if( cnot=='!' )
 	      fl = (! Flags::readIndexMatlab( is ));
-	    else 
+	    else
 	      { is.unget(); fl = Flags::readIndexMatlab( is ); }
 
 	    return is;
 	  }
-	case '&': 
+	case '&':
 	  {
 	    char cnot; is.get(cnot);
-	    if( cnot=='!' ) 
+	    if( cnot=='!' )
 	      fl &= (! Flags::readIndexMatlab( is ));
-	    else 
+	    else
 	      { is.unget(); fl &= Flags::readIndexMatlab( is ); }
 	    return is;
 	  }
-	case '|': 
+	case '|':
 	  {
 	    char cnot; is.get(cnot);
-	    if( cnot=='!' ) 
+	    if( cnot=='!' )
 	      fl |= (! Flags::readIndexMatlab( is ));
-	    else 
+	    else
 	      { is.unget(); fl |= (Flags::readIndexMatlab( is )); }
 	    return is;
 	  }
-	default: 
+	default:
 	  is.unget();
 	  contin=false;
 	}
       sotDEBUG(25) << "Get cur= " << displaybool(cur) <<endl;
-     
+
       if( count==8 )
 	{
 	  sotDEBUG(20) << "Store " << displaybool(cur) <<endl;
-	  count=0; 
-	  listing.push_front(cur); 
+	  count=0;
+	  listing.push_front(cur);
 	  cur=0;
 	}
     }while( contin );
 
   sotDEBUG(20) << "finish with " << displaybool(cur) <<  " ("<<0+count<<")"<<endl;
-  char insert = 0;	
+  char insert = 0;
   fl.flags.resize(listing.size()+((count>0)?1:0));
   total=0;
   for( std::list<char>::iterator iter = listing.begin();iter!=listing.end();++iter )
@@ -335,8 +324,8 @@ std::istream& operator>> (std::istream& is, Flags& fl )
       cur = static_cast<char>((MASK[count])&(cur>>(8-count)));
 
       insert |= cur;
-      cur = *iter; 
-      
+      cur = *iter;
+
       if( reverse ) fl.flags[total++] = static_cast<char>(~insert);
       else fl.flags[total++] = insert;
       sotDEBUG(25) << "Insert " << displaybool(insert) <<endl;
@@ -346,12 +335,12 @@ std::istream& operator>> (std::istream& is, Flags& fl )
     {
       sotDEBUG(25) << "Cur fin " << displaybool(cur) <<endl;
       cur = static_cast<char>((MASK[count])&(cur>>(8-count)));
-      
+
       sotDEBUG(25) << "Cur fin >> " <<8-count<<":" << displaybool(cur) <<endl;
       sotDEBUG(25) << "Mask fin "<<0+count<<": " << displaybool(MASK[count]) <<endl;
-      
+
       cur = static_cast<char>(cur &MASK[count]);
-      if( reverse ) 
+      if( reverse )
 	{
 	  cur = static_cast<char>(cur |~MASK[count]);
 	  fl.flags[total++] = static_cast<char>(~cur);
@@ -393,25 +382,25 @@ readIndexMatlab( std::istream& cmdArgs,
 {
   char col;
 
-  cmdArgs >> ws; 
-  if(! cmdArgs.good()) { idx_end=idx_beg=0; no_end=false; return; } 
+  cmdArgs >> ws;
+  if(! cmdArgs.good()) { idx_end=idx_beg=0; no_end=false; return; }
   cmdArgs.get(col); if( col==':' )
-    { idx_beg=0; cmdArgs>>ws;} 
-  else 
-    { 
+    { idx_beg=0; cmdArgs>>ws;}
+  else
+    {
       cmdArgs.putback(col); cmdArgs>>idx_beg>>ws;
-      cmdArgs.get(col); 
+      cmdArgs.get(col);
       if( col!=':' ) { idx_end=idx_beg; no_end=false; return; }
     }
   cmdArgs>>ws;
-  if( cmdArgs.good() ) 
+  if( cmdArgs.good() )
     {
       sotDEBUG(15) << "Read end" << endl;
       cmdArgs >> idx_end; no_end=false;
     }
   else no_end = true;
-  
-  sotDEBUG(25) <<"Selec: " << idx_beg << " : "<< idx_end 
+
+  sotDEBUG(25) <<"Selec: " << idx_beg << " : "<< idx_end
 	       << "(" << no_end <<")"<<endl;
 }
 
@@ -421,14 +410,14 @@ readIndexMatlab( std::istream& cmdArgs )
   sotDEBUGIN(15) ;
   unsigned int idxEnd,idxStart;
   bool idxUnspec;
-  
+
   readIndexMatlab( cmdArgs,idxStart,idxEnd,idxUnspec );
-  
+
   Flags newFlag( idxUnspec );
   if( idxUnspec )
     {    for( unsigned int i=0;i<idxStart;++i )       newFlag.unset(i);  }
   else { for( unsigned int i=idxStart;i<=idxEnd;++i ) newFlag.set(i);    }
-  
+
   sotDEBUG(25) << newFlag <<std::endl;
   sotDEBUGOUT(15) ;
   return newFlag;

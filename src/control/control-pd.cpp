@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /* SOT */
@@ -78,7 +67,7 @@ display( std::ostream& os ) const
 {
   os << "ControlPD "<<getName();
   try{
-    os <<"control = "<<controlSOUT; 
+    os <<"control = "<<controlSOUT;
   }
   catch (ExceptionSignal e) {}
   os <<" ("<<TimeStep<<") ";
@@ -96,17 +85,17 @@ double& ControlPD::setsize(int dimension)
 }
 
 dynamicgraph::Vector& ControlPD::
-computeControl( dynamicgraph::Vector &tau, int t ) 
+computeControl( dynamicgraph::Vector &tau, int t )
 {
-  sotDEBUGIN(15);		  
+  sotDEBUGIN(15);
   const dynamicgraph::Vector& Kp = KpSIN(t);
-  const dynamicgraph::Vector& Kd = KdSIN(t);		  
+  const dynamicgraph::Vector& Kd = KdSIN(t);
   const dynamicgraph::Vector& position = positionSIN(t);
   const dynamicgraph::Vector& desiredposition = desiredpositionSIN(t);
-  const dynamicgraph::Vector& velocity = velocitySIN(t);		  
+  const dynamicgraph::Vector& velocity = velocitySIN(t);
   const dynamicgraph::Vector& desiredvelocity = desiredvelocitySIN(t);
-		  
-  dynamicgraph::Vector::Index size = Kp.size();		
+
+  dynamicgraph::Vector::Index size = Kp.size();
   tau.resize(size);
   for(unsigned i = 0u; i < size; ++i)
     {
@@ -116,7 +105,7 @@ computeControl( dynamicgraph::Vector &tau, int t )
      // std::cout << " position " << position << std::endl;
      // std::cout << " tau1 " << tau << std::endl;
     }
-  
+
   size = Kd.size();
   double de = 0.0;
   for(unsigned i = 0u; i < size; ++i)
@@ -126,13 +115,10 @@ computeControl( dynamicgraph::Vector &tau, int t )
       de *= Kd(i);
       tau(i) += de;
     }
-  
+
   sotDEBUGOUT(15);
  // std::cout << " tau " << tau << std::endl;
  // std::cout << "velocity " << velocity << std::endl;
   return tau;
 
 }
-
-
-

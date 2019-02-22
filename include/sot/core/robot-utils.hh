@@ -3,8 +3,6 @@
  * LAAS-CNRS
  * A. Del Prete, T. Flayols, O. Stasse, F. Bailly
  *
- * This file is part of sot-core.
- * See license file.
  */
 
 
@@ -65,26 +63,26 @@ namespace dynamicgraph {
 	void display(std::ostream &os) const;
       };
 
-      
+
     struct SOT_CORE_EXPORT ForceUtil
       {
 	std::map<Index,ForceLimits> m_force_id_to_limits;
 	std::map<std::string,Index> m_name_to_force_id;
 	std::map<Index,std::string> m_force_id_to_name;
-	
+
 	Index m_Force_Id_Left_Hand, m_Force_Id_Right_Hand,
 	  m_Force_Id_Left_Foot, m_Force_Id_Right_Foot;
-	
+
 	void set_name_to_force_id(const std::string & name,
                                   const Index &force_id);
 
-	
+
         void set_force_id_to_limits(const Index &force_id,
 				    const dg::Vector &lf,
 				    const dg::Vector &uf);
 
 	void create_force_id_to_name_map();
-	
+
 
 	Index get_id_from_name(const std::string &name);
 
@@ -98,17 +96,17 @@ namespace dynamicgraph {
 	{
 	  return m_Force_Id_Left_Hand;
 	}
-	
+
 	void set_force_id_left_hand(Index anId)
 	{
 	  m_Force_Id_Left_Hand = anId;
 	}
-	
+
 	Index get_force_id_right_hand()
 	{
 	  return m_Force_Id_Right_Hand;
 	}
-	
+
 	void set_force_id_right_hand( Index anId)
 	{
 	  m_Force_Id_Right_Hand = anId;
@@ -118,24 +116,24 @@ namespace dynamicgraph {
 	{
 	  return m_Force_Id_Left_Foot;
 	}
-	
+
 	void set_force_id_left_foot(Index anId)
 	{
 	  m_Force_Id_Left_Foot = anId;
 	}
-	
+
 	Index  get_force_id_right_foot()
 	{
 	  return m_Force_Id_Right_Foot;
 	}
-	
+
 	void set_force_id_right_foot( Index anId)
 	{
 	  m_Force_Id_Right_Foot = anId;
 	}
 
 	void display(std::ostream & out) const;
-	
+
     	}; // struct ForceUtil
 
     struct SOT_CORE_EXPORT FootUtil
@@ -163,7 +161,7 @@ struct SOT_CORE_EXPORT RobotUtil
 
 	/// Map from the urdf index to the SoT index.
 	std::vector<Index> m_urdf_to_sot;
-	
+
 	/// Nb of Dofs for the robot.
         long unsigned int m_nbJoints;
 
@@ -180,13 +178,13 @@ struct SOT_CORE_EXPORT RobotUtil
   std::string m_imu_joint_name;
 
 	/// This method creates the map between id and name.
-	/// It is called each time a new link between id and name is inserted 
+	/// It is called each time a new link between id and name is inserted
 	/// (i.e. when set_name_to_id is called).
 	void create_id_to_name_map();
 
 	/// URDF file path
 	std::string m_urdf_filename;
-	
+
 
 	dynamicgraph::Vector m_dgv_urdf_to_sot;
 
@@ -200,7 +198,7 @@ struct SOT_CORE_EXPORT RobotUtil
          * If the specified joint is not found it returns "Joint name not found";
          * @param id Id of the joint to find.
          * @return The name of the specified joint, "Joint name not found" if not found. */
-	
+
 	/// Get the joint name from its index
         const std::string & get_name_from_id(Index id);
 
@@ -211,7 +209,7 @@ struct SOT_CORE_EXPORT RobotUtil
 	/// Set the map between urdf index and sot index
 	void set_urdf_to_sot(const std::vector<Index> &urdf_to_sot);
 	void set_urdf_to_sot(const dg::Vector &urdf_to_sot);
-	
+
 	/// Set the limits (lq,uq) for joint idx
         void set_joint_limits_for_id(const Index &idx,
 				     const double &lq,
@@ -223,7 +221,7 @@ struct SOT_CORE_EXPORT RobotUtil
 
         bool velocity_urdf_to_sot(ConstRefVector q_urdf,
                                   ConstRefVector v_urdf, RefVector v_sot);
-      
+
         bool velocity_sot_to_urdf(ConstRefVector q_urdf,
                                   ConstRefVector v_sot, RefVector v_urdf);
 
@@ -233,14 +231,14 @@ struct SOT_CORE_EXPORT RobotUtil
 	bool base_urdf_to_sot(ConstRefVector q_urdf, RefVector q_sot);
 	bool base_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf);
 
-	
+
 	/** Given a joint id it finds the associated joint limits.
          * If the specified joint is not found it returns JointLimits(0,0).
          * @param id Id of the joint to find.
          * @return The limits of the specified joint, JointLimits(0,0) if not found. */
         const JointLimits & get_joint_limits_from_id(Index id);
         JointLimits cp_get_joint_limits_from_id(Index id);
-	
+
   /** \name Logger related methods */
     /** \{*/
     /// \brief Send messages \param msg with level t. Add string file and line to message.
@@ -255,7 +253,7 @@ struct SOT_CORE_EXPORT RobotUtil
 
     /// \brief Get the logger's verbosity level.
     LoggerVerbosity getLoggerVerbosityLevel()
-    { return logger_.getVerbosity(); };	
+    { return logger_.getVerbosity(); };
 
 	void display(std::ostream &os) const;
 	protected:

@@ -4,28 +4,17 @@
  *
  * CNRS
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef SOT_TRAJECTORY_H__
 #define SOT_TRAJECTORY_H__
 
 
-// Matrix 
+// Matrix
 #include <dynamic-graph/linear-algebra.h>
 #include <sot/core/api.hh>
 
-#include <boost/assign/list_of.hpp> 
+#include <boost/assign/list_of.hpp>
 #include <boost/array.hpp>
 #include <boost/regex.hpp>
 
@@ -37,7 +26,7 @@ namespace sot {
 
 class Trajectory;
 
-class RulesJointTrajectory 
+class RulesJointTrajectory
 {
  protected:
   Trajectory & TrajectoryToFill_;
@@ -62,7 +51,7 @@ class RulesJointTrajectory
 
   /// \brief parse_string will fill TrajectoryToFill with string atext.
   void parse_string(std::string &atext);
-  
+
  protected:
   /// \brief General parsing method of text with regexp e. The results are given in what.
   /// The remaining text is left in sub_text.
@@ -77,7 +66,7 @@ class RulesJointTrajectory
   /// string format_id
   void parse_header(std::string &text,
                     std::string &sub_text1);
-  
+
   /// \brief Understand joint_names.
   /// Extract a list of strings.
   void parse_joint_names(std::string &text,
@@ -89,11 +78,11 @@ class RulesJointTrajectory
   bool parse_seq(std::string &text,
                  std::string &sub_text1,
                  std::vector<double> &seq);
-  
+
   /// \brief Extract a point description.
   bool parse_point(std::string &trajectory,
                    std::string &sub_text1);
-  
+
   /// \brief Extract a sequence of points.
   bool parse_points(std::string &trajectory,
                     std::string &sub_text1);
@@ -104,19 +93,19 @@ class SOT_CORE_EXPORT timestamp
 {
 public:
   unsigned long int secs_;
-  unsigned long int nsecs_;      
+  unsigned long int nsecs_;
   timestamp() : secs_(0),nsecs_(0)
   {}
   timestamp(const timestamp &ats)
   { secs_ = ats.secs_; nsecs_ = ats.nsecs_; }
-  timestamp(unsigned long int lsecs, 
+  timestamp(unsigned long int lsecs,
             unsigned long int lnsecs)
   { secs_ = lsecs; nsecs_ = lnsecs;}
-  bool operator==(const timestamp &other) const 
-  { 
+  bool operator==(const timestamp &other) const
+  {
     if ((secs_!=other.secs_) || (nsecs_!=other.nsecs_))
       return false;
-    return true;   
+    return true;
   }
   friend std::ostream& operator <<(std::ostream& stream, const timestamp& ats)
   {
@@ -138,7 +127,7 @@ public:
 
 class SOT_CORE_EXPORT JointTrajectoryPoint
 {
-      
+
 public:
   std::vector<double> positions_;
   std::vector<double> velocities_;
@@ -151,7 +140,7 @@ public:
   {
     boost::array<std::string, 4> names=
       ba::list_of("Positions")("Velocities")("Accelerations")("Effort");
-        
+
     const std::vector<double> *points=0;
 
     for(std::size_t arrayId=0;arrayId<names.size();++arrayId)
@@ -181,7 +170,7 @@ public:
       }
     }
   }
-      
+
   void transfer(const std::vector<double> &src, unsigned int vecId)
   {
     switch(vecId)
@@ -202,9 +191,9 @@ public:
 
 class SOT_CORE_EXPORT Trajectory
 {
-      
-public: 
-      
+
+public:
+
   Trajectory( );
   Trajectory( const Trajectory & copy );
   virtual ~Trajectory();
@@ -213,9 +202,9 @@ public:
 
   Header header_;
   double time_from_start_;
-      
+
   std::vector<JointTrajectoryPoint> points_;
-      
+
   int deserialize(std::istringstream &is);
   void display(std::ostream &) const;
 
@@ -225,9 +214,3 @@ public:
 
 
 #endif /* #ifndef SOT_TRAJECTORY_H__ */
-
-
-
-
-
-

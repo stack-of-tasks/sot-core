@@ -2,9 +2,7 @@
  * Copyright 2017, 2019
  * LAAS-CNRS
  * A. Del Prete, T. Flayols, O. Stasse, F. Bailly
- * 
- * This file is part of sot-core.
- * See license file.
+ *
  */
 
 #include <iostream>
@@ -428,8 +426,8 @@ namespace dynamicgraph
     }
     void RobotUtil::
         sendMsg(const std::string &msg,
-                MsgType t, 
-                const char *file, 
+                MsgType t,
+                const char *file,
                 int line)
     {
       logger_.sendMsg("[RobotUtil]" + msg, t, file, line);

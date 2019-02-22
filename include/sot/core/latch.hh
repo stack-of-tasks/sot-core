@@ -1,17 +1,6 @@
 /*
  * Copyright 2017-, Rohan Budhiraja, Joseph Mirabel, CNRS
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef __SOT_LATCH_H__
@@ -30,9 +19,9 @@
 /* STD */
 #include <string>
 
-namespace dynamicgraph { 
+namespace dynamicgraph {
   namespace sot {
-    
+
     /* --------------------------------------------------------------------- */
     /* --- CLASS ----------------------------------------------------------- */
     /* --------------------------------------------------------------------- */
@@ -42,13 +31,13 @@ namespace dynamicgraph {
 
     class Latch : public Entity
     {
-     
+
     public: /* --- SIGNAL --- */
       DYNAMIC_GRAPH_ENTITY_DECL();
       Signal<bool,int> outSOUT;
       Signal<bool,int> turnOnSOUT;
       Signal<bool,int> turnOffSOUT;
-      
+
     protected:
       bool signalOutput;
       void turnOn(){ signalOutput = true; }
@@ -78,7 +67,7 @@ namespace dynamicgraph {
                     makeCommandVoid0 (*this, &Latch::turnOff,
                                       docCommandVoid0 ("Turn off the latch")));
       }
-      
+
         virtual ~Latch( void ) {};
 
 };

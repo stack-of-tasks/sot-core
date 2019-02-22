@@ -3,17 +3,6 @@
  *  CNRS/AIST
  * François Bleibel, Olivier Stasse, François Bailly
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef __SOT_MATRIX_GEOMETRY_H__
@@ -89,10 +78,10 @@ namespace dynamicgraph {
     typedef Eigen::Vector3d SOT_CORE_EXPORT VectorRotation;
     typedef Eigen::Vector3d SOT_CORE_EXPORT VectorRollPitchYaw;
     typedef Eigen::Matrix<double,6,6> SOT_CORE_EXPORT MatrixForce;
-    typedef Eigen::Matrix<double,6,6> SOT_CORE_EXPORT MatrixTwist; 
+    typedef Eigen::Matrix<double,6,6> SOT_CORE_EXPORT MatrixTwist;
 
     inline void buildFrom (const MatrixHomogeneous& MH, MatrixTwist& MT) {
-      
+
       Eigen::Vector3d _t = MH.translation();
       MatrixRotation R(MH.linear());
       Eigen::Matrix3d Tx;
@@ -100,7 +89,7 @@ namespace dynamicgraph {
 	_t(2), 0, -_t(0),
 	-_t(1), _t(0), 0;
       Eigen::Matrix3d sk; sk = Tx*R;
-      
+
       MT.block<3,3>(0,0) = R;
       MT.block<3,3>(0,3) = sk;
       MT.block<3,3>(3,0).setZero();
@@ -110,5 +99,5 @@ namespace dynamicgraph {
   } // namespace sot
 } // namespace dynamicgraph
 
- 
+
 #endif /* #ifndef __SOT_MATRIX_GEOMETRY_H__ */

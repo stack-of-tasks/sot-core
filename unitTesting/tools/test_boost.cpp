@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef WIN32
@@ -58,17 +47,17 @@ using namespace std;
 double timerCounter;
 
 // static void inverseCounter( ublas::matrix<double>& matrix, dynamicgraph::Matrix& invMatrix )
-// {							
+// {
 //   INIT_CHRONO(inv);
 
 
-//      ublas::matrix<double,ublas::column_major> I = matrix;	
-//      ublas::matrix<double,ublas::column_major> U(matrix.size1(),matrix.size1()); 
-//      ublas::matrix<double,ublas::column_major> VT(matrix.size2(),matrix.size2());	
-//      ublas::vector<double> s(std::min(matrix.size1(),matrix.size2()));		
-//      char Jobu='A'; /* Compute complete U Matrix */	
-//      char Jobvt='A'; /* Compute complete VT Matrix */	
-//      char Lw; Lw='O'; /* Compute the optimal size for the working vector */ 
+//      ublas::matrix<double,ublas::column_major> I = matrix;
+//      ublas::matrix<double,ublas::column_major> U(matrix.size1(),matrix.size1());
+//      ublas::matrix<double,ublas::column_major> VT(matrix.size2(),matrix.size2());
+//      ublas::vector<double> s(std::min(matrix.size1(),matrix.size2()));
+//      char Jobu='A'; /* Compute complete U Matrix */
+//      char Jobvt='A'; /* Compute complete VT Matrix */
+//      char Lw; Lw='O'; /* Compute the optimal size for the working vector */
 
 // #ifdef WITH_OPENHRP
 
@@ -85,40 +74,40 @@ double timerCounter;
 //        int linfo;
 //        int lda = std::max(m,n);
 //        ublas::matrix<double> tmp(m,n); // matrix is const!
-//        jrlgesvd_(&Jobu, &Jobvt, &m, &n, traits::matrix_storage(tmp), &lda, 
-// 		 0, 0, &m, 0, &n, &vw, &lw, &linfo); 
+//        jrlgesvd_(&Jobu, &Jobvt, &m, &n, traits::matrix_storage(tmp), &lda,
+// 		 0, 0, &m, 0, &n, &vw, &lw, &linfo);
 //        lw = int(vw);
 //      }
 // #else //#ifdef WITH_OPENHRP
 //      int lw;
 //      if( matrix.size1()>matrix.size2() )
 //        {
-// 	 ublas::matrix<double,ublas::column_major> matrixtranspose;  
+// 	 ublas::matrix<double,ublas::column_major> matrixtranspose;
 // 	 matrixtranspose = trans(matrix);
-// 	 lw = lapack::gesvd_work(Lw,Jobu,Jobvt,matrixtranspose); 
+// 	 lw = lapack::gesvd_work(Lw,Jobu,Jobvt,matrixtranspose);
 //        } else {
-// 	 lw = lapack::gesvd_work(Lw,Jobu,Jobvt,matrix); 
+// 	 lw = lapack::gesvd_work(Lw,Jobu,Jobvt,matrix);
 //        }
 
 // #endif //#ifdef WITH_OPENHRP
 
-//      ublas::vector<double> w(lw);		 
-//   gettimeofday(&t0_inv,NULL); 
-//      lapack::gesvd(Jobu, Jobvt,I,s,U,VT,w);		
+//      ublas::vector<double> w(lw);
+//   gettimeofday(&t0_inv,NULL);
+//      lapack::gesvd(Jobu, Jobvt,I,s,U,VT,w);
 //   gettimeofday(&t1_inv,NULL);
 
 //      const unsigned int nsv = s.size();
 //      ublas::vector<double> sp(nsv);
-//      for( unsigned int i=0;i<nsv;++i )		
-//        if( fabs(s(i))>1e-6 ) sp(i)=1/s(i); else sp(i)=0.;		
+//      for( unsigned int i=0;i<nsv;++i )
+//        if( fabs(s(i))>1e-6 ) sp(i)=1/s(i); else sp(i)=0.;
 
 //      invMatrix.matrix.clear();
 //      for( unsigned int i=0;i<VT.size2();++i )
 //        for( unsigned int j=0;j<U.size1();++j )
 // 	 for( unsigned int k=0;k<nsv;++k )
 // 	   invMatrix.matrix(i,j)+=VT(k,i)*sp(k)*U(j,k);
-	  
-//      dt_inv = ( (t1_inv.tv_sec-t0_inv.tv_sec) * 1000.  
+
+//      dt_inv = ( (t1_inv.tv_sec-t0_inv.tv_sec) * 1000.
 // 	       + (t1_inv.tv_usec-t0_inv.tv_usec+0.) / 1000. );
 //      timerCounter+=dt_inv;
 
@@ -132,7 +121,7 @@ double timerCounter;
 int main( int argc,char** argv )
 {
   if(sotDEBUG_ENABLE(1) ) DebugTrace::openFile();
-  
+
 //   const unsigned int r=1;
 //   const unsigned int c=30;
   unsigned int r=1; if( argc>1 ) r=atoi(argv[1]);
@@ -148,7 +137,7 @@ int main( int argc,char** argv )
   unsigned int nbzeros=0;
   for( unsigned int j=0;j<c;++j )
     {
-      if( (rand()+1.) / RAND_MAX > .8 ) 
+      if( (rand()+1.) / RAND_MAX > .8 )
 	{ for( unsigned int i=0;i<r;++i ) M(i,j) = 0.;
 	nbzeros++ ;}
       else
@@ -195,17 +184,17 @@ int main( int argc,char** argv )
 //   sotDEBUG(5) << "Counter: " << timerCounter << endl;
 //   sotDEBUG(8) << dynamicgraph::MATLAB <<"M1diag = "<< M1diag <<endl;
 //   sotDEBUG(15) << dynamicgraph::MATLAB <<"M1diaginv = "<< Minv <<endl;
-  
+
   START_CHRONO(inv);
-  std::list< unsigned int > nonzeros; 
+  std::list< unsigned int > nonzeros;
   dynamicgraph::Matrix Mcreuse;
   dynamicgraph::Matrix Mcreuseinv;
-  for( int ib=0;ib<BENCH;++ib ) 
+  for( int ib=0;ib<BENCH;++ib )
     {
 
-      double sumsq;   
+      double sumsq;
       unsigned int parc = 0;
-      if(!ib) 
+      if(!ib)
 	{
 	  nonzeros.clear();
       for( unsigned int j=0;j<c;++j )
@@ -214,13 +203,13 @@ int main( int argc,char** argv )
 	  for( unsigned int i=0;i<r;++i ) sumsq += M(i,j)*M(i,j);
 	  if( sumsq > 1e-6 )  {   nonzeros.push_back(j);  parc++;  }
 	}
-      
+
       Mcreuse.resize( r,parc );
 	}
-      
 
-      //dynamicgraph::Matrix Mcreuse( r,parc ); 
-      
+
+      //dynamicgraph::Matrix Mcreuse( r,parc );
+
       parc=0;
       for( std::list< unsigned int >::iterator iter=nonzeros.begin();
 	   iter!=nonzeros.end();++iter )
@@ -228,20 +217,20 @@ int main( int argc,char** argv )
 	  for( unsigned int i=0;i<r;++i ){  Mcreuse(i,parc) = M(i,*iter);}
 	  parc++;
 	}
-      
-      //dynamicgraph::Matrix Mcreuseinv( Mcreuse.nbCols(),r ); 
-      Mcreuseinv.resize( Mcreuse.cols(),r ); 
+
+      //dynamicgraph::Matrix Mcreuseinv( Mcreuse.nbCols(),r );
+      Mcreuseinv.resize( Mcreuse.cols(),r );
       Eigen::pseudoInverse(Mcreuse, Mcreuseinv );
       parc=0;
       Minv.fill(0.);
       for( std::list< unsigned int >::iterator iter=nonzeros.begin();
 	   iter!=nonzeros.end();++iter )
 	{
-	  for( unsigned int i=0;i<r;++i ) 
+	  for( unsigned int i=0;i<r;++i )
 	    Minv(*iter,i) = Mcreuseinv(parc,i);
 	  parc++;
 	}
-      
+
       if(!ib)
 	{
 	  //	  sotDEBUG(15) << dynamicgraph::MATLAB <<"M = "<< M <<endl;
@@ -253,7 +242,7 @@ int main( int argc,char** argv )
     }
   STOP_CHRONO(inv,"M+creuse");
   //sotDEBUG(15) << dynamicgraph::MATLAB <<"Minv = "<< Minv <<endl;
-  
+
     {
 
       double sumsq;   nonzeros.clear();
@@ -272,25 +261,25 @@ int main( int argc,char** argv )
 	  for( unsigned int i=0;i<r;++i ){  Mcreuse(i,parc) = M(i,*iter);}
 	  parc++;
 	}
-      
-      dynamicgraph::Matrix Mcreuseinv( Mcreuse.cols(),r ); 
+
+      dynamicgraph::Matrix Mcreuseinv( Mcreuse.cols(),r );
       START_CHRONO(inv);
-      for( int ib=0;ib<BENCH;++ib ) 
-	{ 
+      for( int ib=0;ib<BENCH;++ib )
+	{
 	  Eigen::pseudoInverse( Mcreuse, Mcreuseinv );
 	}
       STOP_CHRONO(inv,"M+creuseseule");
-  
+
       parc=0;
       Minv.fill(0.);
       for( std::list< unsigned int >::iterator iter=nonzeros.begin();
 	   iter!=nonzeros.end();++iter )
 	{
-	  for( unsigned int i=0;i<r;++i ) 
+	  for( unsigned int i=0;i<r;++i )
 	    Minv(*iter,i) = Mcreuseinv(parc,i);
 	  parc++;
 	}
-      
+
 	{
 	  //	  sotDEBUG(15) << dynamicgraph::MATLAB <<"M = "<< M <<endl;
 	  //	  sotDEBUG(15) << dynamicgraph::MATLAB <<"Mcreuse = "<< Mcreuse <<endl;
@@ -299,8 +288,7 @@ int main( int argc,char** argv )
 
 
     }
- 
+
 
   return 0;
 }
- 

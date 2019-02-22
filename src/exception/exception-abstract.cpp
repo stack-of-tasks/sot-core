@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <sot/core/exception-abstract.hh>
@@ -73,7 +62,7 @@ const char* ExceptionAbstract::what() const throw() {
 /* ------------------------------------------------------------------------- */
 /* --- MODIFIORS ----------------------------------------------------------- */
 /* ------------------------------------------------------------------------- */
-#ifdef SOT_EXCEPTION_PASSING_PARAM 
+#ifdef SOT_EXCEPTION_PASSING_PARAM
 
 
 ExceptionAbstract::Param& ExceptionAbstract::Param::
@@ -97,7 +86,7 @@ Param( const int& _line, const char * _function, const char * _file )
 {
     sotDEBUGINOUT(25);
 }
-#endif //#ifdef SOT_EXCEPTION_PASSING_PARAM 
+#endif //#ifdef SOT_EXCEPTION_PASSING_PARAM
 
 /* ------------------------------------------------------------------------- */
 /* --- OP << --------------------------------------------------------------- */
@@ -111,12 +100,12 @@ namespace dynamicgraph {
 		 const ExceptionAbstract & error) {
       os << error.getExceptionName()<<"Error [#" << error.code << "]:  "
 	 << error.message << endl;
-      
-#ifdef SOT_EXCEPTION_PASSING_PARAM 
+
+#ifdef SOT_EXCEPTION_PASSING_PARAM
       if( error.p.set )
 	os << "Thrown from "<<error.p.file << ": "<<error.p.function
 	   <<" (#"<<error.p.line << ")"<<endl;
-#endif //#ifdef SOT_EXCEPTION_PASSING_PARAM 
+#endif //#ifdef SOT_EXCEPTION_PASSING_PARAM
       return os;
     }
   } // namespace sot
