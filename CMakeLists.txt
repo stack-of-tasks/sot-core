@@ -18,15 +18,12 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 INCLUDE(cmake/base.cmake)
 INCLUDE(cmake/boost.cmake)
 INCLUDE(cmake/eigen.cmake)
-INCLUDE(cmake/lapack.cmake)
-INCLUDE(cmake/cpack.cmake)
 INCLUDE(cmake/python.cmake)
 
+SET(PROJECT_NAMESPACE stack-of-tasks)
 SET(PROJECT_NAME sot-core)
 SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
-SET(PROJECT_URL "http://github.com/jrl-umi3218/sot-core")
-
-SET(CUSTOM_HEADER_DIR "sot/core")
+SET(PROJECT_URL "http://github.com/${PROJECT_NAMESPACE}/${PROJECT_NAME}")
 
 SET(DOXYGEN_USE_MATHJAX YES)
 
@@ -68,4 +65,3 @@ ADD_SUBDIRECTORY(unitTesting)
 ADD_SUBDIRECTORY(doc)
 
 SETUP_PROJECT_FINALIZE()
-SETUP_PROJECT_CPACK()
