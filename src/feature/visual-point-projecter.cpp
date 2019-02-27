@@ -28,15 +28,15 @@ namespace dynamicgraph
 	,CONSTRUCT_SIGNAL_IN(point3D,dynamicgraph::Vector)
 	,CONSTRUCT_SIGNAL_IN(transfo,MatrixHomogeneous)
 
-	,CONSTRUCT_SIGNAL_OUT(point3Dgaze,dynamicgraph::Vector,point3DSIN<<transfoSIN )
-	,CONSTRUCT_SIGNAL_OUT(depth,double,point3DgazeSOUT )
-	,CONSTRUCT_SIGNAL_OUT(point2D,dynamicgraph::Vector,point3DgazeSOUT<<depthSOUT )
+	,CONSTRUCT_SIGNAL_OUT(point3Dgaze,dynamicgraph::Vector,m_point3DSIN<<m_transfoSIN )
+	,CONSTRUCT_SIGNAL_OUT(depth,double,m_point3DgazeSOUT )
+	,CONSTRUCT_SIGNAL_OUT(point2D,dynamicgraph::Vector,m_point3DgazeSOUT<<m_depthSOUT )
       {
-	Entity::signalRegistration( point3DSIN );
-	Entity::signalRegistration( transfoSIN );
-	Entity::signalRegistration( point3DgazeSOUT );
-	Entity::signalRegistration( point2DSOUT );
-	Entity::signalRegistration( depthSOUT );
+	Entity::signalRegistration( m_point3DSIN );
+	Entity::signalRegistration( m_transfoSIN );
+	Entity::signalRegistration( m_point3DgazeSOUT );
+	Entity::signalRegistration( m_point2DSOUT );
+	Entity::signalRegistration( m_depthSOUT );
       }
 
 
@@ -47,8 +47,8 @@ namespace dynamicgraph
       dynamicgraph::Vector& VisualPointProjecter::
       point3DgazeSOUT_function( dynamicgraph::Vector &p3g, int iter )
       {
-	const dynamicgraph::Vector & p3 = point3DSIN(iter);
-	const MatrixHomogeneous & M = transfoSIN(iter);
+	const dynamicgraph::Vector & p3 = m_point3DSIN(iter);
+	const MatrixHomogeneous & M = m_transfoSIN(iter);
 	MatrixHomogeneous Mi; Mi = M.inverse(Eigen::Affine);
 	p3g = Mi.matrix()*p3;
 	return p3g;
@@ -59,8 +59,8 @@ namespace dynamicgraph
       {
 	sotDEBUGIN(15);
 
-	const dynamicgraph::Vector & p3 = point3DgazeSOUT(iter);
-	const double &z =depthSOUT(iter);
+	const dynamicgraph::Vector & p3 = m_point3DgazeSOUT(iter);
+	const double &z =m_depthSOUT(iter);
 	assert(z>0);
 
 	p2.resize(2);
@@ -74,7 +74,7 @@ namespace dynamicgraph
       double& VisualPointProjecter::
       depthSOUT_function( double & z, int iter )
       {
-	const dynamicgraph::Vector & p3 = point3DgazeSOUT(iter);
+	const dynamicgraph::Vector & p3 = m_point3DgazeSOUT(iter);
 	assert(p3.size() == 3);
         z=p3(2);
 	return z;
