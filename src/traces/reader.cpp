@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /* --------------------------------------------------------------------- */
@@ -60,7 +49,7 @@ sotReader::sotReader( const std::string n )
   vectorSOUT.setNeedUpdateFromAllChildren(true);
 
   initCommands();
-}  
+}
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -74,17 +63,17 @@ load( const string& filename )
 
   std::ifstream datafile( filename.c_str() );
   const unsigned int SIZE=1024;
-  char buffer[SIZE]; 
+  char buffer[SIZE];
   std::vector<double> newline;
   while( datafile.good() )
     {
       datafile.getline( buffer,SIZE );
-      const unsigned int gcount = (unsigned int)(datafile.gcount()); 
+      const unsigned int gcount = (unsigned int)(datafile.gcount());
       if( gcount>=SIZE ) { /* TODO read error, line to long. */ }
       std::istringstream iss(buffer);
       newline.clear();
       sotDEBUG(25) << "Get line = '" << buffer << "'" << std::endl;
-      while( 1 ) 
+      while( 1 )
 	{
 	  double x; iss>>x;
 	  if(! iss.fail() )newline.push_back(x); else break;
@@ -119,9 +108,9 @@ getNextData( dynamicgraph::Vector& res, const unsigned int time )
 {
   sotDEBUGIN(15);
 
-  if(! iteratorSet ) 
+  if(! iteratorSet )
     {
-      sotDEBUG(15) << "Start the list" << std::endl; 
+      sotDEBUG(15) << "Start the list" << std::endl;
       currentData = dataSet.begin(); iteratorSet=true;
     }
   else if( currentData!=dataSet.end() ){ ++currentData;  }
@@ -131,7 +120,7 @@ getNextData( dynamicgraph::Vector& res, const unsigned int time )
       sotDEBUGOUT(15);
       return res;
     }
-   
+
   const Flags& selection = selectionSIN(time);
   const std::vector<double> & curr =  *currentData;
 
@@ -140,9 +129,9 @@ getNextData( dynamicgraph::Vector& res, const unsigned int time )
 
   res.resize(dim);
   int cursor=0;
-  for(unsigned int i=0;i<curr.size();++i ) 
+  for(unsigned int i=0;i<curr.size();++i )
     if( selection(i) ) res(cursor++)=curr[i];
-  
+
   sotDEBUGOUT(15);
   return res;
 }

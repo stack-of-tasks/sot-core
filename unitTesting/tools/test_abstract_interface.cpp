@@ -4,17 +4,6 @@
  *
  * CNRS
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* -------------------------------------------------------------------------- */
 /* --- INCLUDES ------------------------------------------------------------- */
@@ -31,7 +20,7 @@
 #include <sot/core/debug.hh>
 
 using namespace std;
-using namespace dynamicgraph::sot; 
+using namespace dynamicgraph::sot;
 namespace po = boost::program_options;
 
 class PluginLoader {
@@ -51,11 +40,11 @@ public:
       ("help", "produce help message")
       ("input-file", po::value<string>(), "library to load")
       ;
-    
+
 
     po::store(po::parse_command_line(argc, argv, desc), vm_);
-    po::notify(vm_);    
-    
+    po::notify(vm_);
+
     if (vm_.count("help")) {
       cout << desc << "\n";
       return -1;
@@ -70,7 +59,7 @@ public:
     Initialization();
     return 0;
   }
-  
+
   void Initialization()
   {
 
@@ -81,20 +70,20 @@ public:
       std::cerr << "Cannot load library: " << dlerror() << '\n';
       return ;
     }
-    
+
     // reset errors
     dlerror();
-    
+
     // Load the symbols.
     createPlugin_t * createPlugin =
-      (createPlugin_t *) dlsym(SotRobotControllerLibrary, 
+      (createPlugin_t *) dlsym(SotRobotControllerLibrary,
 			       "createPlugin");
     const char* dlsym_error = dlerror();
     if (dlsym_error) {
       std::cerr << "Cannot load symbol create: " << dlsym_error << '\n';
       return ;
     }
-    
+
     // Create robot-controller
     sotController_ = createPlugin();
     //    std::string s="libsot-hrp2-14-controller.so";

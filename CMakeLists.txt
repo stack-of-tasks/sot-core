@@ -18,15 +18,12 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 INCLUDE(cmake/base.cmake)
 INCLUDE(cmake/boost.cmake)
 INCLUDE(cmake/eigen.cmake)
-INCLUDE(cmake/lapack.cmake)
-INCLUDE(cmake/cpack.cmake)
 INCLUDE(cmake/python.cmake)
 
+SET(PROJECT_NAMESPACE stack-of-tasks)
 SET(PROJECT_NAME sot-core)
 SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
-SET(PROJECT_URL "http://github.com/jrl-umi3218/sot-core")
-
-SET(CUSTOM_HEADER_DIR "sot/core")
+SET(PROJECT_URL "http://github.com/${PROJECT_NAMESPACE}/${PROJECT_NAME}")
 
 SET(DOXYGEN_USE_MATHJAX YES)
 
@@ -56,9 +53,11 @@ IF(BUILD_PYTHON_INTERFACE)
   STRING(REGEX REPLACE "-" "_" PY_NAME ${PROJECT_NAME})
   SET(${PY_NAME}_INSTALL_DIR ${PYTHON_SITELIB}/${PY_NAME})
   INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIRS})
+  SET(PYTHON_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/${PYTHON_SITELIB}/dynamic_graph/sot/core)
   ADD_REQUIRED_DEPENDENCY("dynamic-graph-python >= 3.0.0")
+
 ENDIF(BUILD_PYTHON_INTERFACE)
-ADD_COMPILE_DEPENDENCY ("pinocchio")
+ADD_COMPILE_DEPENDENCY ("pinocchio >= 2.0.0")
 
 SEARCH_FOR_BOOST()
 
@@ -67,5 +66,16 @@ ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(unitTesting)
 ADD_SUBDIRECTORY(doc)
 
+# **********************************
+# Robot_utils_sot_py PYTHON module *
+# **********************************
+IF(BUILD_PYTHON_INTERFACE)
+  PYTHON_ADD_MODULE(robot_utils_sot_py src/tools/robot-utils-py.cpp)
+  PKG_CONFIG_USE_DEPENDENCY(robot_utils_sot_py dynamic-graph)
+  TARGET_LINK_LIBRARIES(robot_utils_sot_py ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${LIBRARY_NAME})
+  TARGET_LINK_BOOST_PYTHON(robot_utils_sot_py)
+  INSTALL(TARGETS robot_utils_sot_py DESTINATION ${PYTHON_INSTALL_DIR})
+
+ENDIF(BUILD_PYTHON_INTERFACE)
+
 SETUP_PROJECT_FINALIZE()
-SETUP_PROJECT_CPACK()

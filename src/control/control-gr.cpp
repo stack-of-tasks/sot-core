@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /* SOT */
@@ -85,7 +74,7 @@ display( std::ostream& os ) const
 {
   os << "ControlGR "<<getName();
   try{
-    os <<"control = "<<controlSOUT; 
+    os <<"control = "<<controlSOUT;
   }
   catch (ExceptionSignal e) {}
    os <<" ("<<TimeStep<<") ";
@@ -103,24 +92,24 @@ double& ControlGR::setsize(int dimension)
 }
 
 dynamicgraph::Vector& ControlGR::
-computeControl( dynamicgraph::Vector &tau, int t ) 
+computeControl( dynamicgraph::Vector &tau, int t )
 {
-  sotDEBUGIN(15);	
+  sotDEBUGIN(15);
 
-  const dynamicgraph::Matrix& matrixA = matrixASIN(t);	  
+  const dynamicgraph::Matrix& matrixA = matrixASIN(t);
   const dynamicgraph::Vector& acceleration = accelerationSIN(t);
-  const dynamicgraph::Vector& gravity = gravitySIN(t);		  
-  dynamicgraph::Vector::Index size = acceleration.size();		
-  tau.resize(size); 
+  const dynamicgraph::Vector& gravity = gravitySIN(t);
+  dynamicgraph::Vector::Index size = acceleration.size();
+  tau.resize(size);
   //tau*=0;
  /* for(unsigned i = 0u; i < size; ++i)
     {
-	tp = gravity(i); 
+	tp = gravity(i);
 	tau(i) = acceleration;
 	tau(i) *= matrixA;
 	tau(i) += tp;
     }*/
-  
+
 tau = matrixA*acceleration;
 sotDEBUG(15) << "torque = A*ddot(q)= " << matrixA*acceleration << std::endl;
 tau += gravity;
@@ -140,6 +129,3 @@ tau(17)=0;*/
   return tau;
 
 }
-
-
-

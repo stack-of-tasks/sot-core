@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <sot/core/contiifstream.hh>
@@ -40,17 +29,17 @@ loop( void )
 {
   sotDEBUGIN(25);
   bool res=false;
-  
+
   std::fstream file( filename.c_str() );
 
   file.seekg(cursor);
   file.sync();
-      
+
   while(1)
     {
       file.get(buffer,BUFFER_SIZE);
-      if( file.gcount() ) 
-	{ 
+      if( file.gcount() )
+	{
 	  res=true;
 	  std::string line(buffer);
 	  if(! first) reader.push_back(line);
@@ -66,15 +55,10 @@ loop( void )
   return res;
 }
 
-std::string 
-Contiifstream::next( void ) 
+std::string
+Contiifstream::next( void )
 {
   std::string res = *reader.begin();
   reader.pop_front();
   return res;
 }
-
-
-
-
-

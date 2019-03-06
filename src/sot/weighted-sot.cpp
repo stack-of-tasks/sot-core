@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /* --------------------------------------------------------------------- */
@@ -329,13 +318,13 @@ computeWeightedControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	Jac = Jff*K;
 	Jac+=Jact;
 	/***/sotCOUNTER(2,3); // compute JK
-	
+
 	/* --- COMPUTE Jt --- */
 	if( mJ==P.cols() ) Jt = Jac*P;
 	else { Jt = Jac; }
 	/***/sotCOUNTER(3,4); // compute Jt
-	
-	/* --- COMPUTE S --- */	
+
+	/* --- COMPUTE S --- */
 	dynamicgraph::Matrix Kact(mJ,mJ); Kact=S5i;
 	Task* taskSpec = dynamic_cast<Task*>( &task );
 	if( NULL!=taskSpec )
@@ -359,10 +348,10 @@ computeWeightedControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 			  }
 		      }
 		    if(sotDEBUG_ENABLE(25)) sotDEBUGFLOW.outputbuffer << "]" << endl ;
-		
+
 		    const unsigned int unactiveSize = unactiveList.size();
 		    /***/sotCOUNTER(4a,4b); // compute Kh
-	
+
 		    /* Q = H*Ai*H, H being the unactivation matrix. */
 		    dynamicgraph::Matrix Q(unactiveSize,unactiveSize);
 		    dynamicgraph::Matrix Sir(unactiveSize,mJ);
@@ -370,7 +359,7 @@ computeWeightedControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 		     {
 		       for( unsigned int j=0;j<unactiveSize;++j )
 			 Q(i,j)=Ai(unactiveList[i],unactiveList[j]);
-		
+
 		       for( unsigned int j=0;j<mJ;++j )
 			 Sir(i,j) = S5i(unactiveList[i],j);
 		     }
