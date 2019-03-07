@@ -508,7 +508,7 @@ saturateBounds (double& val, const double& lower, const double& upper)
   for (int i = 0; i < val.size(); ++i) {                                       \
     double old = val(i);                                                       \
     if (saturateBounds (val(i), lower(i), upper(i)))                           \
-      dgRTLOG () << "Robot "what" bound violation at DoF " << i <<             \
+      dgRTLOG () << "Robot " what " bound violation at DoF " << i <<           \
       ": requested " << old << " but set " << val(i) << '\n';                  \
   }
 
