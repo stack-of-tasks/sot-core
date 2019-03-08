@@ -77,8 +77,8 @@ namespace dynamicgraph
 					   const dg::Vector &lf,
 					   const dg::Vector &uf)
     {
-      m_force_id_to_limits[(Index)force_id] =
-	ForceLimits(lf, uf); // Potential memory leak
+      m_force_id_to_limits[(Index)force_id].lower = lf;
+      m_force_id_to_limits[(Index)force_id].upper = uf;
     }
 
     Index ForceUtil::get_id_from_name(const std::string &name)
