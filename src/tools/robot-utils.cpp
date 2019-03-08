@@ -43,6 +43,14 @@ namespace dynamicgraph
       os << "Right Foot Frame Name:" << m_Right_Foot_Frame_Name << std::endl;
     }
 
+    /******************** HandUtil ***************************/
+
+    void HandUtil::display(std::ostream &os) const
+    {
+      os << "Left Hand Frame Name:" << m_Left_Hand_Frame_Name << std::endl;
+      os << "Right Hand Frame Name:" << m_Right_Hand_Frame_Name << std::endl;
+    }
+
     /******************** ForceUtil ***************************/
 
     void ForceUtil::set_name_to_force_id(const std::string &name,
@@ -65,7 +73,7 @@ namespace dynamicgraph
                                           const dg::Vector &uf)
     {
       m_force_id_to_limits[(Index)force_id] =
-          ForceLimits(lf, uf); // Potential memory leak
+        ForceLimits(lf, uf); // Potential memory leak
     }
 
     Index ForceUtil::get_id_from_name(const std::string &name)
@@ -395,6 +403,7 @@ namespace dynamicgraph
     {
       m_force_util.display(os);
       m_foot_util.display(os);
+      m_hand_util.display(os);
       os << "Nb of joints: " << m_nbJoints << std::endl;
       os << "Urdf file name: " << m_urdf_filename << std::endl;
 
