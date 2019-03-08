@@ -33,13 +33,13 @@ namespace dynamicgraph {
       double lower;
 
       JointLimits():
-	upper(0.0),
-	lower(0.0)
-	  {}
+        upper(0.0),
+        lower(0.0)
+          {}
 
       JointLimits(double l, double u):
-	upper(u),
-	lower(l)
+        upper(u),
+        lower(l)
         {}
     };
 
@@ -51,13 +51,13 @@ namespace dynamicgraph {
       Eigen::VectorXd lower;
 
       ForceLimits():
-	upper(Vector6d::Zero()),
-	lower(Vector6d::Zero())
-	  {}
+        upper(Vector6d::Zero()),
+        lower(Vector6d::Zero())
+          {}
 
       ForceLimits(const Eigen::VectorXd& l, const Eigen::VectorXd& u):
-	upper(u),
-	lower(l)
+        upper(u),
+        lower(l)
         {}
 
       void display(std::ostream &os) const;
@@ -71,15 +71,15 @@ namespace dynamicgraph {
       std::map<Index,std::string> m_force_id_to_name;
 
       Index m_Force_Id_Left_Hand, m_Force_Id_Right_Hand,
-	m_Force_Id_Left_Foot, m_Force_Id_Right_Foot;
+        m_Force_Id_Left_Foot, m_Force_Id_Right_Foot;
 
       void set_name_to_force_id(const std::string & name,
-				const Index &force_id);
+                                const Index &force_id);
 
 
       void set_force_id_to_limits(const Index &force_id,
-				  const dg::Vector &lf,
-				  const dg::Vector &uf);
+                                  const dg::Vector &lf,
+                                  const dg::Vector &uf);
 
       void create_force_id_to_name_map();
 
@@ -94,42 +94,42 @@ namespace dynamicgraph {
 
       Index get_force_id_left_hand()
       {
-	return m_Force_Id_Left_Hand;
+        return m_Force_Id_Left_Hand;
       }
 
       void set_force_id_left_hand(Index anId)
       {
-	m_Force_Id_Left_Hand = anId;
+        m_Force_Id_Left_Hand = anId;
       }
 
       Index get_force_id_right_hand()
       {
-	return m_Force_Id_Right_Hand;
+        return m_Force_Id_Right_Hand;
       }
 
       void set_force_id_right_hand( Index anId)
       {
-	m_Force_Id_Right_Hand = anId;
+        m_Force_Id_Right_Hand = anId;
       }
 
       Index get_force_id_left_foot()
       {
-	return m_Force_Id_Left_Foot;
+        return m_Force_Id_Left_Foot;
       }
 
       void set_force_id_left_foot(Index anId)
       {
-	m_Force_Id_Left_Foot = anId;
+        m_Force_Id_Left_Foot = anId;
       }
 
       Index  get_force_id_right_foot()
       {
-	return m_Force_Id_Right_Foot;
+        return m_Force_Id_Right_Foot;
       }
 
       void set_force_id_right_foot( Index anId)
       {
-	m_Force_Id_Right_Foot = anId;
+        m_Force_Id_Right_Foot = anId;
       }
 
       void display(std::ostream & out) const;
@@ -147,6 +147,13 @@ namespace dynamicgraph {
       void display(std::ostream & os) const;
     };
 
+    struct SOT_CORE_EXPORT HandUtil
+    {
+      std::string m_Left_Hand_Frame_Name;
+      std::string m_Right_Hand_Frame_Name;
+      void display(std::ostream & os) const;
+    };
+
     struct SOT_CORE_EXPORT RobotUtil
     {
     public:
@@ -159,6 +166,9 @@ namespace dynamicgraph {
       /// Foot information
       FootUtil m_foot_util;
 
+      /// Hand information
+      HandUtil m_hand_util;
+      
       /// Map from the urdf index to the SoT index.
       std::vector<Index> m_urdf_to_sot;
 
@@ -267,11 +277,11 @@ namespace dynamicgraph {
     RobotUtilShrPtr getRobotUtil(std::string &robotName);
     bool isNameInRobotUtil(std::string &robotName);
     RobotUtilShrPtr createRobotUtil(std::string &robotName);
-
+    
     bool base_se3_to_sot(ConstRefVector pos,
 			 ConstRefMatrix R,
 			 RefVector q_sot);
-
+    
   }      // namespace sot
 }        // namespace dynamicgraph
 
