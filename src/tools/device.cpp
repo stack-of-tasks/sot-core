@@ -4,17 +4,6 @@
  *
  * CNRS
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /* --------------------------------------------------------------------- */
@@ -52,7 +41,7 @@ void Device::integrateRollPitchYaw(Vector& state, const Vector& control,
   using Eigen::Vector3d;
   using Eigen::QuaternionMapd;
 
-  typedef se3::SpecialEuclideanOperation<3> SE3;
+  typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3;
   Eigen::Matrix<double, 7, 1> qin, qout;
   qin.head<3>() = state.head<3>();
 
@@ -90,10 +79,10 @@ Device( const std::string& n )
   ,state_(6)
   ,sanityCheck_(true)
   ,controlInputType_(CONTROL_INPUT_ONE_INTEGRATION)
-  ,controlSIN( NULL,"Device("+n+")::input(double)::control" )   
+  ,controlSIN( NULL,"Device("+n+")::input(double)::control" )
   ,attitudeSIN(NULL,"Device("+ n +")::input(vector3)::attitudeIN")
   ,zmpSIN(NULL,"Device("+n+")::input(vector3)::zmp")
-  ,stateSOUT( "Device("+n+")::output(vector)::state" )   
+  ,stateSOUT( "Device("+n+")::output(vector)::state" )
   //,attitudeSIN(NULL,"Device::input(matrixRot)::attitudeIN")
   ,velocitySOUT( "Device("+n+")::output(vector)::velocity"  )
   ,attitudeSOUT( "Device("+n+")::output(matrixRot)::attitude" )
@@ -209,6 +198,10 @@ Device( const std::string& n )
                command::makeCommandVoid2(*this,&Device::setTorqueBounds,
                  command::docCommandVoid2 ("Set robot torque bounds", "vector: lower bounds", "vector: upper bounds")
                  ));
+
+    addCommand("getTimeStep",
+	       command::makeDirectGetter (*this, &this->timestep_,
+		command::docDirectGetter ("Time step", "double")));
 
     // Handle commands and signals called in a synchronous way.
     periodicCallBefore_.addSpecificCommands(*this, commandMap, "before.");

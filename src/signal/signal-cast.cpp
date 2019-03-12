@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <sot/core/matrix-geometry.hh>
@@ -82,8 +71,8 @@ namespace dynamicgraph
     FeatureAbstract* ref;
     std::string name; iss >> name;
     if( name.length())
-      ref = &dynamicgraph::sot::PoolStorage::getInstance()->getFeature(name); 
-    else ref = 0; 
+      ref = &dynamicgraph::sot::PoolStorage::getInstance()->getFeature(name);
+    else ref = 0;
     return ref;
   }
 
@@ -126,18 +115,18 @@ namespace dynamicgraph
     cast( std::istringstream& iss )
   {
     dgsot::Trajectory aTraj;
-    
+
     // Read joint names.
     std::vector<std::string>::size_type nb_joints;
     iss >> nb_joints; aTraj.joint_names_.resize(nb_joints);
-    for(std::vector<std::string>::size_type idJoints=0; 
+    for(std::vector<std::string>::size_type idJoints=0;
         idJoints < nb_joints; idJoints++)
       iss >> aTraj.joint_names_[idJoints];
-        
+
     // Read nb of points
-    std::vector<JointTrajectoryPoint>::size_type nb_points; 
+    std::vector<JointTrajectoryPoint>::size_type nb_points;
     iss >> nb_points;
-    
+
     // Read points
     for(std::vector<JointTrajectoryPoint>::size_type idPoint=0;
         idPoint < nb_points; idPoint++)
@@ -155,15 +144,15 @@ namespace dynamicgraph
   {
     // Display joint names.
     os << "{ Number of joints: " << aTraj.joint_names_.size() << std::endl;
-    for(std::vector<std::string>::size_type idJoints=0; 
+    for(std::vector<std::string>::size_type idJoints=0;
         idJoints < aTraj.joint_names_.size(); idJoints++)
       {
-        os << idJoints << " - "  
-           << aTraj.joint_names_[idJoints] 
+        os << idJoints << " - "
+           << aTraj.joint_names_[idJoints]
            << std::endl;
       }
     // Display points
-    os << "Number of points: " 
+    os << "Number of points: "
        << aTraj.points_.size()
        << std::endl;
     for(std::vector<JointTrajectoryPoint>::size_type idPoint=0;
@@ -196,7 +185,7 @@ namespace dynamicgraph
               { os <<  "(" << idPos << " : " << aTraj.points_[idPoint].accelerations_[idPos] << ") " ;  }
             os << "] ";
           }
-        
+
         // TODO: read velocities and accelerations.
       }
     os << "}" << std::endl;

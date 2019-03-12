@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /* --------------------------------------------------------------------- */
@@ -77,7 +66,7 @@ void FeatureVisualPoint::removeDependenciesFromReference( void )
 /* --------------------------------------------------------------------- */
 
 unsigned int& FeatureVisualPoint::
-getDimension( unsigned int & dim, int time ) 
+getDimension( unsigned int & dim, int time )
 {
   sotDEBUG(25)<<"# In {"<<endl;
 
@@ -93,7 +82,7 @@ getDimension( unsigned int & dim, int time )
 
 
 /** Compute the interaction matrix from a subset of
- * the possible features. 
+ * the possible features.
  */
 Matrix& FeatureVisualPoint::
 computeJacobian( Matrix& J,int time )
@@ -143,12 +132,12 @@ computeJacobian( Matrix& J,int time )
     L(cursorL,3) = 1+y*y ;
     L(cursorL,4) = -x*y ;
     L(cursorL,5) = -x ;
-    
+
     cursorL++;
   }
   sotDEBUG(15) << "L:"<<endl<<L<<endl;
   sotDEBUG(15) << "Jq:"<<endl<<articularJacobianSIN(time)<<endl;
-  
+
   J = L*articularJacobianSIN(time);
 
   sotDEBUG(15)<<"# Out }"<<endl;
@@ -190,9 +179,9 @@ display( std::ostream& os ) const
     if( fl(0) ) os << " x=" << xy(0) ;
     if( fl(1) ) os << " y=" << xy(1) ;
   }  catch(ExceptionAbstract e){ os<< " XY or select not set."; }
-  
+
   try {
-    const double& z = ZSIN.accessCopy (); 
+    const double& z = ZSIN.accessCopy ();
     os<<" Z=" << z << " ";
   }catch(ExceptionAbstract e){ os<< " Z not set."; }
 }

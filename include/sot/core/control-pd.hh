@@ -76,7 +76,7 @@ namespace dynamicgraph {
     public: /* --- ENTITY INHERITANCE --- */
       static const std::string CLASS_NAME;
       virtual void display( std::ostream& os ) const; 
-      virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+      virtual const std::string& getClassName( void ) const {return CLASS_NAME;}
 
 
     protected: 
@@ -95,11 +95,17 @@ namespace dynamicgraph {
       SignalPtr<dg::Vector,int> velocitySIN;
       SignalPtr<dg::Vector,int> desiredvelocitySIN;
       SignalTimeDependent<dg::Vector,int> controlSOUT;
+      SignalTimeDependent<dg::Vector,int> positionErrorSOUT;
+      SignalTimeDependent<dg::Vector,int> velocityErrorSOUT;
 
     protected:
 
       double& setsize(int dimension);
       dg::Vector& computeControl( dg::Vector& tau,int t );
+      dg::Vector position_error;
+      dg::Vector velocity_error;
+      dg::Vector& getPositionError( dg::Vector& position_error,int t );
+      dg::Vector& getVelocityError( dg::Vector& velocity_error,int t );
 
     };
 

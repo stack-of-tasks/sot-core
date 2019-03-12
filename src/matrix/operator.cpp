@@ -7,17 +7,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <boost/function.hpp>
@@ -427,7 +416,7 @@ namespace dynamicgraph {
 	MatrixRotation R = (Eigen::AngleAxisd(r(2),Eigen::Vector3d::UnitZ())*
 			    Eigen::AngleAxisd(r(1),Eigen::Vector3d::UnitY())*
 			    Eigen::AngleAxisd(r(0),Eigen::Vector3d::UnitX())).toRotationMatrix();
-	
+
 	dg::Vector t(3);
 	for( unsigned int i=0;i<3;++i ) t(i)=vect(i);
 
@@ -641,11 +630,11 @@ namespace dynamicgraph {
 		const dynamicgraph::Vector& e,
 		dynamicgraph::Vector& res ) const
     { res=f.matrix()*e; }
-    
+
     template<> void Multiplier_FxE__E<double,dynamicgraph::Vector>::
     operator()( const double& x,const dynamicgraph::Vector& v,dynamicgraph::Vector& res ) const
     { res=v; res*=x; }
-    
+
     typedef Multiplier_FxE__E<double,dynamicgraph::Vector> Multiplier_double_vector;
     typedef Multiplier_FxE__E<dynamicgraph::Matrix,dynamicgraph::Vector> Multiplier_matrix_vector;
     typedef Multiplier_FxE__E<MatrixHomogeneous,dynamicgraph::Vector> Multiplier_matrixHomo_vector;
@@ -1221,4 +1210,3 @@ namespace dynamicgraph {
 //  ,"VirtualSpring<pos,ref> compute the virtual force of a spring attache "
 //  "to the reference line <ref>. The eq is: k.(<ref|pos>/<ref|ref>.ref-pos)"
 //  "Params:\n  - spring: get/set the spring factor.")
-

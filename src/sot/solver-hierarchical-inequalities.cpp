@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /* --------------------------------------------------------------------- */
@@ -308,7 +297,7 @@ computeDifferentialCondition( void )
 void SolverHierarchicalInequalities::
 printDifferentialCondition( std::ostream & os ) const
 {
-  if(! warmStartReady ) return; 
+  if(! warmStartReady ) return;
 
   os << "To activate = { ";
   for( std::vector<ConstraintRef>::const_iterator iterCH = toActivate.begin();
@@ -503,7 +492,7 @@ printDebug( void )
 void SolverHierarchicalInequalities::
 warmStart( void )
 {
-  if(! warmStartReady ) return; 
+  if(! warmStartReady ) return;
   ConstraintRefList toInactivateCH;
   for( std::vector<ConstraintRef>::const_iterator iter=toInactivate.begin();
        iter!=toInactivate.end();++iter )

@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef __SOT_MAILBOX_T_CPP
@@ -68,12 +57,12 @@ namespace dynamicgraph {
     hasBeenUpdated( void )
     {
       boost::timed_mutex::scoped_try_lock lockMain( this->mainObjectMutex );
-  
+
       if( lockMain.owns_lock() )
 	{
 	  return update;
 	}
-      else 
+      else
 	{
 	  return false;
 	}
@@ -86,12 +75,12 @@ namespace dynamicgraph {
     get( typename Mailbox<Object>::sotTimestampedObject& res,const int& /*dummy*/ )
     {
       boost::timed_mutex::scoped_try_lock lockMain( this->mainObjectMutex );
-  
+
       if( lockMain.owns_lock() )
 	{
 	  res.timestamp.tv_sec=this->mainTimeStamp.tv_sec;
 	  res.timestamp.tv_usec=this->mainTimeStamp.tv_usec;
-      
+
 	  update = false;
 	  res.obj = this->mainObject;
 	}
@@ -116,7 +105,7 @@ namespace dynamicgraph {
     template< class Object >
     Object& Mailbox<Object>::
     getObject( Object& res,const int& time )
-    { 
+    {
       const sotTimestampedObject & data = SOUT(time);
       res = data.obj; return res;
     }
@@ -124,10 +113,10 @@ namespace dynamicgraph {
     template< class Object >
     timeval& Mailbox<Object>::
     getTimestamp( struct timeval& res,const int& time )
-    { 
+    {
       const sotTimestampedObject & data = SOUT(time);
-      res.tv_sec = data.timestamp.tv_sec ; 
-      res.tv_usec = data.timestamp.tv_usec ; 
+      res.tv_sec = data.timestamp.tv_sec ;
+      res.tv_usec = data.timestamp.tv_usec ;
       return res;
     }
 
@@ -150,4 +139,3 @@ namespace dynamicgraph {
 
 
 #endif // #ifdef __SOT_MAILBOX_T_CPP
-

@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef __SOT_FEATURE_POINT6D_HH__
@@ -126,7 +115,7 @@ class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
     t_, tref_;
   VectorUTheta  error_th_;
   MatrixRotation R_, Rref_, Rt_, Rreft_;
-  dg::Matrix P_, Pinv_;
+  Eigen::Matrix3d P_, Pinv_;
   double accuracy_;
   void inverseJacobianRodrigues ();
 } ;

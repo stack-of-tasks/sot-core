@@ -1,18 +1,5 @@
 // Copyright 2010, François Bleibel, Thomas Moulard, Olivier Stasse,
 // JRL, CNRS/AIST.
-//
-// This file is part of dynamic-graph.
-// dynamic-graph is free software: you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public License
-// as published by the Free Software Foundation, either version 3 of
-// the License, or (at your option) any later version.
-//
-// dynamic-graph is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// General Lesser Public License for more details.  You should have
-// received a copy of the GNU Lesser General Public License along with
-// dynamic-graph. If not, see <http://www.gnu.org/licenses/>.
 
 #include <string>
 #include <boost/assign/list_of.hpp>
@@ -148,7 +135,7 @@ namespace dynamicgraph {
 	activeDofs_ = std::vector <bool> (dim, false);
 	nbActiveDofs_ = 0;
       }
-      
+
       // Check that selected dof id is valid
       if ((dofId < 6) || (dofId >= dim))
 	{
@@ -189,4 +176,3 @@ namespace dynamicgraph {
     DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePosture, "FeaturePosture");
   } // namespace sot
 } // namespace dynamicgraph
-

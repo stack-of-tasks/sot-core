@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #define ENABLE_RT_LOG
@@ -47,7 +36,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(GripperControlPlugin,"GripperControl");
 					     sotName##FullSizeSIN,dynamicgraph::Vector, \
 					     selectionSIN,Flags ),	\
 			  "GripperControl("+name+")::input(vector)::"	\
-			  +#sotName+"ReducedOUT") 
+			  +#sotName+"ReducedOUT")
 
 
 
@@ -71,7 +60,7 @@ GripperControlPlugin( const std::string & name )
   ,torqueSIN(NULL,"GripperControl("+name+")::input(vector)::torque")
   ,torqueLimitSIN(NULL,"GripperControl("+name+")::input(vector)::torqueLimit")
   ,selectionSIN(NULL,"GripperControl("+name+")::input(vector)::selec")
-   
+
   ,SOT_FULL_TO_REDUCED( position )
   ,SOT_FULL_TO_REDUCED( torque )
   ,SOT_FULL_TO_REDUCED( torqueLimit )
@@ -89,8 +78,8 @@ GripperControlPlugin( const std::string & name )
   torqueLimitSIN.plug( &torqueLimitReduceSOUT );
 
   signalRegistration( positionSIN << positionDesSIN
-		      << torqueSIN  << torqueLimitSIN  << selectionSIN 
-		      << desiredPositionSOUT 
+		      << torqueSIN  << torqueLimitSIN  << selectionSIN
+		      << desiredPositionSOUT
 		      << positionFullSizeSIN
 		      << torqueFullSizeSIN
 		      << torqueLimitFullSizeSIN);
@@ -137,12 +126,12 @@ computeIncrement( const dynamicgraph::Vector& torques,
     // apply a reduction factor if the torque limits are exceeded
     // and the velocity goes in the same way
     if( (torques(i)>torqueLimits(i))&&(currentNormVel(i)>0) )
-      { factor(i)*=offset; } 
+      { factor(i)*=offset; }
     else if( (torques(i)< -torqueLimits(i))&&(currentNormVel(i)<0) )
       { factor(i)*=offset; }
     // otherwise, release smoothly the reduction if possible/needed
     else { factor(i)/=offset; }
-    
+
     // ensure factor is in )0,1(
     factor(i) = std::min(1., std::max(factor(i),0.));
   }
@@ -162,7 +151,7 @@ computeDesiredPosition( const dynamicgraph::Vector& currentPos,
   // compute the desired velocity
   dynamicgraph::Vector velocity = (desiredPos - currentPos)* (1. / DT);
 
-  computeIncrement(torques, torqueLimits, velocity);  
+  computeIncrement(torques, torqueLimits, velocity);
 
   sotDEBUG(25) << " velocity " << velocity << std::endl;
   sotDEBUG(25) << " factor " << factor << std::endl;
@@ -215,5 +204,3 @@ void GripperControlPlugin::setOffset(const double & value)
   if( (value>0)&&(value<1) ) offset = value;
   else throw std::invalid_argument ("The offset should be in )0, 1(.");
 }
-
-

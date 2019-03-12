@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef __SOT_MAILBOX_HH
@@ -48,7 +37,7 @@ template< class Object >
 class Mailbox
 : public dg::Entity
 {
- public: 
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
 
@@ -60,10 +49,10 @@ class Mailbox
   };
 
 public:
-  
+
   Mailbox( const std::string& name );
   ~Mailbox( void );
-  
+
   void post( const Object& obj );
   sotTimestampedObject& get( sotTimestampedObject& res,const int& dummy );
 
@@ -71,7 +60,7 @@ public:
   struct timeval& getTimestamp( struct timeval& res,const int& time );
 
   bool hasBeenUpdated( void );
-  
+
 protected:
 
   boost::timed_mutex mainObjectMutex;
@@ -92,8 +81,3 @@ protected:
 } /* namespace sot */} /* namespace dynamicgraph */
 
 #endif // #ifndef  __SOT_MAILBOX_HH
-
-
-
-
-

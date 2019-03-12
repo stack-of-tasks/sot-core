@@ -1,17 +1,4 @@
 # Copyright 2010, François Bleibel, Olivier Stasse, JRL, CNRS/AIST
-#
-# This file is part of sot-core.
-# sot-core is free software: you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License
-# as published by the Free Software Foundation, either version 3 of
-# the License, or (at your option) any later version.
-#
-# sot-core is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Lesser Public License for more details.  You should have
-# received a copy of the GNU Lesser General Public License along with
-# sot-core. If not, see <http://www.gnu.org/licenses/>.
 
 # Relative plug-in directory (i.e. lib/plugin for instance)
 # as exposed by the dynamic-graph pkg-config file.
@@ -65,7 +52,6 @@ SET(TEST_test_mailbox_LIBS
 #test paths and names (without .cpp extension)
 SET (tests
 	dummy
-	test_robot_utils
 
 	signal/test_signal
 	signal/test_depend
@@ -86,6 +72,7 @@ SET (tests
 	tools/test_boost
 	tools/test_mailbox
 	tools/test_matrix
+	tools/test_robot_utils
 	math/matrix-twist
 	math/matrix-homogeneous
 	)

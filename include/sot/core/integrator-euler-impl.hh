@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef __SOT_INTEGRATOR_EULER_IMPL_H__
@@ -32,14 +21,14 @@
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (integrator_euler_EXPORTS)
 #    define INTEGRATOR_EULER_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define INTEGRATOR_EULER_EXPORT  __declspec(dllimport)
-#  endif 
+#  endif
 #else
-#  define INTEGRATOR_EULER_EXPORT 
+#  define INTEGRATOR_EULER_EXPORT
 #endif
 
 # ifdef WIN32
@@ -55,7 +44,7 @@
 	typedef IntegratorEuler<sotSigType,sotCoefType> className;
 # endif // WIN32
 
-namespace dynamicgraph { 
+namespace dynamicgraph {
   namespace sot {
 	DECLARE_SPECIFICATION(IntegratorEulerDoubleDouble,double,double)
 	DECLARE_SPECIFICATION(IntegratorEulerVectorDouble,Vector,double)
