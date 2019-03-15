@@ -29,7 +29,7 @@ using namespace dynamicgraph::sot;
 
 static void displaybool( ostream& os, const char c, const bool reverse=false )
 {
-  for( unsigned int j=sizeof(char)*8;j-->0; )
+  for( std::size_t j=sizeof(char)*8;j-->0; )
     {
       //os<<i<<","<<j<<": "<<c+0<<std::endl;
       if(reverse) os<< (!((c>>j)&0x1)); else os<< (((c>>j)&0x1));//?"1":"0");
@@ -38,7 +38,7 @@ static void displaybool( ostream& os, const char c, const bool reverse=false )
 static string displaybool(const char c, const bool reverse=false )
 {
   stringstream oss;
-  for( unsigned int j=sizeof(char)*8;j-->0; )
+  for( std::size_t j=sizeof(char)*8;j-->0; )
     {
       //os<<i<<","<<j<<": "<<c+0<<std::endl;
       if(reverse) oss<< (!((c>>j)&0x1)); else oss<< (((c>>j)&0x1));//?"1":"0");

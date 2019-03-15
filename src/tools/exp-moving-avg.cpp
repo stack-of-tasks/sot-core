@@ -35,13 +35,13 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(ExpMovingAvg,"ExpMovingAvg");
 ExpMovingAvg::
 ExpMovingAvg( const std::string& n )
   :Entity(n)
-   ,updateSIN(NULL, "ExpMovingAvg(" + n + ")::input(vector)::update")
-   ,alpha(0.)
-   ,init(false)
-   ,refresherSINTERN( "ExpMovingAvg("+n+")::intern(dummy)::refresher"  )
-   ,averageSOUT(
-      boost::bind(&ExpMovingAvg::update,this,_1,_2),
-      updateSIN << refresherSINTERN, "ExpMovingAvg(" + n + ")::output(vector)::average")
+  ,updateSIN(NULL, "ExpMovingAvg(" + n + ")::input(vector)::update")   
+  ,refresherSINTERN( "ExpMovingAvg("+n+")::intern(dummy)::refresher"  )
+  ,averageSOUT(
+	       boost::bind(&ExpMovingAvg::update,this,_1,_2),
+	       updateSIN << refresherSINTERN, "ExpMovingAvg(" + n + ")::output(vector)::average")
+  ,alpha(0.)
+  ,init(false)
 {
   // Register signals into the entity.
   signalRegistration(updateSIN << averageSOUT);

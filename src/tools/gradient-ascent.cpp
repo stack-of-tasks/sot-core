@@ -35,13 +35,13 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(GradientAscent,"GradientAscent");
 GradientAscent::
 GradientAscent( const std::string& n )
   :Entity(n)
-   ,gradientSIN(NULL, "GradientAscent(" + n + ")::input(vector)::gradient")
-   ,learningRateSIN(NULL, "GradientAscent(" + n + ")::input(double)::learningRate")
-   ,init(false)
-   ,refresherSINTERN( "GradientAscent("+n+")::intern(dummy)::refresher"  )
-   ,valueSOUT(
-      boost::bind(&GradientAscent::update,this,_1,_2),
-      gradientSIN << refresherSINTERN, "GradientAscent(" + n + ")::output(vector)::value")
+  ,gradientSIN(NULL, "GradientAscent(" + n + ")::input(vector)::gradient")
+  ,learningRateSIN(NULL, "GradientAscent(" + n + ")::input(double)::learningRate")   
+  ,refresherSINTERN( "GradientAscent("+n+")::intern(dummy)::refresher"  )
+  ,valueSOUT(
+	     boost::bind(&GradientAscent::update,this,_1,_2),
+	     gradientSIN << refresherSINTERN, "GradientAscent(" + n + ")::output(vector)::value")
+  ,init(false)
 {
   // Register signals into the entity.
   signalRegistration(gradientSIN << learningRateSIN << valueSOUT);

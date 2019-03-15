@@ -282,12 +282,12 @@ namespace dynamicgraph
     bool ParameterServer::convertJointNameToJointId(const std::string& name, unsigned int& id)
     {
       // Check if the joint name exists
-      Eigen::Index jid = m_robot_util->get_id_from_name(name);
+      sot::Index jid = m_robot_util->get_id_from_name(name);
       if (jid<0)
         {
           SEND_MSG("The specified joint name does not exist: "+name, MSG_TYPE_ERROR);
           std::stringstream ss;
-          for(Eigen::Index it=0; it< m_robot_util->m_nbJoints;it++)
+          for(long unsigned int it=0; it< m_robot_util->m_nbJoints;it++)
             ss<< m_robot_util->get_name_from_id(it) <<", ";
           SEND_MSG("Possible joint names are: "+ss.str(), MSG_TYPE_INFO);
           return false;
