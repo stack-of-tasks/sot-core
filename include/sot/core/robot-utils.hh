@@ -136,7 +136,6 @@ namespace dynamicgraph {
 
     }; // struct ForceUtil
 
-
     struct SOT_CORE_EXPORT FootUtil
     {
       /// Position of the foot soles w.r.t. the frame of the foot
@@ -241,8 +240,6 @@ namespace dynamicgraph {
       bool base_urdf_to_sot(ConstRefVector q_urdf, RefVector q_sot);
       bool base_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf);
 
-	    bool velocity_urdf_to_sot(ConstRefVector q_urdf,
-	                              ConstRefVector v_urdf, RefVector v_sot);
 
       /** Given a joint id it finds the associated joint limits.
        * If the specified joint is not found it returns JointLimits(0,0).
