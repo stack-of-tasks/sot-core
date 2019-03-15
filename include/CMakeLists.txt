@@ -31,6 +31,7 @@ SET(NEWHEADERS
   sot/core/additional-functions.hh
   sot/core/factory.hh
   sot/core/macros-signal.hh
+  sot/core/parameter-server.hh
   sot/core/pool.hh
   sot/core/op-point-modifier.hh
   sot/core/feature-point6d.hh

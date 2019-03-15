@@ -78,6 +78,7 @@ SET(plugins
   tools/switch
   tools/exp-moving-avg
   tools/gradient-ascent
+  tools/parameter-server
 
   control/control-gr
   control/control-pd

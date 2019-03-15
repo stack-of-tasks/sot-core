@@ -19,7 +19,7 @@ using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
 
 std::string localName("robot_test");
-RobotUtil * robot_util;
+RobotUtilShrPtr robot_util;
 int main( void )
 {
   robot_util = createRobotUtil(localName);
@@ -27,14 +27,16 @@ int main( void )
   const double upper_lim(1);
   const double lower_lim(2);
   robot_util->set_joint_limits_for_id(1,lower_lim,upper_lim);
-  if (robot_util->get_joint_limits_from_id(1).upper == upper_lim && robot_util->get_joint_limits_from_id(1).lower == lower_lim)
+  if (robot_util->get_joint_limits_from_id(1).upper == upper_lim &&
+      robot_util->get_joint_limits_from_id(1).lower == lower_lim)
   {
       std::cout << "joint_limits_for_id works !" << std::endl;  }
   else
   {
       std::cout << "ERROR: joint_limits_for_id does not work !" << std::endl;
   }
-  if (robot_util->cp_get_joint_limits_from_id(1).upper == upper_lim && robot_util->cp_get_joint_limits_from_id(1).lower == lower_lim)
+  if (robot_util->cp_get_joint_limits_from_id(1).upper == upper_lim &&
+      robot_util->cp_get_joint_limits_from_id(1).lower == lower_lim)
   {
       std::cout << "cp_get_joint_limits_for_id works !" << std::endl;  }
   else
@@ -45,9 +47,10 @@ int main( void )
 
   /*Test set and get name_to_id */
   const std::string joint_name("test_joint");
-  const double joint_id(10);
+  const Index joint_id(10);
   robot_util->set_name_to_id(joint_name,joint_id);
-  if (robot_util->get_id_from_name(joint_name) == joint_id && robot_util->get_name_from_id(joint_id) == joint_name)
+  if (robot_util->get_id_from_name(joint_name) == joint_id &&
+      robot_util->get_name_from_id(joint_id) == joint_name)
   {
       std::cout << "name_to_id works !" << std::endl;
   }
