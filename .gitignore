@@ -3,5 +3,4 @@ vsbld*
 include/sot-core/import-default-paths.h
 unitTesting/test-paths.h
 *~
-_build-RELEASE
-CMake*
+_build*

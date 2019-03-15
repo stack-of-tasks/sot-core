@@ -59,7 +59,7 @@ namespace dynamicgraph
     /******************** ForceUtil ***************************/
 
     void ForceUtil::set_name_to_force_id(const std::string &name,
-					 const Index &force_id)
+                                         const Index &force_id)
     {
       m_name_to_force_id[name] = (Index)force_id;
       create_force_id_to_name_map();
@@ -74,8 +74,8 @@ namespace dynamicgraph
     }
 
     void ForceUtil::set_force_id_to_limits(const Index &force_id,
-					   const dg::Vector &lf,
-					   const dg::Vector &uf)
+                                           const dg::Vector &lf,
+                                           const dg::Vector &uf)
     {
       m_force_id_to_limits[(Index)force_id].lower = lf;
       m_force_id_to_limits[(Index)force_id].upper = uf;
@@ -111,14 +111,14 @@ namespace dynamicgraph
     {
       std::map<std::string, Index>::const_iterator it;
       for (it = m_name_to_force_id.begin();
-	   it != m_name_to_force_id.end(); it++)
+           it != m_name_to_force_id.end(); it++)
         m_force_id_to_name[it->second] = it->first;
     }
 
     const ForceLimits &ForceUtil::get_limits_from_id(Index force_id)
     {
       std::map<Index, ForceLimits>::const_iterator iter =
-	m_force_id_to_limits.find(force_id);
+        m_force_id_to_limits.find(force_id);
       if (iter == m_force_id_to_limits.end())
         return VoidForceLimits; // Returns void instance
       return iter->second;
@@ -127,7 +127,7 @@ namespace dynamicgraph
     ForceLimits ForceUtil::cp_get_limits_from_id(Index force_id)
     {
       std::map<Index, ForceLimits>::const_iterator iter =
-	m_force_id_to_limits.find(force_id);
+        m_force_id_to_limits.find(force_id);
       if (iter == m_force_id_to_limits.end())
         return VoidForceLimits; // Returns void instance
       return iter->second;
@@ -137,39 +137,39 @@ namespace dynamicgraph
     {
       os << "Force Id to limits " << std::endl;
       for (std::map<Index, ForceLimits>::const_iterator
-	     it = m_force_id_to_limits.begin();
-	   it != m_force_id_to_limits.end();
-	   ++it)
-	{
-	  it->second.display(os);
-	}
+             it = m_force_id_to_limits.begin();
+           it != m_force_id_to_limits.end();
+           ++it)
+        {
+          it->second.display(os);
+        }
 
       os << "Name to force id:" << std::endl;
       for (std::map<std::string, Index>::const_iterator
-	     it = m_name_to_force_id.begin();
-	   it != m_name_to_force_id.end();
-	   ++it)
-	{
-	  os << "(" << it->first << "," << it->second << ") ";
-	}
+             it = m_name_to_force_id.begin();
+           it != m_name_to_force_id.end();
+           ++it)
+        {
+          os << "(" << it->first << "," << it->second << ") ";
+        }
       os << std::endl;
 
       os << "Force id to Name:" << std::endl;
       for (std::map<Index, std::string>::const_iterator
-	     it = m_force_id_to_name.begin();
-	   it != m_force_id_to_name.end();
-	   ++it)
-	{
-	  os << "(" << it->first << "," << it->second << ") ";
-	}
+             it = m_force_id_to_name.begin();
+           it != m_force_id_to_name.end();
+           ++it)
+        {
+          os << "(" << it->first << "," << it->second << ") ";
+        }
       os << std::endl;
 
       os << "Index for force sensors:" << std::endl;
       os << "Left Hand (" << m_Force_Id_Left_Hand << ") ,"
-	 << "Right Hand (" << m_Force_Id_Right_Hand << ") ,"
-	 << "Left Foot (" << m_Force_Id_Left_Foot << ") ,"
-	 << "Right Foot (" << m_Force_Id_Right_Foot << ") "
-	 << std::endl;
+         << "Right Hand (" << m_Force_Id_Right_Hand << ") ,"
+         << "Left Foot (" << m_Force_Id_Left_Foot << ") ,"
+         << "Right Foot (" << m_Force_Id_Right_Foot << ") "
+         << std::endl;
     }
 
     /**************** FromURDFToSot *************************/
@@ -179,8 +179,8 @@ namespace dynamicgraph
 
     void RobotUtil::
     set_joint_limits_for_id(const Index &idx,
-			    const double &lq,
-			    const double &uq)
+                            const double &lq,
+                            const double &uq)
     {
       m_limits_map[(Index)idx] = JointLimits(lq, uq);
     }
@@ -189,7 +189,7 @@ namespace dynamicgraph
     get_joint_limits_from_id(Index id)
     {
       std::map<Index, JointLimits>::const_iterator
-	iter = m_limits_map.find(id);
+        iter = m_limits_map.find(id);
       if (iter == m_limits_map.end())
         return VoidJointLimits;
       return iter->second;
@@ -203,7 +203,7 @@ namespace dynamicgraph
 
     void RobotUtil::
     set_name_to_id(const std::string &jointName,
-		   const Index &jointId)
+                   const Index &jointId)
     {
       m_name_to_id[jointName] = (Index)jointId;
       create_id_to_name_map();
@@ -221,7 +221,7 @@ namespace dynamicgraph
     get_id_from_name(const std::string &name)
     {
       std::map<std::string, Index>::const_iterator it =
-	m_name_to_id.find(name);
+        m_name_to_id.find(name);
       if (it == m_name_to_id.end())
         return VoidIndex;
       return it->second;
@@ -231,7 +231,7 @@ namespace dynamicgraph
     get_name_from_id(Index id)
     {
       std::map<Index, std::string>::const_iterator iter =
-	m_id_to_name.find(id);
+        m_id_to_name.find(id);
       if (iter == m_id_to_name.end())
         return joint_default_rtn;
       return iter->second;
@@ -244,12 +244,12 @@ namespace dynamicgraph
       m_urdf_to_sot.resize(urdf_to_sot.size());
       m_dgv_urdf_to_sot.resize(urdf_to_sot.size());
       for (std::size_t idx = 0;
-	   idx < urdf_to_sot.size(); idx++)
-	{
-	  m_urdf_to_sot[(Index)idx] = urdf_to_sot[(Index)idx];
-	  m_dgv_urdf_to_sot[(Index)idx] =
-	    static_cast<double>(urdf_to_sot[(Index)idx]);
-	}
+           idx < urdf_to_sot.size(); idx++)
+        {
+          m_urdf_to_sot[(Index)idx] = urdf_to_sot[(Index)idx];
+          m_dgv_urdf_to_sot[(Index)idx] =
+            static_cast<double>(urdf_to_sot[(Index)idx]);
+        }
     }
 
     void RobotUtil::
@@ -258,9 +258,9 @@ namespace dynamicgraph
       m_nbJoints = urdf_to_sot.size();
       m_urdf_to_sot.resize(urdf_to_sot.size());
       for (unsigned int idx = 0; idx < urdf_to_sot.size(); idx++)
-	{
-	  m_urdf_to_sot[idx] = (unsigned int)urdf_to_sot[idx];
-	}
+        {
+          m_urdf_to_sot[idx] = (unsigned int)urdf_to_sot[idx];
+        }
       m_dgv_urdf_to_sot = urdf_to_sot;
     }
 
@@ -268,10 +268,10 @@ namespace dynamicgraph
     joints_urdf_to_sot(ConstRefVector q_urdf, RefVector q_sot)
     {
       if (m_nbJoints == 0)
-	{
-	  SEND_MSG("set_urdf_to_sot should be called", MSG_TYPE_ERROR);
-	  return false;
-	}
+        {
+          SEND_MSG("set_urdf_to_sot should be called", MSG_TYPE_ERROR);
+          return false;
+        }
       assert(q_urdf.size() == m_nbJoints);
       assert(q_sot.size() == m_nbJoints);
 
@@ -287,10 +287,10 @@ namespace dynamicgraph
       assert(q_sot.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints));
 
       if (m_nbJoints == 0)
-	{
-	  SEND_MSG("set_urdf_to_sot should be called", MSG_TYPE_ERROR);
-	  return false;
-	}
+        {
+          SEND_MSG("set_urdf_to_sot should be called", MSG_TYPE_ERROR);
+          return false;
+        }
 
       for (unsigned int idx = 0; idx < m_nbJoints; idx++)
         q_urdf[idx] = q_sot[m_urdf_to_sot[idx]];
@@ -299,48 +299,48 @@ namespace dynamicgraph
 
     bool RobotUtil::
     velocity_urdf_to_sot(ConstRefVector q_urdf, ConstRefVector v_urdf,
-			 RefVector v_sot)
+                         RefVector v_sot)
     {
       assert(q_urdf.size() == m_nbJoints + 7);
       assert(v_urdf.size() == m_nbJoints + 6);
       assert(v_sot.size() == m_nbJoints + 6);
 
       if (m_nbJoints == 0)
-	{
-	  SEND_MSG("velocity_urdf_to_sot should be called", MSG_TYPE_ERROR);
-	  return false;
-	}
+        {
+          SEND_MSG("velocity_urdf_to_sot should be called", MSG_TYPE_ERROR);
+          return false;
+        }
       const Eigen::Quaterniond q(q_urdf(6), q_urdf(3), q_urdf(4), q_urdf(5));
       Eigen::Matrix3d oRb = q.toRotationMatrix();
       v_sot.head<3>() = oRb * v_urdf.head<3>();
       v_sot.segment<3>(3) = oRb * v_urdf.segment<3>(3);
       //        v_sot.head<6>() = v_urdf.head<6>();
       joints_urdf_to_sot(v_urdf.tail(m_nbJoints),
-			 v_sot.tail(m_nbJoints));
+                         v_sot.tail(m_nbJoints));
       return true;
     }
 
     bool RobotUtil::
     velocity_sot_to_urdf(ConstRefVector q_urdf, ConstRefVector v_sot,
-			 RefVector v_urdf)
+                         RefVector v_urdf)
     {
       assert(q_urdf.size() == m_nbJoints + 7);
       assert(v_urdf.size() == m_nbJoints + 6);
       assert(v_sot.size() == m_nbJoints + 6);
 
       if (m_nbJoints == 0)
-	{
-	  SEND_MSG("velocity_sot_to_urdf should be called", MSG_TYPE_ERROR);
-	  return false;
-	}
+        {
+          SEND_MSG("velocity_sot_to_urdf should be called", MSG_TYPE_ERROR);
+          return false;
+        }
       // compute rotation from world to base frame
       const Eigen::Quaterniond q(q_urdf(6), q_urdf(3), q_urdf(4), q_urdf(5));
       Eigen::Matrix3d oRb = q.toRotationMatrix();
       v_urdf.head<3>() = oRb.transpose() * v_sot.head<3>();
       v_urdf.segment<3>(3) = oRb.transpose() * v_sot.segment<3>(3);
-      //	v_urdf.head<6>() = v_sot.head<6>();
+      //        v_urdf.head<6>() = v_sot.head<6>();
       joints_sot_to_urdf(v_sot.tail(m_nbJoints),
-			 v_urdf.tail(m_nbJoints));
+                         v_urdf.tail(m_nbJoints));
       return true;
     }
 
@@ -403,7 +403,7 @@ namespace dynamicgraph
       assert(q_sot.size() == m_nbJoints + 6);
       base_sot_to_urdf(q_sot.head<6>(), q_urdf.head<7>());
       joints_sot_to_urdf(q_sot.tail(m_nbJoints),
-			 q_urdf.tail(m_nbJoints));
+                         q_urdf.tail(m_nbJoints));
       return true;
     }
     void RobotUtil::
@@ -423,35 +423,35 @@ namespace dynamicgraph
 
       os << "Joint name to joint id:" << std::endl;
       for (std::map<std::string, Index>::const_iterator
-	     it = m_name_to_id.begin();
-	   it != m_name_to_id.end();
-	   ++it)
-	{
-	  os << "(" << it->first << "," << it->second << ") ";
-	}
+             it = m_name_to_id.begin();
+           it != m_name_to_id.end();
+           ++it)
+        {
+          os << "(" << it->first << "," << it->second << ") ";
+        }
       os << std::endl;
 
       os << "Joint id to joint Name:" << std::endl;
       for (std::map<Index, std::string>::const_iterator
-	     it = m_id_to_name.begin();
-	   it != m_id_to_name.end();
-	   ++it)
-	{
-	  os << "(" << it->first << "," << it->second << ") ";
-	}
+             it = m_id_to_name.begin();
+           it != m_id_to_name.end();
+           ++it)
+        {
+          os << "(" << it->first << "," << it->second << ") ";
+        }
       os << std::endl;
     }
     void RobotUtil::
     sendMsg(const std::string &msg,
-	    MsgType t,
-	    const char *file,
-	    int line)
+            MsgType t,
+            const char *file,
+            int line)
     {
       logger_.sendMsg("[RobotUtil]" + msg, t, file, line);
     }
     bool base_se3_to_sot(ConstRefVector pos,
-			 ConstRefMatrix R,
-			 RefVector q_sot)
+                         ConstRefMatrix R,
+                         RefVector q_sot)
     {
       assert(q_sot.size() == 6);
       assert(pos.size() == 3);
@@ -462,15 +462,15 @@ namespace dynamicgraph
       m = sqrt(R(2, 1) * R(2, 1) + R(2, 2) * R(2, 2));
       p = atan2(-R(2, 0), m);
       if (fabs(fabs(p) - M_PI / 2) < 0.001)
-	{
-	  r = 0.0;
-	  y = -atan2(R(0, 1), R(1, 1));
-	}
+        {
+          r = 0.0;
+          y = -atan2(R(0, 1), R(1, 1));
+        }
       else
-	{
-	  y = atan2(R(1, 0), R(0, 0));
-	  r = atan2(R(2, 1), R(2, 2));
-	}
+        {
+          y = atan2(R(1, 0), R(0, 0));
+          r = atan2(R(2, 1), R(2, 2));
+        }
       // *********************************
       q_sot[0] = pos[0];
       q_sot[1] = pos[1];
@@ -523,7 +523,7 @@ namespace dynamicgraph
     RobotUtilShrPtr getRobotUtil(std::string &robotName)
     {
       std::map<std::string, RobotUtilShrPtr >::iterator it =
-	sgl_map_name_to_robot_util.find(robotName);
+        sgl_map_name_to_robot_util.find(robotName);
       if (it != sgl_map_name_to_robot_util.end())
         return it->second;
       return RefVoidRobotUtil();
@@ -532,7 +532,7 @@ namespace dynamicgraph
     bool isNameInRobotUtil(std::string &robotName)
     {
       std::map<std::string, RobotUtilShrPtr>::iterator it =
-	sgl_map_name_to_robot_util.find(robotName);
+        sgl_map_name_to_robot_util.find(robotName);
       if (it != sgl_map_name_to_robot_util.end())
         return true;
       return false;
@@ -540,14 +540,14 @@ namespace dynamicgraph
     RobotUtilShrPtr createRobotUtil(std::string &robotName)
     {
       std::map<std::string, RobotUtilShrPtr>::iterator it =
-	sgl_map_name_to_robot_util.find(robotName);
+        sgl_map_name_to_robot_util.find(robotName);
       if (it == sgl_map_name_to_robot_util.end())
-	{
-	  sgl_map_name_to_robot_util[robotName] =
-	    boost::shared_ptr<RobotUtil>(new RobotUtil);
-	  it = sgl_map_name_to_robot_util.find(robotName);
-	  return it->second;
-	}
+        {
+          sgl_map_name_to_robot_util[robotName] =
+            boost::shared_ptr<RobotUtil>(new RobotUtil);
+          it = sgl_map_name_to_robot_util.find(robotName);
+          return it->second;
+        }
       std::cout << "Another robot is already in the map for " << robotName
                 << std::endl;
       return RefVoidRobotUtil();
