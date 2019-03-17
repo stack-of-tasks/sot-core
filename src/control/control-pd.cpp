@@ -44,10 +44,10 @@ ControlPD::ControlPD( const std::string & name )
          KpSIN << KdSIN << positionSIN << desiredpositionSIN
          << velocitySIN << desiredvelocitySIN,
         "ControlPD("+name+")::output(vector)::control" )
-  ,positionErrorSOUT(boost::bind(&ControlPD::computeControl,this,_1,_2),
+  ,positionErrorSOUT(boost::bind(&ControlPD::getPositionError,this,_1,_2),
         controlSOUT,
         "ControlPD("+name+")::output(vector)::position_error")
-  ,velocityErrorSOUT(boost::bind(&ControlPD::computeControl,this,_1,_2),
+  ,velocityErrorSOUT(boost::bind(&ControlPD::getVelocityError,this,_1,_2),
         controlSOUT,
         "ControlPD("+name+")::output(vector)::velocity_error")
 {
@@ -83,12 +83,6 @@ void ControlPD::display( std::ostream& os ) const
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-double& ControlPD::setsize(int dimension)
-
-{
-  _dimension = dimension;
-  return _dimension;
-}
 
 dynamicgraph::Vector& ControlPD::
 computeControl( dynamicgraph::Vector &tau, int t ) 
@@ -103,14 +97,14 @@ computeControl( dynamicgraph::Vector &tau, int t )
       
   dynamicgraph::Vector::Index size = Kp.size();   
   tau.resize(size);
-  position_error.resize(size);
-  velocity_error.resize(size);
+  position_error_.resize(size);
+  velocity_error_.resize(size);
 
-  position_error.array() = desired_position.array()-position.array();  
-  velocity_error.array() = desired_velocity.array()-velocity.array();
+  position_error_.array() = desired_position.array()-position.array();  
+  velocity_error_.array() = desired_velocity.array()-velocity.array();
 
-  tau.array() = position_error.array()*Kp.array() 
-              + velocity_error.array()*Kd.array();
+  tau.array() = position_error_.array()*Kp.array() 
+              + velocity_error_.array()*Kd.array();
   
   sotDEBUGOUT(15);
   return tau;
@@ -122,6 +116,7 @@ getPositionError( dynamicgraph::Vector &position_error, int t)
 {
   //sotDEBUGOUT(15) ??
   controlSOUT(t);
+  position_error = position_error_;
   return position_error;
 }
 
@@ -129,5 +124,6 @@ dynamicgraph::Vector& ControlPD::
 getVelocityError( dynamicgraph::Vector &velocity_error, int t)
 {
   controlSOUT(t);
+  velocity_error = velocity_error_;
   return velocity_error;
 }

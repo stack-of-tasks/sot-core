@@ -5,17 +5,6 @@
  *
  * CNRS/AIST
  *
- * This file is part of sot-core.
- * sot-core is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation, either version 3 of
- * the License, or (at your option) any later version.
- * sot-core is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.  You should
- * have received a copy of the GNU Lesser General Public License along
- * with sot-core.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef __SOT_Control_PD_HH__
@@ -84,7 +73,6 @@ namespace dynamicgraph {
       /* Parameters of the torque-control function: 
        * tau = kp * (qd-q) + kd* (dqd-dq) */
       double TimeStep;
-      double _dimension;
 
     public:  /* --- SIGNALS --- */
 
@@ -100,10 +88,9 @@ namespace dynamicgraph {
 
     protected:
 
-      double& setsize(int dimension);
       dg::Vector& computeControl( dg::Vector& tau,int t );
-      dg::Vector position_error;
-      dg::Vector velocity_error;
+      dg::Vector position_error_;
+      dg::Vector velocity_error_;
       dg::Vector& getPositionError( dg::Vector& position_error,int t );
       dg::Vector& getVelocityError( dg::Vector& velocity_error,int t );
 
