@@ -49,10 +49,15 @@ SET(TEST_test_mailbox_LIBS
 	mailbox-vector
 )
 
+SET(TEST_test_control_pd_LIBS
+  control-pd
+  )
 #test paths and names (without .cpp extension)
 SET (tests
 	dummy
 
+	control/test_control_pd
+	
 	signal/test_signal
 	signal/test_depend
 	signal/test_ptr
@@ -73,6 +78,7 @@ SET (tests
 	tools/test_mailbox
 	tools/test_matrix
 	tools/test_robot_utils
+	
 	math/matrix-twist
 	math/matrix-homogeneous
 	)

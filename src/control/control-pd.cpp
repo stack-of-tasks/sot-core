@@ -47,7 +47,9 @@ ControlPD( const std::string & name )
                 "ControlPD("+name+")::output(vector)::control" )
 {
   init(TimeStep);
-  Entity::signalRegistration( KpSIN << KdSIN << positionSIN << desiredpositionSIN << velocitySIN << desiredvelocitySIN << controlSOUT );
+  Entity::signalRegistration( KpSIN << KdSIN << positionSIN
+			      << desiredpositionSIN << velocitySIN
+			      << desiredvelocitySIN << controlSOUT );
 }
 
 void ControlPD::
