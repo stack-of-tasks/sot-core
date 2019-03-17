@@ -272,8 +272,8 @@ namespace dynamicgraph
           SEND_MSG("set_urdf_to_sot should be called", MSG_TYPE_ERROR);
           return false;
         }
-      assert(q_urdf.size() == m_nbJoints);
-      assert(q_sot.size() == m_nbJoints);
+      assert(q_urdf.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints));
+      assert(q_sot.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints));
 
       for (unsigned int idx = 0; idx < m_nbJoints; idx++)
         q_sot[m_urdf_to_sot[idx]] = q_urdf[idx];
@@ -301,9 +301,9 @@ namespace dynamicgraph
     velocity_urdf_to_sot(ConstRefVector q_urdf, ConstRefVector v_urdf,
                          RefVector v_sot)
     {
-      assert(q_urdf.size() == m_nbJoints + 7);
-      assert(v_urdf.size() == m_nbJoints + 6);
-      assert(v_sot.size() == m_nbJoints + 6);
+      assert(q_urdf.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints + 7));
+      assert(v_urdf.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints + 6));
+      assert(v_sot.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints + 6));
 
       if (m_nbJoints == 0)
         {
@@ -324,9 +324,9 @@ namespace dynamicgraph
     velocity_sot_to_urdf(ConstRefVector q_urdf, ConstRefVector v_sot,
                          RefVector v_urdf)
     {
-      assert(q_urdf.size() == m_nbJoints + 7);
-      assert(v_urdf.size() == m_nbJoints + 6);
-      assert(v_sot.size() == m_nbJoints + 6);
+      assert(q_urdf.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints + 7));
+      assert(v_urdf.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints + 6));
+      assert(v_sot.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints + 6));
 
       if (m_nbJoints == 0)
         {
@@ -387,8 +387,8 @@ namespace dynamicgraph
     bool RobotUtil::
     config_urdf_to_sot(ConstRefVector q_urdf, RefVector q_sot)
     {
-      assert(q_urdf.size() == m_nbJoints + 7);
-      assert(q_sot.size() == m_nbJoints + 6);
+      assert(q_urdf.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints + 7));
+      assert(q_sot.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints + 6));
 
       base_urdf_to_sot(q_urdf.head<7>(), q_sot.head<6>());
       joints_urdf_to_sot(q_urdf.tail(m_nbJoints), q_sot.tail(m_nbJoints));
@@ -399,8 +399,8 @@ namespace dynamicgraph
     bool RobotUtil::
     config_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf)
     {
-      assert(q_urdf.size() == m_nbJoints + 7);
-      assert(q_sot.size() == m_nbJoints + 6);
+      assert(q_urdf.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints + 7));
+      assert(q_sot.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints + 6));
       base_sot_to_urdf(q_sot.head<6>(), q_urdf.head<7>());
       joints_sot_to_urdf(q_sot.tail(m_nbJoints),
                          q_urdf.tail(m_nbJoints));
