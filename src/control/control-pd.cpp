@@ -42,9 +42,9 @@ ControlPD( const std::string & name )
  ,velocitySIN(NULL,"ControlPD("+name+")::input(vector)::velocity")
  ,desiredvelocitySIN(NULL,"ControlPD("+name+")::input(vector)::desiredvelocity")
  ,controlSOUT( boost::bind(&ControlPD::computeControl,this,_1,_2),
-	       KpSIN << KdSIN << positionSIN << desiredpositionSIN
-	       << velocitySIN << desiredvelocitySIN,
-	      "ControlPD("+name+")::output(vector)::control" )
+         KpSIN << KdSIN << positionSIN << desiredpositionSIN
+         << velocitySIN << desiredvelocitySIN,
+        "ControlPD("+name+")::output(vector)::control" )
 {
   init(TimeStep);
   Entity::signalRegistration( KpSIN << KdSIN << positionSIN << desiredpositionSIN << velocitySIN << desiredvelocitySIN << controlSOUT );
@@ -80,7 +80,7 @@ display( std::ostream& os ) const
 double& ControlPD::setsize(int dimension)
 
 {
-	_dimension = dimension;
+  _dimension = dimension;
         return _dimension;
 }
 
@@ -97,24 +97,9 @@ computeControl( dynamicgraph::Vector &tau, int t )
 
   dynamicgraph::Vector::Index size = Kp.size();
   tau.resize(size);
-  for(unsigned i = 0u; i < size; ++i)
-    {
-      tau(i) = desiredposition(i);
-      tau(i) -= position(i);
-      tau(i) *= Kp(i);
-     // std::cout << " position " << position << std::endl;
-     // std::cout << " tau1 " << tau << std::endl;
-    }
 
-  size = Kd.size();
-  double de = 0.0;
-  for(unsigned i = 0u; i < size; ++i)
-    {
-      de = desiredvelocity(i);
-      de -= velocity(i);
-      de *= Kd(i);
-      tau(i) += de;
-    }
+  tau.array() = (desiredposition.array()-position.array())*Kp.array();
+  tau.array() = (desiredvelocity.array()-velocity.array())*Kd.array();
 
   sotDEBUGOUT(15);
  // std::cout << " tau " << tau << std::endl;
