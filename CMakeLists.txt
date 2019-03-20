@@ -66,7 +66,9 @@ SEARCH_FOR_BOOST()
 ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(unitTesting)
-ADD_SUBDIRECTORY(doc)
+IF (NOT INSTALL_PYTHON_INTERFACE_ONLY)
+  ADD_SUBDIRECTORY(doc)
+ENDIF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
 
 # **********************************
 # Robot_utils_sot_py PYTHON module *
@@ -74,10 +76,14 @@ ADD_SUBDIRECTORY(doc)
 IF(BUILD_PYTHON_INTERFACE)
   PYTHON_ADD_MODULE(robot_utils_sot_py src/tools/robot-utils-py.cpp)
   PKG_CONFIG_USE_DEPENDENCY(robot_utils_sot_py dynamic-graph)
+  PKG_CONFIG_USE_DEPENDENCY(robot_utils_sot_py pinocchio)
   TARGET_LINK_LIBRARIES(robot_utils_sot_py ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${LIBRARY_NAME})
   TARGET_LINK_BOOST_PYTHON(robot_utils_sot_py)
   INSTALL(TARGETS robot_utils_sot_py DESTINATION ${PYTHON_INSTALL_DIR})
-
 ENDIF(BUILD_PYTHON_INTERFACE)
 
-SETUP_PROJECT_FINALIZE()
+# We do not want the project to be finalized if this is
+# to install only the  python interface.
+IF (NOT INSTALL_PYTHON_INTERFACE_ONLY)
+  SETUP_PROJECT_FINALIZE()
+ENDIF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
