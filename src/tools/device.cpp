@@ -254,10 +254,6 @@ setState( const Vector& st )
           throw std::invalid_argument ("Upper and/or lower velocity bounds "
               "do not match state size. Set them first with setVelocityBounds");
       case CONTROL_INPUT_NO_INTEGRATION:
-        if (   s != lowerPosition_.size()
-            || s != upperPosition_.size() )
-          throw std::invalid_argument ("Upper and/or lower position bounds "
-              "do not match state size. Set them first with setPositionBounds");
         break;
       default:
         throw std::invalid_argument ("Invalid control mode type.");
@@ -527,7 +523,6 @@ void Device::integrate( const double & dt )
   {
     assert(state_.size()==controlIN.size()+6);
     state_.tail(controlIN.size()) = controlIN;
-    CHECK_BOUNDS(state_, lowerPosition_, upperPosition_, "position");
     return;
   }
 
