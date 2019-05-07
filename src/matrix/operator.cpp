@@ -115,9 +115,9 @@ namespace dynamicgraph {
 	doc = docCommandVoid2("Set the bound of the selection [m,M[.","int (min)","int (max)");
 	ADD_COMMAND( "selec", makeCommandVoid2(ent,setBound,doc) );
 	boost::function< void( const int&, const int& ) > addBound
-	  = boost::bind( &VectorSelecter::setBounds,this,_1,_2 );
+	  = boost::bind( &VectorSelecter::addBounds,this,_1,_2 );
 	doc = docCommandVoid2("Add a segment to be selected [m,M[.","int (min)","int (max)");
-	ADD_COMMAND( "addSelec", makeCommandVoid2(ent,setBound,doc) );
+	ADD_COMMAND( "addSelec", makeCommandVoid2(ent,addBound,doc) );
       }
       VectorSelecter () : size (0) {}
     };
