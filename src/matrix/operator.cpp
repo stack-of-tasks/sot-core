@@ -41,8 +41,10 @@ namespace dynamicgraph {
     {
       typedef TypeIn Tin;
       typedef TypeOut Tout;
-      static const std::string & nameTypeIn(void) { return TypeNameHelper<Tin>::typeName; }
-      static const std::string & nameTypeOut(void) { return TypeNameHelper<Tout>::typeName; }
+      static const std::string & nameTypeIn(void)
+      { return TypeNameHelper<Tin>::typeName; }
+      static const std::string & nameTypeOut(void)
+      { return TypeNameHelper<Tout>::typeName; }
       void addSpecificCommands(Entity&, Entity::CommandMap_t& ) {}
       virtual std::string getDocString () const {
 	return std::string
@@ -101,8 +103,10 @@ namespace dynamicgraph {
       segments_t idxs;
       Vector::Index size;
 
-      void setBounds( const int & m,const int & M ) { idxs = segments_t (1, segment_t(m, M-m)); size = M-m; }
-      void addBounds( const int & m,const int & M ) { idxs    .push_back(   segment_t(m, M-m)); size += M-m; }
+      void setBounds( const int & m,const int & M )
+      { idxs = segments_t (1, segment_t(m, M-m)); size = M-m; }
+      void addBounds( const int & m,const int & M )
+      { idxs    .push_back(   segment_t(m, M-m)); size += M-m; }
 
       void addSpecificCommands(Entity& ent,
        			       Entity::CommandMap_t& commandMap )
@@ -112,11 +116,13 @@ namespace dynamicgraph {
 
 	boost::function< void( const int&, const int& ) > setBound
 	  = boost::bind( &VectorSelecter::setBounds,this,_1,_2 );
-	doc = docCommandVoid2("Set the bound of the selection [m,M[.","int (min)","int (max)");
+	doc = docCommandVoid2("Set the bound of the selection [m,M[.",
+			      "int (min)","int (max)");
 	ADD_COMMAND( "selec", makeCommandVoid2(ent,setBound,doc) );
 	boost::function< void( const int&, const int& ) > addBound
 	  = boost::bind( &VectorSelecter::addBounds,this,_1,_2 );
-	doc = docCommandVoid2("Add a segment to be selected [m,M[.","int (min)","int (max)");
+	doc = docCommandVoid2("Add a segment to be selected [m,M[.",
+			      "int (min)","int (max)");
 	ADD_COMMAND( "addSelec", makeCommandVoid2(ent,addBound,doc) );
       }
       VectorSelecter () : size (0) {}
@@ -138,8 +144,9 @@ namespace dynamicgraph {
       int index;
       void setIndex (const int & m) { index = m; }
 
-      void addSpecificCommands(Entity& ent,
-       			       Entity::CommandMap_t& commandMap )
+      void addSpecificCommands
+      (Entity& ent,
+       Entity::CommandMap_t& commandMap )
       {
 	std::string doc;
 
