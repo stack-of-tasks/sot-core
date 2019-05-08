@@ -81,6 +81,8 @@ SET (tests
 	
 	math/matrix-twist
 	math/matrix-homogeneous
+
+	matrix/test_operator
 	)
 
 # TODO
