@@ -50,9 +50,11 @@ namespace dynamicgraph {
 
       UnaryOp( const std::string& name )
 	: Entity(name)
-	,SIN(NULL,Self::CLASS_NAME+"("+name+")::input("+Self::getTypeInName()+")::sin")
+	,SIN(NULL,Self::CLASS_NAME+"("+name+")::input("
+	     +Self::getTypeInName()+")::sin")
 	,SOUT( boost::bind(&Self::computeOperation,this,_1,_2),
-	       SIN,Self::CLASS_NAME+"("+name+")::output("+Self::getTypeOutName()+")::sout")
+	     SIN,Self::CLASS_NAME+"("+name+")::output("
+	       +Self::getTypeOutName()+")::sout")
       {
 	signalRegistration( SIN<<SOUT );
 	op.addSpecificCommands(*this,commandMap);
