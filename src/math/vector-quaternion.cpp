@@ -72,42 +72,6 @@ fromMatrix( const MatrixRotation& rot )
 	}
     }
 
-  // TRIAL (1)
-
-//   const float trace = 1 + rotmat(0,0) + rotmat(1,1) + rotmat(2,2);
-//   if( trace>1e-6 )
-//     {
-//       const float s = sqrt(1+trace) * 2;
-//       vector(0) = rotmat(2,1) - rotmat(1,2) / s;
-//       vector(1) = (rotmat(0,2) - rotmat(2,0)) / s;
-//       vector(2) = (rotmat(1,0) - rotmat(0,1)) / s;
-//       vector(3) = s / 4;
-//     }
-//   else if (rotmat(0,0) > rotmat(1,1) && rotmat(0,0) > rotmat(2,2))
-//     {
-//       const float s = sqrt(1.0f + rotmat(0,0) - rotmat(1,1) - rotmat(2,2)) * 2;
-//       vector(0) = s / 4;
-//       vector(1) = (rotmat(1,0) + rotmat(0,1)) / s;
-//       vector(2) = (rotmat(0,2) + rotmat(2,0)) / s;
-//       vector(3) = (rotmat(2,1) - rotmat(1,2)) / s;
-//     }
-//   else if (rotmat(1,1) > rotmat(2,2))
-//     {
-//       const float s = sqrt(1.0f + rotmat(1,1) - rotmat(0,0) - rotmat(2,2)) * 2;
-//       vector(0) = (rotmat(1,0) + rotmat(0,1)) / s;
-//       vector(1) = s / 4;
-//       vector(2) = (rotmat(2,1) + rotmat(1,2)) / s;
-//       vector(3) = (rotmat(0,2) - rotmat(2,0)) / s;
-//     }
-//   else
-//     {
-//       const float s = sqrt(1.0f + rotmat(2,2) - rotmat(0,0) - rotmat(1,1)) * 2;
-//       vector(0) = (rotmat(0,2) + rotmat(2,0)) / s;
-//       vector(1) = (rotmat(2,1) + rotmat(1,2)) / s;
-//       vector(2) = s / 4;
-//       vector(3) = (rotmat(1,0) - rotmat(0,1)) / s;
-//     }
-
   sotDEBUGOUT(15) ;
   return *this;
 }
@@ -167,63 +131,12 @@ toMatrix( MatrixRotation& rot ) const
   rotmat(2,0) = 2 * (zx - ry);
   rotmat(2,1) = 2 * (yz + rx);
 
-  // TRIAL (2)
-
-//   double Nq = w*w + x*x + y*y + z*z;
-//   double s= 0.0;  if( Nq>0.0 ) s = 2/Nq;  else s=0.0;
-
-//   double X = x*s; double Y = y*s; double Z = z*s;
-//   double wX = w*X; double wY = w*Y; double wZ = w*Z;
-//   double xX = x*X; double xY = x*Y; double xZ = x*Z;
-//   double yY = y*Y; double yZ = y*Z; double zZ = z*Z;
-
-//   rotmat(0,0) = 1.0-(yY+zZ);
-//   rotmat(0,1) = xY-wZ;
-//   rotmat(0,2) = xZ+wY;
-
-//   rotmat(1,0) = xY+wZ;
-//   rotmat(1,1) = 1.0-(xX+zZ);
-//   rotmat(1,2) = yZ-wX;
-
-//   rotmat(2,0) = xZ-wY;
-//   rotmat(2,1) = yZ+wX;
-//   rotmat(2,2) = 1.0-(xX+yY);
-
-
-  // TRIAL (1)
-
-        //   const double& a = vector(0);
-//   const double& b = vector(1);
-//   const double& c = vector(2);
-//   const double& d = vector(3);
-
-//   double a2=a*a;
-//   double b2=b*b;
-//   double c2=c*c;
-//   double d2=d*d;
-
-//   const double bc = b*c;
-//   const double ad = a*d;
-//   const double bd = b*d;
-//   const double ac = a*c;
-//   const double ab = a*b;
-//   const double cd = c*d;
-
-//   rotmat(0,0) =  a2+b2-c2-d2  ;
-//   rotmat(1,0) =  bc-ad ;
-//   rotmat(2,0) =  ac+bd ;
-//   rotmat(0,1) =  ad+bc ;
-//   rotmat(1,1) =  a2-b2+c2-d2 ;
-//   rotmat(2,1) =  cd-ab ;
-//   rotmat(0,2) =  bd-ac ;
-//   rotmat(1,2) =  ab+cd ;
-//   rotmat(2,2) =  a2-b2-c2+d2 ;
-
   sotDEBUGOUT(15) ;
   return rot;
 }
 
-VectorQuaternion& VectorQuaternion::conjugate(VectorQuaternion& res) const
+VectorQuaternion& VectorQuaternion::
+conjugate(VectorQuaternion& res) const
 {
   res.vector(0) = vector(0);
   res.vector(1) = -vector(1);
@@ -232,7 +145,8 @@ VectorQuaternion& VectorQuaternion::conjugate(VectorQuaternion& res) const
   return res;
 }
 
-VectorQuaternion& VectorQuaternion::multiply(const VectorQuaternion& q2, VectorQuaternion& res) const
+VectorQuaternion& VectorQuaternion::
+multiply(const VectorQuaternion& q2, VectorQuaternion& res) const
 {
   double & a1 = vector(0);
   double & b1 = vector(1);
