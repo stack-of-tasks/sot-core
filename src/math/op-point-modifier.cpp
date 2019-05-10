@@ -30,14 +30,19 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(OpPointModifier,"OpPointModifier");
 OpPointModifier::
 OpPointModifier( const std::string& name )
   :Entity( name )
-   ,jacobianSIN(NULL,"OpPointModifior("+name+")::input(matrix)::jacobianIN")
-   ,positionSIN(NULL,"OpPointModifior("+name+")::input(matrixhomo)::positionIN")
-   ,jacobianSOUT( boost::bind(&OpPointModifier::jacobianSOUT_function,this,_1,_2),
-		  jacobianSIN,
-		  "OpPointModifior("+name+")::output(matrix)::jacobian" )
-   ,positionSOUT( boost::bind(&OpPointModifier::positionSOUT_function,this,_1,_2),
-		  positionSIN,
-		  "OpPointModifior("+name+")::output(matrixhomo)::position" )
+  ,jacobianSIN(NULL,"OpPointModifior("+name+")::input(matrix)::jacobianIN")
+  ,positionSIN
+   (NULL,"OpPointModifior("+name+
+    ")::input(matrixhomo)::positionIN")
+  ,jacobianSOUT
+   ( boost::bind(&OpPointModifier::jacobianSOUT_function,
+		 this,_1,_2),
+     jacobianSIN,
+     "OpPointModifior("+name+")::output(matrix)::jacobian" )
+  ,positionSOUT
+   ( boost::bind(&OpPointModifier::positionSOUT_function,this,_1,_2),
+     positionSIN,
+     "OpPointModifior("+name+")::output(matrixhomo)::position" )
   ,transformation()
   ,isEndEffector(true)
 {
@@ -47,18 +52,22 @@ OpPointModifier( const std::string& name )
   {
 
     using namespace dynamicgraph::command;
-    addCommand("getTransformation",
-	       makeDirectGetter(*this,&transformation.matrix(),
-				docDirectGetter("transformation","matrix 4x4 homo")));
-    addCommand("setTransformation",
-	       makeDirectSetter(*this, &transformation.matrix(),
-				docDirectSetter("dimension","matrix 4x4 homo")));
-    addCommand("getEndEffector",
-	       makeDirectGetter(*this,&isEndEffector,
-				docDirectGetter("end effector mode","bool")));
-    addCommand("setEndEffector",
-	       makeDirectSetter(*this, &isEndEffector,
-				docDirectSetter("end effector mode","bool")));
+    addCommand
+      ("getTransformation",
+       makeDirectGetter(*this,&transformation.matrix(),
+			docDirectGetter("transformation","matrix 4x4 homo")));
+    addCommand
+      ("setTransformation",
+       makeDirectSetter(*this, &transformation.matrix(),
+			docDirectSetter("dimension","matrix 4x4 homo")));
+    addCommand
+      ("getEndEffector",
+       makeDirectGetter(*this,&isEndEffector,
+			docDirectGetter("end effector mode","bool")));
+    addCommand
+      ("setEndEffector",
+       makeDirectSetter(*this, &isEndEffector,
+			docDirectSetter("end effector mode","bool")));
   }
 
   sotDEBUGOUT(15);
