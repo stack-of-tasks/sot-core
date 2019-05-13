@@ -174,6 +174,16 @@ Device( const std::string& n )
        (*this,&Device::setSecondOrderIntegration,
 	docstring));
 
+    /* Display information */
+    docstring =
+        "\n"
+        "    Display information on device  \n"
+        "\n";
+    addCommand
+      ("display",
+       command::makeCommandVoid0
+       (*this,&Device::cmdDisplay,docstring));
+
     /* SET of control input type. */
     docstring =
         "\n"
@@ -594,6 +604,13 @@ void Device::integrate( const double & dt )
 void Device::display ( std::ostream& os ) const
 {
   os << name <<": "<<state_<<endl
+     << "sanityCheck: " << sanityCheck_<< endl
+     << "controlInputType:" << controlInputType_ << endl;
+}
+
+void Device::cmdDisplay ( )
+{
+  std::cout << name <<": "<<state_<<endl
      << "sanityCheck: " << sanityCheck_<< endl
      << "controlInputType:" << controlInputType_ << endl;
 }
