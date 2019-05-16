@@ -22,7 +22,7 @@
     LogFile.close();}
 
 
-#include <sot/talos_balance/filter-differentiator.hh>
+#include <sot/core/filter-differentiator.hh>
 #include <sot/core/debug.hh>
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/all-commands.h>
@@ -49,52 +49,70 @@ namespace dynamicgraph
       /// so that it can be used by the macros DEFINE_SIGNAL_**_FUNCTION.
       typedef FilterDifferentiator EntityClassName;
 
-      /* --- DG FACTORY ------------------------------------------------------- */
-      DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FilterDifferentiator,"FilterDifferentiator");
+      /* --- DG FACTORY --------------------------------------------------- */
+      DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN
+      (FilterDifferentiator,"FilterDifferentiator");
 
-      /* --- CONSTRUCTION ----------------------------------------------------- */
-      /* --- CONSTRUCTION ----------------------------------------------------- */
-      /* --- CONSTRUCTION ----------------------------------------------------- */
+      /* --- CONSTRUCTION ------------------------------------------------- */
+      /* --- CONSTRUCTION ------------------------------------------------- */
+      /* --- CONSTRUCTION ------------------------------------------------- */
       FilterDifferentiator::
       FilterDifferentiator( const std::string & name )
         : Entity(name),
-          CONSTRUCT_SIGNAL_IN(x,                dynamicgraph::Vector)
-        ,CONSTRUCT_SIGNAL_OUT(x_filtered,       dynamicgraph::Vector, m_x_dx_ddxSINNER)
-        ,CONSTRUCT_SIGNAL_OUT(dx,               dynamicgraph::Vector, m_x_dx_ddxSINNER)
-        ,CONSTRUCT_SIGNAL_OUT(ddx,               dynamicgraph::Vector, m_x_dx_ddxSINNER)
-        ,CONSTRUCT_SIGNAL_INNER(x_dx_ddx,       dynamicgraph::Vector, m_xSIN)
+          CONSTRUCT_SIGNAL_IN
+	  (x,
+	   dynamicgraph::Vector)
+        ,CONSTRUCT_SIGNAL_OUT
+	  (x_filtered,
+	   dynamicgraph::Vector, m_x_dx_ddxSINNER)
+        ,CONSTRUCT_SIGNAL_OUT
+	  (dx,
+	   dynamicgraph::Vector, m_x_dx_ddxSINNER)
+        ,CONSTRUCT_SIGNAL_OUT
+	  (ddx,
+	   dynamicgraph::Vector, m_x_dx_ddxSINNER)
+        ,CONSTRUCT_SIGNAL_INNER
+	  (x_dx_ddx,
+	   dynamicgraph::Vector, m_xSIN)
       {
         Entity::signalRegistration( ALL_INPUT_SIGNALS << ALL_OUTPUT_SIGNALS);
 
         /* Commands. */
         addCommand("getTimestep",
-                   makeDirectGetter(*this,&m_dt,
-                                    docDirectGetter("Control timestep [s ]","double")));
+                   makeDirectGetter
+		   (*this,&m_dt,
+		    docDirectGetter("Control timestep [s ]","double")));
         addCommand("getSize",
-                   makeDirectGetter(*this,&m_x_size,
-                                    docDirectGetter("Size of the x signal","int")));
-        addCommand("init", makeCommandVoid4(*this, &FilterDifferentiator::init,
-                              docCommandVoid4("Initialize the filter.",
-                                              "Control timestep [s].",
-                                              "Size of the input signal x",
-                                              "Numerator of the filter",
-                                              "Denominator of the filter")));
+                   makeDirectGetter
+		   (*this,&m_x_size,
+		    docDirectGetter("Size of the x signal","int")));
+        addCommand("init",
+		   makeCommandVoid4
+		   (*this, &FilterDifferentiator::init,
+		    docCommandVoid4
+		    ("Initialize the filter.",
+		     "Control timestep [s].",
+		     "Size of the input signal x",
+		     "Numerator of the filter",
+		     "Denominator of the filter")));
         addCommand("switch_filter",
-                   makeCommandVoid2(*this, &FilterDifferentiator::switch_filter,
-                                    docCommandVoid2("Switch Filter.",
-                                                    "Numerator of the filter",
-                                                    "Denominator of the filter")));
-
+                   makeCommandVoid2
+		   (*this, &FilterDifferentiator::switch_filter,
+		    docCommandVoid2
+		    ("Switch Filter.",
+		     "Numerator of the filter",
+		     "Denominator of the filter")));
       }
 
 
-      /* --- COMMANDS ---------------------------------------------------------- */
-      /* --- COMMANDS ---------------------------------------------------------- */
-      /* --- COMMANDS ---------------------------------------------------------- */
-      void FilterDifferentiator::init(const double &timestep,
-                                      const int& xSize,
-                                      const Eigen::VectorXd& filter_numerator,
-                                      const Eigen::VectorXd& filter_denominator)
+      /* --- COMMANDS ------------------------------------------------------ */
+      /* --- COMMANDS ------------------------------------------------------ */
+      /* --- COMMANDS ------------------------------------------------------ */
+      void FilterDifferentiator::
+      init(const double &timestep,
+	   const int& xSize,
+	   const Eigen::VectorXd& filter_numerator,
+	   const Eigen::VectorXd& filter_denominator)
       {
         m_x_size = xSize;
         m_dt = timestep;
@@ -107,8 +125,10 @@ namespace dynamicgraph
         return;
       }
 
-      void FilterDifferentiator::switch_filter(const Eigen::VectorXd& filter_numerator,
-                                               const Eigen::VectorXd& filter_denominator)
+      void FilterDifferentiator::
+      switch_filter
+      (const Eigen::VectorXd& filter_numerator,
+       const Eigen::VectorXd& filter_denominator)
       {
         LOG("Filter switched with "<<
             "Numerator "<< filter_numerator<<std::endl<<
@@ -118,9 +138,9 @@ namespace dynamicgraph
       }
       
 
-      /* --- SIGNALS ---------------------------------------------------------- */
-      /* --- SIGNALS ---------------------------------------------------------- */
-      /* --- SIGNALS ---------------------------------------------------------- */
+      /* --- SIGNALS ------------------------------------------------------ */
+      /* --- SIGNALS ------------------------------------------------------ */
+      /* --- SIGNALS ------------------------------------------------------ */
 
       DEFINE_SIGNAL_INNER_FUNCTION(x_dx_ddx, dynamicgraph::Vector)
       {
@@ -135,15 +155,17 @@ namespace dynamicgraph
       }
 
 
-      /// ************************************************************************* ///
+      /// *************************************************************** ///
       /// The following signals depend only on other inner signals, so they
-      /// just need to copy the interested part of the inner signal they depend on.
-      /// ************************************************************************* ///
+      /// just need to copy the interested part of the inner signal
+      /// they depend on.
+      /// *************************************************************** ///
 
 
       DEFINE_SIGNAL_OUT_FUNCTION(x_filtered, dynamicgraph::Vector)
       {
-        sotDEBUG(15)<<"Compute x_filtered output signal "<<iter<<std::endl;
+        sotDEBUG(15)<< "Compute x_filtered output signal "
+		    << iter<<std::endl;
 
         const dynamicgraph::Vector &x_dx_ddx = m_x_dx_ddxSINNER(iter);
         if(s.size()!=m_x_size)
