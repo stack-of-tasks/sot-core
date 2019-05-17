@@ -56,6 +56,11 @@ SET(TEST_test_control_pd_LIBS
 SET(TEST_test_filter_differentiator_LIBS
   filter-differentiator
   )
+
+SET(TEST_test_madgwick_ahrs_LIBS
+  madgwickahrs
+  )
+
 #test paths and names (without .cpp extension)
 SET (tests
   dummy
@@ -63,7 +68,8 @@ SET (tests
   control/test_control_pd
 
   filters/test_filter_differentiator
-
+  filters/test_madgwick_ahrs
+  
   signal/test_signal
   signal/test_depend
   signal/test_ptr
