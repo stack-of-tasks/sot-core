@@ -22,82 +22,88 @@ ADD_DEFINITIONS(-DTESTS_DYNLIBSUFFIX="${CMAKE_SHARED_LIBRARY_SUFFIX}")
 # the name of the variable for test EXECUTABLE_NAME is
 # TEST_${EXECUTABLE_NAME}_LIBS
 SET(TEST_tsot_LIBS
-	task
-	feature-visual-point
-	gain-adaptive
-)
+  task
+  feature-visual-point
+  gain-adaptive
+  )
 
 IF(WIN32)
-SET(TEST_test_traces_EXT_LIBS
-	${DYNAMIC_GRAPH_PLUGINDIR}/tracer${CMAKE_LINK_LIBRARY_SUFFIX}
-)
+  SET(TEST_test_traces_EXT_LIBS
+    ${DYNAMIC_GRAPH_PLUGINDIR}/tracer${CMAKE_LINK_LIBRARY_SUFFIX}
+    )
 ELSE(WIN32)
-SET(TEST_test_traces_EXT_LIBS
-	${DYNAMIC_GRAPH_PLUGINDIR}/tracer${CMAKE_SHARED_LIBRARY_SUFFIX}
-)
+  SET(TEST_test_traces_EXT_LIBS
+    ${DYNAMIC_GRAPH_PLUGINDIR}/tracer${CMAKE_SHARED_LIBRARY_SUFFIX}
+    )
 ENDIF(WIN32)
 
 SET(TEST_test_gain_LIBS
-	gain-adaptive feature-visual-point
-)
+  gain-adaptive feature-visual-point
+  )
 
 SET(TEST_test_task_LIBS
-	gain-adaptive feature-visual-point task
-)
+  gain-adaptive feature-visual-point task
+  )
 
 SET(TEST_test_mailbox_LIBS
-	mailbox-vector
-)
+  mailbox-vector
+  )
 
 SET(TEST_test_control_pd_LIBS
   control-pd
   )
+
+SET(TEST_test_filter_differentiator_LIBS
+  filter-differentiator
+  )
 #test paths and names (without .cpp extension)
 SET (tests
-	dummy
+  dummy
 
-	control/test_control_pd
-	
-	signal/test_signal
-	signal/test_depend
-	signal/test_ptr
-	signal/test_dep
-	signal/test_ptrcast
+  control/test_control_pd
 
-	sot/tsot
+  filters/test_filter_differentiator
 
-	traces/files
-	traces/test_traces
+  signal/test_signal
+  signal/test_depend
+  signal/test_ptr
+  signal/test_dep
+  signal/test_ptrcast
 
-	task/test_flags
-	task/test_gain
-	task/test_multi_bound
-	task/test_task
+  sot/tsot
 
-	tools/test_boost
-	tools/test_mailbox
-	tools/test_matrix
-	tools/test_robot_utils
-	
-	math/matrix-twist
-	math/matrix-homogeneous
+  traces/files
+  traces/test_traces
 
-	matrix/test_operator
-	)
+  task/test_flags
+  task/test_gain
+  task/test_multi_bound
+  task/test_task
+
+  tools/test_boost
+  tools/test_mailbox
+  tools/test_matrix
+  tools/test_robot_utils
+
+  math/matrix-twist
+  math/matrix-homogeneous
+
+  matrix/test_operator
+  )
 
 # TODO
 IF(WIN32)
-	LIST(REMOVE_ITEM tests tools/test_mailbox)
+  LIST(REMOVE_ITEM tests tools/test_mailbox)
 ENDIF(WIN32)
 
 IF(UNIX)
   ADD_LIBRARY(pluginabstract
     SHARED
-  tools/plugin.cc)
+    tools/plugin.cc)
 
   ADD_EXECUTABLE(test_abstract_interface
-  tools/test_abstract_interface.cpp
-  )
+    tools/test_abstract_interface.cpp
+    )
   TARGET_LINK_LIBRARIES(test_abstract_interface
     pluginabstract ${CMAKE_DL_LIBS} ${Boost_LIBRARIES})
 
@@ -112,39 +118,39 @@ ADD_DEFINITIONS(-DDEBUG=2)
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
 
 FOREACH(test ${tests})
-	GET_FILENAME_COMPONENT(EXECUTABLE_NAME ${test} NAME)
+  GET_FILENAME_COMPONENT(EXECUTABLE_NAME ${test} NAME)
 
-	ADD_EXECUTABLE(${EXECUTABLE_NAME} ${test}.cpp)
+  ADD_EXECUTABLE(${EXECUTABLE_NAME} ${test}.cpp)
 
-	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${PROJECT_NAME})
-	ADD_DEPENDENCIES     (${EXECUTABLE_NAME} ${PROJECT_NAME})
+  TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${PROJECT_NAME})
+  ADD_DEPENDENCIES     (${EXECUTABLE_NAME} ${PROJECT_NAME})
 
-	IF( TEST_${EXECUTABLE_NAME}_LIBS )
-		TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_LIBS})
-		ADD_DEPENDENCIES     (${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_LIBS})
-	ENDIF( TEST_${EXECUTABLE_NAME}_LIBS )
+  IF( TEST_${EXECUTABLE_NAME}_LIBS )
+    TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_LIBS})
+    ADD_DEPENDENCIES     (${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_LIBS})
+  ENDIF( TEST_${EXECUTABLE_NAME}_LIBS )
 
-	IF( TEST_${EXECUTABLE_NAME}_EXT_LIBS )
-		TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_EXT_LIBS})
-	ENDIF( TEST_${EXECUTABLE_NAME}_EXT_LIBS )
+  IF( TEST_${EXECUTABLE_NAME}_EXT_LIBS )
+    TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_EXT_LIBS})
+  ENDIF( TEST_${EXECUTABLE_NAME}_EXT_LIBS )
 
-	IF (UNIX)
-		TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${CMAKE_DL_LIBS})
-	ENDIF(UNIX)
+  IF (UNIX)
+    TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${CMAKE_DL_LIBS})
+  ENDIF(UNIX)
 
-	PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} dynamic-graph)
+  PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} dynamic-graph)
   IF(BUILD_PYTHON_INTERFACE)
     PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} dynamic-graph-python)
   ENDIF(BUILD_PYTHON_INTERFACE)
 
-	# Link against Boost.
-	TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY})
-	ADD_TEST(${test} ${EXECUTABLE_NAME})
+  # Link against Boost.
+  TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY})
+  ADD_TEST(${test} ${EXECUTABLE_NAME})
 
-	IF (UNIX)
-	  SET(EXTRA_LD_LIBRARY_PATH $ENV{LD_LIBRARY_PATH})
-	  SET_PROPERTY(TEST ${test} PROPERTY
-	    ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/src:${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}:${BOOST_ROOT}/lib:${EXTRA_LD_LIBRARY_PATH}")
-	ENDIF(UNIX)
+  IF (UNIX)
+    SET(EXTRA_LD_LIBRARY_PATH $ENV{LD_LIBRARY_PATH})
+    SET_PROPERTY(TEST ${test} PROPERTY
+      ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/src:${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}:${BOOST_ROOT}/lib:${EXTRA_LD_LIBRARY_PATH}")
+  ENDIF(UNIX)
 
 ENDFOREACH(test)

@@ -44,11 +44,15 @@
 
 namespace dynamicgraph {
   namespace sot {
-    namespace talos_balance {
-
-      /**
-        * This Entity takes as inputs a signal and applies a low pass filter
+      /** \addtogroup Filters 
+	  \section subsec_filterdiff FilterDifferentiator
+        This Entity takes as inputs a signal and applies a low pass filter (implemented through CasualFilter)
         and computes finite difference derivative.
+	
+	The input signal is provided through m_xSIN (an entity signal). 
+	The filtered signal is given through m_x_filteredSOUT.
+	The first derivative of the filtered signal is provided with m_dxSOUT.
+	The second derivative of the filtered signal is provided with m_ddxSOUT.
         */
       class SOTFILTERDIFFERENTIATOR_EXPORT FilterDifferentiator
           :public ::dynamicgraph::Entity
@@ -56,23 +60,30 @@ namespace dynamicgraph {
         DYNAMIC_GRAPH_ENTITY_DECL();
 
       public:  /* --- SIGNALS --- */
+	/// Input signals
         DECLARE_SIGNAL_IN(x,                 dynamicgraph::Vector);
+	/// Output signal x_filtered
         DECLARE_SIGNAL_OUT(x_filtered,       dynamicgraph::Vector);
         DECLARE_SIGNAL_OUT(dx,               dynamicgraph::Vector);
         DECLARE_SIGNAL_OUT(ddx,              dynamicgraph::Vector);
 
-        /// The following inner signals are used because this entity has some output signals
-        /// whose related quantities are computed at the same time by the same algorithm
-        /// To avoid the risk of recomputing the same things twice, we create an inner signal that groups together
-        /// all the quantities that are computed together. Then the single output signals will depend
+        /// The following inner signals are used because this entity has
+        /// some output signals
+        /// whose related quantities are computed at the same time by the
+        /// same algorithm
+        /// To avoid the risk of recomputing the same things twice,
+        /// we create an inner signal that groups together
+        /// all the quantities that are computed together.
+        /// Then the single output signals will depend
         /// on this inner signal, which is the one triggering the computations.
         /// Inner signals are not exposed, so that nobody can access them.
 
-        /// This signal contains the estimated positions, velocities and accelerations.
+        /// This signal contains the estimated positions, velocities and
+        /// accelerations.
         DECLARE_SIGNAL_INNER(x_dx_ddx,              dynamicgraph::Vector);
-        
+
       protected:
-      
+
         double m_dt;      /// sampling timestep of the input signal
         int m_x_size;
 
@@ -86,12 +97,15 @@ namespace dynamicgraph {
         FilterDifferentiator( const std::string & name );
 
         /** Initialize the FilterDifferentiator.
-         * @param timestep Period (in seconds) after which the sensors' data are updated.
+         * @param timestep Period (in seconds) after which
+	 * the sensors' data are updated.
          * @param sigSize  Size of the input signal.
          * @param delay    Delay (in seconds) introduced by the estimation.
          *                 This should be a multiple of timestep.
-         * @note The estimationDelay is half of the length of the window used for the
-         * polynomial fitting. The larger the delay, the smoother the estimations.
+         * @note The estimationDelay is half of the length of the
+	 * window used for the
+         * polynomial fitting. The larger the delay,
+	 * the smoother the estimations.
          */
         void init(const double &timestep,
                   const int& xSize,
@@ -109,7 +123,6 @@ namespace dynamicgraph {
 
       }; // class FilterDifferentiator
 
-    } // namespace talos_balance
   } // namespace sot
 } // namespace dynamicgraph
 

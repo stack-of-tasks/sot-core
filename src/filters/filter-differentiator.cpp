@@ -33,8 +33,6 @@ namespace dynamicgraph
 {
   namespace sot
   {
-    namespace talos_balance
-    {
 
 #define ALL_INPUT_SIGNALS m_xSIN
 
@@ -206,6 +204,5 @@ namespace dynamicgraph
         catch (ExceptionSignal e) {}
       }
 
-    } // namespace talos_balance
   } // namespace sot
 } // namespace dynamicgraph

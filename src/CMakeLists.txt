@@ -55,6 +55,9 @@ SET(plugins
   feature/feature-posture
   feature/visual-point-projecter
 
+  filters/filter-differentiator
+  filters/madgwickahrs
+
   traces/reader
 
   tools/event
@@ -143,6 +146,10 @@ SET(${LIBRARY_NAME}_SOURCES
   tools/robot-utils
 
   matrix/matrix-svd
+
+  filters/causal-filter
+
+  utils/stop-watch
 
   )
 
