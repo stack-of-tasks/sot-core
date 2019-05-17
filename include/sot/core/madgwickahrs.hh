@@ -58,50 +58,73 @@
 
 namespace dynamicgraph {
   namespace sot {
-    namespace talos_balance {
+    /* --------------------------------------------------------------- */
+    /* --- CLASS ----------------------------------------------------- */
+    /* --------------------------------------------------------------- */
+    /** \addtogroup Filters
+	This class implements the MadgwickAHRS filter as described
+	in http://x-io.co.uk/res/doc/madgwick_internal_report.pdf
+	This method uses a gradient descent approach to compute the orientation
+	from an IMU.
+	  
+	The signals input are:
+	<ul>
+	<li>m_accelerometerSIN: \f$[a_x, a_y, a_z]^T\f$ in \f$m.s^{-2}\f$</li>
+	<li>m_gyroscopeSIN: \f$[g_x, g_y, g_z]^T\f$ in \f$rad.s^{-1}\f$</li>
+	<li>m_imu_quatSOUT: \f$[q_0, q_1, q_2, q_3]^T</li> estimated rotation as a quaternion</li>
+	</ul>
 
-      /* --------------------------------------------------------------------- */
-      /* --- CLASS ----------------------------------------------------------- */
-      /* --------------------------------------------------------------------- */
+	The internal parameters are:
+	<ul> 
+	<li>\f$Beta\f$: Gradient step weight (default to 0.01) </li>
+	<li>\f$m_sampleFref\f$: Sampling Frequency computed from the control
+	period when using init.</li>
+	</ul>
+    */
+    class SOTMADGWICKAHRS_EXPORT MadgwickAHRS
+      :public::dynamicgraph::Entity
+    {
+      typedef MadgwickAHRS EntityClassName;
+      DYNAMIC_GRAPH_ENTITY_DECL();
 
-      class SOTMADGWICKAHRS_EXPORT MadgwickAHRS
-          :public::dynamicgraph::Entity
-      {
-        typedef MadgwickAHRS EntityClassName;
-        DYNAMIC_GRAPH_ENTITY_DECL();
-
-      public:
-        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+    public:
+      EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
         /* --- CONSTRUCTOR ---- */
         MadgwickAHRS( const std::string & name );
 
-        void init(const double& dt);
-        void set_beta(const double & beta);
+      void init(const double& dt);
+      void set_beta(const double & beta);
 
-        /* --- SIGNALS --- */
-        DECLARE_SIGNAL_IN(accelerometer,              dynamicgraph::Vector);  /// ax ay az in m.s-2
-        DECLARE_SIGNAL_IN(gyroscope,                  dynamicgraph::Vector);  /// gx gy gz in rad.s-1
-        DECLARE_SIGNAL_OUT(imu_quat,                  dynamicgraph::Vector);  /// Estimated orientation of IMU as a quaternion
+      /* --- SIGNALS --- */
+      /// ax ay az in m.s-2
+      DECLARE_SIGNAL_IN(accelerometer,              dynamicgraph::Vector);
+      /// gx gy gz in rad.s-1
+      DECLARE_SIGNAL_IN(gyroscope,                  dynamicgraph::Vector);
+      /// Estimated orientation of IMU as a quaternion
+      DECLARE_SIGNAL_OUT(imu_quat,                  dynamicgraph::Vector);
 
-      protected:
-        /* --- COMMANDS --- */
-        /* --- ENTITY INHERITANCE --- */
-        virtual void display( std::ostream& os ) const;
+    protected:
+      /* --- COMMANDS --- */
+      /* --- ENTITY INHERITANCE --- */
+      virtual void display( std::ostream& os ) const;
 
-        /* --- METHODS --- */
-        double invSqrt(double x);
-        void madgwickAHRSupdateIMU(double gx, double gy, double gz, double ax, double ay, double az) ;
-        //void madgwickAHRSupdate(double gx, double gy, double gz, double ax, double ay, double az, double mx, double my, double mz);
+      /* --- METHODS --- */
+      double invSqrt(double x);
+      void madgwickAHRSupdateIMU
+	(double gx, double gy, double gz, double ax, double ay, double az) ;
 
-      protected:
-        bool     m_initSucceeded;        /// true if the entity has been successfully initialized
-        double   m_beta;                 /// 2 * proportional gain (Kp)
-        double   m_q0, m_q1, m_q2, m_q3; /// quaternion of sensor frame
-        double   m_sampleFreq;           /// sample frequency in Hz
+    protected:
+      /// true if the entity has been successfully initialized
+      bool     m_initSucceeded;
+      /// 2 * proportional gain (Kp)
+      double   m_beta;
+      /// quaternion of sensor frame
+      double   m_q0, m_q1, m_q2, m_q3;
+      /// sample frequency in Hz
+      double   m_sampleFreq;           
 
-      }; // class MadgwickAHRS
-    }    // namespace talos_balance
+    }; // class MadgwickAHRS
   }      // namespace sot
 }        // namespace dynamicgraph
 
