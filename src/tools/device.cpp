@@ -13,6 +13,7 @@
 /* SOT */
 #define ENABLE_RT_LOG
 
+#include <iostream>
 #include "sot/core/device.hh"
 #include <sot/core/debug.hh>
 using namespace std;
@@ -611,6 +612,6 @@ void Device::display ( std::ostream& os ) const
 void Device::cmdDisplay ( )
 {
   std::cout << name <<": "<<state_<<endl
-     << "sanityCheck: " << sanityCheck_<< endl
-     << "controlInputType:" << controlInputType_ << endl;
+	    << "sanityCheck: " << sanityCheck_<< endl
+	    << "controlInputType:" << controlInputType_ << endl;
 }

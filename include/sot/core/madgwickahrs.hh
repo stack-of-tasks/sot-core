@@ -1,4 +1,4 @@
-//=====================================================================================================
+//========================================================================
 //
 // Implementation of Madgwick's IMU and AHRS algorithms.
 // See: http://www.x-io.co.uk/node/8#open_source_ahrs_and_imu_algorithms
@@ -9,7 +9,7 @@
 // 11/05/2017 T Flayols     Make it a dynamic graph entity
 // 26/03/2019 G Buondonno   Converted to double
 //
-//=====================================================================================================
+//========================================================================
 
 /*
  * Copyright 2017, Thomas Flayols, LAAS-CNRS
@@ -58,10 +58,9 @@
 
 namespace dynamicgraph {
   namespace sot {
-    /* --------------------------------------------------------------- */
-    /* --- CLASS ----------------------------------------------------- */
-    /* --------------------------------------------------------------- */
     /** \addtogroup Filters
+	\section subsec_madgwickahrs MadgwickAHRS filter
+	\class MadgwickARHS
 	This class implements the MadgwickAHRS filter as described
 	in http://x-io.co.uk/res/doc/madgwick_internal_report.pdf
 	This method uses a gradient descent approach to compute the orientation
@@ -71,7 +70,8 @@ namespace dynamicgraph {
 	<ul>
 	<li>m_accelerometerSIN: \f$[a_x, a_y, a_z]^T\f$ in \f$m.s^{-2}\f$</li>
 	<li>m_gyroscopeSIN: \f$[g_x, g_y, g_z]^T\f$ in \f$rad.s^{-1}\f$</li>
-	<li>m_imu_quatSOUT: \f$[q_0, q_1, q_2, q_3]^T</li> estimated rotation as a quaternion</li>
+	<li>m_imu_quatSOUT: \f$[q_0, q_1, q_2, q_3]^T</li> estimated rotation
+	as a quaternion</li>
 	</ul>
 
 	The internal parameters are:
