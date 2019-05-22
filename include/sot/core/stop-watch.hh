@@ -25,8 +25,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#ifndef __sot_talos_balance_stopwatch_H__
-#define __sot_talos_balance_stopwatch_H__
+#ifndef __sot_core_stopwatch_H__
+#define __sot_core_stopwatch_H__
 
 #include <iostream>
 #include <map>

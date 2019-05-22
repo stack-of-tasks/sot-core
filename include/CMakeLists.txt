@@ -3,6 +3,7 @@
 SET(NEWHEADERS
   sot/core/api.hh
   sot/core/abstract-sot-external-interface.hh
+  sot/core/causal-filter.hh
   sot/core/device.hh
   sot/core/robot-simu.hh
   sot/core/matrix-geometry.hh
@@ -76,6 +77,7 @@ SET(NEWHEADERS
   sot/core/periodic-call.hh
   sot/core/periodic-call-entity.hh
   sot/core/trajectory.hh
+  sot/core/stop-watch.hh
   sot/core/switch.hh
   sot/core/variadic-op.hh
   sot/core/robot-utils.hh

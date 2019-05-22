@@ -32,7 +32,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 #include <iomanip>      // std::setprecision
-#include "sot/talos_balance/utils/stop-watch.hh"
+#include "sot/core/stop-watch.hh"
 
 using std::map;
 using std::string;
