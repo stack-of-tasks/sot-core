@@ -39,8 +39,8 @@
 
 /* HELPER */
 #include <dynamic-graph/signal-helper.h>
-#include <sot/talos_balance/utils/stop-watch.hh>
-#include <sot/talos_balance/utils/causal-filter.hh>
+#include <sot/core/stop-watch.hh>
+#include <sot/core/causal-filter.hh>
 
 namespace dynamicgraph {
   namespace sot {
