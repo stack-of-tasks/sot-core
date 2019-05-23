@@ -1,3 +1,5 @@
+#ifndef _SOT_CORE_CAUSAL_FILTER_H_
+#define _SOT_CORE_CAUSAL_FILTER_H_
 /*
  * Copyright 2017-, Rohan Budhirja, LAAS-CNRS
  *
@@ -39,48 +41,54 @@
     
     
  */
-class CausalFilter
-{
-public:
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-  
-  /** --- CONSTRUCTOR ---- 
-      \param[in] timestep
-      \param[in] xSize
-      \param[in] filter_numerator
-      \param[in] filter_denominator
+namespace dynamicgraph {
+  namespace sot {
+    
+    class CausalFilter
+    {
+    public:
+      EIGEN_MAKE_ALIGNED_OPERATOR_NEW
       
-      xSize is 
-   */
-  CausalFilter(const double &timestep,
-               const int& xSize,
-               const Eigen::VectorXd& filter_numerator,
-               const Eigen::VectorXd& filter_denominator);
-  
-  void get_x_dx_ddx(const Eigen::VectorXd& base_x,
-                Eigen::VectorXd& x_output_dx_ddx);
-  
-  void switch_filter(const Eigen::VectorXd& filter_numerator,
-                     const Eigen::VectorXd& filter_denominator);
-  
-private:
-  /// sampling timestep of the input signal
-  double m_dt;
-  /// Size 
-  int m_x_size;
-  /// Size of the numerator \f$m\f$
-  Eigen::Index m_filter_order_m;
-  /// Size of the denominator \f$n\f$
-  Eigen::Index m_filter_order_n;
-
-  /// Coefficients of the numerator \f$b\f$
-  Eigen::VectorXd m_filter_numerator;
-  /// Coefficients of the denominator \f$a\f$
-  Eigen::VectorXd m_filter_denominator;
-  bool m_first_sample;
-  /// 
-  int m_pt_numerator;
-  int m_pt_denominator;
-  Eigen::MatrixXd m_input_buffer;
-  Eigen::MatrixXd m_output_buffer;
-}; // class CausalFilter
+      /** --- CONSTRUCTOR ---- 
+	  \param[in] timestep
+	  \param[in] xSize
+	  \param[in] filter_numerator
+	  \param[in] filter_denominator
+	  
+	  xSize is 
+      */
+      CausalFilter(const double &timestep,
+		   const int& xSize,
+		   const Eigen::VectorXd& filter_numerator,
+		   const Eigen::VectorXd& filter_denominator);
+      
+      void get_x_dx_ddx(const Eigen::VectorXd& base_x,
+			Eigen::VectorXd& x_output_dx_ddx);
+      
+      void switch_filter(const Eigen::VectorXd& filter_numerator,
+			 const Eigen::VectorXd& filter_denominator);
+      
+    private:
+      /// sampling timestep of the input signal
+      double m_dt;
+      /// Size 
+      int m_x_size;
+      /// Size of the numerator \f$m\f$
+      Eigen::Index m_filter_order_m;
+      /// Size of the denominator \f$n\f$
+      Eigen::Index m_filter_order_n;
+      
+      /// Coefficients of the numerator \f$b\f$
+      Eigen::VectorXd m_filter_numerator;
+      /// Coefficients of the denominator \f$a\f$
+      Eigen::VectorXd m_filter_denominator;
+      bool m_first_sample;
+      /// 
+      int m_pt_numerator;
+      int m_pt_denominator;
+      Eigen::MatrixXd m_input_buffer;
+      Eigen::MatrixXd m_output_buffer;
+    }; // class CausalFilter
+  } /// core
+} /// sot 
+#endif /* _SOT_CORE_CAUSAL_FILTER_H_ */
