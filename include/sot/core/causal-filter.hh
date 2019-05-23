@@ -74,9 +74,9 @@ namespace dynamicgraph {
       /// Size 
       int m_x_size;
       /// Size of the numerator \f$m\f$
-      Eigen::Index m_filter_order_m;
+      Eigen::VectorXd::Index m_filter_order_m;
       /// Size of the denominator \f$n\f$
-      Eigen::Index m_filter_order_n;
+      Eigen::VectorXd::Index m_filter_order_n;
       
       /// Coefficients of the numerator \f$b\f$
       Eigen::VectorXd m_filter_numerator;
