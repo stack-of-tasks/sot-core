@@ -13,6 +13,7 @@
 /* SOT */
 #define ENABLE_RT_LOG
 
+#include <iostream>
 #include "sot/core/device.hh"
 #include <sot/core/debug.hh>
 using namespace std;
@@ -34,8 +35,11 @@ const std::string Device::CLASS_NAME = "Device";
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void Device::integrateRollPitchYaw(Vector& state, const Vector& control,
-                                   double dt)
+void Device::
+integrateRollPitchYaw
+(Vector& state,
+ const Vector& control,
+ double dt)
 {
   using Eigen::AngleAxisd;
   using Eigen::Vector3d;
@@ -56,11 +60,13 @@ void Device::integrateRollPitchYaw(Vector& state, const Vector& control,
   ffPose_.translation() = qout.head<3>();
   state.head<3>() = qout.head<3>();
 
-  ffPose_.linear() = QuaternionMapd(qout.tail<4>().data()).toRotationMatrix();
+  ffPose_.linear() =
+    QuaternionMapd(qout.tail<4>().data()).toRotationMatrix();
   state.segment<3>(3) = ffPose_.linear().eulerAngles(2,1,0).reverse();
 }
 
-const MatrixHomogeneous& Device::freeFlyerPose() const
+const MatrixHomogeneous&
+Device::freeFlyerPose() const
 {
   return ffPose_;
 }
@@ -88,8 +94,9 @@ Device( const std::string& n )
   ,attitudeSOUT( "Device("+n+")::output(matrixRot)::attitude" )
   ,motorcontrolSOUT   ( "Device("+n+")::output(vector)::motorcontrol" )
   ,previousControlSOUT( "Device("+n+")::output(vector)::previousControl" )
-  ,ZMPPreviousControllerSOUT( "Device("+n+")::output(vector)::zmppreviouscontroller" )
-
+  ,ZMPPreviousControllerSOUT
+   ( "Device("+n+
+     ")::output(vector)::zmppreviouscontroller" )
   ,robotState_     ("Device("+n+")::output(vector)::robotState")
   ,robotVelocity_  ("Device("+n+")::output(vector)::robotVelocity")
   ,pseudoTorqueSOUT("Device("+n+")::output(vector)::ptorque" )
@@ -113,7 +120,8 @@ Device( const std::string& n )
                       <<velocitySOUT<<attitudeSOUT
                       <<attitudeSIN<<zmpSIN <<*forcesSOUT[0]<<*forcesSOUT[1]
                       <<*forcesSOUT[2]<<*forcesSOUT[3] <<previousControlSOUT
-                      <<pseudoTorqueSOUT << motorcontrolSOUT << ZMPPreviousControllerSOUT );
+                      <<pseudoTorqueSOUT << motorcontrolSOUT
+		      << ZMPPreviousControllerSOUT );
   state_.fill(.0); stateSOUT.setConstant( state_ );
 
   velocity_.resize(state_.size()); velocity_.setZero();
@@ -161,9 +169,21 @@ Device( const std::string& n )
         "    acceleration measure instead of velocity \n"
         "\n";
 
-    addCommand("setSecondOrderIntegration",
-               command::makeCommandVoid0(*this,&Device::setSecondOrderIntegration,
-                                         docstring));
+    addCommand
+      ("setSecondOrderIntegration",
+       command::makeCommandVoid0
+       (*this,&Device::setSecondOrderIntegration,
+	docstring));
+
+    /* Display information */
+    docstring =
+        "\n"
+        "    Display information on device  \n"
+        "\n";
+    addCommand
+      ("display",
+       command::makeCommandVoid0
+       (*this,&Device::cmdDisplay,docstring));
 
     /* SET of control input type. */
     docstring =
@@ -185,23 +205,34 @@ Device( const std::string& n )
                (*this, &Device::setSanityCheck, docstring));
 
     addCommand("setPositionBounds",
-               command::makeCommandVoid2(*this,&Device::setPositionBounds,
-                 command::docCommandVoid2 ("Set robot position bounds", "vector: lower bounds", "vector: upper bounds")
-                 ));
+               command::makeCommandVoid2
+	       (*this,&Device::setPositionBounds,
+                 command::docCommandVoid2
+		("Set robot position bounds",
+		 "vector: lower bounds",
+		 "vector: upper bounds")));
 
     addCommand("setVelocityBounds",
-               command::makeCommandVoid2(*this,&Device::setVelocityBounds,
-                 command::docCommandVoid2 ("Set robot velocity bounds", "vector: lower bounds", "vector: upper bounds")
-                 ));
+               command::makeCommandVoid2
+	       (*this,&Device::setVelocityBounds,
+		command::docCommandVoid2
+		("Set robot velocity bounds",
+		 "vector: lower bounds",
+		 "vector: upper bounds")));
 
     addCommand("setTorqueBounds",
-               command::makeCommandVoid2(*this,&Device::setTorqueBounds,
-                 command::docCommandVoid2 ("Set robot torque bounds", "vector: lower bounds", "vector: upper bounds")
-                 ));
+               command::makeCommandVoid2
+	       (*this,&Device::setTorqueBounds,
+		command::docCommandVoid2
+		("Set robot torque bounds",
+		 "vector: lower bounds",
+		 "vector: upper bounds")));
 
     addCommand("getTimeStep",
-	       command::makeDirectGetter (*this, &this->timestep_,
-		command::docDirectGetter ("Time step", "double")));
+	       command::makeDirectGetter
+	       (*this, &this->timestep_,
+		command::docDirectGetter
+		("Time step", "double")));
 
     // Handle commands and signals called in a synchronous way.
     periodicCallBefore_.addSpecificCommands(*this, commandMap, "before.");
@@ -252,7 +283,8 @@ setState( const Vector& st )
         if (   s != lowerVelocity_.size()
             || s != upperVelocity_.size() )
           throw std::invalid_argument ("Upper and/or lower velocity bounds "
-              "do not match state size. Set them first with setVelocityBounds");
+              "do not match state size."
+	      " Set them first with setVelocityBounds");
       case CONTROL_INPUT_NO_INTEGRATION:
         break;
       default:
@@ -332,18 +364,21 @@ setSanityCheck(const bool & enableCheck)
              "to estimate the joint torques for the given acceleration.\n";
         if (   s != lowerTorque_.size()
             || s != upperTorque_.size() )
-          throw std::invalid_argument ("Upper and/or lower torque bounds "
-              "do not match state size. Set them first with setTorqueBounds");
+          throw std::invalid_argument
+	    ("Upper and/or lower torque bounds "
+	     "do not match state size. Set them first with setTorqueBounds");
       case CONTROL_INPUT_ONE_INTEGRATION:
         if (   s != lowerVelocity_.size()
             || s != upperVelocity_.size() )
-          throw std::invalid_argument ("Upper and/or lower velocity bounds "
-              "do not match state size. Set them first with setVelocityBounds");
+          throw std::invalid_argument
+	    ("Upper and/or lower velocity bounds "
+	     "do not match state size. Set them first with setVelocityBounds");
       case CONTROL_INPUT_NO_INTEGRATION:
         if (   s != lowerPosition_.size()
             || s != upperPosition_.size() )
-          throw std::invalid_argument ("Upper and/or lower position bounds "
-              "do not match state size. Set them first with setPositionBounds");
+          throw std::invalid_argument
+	    ("Upper and/or lower position bounds "
+	     "do not match state size. Set them first with setPositionBounds");
         break;
       default:
         throw std::invalid_argument ("Invalid control mode type.");
@@ -500,12 +535,12 @@ saturateBounds (double& val, const double& lower, const double& upper)
   return false;
 }
 
-#define CHECK_BOUNDS(val, lower, upper, what)                                  \
-  for (int i = 0; i < val.size(); ++i) {                                       \
-    double old = val(i);                                                       \
-    if (saturateBounds (val(i), lower(i), upper(i)))                           \
-      dgRTLOG () << "Robot " what " bound violation at DoF " << i <<           \
-      ": requested " << old << " but set " << val(i) << '\n';                  \
+#define CHECK_BOUNDS(val, lower, upper, what)                                 \
+  for (int i = 0; i < val.size(); ++i) {                                      \
+    double old = val(i);                                                      \
+    if (saturateBounds (val(i), lower(i), upper(i)))                          \
+      dgRTLOG () << "Robot " what " bound violation at DoF " << i <<          \
+      ": requested " << old << " but set " << val(i) << '\n';                 \
   }
 
 void Device::integrate( const double & dt )
@@ -568,4 +603,15 @@ void Device::integrate( const double & dt )
 /* --- DISPLAY ------------------------------------------------------------ */
 
 void Device::display ( std::ostream& os ) const
-{os <<name<<": "<<state_<<endl; }
+{
+  os << name <<": "<<state_<<endl
+     << "sanityCheck: " << sanityCheck_<< endl
+     << "controlInputType:" << controlInputType_ << endl;
+}
+
+void Device::cmdDisplay ( )
+{
+  std::cout << name <<": "<<state_<<endl
+	    << "sanityCheck: " << sanityCheck_<< endl
+	    << "controlInputType:" << controlInputType_ << endl;
+}

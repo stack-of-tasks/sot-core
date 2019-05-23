@@ -107,6 +107,7 @@ namespace dynamicgraph {
 
     public: /* --- DISPLAY --- */
       virtual void display(std::ostream& os) const;
+      virtual void cmdDisplay();
       SOT_CORE_EXPORT friend std::ostream&
       operator<<(std::ostream& os,const Device& r) {
         r.display(os); return os;
