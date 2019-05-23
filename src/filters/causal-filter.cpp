@@ -19,7 +19,7 @@
 #include <sot/core/causal-filter.hh>
 
 
-
+using namespace dynamicgraph::sot;
 /*
 Filter data with an IIR or FIR filter.
 
