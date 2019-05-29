@@ -229,6 +229,11 @@ namespace dynamicgraph {
        * OpenHRP plugins).
        */
       SignalPtr<dg::Vector,int> q0SIN;
+      /*! \brief A matrix K whose columns are a base of the desired velocity.
+       * In other words, \f$ \dot{q} = K * u \f$ where \f$ u \f$ is the free
+       * parameter to be computed.
+       */
+      SignalPtr<dg::Matrix,int> proj0SIN;
       /*! \brief This signal allow to change the threshold for the
 	damped pseudo-inverse on-line */
       SignalPtr<double,int> inversionThresholdSIN;
