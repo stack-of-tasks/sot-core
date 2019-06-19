@@ -538,9 +538,12 @@ saturateBounds (double& val, const double& lower, const double& upper)
 #define CHECK_BOUNDS(val, lower, upper, what)                                 \
   for (int i = 0; i < val.size(); ++i) {                                      \
     double old = val(i);                                                      \
-    if (saturateBounds (val(i), lower(i), upper(i)))                          \
-      dgRTLOG () << "Robot " what " bound violation at DoF " << i <<          \
-      ": requested " << old << " but set " << val(i) << '\n';                 \
+    if (saturateBounds (val(i), lower(i), upper(i))) {                        \
+      std::ostringstream oss;                                                 \
+      oss << "Robot " what " bound violation at DoF " << i << ": requested "  \
+          << old << " but set " << val(i) << '\n';                            \
+      SEND_ERROR_STREAM_MSG (oss.str());                                      \
+    }                                                                         \
   }
 
 void Device::integrate( const double & dt )
