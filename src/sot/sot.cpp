@@ -63,17 +63,18 @@ Sot( const std::string& name )
   ,taskGradient(0)
   ,recomputeEachTime(true)
   ,q0SIN( NULL,"sotSOT("+name+")::input(double)::q0" )
+  ,proj0SIN( NULL,"sotSOT("+name+")::input(double)::proj0" )
   ,inversionThresholdSIN( NULL,"sotSOT("+name+")::input(double)::damping" )
   ,constraintSOUT( boost::bind(&Sot::computeConstraintProjector,this,_1,_2),
 		   sotNOSIGNAL,
 		    "sotSOT("+name+")::output(matrix)::constraint" )
   ,controlSOUT( boost::bind(&Sot::computeControlLaw,this,_1,_2),
-		constraintSOUT<<inversionThresholdSIN<<q0SIN,
+		constraintSOUT<<inversionThresholdSIN<<q0SIN<<proj0SIN,
 		"sotSOT("+name+")::output(vector)::control" )
 {
   inversionThresholdSIN = INVERSION_THRESHOLD_DEFAULT;
 
-  signalRegistration( inversionThresholdSIN<<controlSOUT<<constraintSOUT<<q0SIN );
+  signalRegistration( inversionThresholdSIN<<controlSOUT<<constraintSOUT<<q0SIN<<proj0SIN );
 
   // Commands
   //
@@ -485,6 +486,11 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
   sotDEBUGF(5, " --- Time %d -------------------", iterTime );
   unsigned int iterTask = 0;
   const Matrix* PrevProj = NULL;
+  // Get initial projector if any.
+  if (proj0SIN.isPlugged()) {
+    const Matrix& initialProjector = proj0SIN.access (iterTime);
+    PrevProj = &initialProjector;
+  }
   for( StackType::iterator iter = stack.begin(); iter!=stack.end();++iter )
     {
       sotDEBUGF(5,"Rank %d.",iterTask);
@@ -555,7 +561,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 	/***/sotCOUNTER(3,4); // compute JK*S
 
 	/* --- COMPUTE Jt --- */
-	if( 0<iterTask ) Jt.noalias() = JK*(*PrevProj); else { Jt = JK; }
+	if( PrevProj!=NULL ) Jt.noalias() = JK*(*PrevProj); else { Jt = JK; }
 	/***/sotCOUNTER(4,5); // compute Jt
 
 	/* --- PINV --- */
@@ -607,12 +613,12 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       /* --- COMPUTE QDOT AND P --- */
       /*DEBUG: normally, the first iter (ie the test below)
       * is the same than the other, starting with control_0 = q0SIN. */
-      if( iterTask==0 ) control.noalias() += Jp*err;
-      else              control           += *PrevProj * (Jp*(err - JK*control));
+      if( PrevProj == NULL ) control.noalias() += Jp*err;
+      else                   control           += *PrevProj * (Jp*(err - JK*control));
       /***/sotCOUNTER(7,8); // QDOT
 
       /* --- OPTIMAL FORM: To debug. --- */
-      if( 0==iterTask ) {
+      if( PrevProj == NULL ) {
         Proj.noalias() = svd.matrixV().rightCols(svd.matrixV().cols()-rankJ);
       } else {
         Proj.noalias() = *PrevProj * svd.matrixV().rightCols(svd.matrixV().cols()-rankJ);
