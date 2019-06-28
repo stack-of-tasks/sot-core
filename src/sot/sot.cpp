@@ -17,11 +17,11 @@
 
 /* SOT */
 #ifdef VP_DEBUG
- class sotSOT__INIT
- {
- public:sotSOT__INIT( void ) { dynamicgraph::sot::DebugTrace::openFile(); }
- };
- sotSOT__INIT sotSOT_initiator;
+class sotSOT__INIT
+{
+public:sotSOT__INIT( void ) { dynamicgraph::sot::DebugTrace::openFile(); }
+};
+sotSOT__INIT sotSOT_initiator;
 #endif //#ifdef VP_DEBUG
 
 #include <sot/core/sot.hh>
@@ -67,7 +67,7 @@ Sot( const std::string& name )
   ,inversionThresholdSIN( NULL,"sotSOT("+name+")::input(double)::damping" )
   ,constraintSOUT( boost::bind(&Sot::computeConstraintProjector,this,_1,_2),
 		   sotNOSIGNAL,
-		    "sotSOT("+name+")::output(matrix)::constraint" )
+		   "sotSOT("+name+")::output(matrix)::constraint" )
   ,controlSOUT( boost::bind(&Sot::computeControlLaw,this,_1,_2),
 		constraintSOUT<<inversionThresholdSIN<<q0SIN<<proj0SIN,
 		"sotSOT("+name+")::output(vector)::control" )
@@ -407,30 +407,30 @@ static void computeJacobianActivated( Task* taskSpec,
 
 
 #ifdef  WITH_CHRONO
-	#ifndef WIN32
-	#include <sys/time.h>
-	#else /*WIN32*/
-	#include <sot/core/utils-windows.hh>
-	#endif /*WIN32*/
+#ifndef WIN32
+#include <sys/time.h>
+#else /*WIN32*/
+#include <sot/core/utils-windows.hh>
+#endif /*WIN32*/
 #endif /*WITH_CHRONO*/
 
 
 #ifdef  WITH_CHRONO
 #   define sotINIT_CHRONO1 struct timeval t0,t1; double dt
 #   define sotSTART_CHRONO1  gettimeofday(&t0,NULL)
-#   define sotCHRONO1 \
-      gettimeofday(&t1,NULL);\
-      dt = ( (double)(t1.tv_sec-t0.tv_sec) * 1000.* 1000.\
-	     + (double)(t1.tv_usec-t0.tv_usec)  );\
-      sotDEBUG(1) << "dt: "<< dt / 1000. << std::endl
+#   define sotCHRONO1					\
+  gettimeofday(&t1,NULL);				\
+  dt = ( (double)(t1.tv_sec-t0.tv_sec) * 1000.* 1000.	\
+	 + (double)(t1.tv_usec-t0.tv_usec)  );		\
+  sotDEBUG(1) << "dt: "<< dt / 1000. << std::endl
 #   define sotINITPARTCOUNTERS  struct timeval tpart0
 #   define sotSTARTPARTCOUNTERS  gettimeofday(&tpart0,NULL)
-#   define sotCOUNTER(nbc1,nbc2) \
-	  gettimeofday(&tpart##nbc2,NULL); \
-	  dt##nbc2 += ( (double)(tpart##nbc2.tv_sec-tpart##nbc1.tv_sec) * 1000.* 1000. \
-		   +    (double)(tpart##nbc2.tv_usec-tpart##nbc1.tv_usec)  )
-#   define sotINITCOUNTER(nbc1) \
-   struct timeval tpart##nbc1; double dt##nbc1=0;
+#   define sotCOUNTER(nbc1,nbc2)					\
+  gettimeofday(&tpart##nbc2,NULL);					\
+  dt##nbc2 += ( (double)(tpart##nbc2.tv_sec-tpart##nbc1.tv_sec) * 1000.* 1000. \
+		+    (double)(tpart##nbc2.tv_usec-tpart##nbc1.tv_usec)  )
+#   define sotINITCOUNTER(nbc1)				\
+  struct timeval tpart##nbc1; double dt##nbc1=0;
 #   define sotPRINTCOUNTER(nbc1)  sotDEBUG(1) << "dt" << nbc1 << " = " << dt##nbc1 << std::endl
 #else // #ifdef  WITH_CHRONO
 #   define sotINIT_CHRONO1
@@ -531,77 +531,77 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
           ||(task.jacobianSOUT.getTime()>mem->jacobianConstrainedSINOUT.getTime())
           ||(task.jacobianSOUT.getTime()>mem->rankSINOUT.getTime())
           ||(task.jacobianSOUT.getTime()>mem->singularBaseImageSINOUT.getTime()) )
-    {
-	sotDEBUG(2) <<"Recompute inverse."<<endl;
-
-	/* --- FIRST ALLOCS --- */
-	sotDEBUG(1) << "Size = "
-		    << std::min(nJ, mJ) + mem->Jff.cols()*mem->Jff.rows()
-	  + mem->Jact.cols()*mem->Jact.rows() << std::endl;
-
-	sotDEBUG(1) << std::endl;
-	sotDEBUG(1) << "nJ=" << nJ << " " << "Jac.cols()=" << Jac.cols()
-		    <<" "<< "mJ=" << mJ<<std::endl;
-	mem->Jff.resize( nJ,Jac.cols()-mJ ); // number dofs, number constraints
-	sotDEBUG(1) << std::endl;
-	mem->Jact.resize( nJ,mJ );
-	sotDEBUG(1) << std::endl;
-	sotDEBUG(1) << "Size = "
-		    << std::min(nJ, mJ) + mem->Jff.cols()*mem->Jff.rows()
-	  + mem->Jact.cols()*mem->Jact.rows() << std::endl;
-
-	/***/sotCOUNTER(1,2); // first allocs
-
-	/* --- COMPUTE JK --- */
-	computeJacobianConstrained( task,K );
-	/***/sotCOUNTER(2,3); // compute JK
-
-	/* --- COMPUTE S --- */
-	computeJacobianActivated( dynamic_cast<Task*>( &task ),JK,iterTime );
-	/***/sotCOUNTER(3,4); // compute JK*S
-
-	/* --- COMPUTE Jt --- */
-	if( PrevProj!=NULL ) Jt.noalias() = JK*(*PrevProj); else { Jt = JK; }
-	/***/sotCOUNTER(4,5); // compute Jt
-
-	/* --- PINV --- */
-        svd.compute (Jt);
-        Eigen::dampedInverse (svd, Jp, th);
-	/***/sotCOUNTER(5,6); // PINV
-	sotDEBUG(20) << "V after dampedInverse." << svd.matrixV() <<endl;
-	/* --- RANK --- */
 	{
-          rankJ = 0;
-          while ( rankJ < svd.singularValues().size()
-              &&  th    < svd.singularValues()[rankJ])
-          { ++rankJ; }
-	}
+	  sotDEBUG(2) <<"Recompute inverse."<<endl;
 
-	sotDEBUG(45) << "control"<<iterTask<<" = "<<control<<endl;
-	sotDEBUG(25) << "J"<<iterTask<<" = "<<Jac<<endl;
-	sotDEBUG(25) << "JK"<<iterTask<<" = "<<JK<<endl;
-	sotDEBUG(25) << "Jt"<<iterTask<<" = "<<Jt<<endl;
-	sotDEBUG(15) << "Jp"<<iterTask<<" = "<<Jp<<endl;
-	sotDEBUG(15) << "e"<<iterTask<<" = "<<err<<endl;
-	sotDEBUG(45) << "JJp"<<iterTask<<" = "<< JK*Jp <<endl;
-	//sotDEBUG(45) << "U"<<iterTask<<" = "<< U<<endl;
-	sotDEBUG(45) << "S"<<iterTask<<" = "<< svd.singularValues()<<endl;
-	sotDEBUG(45) << "V"<<iterTask<<" = "<< svd.matrixV()<<endl;
-	sotDEBUG(45) << "U"<<iterTask<<" = "<< svd.matrixU()<<endl;
+	  /* --- FIRST ALLOCS --- */
+	  sotDEBUG(1) << "Size = "
+		      << std::min(nJ, mJ) + mem->Jff.cols()*mem->Jff.rows()
+	    + mem->Jact.cols()*mem->Jact.rows() << std::endl;
 
-	mem->jacobianInvSINOUT = Jp;
-	mem->jacobianInvSINOUT.setTime( iterTime );
-	mem->jacobianConstrainedSINOUT = JK;
-	mem->jacobianConstrainedSINOUT.setTime( iterTime );
-	mem->jacobianProjectedSINOUT = Jt;
-	mem->jacobianProjectedSINOUT.setTime( iterTime );
-	mem->singularBaseImageSINOUT = svd.matrixV().leftCols(rankJ);
-	mem->singularBaseImageSINOUT.setTime( iterTime );
-	mem->rankSINOUT = rankJ;
-	mem->rankSINOUT.setTime( iterTime );
+	  sotDEBUG(1) << std::endl;
+	  sotDEBUG(1) << "nJ=" << nJ << " " << "Jac.cols()=" << Jac.cols()
+		      <<" "<< "mJ=" << mJ<<std::endl;
+	  mem->Jff.resize( nJ,Jac.cols()-mJ ); // number dofs, number constraints
+	  sotDEBUG(1) << std::endl;
+	  mem->Jact.resize( nJ,mJ );
+	  sotDEBUG(1) << std::endl;
+	  sotDEBUG(1) << "Size = "
+		      << std::min(nJ, mJ) + mem->Jff.cols()*mem->Jff.rows()
+	    + mem->Jact.cols()*mem->Jact.rows() << std::endl;
 
-	sotDEBUG(25)<<"Inverse recomputed."<<endl;
-      } else {
+	  /***/sotCOUNTER(1,2); // first allocs
+
+	  /* --- COMPUTE JK --- */
+	  computeJacobianConstrained( task,K );
+	  /***/sotCOUNTER(2,3); // compute JK
+
+	  /* --- COMPUTE S --- */
+	  computeJacobianActivated( dynamic_cast<Task*>( &task ),JK,iterTime );
+	  /***/sotCOUNTER(3,4); // compute JK*S
+
+	  /* --- COMPUTE Jt --- */
+	  if( PrevProj!=NULL ) Jt.noalias() = JK*(*PrevProj); else { Jt = JK; }
+	  /***/sotCOUNTER(4,5); // compute Jt
+
+	  /* --- PINV --- */
+	  svd.compute (Jt);
+	  Eigen::dampedInverse (svd, Jp, th);
+	  /***/sotCOUNTER(5,6); // PINV
+	  sotDEBUG(20) << "V after dampedInverse." << svd.matrixV() <<endl;
+	  /* --- RANK --- */
+	  {
+	    rankJ = 0;
+	    while ( rankJ < svd.singularValues().size()
+		    &&  th    < svd.singularValues()[rankJ])
+	      { ++rankJ; }
+	  }
+
+	  sotDEBUG(45) << "control"<<iterTask<<" = "<<control<<endl;
+	  sotDEBUG(25) << "J"<<iterTask<<" = "<<Jac<<endl;
+	  sotDEBUG(25) << "JK"<<iterTask<<" = "<<JK<<endl;
+	  sotDEBUG(25) << "Jt"<<iterTask<<" = "<<Jt<<endl;
+	  sotDEBUG(15) << "Jp"<<iterTask<<" = "<<Jp<<endl;
+	  sotDEBUG(15) << "e"<<iterTask<<" = "<<err<<endl;
+	  sotDEBUG(45) << "JJp"<<iterTask<<" = "<< JK*Jp <<endl;
+	  //sotDEBUG(45) << "U"<<iterTask<<" = "<< U<<endl;
+	  sotDEBUG(45) << "S"<<iterTask<<" = "<< svd.singularValues()<<endl;
+	  sotDEBUG(45) << "V"<<iterTask<<" = "<< svd.matrixV()<<endl;
+	  sotDEBUG(45) << "U"<<iterTask<<" = "<< svd.matrixU()<<endl;
+
+	  mem->jacobianInvSINOUT = Jp;
+	  mem->jacobianInvSINOUT.setTime( iterTime );
+	  mem->jacobianConstrainedSINOUT = JK;
+	  mem->jacobianConstrainedSINOUT.setTime( iterTime );
+	  mem->jacobianProjectedSINOUT = Jt;
+	  mem->jacobianProjectedSINOUT.setTime( iterTime );
+	  mem->singularBaseImageSINOUT = svd.matrixV().leftCols(rankJ);
+	  mem->singularBaseImageSINOUT.setTime( iterTime );
+	  mem->rankSINOUT = rankJ;
+	  mem->rankSINOUT.setTime( iterTime );
+
+	  sotDEBUG(25)<<"Inverse recomputed."<<endl;
+	} else {
 	sotDEBUG(2)<<"Inverse not recomputed."<<endl;
 	rankJ = mem->rankSINOUT.accessCopy();
 	Jp = mem->jacobianInvSINOUT.accessCopy();
@@ -612,7 +612,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
 
       /* --- COMPUTE QDOT AND P --- */
       /*DEBUG: normally, the first iter (ie the test below)
-      * is the same than the other, starting with control_0 = q0SIN. */
+       * is the same than the other, starting with control_0 = q0SIN. */
       if( PrevProj == NULL ) control.noalias() += Jp*err;
       else                   control           += *PrevProj * (Jp*(err - JK*control));
       /***/sotCOUNTER(7,8); // QDOT
@@ -635,16 +635,16 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       sotDEBUG(20) << "JpxJt = " << Jp*Jt;
       sotDEBUG(25) << "Proj-Jp*Jt"<<iterTask<<" = "<< (Proj-Jp*Jt) <<endl;
 
-       /* --- OLIVIER END --- */
+      /* --- OLIVIER END --- */
 
-       sotDEBUG(15) << "q"<<iterTask<<" = "<<control<<std::endl;
-       sotDEBUG(25) << "P"<<iterTask<<" = "<< Proj <<endl;
-       iterTask++;
-       PrevProj = &Proj;
+      sotDEBUG(15) << "q"<<iterTask<<" = "<<control<<std::endl;
+      sotDEBUG(25) << "P"<<iterTask<<" = "<< Proj <<endl;
+      iterTask++;
+      PrevProj = &Proj;
 
-       sotPRINTCOUNTER(1);     sotPRINTCOUNTER(2);    sotPRINTCOUNTER(3);
-       sotPRINTCOUNTER(4);     sotPRINTCOUNTER(5);    sotPRINTCOUNTER(6);
-       sotPRINTCOUNTER(7);     sotPRINTCOUNTER(8);
+      sotPRINTCOUNTER(1);     sotPRINTCOUNTER(2);    sotPRINTCOUNTER(3);
+      sotPRINTCOUNTER(4);     sotPRINTCOUNTER(5);    sotPRINTCOUNTER(6);
+      sotPRINTCOUNTER(7);     sotPRINTCOUNTER(8);
 
     }
 
@@ -685,7 +685,7 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
       Jp.resize( mJ,nJ );
       PJp.resize( nJ,mJ );
 
-     /* --- COMPUTE JK --- */
+      /* --- COMPUTE JK --- */
       dynamicgraph::Matrix &JK = computeJacobianConstrained( *taskGradient,K);
 
       /* --- COMPUTE Jinv --- */
@@ -737,7 +737,7 @@ computeConstraintProjector( dynamicgraph::Matrix& ProjK, const int& time )
   else
     {
       SOT_THROW ExceptionTask( ExceptionTask::EMPTY_LIST,
-				  "Not implemented yet." );
+			       "Not implemented yet." );
     }
 
   const dynamicgraph::Matrix &J = *Jptr;
@@ -830,8 +830,8 @@ writeGraph( std::ostream& os ) const
     {
       const TaskAbstract & task = **iter;
       os << "\t\t\t\t\"" << task.getName()
-		<<"\" [ label = \"" << task.getName() << "\" ," << std::endl
-		<<"\t\t\t\t   fontcolor = black, color = black, fillcolor = magenta, style=filled, shape=box ]" << std::endl;
+	 <<"\" [ label = \"" << task.getName() << "\" ," << std::endl
+	 <<"\t\t\t\t   fontcolor = black, color = black, fillcolor = magenta, style=filled, shape=box ]" << std::endl;
 
     }
   os << "\t\t\t}" << std::endl;
