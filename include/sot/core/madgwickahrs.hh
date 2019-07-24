@@ -59,27 +59,27 @@
 namespace dynamicgraph {
   namespace sot {
     /** \addtogroup Filters
-	\section subsec_madgwickahrs MadgwickAHRS filter
-	\class MadgwickARHS
-	This class implements the MadgwickAHRS filter as described
-	in http://x-io.co.uk/res/doc/madgwick_internal_report.pdf
-	This method uses a gradient descent approach to compute the orientation
-	from an IMU.
-	  
-	The signals input are:
-	<ul>
-	<li>m_accelerometerSIN: \f$[a_x, a_y, a_z]^T\f$ in \f$m.s^{-2}\f$</li>
-	<li>m_gyroscopeSIN: \f$[g_x, g_y, g_z]^T\f$ in \f$rad.s^{-1}\f$</li>
-	<li>m_imu_quatSOUT: \f$[q_0, q_1, q_2, q_3]^T</li> estimated rotation
-	as a quaternion</li>
-	</ul>
+    \section subsec_madgwickahrs MadgwickAHRS filter
+    \class MadgwickARHS
+    This class implements the MadgwickAHRS filter as described
+    in http://x-io.co.uk/res/doc/madgwick_internal_report.pdf
+    This method uses a gradient descent approach to compute the orientation
+    from an IMU.
+    
+    The signals input are:
+    <ul>
+    <li>m_accelerometerSIN: \f$[a_x, a_y, a_z]^T\f$ in \f$m.s^{-2}\f$</li>
+    <li>m_gyroscopeSIN: \f$[g_x, g_y, g_z]^T\f$ in \f$rad.s^{-1}\f$</li>
+    <li>m_imu_quatSOUT: \f$[q_0, q_1, q_2, q_3]^T</li> estimated rotation
+    as a quaternion</li>
+    </ul>
 
-	The internal parameters are:
-	<ul> 
-	<li>\f$Beta\f$: Gradient step weight (default to 0.01) </li>
-	<li>\f$m_sampleFref\f$: Sampling Frequency computed from the control
-	period when using init.</li>
-	</ul>
+    The internal parameters are:
+    <ul>
+    <li>\f$Beta\f$: Gradient step weight (default to 0.01) </li>
+    <li>\f$m_sampleFref\f$: Sampling Frequency computed from the control
+    period when using init.</li>
+    </ul>
     */
     class SOTMADGWICKAHRS_EXPORT MadgwickAHRS
       :public::dynamicgraph::Entity
@@ -95,6 +95,9 @@ namespace dynamicgraph {
 
       void init(const double& dt);
       void set_beta(const double & beta);
+
+      /// Set the quaternion as [w,x,y,z]
+      void set_imu_quat(const dynamicgraph::Vector & imu_quat);
 
       /* --- SIGNALS --- */
       /// ax ay az in m.s-2
@@ -112,7 +115,7 @@ namespace dynamicgraph {
       /* --- METHODS --- */
       double invSqrt(double x);
       void madgwickAHRSupdateIMU
-	(double gx, double gy, double gz, double ax, double ay, double az) ;
+           (double gx, double gy, double gz, double ax, double ay, double az);
 
     protected:
       /// true if the entity has been successfully initialized

@@ -42,52 +42,56 @@ namespace dynamicgraph
 
     /* --- DG FACTORY ---------------------------------------------------- */
     DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MadgwickAHRS,
-				       "MadgwickAHRS");
+                                      "MadgwickAHRS");
 
     /* ------------------------------------------------------------------- */
     /* --- CONSTRUCTION -------------------------------------------------- */
     /* ------------------------------------------------------------------- */
     MadgwickAHRS::MadgwickAHRS(const std::string& name)
       : Entity(name)
-      ,CONSTRUCT_SIGNAL_IN( accelerometer,            dynamicgraph::Vector)
-      ,CONSTRUCT_SIGNAL_IN( gyroscope,                dynamicgraph::Vector)
-      ,CONSTRUCT_SIGNAL_OUT(imu_quat,                 dynamicgraph::Vector,
-			    m_gyroscopeSIN <<
-			    m_accelerometerSIN)
-      ,m_initSucceeded(false)
-      ,m_beta(betaDef)
-      ,m_q0(1.0)
-      ,m_q1(0.0)
-      ,m_q2(0.0)
-      ,m_q3(0.0)
-      ,m_sampleFreq(512.0)
+      , CONSTRUCT_SIGNAL_IN( accelerometer, dynamicgraph::Vector)
+      , CONSTRUCT_SIGNAL_IN( gyroscope,     dynamicgraph::Vector)
+      , CONSTRUCT_SIGNAL_OUT(imu_quat,      dynamicgraph::Vector, m_gyroscopeSIN
+                                                               << m_accelerometerSIN)
+      , m_initSucceeded(false)
+      , m_beta(betaDef)
+      , m_q0(1.0)
+      , m_q1(0.0)
+      , m_q2(0.0)
+      , m_q3(0.0)
+      , m_sampleFreq(512.0)
     {
       Entity::signalRegistration( INPUT_SIGNALS << OUTPUT_SIGNALS );
 
       /* Commands. */
       addCommand
-	("init",
-	 makeCommandVoid1
-	 (*this, &MadgwickAHRS::init,
-	  docCommandVoid1
-	  ("Initialize the entity.",
-	   "Timestep in seconds (double)")));
+        ("init",
+         makeCommandVoid1
+         (*this, &MadgwickAHRS::init,
+          docCommandVoid1
+          ("Initialize the entity.",
+           "Timestep in seconds (double)")));
       addCommand
-	("getBeta",
-	 makeDirectGetter
-	 (*this, &m_beta,
-	  docDirectGetter("Beta parameter", "double")));
+        ("getBeta",
+         makeDirectGetter
+         (*this, &m_beta,
+          docDirectGetter("Beta parameter", "double")));
       addCommand
-	("setBeta",
-	 makeCommandVoid1
-	 (*this, &MadgwickAHRS::set_beta,
-	  docCommandVoid1("Set the filter parameter beta", "double")));
+        ("setBeta",
+         makeCommandVoid1
+         (*this, &MadgwickAHRS::set_beta,
+          docCommandVoid1("Set the filter parameter beta", "double")));
+      addCommand
+        ("set_imu_quat",
+         makeCommandVoid1
+         (*this, &MadgwickAHRS::set_imu_quat,
+          docCommandVoid1("Set the quaternion as [w,x,y,z]", "vector")));
     }
 
     void MadgwickAHRS::init(const double& dt)
     {
       if(dt<=0.0)
-	return SEND_MSG("Timestep must be positive", MSG_TYPE_ERROR);
+        return SEND_MSG("Timestep must be positive", MSG_TYPE_ERROR);
       m_sampleFreq=1.0/dt;
       m_initSucceeded = true;
     }
@@ -95,8 +99,17 @@ namespace dynamicgraph
     void MadgwickAHRS::set_beta(const double& beta)
     {
       if(beta<0.0 || beta>1.0)
-	return SEND_MSG("Beta must be in [0,1]", MSG_TYPE_ERROR);
+        return SEND_MSG("Beta must be in [0,1]", MSG_TYPE_ERROR);
       m_beta = beta;
+    }
+
+    void MadgwickAHRS::set_imu_quat(const dynamicgraph::Vector & imu_quat)
+    {
+      assert(imu_quat.size()==4);
+      m_q0 = imu_quat[0];
+      m_q1 = imu_quat[1];
+      m_q2 = imu_quat[2];
+      m_q3 = imu_quat[3];
     }
 
     /* ------------------------------------------------------------------- */
@@ -108,7 +121,7 @@ namespace dynamicgraph
       if(!m_initSucceeded)
         {
           SEND_WARNING_STREAM_MSG
-	    ("Cannot compute signal imu_quat before initialization!");
+            ("Cannot compute signal imu_quat before initialization!");
           return s;
         }
       const dynamicgraph::Vector& accelerometer = m_accelerometerSIN(iter);
@@ -116,16 +129,19 @@ namespace dynamicgraph
 
       getProfiler().start(PROFILE_MADGWICKAHRS_COMPUTATION);
       {
-	// Update state with new measurment
-	madgwickAHRSupdateIMU
-	  (     gyroscope(0),     gyroscope(1),     gyroscope(2),
-		accelerometer(0), accelerometer(1), accelerometer(2));
-	if(s.size()!=4)
-	  s.resize(4);
-	s(0) = m_q0;
-	s(1) = m_q1;
-	s(2) = m_q2;
-	s(3) = m_q3;
+        // Update state with new measurment
+        madgwickAHRSupdateIMU(gyroscope(0),
+                              gyroscope(1),
+                              gyroscope(2),
+                              accelerometer(0),
+                              accelerometer(1),
+                              accelerometer(2));
+        if(s.size()!=4)
+          s.resize(4);
+        s(0) = m_q0;
+        s(1) = m_q1;
+        s(2) = m_q2;
+        s(3) = m_q3;
       }
       getProfiler().stop(PROFILE_MADGWICKAHRS_COMPUTATION);
 
@@ -144,13 +160,13 @@ namespace dynamicgraph
     double MadgwickAHRS::invSqrt(double x)
     {
       /*
-	float halfx = 0.5f * x;
-	float y = x;
-	long i = *(long*)&y;
-	i = 0x5f3759df - (i>>1);
-	y = *(float*)&i;
-	y = y * (1.5f - (halfx * y * y));
-	return y;*/
+        float halfx = 0.5f * x;
+        float y = x;
+        long i = *(long*)&y;
+        i = 0x5f3759df - (i>>1);
+        y = *(float*)&i;
+        y = y * (1.5f - (halfx * y * y));
+        return y;*/
       return (1.0/sqrt(x)); //we're not in the 70's
     }
 
@@ -199,25 +215,25 @@ namespace dynamicgraph
           // Gradient decent algorithm corrective step
           s0 = o4q0 * q2q2 + o2q2 * ax + o4q0 * q1q1 - o2q1 * ay;
           s1 = o4q1 * q3q3 - o2q3 * ax + 4.0 * q0q0 * m_q1 - o2q0 * ay -
-	    o4q1 + o8q1 * q1q1 + o8q1 * q2q2 + o4q1 * az;
+            o4q1 + o8q1 * q1q1 + o8q1 * q2q2 + o4q1 * az;
           s2 = 4.0 * q0q0 * m_q2 + o2q0 * ax + o4q2 * q3q3 - o2q3 * ay -
-	    o4q2 + o8q2 * q1q1 + o8q2 * q2q2 + o4q2 * az;
+            o4q2 + o8q2 * q1q1 + o8q2 * q2q2 + o4q2 * az;
           s3 = 4.0 * q1q1 * m_q3 - o2q1 * ax + 4.0 * q2q2 * m_q3 - o2q2 * ay;
           if(!((s0 == 0.0) && (s1 == 0.0) && (s2 == 0.0) && (s3 == 0.0)))
-	    {
-	      // normalise step magnitude
-	      recipNorm = invSqrt(s0 * s0 + s1 * s1 + s2 * s2 + s3 * s3); 
-	      s0 *= recipNorm;
-	      s1 *= recipNorm;
-	      s2 *= recipNorm;
-	      s3 *= recipNorm;
+            {
+              // normalise step magnitude
+              recipNorm = invSqrt(s0 * s0 + s1 * s1 + s2 * s2 + s3 * s3); 
+              s0 *= recipNorm;
+              s1 *= recipNorm;
+              s2 *= recipNorm;
+              s3 *= recipNorm;
 
-	      // Apply feedback step
-	      qDot1 -= m_beta * s0;
-	      qDot2 -= m_beta * s1;
-	      qDot3 -= m_beta * s2;
-	      qDot4 -= m_beta * s3;
-	    }
+              // Apply feedback step
+              qDot1 -= m_beta * s0;
+              qDot2 -= m_beta * s1;
+              qDot3 -= m_beta * s2;
+              qDot4 -= m_beta * s3;
+            }
         }
 
       // Integrate rate of change of quaternion to yield quaternion
@@ -228,7 +244,7 @@ namespace dynamicgraph
 
       // Normalise quaternion
       recipNorm = invSqrt(m_q0 * m_q0 + m_q1 * m_q1 +
-			  m_q2 * m_q2 + m_q3 * m_q3);
+                          m_q2 * m_q2 + m_q3 * m_q3);
       m_q0 *= recipNorm;
       m_q1 *= recipNorm;
       m_q2 *= recipNorm;
