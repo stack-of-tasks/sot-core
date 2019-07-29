@@ -168,3 +168,5 @@ class OpPointModifierTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+np.testing.assert_equal(stop,0)
