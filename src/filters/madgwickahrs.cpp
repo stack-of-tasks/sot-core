@@ -42,7 +42,7 @@ namespace dynamicgraph
 
     /* --- DG FACTORY ---------------------------------------------------- */
     DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MadgwickAHRS,
-                                      "MadgwickAHRS");
+                                       "MadgwickAHRS");
 
     /* ------------------------------------------------------------------- */
     /* --- CONSTRUCTION -------------------------------------------------- */
@@ -52,7 +52,7 @@ namespace dynamicgraph
       , CONSTRUCT_SIGNAL_IN( accelerometer, dynamicgraph::Vector)
       , CONSTRUCT_SIGNAL_IN( gyroscope,     dynamicgraph::Vector)
       , CONSTRUCT_SIGNAL_OUT(imu_quat,      dynamicgraph::Vector, m_gyroscopeSIN
-                                                               << m_accelerometerSIN)
+                             << m_accelerometerSIN)
       , m_initSucceeded(false)
       , m_beta(betaDef)
       , m_q0(1.0)
