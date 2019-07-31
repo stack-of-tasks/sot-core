@@ -1,9 +1,9 @@
 /*
- * Copyright 2010,
- * Nicolas Mansard, Olivier Stasse, François Bleibel, Florent Lamiraux
+ * Copyright 2019,  CNRS
+ * Author: Olivier Stasse
  *
- * CNRS
- *
+ * Please check LICENSE.txt for licensing
+ * 
  */
 
 /* --------------------------------------------------------------------- */
@@ -13,7 +13,6 @@
 /* SOT */
 #define ENABLE_RT_LOG
 
-#include <iostream>
 #include "sot/core/device.hh"
 #include <sot/core/debug.hh>
 using namespace std;
@@ -21,123 +20,110 @@ using namespace std;
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/real-time-logger.h>
 #include <dynamic-graph/all-commands.h>
-#include <Eigen/Geometry>
 #include <dynamic-graph/linear-algebra.h>
 #include <sot/core/matrix-geometry.hh>
 
-#include <pinocchio/multibody/liegroup/special-euclidean.hpp>
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
-const std::string Device::CLASS_NAME = "Device";
+#define DBGFILE "/tmp/device.txt"
 
+#if 0
+#define RESETDEBUG5() { std::ofstream DebugFile;  \
+    DebugFile.open(DBGFILE,std::ofstream::out);   \
+    DebugFile.close();}
+#define ODEBUG5FULL(x) { std::ofstream DebugFile; \
+    DebugFile.open(DBGFILE,std::ofstream::app);   \
+    DebugFile << __FILE__ << ":"      \
+        << __FUNCTION__ << "(#"     \
+        << __LINE__ << "):" << x << std::endl;  \
+    DebugFile.close();}
+#define ODEBUG5(x) { std::ofstream DebugFile; \
+    DebugFile.open(DBGFILE,std::ofstream::app); \
+    DebugFile << x << std::endl;    \
+    DebugFile.close();}
+
+#else
+// Void the macro
+#define RESETDEBUG5()
+#define ODEBUG5FULL(x)
+#define ODEBUG5(x)
+#endif
+
+const std::string Device::CLASS_NAME = "Device";
+const double Device::TIMESTEP_DEFAULT = 0.001;
+
+
+JointSoTHWControlType::JointSoTHWControlType():
+  control_index(-1)
+  ,urdf_index(-1)
+  ,temperature_index(-1)
+  ,velocity_index(-1)
+  ,current_index(-1)
+  ,torque_index(-1)
+  ,joint_angle_index(-1)
+  ,motor_angle_index(-1)
+{
+}
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void Device::
-integrateRollPitchYaw
-(Vector& state,
- const Vector& control,
- double dt)
+Device::~Device( )
 {
-  using Eigen::AngleAxisd;
-  using Eigen::Vector3d;
-  using Eigen::QuaternionMapd;
-
-  typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3;
-  Eigen::Matrix<double, 7, 1> qin, qout;
-  qin.head<3>() = state.head<3>();
-
-  QuaternionMapd quat (qin.tail<4>().data());
-  quat = AngleAxisd(state(5), Vector3d::UnitZ())
-       * AngleAxisd(state(4), Vector3d::UnitY())
-       * AngleAxisd(state(3), Vector3d::UnitX());
-
-  SE3().integrate (qin, control.head<6>()*dt, qout);
-
-  // Update freeflyer pose
-  ffPose_.translation() = qout.head<3>();
-  state.head<3>() = qout.head<3>();
-
-  ffPose_.linear() =
-    QuaternionMapd(qout.tail<4>().data()).toRotationMatrix();
-  state.segment<3>(3) = ffPose_.linear().eulerAngles(2,1,0).reverse();
-}
-
-const MatrixHomogeneous&
-Device::freeFlyerPose() const
-{
-  return ffPose_;
-}
-
-Device::
-~Device( )
-{
-  for( unsigned int i=0; i<4; ++i ) {
-    delete forcesSOUT[i];
+  for( unsigned int i=0; i<forcesSOUT_.size(); ++i ) {
+    delete forcesSOUT_[i];
   }
+
+  for( unsigned int i=0; i<imuSOUT_.size(); ++i ) {
+    delete imuSOUT_[i];
+  }
+
 }
 
-Device::
-Device( const std::string& n )
+
+Device::Device( const std::string& n )
   :Entity(n)
-  ,state_(6)
+  ,timestep_(TIMESTEP_DEFAULT)
+  ,control_(6)
   ,sanityCheck_(true)
-  ,controlInputType_(CONTROL_INPUT_ONE_INTEGRATION)
-  ,controlSIN( NULL,"Device("+n+")::input(double)::control" )
-  ,attitudeSIN(NULL,"Device("+ n +")::input(vector3)::attitudeIN")
-  ,zmpSIN(NULL,"Device("+n+")::input(vector3)::zmp")
-  ,stateSOUT( "Device("+n+")::output(vector)::state" )
-  //,attitudeSIN(NULL,"Device::input(matrixRot)::attitudeIN")
-  ,velocitySOUT( "Device("+n+")::output(vector)::velocity"  )
-  ,attitudeSOUT( "Device("+n+")::output(matrixRot)::attitude" )
-  ,motorcontrolSOUT   ( "Device("+n+")::output(vector)::motorcontrol" )
-  ,previousControlSOUT( "Device("+n+")::output(vector)::previousControl" )
-  ,ZMPPreviousControllerSOUT
-   ( "Device("+n+
-     ")::output(vector)::zmppreviouscontroller" )
+  ,controlSIN( NULL,"Device("+n+")::input(double)::control" )   
+  ,stateSOUT_( "Device("+n+")::output(vector)::state" )   
+  ,motorcontrolSOUT_   ( "Device("+n+")::output(vector)::motorcontrol" )
+  ,previousControlSOUT_( "Device("+n+")::output(vector)::previousControl" )
   ,robotState_     ("Device("+n+")::output(vector)::robotState")
   ,robotVelocity_  ("Device("+n+")::output(vector)::robotVelocity")
-  ,pseudoTorqueSOUT("Device("+n+")::output(vector)::ptorque" )
-
-  ,ffPose_()
+  ,forcesSOUT_(0)
+  ,imuSOUT_(0)
+  ,pseudoTorqueSOUT_(0)
+  ,temperatureSOUT_(0)
+  ,currentsSOUT_(0)
+  ,motor_anglesSOUT_(0)
+  ,joint_anglesSOUT_(0)
   ,forceZero6 (6)
+  ,debug_mode_(5)
+  ,temperature_index_(0)
+  ,velocity_index_(0)
+  ,current_index_(0)
+  ,torque_index_(0)
+  ,joint_angle_index_(0)
+  ,motor_angle_index_(0)
+   
 {
   forceZero6.fill (0);
-  /* --- SIGNALS --- */
-  for( int i=0;i<4;++i ){ withForceSignals[i] = false; }
-  forcesSOUT[0] =
-      new Signal<Vector, int>("Device("+n+")::output(vector6)::forceRLEG");
-  forcesSOUT[1] =
-      new Signal<Vector, int>("Device("+n+")::output(vector6)::forceLLEG");
-  forcesSOUT[2] =
-      new Signal<Vector, int>("Device("+n+")::output(vector6)::forceRARM");
-  forcesSOUT[3] =
-      new Signal<Vector, int>("Device("+n+")::output(vector6)::forceLARM");
 
-  signalRegistration( controlSIN<<stateSOUT<<robotState_<<robotVelocity_
-                      <<velocitySOUT<<attitudeSOUT
-                      <<attitudeSIN<<zmpSIN <<*forcesSOUT[0]<<*forcesSOUT[1]
-                      <<*forcesSOUT[2]<<*forcesSOUT[3] <<previousControlSOUT
-                      <<pseudoTorqueSOUT << motorcontrolSOUT
-		      << ZMPPreviousControllerSOUT );
-  state_.fill(.0); stateSOUT.setConstant( state_ );
+  signalRegistration( controlSIN
+          << stateSOUT_
+          << robotState_
+          << robotVelocity_
+          << previousControlSOUT_
+          << motorcontrolSOUT_);
+  control_.fill(.0); stateSOUT_.setConstant( control_ );
 
-  velocity_.resize(state_.size()); velocity_.setZero();
-  velocitySOUT.setConstant( velocity_ );
 
   /* --- Commands --- */
   {
     std::string docstring;
-    /* Command setStateSize. */
-    docstring =
-        "\n"
-        "    Set size of state vector\n"
-        "\n";
-    addCommand("resize",
-               new command::Setter<Device, unsigned int>
-               (*this, &Device::setStateSize, docstring));
     docstring =
         "\n"
         "    Set state vector value\n"
@@ -146,56 +132,31 @@ Device( const std::string& n )
                new command::Setter<Device, Vector>
                (*this, &Device::setState, docstring));
 
-    docstring =
-        "\n"
-        "    Set velocity vector value\n"
-        "\n";
-    addCommand("setVelocity",
-               new command::Setter<Device, Vector>
-               (*this, &Device::setVelocity, docstring));
-
     void(Device::*setRootPtr)(const Matrix&) = &Device::setRoot;
-    docstring
-        = command::docCommandVoid1("Set the root position.",
-                                   "matrix homogeneous");
+    docstring = command::docCommandVoid1("Set the root position.",
+                                         "matrix homogeneous");
     addCommand("setRoot",
                command::makeCommandVoid1(*this,setRootPtr,
                                          docstring));
 
-    /* Second Order Integration set. */
-    docstring =
-        "\n"
-        "    Set the position calculous starting from  \n"
-        "    acceleration measure instead of velocity \n"
-        "\n";
 
-    addCommand
-      ("setSecondOrderIntegration",
-       command::makeCommandVoid0
-       (*this,&Device::setSecondOrderIntegration,
-	docstring));
+    /* SET of SoT control input type per joint */
+    addCommand("setSoTControlType",
+         command::makeCommandVoid2(*this,&Device::setSoTControlType,
+                 command::docCommandVoid2 ("Set the type of control input per joint on the SoT side",
+             "Joint name",
+             "Control type: [TORQUE|ACCELERATION|VELOCITY|POSITION]")
+                 ));
 
-    /* Display information */
-    docstring =
-        "\n"
-        "    Display information on device  \n"
-        "\n";
-    addCommand
-      ("display",
-       command::makeCommandVoid0
-       (*this,&Device::cmdDisplay,docstring));
 
-    /* SET of control input type. */
-    docstring =
-        "\n"
-        "    Set the type of control input which can be  \n"
-        "    acceleration, velocity, or position\n"
-        "\n";
-
-    addCommand("setControlInputType",
-               new command::Setter<Device,string>
-               (*this, &Device::setControlInputType, docstring));
-
+    /* SET of HW control input type per joint */
+    addCommand("setHWControlType",
+         command::makeCommandVoid2(*this,&Device::setHWControlType,
+                 command::docCommandVoid2 ("Set HW control input type per joint",
+             "Joint name",
+             "Control type: [TORQUE|ACCELERATION|VELOCITY|POSITION]")
+                 ));
+    
     docstring =
         "\n"
         "    Enable/Disable sanity checks\n"
@@ -204,35 +165,6 @@ Device( const std::string& n )
                new command::Setter<Device, bool>
                (*this, &Device::setSanityCheck, docstring));
 
-    addCommand("setPositionBounds",
-               command::makeCommandVoid2
-	       (*this,&Device::setPositionBounds,
-                 command::docCommandVoid2
-		("Set robot position bounds",
-		 "vector: lower bounds",
-		 "vector: upper bounds")));
-
-    addCommand("setVelocityBounds",
-               command::makeCommandVoid2
-	       (*this,&Device::setVelocityBounds,
-		command::docCommandVoid2
-		("Set robot velocity bounds",
-		 "vector: lower bounds",
-		 "vector: upper bounds")));
-
-    addCommand("setTorqueBounds",
-               command::makeCommandVoid2
-	       (*this,&Device::setTorqueBounds,
-		command::docCommandVoid2
-		("Set robot torque bounds",
-		 "vector: lower bounds",
-		 "vector: upper bounds")));
-
-    addCommand("getTimeStep",
-	       command::makeDirectGetter
-	       (*this, &this->timestep_,
-		command::docDirectGetter
-		("Time step", "double")));
 
     // Handle commands and signals called in a synchronous way.
     periodicCallBefore_.addSpecificCommands(*this, commandMap, "before.");
@@ -241,205 +173,104 @@ Device( const std::string& n )
   }
 }
 
-void Device::
-setStateSize( const unsigned int& size )
+void Device::setState( const Vector& st )
 {
-  state_.resize(size); state_.fill( .0 );
-  stateSOUT .setConstant( state_ );
-  previousControlSOUT.setConstant( state_ );
-  pseudoTorqueSOUT.setConstant( state_ );
-  motorcontrolSOUT .setConstant( state_ );
-
-  Device::setVelocitySize(size);
-
-  Vector zmp(3); zmp.fill( .0 );
-  ZMPPreviousControllerSOUT .setConstant( zmp );
+  updateControl(st);
+  stateSOUT_ .setConstant( control_ );
+  motorcontrolSOUT_ .setConstant( control_ );
 }
 
-void Device::
-setVelocitySize( const unsigned int& size )
-{
-  velocity_.resize(size);
-  velocity_.fill(.0);
-  velocitySOUT.setConstant( velocity_ );
-}
 
-void Device::
-setState( const Vector& st )
-{
-  if (sanityCheck_) {
-    const Vector::Index& s = st.size();
-    switch (controlInputType_) {
-      case CONTROL_INPUT_TWO_INTEGRATION:
-        dgRTLOG()
-          << "Sanity check for this control is not well supported. "
-             "In order to make it work, use pinocchio and the contact forces "
-             "to estimate the joint torques for the given acceleration.\n";
-        if (   s != lowerTorque_.size()
-            || s != upperTorque_.size() )
-          throw std::invalid_argument ("Upper and/or lower torque bounds "
-              "do not match state size. Set them first with setTorqueBounds");
-      case CONTROL_INPUT_ONE_INTEGRATION:
-        if (   s != lowerVelocity_.size()
-            || s != upperVelocity_.size() )
-          throw std::invalid_argument ("Upper and/or lower velocity bounds "
-              "do not match state size."
-	      " Set them first with setVelocityBounds");
-      case CONTROL_INPUT_NO_INTEGRATION:
-        break;
-      default:
-        throw std::invalid_argument ("Invalid control mode type.");
-    }
-  }
-  state_ = st;
-  stateSOUT .setConstant( state_ );
-  motorcontrolSOUT .setConstant( state_ );
-}
-
-void Device::
-setVelocity( const Vector& vel )
-{
-  velocity_ = vel;
-  velocitySOUT .setConstant( velocity_ );
-}
-
-void Device::
-setRoot( const Matrix & root )
+void Device::setRoot( const Matrix & root )
 {
   Eigen::Matrix4d _matrix4d(root);
   MatrixHomogeneous _root(_matrix4d);
   setRoot( _root );
 }
 
-void Device::
-setRoot( const MatrixHomogeneous & worldMwaist )
+void Device::setRoot( const MatrixHomogeneous & worldMwaist )
 {
   VectorRollPitchYaw r = (worldMwaist.linear().eulerAngles(2,1,0)).reverse();
-  Vector q = state_;
-  q = worldMwaist.translation(); // abusive ... but working.
-  for( unsigned int i=0;i<3;++i ) q(i+3) = r(i);
+  for( unsigned int i=0;i<3;++i )
+  {
+    control_(i) = worldMwaist.translation()(i);
+    control_(i+3) = r(i);
+  } 
 }
 
-void Device::
-setSecondOrderIntegration()
-{
-  controlInputType_ = CONTROL_INPUT_TWO_INTEGRATION;
-  velocity_.resize(state_.size());
-  velocity_.setZero();
-  velocitySOUT.setConstant( velocity_ );
-}
 
-void Device::
-setNoIntegration()
+void Device::setSanityCheck(const bool & enableCheck)
 {
-  controlInputType_ = CONTROL_INPUT_NO_INTEGRATION;
-  velocity_.resize(state_.size());
-  velocity_.setZero();
-  velocitySOUT.setConstant( velocity_ );
-}
-
-void Device::
-setControlInputType(const std::string& cit)
-{
-  for(int i=0; i<CONTROL_INPUT_SIZE; i++)
-    if(cit==ControlInput_s[i])
-    {
-      controlInputType_ = (ControlInput)i;
-      sotDEBUG(25)<<"Control input type: "<<ControlInput_s[i]<<endl;
-      return;
-    }
-  sotDEBUG(25)<<"Unrecognized control input type: "<<cit<<endl;
-}
-
-void Device::
-setSanityCheck(const bool & enableCheck)
-{
-  if (enableCheck) {
-    const Vector::Index& s = state_.size();
-    switch (controlInputType_) {
-      case CONTROL_INPUT_TWO_INTEGRATION:
-        dgRTLOG()
-          << "Sanity check for this control is not well supported. "
-             "In order to make it work, use pinocchio and the contact forces "
-             "to estimate the joint torques for the given acceleration.\n";
-        if (   s != lowerTorque_.size()
-            || s != upperTorque_.size() )
-          throw std::invalid_argument
-	    ("Upper and/or lower torque bounds "
-	     "do not match state size. Set them first with setTorqueBounds");
-      case CONTROL_INPUT_ONE_INTEGRATION:
-        if (   s != lowerVelocity_.size()
-            || s != upperVelocity_.size() )
-          throw std::invalid_argument
-	    ("Upper and/or lower velocity bounds "
-	     "do not match state size. Set them first with setVelocityBounds");
-      case CONTROL_INPUT_NO_INTEGRATION:
-        if (   s != lowerPosition_.size()
-            || s != upperPosition_.size() )
-          throw std::invalid_argument
-	    ("Upper and/or lower position bounds "
-	     "do not match state size. Set them first with setPositionBounds");
-        break;
-      default:
-        throw std::invalid_argument ("Invalid control mode type.");
-    }
-  }
   sanityCheck_ = enableCheck;
 }
 
-void Device::
-setPositionBounds(const Vector& lower, const Vector& upper)
+void Device::setControlType(const std::string &strCtrlType, ControlType &aCtrlType)
 {
-  std::ostringstream oss;
-  if (lower.size() != state_.size()) {
-    oss << "Lower bound size should be " << state_.size();
-    throw std::invalid_argument (oss.str());
+  for(int j=0;j<4;j++)
+  {
+    if (strCtrlType==ControlType_s[j]){
+      aCtrlType = (ControlType)j;
+    } 
   }
-  if (upper.size() != state_.size()) {
-    oss << "Upper bound size should be " << state_.size();
-    throw std::invalid_argument (oss.str());
-  }
-  lowerPosition_ = lower;
-  upperPosition_ = upper;
 }
 
-void Device::
-setVelocityBounds(const Vector& lower, const Vector& upper)
+void Device::setSoTControlType(const std::string &jointNames, const std::string &strCtrlType)
 {
-  std::ostringstream oss;
-  if (lower.size() != velocity_.size()) {
-    oss << "Lower bound size should be " << velocity_.size();
-    throw std::invalid_argument (oss.str());
-  }
-  if (upper.size() != velocity_.size()) {
-    oss << "Upper bound size should be " << velocity_.size();
-    throw std::invalid_argument (oss.str());
-  }
-  lowerVelocity_ = lower;
-  upperVelocity_ = upper;
+  setControlType(strCtrlType, jointDevices_[jointNames].SoTcontrol);
 }
 
-void Device::
-setTorqueBounds  (const Vector& lower, const Vector& upper)
+void Device::setHWControlType(const std::string &jointNames, const std::string &strCtrlType)
 {
-  // TODO I think the torque bounds size are state_.size()-6...
-  std::ostringstream oss;
-  if (lower.size() != state_.size()) {
-    oss << "Lower bound size should be " << state_.size();
-    throw std::invalid_argument (oss.str());
-  }
-  if (upper.size() != state_.size()) {
-    oss << "Lower bound size should be " << state_.size();
-    throw std::invalid_argument (oss.str());
-  }
-  lowerTorque_ = lower;
-  upperTorque_ = upper;
+  setControlType(strCtrlType, jointDevices_[jointNames].HWcontrol);
 }
 
-void Device::
-increment( const double & dt )
+void Device::setControlPos(const std::string &jointName, const unsigned & index)
 {
-  int time = stateSOUT.getTime();
+  jointDevices_[jointName].control_index = index;
+}
+
+
+void Device::setURDFModel(const std::string &aURDFModel)
+{
+  model_ = ::urdf::parseURDF(aURDFModel);      
+  // if (urdfTree)
+  // {
+  //   model_.name = urdfTree->getName();
+  //   model_.initTree(urdfTree);
+  //   // details::parseRootTree(urdfTree->getRoot(),model_,false);
+  // }
+  if (!model_)
+  {
+    dgRTLOG()
+    << "The XML stream does not contain a valid URDF model." << std::endl;
+    return;
+  }
+
+  /// Build the map between urdf file and the alphabetical order.
+  std::vector< ::urdf::LinkSharedPtr > urdf_links;
+  model_->getLinks(urdf_links);
+  for (unsigned j=0; j<urdf_links.size(); j++)
+  {
+    std::vector<urdf::JointSharedPtr> child_joints = urdf_links[j]->child_joints;
+    urdf_joints_.insert(urdf_joints_.end(), boost::make_move_iterator(child_joints.begin()), 
+                        boost::make_move_iterator(child_joints.end()));
+  }
+
+  std::cout << "urdf_joints_.size(): " << urdf_joints_.size() << std::endl;
+  for(unsigned int i=0;i<urdf_joints_.size();i++)
+  {
+    jointDevices_[urdf_joints_[i]->name].urdf_index=i;
+    std::cout << "jointDevices_ index: " << i
+              << " model_.names[i]: " << urdf_joints_[i]->name
+              << std::endl;
+  }
+  // Initialize urdf file vector.
+  control_.resize(urdf_joints_.size());
+}
+
+void Device::increment()
+{
+  int time = stateSOUT_.getTime();
   sotDEBUG(25) << "Time : " << time << std::endl;
 
   // Run Synchronous commands and evaluate signals outside the main
@@ -467,33 +298,17 @@ increment( const double & dt )
         << " running periodical commands (before)" << std::endl;
   }
 
-
   /* Force the recomputation of the control. */
   controlSIN( time );
-  sotDEBUG(25) << "u" <<time<<" = " << controlSIN.accessCopy() << endl;
-
-  /* Integration of numerical values. This function is virtual. */
-  integrate( dt );
-  sotDEBUG(25) << "q" << time << " = " << state_ << endl;
+  const Vector & controlIN = controlSIN.accessCopy();
+  sotDEBUG(25) << "u" <<time<<" = " << controlIN << endl;  
+  updateControl(controlIN);
+  
+  sotDEBUG(25) << "q" << time << " = " << control_ << endl;
 
   /* Position the signals corresponding to sensors. */
-  stateSOUT .setConstant( state_ ); stateSOUT.setTime( time+1 );
-  //computation of the velocity signal
-  if( controlInputType_==CONTROL_INPUT_TWO_INTEGRATION )
-  {
-    velocitySOUT.setConstant( velocity_ );
-    velocitySOUT.setTime( time+1 );
-  }
-  else if (controlInputType_==CONTROL_INPUT_ONE_INTEGRATION)
-  {
-    velocitySOUT.setConstant( controlSIN.accessCopy() );
-    velocitySOUT.setTime( time+1 );
-  }
-  for( int i=0;i<4;++i ){
-    if(  !withForceSignals[i] ) forcesSOUT[i]->setConstant(forceZero6);
-  }
-  Vector zmp(3); zmp.fill( .0 );
-  ZMPPreviousControllerSOUT .setConstant( zmp );
+  stateSOUT_ .setConstant( control_ ); stateSOUT_.setTime( time+1 );
+
 
   // Run Synchronous commands and evaluate signals outside the main
   // connected component of the graph.
@@ -520,33 +335,13 @@ increment( const double & dt )
         << " running periodical commands (after)" << std::endl;
   }
 
-
   // Others signals.
-  motorcontrolSOUT .setConstant( state_ );
+  motorcontrolSOUT_ .setConstant( control_ );
 }
 
-// Return true if it saturates.
-inline bool
-saturateBounds (double& val, const double& lower, const double& upper)
+
+void Device::updateControl(const Vector & controlIN)
 {
-  assert (lower <= upper);
-  if (val < lower) { val = lower; return true; }
-  if (upper < val) { val = upper; return true; }
-  return false;
-}
-
-#define CHECK_BOUNDS(val, lower, upper, what)                                 \
-  for (int i = 0; i < val.size(); ++i) {                                      \
-    double old = val(i);                                                      \
-    if (saturateBounds (val(i), lower(i), upper(i)))                          \
-      dgRTLOG () << "Robot " what " bound violation at DoF " << i <<          \
-      ": requested " << old << " but set " << val(i) << '\n';                 \
-  }
-
-void Device::integrate( const double & dt )
-{
-  const Vector & controlIN = controlSIN.accessCopy();
-
   if (sanityCheck_ && controlIN.hasNaN())
   {
     dgRTLOG () << "Device::integrate: Control has NaN values: " << '\n'
@@ -554,64 +349,628 @@ void Device::integrate( const double & dt )
     return;
   }
 
-  if (controlInputType_==CONTROL_INPUT_NO_INTEGRATION)
+  JointSHWControlType_iterator it_control_type;
+  for(it_control_type  = jointDevices_.begin();
+      it_control_type != jointDevices_.end();
+      it_control_type++)  
   {
-    assert(state_.size()==controlIN.size()+6);
-    state_.tail(controlIN.size()) = controlIN;
-    return;
-  }
+    int lctl_index = it_control_type->second.control_index;
+    int u_index = it_control_type->second.urdf_index;
 
-  if( vel_control_.size() == 0 )
-    vel_control_ = Vector::Zero(controlIN.size());
+    if (lctl_index==-1)
+    {
+      if (debug_mode_>1)
+      {
+        std::cerr << "No control index for joint "
+                  << urdf_joints_[u_index]->name << std::endl;
+      }
+      break;
+    }
+      
+    if (u_index!=-1)
+    {    
+      control_[u_index] = controlIN[lctl_index];
 
-  // If control size is state size - 6, integrate joint angles,
-  // if control and state are of same size, integrate 6 first degrees of
-  // freedom as a translation and roll pitch yaw.
-
-  if (controlInputType_==CONTROL_INPUT_TWO_INTEGRATION)
-  {
-    // TODO check acceleration
-    // Position increment
-    vel_control_ = velocity_.tail(controlIN.size()) + (0.5*dt)*controlIN;
-    // Velocity integration.
-    velocity_.tail(controlIN.size()) += controlIN*dt;
-  }
-  else
-  {
-    vel_control_ = controlIN;
-  }
-
-  // Velocity bounds check
-  if (sanityCheck_) {
-    CHECK_BOUNDS(velocity_, lowerVelocity_, upperVelocity_, "velocity");
-  }
-
-  // Freeflyer integration
-  if (vel_control_.size() == state_.size()) {
-    integrateRollPitchYaw(state_, vel_control_, dt);
-  }
-
-  // Position integration
-  state_.tail(controlIN.size()) += vel_control_ * dt;
-
-  // Position bounds check
-  if (sanityCheck_) {
-    CHECK_BOUNDS(state_, lowerPosition_, upperPosition_, "position");
-  }
+      // Position from control is directly provided.
+      if (it_control_type->second.SoTcontrol==POSITION)
+      {
+        double lowerLim = urdf_joints_[u_index]->limits->lower;
+        double upperLim = urdf_joints_[u_index]->limits->upper;
+        if (control_[u_index] < lowerLim)
+        {
+          control_[u_index] = lowerLim;
+        }
+        else if (control_[u_index] > upperLim)
+        {
+          control_[u_index] = upperLim;
+        }        
+      }
+    }
+  }   
 }
+
+
+int Device::ParseYAMLString(const std::string & aYamlString)
+{
+  YAML::Node map_global = YAML::Load(aYamlString);
+
+  YAML::Node map_sot_controller = map_global["sot_controller"];
+
+  for (YAML::const_iterator it=map_sot_controller.begin();
+       it!=map_sot_controller.end();
+       it++)
+  {
+    if (debug_mode_>1)
+    {
+      std::cout << "key:" << it->first.as<string>() << std::endl;
+    }
+    std::string name_elt_of_sot_controller = it->first.as<string>();
+
+    YAML::Node elt_of_sot_controller = it->second;
+    
+    if (name_elt_of_sot_controller=="map_hardware_sot_control")
+    {
+      int r=ParseYAMLMapHardware(elt_of_sot_controller);
+      if (r<0) return r;
+    }
+    else if (name_elt_of_sot_controller=="sensors")
+    { 
+      int r=ParseYAMLSensors(elt_of_sot_controller);
+      if (r<0) return r;
+    }
+  }
+  UpdateSignals();
+  return 0;
+}
+
+int Device::ParseYAMLJointSensor(std::string & joint_name, YAML::Node &aJointSensor)
+{
+  JointSoTHWControlType & aJointSoTHWControlType = jointDevices_[joint_name];
+
+  if (debug_mode_>1)
+  {
+    std::cout << "JointSensor for " << joint_name << std::endl;
+  }
+  
+  for (std::size_t i=0;i<aJointSensor.size();i++)
+  {
+    std::string  aSensor = aJointSensor[i].as<string>();
+    if (debug_mode_>1)
+    {
+      std::cout << "Found " << aSensor<< std::endl;
+    }
+    if (aSensor=="temperature")
+    {
+      aJointSoTHWControlType.temperature_index = temperature_index_;
+      temperature_index_++;
+    }
+    else if (aSensor=="velocity")
+    {
+      aJointSoTHWControlType.velocity_index = velocity_index_;
+      velocity_index_++;
+    }            
+    else if (aSensor=="current")
+    {
+      aJointSoTHWControlType.current_index = current_index_;
+      current_index_++;
+    }
+    else if (aSensor=="torque")
+    {
+      aJointSoTHWControlType.torque_index = torque_index_;
+      torque_index_++;
+    }
+    else if (aSensor=="joint_angles")
+    {
+      aJointSoTHWControlType.joint_angle_index = joint_angle_index_;
+      joint_angle_index_++;
+    }
+    else if (aSensor=="motor_angles")
+    {
+      aJointSoTHWControlType.motor_angle_index = motor_angle_index_;
+      motor_angle_index_++;
+    }
+  }
+  return 0;
+}
+
+
+int Device::ParseYAMLMapHardware(YAML::Node & map_hs_control)
+{
+  if (debug_mode_>1)
+  {
+    std::cout << "map_hs_control.size(): "
+    << map_hs_control.size() << std::endl;
+    std::cout << map_hs_control << std::endl;
+  }
+  unsigned int i=0;
+  for (YAML::const_iterator it=map_hs_control.begin();
+       it!=map_hs_control.end();
+       it++)
+  {
+    if (debug_mode_>1)
+    {
+      std::cout << i << " " << std::endl;
+      std::cout << "key:" << it->first.as<string>() << std::endl;
+    }
+
+    std::string jointName = it->first.as<string>();
+    YAML::Node aNode = it->second;
+
+    if (debug_mode_>1)
+    {
+      std::cout << "Type of value: " << aNode.Type() << std::endl;
+    }
+
+    for (YAML::const_iterator it2=aNode.begin();
+         it2!=aNode.end();
+         it2++)  
+    {
+      std::string aKey = it2->first.as<string>();
+      if (debug_mode_>1)
+      {
+        std::cout << "-- key:" << aKey << std::endl;
+      }
+      if (aKey=="hw")
+      {
+        std::string value = it2->second.as<string>();
+        if (debug_mode_>1)
+        {          
+          std::cout << "-- Value: " << value << std::endl;
+        }
+        setHWControlType(jointName,value);
+      }
+      else if (aKey=="sot")
+      {
+        std::string value = it2->second.as<string>();
+        if (debug_mode_>1)
+        {
+          std::cout << "-- Value: " << value << std::endl;
+        }  
+        setSoTControlType(jointName,value);
+      }
+      else if (aKey=="controlPos")
+      {
+        unsigned int index= it2->second.as<int>();
+        if (debug_mode_>1)
+        {
+          std::cout << "-- index: " << index << std::endl;
+        }  
+        setControlPos(jointName,index);
+      }
+      else if (aKey=="sensors")
+      {
+        YAML::Node aNode = it2->second;
+        if (debug_mode_>1)
+        {
+          std::cout << "-- type: " << aNode.Type() << std::endl;
+        } 
+        ParseYAMLJointSensor(jointName,aNode);
+      }
+    }
+    i++;
+  }
+  return 0;
+}
+
+/* Sensor signals */
+int Device::ParseYAMLSensors(YAML::Node &map_sensors)
+{
+  if (map_sensors.IsNull())
+  {
+    std::cerr << "Device::ParseYAMLString: No sensor detected in YamlString "  << std::endl;
+    return -1;
+  }
+
+  for (YAML::const_iterator it=map_sensors.begin();
+     it!=map_sensors.end();
+     it++)
+  {
+    if (debug_mode_>1)
+    {
+      std::cout << "sensor_type:" << it->first.as<string>() << std::endl;
+    }
+    std::string sensor_type = it->first.as<string>();
+    
+    YAML::Node aNode = it->second;
+    if (debug_mode_>1)
+    {
+      std::cout << "Type of value: " << aNode.Type() << std::endl;
+    }
+    
+    // Iterates over types of node.
+    for (YAML::const_iterator it2=aNode.begin();
+         it2!=aNode.end();
+         it2++)  
+    {
+      std::string sensor_name = it2->first.as<string>();
+      if (debug_mode_>1)
+      {
+        std::cout << "-- sensor_name:" << sensor_name << std::endl;
+      }
+
+      if (sensor_type=="force_torque")
+      {
+        std::string force_sensor_name = it2->second.as<string>();
+        if (debug_mode_>1)
+        {
+          std::cout << "-- force_sensor_name: " << force_sensor_name << std::endl;
+        }
+        CreateAForceSignal(force_sensor_name);
+      }
+      else if (sensor_type=="imu")
+      {
+        std::string imu_sensor_name = it2->second.as<string>();
+        if (debug_mode_>1)
+        {
+          std::cout << "-- Value: " << imu_sensor_name << std::endl;
+        }
+        CreateAnImuSignal(imu_sensor_name);
+      }
+      else 
+      {
+        std::cerr << "The sensor type " << sensor_type
+                  << " is not recognized" << std::endl;
+      }
+    }
+  }
+  return 0;
+}
+
+
+void Device::CreateAForceSignal(const std::string & force_sensor_name)
+{
+  dynamicgraph::Signal<dg::Vector, int> * aForceSOUT_;
+  /* --- SIGNALS --- */
+  aForceSOUT_ = new Signal<Vector, int>("Device("+getName()+")::output(vector6)::" +
+                                        force_sensor_name);
+  forcesSOUT_.push_back(aForceSOUT_);
+  signalRegistration(*aForceSOUT_);
+}
+
+void Device::CreateAnImuSignal(const std::string &imu_sensor_name)
+{
+  IMUSOUT * anImuSOUT_;
+  /* --- SIGNALS --- */
+  anImuSOUT_ = new IMUSOUT(imu_sensor_name,getName());
+  imuSOUT_.push_back(anImuSOUT_);
+  signalRegistration(anImuSOUT_->attitudeSOUT
+                     << anImuSOUT_->accelerometerSOUT
+                     << anImuSOUT_->gyrometerSOUT);
+}
+
+
+int Device::UpdateSignals()
+{
+  if ((torque_index_!=0) && (pseudoTorqueSOUT_!=0))
+  {
+    pseudoTorqueSOUT_ = new Signal<Vector, int>("Device("+getName()+")::output(vector)::ptorque");
+  }
+  
+  if ((current_index_!=0) && (currentsSOUT_!=0))
+  {
+    currentsSOUT_ = new Signal<Vector, int>("Device("+getName()+")::output(vector)::currents");
+  }
+
+  if ((temperature_index_!=0) && (temperatureSOUT_!=0))
+  {
+    temperatureSOUT_ = new Signal<Vector, int>("Device("+getName()+")::output(vector)::temperatures");
+  }
+
+  if ((motor_angle_index_!=0) && (motor_anglesSOUT_!=0))
+  {
+    motor_anglesSOUT_ = new Signal<Vector, int>("Device("+getName()+")::output(vector)::motor_angles");
+  }
+
+  if ((joint_angle_index_!=0) && (joint_anglesSOUT_!=0))
+  {
+    joint_anglesSOUT_ = new Signal<Vector, int>("Device("+getName()+")::output(vector)::joint_angles");
+  }
+
+  return 0;
+}
+
+
 
 /* --- DISPLAY ------------------------------------------------------------ */
 
 void Device::display ( std::ostream& os ) const
 {
-  os << name <<": "<<state_<<endl
-     << "sanityCheck: " << sanityCheck_<< endl
-     << "controlInputType:" << controlInputType_ << endl;
+  os <<name<<": "<<control_<<endl; 
 }
 
-void Device::cmdDisplay ( )
+/* Helpers for the controller */
+void Device::setSensorsForce(map<string,dgsot::SensorValues> &SensorsIn, int t)
 {
-  std::cout << name <<": "<<state_<<endl
-	    << "sanityCheck: " << sanityCheck_<< endl
-	    << "controlInputType:" << controlInputType_ << endl;
+  Eigen::Matrix<double, 6, 1> dgforces;
+  
+  sotDEBUGIN(15);
+  map<string,dgsot::SensorValues>::iterator it;
+  it = SensorsIn.find("forces");
+  if (it!=SensorsIn.end())
+  {
+    // Implements force recollection.
+    const vector<double>& forcesIn = it->second.getValues();
+    for(std::size_t i=0;i<forcesSOUT_.size();++i)
+    {
+      sotDEBUG(15) << "Force sensor " << i << std::endl;
+      for(int j=0;j<6;++j)
+      {
+        dgforces(j) = forcesIn[i*6+j];
+        sotDEBUG(15) << "Force value " << j << ":" << dgforces(j) << std::endl;
+      }
+      forcesSOUT_[i]->setConstant(dgforces);
+      forcesSOUT_[i]->setTime (t);
+    }
+  }
+  sotDEBUGIN(15);
 }
+
+void Device::setSensorsIMU(map<string,dgsot::SensorValues> &SensorsIn, int t)
+{
+  Eigen::Matrix<double,3, 1> aVector3d;
+  
+  map<string,dgsot::SensorValues>::iterator it;
+
+  //TODO: Confirm if this can be made quaternion
+  for(std::size_t k=0;k<imuSOUT_.size();++k)
+  {
+    it = SensorsIn.find("attitude");
+    if (it!=SensorsIn.end())
+    {
+      const vector<double>& attitude = it->second.getValues ();
+      Eigen::Matrix<double, 3, 3> pose;
+    
+      for (unsigned int i = 0; i < 3; ++i)
+      {
+        for (unsigned int j = 0; j < 3; ++j)
+        {
+          pose (i, j) = attitude[i * 3 + j];
+        }
+      }
+      imuSOUT_[k]->attitudeSOUT.setConstant (pose);
+      imuSOUT_[k]->attitudeSOUT.setTime (t);
+    }
+
+    it = SensorsIn.find("accelerometer_0");
+    if (it!=SensorsIn.end())
+    {
+      const vector<double>& accelerometer =
+        SensorsIn ["accelerometer_0"].getValues ();
+      for (std::size_t i=0; i<3; ++i)
+      {
+        aVector3d(i) = accelerometer [i];
+      }
+      imuSOUT_[k]->accelerometerSOUT.setConstant (aVector3d);
+      imuSOUT_[k]->accelerometerSOUT.setTime (t);
+    }
+      
+    it = SensorsIn.find("gyrometer_0");
+    if (it!=SensorsIn.end())
+    {
+      const vector<double>& gyrometer = SensorsIn ["gyrometer_0"].getValues ();
+      for (std::size_t i=0; i<3; ++i)
+      {
+        aVector3d(i) = gyrometer [i];
+      }
+      imuSOUT_[k]->gyrometerSOUT.setConstant (aVector3d);
+      imuSOUT_[k]->gyrometerSOUT.setTime (t);
+    }
+  }
+}
+
+void Device::setSensorsEncoders(map<string,dgsot::SensorValues> &SensorsIn, int t)
+{
+  dg::Vector dgRobotState, motor_angles, joint_angles;
+  map<string,dgsot::SensorValues>::iterator it;
+
+  if (motor_anglesSOUT_!=0)
+  {
+    it = SensorsIn.find("motor-angles");
+    if (it!=SensorsIn.end())
+    {
+      const vector<double>& anglesIn = it->second.getValues();
+      dgRobotState.resize (anglesIn.size () + 6);
+      motor_angles.resize(anglesIn.size ());
+      for (unsigned i = 0; i < 6; ++i)
+      {
+        dgRobotState (i) = 0.;
+      }
+      for (unsigned i = 0; i < anglesIn.size(); ++i)
+      {
+        dgRobotState (i + 6) = anglesIn[i];
+        motor_angles(i)= anglesIn[i];
+      }
+      robotState_.setConstant(dgRobotState);
+      robotState_.setTime(t);
+      motor_anglesSOUT_->setConstant(motor_angles);
+      motor_anglesSOUT_->setTime(t);
+    }
+  }
+
+  if (joint_anglesSOUT_!=0)
+  {
+    it = SensorsIn.find("joint-angles");
+    if (it!=SensorsIn.end())
+    {
+      const vector<double>& joint_anglesIn = it->second.getValues();
+      joint_angles.resize (joint_anglesIn.size () );
+      for (unsigned i = 0; i < joint_anglesIn.size(); ++i)
+      { 
+        joint_angles (i) = joint_anglesIn[i];
+      }
+      joint_anglesSOUT_->setConstant(joint_angles);
+      joint_anglesSOUT_->setTime(t);
+    }
+  }
+}
+
+void Device::setSensorsVelocities(map<string,dgsot::SensorValues> &SensorsIn, int t)
+{
+  dg::Vector dgRobotVelocity;
+  
+  map<string,dgsot::SensorValues>::iterator it;
+  
+  it = SensorsIn.find("velocities");
+  if (it!=SensorsIn.end())
+  {
+    const vector<double>& velocitiesIn = it->second.getValues();
+    dgRobotVelocity.resize (velocitiesIn.size () + 6);
+    for (unsigned i = 0; i < 6; ++i)
+    {
+      dgRobotVelocity (i) = 0.;
+    }
+    for (unsigned i = 0; i < velocitiesIn.size(); ++i)
+    {
+      dgRobotVelocity (i + 6) = velocitiesIn[i];
+    }
+    robotVelocity_.setConstant(dgRobotVelocity);
+    robotVelocity_.setTime(t);
+  }
+}
+
+void Device::setSensorsTorquesCurrents(map<string,dgsot::SensorValues> &SensorsIn, int t)
+{
+  dg::Vector torques,currents;
+  
+  map<string,dgsot::SensorValues>::iterator it;
+
+  if (pseudoTorqueSOUT_!=0)
+  {
+    it = SensorsIn.find("torques");
+    if (it!=SensorsIn.end())
+    {
+      const std::vector<double>& vtorques = SensorsIn["torques"].getValues();
+      torques.resize(vtorques.size());
+      for(std::size_t i = 0; i < vtorques.size(); ++i)
+      {  
+        torques (i) = vtorques [i];
+      }
+      pseudoTorqueSOUT_->setConstant(torques);
+      pseudoTorqueSOUT_->setTime(t);
+    }
+  }
+
+  if (currentsSOUT_!=0)
+  {
+    it = SensorsIn.find("currents");
+    if (it!=SensorsIn.end())
+    {
+      const std::vector<double>& vcurrents = SensorsIn["currents"].getValues();
+      currents.resize(vcurrents.size());
+      for(std::size_t i = 0; i < vcurrents.size(); ++i)
+      {
+        currents (i) = vcurrents[i];
+      }
+      currentsSOUT_->setConstant(currents);
+      currentsSOUT_->setTime(t);
+    }
+  }
+}
+
+void Device::setSensorsGains(map<string,dgsot::SensorValues> &SensorsIn, int t)
+{
+  dg::Vector p_gains, d_gains;
+  
+  map<string,dgsot::SensorValues>::iterator it;
+  if (p_gainsSOUT_!=0)
+  {
+    it = SensorsIn.find("p_gains");
+    if (it!=SensorsIn.end())
+    {
+      const std::vector<double>& vp_gains = SensorsIn["p_gains"].getValues();
+      p_gains.resize(vp_gains.size());
+      for(std::size_t i = 0; i < vp_gains.size(); ++i)
+      {
+        p_gains (i) = vp_gains[i];
+      }
+      p_gainsSOUT_->setConstant(p_gains);
+      p_gainsSOUT_->setTime(t);
+    }
+  }
+
+  if (d_gainsSOUT_!=0)
+  {
+    it = SensorsIn.find("d_gains");
+    if (it!=SensorsIn.end())
+    {
+      const std::vector<double>& vd_gains = SensorsIn["d_gains"].getValues();
+      d_gains.resize(vd_gains.size());
+      for(std::size_t i = 0; i < vd_gains.size(); ++i)
+      {
+        d_gains (i) = vd_gains[i];
+      }
+      d_gainsSOUT_->setConstant(d_gains);
+      d_gainsSOUT_->setTime(t);
+    }
+  }
+}
+
+void Device::setSensors(map<string,dgsot::SensorValues> &SensorsIn)
+{
+  sotDEBUGIN(25) ;
+  int t = stateSOUT_.getTime () + 1;
+
+  setSensorsForce(SensorsIn,t);
+  setSensorsIMU(SensorsIn,t);
+  setSensorsEncoders(SensorsIn,t);
+  setSensorsVelocities(SensorsIn,t);
+  setSensorsTorquesCurrents(SensorsIn,t);
+  setSensorsGains(SensorsIn,t);
+
+  sotDEBUGOUT(25);
+}
+
+void Device::setupSetSensors(map<string,dgsot::SensorValues> &SensorsIn)
+{
+  setSensors (SensorsIn);
+}
+
+void Device::nominalSetSensors(map<string,dgsot::SensorValues> &SensorsIn)
+{
+  setSensors (SensorsIn);
+}
+
+
+void Device::cleanupSetSensors(map<string, dgsot::SensorValues> &SensorsIn)
+{
+  setSensors (SensorsIn);
+}
+
+void Device::getControl(map<string,dgsot::ControlValues> &controlOut)
+{
+  ODEBUG5FULL("start");
+  sotDEBUGIN(25) ;
+  const Vector & controlIN = controlSIN.accessCopy();
+  vector<double> lcontrolOut;
+  lcontrolOut.resize(controlIN.size());
+  
+  // Integrate control
+  increment();
+  sotDEBUG (25) << "control = " << control_ << std::endl;
+
+  ODEBUG5FULL("control = "<< control_);
+
+  // Specify the joint values for the controller.
+  JointSHWControlType_iterator it_control_type;
+  for(it_control_type  = jointDevices_.begin();
+      it_control_type != jointDevices_.end();
+      it_control_type++)
+  {
+    int lctl_index = it_control_type->second.control_index;
+    if (it_control_type->second.HWcontrol==TORQUE)
+    {
+      lcontrolOut[lctl_index] = controlIN[lctl_index];
+    }
+    else if (it_control_type->second.HWcontrol==POSITION)
+    {
+      int u_index = it_control_type->second.urdf_index;
+      lcontrolOut[lctl_index] = control_[u_index];
+    }
+  }
+  
+  controlOut["control"].setValues(lcontrolOut);
+  
+  ODEBUG5FULL("end");
+  sotDEBUGOUT(25) ;
+}
+

@@ -90,6 +90,7 @@ SET (tests
   tools/test_mailbox
   tools/test_matrix
   tools/test_robot_utils
+  tools/test_device
 
   math/matrix-twist
   math/matrix-homogeneous
