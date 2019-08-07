@@ -86,6 +86,9 @@ struct JointSoTHWControlType {
   /// Position of the joint in the torque vector
   int torque_index;
 
+  /// Position of the joint in the force vector
+  int force_index;
+
   /// Position of the joint in the joint-angles vector
   int joint_angle_index;
 
@@ -134,6 +137,8 @@ class SOT_CORE_EXPORT Device: public Entity
 
   /// Set integration time.
   void timeStep(double ts) { timestep_ = ts;}
+  /// Set debug mode.
+  void setDebugMode(int mode) { debug_mode_ = mode;}
 
  protected:
   /// \brief Current integration step.
@@ -204,8 +209,6 @@ class SOT_CORE_EXPORT Device: public Entity
 
   /// \name Device current state.
   /// \{
-  /// \brief Output integrated state from control.
-  dg::Signal<dg::Vector, int> stateSOUT_;
   /// \brief Output attitude provided by the hardware
   /*! \brief The current state of the robot from the command viewpoint. */
   dg::Signal<dg::Vector, int> motorcontrolSOUT_;
@@ -257,29 +260,15 @@ class SOT_CORE_EXPORT Device: public Entity
   /// \brief Provides to the robot the control information.
   void getControl(std::map<std::string, dgsot::ControlValues> &anglesOut);
   ///@}
+  
  protected:
-
 
   void setControlType(const std::string &strCtrlType,
                       ControlType &aCtrlType);
 
-  /// Compute the new control, from the given one.
+  /// \brief Compute the new control, from the given one.
   /// When the control is in position, checks that the position is within bounds.
   virtual void updateControl(const Vector & controlIN);
-
-  /// \name YAML related methods
-  /// @{
-  /// Parse YAML for mapping between hardware and sot
-  /// starting from a YAML-cpp node.
-  int ParseYAMLMapHardware(YAML::Node &map_hs_control);
-
-  /// Parse YAML for sensors from a YAML-cpp node.
-  int ParseYAMLSensors(YAML::Node &map_sensors);
-
-  /// Parse YAML for joint sensors from YAML-cpp node.
-  int ParseYAMLJointSensor(std::string & joint_name,
-                           YAML::Node &aJointSensors);
-  /// @}
 
   /// \name Signals related methods
   ///@{
@@ -288,6 +277,23 @@ class SOT_CORE_EXPORT Device: public Entity
   /// \brief Creates a signal called Device(DeviceName)::output(vector6)::imu_sensor_name
   void CreateAnImuSignal(const std::string & imu_sensor_name);
 
+  /// \name YAML related methods
+  /// @{
+  /// Parse YAML for mapping joint names between hardware and sot
+  /// starting from a YAML-cpp node.
+  int ParseYAMLMapHardwareJointNames(YAML::Node & map_joint_name);
+
+  /// Parse YAML for mapping control modes between hardware and sot
+  /// starting from a YAML-cpp node.
+  int ParseYAMLMapHardwareControlMode(YAML::Node & map_control_mode);
+
+  /// Parse YAML for sensors from a YAML-cpp node.
+  int ParseYAMLSensors(YAML::Node &map_sensors);
+
+  /// Parse YAML for joint sensors from YAML-cpp node.
+  int ParseYAMLJointSensor(YAML::Node &aJointSensors);
+  /// @}
+  
   /// \brief Creates signals based on the joints information parsed by the YAML string.
   int UpdateSignals();
 
@@ -323,13 +329,17 @@ class SOT_CORE_EXPORT Device: public Entity
   // Intermediate index when parsing YAML file.
   int temperature_index_, velocity_index_,
       current_index_, torque_index_,
-      joint_angle_index_,
+      force_index_, joint_angle_index_,
       motor_angle_index_
       ;
 
  public:
   const ::urdf::ModelInterfaceSharedPtr & getModel() {
     return model_;
+  }
+
+  const std::vector< ::urdf::JointSharedPtr > & getURDFJoints() {
+    return urdf_joints_;
   }
 };
 } // namespace sot

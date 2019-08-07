@@ -61,6 +61,7 @@ JointSoTHWControlType::JointSoTHWControlType():
   ,velocity_index(-1)
   ,current_index(-1)
   ,torque_index(-1)
+  ,force_index(-1)
   ,joint_angle_index(-1)
   ,motor_angle_index(-1)
 {
@@ -88,7 +89,6 @@ Device::Device( const std::string& n )
   ,control_(6)
   ,sanityCheck_(true)
   ,controlSIN( NULL,"Device("+n+")::input(double)::control" )   
-  ,stateSOUT_( "Device("+n+")::output(vector)::state" )   
   ,motorcontrolSOUT_   ( "Device("+n+")::output(vector)::motorcontrol" )
   ,previousControlSOUT_( "Device("+n+")::output(vector)::previousControl" )
   ,robotState_     ("Device("+n+")::output(vector)::robotState")
@@ -106,6 +106,7 @@ Device::Device( const std::string& n )
   ,velocity_index_(0)
   ,current_index_(0)
   ,torque_index_(0)
+  ,force_index_(0)
   ,joint_angle_index_(0)
   ,motor_angle_index_(0)
    
@@ -113,12 +114,11 @@ Device::Device( const std::string& n )
   forceZero6.fill (0);
 
   signalRegistration( controlSIN
-          << stateSOUT_
           << robotState_
           << robotVelocity_
           << previousControlSOUT_
           << motorcontrolSOUT_);
-  control_.fill(.0); stateSOUT_.setConstant( control_ );
+  control_.fill(.0); motorcontrolSOUT_.setConstant( control_ );
 
 
   /* --- Commands --- */
@@ -176,7 +176,6 @@ Device::Device( const std::string& n )
 void Device::setState( const Vector& st )
 {
   updateControl(st);
-  stateSOUT_ .setConstant( control_ );
   motorcontrolSOUT_ .setConstant( control_ );
 }
 
@@ -233,12 +232,7 @@ void Device::setControlPos(const std::string &jointName, const unsigned & index)
 void Device::setURDFModel(const std::string &aURDFModel)
 {
   model_ = ::urdf::parseURDF(aURDFModel);      
-  // if (urdfTree)
-  // {
-  //   model_.name = urdfTree->getName();
-  //   model_.initTree(urdfTree);
-  //   // details::parseRootTree(urdfTree->getRoot(),model_,false);
-  // }
+
   if (!model_)
   {
     dgRTLOG()
@@ -260,17 +254,18 @@ void Device::setURDFModel(const std::string &aURDFModel)
   for(unsigned int i=0;i<urdf_joints_.size();i++)
   {
     jointDevices_[urdf_joints_[i]->name].urdf_index=i;
-    std::cout << "jointDevices_ index: " << i
-              << " model_.names[i]: " << urdf_joints_[i]->name
-              << std::endl;
+    if (debug_mode_>1)
+    {
+      std::cout << "jointDevices_ index: " << i
+                << " model_.names[i]: " << urdf_joints_[i]->name
+                << std::endl;
+    }
   }
-  // Initialize urdf file vector.
-  control_.resize(urdf_joints_.size());
 }
 
 void Device::increment()
 {
-  int time = stateSOUT_.getTime();
+  int time = motorcontrolSOUT_.getTime();
   sotDEBUG(25) << "Time : " << time << std::endl;
 
   // Run Synchronous commands and evaluate signals outside the main
@@ -302,12 +297,14 @@ void Device::increment()
   controlSIN( time );
   const Vector & controlIN = controlSIN.accessCopy();
   sotDEBUG(25) << "u" <<time<<" = " << controlIN << endl;  
+
   updateControl(controlIN);
   
   sotDEBUG(25) << "q" << time << " = " << control_ << endl;
 
   /* Position the signals corresponding to sensors. */
-  stateSOUT_ .setConstant( control_ ); stateSOUT_.setTime( time+1 );
+  motorcontrolSOUT_ .setConstant( control_ ); 
+  motorcontrolSOUT_.setTime( time+1 );
 
 
   // Run Synchronous commands and evaluate signals outside the main
@@ -334,19 +331,21 @@ void Device::increment()
         << "unknown exception caught while"
         << " running periodical commands (after)" << std::endl;
   }
-
-  // Others signals.
-  motorcontrolSOUT_ .setConstant( control_ );
 }
 
 
-void Device::updateControl(const Vector & controlIN)
+void Device::updateControl(const Vector & controlIN )
 {
   if (sanityCheck_ && controlIN.hasNaN())
   {
     dgRTLOG () << "Device::integrate: Control has NaN values: " << '\n'
                << controlIN.transpose() << '\n';
     return;
+  }
+
+  if (control_.size() != controlIN.size())
+  {
+    control_.resize(controlIN.size());
   }
 
   JointSHWControlType_iterator it_control_type;
@@ -365,30 +364,29 @@ void Device::updateControl(const Vector & controlIN)
                   << urdf_joints_[u_index]->name << std::endl;
       }
       break;
-    }
-      
+    }      
     if (u_index!=-1)
     {    
-      control_[u_index] = controlIN[lctl_index];
+      control_[lctl_index] = controlIN[lctl_index];
 
       // Position from control is directly provided.
-      if (it_control_type->second.SoTcontrol==POSITION)
+      if ((it_control_type->second.SoTcontrol==POSITION) && 
+          (urdf_joints_[u_index]->limits))
       {
         double lowerLim = urdf_joints_[u_index]->limits->lower;
         double upperLim = urdf_joints_[u_index]->limits->upper;
-        if (control_[u_index] < lowerLim)
+        if (control_[lctl_index] < lowerLim)
         {
-          control_[u_index] = lowerLim;
+          control_[lctl_index] = lowerLim;
         }
-        else if (control_[u_index] > upperLim)
+        else if (control_[lctl_index] > upperLim)
         {
-          control_[u_index] = upperLim;
+          control_[lctl_index] = upperLim;
         }        
       }
     }
   }   
 }
-
 
 int Device::ParseYAMLString(const std::string & aYamlString)
 {
@@ -400,20 +398,31 @@ int Device::ParseYAMLString(const std::string & aYamlString)
        it!=map_sot_controller.end();
        it++)
   {
+    std::string name_elt_of_sot_controller = it->first.as<string>();
+
     if (debug_mode_>1)
     {
-      std::cout << "key:" << it->first.as<string>() << std::endl;
-    }
-    std::string name_elt_of_sot_controller = it->first.as<string>();
+      std::cout << "key:" << name_elt_of_sot_controller << std::endl;
+    }    
 
     YAML::Node elt_of_sot_controller = it->second;
     
-    if (name_elt_of_sot_controller=="map_hardware_sot_control")
+    if (name_elt_of_sot_controller=="joint_names")
     {
-      int r=ParseYAMLMapHardware(elt_of_sot_controller);
+      int r=ParseYAMLMapHardwareJointNames(elt_of_sot_controller);
       if (r<0) return r;
     }
-    else if (name_elt_of_sot_controller=="sensors")
+    else if (name_elt_of_sot_controller=="map_rc_to_sot_device")
+    {
+      int r=ParseYAMLJointSensor(elt_of_sot_controller);
+      if (r<0) return r;
+    }
+    else if (name_elt_of_sot_controller=="control_mode")
+    {
+      int r=ParseYAMLMapHardwareControlMode(elt_of_sot_controller);
+      if (r<0) return r;
+    }
+    else if (name_elt_of_sot_controller.find("sensor") != std::string::npos)
     { 
       int r=ParseYAMLSensors(elt_of_sot_controller);
       if (r<0) return r;
@@ -423,77 +432,119 @@ int Device::ParseYAMLString(const std::string & aYamlString)
   return 0;
 }
 
-int Device::ParseYAMLJointSensor(std::string & joint_name, YAML::Node &aJointSensor)
+int Device::ParseYAMLJointSensor(YAML::Node &aJointSensor)
 {
-  JointSoTHWControlType & aJointSoTHWControlType = jointDevices_[joint_name];
-
-  if (debug_mode_>1)
+  for (YAML::const_iterator it=aJointSensor.begin();
+       it!=aJointSensor.end();
+       it++)
   {
-    std::cout << "JointSensor for " << joint_name << std::endl;
-  }
-  
-  for (std::size_t i=0;i<aJointSensor.size();i++)
-  {
-    std::string  aSensor = aJointSensor[i].as<string>();
+    std::string aSensor = it->first.as<string>();
     if (debug_mode_>1)
     {
       std::cout << "Found " << aSensor<< std::endl;
     }
-    if (aSensor=="temperature")
+    JointSHWControlType_iterator it_control_type;
+    for(it_control_type  = jointDevices_.begin();
+        it_control_type != jointDevices_.end();
+        it_control_type++)  
     {
-      aJointSoTHWControlType.temperature_index = temperature_index_;
-      temperature_index_++;
-    }
-    else if (aSensor=="velocity")
-    {
-      aJointSoTHWControlType.velocity_index = velocity_index_;
-      velocity_index_++;
-    }            
-    else if (aSensor=="current")
-    {
-      aJointSoTHWControlType.current_index = current_index_;
-      current_index_++;
-    }
-    else if (aSensor=="torque")
-    {
-      aJointSoTHWControlType.torque_index = torque_index_;
-      torque_index_++;
-    }
-    else if (aSensor=="joint_angles")
-    {
-      aJointSoTHWControlType.joint_angle_index = joint_angle_index_;
-      joint_angle_index_++;
-    }
-    else if (aSensor=="motor_angles")
-    {
-      aJointSoTHWControlType.motor_angle_index = motor_angle_index_;
-      motor_angle_index_++;
+      if (aSensor=="temperature")
+      {
+        it_control_type->second.temperature_index = temperature_index_;
+        temperature_index_++;
+      }
+      else if (aSensor=="velocities")
+      {
+        it_control_type->second.velocity_index = velocity_index_;
+        velocity_index_++;
+      }            
+      else if (aSensor=="currents")
+      {
+        it_control_type->second.current_index = current_index_;
+        current_index_++;
+      }
+      else if (aSensor=="torques")
+      {
+        it_control_type->second.torque_index = torque_index_;
+        torque_index_++;
+      }
+      else if (aSensor=="forces")
+      {
+        it_control_type->second.force_index = force_index_;
+        force_index_++;
+      }
+      else if (aSensor=="joint_angles")
+      {
+        it_control_type->second.joint_angle_index = joint_angle_index_;
+        joint_angle_index_++;
+      }
+      else if (aSensor=="motor_angles")
+      {
+        it_control_type->second.motor_angle_index = motor_angle_index_;
+        motor_angle_index_++;
+      }
     }
   }
   return 0;
 }
 
-
-int Device::ParseYAMLMapHardware(YAML::Node & map_hs_control)
+int Device::ParseYAMLMapHardwareJointNames(YAML::Node & map_joint_name)
 {
   if (debug_mode_>1)
   {
-    std::cout << "map_hs_control.size(): "
-    << map_hs_control.size() << std::endl;
-    std::cout << map_hs_control << std::endl;
+    std::cout << "map_joint_name.size(): "
+    << map_joint_name.size() << std::endl;
+    std::cout << map_joint_name << std::endl;
   }
-  unsigned int i=0;
-  for (YAML::const_iterator it=map_hs_control.begin();
-       it!=map_hs_control.end();
-       it++)
+  for (unsigned int i=0;i<map_joint_name.size();i++)
   {
+    std::string jointName = map_joint_name[i].as<string>();
     if (debug_mode_>1)
     {
-      std::cout << i << " " << std::endl;
-      std::cout << "key:" << it->first.as<string>() << std::endl;
+      std::cout << "-- Joint: " << jointName << " has index: " << i << std::endl;
+    }  
+    setControlPos(jointName,i);
+  }
+  return 0;
+}
+
+int Device::ParseYAMLMapHardwareControlMode(YAML::Node & map_control_mode)
+{
+  if (debug_mode_>1)
+  {
+    std::cout << "map_control_mode.size(): "
+    << map_control_mode.size() << std::endl;
+    std::cout << map_control_mode << std::endl;
+  }
+
+  if (map_control_mode.size() == 0)
+  {
+    std::string value = map_control_mode.as<string>();
+    JointSHWControlType_iterator it_control_type;
+    for(it_control_type  = jointDevices_.begin();
+        it_control_type != jointDevices_.end();
+        it_control_type++)  
+    {
+      int u_index = it_control_type->second.urdf_index;      
+      setSoTControlType(urdf_joints_[u_index]->name, value);
+    }    
+    if (debug_mode_>1)
+    {
+      std::cout << "All joints are controlled in: " << value << std::endl;
+    }
+    return 0;
+  }
+
+  for (YAML::const_iterator it=map_control_mode.begin();
+       it!=map_control_mode.end();
+       it++)
+  {
+    std::string jointName = it->first.as<string>();
+    if (debug_mode_>1)
+    {
+      std::cout << "joint name: " << jointName << std::endl;
     }
 
-    std::string jointName = it->first.as<string>();
     YAML::Node aNode = it->second;
 
     if (debug_mode_>1)
@@ -510,7 +561,7 @@ int Device::ParseYAMLMapHardware(YAML::Node & map_hs_control)
       {
         std::cout << "-- key:" << aKey << std::endl;
       }
-      if (aKey=="hw")
+      if (aKey=="hw_control_mode")
       {
         std::string value = it2->second.as<string>();
         if (debug_mode_>1)
@@ -519,7 +570,7 @@ int Device::ParseYAMLMapHardware(YAML::Node & map_hs_control)
         }
         setHWControlType(jointName,value);
       }
-      else if (aKey=="sot")
+      else if (aKey=="ros_control_mode")
       {
         std::string value = it2->second.as<string>();
         if (debug_mode_>1)
@@ -528,26 +579,7 @@ int Device::ParseYAMLMapHardware(YAML::Node & map_hs_control)
         }  
         setSoTControlType(jointName,value);
       }
-      else if (aKey=="controlPos")
-      {
-        unsigned int index= it2->second.as<int>();
-        if (debug_mode_>1)
-        {
-          std::cout << "-- index: " << index << std::endl;
-        }  
-        setControlPos(jointName,index);
-      }
-      else if (aKey=="sensors")
-      {
-        YAML::Node aNode = it2->second;
-        if (debug_mode_>1)
-        {
-          std::cout << "-- type: " << aNode.Type() << std::endl;
-        } 
-        ParseYAMLJointSensor(jointName,aNode);
-      }
     }
-    i++;
   }
   return 0;
 }
@@ -560,58 +592,25 @@ int Device::ParseYAMLSensors(YAML::Node &map_sensors)
     std::cerr << "Device::ParseYAMLString: No sensor detected in YamlString "  << std::endl;
     return -1;
   }
-
-  for (YAML::const_iterator it=map_sensors.begin();
-     it!=map_sensors.end();
-     it++)
+  std::string sensor_name = map_sensors.as<string>();
+  if (debug_mode_>1)
   {
-    if (debug_mode_>1)
-    {
-      std::cout << "sensor_type:" << it->first.as<string>() << std::endl;
-    }
-    std::string sensor_type = it->first.as<string>();
-    
-    YAML::Node aNode = it->second;
-    if (debug_mode_>1)
-    {
-      std::cout << "Type of value: " << aNode.Type() << std::endl;
-    }
-    
-    // Iterates over types of node.
-    for (YAML::const_iterator it2=aNode.begin();
-         it2!=aNode.end();
-         it2++)  
-    {
-      std::string sensor_name = it2->first.as<string>();
-      if (debug_mode_>1)
-      {
-        std::cout << "-- sensor_name:" << sensor_name << std::endl;
-      }
+    std::cout << "-- sensor_name:" << sensor_name << std::endl;
+  }
+  if (sensor_name.find("ft") != std::string::npos)
+  {    
+    CreateAForceSignal(sensor_name);
+  }
 
-      if (sensor_type=="force_torque")
-      {
-        std::string force_sensor_name = it2->second.as<string>();
-        if (debug_mode_>1)
-        {
-          std::cout << "-- force_sensor_name: " << force_sensor_name << std::endl;
-        }
-        CreateAForceSignal(force_sensor_name);
-      }
-      else if (sensor_type=="imu")
-      {
-        std::string imu_sensor_name = it2->second.as<string>();
-        if (debug_mode_>1)
-        {
-          std::cout << "-- Value: " << imu_sensor_name << std::endl;
-        }
-        CreateAnImuSignal(imu_sensor_name);
-      }
-      else 
-      {
-        std::cerr << "The sensor type " << sensor_type
-                  << " is not recognized" << std::endl;
-      }
-    }
+  else if (sensor_name.find("imu") != std::string::npos)
+  {
+    CreateAnImuSignal(sensor_name);
+  }
+  else 
+  {
+    std::cerr << "The sensor " << sensor_name
+              << " is not recognized" << std::endl;
+    return 1;
   }
   return 0;
 }
@@ -645,7 +644,10 @@ int Device::UpdateSignals()
   {
     pseudoTorqueSOUT_ = new Signal<Vector, int>("Device("+getName()+")::output(vector)::ptorque");
   }
-  
+  // if ((force_index_!=0) && (forcesSOUT_.size()!=0))
+  // {
+  //   forcesSOUT_ = new Signal<Vector, int>("Device("+getName()+")::output(vector)::forces");
+  // }
   if ((current_index_!=0) && (currentsSOUT_!=0))
   {
     currentsSOUT_ = new Signal<Vector, int>("Device("+getName()+")::output(vector)::currents");
@@ -908,7 +910,7 @@ void Device::setSensorsGains(map<string,dgsot::SensorValues> &SensorsIn, int t)
 void Device::setSensors(map<string,dgsot::SensorValues> &SensorsIn)
 {
   sotDEBUGIN(25) ;
-  int t = stateSOUT_.getTime () + 1;
+  int t = motorcontrolSOUT_.getTime () + 1;
 
   setSensorsForce(SensorsIn,t);
   setSensorsIMU(SensorsIn,t);
@@ -939,37 +941,20 @@ void Device::cleanupSetSensors(map<string, dgsot::SensorValues> &SensorsIn)
 void Device::getControl(map<string,dgsot::ControlValues> &controlOut)
 {
   ODEBUG5FULL("start");
-  sotDEBUGIN(25) ;
-  const Vector & controlIN = controlSIN.accessCopy();
-  vector<double> lcontrolOut;
-  lcontrolOut.resize(controlIN.size());
-  
+  sotDEBUGIN(25);
+
   // Integrate control
   increment();
   sotDEBUG (25) << "control = " << control_ << std::endl;
 
   ODEBUG5FULL("control = "<< control_);
 
-  // Specify the joint values for the controller.
-  JointSHWControlType_iterator it_control_type;
-  for(it_control_type  = jointDevices_.begin();
-      it_control_type != jointDevices_.end();
-      it_control_type++)
-  {
-    int lctl_index = it_control_type->second.control_index;
-    if (it_control_type->second.HWcontrol==TORQUE)
-    {
-      lcontrolOut[lctl_index] = controlIN[lctl_index];
-    }
-    else if (it_control_type->second.HWcontrol==POSITION)
-    {
-      int u_index = it_control_type->second.urdf_index;
-      lcontrolOut[lctl_index] = control_[u_index];
-    }
-  }
-  
+  vector<double> lcontrolOut;
+  lcontrolOut.resize(control_.size());
+  Eigen::VectorXd::Map(&lcontrolOut[0], control_.size()) = control_;
+
   controlOut["control"].setValues(lcontrolOut);
-  
+
   ODEBUG5FULL("end");
   sotDEBUGOUT(25) ;
 }
