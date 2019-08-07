@@ -90,13 +90,16 @@ SET (tests
   tools/test_mailbox
   tools/test_matrix
   tools/test_robot_utils
-  tools/test_device
 
   math/matrix-twist
   math/matrix-homogeneous
 
   matrix/test_operator
   )
+
+IF (YAML_CPP_FOUND AND URDFDOM_FOUND)
+  SET(tests ${tests} tools/test_device  )
+ENDIF ()
 
 # TODO
 IF(WIN32)
@@ -149,6 +152,11 @@ FOREACH(test ${tests})
   IF(BUILD_PYTHON_INTERFACE)
     PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} dynamic-graph-python)
   ENDIF(BUILD_PYTHON_INTERFACE)
+
+  IF (YAML_CPP_FOUND AND URDFDOM_FOUND)    
+    PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} yaml-cpp) 
+    PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} urdfdom)
+  ENDIF ()
 
   # Link against Boost.
   TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY})

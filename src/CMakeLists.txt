@@ -88,6 +88,11 @@ SET(plugins
 
   )
 
+IF (YAML_CPP_FOUND AND URDFDOM_FOUND)
+  SET(plugins ${plugins} tools/device  )
+ENDIF ()
+
+
 # TODO
 IF(WIN32)
   LIST(REMOVE_ITEM plugins
@@ -139,17 +144,17 @@ SET(${LIBRARY_NAME}_SOURCES
 
   factory/pool.cpp
 
-  tools/utils-windows
-  tools/periodic-call
-  tools/device
-  tools/trajectory
-  tools/robot-utils
+  tools/utils-windows.cpp
+  tools/periodic-call.cpp
+  tools/device.cpp
+  tools/trajectory.cpp
+  tools/robot-utils.cpp
 
-  matrix/matrix-svd
+  matrix/matrix-svd.cpp
 
-  filters/causal-filter
+  filters/causal-filter.cpp
 
-  utils/stop-watch
+  utils/stop-watch.cpp
 
   )
 
@@ -162,7 +167,6 @@ SET_TARGET_PROPERTIES(${LIBRARY_NAME}
   SOVERSION ${PROJECT_VERSION})
 
 PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} dynamic-graph)
-PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} pinocchio)
 IF(BUILD_PYTHON_INTERFACE)
   PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} dynamic-graph-python)
 ENDIF(BUILD_PYTHON_INTERFACE)
@@ -220,7 +224,11 @@ FOREACH(plugin ${plugins})
   ENDIF(UNIX)
 
   PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} dynamic-graph)
-  PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} pinocchio)
+
+  IF (YAML_CPP_FOUND AND URDFDOM_FOUND)    
+    PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} yaml-cpp) 
+    PKG_CONFIG_USE_DEPENDENCY(${LIBRARY_NAME} urdfdom)
+  ENDIF () 
 
   # build python submodule
   IF(BUILD_PYTHON_INTERFACE)
