@@ -237,11 +237,6 @@ int main(int, char **) {
   if (ReadYAMLFILE(aDevice) < 0)
     return -1;
 
-  dg::Vector aState(35);
-  for (unsigned j = 0; j < aState.size(); j++)
-    aState(j) = 0.0;
-  aDevice.setState(aState);
-
   /// Fix constant vector for the control entry
   dg::Vector aControlVector(35);
   double dt = 0.005;

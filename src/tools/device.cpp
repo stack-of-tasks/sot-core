@@ -90,7 +90,6 @@ Device::Device( const std::string& n )
   ,sanityCheck_(true)
   ,controlSIN( NULL,"Device("+n+")::input(double)::control" )   
   ,motorcontrolSOUT_   ( "Device("+n+")::output(vector)::motorcontrol" )
-  ,previousControlSOUT_( "Device("+n+")::output(vector)::previousControl" )
   ,robotState_     ("Device("+n+")::output(vector)::robotState")
   ,robotVelocity_  ("Device("+n+")::output(vector)::robotVelocity")
   ,forcesSOUT_(0)
@@ -100,7 +99,6 @@ Device::Device( const std::string& n )
   ,currentsSOUT_(0)
   ,motor_anglesSOUT_(0)
   ,joint_anglesSOUT_(0)
-  ,forceZero6 (6)
   ,debug_mode_(5)
   ,temperature_index_(0)
   ,velocity_index_(0)
@@ -111,12 +109,9 @@ Device::Device( const std::string& n )
   ,motor_angle_index_(0)
    
 {
-  forceZero6.fill (0);
-
   signalRegistration( controlSIN
           << robotState_
           << robotVelocity_
-          << previousControlSOUT_
           << motorcontrolSOUT_);
   control_.fill(.0); motorcontrolSOUT_.setConstant( control_ );
 
@@ -126,37 +121,27 @@ Device::Device( const std::string& n )
     std::string docstring;
     docstring =
         "\n"
-        "    Set state vector value\n"
+        "    Set control vector value\n"
         "\n";
     addCommand("set",
                new command::Setter<Device, Vector>
-               (*this, &Device::setState, docstring));
-
-    void(Device::*setRootPtr)(const Matrix&) = &Device::setRoot;
-    docstring = command::docCommandVoid1("Set the root position.",
-                                         "matrix homogeneous");
-    addCommand("setRoot",
-               command::makeCommandVoid1(*this,setRootPtr,
-                                         docstring));
+               (*this, &Device::setControl, docstring));
 
 
     /* SET of SoT control input type per joint */
     addCommand("setSoTControlType",
-         command::makeCommandVoid2(*this,&Device::setSoTControlType,
-                 command::docCommandVoid2 ("Set the type of control input per joint on the SoT side",
-             "Joint name",
-             "Control type: [TORQUE|ACCELERATION|VELOCITY|POSITION]")
-                 ));
-
+               command::makeCommandVoid2(*this, &Device::setSoTControlType,
+                  command::docCommandVoid2 ("Set the type of control input per joint on the SoT side",
+                                            "Joint name",
+                                            "Control type: [TORQUE|POSITION|VELOCITY]")));
 
     /* SET of HW control input type per joint */
     addCommand("setHWControlType",
-         command::makeCommandVoid2(*this,&Device::setHWControlType,
-                 command::docCommandVoid2 ("Set HW control input type per joint",
-             "Joint name",
-             "Control type: [TORQUE|ACCELERATION|VELOCITY|POSITION]")
-                 ));
-    
+               command::makeCommandVoid2(*this, &Device::setHWControlType,
+                  command::docCommandVoid2 ("Set HW control input type per joint",
+                                            "Joint name",
+                                            "Control type: [TORQUE|POSITION|VELOCITY]")));
+
     docstring =
         "\n"
         "    Enable/Disable sanity checks\n"
@@ -173,30 +158,11 @@ Device::Device( const std::string& n )
   }
 }
 
-void Device::setState( const Vector& st )
+void Device::setControl( const Vector& cont )
 {
-  updateControl(st);
+  updateControl(cont);
   motorcontrolSOUT_ .setConstant( control_ );
 }
-
-
-void Device::setRoot( const Matrix & root )
-{
-  Eigen::Matrix4d _matrix4d(root);
-  MatrixHomogeneous _root(_matrix4d);
-  setRoot( _root );
-}
-
-void Device::setRoot( const MatrixHomogeneous & worldMwaist )
-{
-  VectorRollPitchYaw r = (worldMwaist.linear().eulerAngles(2,1,0)).reverse();
-  for( unsigned int i=0;i<3;++i )
-  {
-    control_(i) = worldMwaist.translation()(i);
-    control_(i+3) = r(i);
-  } 
-}
-
 
 void Device::setSanityCheck(const bool & enableCheck)
 {
@@ -205,7 +171,7 @@ void Device::setSanityCheck(const bool & enableCheck)
 
 void Device::setControlType(const std::string &strCtrlType, ControlType &aCtrlType)
 {
-  for(int j=0;j<4;j++)
+  for(int j=0;j<2;j++)
   {
     if (strCtrlType==ControlType_s[j]){
       aCtrlType = (ControlType)j;
@@ -329,7 +295,7 @@ void Device::increment()
   {
     dgRTLOG()
         << "unknown exception caught while"
-        << " running periodical commands (after)" << std::endl;
+        << "running periodical commands (after)" << std::endl;
   }
 }
 
@@ -338,7 +304,7 @@ void Device::updateControl(const Vector & controlIN )
 {
   if (sanityCheck_ && controlIN.hasNaN())
   {
-    dgRTLOG () << "Device::integrate: Control has NaN values: " << '\n'
+    dgRTLOG () << "Device::updateControl: Control has NaN values: " << '\n'
                << controlIN.transpose() << '\n';
     return;
   }
@@ -369,7 +335,7 @@ void Device::updateControl(const Vector & controlIN )
     {    
       control_[lctl_index] = controlIN[lctl_index];
 
-      // Position from control is directly provided.
+      // Check Position limits.
       if ((it_control_type->second.SoTcontrol==POSITION) && 
           (urdf_joints_[u_index]->limits))
       {
@@ -382,6 +348,20 @@ void Device::updateControl(const Vector & controlIN )
         else if (control_[lctl_index] > upperLim)
         {
           control_[lctl_index] = upperLim;
+        }        
+      }
+      // Check Torque limits.
+      if ((it_control_type->second.SoTcontrol==TORQUE) && 
+          (urdf_joints_[u_index]->limits))
+      {
+        double lim = urdf_joints_[u_index]->limits->effort;
+        if (control_[lctl_index] < -lim)
+        {
+          control_[lctl_index] = -lim;
+        }
+        else if (control_[lctl_index] > lim)
+        {
+          control_[lctl_index] = lim;
         }        
       }
     }
@@ -943,7 +923,7 @@ void Device::getControl(map<string,dgsot::ControlValues> &controlOut)
   ODEBUG5FULL("start");
   sotDEBUGIN(25);
 
-  // Integrate control
+  // Increment control
   increment();
   sotDEBUG (25) << "control = " << control_ << std::endl;
 

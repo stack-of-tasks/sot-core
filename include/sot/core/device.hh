@@ -49,13 +49,12 @@ namespace sot {
 /// It is used for both the SoT side and the hardware side.
 enum ControlType {
   POSITION = 0,
-  VELOCITY = 1,
-  ACCELERATION = 2,
-  TORQUE = 3
+  TORQUE = 1,
+  VELOCITY = 2
 };
 
 const std::string ControlType_s[] = {
-  "POSITION", "VELOCITY", "ACCELERATION", "TORQUE"
+  "POSITION", "TORQUE", "VELOCITY"
 };
 
 //@}
@@ -170,7 +169,7 @@ class SOT_CORE_EXPORT Device: public Entity
   /* --- DESTRUCTION --- */
   virtual ~Device();
 
-  virtual void setState(const dg::Vector& st);
+  virtual void setControl(const dg::Vector& cont);
 
   /// Set control input type.
   virtual void setSoTControlType(const std::string &jointNames,
@@ -212,7 +211,6 @@ class SOT_CORE_EXPORT Device: public Entity
   /// \brief Output attitude provided by the hardware
   /*! \brief The current state of the robot from the command viewpoint. */
   dg::Signal<dg::Vector, int> motorcontrolSOUT_;
-  dg::Signal<dg::Vector, int> previousControlSOUT_;
   /// \}
 
   /// \name Real robot current state
@@ -268,6 +266,7 @@ class SOT_CORE_EXPORT Device: public Entity
 
   /// \brief Compute the new control, from the given one.
   /// When the control is in position, checks that the position is within bounds.
+  /// When the control is in torque, checks that the torque is within bounds.
   virtual void updateControl(const Vector & controlIN);
 
   /// \name Signals related methods
@@ -310,14 +309,7 @@ class SOT_CORE_EXPORT Device: public Entity
 
   void setSensorsGains(std::map<std::string, dgsot::SensorValues> &SensorsIn, int t);
 
- public:
-  virtual void setRoot( const dg::Matrix & root );
-  virtual void setRoot( const MatrixHomogeneous & worldMwaist );
-
  private:
-
-  // Intermediate variable to avoid dynamic allocation
-  dg::Vector forceZero6;
 
   // URDF Model of the robot
   ::urdf::ModelInterfaceSharedPtr model_;
