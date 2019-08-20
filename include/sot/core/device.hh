@@ -46,7 +46,7 @@ namespace dynamicgraph {
 namespace sot {
 
 /// Specifies the nature of one joint control
-/// It is used for both the SoT side and the hardware side.
+/// It is used for the hardware side.
 enum ControlType {
   POSITION = 0,
   TORQUE = 1,

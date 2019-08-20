@@ -238,9 +238,8 @@ int main(int, char **) {
     return -1;
 
   /// Fix constant vector for the control entry
-  dg::Vector aControlVector(35);
-  double dt = 0.005;
-  for (unsigned int i = 0; i < 35; i++)
+  dg::Vector aControlVector(30);
+  for (unsigned int i = 0; i < 30; i++)
     aControlVector[i] = -0.5;
   aDevice.controlSIN.setConstant(aControlVector);
 
@@ -275,12 +274,29 @@ int main(int, char **) {
         ldiffCont = controlOut["control"].getValues()[lctl_index] - lowerLim;
         diff += ldiff;
         diffCont += ldiffCont;
-        std::cout << "lowerLim: " << lowerLim << "\n"
+        std::cout << "Position lowerLim: " << lowerLim << "\n"
                   << "motorcontrolSOUT: " << aControl[lctl_index]  << " -- "
                   << "diff: " << ldiff << "\n" 
                   << "controlOut: " << controlOut["control"].getValues()[lctl_index] << " -- "
                   << "diff: " << ldiffCont << " \n"
-                  << "velocity limit: " << -urdf_joints[u_index]->limits->velocity
+                  << "Velocity limit: " << urdf_joints[u_index]->limits->velocity
+                  << std::endl;
+      }
+    }
+    else if (it_control_type->second.SoTcontrol == dgsot::TORQUE) 
+    {
+      if (u_index != -1 && (urdf_joints[u_index]->limits)) 
+      {        
+        double lim = urdf_joints[u_index]->limits->effort;
+        ldiff = (aControl[lctl_index] - lim);
+        ldiffCont = controlOut["control"].getValues()[lctl_index] - lim;
+        diff += ldiff;
+        diffCont += ldiffCont;
+        std::cout << "Torque Lim: " << lim << "\n"
+                  << "motorcontrolSOUT: " << aControl[lctl_index]  << " -- "
+                  << "diff: " << ldiff << "\n" 
+                  << "controlOut: " << controlOut["control"].getValues()[lctl_index] << " -- "
+                  << "diff: " << ldiffCont << " \n"
                   << std::endl;
       }
     }
