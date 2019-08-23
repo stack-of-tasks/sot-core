@@ -244,14 +244,12 @@ int main(int, char **) {
   aDevice.controlSIN.setConstant(aControlVector);
 
   for (unsigned int i = 0; i < 2000; i++)
-    aDevice.increment();
+    aDevice.motorcontrolSOUT_.recompute(i);
 
   const urdf::ModelInterfaceSharedPtr aModel = aDevice.getModel();
 
   const dg::Vector & aControl = aDevice.motorcontrolSOUT_(2001);
-  map<string,dgsot::ControlValues> controlOut;
-  aDevice.getControl(controlOut);
-  double diff = 0, diffCont = 0, ldiff, ldiffCont;
+  double diff = 0, ldiff;
 
   vector< ::urdf::JointSharedPtr > urdf_joints = aDevice.getURDFJoints();
 
@@ -271,14 +269,10 @@ int main(int, char **) {
       {        
         double lowerLim = urdf_joints[u_index]->limits->lower;
         ldiff = (aControl[lctl_index] - lowerLim);
-        ldiffCont = controlOut["control"].getValues()[lctl_index] - lowerLim;
         diff += ldiff;
-        diffCont += ldiffCont;
         std::cout << "Position lowerLim: " << lowerLim << "\n"
                   << "motorcontrolSOUT: " << aControl[lctl_index]  << " -- "
                   << "diff: " << ldiff << "\n" 
-                  << "controlOut: " << controlOut["control"].getValues()[lctl_index] << " -- "
-                  << "diff: " << ldiffCont << " \n"
                   << "Velocity limit: " << urdf_joints[u_index]->limits->velocity
                   << std::endl;
       }
@@ -289,26 +283,20 @@ int main(int, char **) {
       {        
         double lim = urdf_joints[u_index]->limits->effort;
         ldiff = (aControl[lctl_index] - lim);
-        ldiffCont = controlOut["control"].getValues()[lctl_index] - lim;
         diff += ldiff;
-        diffCont += ldiffCont;
         std::cout << "Torque Lim: " << lim << "\n"
                   << "motorcontrolSOUT: " << aControl[lctl_index]  << " -- "
                   << "diff: " << ldiff << "\n" 
-                  << "controlOut: " << controlOut["control"].getValues()[lctl_index] << " -- "
-                  << "diff: " << ldiffCont << " \n"
                   << std::endl;
       }
     }
     else
     {
-      std::cout << "motorcontrolSOUT: " << aControl[lctl_index]<< "\n" 
-                << "controlOut: " << controlOut["control"].getValues()[lctl_index] << std::endl;
+      std::cout << "motorcontrolSOUT: " << aControl[lctl_index] << std::endl;
     }
   }
   std::cout << "\n ########### \n " << std::endl;
   std::cout << "totalDiff: " << diff << std::endl;
-  std::cout << "totalDiffCont: " << diffCont << std::endl;
 
   return 0;
 }

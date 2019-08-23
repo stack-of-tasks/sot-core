@@ -50,7 +50,8 @@ using namespace dynamicgraph;
 #define ODEBUG5(x)
 #endif
 
-const std::string Device::CLASS_NAME = "Device";
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Device, "Device");
+// const std::string Device::CLASS_NAME = "Device";
 const double Device::TIMESTEP_DEFAULT = 0.001;
 
 
@@ -89,9 +90,11 @@ Device::Device( const std::string& n )
   ,control_(6)
   ,sanityCheck_(true)
   ,controlSIN( NULL,"Device("+n+")::input(double)::control" )   
-  ,motorcontrolSOUT_   ( "Device("+n+")::output(vector)::motorcontrol" )
-  ,robotState_     ("Device("+n+")::output(vector)::robotState")
-  ,robotVelocity_  ("Device("+n+")::output(vector)::robotVelocity")
+  ,motorcontrolSOUT_( boost::bind(&Device::getControl,this,_1,_2),
+                     controlSIN,
+                     "Device("+n+")::output(vector)::motorcontrol" )
+  ,robotState_("Device("+n+")::output(vector)::robotState")
+  ,robotVelocity_("Device("+n+")::output(vector)::robotVelocity")
   ,forcesSOUT_(0)
   ,imuSOUT_(0)
   ,pseudoTorqueSOUT_(0)
@@ -113,8 +116,8 @@ Device::Device( const std::string& n )
           << robotState_
           << robotVelocity_
           << motorcontrolSOUT_);
-  control_.fill(.0); motorcontrolSOUT_.setConstant( control_ );
 
+  control_.fill(.0); 
 
   /* --- Commands --- */
   {
@@ -161,7 +164,6 @@ Device::Device( const std::string& n )
 void Device::setControl( const Vector& cont )
 {
   updateControl(cont);
-  motorcontrolSOUT_ .setConstant( control_ );
 }
 
 void Device::setSanityCheck(const bool & enableCheck)
@@ -229,9 +231,9 @@ void Device::setURDFModel(const std::string &aURDFModel)
   }
 }
 
-void Device::increment()
+void Device::increment(const int& time)
 {
-  int time = motorcontrolSOUT_.getTime();
+  // int time = motorcontrolSOUT_.getTime();
   sotDEBUG(25) << "Time : " << time << std::endl;
 
   // Run Synchronous commands and evaluate signals outside the main
@@ -260,18 +262,13 @@ void Device::increment()
   }
 
   /* Force the recomputation of the control. */
-  controlSIN( time );
+  controlSIN.recompute( time );
   const Vector & controlIN = controlSIN.accessCopy();
   sotDEBUG(25) << "u" <<time<<" = " << controlIN << endl;  
 
   updateControl(controlIN);
   
   sotDEBUG(25) << "q" << time << " = " << control_ << endl;
-
-  /* Position the signals corresponding to sensors. */
-  motorcontrolSOUT_ .setConstant( control_ ); 
-  motorcontrolSOUT_.setTime( time+1 );
-
 
   // Run Synchronous commands and evaluate signals outside the main
   // connected component of the graph.
@@ -918,22 +915,20 @@ void Device::cleanupSetSensors(map<string, dgsot::SensorValues> &SensorsIn)
   setSensors (SensorsIn);
 }
 
-void Device::getControl(map<string,dgsot::ControlValues> &controlOut)
+dg::Vector& Device::getControl(dg::Vector &controlOut, const int& t)
 {
   ODEBUG5FULL("start");
   sotDEBUGIN(25);
 
   // Increment control
-  increment();
+  increment(t);
   sotDEBUG (25) << "control = " << control_ << std::endl;
 
   ODEBUG5FULL("control = "<< control_);
 
-  vector<double> lcontrolOut;
-  lcontrolOut.resize(control_.size());
-  Eigen::VectorXd::Map(&lcontrolOut[0], control_.size()) = control_;
+  controlOut = control_;
 
-  controlOut["control"].setValues(lcontrolOut);
+  return controlOut;
 
   ODEBUG5FULL("end");
   sotDEBUGOUT(25) ;

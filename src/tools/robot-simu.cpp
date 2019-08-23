@@ -19,10 +19,15 @@ RobotSimu::RobotSimu(const std::string& inName) :
   using namespace dynamicgraph::command;
   std::string docstring;
   /* Command increment. */
+  docstring =
+    "\n"
+    "    Increment the dynamic: check the control and run synchronous commands\n"
+    "\n"
+    "    Iteration time t (int)\n"
+    "\n";
   addCommand("increment",
-             command::makeCommandVoid0((Device&)*this,
-                                       &Device::increment,
-                                       command::docCommandVoid0("Increment the dynamic: check the control and run synchronous commands")));
+             command::makeCommandVoid1((Device&)*this,
+                                       &Device::increment, docstring));
 
   /* Set Time step. */
   docstring =

@@ -45,6 +45,21 @@ namespace dg = dynamicgraph;
 namespace dynamicgraph {
 namespace sot {
 
+/* --------------------------------------------------------------------- */
+/* --- API ------------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
+
+#if defined (WIN32) 
+#  if defined (device_EXPORTS)
+#    define Device_EXPORT __declspec(dllexport)
+#  else  
+#    define Device_EXPORT  __declspec(dllimport)
+#  endif 
+#else
+#  define Device_EXPORT
+#endif
+
+
 /// Specifies the nature of one joint control
 /// It is used for the hardware side.
 enum ControlType {
@@ -121,7 +136,7 @@ JointSHWControlType_iterator;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class SOT_CORE_EXPORT Device: public Entity 
+class Device_EXPORT Device: public Entity 
 {
 
  public:
@@ -176,7 +191,7 @@ class SOT_CORE_EXPORT Device: public Entity
                                  const std::string &sotCtrlType);
   virtual void setHWControlType(const std::string &jointNames,
                                 const std::string &hwCtrlType);
-  virtual void increment();
+  virtual void increment(const int& t);
   /// Read directly the URDF model
   void setURDFModel(const std::string &aURDFModel);
 
@@ -210,7 +225,7 @@ class SOT_CORE_EXPORT Device: public Entity
   /// \{
   /// \brief Output attitude provided by the hardware
   /*! \brief The current state of the robot from the command viewpoint. */
-  dg::Signal<dg::Vector, int> motorcontrolSOUT_;
+  dg::SignalTimeDependent<dg::Vector, int> motorcontrolSOUT_;
   /// \}
 
   /// \name Real robot current state
@@ -254,12 +269,12 @@ class SOT_CORE_EXPORT Device: public Entity
   void setupSetSensors(std::map<std::string, dgsot::SensorValues> &sensorsIn);
   void nominalSetSensors(std::map<std::string, dgsot::SensorValues> &sensorsIn);
   void cleanupSetSensors(std::map<std::string, dgsot::SensorValues> &sensorsIn);
-
-  /// \brief Provides to the robot the control information.
-  void getControl(std::map<std::string, dgsot::ControlValues> &anglesOut);
   ///@}
   
  protected:
+
+  /// \brief Provides to the robot the control information (callback signal motorcontrolSOUT_).
+  dg::Vector& getControl(dg::Vector &controlOut, const int& t);
 
   void setControlType(const std::string &strCtrlType,
                       ControlType &aCtrlType);
@@ -267,7 +282,7 @@ class SOT_CORE_EXPORT Device: public Entity
   /// \brief Compute the new control, from the given one.
   /// When the control is in position, checks that the position is within bounds.
   /// When the control is in torque, checks that the torque is within bounds.
-  virtual void updateControl(const Vector & controlIN);
+  virtual void updateControl(const dg::Vector & controlIN);
 
   /// \name Signals related methods
   ///@{
