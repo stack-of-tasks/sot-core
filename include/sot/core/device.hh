@@ -49,12 +49,12 @@ namespace sot {
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32) 
+#if defined (WIN32)
 #  if defined (device_EXPORTS)
 #    define Device_EXPORT __declspec(dllexport)
-#  else  
+#  else
 #    define Device_EXPORT  __declspec(dllimport)
-#  endif 
+#  endif
 #else
 #  define Device_EXPORT
 #endif
@@ -137,8 +137,7 @@ JointSHWControlType_iterator;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class Device_EXPORT Device: public Entity 
-{
+class Device_EXPORT Device: public Entity {
 
  public:
   static const std::string CLASS_NAME;
@@ -219,7 +218,7 @@ class Device_EXPORT Device: public Entity
   /// For position control the signal stateSIN will be used
   /// For velocity control the signal velocitySIN will be used
   /// For torque control the signal torqueSIN will be used
-  /// For current control the signal currentSIN will be used 
+  /// For current control the signal currentSIN will be used
   dg::SignalPtr<dg::Vector, int> stateSIN;
   dg::SignalPtr<dg::Vector, int> velocitySIN;
   dg::SignalPtr<dg::Vector, int> torqueSIN;
@@ -279,7 +278,7 @@ class Device_EXPORT Device: public Entity
   void nominalSetSensors(std::map<std::string, dgsot::SensorValues> &sensorsIn);
   void cleanupSetSensors(std::map<std::string, dgsot::SensorValues> &sensorsIn);
   ///@}
-  
+
  protected:
 
   /// \brief Provides to the robot the control information (callback signal motorcontrolSOUT_).
@@ -316,7 +315,7 @@ class Device_EXPORT Device: public Entity
   /// Parse YAML for joint sensors from YAML-cpp node.
   int ParseYAMLJointSensor(YAML::Node &aJointSensors);
   /// @}
-  
+
   /// \brief Creates signal motorcontrolSOUT_ based on the control types information parsed by the YAML string.
   /// Registers the signals
   void RegisterSignals();

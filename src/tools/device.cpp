@@ -156,30 +156,27 @@ Device::Device( const std::string& n )
 }
 
 void Device::RegisterSignals() {
-  SignalArray<int> sigArray; 
-  for (unsigned int i=0; i<control_types_.size(); i++){
-    if (control_types_[i]=="POSITION"){
+  SignalArray<int> sigArray;
+  for (unsigned int i = 0; i < control_types_.size(); i++) {
+    if (control_types_[i] == "POSITION") {
       sigArray << stateSIN;
-      motorcontrolSOUT_.addDependency(stateSIN);   
-    }
-    else if (control_types_[i]=="VELOCITY"){
+      motorcontrolSOUT_.addDependency(stateSIN);
+    } else if (control_types_[i] == "VELOCITY") {
       sigArray << velocitySIN;
       motorcontrolSOUT_.addDependency(velocitySIN);
-    } 
-    else if (control_types_[i]=="TORQUE"){
+    } else if (control_types_[i] == "TORQUE") {
       sigArray << torqueSIN;
       motorcontrolSOUT_.addDependency(torqueSIN);
-    }
-    else if (control_types_[i]=="CURRENT"){
+    } else if (control_types_[i] == "CURRENT") {
       sigArray << currentSIN;
       motorcontrolSOUT_.addDependency(currentSIN);
-    }     
+    }
   }
-  
+
   signalRegistration( sigArray
-                    << robotState_
-                    << robotVelocity_
-                    << motorcontrolSOUT_);
+                      << robotState_
+                      << robotVelocity_
+                      << motorcontrolSOUT_);
 }
 
 void Device::setSanityCheck(const bool & enableCheck) {
@@ -288,23 +285,20 @@ void Device::createControlVector(const int& time) {
   Vector vel;
   Vector torque;
   Vector current;
-  for (unsigned int i=0; i<control_types_.size(); i++){
-    if (control_types_[i]=="POSITION"){
+  for (unsigned int i = 0; i < control_types_.size(); i++) {
+    if (control_types_[i] == "POSITION") {
       stateSIN.recompute(time);
       state = stateSIN.accessCopy();
-    }
-    else if (control_types_[i]=="VELOCITY"){
+    } else if (control_types_[i] == "VELOCITY") {
       velocitySIN.recompute(time);
       vel = velocitySIN.accessCopy();
-    } 
-    else if (control_types_[i]=="TORQUE"){
+    } else if (control_types_[i] == "TORQUE") {
       torqueSIN.recompute(time);
       torque = torqueSIN.accessCopy();
-    }
-    else if (control_types_[i]=="CURRENT"){
+    } else if (control_types_[i] == "CURRENT") {
       currentSIN.recompute(time);
       current = currentSIN.accessCopy();
-    }     
+    }
   }
 
   JointSHWControlType_iterator it_control_type;
@@ -332,8 +326,7 @@ void Device::createControlVector(const int& time) {
           double upperLim = urdf_joints_[u_index]->limits->upper;
           if (control_[lctl_index] < lowerLim) {
             control_[lctl_index] = lowerLim;
-          }
-          else if (control_[lctl_index] > upperLim) {
+          } else if (control_[lctl_index] > upperLim) {
             control_[lctl_index] = upperLim;
           }
         }
@@ -346,8 +339,7 @@ void Device::createControlVector(const int& time) {
           double lim = urdf_joints_[u_index]->limits->effort;
           if (control_[lctl_index] < -lim) {
             control_[lctl_index] = -lim;
-          } 
-          else if (control_[lctl_index] > lim) {
+          } else if (control_[lctl_index] > lim) {
             control_[lctl_index] = lim;
           }
         }

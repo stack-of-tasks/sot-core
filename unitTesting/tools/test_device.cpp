@@ -33,7 +33,7 @@ void CreateYAMLFILE() {
   yn_map_rc_to_sot_device = yn_map_sot_controller["map_rc_to_sot_device"];
   yn_map_joint_names = yn_map_sot_controller["joint_names"];
   yn_control_mode = yn_map_sot_controller["control_mode"];
-  
+
   yn_map_rc_to_sot_device["motor-angles"] = "motor-angles";
   yn_map_rc_to_sot_device["joint-angles"] = "joint-angles";
   yn_map_rc_to_sot_device["velocities"] = "velocities";
@@ -43,7 +43,7 @@ void CreateYAMLFILE() {
   yn_map_rc_to_sot_device["accelerometer_0"] = "accelerometer_0";
   yn_map_rc_to_sot_device["gyrometer_0"] = "gyrometer_0";
   yn_map_rc_to_sot_device["control"] = "control";
-                               
+
   yn_map_joint_names.push_back("waist");
   yn_map_joint_names.push_back("LLEG_HIP_P");
   yn_map_joint_names.push_back("LLEG_HIP_R");
@@ -77,7 +77,7 @@ void CreateYAMLFILE() {
 
   yn_control_mode["waist"];
   yn_control_mode["waist"]["ros_control_mode"] = "POSITION";
-  
+
   yn_control_mode["LLEG_HIP_P"];
   yn_control_mode["LLEG_HIP_P"]["ros_control_mode"] = "POSITION";
 
@@ -186,22 +186,22 @@ void CreateYAMLFILE() {
 int ReadYAMLFILE(dg::sot::Device &aDevice) {
   // Reflect how the data are splitted in two yaml files in the sot
   // Comment and use the commented code to use the above yaml file
-  std::ifstream yaml_file_controller("../../unitTesting/tools/sot_controller.yaml"); 
+  std::ifstream yaml_file_controller("../../unitTesting/tools/sot_controller.yaml");
   std::string yaml_string_controller;
   yaml_string_controller.assign((std::istreambuf_iterator<char>(yaml_file_controller) ),
                                 (std::istreambuf_iterator<char>()    ) );
   aDevice.ParseYAMLString(yaml_string_controller);
 
-  std::ifstream yaml_file_params("../../unitTesting/tools/sot_params.yaml"); 
+  std::ifstream yaml_file_params("../../unitTesting/tools/sot_params.yaml");
   std::string yaml_string_params;
   yaml_string_params.assign((std::istreambuf_iterator<char>(yaml_file_params) ),
                             (std::istreambuf_iterator<char>()    ) );
   aDevice.ParseYAMLString(yaml_string_params);
 
-  // Uncomment if you want to use the above yaml file 
+  // Uncomment if you want to use the above yaml file
   // All the data are in one file, which does not reflect reality
-  
-  // std::ifstream yaml_file("map_hs_sot_gen.yaml"); 
+
+  // std::ifstream yaml_file("map_hs_sot_gen.yaml");
   // std::string yaml_string;
   // yaml_string.assign((std::istreambuf_iterator<char>(yaml_file) ),
   //                               (std::istreambuf_iterator<char>()    ) );
@@ -230,18 +230,18 @@ int main(int, char **) {
   aDevice.setDebugMode(debug_mode);
   aDevice.setURDFModel(robot_description);
 
-  // Uncomment if you want to create and use the above yaml file 
+  // Uncomment if you want to create and use the above yaml file
   // All the data are in one file, which does not reflect reality
-  // CreateYAMLFILE(); 
+  // CreateYAMLFILE();
 
   if (ReadYAMLFILE(aDevice) < 0)
     return -1;
 
   /// Fix constant vector for the control entry in position
   dg::Vector aStateVector(30);
-  for (unsigned int i = 0; i < 30; i++){
+  for (unsigned int i = 0; i < 30; i++) {
     aStateVector[i] = -0.5;
-  }  
+  }
   aDevice.stateSIN.setConstant(aStateVector); // entry signal in position
 
   for (unsigned int i = 0; i < 2000; i++)
@@ -257,42 +257,34 @@ int main(int, char **) {
   dgsot::JointSHWControlType_iterator it_control_type;
   for (it_control_type  = aDevice.jointDevices_.begin();
        it_control_type != aDevice.jointDevices_.end();
-       it_control_type++) 
-  {
+       it_control_type++) {
     int lctl_index = it_control_type->second.control_index;
     int u_index = it_control_type->second.urdf_index;
     std::cout << "\n ########### \n " << std::endl;
     std::cout << "urdf_joints: " << urdf_joints[u_index]->name << std::endl;
 
-    if (it_control_type->second.SoTcontrol == dgsot::POSITION) 
-    {
-      if (u_index != -1 && (urdf_joints[u_index]->limits)) 
-      {        
+    if (it_control_type->second.SoTcontrol == dgsot::POSITION) {
+      if (u_index != -1 && (urdf_joints[u_index]->limits)) {
         double lowerLim = urdf_joints[u_index]->limits->lower;
         ldiff = (aControl[lctl_index] - lowerLim);
         diff += ldiff;
         std::cout << "Position lowerLim: " << lowerLim << "\n"
                   << "motorcontrolSOUT: " << aControl[lctl_index]  << " -- "
-                  << "diff: " << ldiff << "\n" 
+                  << "diff: " << ldiff << "\n"
                   << "Velocity limit: " << urdf_joints[u_index]->limits->velocity
                   << std::endl;
       }
-    }
-    else if (it_control_type->second.SoTcontrol == dgsot::TORQUE) 
-    {
-      if (u_index != -1 && (urdf_joints[u_index]->limits)) 
-      {        
+    } else if (it_control_type->second.SoTcontrol == dgsot::TORQUE) {
+      if (u_index != -1 && (urdf_joints[u_index]->limits)) {
         double lim = urdf_joints[u_index]->limits->effort;
         ldiff = (aControl[lctl_index] - lim);
         diff += ldiff;
         std::cout << "Torque Lim: " << lim << "\n"
                   << "motorcontrolSOUT: " << aControl[lctl_index]  << " -- "
-                  << "diff: " << ldiff << "\n" 
+                  << "diff: " << ldiff << "\n"
                   << std::endl;
       }
-    }
-    else
-    {
+    } else {
       std::cout << "motorcontrolSOUT: " << aControl[lctl_index] << std::endl;
     }
   }
