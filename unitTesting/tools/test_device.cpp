@@ -237,11 +237,12 @@ int main(int, char **) {
   if (ReadYAMLFILE(aDevice) < 0)
     return -1;
 
-  /// Fix constant vector for the control entry
-  dg::Vector aControlVector(30);
-  for (unsigned int i = 0; i < 30; i++)
-    aControlVector[i] = -0.5;
-  aDevice.controlSIN.setConstant(aControlVector);
+  /// Fix constant vector for the control entry in position
+  dg::Vector aStateVector(30);
+  for (unsigned int i = 0; i < 30; i++){
+    aStateVector[i] = -0.5;
+  }  
+  aDevice.stateSIN.setConstant(aStateVector); // entry signal in position
 
   for (unsigned int i = 0; i < 2000; i++)
     aDevice.motorcontrolSOUT_.recompute(i);

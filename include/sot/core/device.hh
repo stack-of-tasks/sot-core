@@ -65,11 +65,12 @@ namespace sot {
 enum ControlType {
   POSITION = 0,
   TORQUE = 1,
-  VELOCITY = 2
+  VELOCITY = 2,
+  CURRENT = 3
 };
 
 const std::string ControlType_s[] = {
-  "POSITION", "TORQUE", "VELOCITY"
+  "POSITION", "TORQUE", "VELOCITY", "CURRENT"
 };
 
 //@}
@@ -184,8 +185,6 @@ class Device_EXPORT Device: public Entity
   /* --- DESTRUCTION --- */
   virtual ~Device();
 
-  virtual void setControl(const dg::Vector& cont);
-
   /// Set control input type.
   virtual void setSoTControlType(const std::string &jointNames,
                                  const std::string &sotCtrlType);
@@ -214,17 +213,27 @@ class Device_EXPORT Device: public Entity
 
  public: /* --- SIGNALS --- */
 
-  /// Input signal handling the control vector
-  /// This entity needs a control vector to be send to the hardware.
-  /// The control vector can be position and effort.
-  /// It depends on each of the actuator
-  dg::SignalPtr<dg::Vector, int> controlSIN;
+  /// Input signals handling the control vector
+  /// Some signals can not be used by the entity
+  /// It depends on the type of control defined by the yaml file for each actuator
+  /// For position control the signal stateSIN will be used
+  /// For velocity control the signal velocitySIN will be used
+  /// For torque control the signal torqueSIN will be used
+  /// For current control the signal currentSIN will be used 
+  dg::SignalPtr<dg::Vector, int> stateSIN;
+  dg::SignalPtr<dg::Vector, int> velocitySIN;
+  dg::SignalPtr<dg::Vector, int> torqueSIN;
+  dg::SignalPtr<dg::Vector, int> currentSIN;
+  dg::SignalPtr<dg::Vector, int> stateGainsSIN;
+  dg::SignalPtr<dg::Vector, int> velocityGainsSIN;
+  dg::SignalPtr<dg::Vector, int> torqueGainsSIN;
 
 
   /// \name Device current state.
   /// \{
   /// \brief Output attitude provided by the hardware
-  /*! \brief The current state of the robot from the command viewpoint. */
+  /// The control vector can be position, velocity, torque or current.
+  /// It depends on each of the actuator
   dg::SignalTimeDependent<dg::Vector, int> motorcontrolSOUT_;
   /// \}
 
@@ -279,10 +288,10 @@ class Device_EXPORT Device: public Entity
   void setControlType(const std::string &strCtrlType,
                       ControlType &aCtrlType);
 
-  /// \brief Compute the new control, from the given one.
+  /// \brief Compute the new control, from the entry signals (state, torque, velocity, current).
   /// When the control is in position, checks that the position is within bounds.
   /// When the control is in torque, checks that the torque is within bounds.
-  virtual void updateControl(const dg::Vector & controlIN);
+  virtual void createControlVector(const int& time);
 
   /// \name Signals related methods
   ///@{
@@ -308,6 +317,9 @@ class Device_EXPORT Device: public Entity
   int ParseYAMLJointSensor(YAML::Node &aJointSensors);
   /// @}
   
+  /// \brief Creates signal motorcontrolSOUT_ based on the control types information parsed by the YAML string.
+  /// Registers the signals
+  void RegisterSignals();
   /// \brief Creates signals based on the joints information parsed by the YAML string.
   int UpdateSignals();
 
@@ -332,6 +344,8 @@ class Device_EXPORT Device: public Entity
 
   // Debug mode
   int debug_mode_;
+
+  std::vector<std::string> control_types_;
 
   // Intermediate index when parsing YAML file.
   int temperature_index_, velocity_index_,
