@@ -1,6 +1,6 @@
 INPUT                  = @CMAKE_SOURCE_DIR@/include \
                          @CMAKE_SOURCE_DIR@/doc/additionalDoc
-IMAGE_PATH             = @PKG_CONFIG_DOXYGENDOCDIR@/pictures
+IMAGE_PATH             = @CMAKE_SOURCE_DIR@/doc/pictures
 
 FILE_PATTERNS          = *.cc *.cpp *.h *.hh *.hxx
 
