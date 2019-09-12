@@ -41,7 +41,8 @@ int main( void )
       std::cout << "cp_get_joint_limits_for_id works !" << std::endl;  }
   else
   {
-      std::cout << "ERROR: cp_get_joint_limits_for_id does not work !" << std::endl;
+      std::cout << "ERROR: cp_get_joint_limits_for_id does not work !"
+                << std::endl;
   }
 
 
@@ -84,11 +85,13 @@ int main( void )
   robot_util->joints_sot_to_urdf(q_sot, q_test_urdf);
   if (q_urdf == q_test_urdf )
   {
-      std::cout << "joints_urdf_to_sot and joints_sot_to_urdf work !" << std::endl;
+      std::cout << "joints_urdf_to_sot and joints_sot_to_urdf work !"
+                << std::endl;
   }
   else
   {
-      std::cout << "ERROR: joints_urdf_to_sot or joints_sot_to_urdf do not work !" << std::endl;
+      std::cout << "ERROR: joints_urdf_to_sot or joints_sot_to_urdf "
+          "do not work !" << std::endl;
   }
 
   /*Test velocity_sot_to_urdf and velocity_urdf_to_sot */
@@ -97,7 +100,8 @@ int main( void )
   dg::Vector v_sot(9);
   robot_util->velocity_urdf_to_sot(q2_urdf, v_urdf, v_sot);
   robot_util->velocity_sot_to_urdf(q2_urdf, v_sot, v_urdf);
-  std::cout << "velocity_sot_to_urdf and velocity_urdf_to_sot work !" << std::endl;
+  std::cout << "velocity_sot_to_urdf and velocity_urdf_to_sot work !"
+            << std::endl;
 
   /*Test base_urdf_to_sot and base_sot_to_urdf */
   dg::Vector base_q_urdf(7);
@@ -140,7 +144,8 @@ int main( void )
   }
   else
   {
-      std::cout << "ERROR: force_util set and get id_from_name do not work !" << std::endl;
+      std::cout << "ERROR: force_util set and get id_from_name do not work !"
+                << std::endl;
   }
   if( robot_util->m_force_util.get_name_from_id(0) == rf &&
       robot_util->m_force_util.get_name_from_id(1) == lf &&
@@ -151,7 +156,8 @@ int main( void )
   }
   else
   {
-      std::cout << "ERROR: force_util get name_from_id does not work !" << std::endl;
+      std::cout << "ERROR: force_util get name_from_id does not work !"
+                << std::endl;
   }
   if (robot_util->m_force_util.get_limits_from_id(1).upper == uf_lim &&
       robot_util->m_force_util.get_limits_from_id(1).lower == lf_lim)
@@ -160,7 +166,8 @@ int main( void )
   }
   else
   {
-      std::cout << "ERROR: force_util set and get id to limits works do not work !" << std::endl;
+    std::cout << "ERROR: force_util set and get id to "
+        "limits works do not work !" << std::endl;
   }
   robot_util->m_force_util.display(std::cout);
   robot_util->m_foot_util.display(std::cout);
