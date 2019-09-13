@@ -13,6 +13,8 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+#include <pinocchio/fwd.hpp>
+
 /* -- MaaL --- */
 #include <dynamic-graph/linear-algebra.h>
 namespace dg = dynamicgraph;
