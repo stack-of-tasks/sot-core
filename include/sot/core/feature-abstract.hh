@@ -42,42 +42,27 @@ namespace dynamicgraph {
 
       \paragraph par_features_definition Definition
       In short, a feature is a data evolving according to time.  It is defined
-      by a vector \f${\bf s}(t) \in \mathbb{R}^n \f$ where \f$ t \f$ is the
-      time.  By default a feature has a desired \f${\bf s}^*(t) \f$.
+      by a vector \f${\bf s}({\bf q}) \in \mathbb{R}^n \f$ where \f$ {\bf q} \f$ is a robot
+      configuration, which depends on the time \f$ t \f$.
+      By default a feature has a desired \f${\bf s}^*(t) \f$.
       \f${\bf s}^*\f$ is provided by another feature of the same type called
       reference. The
       feature is in charge of collecting its own current state.  A feature is
       supposed to compute an error between its current state and the desired
-      one: \f$ {\bf e}(t) = {\bf s}^*(t) - {\bf s}(t) \f$.
-      A feature is supposed to
-      compute a Jacobian according to the robot state vector \f$ \frac{\delta
-      {\bf s}(t)}{\delta {\bf q}(t)}\f$.
+      one: \f$ E(t) = e({\bf q}(t), t) = {\bf s}({\bf q}(t)) - {\bf s}^*(t) \f$.
+
+      A feature computes:
+      \li the Jacobian according to the robot state vector \f$ J =
+          \frac{\partial e}{\partial {\bf q}} = \frac{\partial{\bf s}}{\partial {\bf q}}\f$.
+      \li the partial derivative of the error \f$ e \f$:
+          \f$ \frac{\partial e}{\partial t} = - \frac{d{\bf s}^*}{dt}\f$.
 
       The task is in general computed from the value of the feature at the
-      current instant \f$f(q(t),t)\f$, the Jacobian \f$J\f$ and
-      evolution of the feature with respect to time: \f$\frac{\partial
-      f}{\partial t}\f$.
+      current instant \f$E(t) = e({\bf q},t)\f$. The derivative of \f$ E \f$ is:
+      \f[
+        \frac{dE}{dt} = J({\bf q}) \dot{q} + \frac{\partial e}{\partial t}
+      \f]
 
-      \paragraph par_features_jacobian Jacobian
-      The Jacobian according to the robot state vector \f$ \frac{\delta
-      {\bf s}(t)}{\delta {\bf q}(t)}\f$ is provided through
-      signal dynamicgraph::sot::FeatureAbstract::jacobianSOUT.
-      This Jacobian is sometimes
-      (see dynamicgraph::sot::FeaturePosition6d)
-      related to a robot's body. In this case the Jacobian can be expressed
-      by a composition of the articular Jacobian specific to this body, and
-      a local Jacobian relating the feature variation and the body velocity:
-      \f$ \frac{\delta {\bf s}(t)}{\delta {\bf q}(t)} =
-      \frac{\delta {\bf s}(t)}{ {\bf v}_{\mathcal{B}}(t)}
-      \frac{{\bf v}_{\mathcal{B}}(t)}{\delta {\bf q}(t)} =
-      {\bf L}({\bf{q}){}^\mathcal{B}{\bf J}(\bf q}) 
-      \f$.
-      Usually \f$ {}^\mathcal{B}{\bf J}(\bf q)\f$ is provided by the package
-      sot-dynamic-pinocchio, and more precisely the Entity dynamic.
-      It can be provided through an input signal, and the Feature has to
-      implement only \f${\bf L}(\bf{q})\f$. It is for instance the case
-      for the class dynamicgraph::sot::FeatureVisualPoint.
-      
       \image html feature.png "Feature diagram: Feature types derive from
       FeatureAbstract. Each feature has a reference of the same type and
       compute an error by comparing
@@ -85,16 +70,6 @@ namespace dynamicgraph {
       signals from itself and from the
       reference." 
 
-      \paragraph par_features_error_dot \f$ \dot{\bf e}(t) \f$
-      Let us recall that a task is defined as:
-      \f$ {\bf e}(t)= {\bf s}^*(t) - {\bf s}(t) \f$
-      thus:
-      \f$ \dot{\bf e}(t)= \dot{\bf s}^*(t) - \dot{\bf s}(t) \f$
-      When a feature is static \f$\dot{\bf s}^*(t)=0 \f$ otherwise one has to
-      provide it. It is done through the signal
-      dynamicgraph::sot::FeatureAbstract::errordotSIN
-      and should
-      be provided in the reference frame of the feature.
     */
     class SOT_CORE_EXPORT FeatureAbstract
       :public Entity
@@ -201,16 +176,15 @@ namespace dynamicgraph {
 	@{ */
 
       /*! \brief This signal returns the error between the desired value and
-	the current value : \f$ {\bf s}^*(t) - {\bf s}(t)\f$ */
+	the current value : \f$ E(t) = {\bf s}(t) - {\bf s}^*(t)\f$ */
       SignalTimeDependent<dg::Vector,int> errorSOUT;
 
-      /// Derivative of the reference value.
+      /*! \brief Derivative of the error with respect to time:
+       * \f$ \frac{\partial e}{\partial t} = - \frac{d{\bf s}^*}{dt} \f$ */
       SignalTimeDependent< dg::Vector,int > errordotSOUT;
 
-      /*! \brief This signal returns the Jacobian of the current value
-	according to the robot state:
-        \f$ J(t) = \frac{\delta{\bf s}^*(t)}{\delta {\bf q}(t)}\f$
-      */
+      /*! \brief Jacobian of the error wrt the robot state:
+       * \f$ J = \frac{\partial {\bf s}}{\partial {\bf q}}\f$ */
       SignalTimeDependent<dg::Matrix,int> jacobianSOUT;
 
       /*! \brief Returns the dimension of the feature as an output signal. */

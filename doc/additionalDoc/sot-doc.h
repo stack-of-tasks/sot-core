@@ -1,44 +1,46 @@
 /** \page page_sot Stack-of-Tasks
     
-    \f$ {\bf e}(t)= {\bf s}^*(t) - {\bf s}(t) \f$
+    As explained in class dynamicgraph::sot::FeatureAbstract,
+    \f[
+    {\bf E}(t) = {\bf e}({\bf q}(t), t)= {\bf s}({\bf q}(t)) - {\bf s}^*(t)
+    \f]
     thus:
-    \f$
-    \dot{\bf e}(t)= \dot{\bf s}^*(t) - \dot{\bf s}(t)
-    \f$
+    \f[
+    \dot{\bf E}= \frac{\partial{\bf e}}{\partial{\bf q}} \dot{\bf q}
+    + \frac{\partial{\bf e}}{\partial t} \\
+    \f]
 
-    \f$ 
-    \frac{\delta {\bf e}}{\delta {\bf t}}=
-    \frac{\delta {\bf s}^*}{\delta {\bf t}} - 
-    \frac{\delta {\bf s}}{\delta {\bf q}}
-    \frac{\delta {\bf q}}{\delta {\bf t}}
-    \f$
+    The features are responsible for computing:
+    \li \f$ {\bf E}(t) \f$
+    \li \f$ \frac{\partial{\bf e}}{\partial t} \f$
+    \li \f$ \frac{\partial{\bf e}}{\partial{\bf q}} \f$
 
-    \f$ 
-    \dot{\bf e} =
-    \dot{\bf s}^* - 
-    {\bf J} \dot{\bf q}
-    \f$
 
-    \f$ 
-    \Leftrightarrow \dot{\bf q}  =
-    {\bf J}^{+}(\dot{\bf s}^* - \dot{\bf e})
-    \f$
+    The class dynamicgraph::sot::Task takes some features outputs as inputs.
+    It imposes an exponential decrease, i.e.
+    \f$ \dot{\bf E} = -\lambda {\bf E} \f$.
+    It gives:
+    \f[
+    -\lambda {\bf e} =
+    \frac{\partial{\bf e}}{\partial{\bf q}} \dot{\bf q}
+    + \frac{\partial{\bf e}}{\partial t}
+    \f]
+    and computes solutions as:
+    \f[
+    \dot{\bf q} = \frac{\partial{\bf e}}{\partial{\bf q}}^{\dagger} \left(
+        - \lambda {\bf e} - \frac{\partial{\bf e}}{\partial t}
+    \right) + K v
+    \f]
 
-    Assuming that:
-    
-    \f$ 
-    \dot{\bf e}^* = -\lambda {\bf e} = 
-    - \lambda
-    ({\bf s}^* - \hat{\bf s} )
-    \f$
-    with \f$ \hat{\bf s}\f$ is the measured feature.
-    
-    Imposing \f$\dot{\bf e} = \dot{\bf e}^* \f$
-    then we have:
-    
-    \f$
-    \dot{\bf q}  =
-    {\bf J}^{+}(\dot{\bf s}^* + \lambda {\bf e}) = 
-    {\bf J}^{+}(\dot{\bf s}^* + \lambda{\bf s}^* - \lambda \hat{\bf s})
-    \f$
+    where:
+    \li \f$\frac{\partial{\bf e}}{\partial{\bf q}}^{\dagger}\f$ is the
+        pseudo-inverse of \frac{\partial{\bf e}}{\partial{\bf q}},
+    \li \f$\dot{\bf q} \in \mathbb{R}^n\f$,
+    \li \f$K \in \mathcal{M}_{n,m}(\mathbb{R})\f$ is a base of the kernel of
+        \f$\frac{\partial{\bf e}}{\partial{\bf q}}\f$, of dimension \f$m\f$,
+    \li and \f$v\f$ spans \f$\mathbb{R}^m\f$ so that \f$K v\f$ spans
+        the kernel of
+        \f$\frac{\partial{\bf e}}{\partial{\bf q}}\f$.
+
+    \f$v\f$ is a free parameters left to tasks of lower priority.
 */

@@ -263,7 +263,7 @@ computeTaskExponentialDecrease( VectorMultiBound& errorRef,int time )
     {
       const dynamicgraph::Vector & de = errorTimeDerivativeSOUT(time);
       for( unsigned int i=0;i<errorRef.size(); ++i )
-	errorRef[i] = errorRef[i].getSingleBound() + de(i);
+	errorRef[i] = errorRef[i].getSingleBound() - de(i);
     }
 
   sotDEBUG(15) << "# Out }" << endl;
