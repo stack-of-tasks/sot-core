@@ -220,11 +220,6 @@ namespace dynamicgraph {
         FileName. */
       virtual std::ostream & writeGraph(std::ostream & os) const;
 
-      /// Return true for children that provide the errordot output signal
-      SOT_CORE_DEPRECATED virtual bool withErrorDot( void ) const
-      {
-	return true;
-      }
       virtual SignalTimeDependent<dg::Vector,int>& getErrorDot()
       {
 	return errordotSOUT;
