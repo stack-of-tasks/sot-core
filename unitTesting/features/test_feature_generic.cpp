@@ -520,7 +520,7 @@ class TestFeatureTransformation : public FeatureTestBase
       Vector diff (6);
       LieGroup_t().difference (q_faMfb, q_faMfb_next, diff);
       Vector faVfafb_fd = faMfb.toActionMatrix() * diff;
-      EIGEN_VECTOR_IS_APPROX(faMfbDesDot, faVfafb_fd, eps);
+      EIGEN_VECTOR_IS_APPROX(faMfbDesDot, faVfafb_fd, 1e-5);
 
       faMfbDesDot(i) = 0.;
     }

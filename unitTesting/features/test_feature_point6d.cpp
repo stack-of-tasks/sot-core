@@ -83,7 +83,7 @@ class TestPoint6d
               << std::endl;
     std::cout << "featureDes_.position: " << featureDes_.positionSIN(time_)
               << std::endl;
-    std::cout << "featureDes_.velocity: " << featureDes_.velocitySIN(time_)
+    std::cout << "featureDes_.velocity: " << featureDes_.velocitySIN(time_).transpose()
               << std::endl;
     std::cout << "task.controlGain: " << task_.controlGainSIN(time_)
               << std::endl;
@@ -108,7 +108,7 @@ class TestPoint6d
         
     for(unsigned int i=0;i<3;i++)
     {
-      manual_[i]  = vd[i] + gain*(sd(i,3)-s(i,3));
+      manual_[i]  = - gain*(s(i,3)-sd(i,3)) - (-vd(i));
       if (manual_[i]!=taskTaskSOUT[i].getSingleBound())
           return -1;
     }
@@ -119,9 +119,9 @@ class TestPoint6d
   {
     std::cout << "----- output -----" << std::endl;
     std::cout << "time: " << time_ << std::endl;
-    std::cout << "feature.errorSOUT: " << feature_.errorSOUT(time_)
+    std::cout << "feature.errorSOUT: " << feature_.errorSOUT(time_).transpose()
               << std::endl;
-    std::cout << "feature.errordotSOUT: " << feature_.errordotSOUT(time_)
+    std::cout << "feature.errordotSOUT: " << feature_.errordotSOUT(time_).transpose()
               << std::endl;
     std::cout << "task.taskSOUT: " << task_.taskSOUT(time_)
               << std::endl;    
@@ -129,7 +129,7 @@ class TestPoint6d
     //<< std::endl;
     //std::cout << "task.errordtSOUT: " << task_.errorTimeDerivativeSOUT(time_)
     //<< std::endl;    
-    std::cout << "manual: " << manual_ << std::endl;
+    std::cout << "manual: " << manual_.transpose() << std::endl;
   }
 
   int runTest(MatrixHomogeneous &s,
@@ -144,7 +144,6 @@ class TestPoint6d
     return r;
   }
 };
-
 
 int main( void )
 {
@@ -164,10 +163,9 @@ int main( void )
   TestPoint6d testFeaturePoint6d(dim,srobot);
   
   std::cout << " ----- Test Velocity -----" << std::endl;
-  s(0,0) = 1.0; s(1,1) = 1.0; s(2,2) = 1.0;
-  sd(0,0) = 1.0; sd(1,1) = 1.0; sd(2,2) = 1.0;
-  for(unsigned int i=0;i<6;i++)
-    vd(i)=1.0;
+  s .setIdentity();
+  sd.setIdentity();
+  vd.setConstant(1.);
   gain=0.0;
   
   if ((r=testFeaturePoint6d.runTest(s,sd,vd,gain))<0)
@@ -177,11 +175,10 @@ int main( void )
   }
   
   std::cout << " ----- Test Position -----" << std::endl;
-  s(0,0) = 1.0; s(1,1) = 1.0; s(2,2) = 1.0;
-  sd(0,0) = 1.0; sd(1,1) = 1.0; sd(2,2) = 1.0;
-  sd(2,3) = 2.0;
-  for(unsigned int i=0;i<6;i++)
-    vd(i)=0.0;
+  s .setIdentity();
+  sd.setIdentity();
+  sd.translation()[2] = 2.0;
+  vd.setZero();
   gain=1.0;
   
   if ((r=testFeaturePoint6d.runTest(s,sd,vd,gain))<0)
@@ -191,11 +188,10 @@ int main( void )
   }
 
   std::cout << " ----- Test both -----" << std::endl;
-  s(0,0) = 1.0; s(1,1) = 1.0; s(2,2) = 1.0;
-  sd(0,0) = 1.0; sd(1,1) = 1.0; sd(2,2) = 1.0;
-  sd(2,3) = 2.0;
-  for(unsigned int i=0;i<3;i++)
-    vd(i)=1.0;
+  s .setIdentity();
+  sd.setIdentity();
+  sd.translation()[2] = 2.0;
+  vd.setConstant(1.);
   gain=3.0;
   
   if ((r=testFeaturePoint6d.runTest(s,sd,vd,gain))<0)
@@ -205,11 +201,10 @@ int main( void )
   }
 
   std::cout << " ----- Test both again -----" << std::endl;
-  s(0,0) = 1.0; s(1,1) = 1.0; s(2,2) = 1.0;
-  sd(0,0) = 1.0; sd(1,1) = 1.0; sd(2,2) = 1.0;
-  sd(2,3) = 2.0;
-  for(unsigned int i=0;i<6;i++)
-    vd(i)=1.0;
+  s .setIdentity();
+  sd.setIdentity();
+  sd.translation()[2] = 2.0;
+  vd.setConstant(1.);
   gain=3.0;
   
   if ((r=testFeaturePoint6d.runTest(s,sd,vd,gain))<0)

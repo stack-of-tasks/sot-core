@@ -49,7 +49,11 @@ namespace dynamicgraph {
       reference. The
       feature is in charge of collecting its own current state.  A feature is
       supposed to compute an error between its current state and the desired
-      one: \f$ E(t) = e({\bf q}(t), t) = {\bf s}({\bf q}(t)) - {\bf s}^*(t) \f$.
+      one: \f$ E(t) = e({\bf q}(t), t) = {\bf s}({\bf q}(t)) \ominus {\bf s}^*(t) \f$.
+      Here, \f$ \ominus \f$ is the difference operator of Lie group in which
+      \f$ {\bf s} \f$ and \f$ {\bf s}^* \f$ are. The documentation below assumes
+      the Lie group is a vector space and \f$\ominus\f$ is the usual difference
+      operator.
 
       A feature computes:
       \li the Jacobian according to the robot state vector \f$ J =

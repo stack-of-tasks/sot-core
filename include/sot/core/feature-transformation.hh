@@ -66,12 +66,13 @@ class SOT_CORE_DLLAPI FeatureTransformation
   /*! \name Output signals
     @{
   */
-  /// Transformation of <em>Frame B</em> wrt to <em>Frame A</em>.
+  /// Transformation of <em>Frame B</em> wrt to <em>world frame</em>.
   /// It is expressed as a translation followed by a quaternion.
-  SignalTimeDependent< Vector7, int > faMfb;
+  SignalTimeDependent< Vector7, int > q_oMfb;
 
-  /// The Vector7 version of faMfbDes, for internal purposes.
-  SignalTimeDependent< Vector7, int > faMfbDes_q;
+  /// Transformation of <em>Frame B*</em> wrt to <em>world frame</em>.
+  /// It is expressed as a translation followed by a quaternion.
+  SignalTimeDependent< Vector7, int > q_oMfbDes;
   /*! @} */
 
   using FeatureAbstract::selectionSIN;
@@ -111,8 +112,8 @@ class SOT_CORE_DLLAPI FeatureTransformation
  public:
   void servoCurrentPosition( void );
  private:
-  Vector7& computefaMfb (Vector7& res, int time);
-  Vector7& computefaMfbDes_q (Vector7& res, int time);
+  Vector7& computeQoMfb (Vector7& res, int time);
+  Vector7& computeQoMfbDes (Vector7& res, int time);
 
   /// \todo Intermediate variables for internal computations
 } ;
