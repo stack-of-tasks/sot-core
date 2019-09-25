@@ -70,8 +70,7 @@ FeatureTransformation( const string& pointName )
   faMfbDes.setConstant (Id);
   faMfbDesDot.setConstant (Vector::Zero(6));
 
-  jacobianSOUT.addDependencies(q_oMfbDes << q_oMfb << jbMfb
-      << jaMfa << faMfbDes
+  jacobianSOUT.addDependencies(q_oMfbDes << q_oMfb
       << jaJja << jbJjb );
 
   errorSOUT.addDependencies( q_oMfbDes << q_oMfb );
@@ -81,7 +80,7 @@ FeatureTransformation( const string& pointName )
 
   errordotSOUT.setFunction (boost::bind (&FeatureTransformation::computeErrorDot,
 					 this, _1, _2));
-  errordotSOUT.addDependencies (q_oMfbDes << q_oMfb << faMfbDes << faMfbDesDot);
+  errordotSOUT.addDependencies (q_oMfbDes << q_oMfb << faMfbDesDot);
 
   // Commands
   //
@@ -138,12 +137,15 @@ Matrix& FeatureTransformation::computeJacobian( Matrix& J,int time )
 {
   check(*this);
 
+  q_oMfb   .recompute(time);
+  q_oMfbDes.recompute(time);
+
   const int & dim = dimensionSOUT(time);
   const Flags &fl = selectionSIN(time);
 
   const Matrix & _jbJjb = jbJjb (time);
 
-  const MatrixHomogeneous& _jbMfb = (jbMfb.isPlugged() ? jbMfb(time) : Id);
+  const MatrixHomogeneous& _jbMfb = (jbMfb.isPlugged() ? jbMfb.accessCopy() : Id);
 
   const Matrix::Index cJ = _jbJjb.cols();
   J.resize(dim,cJ) ;
@@ -152,7 +154,7 @@ Matrix& FeatureTransformation::computeJacobian( Matrix& J,int time )
   Eigen::Matrix<double,6,6,Eigen::RowMajor> Jminus;
 
   buildFrom (_jbMfb.inverse(Eigen::Affine), X);
-  LieGroup_t().dDifference<pinocchio::ARG1>(q_oMfbDes(time), q_oMfb(time), Jminus);
+  LieGroup_t().dDifference<pinocchio::ARG1>(q_oMfbDes.accessCopy(), q_oMfb.accessCopy(), Jminus);
   
   // Contribution of b:
   // J = Jminus * X * jbJjb;
@@ -163,10 +165,10 @@ Matrix& FeatureTransformation::computeJacobian( Matrix& J,int time )
 
   if (jaJja.isPlugged()) {
     const Matrix & _jaJja = jaJja (time);
-    const MatrixHomogeneous& _jaMfa = (jaMfa.isPlugged() ? jaMfa(time) : Id),
-                             _faMfbDes = (faMfbDes.isPlugged() ? faMfbDes(time) : Id);
+    const MatrixHomogeneous& _jaMfa = (jaMfa.isPlugged() ? jaMfa.accessCopy() : Id),
+                             _faMfbDes = (faMfbDes.isPlugged() ? faMfbDes.accessCopy() : Id);
 
-    LieGroup_t().dDifference<pinocchio::ARG0>(q_oMfbDes(time), q_oMfb(time), Jminus);
+    LieGroup_t().dDifference<pinocchio::ARG0>(q_oMfbDes.accessCopy(), q_oMfb.accessCopy(), Jminus);
     buildFrom ((_jaMfa *_faMfbDes).inverse(Eigen::Affine), X);
 
     // J += (Jminus * X) * jaJja(time);
@@ -224,11 +226,14 @@ Vector& FeatureTransformation::computeErrorDot( Vector& errordot,int time )
     return errordot;
   }
 
-  const MatrixHomogeneous& _faMfbDes = (faMfbDes.isPlugged() ? faMfbDes(time) : Id);
+  q_oMfb   .recompute(time);
+  q_oMfbDes.recompute(time);
+
+  const MatrixHomogeneous& _faMfbDes = (faMfbDes.isPlugged() ? faMfbDes.accessCopy() : Id);
 
   Eigen::Matrix<double,6,6,Eigen::RowMajor> Jminus;
 
-  LieGroup_t().dDifference<pinocchio::ARG0>(q_oMfbDes(time), q_oMfb(time), Jminus);
+  LieGroup_t().dDifference<pinocchio::ARG0>(q_oMfbDes.accessCopy(), q_oMfb.accessCopy(), Jminus);
   // Assume _faMfbDesDot is expressed in fa
   Jminus = Jminus * pinocchio::SE3(_faMfbDes.rotation(), _faMfbDes.translation()).toActionMatrixInverse();
   // Assume _faMfbDesDot is expressed in fb*
@@ -236,7 +241,7 @@ Vector& FeatureTransformation::computeErrorDot( Vector& errordot,int time )
   unsigned int cursor = 0;
   for( unsigned int i=0;i<6;++i )
     if( fl(i) )
-      errordot(cursor++) = Jminus.row(i) * faMfbDesDot(time);
+      errordot(cursor++) = Jminus.row(i) * faMfbDesDot.accessCopy();
 
   return errordot;
 }
