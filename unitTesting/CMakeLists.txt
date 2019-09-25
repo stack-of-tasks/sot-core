@@ -50,7 +50,7 @@ SET(TEST_test_feature_point6d_LIBS
   )
 
 SET(TEST_test_feature_generic_LIBS
-  gain-adaptive feature-generic task
+  gain-adaptive feature-generic task feature-transformation
   )
 
 SET(TEST_test_mailbox_LIBS
