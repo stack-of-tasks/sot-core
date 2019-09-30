@@ -457,6 +457,7 @@ class TestFeatureTransformation : public FeatureTestBase
     // compute qdot = J^+ * e
     // check that faMfb (q+eps*qdot) ~= faMfb(q) + eps * faMfbDesDot
 
+    time_++;
     Vector q (pinocchio::randomConfiguration (model_));
     pinocchio::framesForwardKinematics (model_, data_, q);
     pinocchio::computeJointJacobians (model_, data_);
@@ -510,7 +511,7 @@ class TestFeatureTransformation : public FeatureTestBase
 
       Vector faVfafb = faJfafb * qdot;
       EIGEN_VECTOR_IS_APPROX(faMfbDesDot, faVfafb, eps);
-      
+
       // Check with finite difference.
       Vector q_qdot = pinocchio::integrate (model_, q, qdot);
       pinocchio::framesForwardKinematics (model_, data_, q_qdot);
