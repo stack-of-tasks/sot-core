@@ -29,10 +29,12 @@ using namespace std;
 using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
 
-//typedef pinocchio::CartesianProductOperation <
-//        pinocchio::VectorSpaceOperationTpl<3, double>,
-//        pinocchio::SpecialOrthogonalOperationTpl<3, double>
-//        > LieGroup_t;
+/*
+typedef pinocchio::CartesianProductOperation <
+        pinocchio::VectorSpaceOperationTpl<3, double>,
+        pinocchio::SpecialOrthogonalOperationTpl<3, double>
+        > LieGroup_t;
+// */
 typedef pinocchio::SpecialEuclideanOperationTpl<3, double> LieGroup_t;
 
 #include <sot/core/factory.hh>
@@ -57,12 +59,15 @@ FeaturePose( const string& pointName )
     , faMfbDes ( NULL,"FeaturePose("+name+")::input(matrixHomo)::faMfbDes")
     , faNufafbDes ( NULL,"FeaturePose("+name+")::input(vector)::faNufafbDes")
 
-    , q_oMfb (boost::bind (&FeaturePose::computeQoMfb, this, _1, _2),
-        oMjb << jbMfb,
-        "FeaturePose("+name+")::output(vector7)::q_oMfb")
-    , q_oMfbDes (boost::bind (&FeaturePose::computeQoMfbDes, this, _1, _2),
-        oMja << jaMfa << faMfbDes,
-        "FeaturePose("+name+")::output(vector7)::q_oMfbDes")
+    , faMfb (boost::bind (&FeaturePose::computefaMfb, this, _1, _2),
+        oMja << jaMfa << oMjb << jbMfb,
+        "FeaturePose("+name+")::output(vector7)::q_faMfbDes")
+    , q_faMfb (boost::bind (&FeaturePose::computeQfaMfb, this, _1, _2),
+        faMfb,
+        "FeaturePose("+name+")::output(vector7)::q_faMfb")
+    , q_faMfbDes (boost::bind (&FeaturePose::computeQfaMfbDes, this, _1, _2),
+        faMfbDes,
+        "FeaturePose("+name+")::output(vector7)::q_faMfbDes")
 {
   oMja.setConstant (Id);
   jaMfa.setConstant (Id);
@@ -70,17 +75,17 @@ FeaturePose( const string& pointName )
   faMfbDes.setConstant (Id);
   faNufafbDes.setConstant (Vector::Zero(6));
 
-  jacobianSOUT.addDependencies(q_oMfbDes << q_oMfb
+  jacobianSOUT.addDependencies(q_faMfbDes << q_faMfb
       << jaJja << jbJjb );
 
-  errorSOUT.addDependencies( q_oMfbDes << q_oMfb );
+  errorSOUT.addDependencies( q_faMfbDes << q_faMfb );
 
   signalRegistration( oMja << jaMfa << oMjb << jbMfb << jaJja << jbJjb );
   signalRegistration (errordotSOUT << faMfbDes << faNufafbDes);
 
   errordotSOUT.setFunction (boost::bind (&FeaturePose::computeErrorDot,
 					 this, _1, _2));
-  errordotSOUT.addDependencies (q_oMfbDes << q_oMfb << faNufafbDes);
+  errordotSOUT.addDependencies (q_faMfbDes << q_faMfb << faNufafbDes);
 
   // Commands
   //
@@ -98,6 +103,7 @@ FeaturePose( const string& pointName )
 
 static inline void check (const FeaturePose& ft)
 {
+  (void)ft;
   assert (ft.oMja .isPlugged() );
   assert (ft.jaMfa.isPlugged() );
   assert (ft.oMjb .isPlugged() );
@@ -137,8 +143,8 @@ Matrix& FeaturePose::computeJacobian( Matrix& J,int time )
 {
   check(*this);
 
-  q_oMfb   .recompute(time);
-  q_oMfbDes.recompute(time);
+  q_faMfb   .recompute(time);
+  q_faMfbDes.recompute(time);
 
   const int & dim = dimensionSOUT(time);
   const Flags &fl = selectionSIN(time);
@@ -154,7 +160,7 @@ Matrix& FeaturePose::computeJacobian( Matrix& J,int time )
   Eigen::Matrix<double,6,6,Eigen::RowMajor> Jminus;
 
   buildFrom (_jbMfb.inverse(Eigen::Affine), X);
-  LieGroup_t().dDifference<pinocchio::ARG1>(q_oMfbDes.accessCopy(), q_oMfb.accessCopy(), Jminus);
+  LieGroup_t().dDifference<pinocchio::ARG1>(q_faMfbDes.accessCopy(), q_faMfb.accessCopy(), Jminus);
   
   // Contribution of b:
   // J = Jminus * X * jbJjb;
@@ -166,34 +172,41 @@ Matrix& FeaturePose::computeJacobian( Matrix& J,int time )
   if (jaJja.isPlugged()) {
     const Matrix & _jaJja = jaJja (time);
     const MatrixHomogeneous& _jaMfa = (jaMfa.isPlugged() ? jaMfa.accessCopy() : Id),
-                             _faMfbDes = (faMfbDes.isPlugged() ? faMfbDes.accessCopy() : Id);
+                             _faMfb = faMfb.accessCopy();
 
-    LieGroup_t().dDifference<pinocchio::ARG0>(q_oMfbDes.accessCopy(), q_oMfb.accessCopy(), Jminus);
-    buildFrom ((_jaMfa *_faMfbDes).inverse(Eigen::Affine), X);
+    buildFrom ((_jaMfa *_faMfb).inverse(Eigen::Affine), X);
 
-    // J += (Jminus * X) * jaJja(time);
+    // J -= (Jminus * X) * jaJja(time);
     rJ = 0;
     for( unsigned int r=0;r<6;++r )
       if( fl(r) )
-        J.row(rJ++).noalias() += (Jminus * X).row(r) * _jaJja;
+        J.row(rJ++).noalias() -= (Jminus * X).row(r) * _jaJja;
   }
 
   return J;
 }
 
-Vector7& FeaturePose::computeQoMfb (Vector7& res, int time)
+MatrixHomogeneous& FeaturePose::computefaMfb (MatrixHomogeneous& res, int time)
 {
   check(*this);
 
-  toVector (oMjb(time) * jbMfb(time), res);
+  res = (oMja(time) * jaMfa(time)).inverse(Eigen::Affine) * oMjb(time) * jbMfb(time);
   return res;
 }
 
-Vector7& FeaturePose::computeQoMfbDes (Vector7& res, int time)
+Vector7& FeaturePose::computeQfaMfb (Vector7& res, int time)
 {
   check(*this);
 
-  toVector (oMja(time) * jaMfa(time) * faMfbDes (time), res);
+  toVector (faMfb(time), res);
+  return res;
+}
+
+Vector7& FeaturePose::computeQfaMfbDes (Vector7& res, int time)
+{
+  check(*this);
+
+  toVector (faMfbDes (time), res);
   return res;
 }
 
@@ -204,7 +217,7 @@ Vector& FeaturePose::computeError( Vector& error,int time )
   const Flags &fl = selectionSIN(time);
 
   Eigen::Matrix<double,6,1> v;
-  LieGroup_t().difference (q_oMfbDes(time), q_oMfb(time), v);
+  LieGroup_t().difference (q_faMfbDes(time), q_faMfb(time), v);
 
   error.resize(dimensionSOUT(time)) ;
   unsigned int cursor = 0;
@@ -226,17 +239,17 @@ Vector& FeaturePose::computeErrorDot( Vector& errordot,int time )
     return errordot;
   }
 
-  q_oMfb   .recompute(time);
-  q_oMfbDes.recompute(time);
+  q_faMfb   .recompute(time);
+  q_faMfbDes.recompute(time);
 
-  const MatrixHomogeneous& _faMfbDes = (faMfbDes.isPlugged() ? faMfbDes.accessCopy() : Id);
+  const MatrixHomogeneous& _faMfbDes = faMfbDes(time);
 
   Eigen::Matrix<double,6,6,Eigen::RowMajor> Jminus;
 
-  LieGroup_t().dDifference<pinocchio::ARG0>(q_oMfbDes.accessCopy(), q_oMfb.accessCopy(), Jminus);
-  // Assume _faMfbDesDot is expressed in fa
+  LieGroup_t().dDifference<pinocchio::ARG0>(q_faMfbDes.accessCopy(), q_faMfb.accessCopy(), Jminus);
+  // Assume faNufafbDes is expressed in fa
   Jminus = Jminus * pinocchio::SE3(_faMfbDes.rotation(), _faMfbDes.translation()).toActionMatrixInverse();
-  // Assume _faMfbDesDot is expressed in fb*
+  // Assume faNufafbDes is expressed in fb
   // Jminus = Jminus
   unsigned int cursor = 0;
   for( unsigned int i=0;i<6;++i )

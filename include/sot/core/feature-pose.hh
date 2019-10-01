@@ -75,12 +75,15 @@ class SOT_CORE_DLLAPI FeaturePose
     @{
   */
   /// Pose of <em>Frame B</em> wrt to <em>world frame</em>.
+  SignalTimeDependent< MatrixHomogeneous, int > faMfb;
+
+  /// Pose of <em>Frame B</em> wrt to <em>world frame</em>.
   /// It is expressed as a translation followed by a quaternion.
-  SignalTimeDependent< Vector7, int > q_oMfb;
+  SignalTimeDependent< Vector7, int > q_faMfb;
 
   /// Pose of <em>Frame B*</em> wrt to <em>world frame</em>.
   /// It is expressed as a translation followed by a quaternion.
-  SignalTimeDependent< Vector7, int > q_oMfbDes;
+  SignalTimeDependent< Vector7, int > q_faMfbDes;
   /*! @} */
 
   using FeatureAbstract::selectionSIN;
@@ -123,8 +126,9 @@ class SOT_CORE_DLLAPI FeaturePose
  public:
   void servoCurrentPosition( void );
  private:
-  Vector7& computeQoMfb (Vector7& res, int time);
-  Vector7& computeQoMfbDes (Vector7& res, int time);
+  MatrixHomogeneous& computefaMfb (MatrixHomogeneous& res, int time);
+  Vector7& computeQfaMfb (Vector7& res, int time);
+  Vector7& computeQfaMfbDes (Vector7& res, int time);
 
   /// \todo Intermediate variables for internal computations
 } ;

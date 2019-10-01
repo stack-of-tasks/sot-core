@@ -427,8 +427,8 @@ class TestFeaturePose : public FeatureTestBase
       faMfbDes (feature_.faMfbDes.accessCopy().matrix());
 
     computeExpectedTaskOutput (
-        toVector(oMfb),
-        toVector(oMfa * faMfbDes),
+        toVector(oMfa.inverse() * oMfb),
+        toVector(faMfbDes),
         faMfbDes.toActionMatrixInverse() * feature_.faNufafbDes.accessCopy(),
         LieGroup_t());
 
