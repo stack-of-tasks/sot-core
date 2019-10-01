@@ -68,7 +68,7 @@ class SOT_CORE_DLLAPI FeaturePose
   /// The desired pose of <em>Frame B</em> wrt to <em>Frame A</em>.
   dg::SignalPtr< MatrixHomogeneous, int > faMfbDes;
   /// The desired velocity of <em>Frame B</em> wrt to <em>Frame A</em>. The value is expressed in <em>Frame A</em>.
-  dg::SignalPtr< Vector, int > faNufafb;
+  dg::SignalPtr< Vector, int > faNufafbDes;
   /*! @} */
 
   /*! \name Output signals

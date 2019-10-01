@@ -400,7 +400,7 @@ class TestFeaturePose : public FeatureTestBase
 
     // Desired
     setSignal (feature_.faMfbDes, randomM());
-    setSignal (feature_.faNufafb, Vector::Random(6));
+    setSignal (feature_.faNufafbDes, Vector::Random(6));
 
     double gain = 0;
     //if (time_ % 5 != 0)
@@ -429,7 +429,7 @@ class TestFeaturePose : public FeatureTestBase
     computeExpectedTaskOutput (
         toVector(oMfb),
         toVector(oMfa * faMfbDes),
-        faMfbDes.toActionMatrixInverse() * feature_.faNufafb.accessCopy(),
+        faMfbDes.toActionMatrixInverse() * feature_.faNufafbDes.accessCopy(),
         LieGroup_t());
 
     checkTaskOutput();
@@ -455,7 +455,7 @@ class TestFeaturePose : public FeatureTestBase
     // compute e = task_.taskSOUT and J = task_.jacobianSOUT
     // check that e (q + eps*qdot) - e (q) ~= eps * J * qdot
     // compute qdot = J^+ * e
-    // check that faMfb (q+eps*qdot) ~= faMfb(q) + eps * faNufafb
+    // check that faMfb (q+eps*qdot) ~= faMfb(q) + eps * faNufafbDes
 
     time_++;
     Vector q (pinocchio::randomConfiguration (model_));
@@ -498,19 +498,19 @@ class TestFeaturePose : public FeatureTestBase
     J = task_.jacobianSOUT.accessCopy();
     Eigen::JacobiSVD<Matrix> svd (J, Eigen::ComputeThinU | Eigen::ComputeThinV);
 
-    Vector faNufafb (Vector::Zero(6));
+    Vector faNufafbDes (Vector::Zero(6));
     double eps = 1e-6;
     for (int i = 0; i < 6; ++i)
     {
       time_++;
-      faNufafb(i) = eps;
-      setSignal (feature_.faNufafb, faNufafb);
+      faNufafbDes(i) = eps;
+      setSignal (feature_.faNufafbDes, faNufafbDes);
       task_.taskSOUT.recompute(time_);
 
       Vector qdot = svd.solve(toVector (task_.taskSOUT.accessCopy()));
 
-      Vector faVfafb = faJfafb * qdot;
-      EIGEN_VECTOR_IS_APPROX(faNufafb, faVfafb, eps);
+      Vector faNufafb = faJfafb * qdot;
+      EIGEN_VECTOR_IS_APPROX(faNufafbDes, faNufafb, eps);
 
       // Check with finite difference.
       Vector q_qdot = pinocchio::integrate (model_, q, qdot);
@@ -520,10 +520,10 @@ class TestFeaturePose : public FeatureTestBase
       Vector7 q_faMfb_next = toVector(faMfb_next);
       Vector diff (6);
       LieGroup_t().difference (q_faMfb, q_faMfb_next, diff);
-      Vector faVfafb_fd = faMfb.toActionMatrix() * diff;
-      EIGEN_VECTOR_IS_APPROX(faNufafb, faVfafb_fd, 1e-5);
+      Vector faNufafb_fd = faMfb.toActionMatrix() * diff;
+      EIGEN_VECTOR_IS_APPROX(faNufafbDes, faNufafb_fd, 1e-5);
 
-      faNufafb(i) = 0.;
+      faNufafbDes(i) = 0.;
     }
     time_++;
   }

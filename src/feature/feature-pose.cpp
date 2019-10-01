@@ -55,7 +55,7 @@ FeaturePose( const string& pointName )
     , jbJjb ( NULL,"FeaturePose("+name+")::input(matrix)::jbJjb")
 
     , faMfbDes ( NULL,"FeaturePose("+name+")::input(matrixHomo)::faMfbDes")
-    , faNufafb ( NULL,"FeaturePose("+name+")::input(vector)::faNufafb")
+    , faNufafbDes ( NULL,"FeaturePose("+name+")::input(vector)::faNufafbDes")
 
     , q_oMfb (boost::bind (&FeaturePose::computeQoMfb, this, _1, _2),
         oMjb << jbMfb,
@@ -68,7 +68,7 @@ FeaturePose( const string& pointName )
   jaMfa.setConstant (Id);
   jbMfb.setConstant (Id);
   faMfbDes.setConstant (Id);
-  faNufafb.setConstant (Vector::Zero(6));
+  faNufafbDes.setConstant (Vector::Zero(6));
 
   jacobianSOUT.addDependencies(q_oMfbDes << q_oMfb
       << jaJja << jbJjb );
@@ -76,11 +76,11 @@ FeaturePose( const string& pointName )
   errorSOUT.addDependencies( q_oMfbDes << q_oMfb );
 
   signalRegistration( oMja << jaMfa << oMjb << jbMfb << jaJja << jbJjb );
-  signalRegistration (errordotSOUT << faMfbDes << faNufafb);
+  signalRegistration (errordotSOUT << faMfbDes << faNufafbDes);
 
   errordotSOUT.setFunction (boost::bind (&FeaturePose::computeErrorDot,
 					 this, _1, _2));
-  errordotSOUT.addDependencies (q_oMfbDes << q_oMfb << faNufafb);
+  errordotSOUT.addDependencies (q_oMfbDes << q_oMfb << faNufafbDes);
 
   // Commands
   //
@@ -98,12 +98,12 @@ FeaturePose( const string& pointName )
 
 static inline void check (const FeaturePose& ft)
 {
-  assert (ft. oMja .isPlugged() );
-  assert (ft. jaMfa.isPlugged() );
-  assert (ft. oMjb .isPlugged() );
-  assert (ft. jbMfb.isPlugged() );
-  assert (ft. faMfbDes   .isPlugged() );
-  assert (ft. faNufafb.isPlugged() );
+  assert (ft.oMja .isPlugged() );
+  assert (ft.jaMfa.isPlugged() );
+  assert (ft.oMjb .isPlugged() );
+  assert (ft.jbMfb.isPlugged() );
+  assert (ft.faMfbDes   .isPlugged() );
+  assert (ft.faNufafbDes.isPlugged() );
 }
 
 unsigned int& FeaturePose::
@@ -221,7 +221,7 @@ Vector& FeaturePose::computeErrorDot( Vector& errordot,int time )
 
   errordot.resize(dimensionSOUT(time));
   const Flags &fl = selectionSIN(time);
-  if (!faNufafb.isPlugged()) {
+  if (!faNufafbDes.isPlugged()) {
     errordot.setZero();
     return errordot;
   }
@@ -241,7 +241,7 @@ Vector& FeaturePose::computeErrorDot( Vector& errordot,int time )
   unsigned int cursor = 0;
   for( unsigned int i=0;i<6;++i )
     if( fl(i) )
-      errordot(cursor++) = Jminus.row(i) * faNufafb.accessCopy();
+      errordot(cursor++) = Jminus.row(i) * faNufafbDes.accessCopy();
 
   return errordot;
 }
