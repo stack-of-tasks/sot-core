@@ -44,7 +44,7 @@ SET(plugins
   task/task-unilateral
 
   feature/feature-point6d
-  feature/feature-transformation
+  feature/feature-pose
   feature/feature-vector3
   feature/feature-generic
   feature/feature-joint-limits

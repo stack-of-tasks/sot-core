@@ -27,7 +27,7 @@
 
 #include <sot/core/sot.hh>
 #include <sot/core/feature-generic.hh>
-#include <sot/core/feature-transformation.hh>
+#include <sot/core/feature-pose.hh>
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/debug.hh>
 #include <sot/core/task.hh>
@@ -298,17 +298,17 @@ Vector toVector (const std::vector<MultiBound>& in)
   return out;
 }
 
-class TestFeatureTransformation : public FeatureTestBase
+class TestFeaturePose : public FeatureTestBase
 {
  public:
-  FeatureTransformation feature_;
+  FeaturePose feature_;
   bool relative_;
   pinocchio::Model model_;
   pinocchio::Data  data_;
   pinocchio::JointIndex ja_, jb_;
   pinocchio::FrameIndex fa_, fb_;
 
-  TestFeatureTransformation (bool relative, const std::string &name):
+  TestFeaturePose (bool relative, const std::string &name):
     FeatureTestBase (6, name),
     feature_("feature"+name),
     relative_ (relative),
@@ -400,7 +400,7 @@ class TestFeatureTransformation : public FeatureTestBase
 
     // Desired
     setSignal (feature_.faMfbDes, randomM());
-    setSignal (feature_.faMfbDesDot, Vector::Random(6));
+    setSignal (feature_.faNufafb, Vector::Random(6));
 
     double gain = 0;
     //if (time_ % 5 != 0)
@@ -429,7 +429,7 @@ class TestFeatureTransformation : public FeatureTestBase
     computeExpectedTaskOutput (
         toVector(oMfb),
         toVector(oMfa * faMfbDes),
-        faMfbDes.toActionMatrixInverse() * feature_.faMfbDesDot.accessCopy(),
+        faMfbDes.toActionMatrixInverse() * feature_.faNufafb.accessCopy(),
         LieGroup_t());
 
     checkTaskOutput();
@@ -455,7 +455,7 @@ class TestFeatureTransformation : public FeatureTestBase
     // compute e = task_.taskSOUT and J = task_.jacobianSOUT
     // check that e (q + eps*qdot) - e (q) ~= eps * J * qdot
     // compute qdot = J^+ * e
-    // check that faMfb (q+eps*qdot) ~= faMfb(q) + eps * faMfbDesDot
+    // check that faMfb (q+eps*qdot) ~= faMfb(q) + eps * faNufafb
 
     time_++;
     Vector q (pinocchio::randomConfiguration (model_));
@@ -498,19 +498,19 @@ class TestFeatureTransformation : public FeatureTestBase
     J = task_.jacobianSOUT.accessCopy();
     Eigen::JacobiSVD<Matrix> svd (J, Eigen::ComputeThinU | Eigen::ComputeThinV);
 
-    Vector faMfbDesDot (Vector::Zero(6));
+    Vector faNufafb (Vector::Zero(6));
     double eps = 1e-6;
     for (int i = 0; i < 6; ++i)
     {
       time_++;
-      faMfbDesDot(i) = eps;
-      setSignal (feature_.faMfbDesDot, faMfbDesDot);
+      faNufafb(i) = eps;
+      setSignal (feature_.faNufafb, faNufafb);
       task_.taskSOUT.recompute(time_);
 
       Vector qdot = svd.solve(toVector (task_.taskSOUT.accessCopy()));
 
       Vector faVfafb = faJfafb * qdot;
-      EIGEN_VECTOR_IS_APPROX(faMfbDesDot, faVfafb, eps);
+      EIGEN_VECTOR_IS_APPROX(faNufafb, faVfafb, eps);
 
       // Check with finite difference.
       Vector q_qdot = pinocchio::integrate (model_, q, qdot);
@@ -521,25 +521,38 @@ class TestFeatureTransformation : public FeatureTestBase
       Vector diff (6);
       LieGroup_t().difference (q_faMfb, q_faMfb_next, diff);
       Vector faVfafb_fd = faMfb.toActionMatrix() * diff;
-      EIGEN_VECTOR_IS_APPROX(faMfbDesDot, faVfafb_fd, 1e-5);
+      EIGEN_VECTOR_IS_APPROX(faNufafb, faVfafb_fd, 1e-5);
 
-      faMfbDesDot(i) = 0.;
+      faNufafb(i) = 0.;
     }
     time_++;
   }
 };
 
-BOOST_AUTO_TEST_CASE (feature_transformation_absolute)
+BOOST_AUTO_TEST_CASE (feature_pose_absolute)
 {
-  TestFeatureTransformation testAbsolute(false,"abs");
+  TestFeaturePose testAbsolute(false,"abs");
+
+  for (int i = 0; i < 10; ++i)
+    testAbsolute.runTest();
+  testAbsolute.checkFeedForward();
+
+  testAbsolute.setRandomFrame();
   for (int i = 0; i < 10; ++i)
     testAbsolute.runTest();
   testAbsolute.checkFeedForward();
 }
 
-BOOST_AUTO_TEST_CASE (feature_transformation_relative)
+BOOST_AUTO_TEST_CASE (feature_pose_relative)
 {
-  TestFeatureTransformation testRelative(true ,"rel");
+  TestFeaturePose testRelative(true ,"rel");
+
+  for (int i = 0; i < 10; ++i)
+    testRelative.runTest();
+  testRelative.checkFeedForward();
+
+  testRelative.setRandomFrame();
+
   for (int i = 0; i < 10; ++i)
     testRelative.runTest();
   testRelative.checkFeedForward();

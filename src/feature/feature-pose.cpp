@@ -23,7 +23,7 @@
 #include <Eigen/LU>
 
 #include <sot/core/debug.hh>
-#include <sot/core/feature-transformation.hh>
+#include <sot/core/feature-pose.hh>
 
 using namespace std;
 using namespace dynamicgraph;
@@ -36,7 +36,7 @@ using namespace dynamicgraph::sot;
 typedef pinocchio::SpecialEuclideanOperationTpl<3, double> LieGroup_t;
 
 #include <sot/core/factory.hh>
-DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureTransformation,"FeatureTransformation");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePose,"FeaturePose");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -44,31 +44,31 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureTransformation,"FeatureTransformation"
 
 static const MatrixHomogeneous Id (MatrixHomogeneous::Identity());
 
-FeatureTransformation::
-FeatureTransformation( const string& pointName )
+FeaturePose::
+FeaturePose( const string& pointName )
   : FeatureAbstract( pointName )
-    , oMja  ( NULL,"FeatureTransformation("+name+")::input(matrixHomo)::oMja" )
-    , jaMfa ( NULL,"FeatureTransformation("+name+")::input(matrixHomo)::jaMfa")
-    , oMjb  ( NULL,"FeatureTransformation("+name+")::input(matrixHomo)::oMjb" )
-    , jbMfb ( NULL,"FeatureTransformation("+name+")::input(matrixHomo)::jbMfb")
-    , jaJja ( NULL,"FeatureTransformation("+name+")::input(matrix)::jaJja")
-    , jbJjb ( NULL,"FeatureTransformation("+name+")::input(matrix)::jbJjb")
+    , oMja  ( NULL,"FeaturePose("+name+")::input(matrixHomo)::oMja" )
+    , jaMfa ( NULL,"FeaturePose("+name+")::input(matrixHomo)::jaMfa")
+    , oMjb  ( NULL,"FeaturePose("+name+")::input(matrixHomo)::oMjb" )
+    , jbMfb ( NULL,"FeaturePose("+name+")::input(matrixHomo)::jbMfb")
+    , jaJja ( NULL,"FeaturePose("+name+")::input(matrix)::jaJja")
+    , jbJjb ( NULL,"FeaturePose("+name+")::input(matrix)::jbJjb")
 
-    , faMfbDes ( NULL,"FeatureTransformation("+name+")::input(matrixHomo)::faMfbDes")
-    , faMfbDesDot ( NULL,"FeatureTransformation("+name+")::input(vector)::faMfbDesDot")
+    , faMfbDes ( NULL,"FeaturePose("+name+")::input(matrixHomo)::faMfbDes")
+    , faNufafb ( NULL,"FeaturePose("+name+")::input(vector)::faNufafb")
 
-    , q_oMfb (boost::bind (&FeatureTransformation::computeQoMfb, this, _1, _2),
+    , q_oMfb (boost::bind (&FeaturePose::computeQoMfb, this, _1, _2),
         oMjb << jbMfb,
-        "FeatureTransformation("+name+")::output(vector7)::q_oMfb")
-    , q_oMfbDes (boost::bind (&FeatureTransformation::computeQoMfbDes, this, _1, _2),
+        "FeaturePose("+name+")::output(vector7)::q_oMfb")
+    , q_oMfbDes (boost::bind (&FeaturePose::computeQoMfbDes, this, _1, _2),
         oMja << jaMfa << faMfbDes,
-        "FeatureTransformation("+name+")::output(vector7)::q_oMfbDes")
+        "FeaturePose("+name+")::output(vector7)::q_oMfbDes")
 {
   oMja.setConstant (Id);
   jaMfa.setConstant (Id);
   jbMfb.setConstant (Id);
   faMfbDes.setConstant (Id);
-  faMfbDesDot.setConstant (Vector::Zero(6));
+  faNufafb.setConstant (Vector::Zero(6));
 
   jacobianSOUT.addDependencies(q_oMfbDes << q_oMfb
       << jaJja << jbJjb );
@@ -76,18 +76,18 @@ FeatureTransformation( const string& pointName )
   errorSOUT.addDependencies( q_oMfbDes << q_oMfb );
 
   signalRegistration( oMja << jaMfa << oMjb << jbMfb << jaJja << jbJjb );
-  signalRegistration (errordotSOUT << faMfbDes << faMfbDesDot);
+  signalRegistration (errordotSOUT << faMfbDes << faNufafb);
 
-  errordotSOUT.setFunction (boost::bind (&FeatureTransformation::computeErrorDot,
+  errordotSOUT.setFunction (boost::bind (&FeaturePose::computeErrorDot,
 					 this, _1, _2));
-  errordotSOUT.addDependencies (q_oMfbDes << q_oMfb << faMfbDesDot);
+  errordotSOUT.addDependencies (q_oMfbDes << q_oMfb << faNufafb);
 
   // Commands
   //
   {
     using namespace dynamicgraph::command;
     addCommand("keep",
-	       makeCommandVoid0(*this,&FeatureTransformation::servoCurrentPosition,
+	       makeCommandVoid0(*this,&FeaturePose::servoCurrentPosition,
 				docCommandVoid0("modify the desired position to servo at current pos.")));
   }
 }
@@ -96,17 +96,17 @@ FeatureTransformation( const string& pointName )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-static inline void check (const FeatureTransformation& ft)
+static inline void check (const FeaturePose& ft)
 {
   assert (ft. oMja .isPlugged() );
   assert (ft. jaMfa.isPlugged() );
   assert (ft. oMjb .isPlugged() );
   assert (ft. jbMfb.isPlugged() );
   assert (ft. faMfbDes   .isPlugged() );
-  assert (ft. faMfbDesDot.isPlugged() );
+  assert (ft. faNufafb.isPlugged() );
 }
 
-unsigned int& FeatureTransformation::
+unsigned int& FeaturePose::
 getDimension( unsigned int & dim, int time )
 {
   sotDEBUG(25)<<"# In {"<<endl;
@@ -133,7 +133,7 @@ Vector7 toVector (const MatrixHomogeneous& M)
   return ret;
 }
 
-Matrix& FeatureTransformation::computeJacobian( Matrix& J,int time )
+Matrix& FeaturePose::computeJacobian( Matrix& J,int time )
 {
   check(*this);
 
@@ -181,7 +181,7 @@ Matrix& FeatureTransformation::computeJacobian( Matrix& J,int time )
   return J;
 }
 
-Vector7& FeatureTransformation::computeQoMfb (Vector7& res, int time)
+Vector7& FeaturePose::computeQoMfb (Vector7& res, int time)
 {
   check(*this);
 
@@ -189,7 +189,7 @@ Vector7& FeatureTransformation::computeQoMfb (Vector7& res, int time)
   return res;
 }
 
-Vector7& FeatureTransformation::computeQoMfbDes (Vector7& res, int time)
+Vector7& FeaturePose::computeQoMfbDes (Vector7& res, int time)
 {
   check(*this);
 
@@ -197,7 +197,7 @@ Vector7& FeatureTransformation::computeQoMfbDes (Vector7& res, int time)
   return res;
 }
 
-Vector& FeatureTransformation::computeError( Vector& error,int time )
+Vector& FeaturePose::computeError( Vector& error,int time )
 {
   check(*this);
 
@@ -215,13 +215,13 @@ Vector& FeatureTransformation::computeError( Vector& error,int time )
   return error ;
 }
 
-Vector& FeatureTransformation::computeErrorDot( Vector& errordot,int time )
+Vector& FeaturePose::computeErrorDot( Vector& errordot,int time )
 {
   check(*this);
 
   errordot.resize(dimensionSOUT(time));
   const Flags &fl = selectionSIN(time);
-  if (!faMfbDesDot.isPlugged()) {
+  if (!faNufafb.isPlugged()) {
     errordot.setZero();
     return errordot;
   }
@@ -241,7 +241,7 @@ Vector& FeatureTransformation::computeErrorDot( Vector& errordot,int time )
   unsigned int cursor = 0;
   for( unsigned int i=0;i<6;++i )
     if( fl(i) )
-      errordot(cursor++) = Jminus.row(i) * faMfbDesDot.accessCopy();
+      errordot(cursor++) = Jminus.row(i) * faNufafb.accessCopy();
 
   return errordot;
 }
@@ -249,7 +249,7 @@ Vector& FeatureTransformation::computeErrorDot( Vector& errordot,int time )
 /* Modify the value of the reference (sdes) so that it corresponds
  * to the current position. The effect on the servo is to maintain the
  * current position and correct any drift. */
-void FeatureTransformation::
+void FeaturePose::
 servoCurrentPosition( void )
 {
   check(*this);
@@ -268,7 +268,7 @@ static const char * featureNames  []
     "RX",
     "RY",
     "RZ"  };
-void FeatureTransformation::
+void FeaturePose::
 display( std::ostream& os ) const
 {
   os <<"Point6d <"<<name<<">: (" ;
