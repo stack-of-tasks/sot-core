@@ -29,13 +29,13 @@ using namespace std;
 using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
 
-/*
 typedef pinocchio::CartesianProductOperation <
         pinocchio::VectorSpaceOperationTpl<3, double>,
         pinocchio::SpecialOrthogonalOperationTpl<3, double>
-        > LieGroup_t;
-// */
-typedef pinocchio::SpecialEuclideanOperationTpl<3, double> LieGroup_t;
+        > R3xSO3_t;
+typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3_t;
+typedef R3xSO3_t LieGroup_t;
+// typedef SE3_t LieGroup_t;
 
 #include <sot/core/factory.hh>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePose,"FeaturePose");
@@ -160,8 +160,11 @@ Matrix& FeaturePose::computeJacobian( Matrix& J,int time )
   Eigen::Matrix<double,6,6,Eigen::RowMajor> Jminus;
 
   buildFrom (_jbMfb.inverse(Eigen::Affine), X);
+  MatrixRotation faRfb = jaMfa.access(time).rotation().transpose() * oMja.access(time).rotation().transpose()
+    * oMjb.access(time).rotation() * _jbMfb.rotation();
+  X.topRows<3>().applyOnTheLeft (faRfb);
   LieGroup_t().dDifference<pinocchio::ARG1>(q_faMfbDes.accessCopy(), q_faMfb.accessCopy(), Jminus);
-  
+
   // Contribution of b:
   // J = Jminus * X * jbJjb;
   unsigned int rJ = 0;
@@ -175,6 +178,7 @@ Matrix& FeaturePose::computeJacobian( Matrix& J,int time )
                              _faMfb = faMfb.accessCopy();
 
     buildFrom ((_jaMfa *_faMfb).inverse(Eigen::Affine), X);
+    X.topRows<3>().applyOnTheLeft (faRfb);
 
     // J -= (Jminus * X) * jaJja(time);
     rJ = 0;

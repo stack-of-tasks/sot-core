@@ -280,7 +280,8 @@ typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3_t;
 typedef pinocchio::CartesianProductOperation <
   pinocchio::VectorSpaceOperationTpl<3, double>,
   pinocchio::SpecialOrthogonalOperationTpl<3, double> > R3xSO3_t;
-typedef SE3_t LieGroup_t;
+typedef R3xSO3_t LieGroup_t;
+//typedef SE3_t LieGroup_t;
 
 Vector7 toVector (const pinocchio::SE3& M)
 {
