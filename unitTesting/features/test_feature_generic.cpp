@@ -134,7 +134,7 @@ class FeatureTestBase
 
     virtual void printOutputs() {}
 
-    virtual void runTest ()
+    virtual void checkValue ()
     {
       time_++;
       setInputs();
@@ -263,7 +263,7 @@ BOOST_AUTO_TEST_CASE (feature_generic)
   TestFeatureGeneric testFeatureGeneric(dim,srobot);
   
   for (int i = 0; i < 10; ++i)
-    testFeatureGeneric.runTest();
+    testFeatureGeneric.checkValue();
 }
 
 MatrixHomogeneous randomM()
@@ -447,6 +447,80 @@ class TestFeaturePose : public FeatureTestBase
     BOOST_TEST_MESSAGE("Expected task output: " << expectedTaskOutput_.transpose());
   }
 
+  virtual void checkJacobian ()
+  {
+    time_++;
+    // We want to check that e (q+dq, t) ~ e(q, t) + de/dq(q,t) dq
+
+    setGain(1.);
+
+    Vector q (pinocchio::randomConfiguration (model_));
+    pinocchio::framesForwardKinematics (model_, data_, q);
+    pinocchio::computeJointJacobians (model_, data_);
+
+    // Poses
+    setSignal (feature_.oMjb, MatrixHomogeneous(data_.oMi[jb_].toHomogeneousMatrix()));
+    if (relative_) {
+      setSignal (feature_.oMja, MatrixHomogeneous(data_.oMi[ja_].toHomogeneousMatrix()));
+    }
+
+    // Jacobians
+    Matrix J (6, model_.nv);
+    J.setZero();
+    pinocchio::getJointJacobian (model_, data_, jb_, pinocchio::LOCAL, J);
+    setSignal (feature_.jbJjb, J);
+    if (relative_) {
+      J.setZero();
+      pinocchio::getJointJacobian (model_, data_, ja_, pinocchio::LOCAL, J);
+      setSignal (feature_.jaJja, J);
+    }
+
+    // Desired
+    setSignal (feature_.faMfbDes, randomM());
+
+    // Get task jacobian
+    Vector e_q = task_.errorSOUT.access(time_);
+    J = task_.jacobianSOUT.access(time_);
+
+    Eigen::IOFormat PyVectorFmt(Eigen::FullPrecision, 0, ", ", ", ", "", "", "[", "]\n");
+    Eigen::IOFormat PyMatrixFmt(Eigen::FullPrecision, 0, ", ", ",\n", "[", "]", "[", "]\n");
+
+    Vector qdot (Vector::Zero(model_.nv));
+    double eps = 1e-6;
+    BOOST_TEST_MESSAGE(
+      data_.oMi[ja_].toHomogeneousMatrix().format(PyMatrixFmt) <<
+      data_.oMi[jb_].toHomogeneousMatrix().format(PyMatrixFmt) <<
+      model_.frames[fa_].placement.toHomogeneousMatrix().format(PyMatrixFmt) <<
+      model_.frames[fb_].placement.toHomogeneousMatrix().format(PyMatrixFmt) <<
+      J.format(PyMatrixFmt)
+      );
+
+    for (int i = 0; i < model_.nv; ++i)
+    {
+      time_++;
+      qdot(i) = eps;
+
+      // Update pose signals
+      Vector q_qdot = pinocchio::integrate (model_, q, qdot);
+      pinocchio::framesForwardKinematics (model_, data_, q_qdot);
+      setSignal (feature_.oMjb, MatrixHomogeneous(data_.oMi[jb_].toHomogeneousMatrix()));
+      if (relative_) {
+        setSignal (feature_.oMja, MatrixHomogeneous(data_.oMi[ja_].toHomogeneousMatrix()));
+      }
+
+      // Recompute output and check finite diff
+      Vector e_q_dq = task_.errorSOUT.access(time_);
+      BOOST_CHECK_MESSAGE ((((e_q_dq - e_q)/eps) - J.col(i)).maxCoeff() < 1e-4,
+          "Jacobian col " << i << " does not match finite difference.\n"
+          << ((e_q_dq - e_q)/eps).format (PyVectorFmt) << '\n'
+          << J.col(i).format (PyVectorFmt) << '\n'
+          );
+
+      qdot(i) = 0.;
+    }
+    time_++;
+  }
+
   virtual void checkFeedForward ()
   {
     setGain(0.);
@@ -463,7 +537,6 @@ class TestFeaturePose : public FeatureTestBase
     pinocchio::computeJointJacobians (model_, data_);
 
     SE3 faMfb = data_.oMf[fa_].actInv(data_.oMf[fb_]);
-    Vector7 q_faMfb = toVector(faMfb);
 
     // Poses
     setSignal (feature_.oMjb, MatrixHomogeneous(data_.oMi[jb_].toHomogeneousMatrix()));
@@ -512,16 +585,6 @@ class TestFeaturePose : public FeatureTestBase
       Vector faNufafb = faJfafb * qdot;
       EIGEN_VECTOR_IS_APPROX(faNufafbDes, faNufafb, eps);
 
-      // Check with finite difference.
-      Vector q_qdot = pinocchio::integrate (model_, q, qdot);
-      pinocchio::framesForwardKinematics (model_, data_, q_qdot);
-
-      SE3 faMfb_next = data_.oMf[fa_].actInv(data_.oMf[fb_]);
-      Vector7 q_faMfb_next = toVector(faMfb_next);
-      Vector diff (6);
-      LieGroup_t().difference (q_faMfb, q_faMfb_next, diff);
-      Vector faNufafb_fd = faMfb.toActionMatrix() * diff;
-      EIGEN_VECTOR_IS_APPROX(faNufafbDes, faNufafb_fd, 1e-5);
 
       faNufafbDes(i) = 0.;
     }
@@ -529,31 +592,34 @@ class TestFeaturePose : public FeatureTestBase
   }
 };
 
+template <typename TestClass>
+void runTest (TestClass& runner,
+    int N = 2)
+    //int N = 10)
+{
+  for (int i = 0; i < N; ++i)
+    runner.checkValue();
+  for (int i = 0; i < N; ++i)
+    runner.checkJacobian();
+  for (int i = 0; i < N; ++i)
+    runner.checkFeedForward();
+}
+
 BOOST_AUTO_TEST_CASE (feature_pose_absolute)
 {
   TestFeaturePose testAbsolute(false,"abs");
-
-  for (int i = 0; i < 10; ++i)
-    testAbsolute.runTest();
-  testAbsolute.checkFeedForward();
+  testAbsolute.setJointFrame();
+  runTest (testAbsolute);
 
   testAbsolute.setRandomFrame();
-  for (int i = 0; i < 10; ++i)
-    testAbsolute.runTest();
-  testAbsolute.checkFeedForward();
+  runTest (testAbsolute);
 }
 
 BOOST_AUTO_TEST_CASE (feature_pose_relative)
 {
   TestFeaturePose testRelative(true ,"rel");
-
-  for (int i = 0; i < 10; ++i)
-    testRelative.runTest();
-  testRelative.checkFeedForward();
+  runTest (testRelative);
 
   testRelative.setRandomFrame();
-
-  for (int i = 0; i < 10; ++i)
-    testRelative.runTest();
-  testRelative.checkFeedForward();
+  runTest (testRelative);
 }
