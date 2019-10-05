@@ -2,7 +2,7 @@
 \section sec_intro Introduction
 
 This library implements a modular architecture to test and experiment
-controllers in the Stack of Tasks Framework as defined in \ref Mansard2007.
+controllers in the Stack of Tasks Framework as defined in \cite Mansard2007.
 It is specifically targeted to retain real-time performance while
 having high level software capabilities, like plugins and python scripting.
 
@@ -21,8 +21,6 @@ either with the hardware or with a simulator </li>
 
 \subpage page_featuredoc 
 
-\subpage page_references
-    
 \subpage page_sot
 
 \subsection tasks Tasks
@@ -33,7 +31,7 @@ and so on ... a task is mainly defined by the feature it is
 handling and its gain.
 
 After being defined, tasks are pushed in the Stack of Tasks which then
-calculates a control law as explained in \ref Mansard2007.
+calculates a control law as explained in \cite Mansard2007.
 
 See documentation of class dynamicgraph::sot::TaskAbstract for more information.
 
@@ -51,7 +49,7 @@ library, the following classes are present:
 
 \subsection subsec_sot Stack of Task solvers
 A hierarchical inequality solver, sot::SolverHierarchicalInequalities, is
-present. For the maths, see \ref Mansard2007.
+present. For the maths, see \cite Mansard2007.
 
 \subsection subsec_exceptions Exceptions
 The library defines the following classes of exceptions that derive from std::exception:

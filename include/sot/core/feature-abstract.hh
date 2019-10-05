@@ -40,7 +40,7 @@ namespace dynamicgraph {
       \ingroup features
       \brief This class gives the abstract definition of a feature.
 
-      \paragraph par_features_definition Definition
+      \par par_features_definition Definition
       In short, a feature is a data evolving according to time.  It is defined
       by a vector \f${\bf s}({\bf q}) \in \mathbb{R}^n \f$ where \f$ {\bf q} \f$ is a robot
       configuration, which depends on the time \f$ t \f$.

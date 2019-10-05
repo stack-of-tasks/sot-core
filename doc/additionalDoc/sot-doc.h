@@ -34,7 +34,7 @@
 
     where:
     \li \f$\frac{\partial{\bf e}}{\partial{\bf q}}^{\dagger}\f$ is the
-        pseudo-inverse of \frac{\partial{\bf e}}{\partial{\bf q}},
+        pseudo-inverse of \f$\frac{\partial{\bf e}}{\partial{\bf q}}\f$,
     \li \f$\dot{\bf q} \in \mathbb{R}^n\f$,
     \li \f$K \in \mathcal{M}_{n,m}(\mathbb{R})\f$ is a base of the kernel of
         \f$\frac{\partial{\bf e}}{\partial{\bf q}}\f$, of dimension \f$m\f$,

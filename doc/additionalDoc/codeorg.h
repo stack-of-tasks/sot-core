@@ -16,7 +16,7 @@ See \ref sot_core_base for a list of what's in this code base.
 
 This library implements
 \li A solver for the control law using tasks and features: the stack of tasks
-\li The framework of Tasks and Features, as defined in \ref Mansard2007, that
+\li The framework of Tasks and Features, as defined in \cite Mansard2007, that
 \li Base classes for working with tasks and features, such as special matrices
 (rotation, twist) and vectors (quaternions, etc.)
 \li A basic C++ "machinery", the \ref factory, that "makes things work"

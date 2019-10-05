@@ -25,6 +25,7 @@
 namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
+/// Enum used to specify what difference operation is used in FeaturePose.
 enum Representation_t {
   SE3Representation,
   R3xSO3Representation
@@ -34,18 +35,31 @@ enum Representation_t {
   \brief Feature that controls the relative (or absolute) pose between
   two frames A (or world) and B.
 
+  @tparam representation specify the difference operation to use. This changes
+          - the descent direction,
+          - the meaning of the mask.
+          With R3xSO3Representation, the mask is relative to <em>Frame A</em>.
+          If this feature is alone in a SOT, the relative motion of <em>Frame B</em>
+          wrt <em>Frame A</em> will be a line.
+          This is what most people want.
+
   Notations:
-  \li The frames are refered to with \c fa and \c fb.
-  \li Each frame is attached to a joint, which are refered to with \c ja and \c jb.
-  \li the difference operator is defined as \f[
-  \begin{array}{ccccc}
-  \ominus & : & SE(3)^2 & \to & \mathfrak{se}(3) \\
-          &   & a, b    & \mapsto & b \ominus a = \log(a^{-1} b) \\
-   \end{array}
-  \f]
-  \todo express error in R3xS03 so that the mask isn't surprising for user.
+  - The frames are refered to with \c fa and \c fb.
+  - Each frame is attached to a joint, which are refered to with \c ja and \c jb.
+  - the difference operator is defined differently depending on the representation:
+    - R3xSO3Representation:
+        \f[ \begin{array}{ccccc}
+        \ominus & : & (R^3\times SO(3))^2                 & \to & R^3 \times \mathfrak{so}(3) \\
+                &   & (a = (t_a,R_a),b = (t_b,R_b))       & \mapsto & b \ominus a = (t_b - t_a, \log(R_a^{-1} R_b) \\
+        \end{array} \f]
+    - SE3Representation:
+        \f[ \begin{array}{ccccc}
+        \ominus & : & SE(3)^2 & \to & \mathfrak{se}(3) \\
+                &   & a, b    & \mapsto & b \ominus a = \log(a^{-1} b) \\
+        \end{array} \f]
+
 */
-template <Representation_t representation>
+template <Representation_t representation = R3xSO3Representation>
 class SOT_CORE_DLLAPI FeaturePose
   : public FeatureAbstract
 {
@@ -80,22 +94,20 @@ class SOT_CORE_DLLAPI FeaturePose
   /*! \name Output signals
     @{
   */
-  /// Pose of <em>Frame B</em> wrt to <em>world frame</em>.
+  /// Pose of <em>Frame B</em> wrt to <em>Frame A</em>.
   SignalTimeDependent< MatrixHomogeneous, int > faMfb;
 
-  /// Pose of <em>Frame B</em> wrt to <em>world frame</em>.
+  /// Pose of <em>Frame B</em> wrt to <em>Frame A</em>.
   /// It is expressed as a translation followed by a quaternion.
   SignalTimeDependent< Vector7, int > q_faMfb;
 
-  /// Pose of <em>Frame B*</em> wrt to <em>world frame</em>.
+  /// Desired pose of <em>Frame B</em> wrt to <em>Frame A</em>.
   /// It is expressed as a translation followed by a quaternion.
   SignalTimeDependent< Vector7, int > q_faMfbDes;
   /*! @} */
 
   using FeatureAbstract::selectionSIN;
-  // TODO Rename into dError_dq or Jerror
   using FeatureAbstract::jacobianSOUT;
-  // TODO Rename into error
   using FeatureAbstract::errorSOUT;
 
   /*! \name Dealing with the reference value to be reach with this feature.
@@ -109,11 +121,17 @@ class SOT_CORE_DLLAPI FeaturePose
 
   virtual unsigned int& getDimension( unsigned int & dim, int time );
 
-  /// Computes \f$ {}^oM_{fb} \ominus {}^oM_{fa} {}^{fa}M^*_{fb} \f$
+  /// Computes \f$ {}^oM^{-1}_{fa} {}^oM_{fb} \ominus {}^{fa}M^*_{fb} \f$
   virtual dg::Vector& computeError( dg::Vector& res,int time );
-  /// Computes \f$ \frac{\partial\ominus}{\partial b} {{}^{fb^*}X_{fa}} {}^{fa}\nu^*_{fafb} \f$
+  /// Computes \f$ \frac{\partial\ominus}{\partial b} X {}^{fa}\nu^*_{fafb} \f$.
+  /// There are two different cases, depending on the representation:
+  /// - R3xSO3Representation: \f$ X = \left( \begin{array}{cc} I_3 & [ {}^{fa}t_{fb} ] \\ 0_3 & {{}^{fa}R^*_{fb}}^T \end{array} \right) \f$
+  /// - SE3Representation: \f$ X = {{}^{fa}X^*_{fb}}^{-1} \f$ (see pinocchio::SE3Base<Scalar,Options>::toActionMatrix)
   virtual dg::Vector& computeErrorDot( dg::Vector& res,int time );
-  /// Computes \f$ \frac{\partial\ominus}{\partial b} {{}^{fb}X_{jb}} {}^{jb}J_{jb} + \frac{\partial\ominus}{\partial a} {{}^{fb^*}X_{ja}} {}^{ja}J_{ja} \f$
+  /// Computes \f$ \frac{\partial\ominus}{\partial b} Y \left( {{}^{fb}X_{jb}} {}^{jb}J_{jb} - {{}^{fb}X_{ja}} {}^{ja}J_{ja} \right) \f$.
+  /// There are two different cases, depending on the representation:
+  /// - R3xSO3Representation: \f$ Y = \left( \begin{array}{cc} {{}^{fa}R_{fb}} & 0_3 \\ 0_3 & I_3 \end{array} \right) \f$
+  /// - SE3Representation: \f$ Y = I_6 \f$
   virtual dg::Matrix& computeJacobian( dg::Matrix& res,int time );
 
   /** Static Feature selection. */
