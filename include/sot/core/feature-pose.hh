@@ -25,6 +25,11 @@
 namespace dynamicgraph { namespace sot {
 namespace dg = dynamicgraph;
 
+enum Representation_t {
+  SE3Representation,
+  R3xSO3Representation
+};
+
 /*!
   \brief Feature that controls the relative (or absolute) pose between
   two frames A (or world) and B.
@@ -40,6 +45,7 @@ namespace dg = dynamicgraph;
   \f]
   \todo express error in R3xS03 so that the mask isn't surprising for user.
 */
+template <Representation_t representation>
 class SOT_CORE_DLLAPI FeaturePose
   : public FeatureAbstract
 {

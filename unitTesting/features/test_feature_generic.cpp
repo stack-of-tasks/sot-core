@@ -255,7 +255,9 @@ class TestFeatureGeneric : public FeatureTestBase
     }
 };
 
-BOOST_AUTO_TEST_CASE (feature_generic)
+BOOST_AUTO_TEST_SUITE(feature_generic)
+
+BOOST_AUTO_TEST_CASE (check_value)
 {
   std::string srobot("test");
   unsigned int dim=6;
@@ -265,6 +267,8 @@ BOOST_AUTO_TEST_CASE (feature_generic)
   for (int i = 0; i < 10; ++i)
     testFeatureGeneric.checkValue();
 }
+
+BOOST_AUTO_TEST_SUITE_END() // feature_generic
 
 MatrixHomogeneous randomM()
 {
@@ -280,8 +284,11 @@ typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3_t;
 typedef pinocchio::CartesianProductOperation <
   pinocchio::VectorSpaceOperationTpl<3, double>,
   pinocchio::SpecialOrthogonalOperationTpl<3, double> > R3xSO3_t;
-typedef R3xSO3_t LieGroup_t;
-//typedef SE3_t LieGroup_t;
+template <Representation_t representation>
+struct LG_t
+{
+  typedef typename boost::mpl::if_c<representation == SE3Representation, SE3_t, R3xSO3_t>::type type;
+};
 
 Vector7 toVector (const pinocchio::SE3& M)
 {
@@ -299,10 +306,12 @@ Vector toVector (const std::vector<MultiBound>& in)
   return out;
 }
 
+template <Representation_t representation>
 class TestFeaturePose : public FeatureTestBase
 {
  public:
-  FeaturePose feature_;
+  typedef typename LG_t<representation>::type LieGroup_t;
+  FeaturePose<representation> feature_;
   bool relative_;
   pinocchio::Model model_;
   pinocchio::Data  data_;
@@ -425,12 +434,16 @@ class TestFeaturePose : public FeatureTestBase
     const SE3
       oMfb = data_.oMf[fb_],
       oMfa = data_.oMf[fa_],
+      faMfb (feature_.faMfb.accessCopy().matrix()),
       faMfbDes (feature_.faMfbDes.accessCopy().matrix());
+    const Vector& nu (feature_.faNufafbDes.accessCopy());
 
     computeExpectedTaskOutput (
         toVector(oMfa.inverse() * oMfb),
         toVector(faMfbDes),
-        faMfbDes.toActionMatrixInverse() * feature_.faNufafbDes.accessCopy(),
+        (boost::is_same<LieGroup_t, SE3_t>::value
+         ? faMfbDes.toActionMatrixInverse() * nu
+         : (Vector6d () << nu.head<3>() - faMfb.translation().cross(nu.tail<3>()), faMfbDes.rotation().transpose() * nu.tail<3>()).finished()),
         LieGroup_t());
 
     checkTaskOutput();
@@ -577,7 +590,7 @@ class TestFeaturePose : public FeatureTestBase
     for (int i = 0; i < 6; ++i)
     {
       time_++;
-      faNufafbDes(i) = eps;
+      faNufafbDes(i) = 1.;
       setSignal (feature_.faNufafbDes, faNufafbDes);
       task_.taskSOUT.recompute(time_);
 
@@ -606,9 +619,13 @@ void runTest (TestClass& runner,
     runner.checkFeedForward();
 }
 
-BOOST_AUTO_TEST_CASE (feature_pose_absolute)
+BOOST_AUTO_TEST_SUITE(feature_pose)
+
+template <Representation_t representation>
+void feature_pose_absolute_tpl(const std::string& repr)
 {
-  TestFeaturePose testAbsolute(false,"abs");
+  BOOST_TEST_MESSAGE("absolute " << repr);
+  TestFeaturePose<representation> testAbsolute(false,"abs"+repr);
   testAbsolute.setJointFrame();
   runTest (testAbsolute);
 
@@ -616,11 +633,43 @@ BOOST_AUTO_TEST_CASE (feature_pose_absolute)
   runTest (testAbsolute);
 }
 
-BOOST_AUTO_TEST_CASE (feature_pose_relative)
+BOOST_AUTO_TEST_SUITE (absolute)
+
+BOOST_AUTO_TEST_CASE(r3xso3)
 {
-  TestFeaturePose testRelative(true ,"rel");
+  feature_pose_absolute_tpl<R3xSO3Representation>("R3xSO3");
+}
+
+BOOST_AUTO_TEST_CASE(se3)
+{
+  feature_pose_absolute_tpl<SE3Representation>("SE3");
+}
+
+BOOST_AUTO_TEST_SUITE_END() // absolute
+
+template <Representation_t representation>
+void feature_pose_relative_tpl(const std::string& repr)
+{
+  BOOST_TEST_MESSAGE("relative " << repr);
+  TestFeaturePose<representation> testRelative(true ,"rel"+repr);
   runTest (testRelative);
 
   testRelative.setRandomFrame();
   runTest (testRelative);
 }
+
+BOOST_AUTO_TEST_SUITE(relative)
+
+BOOST_AUTO_TEST_CASE (r3xso3)
+{
+  feature_pose_relative_tpl<R3xSO3Representation>("R3xSO3");
+}
+
+BOOST_AUTO_TEST_CASE (se3)
+{
+  feature_pose_relative_tpl<SE3Representation>("SE3");
+}
+
+BOOST_AUTO_TEST_SUITE_END() // relative
+
+BOOST_AUTO_TEST_SUITE_END() // feature_pose

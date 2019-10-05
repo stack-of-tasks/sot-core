@@ -13,6 +13,9 @@
 /* --- SOT --- */
 //#define VP_DEBUG
 //#define VP_DEBUG_MODE 45
+#include <boost/type_traits/is_same.hpp>
+#include <boost/mpl/if.hpp>
+
 #include <dynamic-graph/command.h>
 #include <dynamic-graph/command-setter.h>
 #include <dynamic-graph/command-getter.h>
@@ -24,6 +27,7 @@
 
 #include <sot/core/debug.hh>
 #include <sot/core/feature-pose.hh>
+#include <sot/core/factory.hh>
 
 using namespace std;
 using namespace dynamicgraph;
@@ -34,11 +38,18 @@ typedef pinocchio::CartesianProductOperation <
         pinocchio::SpecialOrthogonalOperationTpl<3, double>
         > R3xSO3_t;
 typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3_t;
-typedef R3xSO3_t LieGroup_t;
-// typedef SE3_t LieGroup_t;
+template <Representation_t representation>
+struct LG_t
+{
+  typedef typename boost::mpl::if_c<representation == SE3Representation, SE3_t, R3xSO3_t>::type type;
+};
 
-#include <sot/core/factory.hh>
-DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePose,"FeaturePose");
+typedef FeaturePose<R3xSO3Representation> FeaturePose_t;
+typedef FeaturePose<SE3Representation   > FeaturePoseSE3_t;
+template <>
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePose_t   ,"FeaturePose");
+template <>
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePoseSE3_t,"FeaturePoseSE3");
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -46,28 +57,29 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePose,"FeaturePose");
 
 static const MatrixHomogeneous Id (MatrixHomogeneous::Identity());
 
-FeaturePose::
+template <Representation_t representation>
+FeaturePose<representation>::
 FeaturePose( const string& pointName )
   : FeatureAbstract( pointName )
-    , oMja  ( NULL,"FeaturePose("+name+")::input(matrixHomo)::oMja" )
-    , jaMfa ( NULL,"FeaturePose("+name+")::input(matrixHomo)::jaMfa")
-    , oMjb  ( NULL,"FeaturePose("+name+")::input(matrixHomo)::oMjb" )
-    , jbMfb ( NULL,"FeaturePose("+name+")::input(matrixHomo)::jbMfb")
-    , jaJja ( NULL,"FeaturePose("+name+")::input(matrix)::jaJja")
-    , jbJjb ( NULL,"FeaturePose("+name+")::input(matrix)::jbJjb")
+    , oMja  ( NULL,CLASS_NAME+"("+name+")::input(matrixHomo)::oMja" )
+    , jaMfa ( NULL,CLASS_NAME+"("+name+")::input(matrixHomo)::jaMfa")
+    , oMjb  ( NULL,CLASS_NAME+"("+name+")::input(matrixHomo)::oMjb" )
+    , jbMfb ( NULL,CLASS_NAME+"("+name+")::input(matrixHomo)::jbMfb")
+    , jaJja ( NULL,CLASS_NAME+"("+name+")::input(matrix)::jaJja")
+    , jbJjb ( NULL,CLASS_NAME+"("+name+")::input(matrix)::jbJjb")
 
-    , faMfbDes ( NULL,"FeaturePose("+name+")::input(matrixHomo)::faMfbDes")
-    , faNufafbDes ( NULL,"FeaturePose("+name+")::input(vector)::faNufafbDes")
+    , faMfbDes ( NULL,CLASS_NAME+"("+name+")::input(matrixHomo)::faMfbDes")
+    , faNufafbDes ( NULL,CLASS_NAME+"("+name+")::input(vector)::faNufafbDes")
 
-    , faMfb (boost::bind (&FeaturePose::computefaMfb, this, _1, _2),
+    , faMfb (boost::bind (&FeaturePose<representation>::computefaMfb, this, _1, _2),
         oMja << jaMfa << oMjb << jbMfb,
-        "FeaturePose("+name+")::output(vector7)::q_faMfbDes")
-    , q_faMfb (boost::bind (&FeaturePose::computeQfaMfb, this, _1, _2),
+        CLASS_NAME+"("+name+")::output(vector7)::q_faMfbDes")
+    , q_faMfb (boost::bind (&FeaturePose<representation>::computeQfaMfb, this, _1, _2),
         faMfb,
-        "FeaturePose("+name+")::output(vector7)::q_faMfb")
-    , q_faMfbDes (boost::bind (&FeaturePose::computeQfaMfbDes, this, _1, _2),
+        CLASS_NAME+"("+name+")::output(vector7)::q_faMfb")
+    , q_faMfbDes (boost::bind (&FeaturePose<representation>::computeQfaMfbDes, this, _1, _2),
         faMfbDes,
-        "FeaturePose("+name+")::output(vector7)::q_faMfbDes")
+        CLASS_NAME+"("+name+")::output(vector7)::q_faMfbDes")
 {
   oMja.setConstant (Id);
   jaMfa.setConstant (Id);
@@ -83,7 +95,7 @@ FeaturePose( const string& pointName )
   signalRegistration( oMja << jaMfa << oMjb << jbMfb << jaJja << jbJjb );
   signalRegistration (errordotSOUT << faMfbDes << faNufafbDes);
 
-  errordotSOUT.setFunction (boost::bind (&FeaturePose::computeErrorDot,
+  errordotSOUT.setFunction (boost::bind (&FeaturePose<representation>::computeErrorDot,
 					 this, _1, _2));
   errordotSOUT.addDependencies (q_faMfbDes << q_faMfb << faNufafbDes);
 
@@ -92,7 +104,7 @@ FeaturePose( const string& pointName )
   {
     using namespace dynamicgraph::command;
     addCommand("keep",
-	       makeCommandVoid0(*this,&FeaturePose::servoCurrentPosition,
+	       makeCommandVoid0(*this,&FeaturePose<representation>::servoCurrentPosition,
 				docCommandVoid0("modify the desired position to servo at current pos.")));
   }
 }
@@ -101,7 +113,8 @@ FeaturePose( const string& pointName )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-static inline void check (const FeaturePose& ft)
+template <Representation_t representation>
+static inline void check (const FeaturePose<representation>& ft)
 {
   (void)ft;
   assert (ft.oMja .isPlugged() );
@@ -112,7 +125,8 @@ static inline void check (const FeaturePose& ft)
   assert (ft.faNufafbDes.isPlugged() );
 }
 
-unsigned int& FeaturePose::
+template <Representation_t representation>
+unsigned int& FeaturePose<representation>::
 getDimension( unsigned int & dim, int time )
 {
   sotDEBUG(25)<<"# In {"<<endl;
@@ -139,8 +153,11 @@ Vector7 toVector (const MatrixHomogeneous& M)
   return ret;
 }
 
-Matrix& FeaturePose::computeJacobian( Matrix& J,int time )
+template <Representation_t representation>
+Matrix& FeaturePose<representation>::computeJacobian( Matrix& J,int time )
 {
+  typedef typename LG_t<representation>::type LieGroup_t;
+
   check(*this);
 
   q_faMfb   .recompute(time);
@@ -162,8 +179,9 @@ Matrix& FeaturePose::computeJacobian( Matrix& J,int time )
   buildFrom (_jbMfb.inverse(Eigen::Affine), X);
   MatrixRotation faRfb = jaMfa.access(time).rotation().transpose() * oMja.access(time).rotation().transpose()
     * oMjb.access(time).rotation() * _jbMfb.rotation();
-  X.topRows<3>().applyOnTheLeft (faRfb);
-  LieGroup_t().dDifference<pinocchio::ARG1>(q_faMfbDes.accessCopy(), q_faMfb.accessCopy(), Jminus);
+  if (boost::is_same<LieGroup_t, R3xSO3_t>::value)
+    X.topRows<3>().applyOnTheLeft (faRfb);
+  LieGroup_t().template dDifference<pinocchio::ARG1>(q_faMfbDes.accessCopy(), q_faMfb.accessCopy(), Jminus);
 
   // Contribution of b:
   // J = Jminus * X * jbJjb;
@@ -178,7 +196,8 @@ Matrix& FeaturePose::computeJacobian( Matrix& J,int time )
                              _faMfb = faMfb.accessCopy();
 
     buildFrom ((_jaMfa *_faMfb).inverse(Eigen::Affine), X);
-    X.topRows<3>().applyOnTheLeft (faRfb);
+    if (boost::is_same<LieGroup_t, R3xSO3_t>::value)
+      X.topRows<3>().applyOnTheLeft (faRfb);
 
     // J -= (Jminus * X) * jaJja(time);
     rJ = 0;
@@ -190,7 +209,8 @@ Matrix& FeaturePose::computeJacobian( Matrix& J,int time )
   return J;
 }
 
-MatrixHomogeneous& FeaturePose::computefaMfb (MatrixHomogeneous& res, int time)
+template <Representation_t representation>
+MatrixHomogeneous& FeaturePose<representation>::computefaMfb (MatrixHomogeneous& res, int time)
 {
   check(*this);
 
@@ -198,7 +218,8 @@ MatrixHomogeneous& FeaturePose::computefaMfb (MatrixHomogeneous& res, int time)
   return res;
 }
 
-Vector7& FeaturePose::computeQfaMfb (Vector7& res, int time)
+template <Representation_t representation>
+Vector7& FeaturePose<representation>::computeQfaMfb (Vector7& res, int time)
 {
   check(*this);
 
@@ -206,7 +227,8 @@ Vector7& FeaturePose::computeQfaMfb (Vector7& res, int time)
   return res;
 }
 
-Vector7& FeaturePose::computeQfaMfbDes (Vector7& res, int time)
+template <Representation_t representation>
+Vector7& FeaturePose<representation>::computeQfaMfbDes (Vector7& res, int time)
 {
   check(*this);
 
@@ -214,8 +236,10 @@ Vector7& FeaturePose::computeQfaMfbDes (Vector7& res, int time)
   return res;
 }
 
-Vector& FeaturePose::computeError( Vector& error,int time )
+template <Representation_t representation>
+Vector& FeaturePose<representation>::computeError( Vector& error,int time )
 {
+  typedef typename LG_t<representation>::type LieGroup_t;
   check(*this);
 
   const Flags &fl = selectionSIN(time);
@@ -232,8 +256,28 @@ Vector& FeaturePose::computeError( Vector& error,int time )
   return error ;
 }
 
-Vector& FeaturePose::computeErrorDot( Vector& errordot,int time )
+// This function is responsible of converting the input velocity expressed with
+// SE(3) convention onto a velocity expressed with the convention of this
+// feature (R^3xSO(3) or SE(3)), in the right frame.
+template <typename LG_t> Vector6d convertVelocity (const MatrixHomogeneous& M, const MatrixHomogeneous& Mdes, const Vector& faNufafbDes)
 {
+  (void)M;
+  MatrixTwist X;
+  buildFrom (Mdes.inverse(Eigen::Affine), X);
+  return X * faNufafbDes;
+}
+template <> Vector6d convertVelocity<R3xSO3_t> (const MatrixHomogeneous& M, const MatrixHomogeneous& Mdes, const Vector& faNufafbDes)
+{
+  Vector6d nu;
+  nu.head<3>() = faNufafbDes.head<3>() - M.translation().cross(faNufafbDes.tail<3>());
+  nu.tail<3>() = Mdes.rotation().transpose() * faNufafbDes.tail<3>();
+  return nu;
+}
+
+template <Representation_t representation>
+Vector& FeaturePose<representation>::computeErrorDot( Vector& errordot,int time )
+{
+  typedef typename LG_t<representation>::type LieGroup_t;
   check(*this);
 
   errordot.resize(dimensionSOUT(time));
@@ -250,15 +294,12 @@ Vector& FeaturePose::computeErrorDot( Vector& errordot,int time )
 
   Eigen::Matrix<double,6,6,Eigen::RowMajor> Jminus;
 
-  LieGroup_t().dDifference<pinocchio::ARG0>(q_faMfbDes.accessCopy(), q_faMfb.accessCopy(), Jminus);
-  // Assume faNufafbDes is expressed in fa
-  Jminus = Jminus * pinocchio::SE3(_faMfbDes.rotation(), _faMfbDes.translation()).toActionMatrixInverse();
-  // Assume faNufafbDes is expressed in fb
-  // Jminus = Jminus
+  LieGroup_t().template dDifference<pinocchio::ARG0>(q_faMfbDes.accessCopy(), q_faMfb.accessCopy(), Jminus);
+  Vector6d nu = convertVelocity<LieGroup_t> (faMfb(time), _faMfbDes, faNufafbDes.accessCopy());
   unsigned int cursor = 0;
   for( unsigned int i=0;i<6;++i )
     if( fl(i) )
-      errordot(cursor++) = Jminus.row(i) * faNufafbDes.accessCopy();
+      errordot(cursor++) = Jminus.row(i) * nu;
 
   return errordot;
 }
@@ -266,7 +307,8 @@ Vector& FeaturePose::computeErrorDot( Vector& errordot,int time )
 /* Modify the value of the reference (sdes) so that it corresponds
  * to the current position. The effect on the servo is to maintain the
  * current position and correct any drift. */
-void FeaturePose::
+template <Representation_t representation>
+void FeaturePose<representation>::
 servoCurrentPosition( void )
 {
   check(*this);
@@ -285,10 +327,11 @@ static const char * featureNames  []
     "RX",
     "RY",
     "RZ"  };
-void FeaturePose::
+template <Representation_t representation>
+void FeaturePose<representation>::
 display( std::ostream& os ) const
 {
-  os <<"Point6d <"<<name<<">: (" ;
+  os <<CLASS_NAME<<"<"<<name<<">: (" ;
 
   try{
     const Flags &fl = selectionSIN.accessCopy();
