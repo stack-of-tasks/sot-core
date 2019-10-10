@@ -70,7 +70,7 @@ namespace dynamicgraph {
     <ul>
     <li>m_accelerometerSIN: \f$[a_x, a_y, a_z]^T\f$ in \f$m.s^{-2}\f$</li>
     <li>m_gyroscopeSIN: \f$[g_x, g_y, g_z]^T\f$ in \f$rad.s^{-1}\f$</li>
-    <li>m_imu_quatSOUT: \f$[q_0, q_1, q_2, q_3]^T</li> estimated rotation
+    <li>m_imu_quatSOUT: \f$[q_0, q_1, q_2, q_3]^T\f$ </li> estimated rotation
     as a quaternion</li>
     </ul>
 

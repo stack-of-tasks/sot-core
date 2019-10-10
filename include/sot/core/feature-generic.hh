@@ -44,12 +44,12 @@ namespace dg = dynamicgraph;
   \brief Class that defines a generic implementation of the abstract interface for features.
 
   This class is very useful if the feature can be easily computed using
-  the basic operator provided. For instance a free space controller on a end-effector
-  is basically directly computed from the Jacobian provided by dyn and some appropriate
-  addition and soustraction.
-  Instead of building a specific feature for this, it is possible to use the signals
-  and plug the computed error, Jacobian and activation to the input of this
-  generic feature implementation.
+  the basic operator provided. For instance a free space controller on a
+  end-effector  is basically directly computed from the Jacobian provided
+  by dyn and some appropriate  addition and soustraction.
+  Instead of building a specific feature for this, it is possible to use the
+  signals  and plug the computed error, Jacobian and activation to the input
+  of this generic feature implementation.
 
 */
 class SOTFEATUREGENERIC_EXPORT FeatureGeneric

@@ -40,23 +40,40 @@ namespace dynamicgraph {
       \ingroup features
       \brief This class gives the abstract definition of a feature.
 
+      \par par_features_definition Definition
       In short, a feature is a data evolving according to time.  It is defined
-      by a vector \f${\bf s}(t) \in \mathbb{R}^n \f$ where \f$ t \f$ is the
-      time.  By default a feature has a desired \f${\bf s}^*(t) \f$.
+      by a vector \f${\bf s}({\bf q}) \in \mathbb{R}^n \f$ where \f$ {\bf q} \f$ is a robot
+      configuration, which depends on the time \f$ t \f$.
+      By default a feature has a desired \f${\bf s}^*(t) \f$.
       \f${\bf s}^*\f$ is provided by another feature of the same type called
       reference. The
       feature is in charge of collecting its own current state.  A feature is
       supposed to compute an error between its current state and the desired
-      one: \f$ e(t) = {\bf s}^*(t) - {\bf s}(t) \f$.  A feature is supposed to
-      compute a Jacobian according to the robot state vector \f$ \frac{\delta
-      {\bf s}(t)}{\delta {\bf q}(t)}\f$.
+      one: \f$ E(t) = e({\bf q}(t), t) = {\bf s}({\bf q}(t)) \ominus {\bf s}^*(t) \f$.
+      Here, \f$ \ominus \f$ is the difference operator of Lie group in which
+      \f$ {\bf s} \f$ and \f$ {\bf s}^* \f$ are. The documentation below assumes
+      the Lie group is a vector space and \f$\ominus\f$ is the usual difference
+      operator.
+
+      A feature computes:
+      \li the Jacobian according to the robot state vector \f$ J =
+          \frac{\partial e}{\partial {\bf q}} = \frac{\partial{\bf s}}{\partial {\bf q}}\f$.
+      \li the partial derivative of the error \f$ e \f$:
+          \f$ \frac{\partial e}{\partial t} = - \frac{d{\bf s}^*}{dt}\f$.
 
       The task is in general computed from the value of the feature at the
-      current instant \f$f(q(t),t)\f$, the Jacobian \f$J\f$ and
-      evolution of the feature with respect to time: \f$\frac{\partial
-      f}{\partial t}\f$.
+      current instant \f$E(t) = e({\bf q},t)\f$. The derivative of \f$ E \f$ is:
+      \f[
+        \frac{dE}{dt} = J({\bf q}) \dot{q} + \frac{\partial e}{\partial t}
+      \f]
 
-      \image html pictures/feature.png "Feature diagram: Feature types derive from FeatureAbstract. Each feature has a reference of the same type and compute an error by comparing errorSIN signals from itself and from the reference." width=15cm
+      \image html feature.png "Feature diagram: Feature types derive from
+      FeatureAbstract. Each feature has a reference of the same type and
+      compute an error by comparing
+      errorSIN
+      signals from itself and from the
+      reference." 
+
     */
     class SOT_CORE_EXPORT FeatureAbstract
       :public Entity
@@ -66,7 +83,8 @@ namespace dynamicgraph {
       static const std::string CLASS_NAME;
 
       /*! \brief Returns the name class. */
-      virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+      virtual const std::string& getClassName( void ) const
+      { return CLASS_NAME; }
 
       /*! \brief Register the feature in the stack of tasks. */
       void featureRegistration( void );
@@ -148,7 +166,8 @@ namespace dynamicgraph {
 	@{ */
       /*! \brief This vector specifies which dimension are used to perform the computation.
 	For instance let us assume that the feature is a 3D point. If only the Y-axis should
-	be used for computing error, activation and Jacobian, then the vector to specify
+	be used for computing error, activation and Jacobian,
+        then the vector to specify
 	is \f$ [ 0 1 0] \f$.*/
       SignalPtr< Flags,int > selectionSIN;
 
@@ -161,27 +180,24 @@ namespace dynamicgraph {
 	@{ */
 
       /*! \brief This signal returns the error between the desired value and
-	the current value : \f$ {\bf s}^*(t) - {\bf s}(t)\f$ */
+	the current value : \f$ E(t) = {\bf s}(t) - {\bf s}^*(t)\f$ */
       SignalTimeDependent<dg::Vector,int> errorSOUT;
 
-      /// Derivative of the reference value.
+      /*! \brief Derivative of the error with respect to time:
+       * \f$ \frac{\partial e}{\partial t} = - \frac{d{\bf s}^*}{dt} \f$ */
       SignalTimeDependent< dg::Vector,int > errordotSOUT;
 
-      /*! \brief This signal returns the Jacobian of the current value
-	according to the robot state: \f$ J(t) = \frac{\delta{\bf s}^*(t)}{\delta {\bf q}(t)}\f$ */
+      /*! \brief Jacobian of the error wrt the robot state:
+       * \f$ J = \frac{\partial {\bf s}}{\partial {\bf q}}\f$ */
       SignalTimeDependent<dg::Matrix,int> jacobianSOUT;
 
       /*! \brief Returns the dimension of the feature as an output signal. */
       SignalTimeDependent<unsigned int,int> dimensionSOUT;
 
-      /*! \brief This method write a graph description on the file named FileName. */
+      /*! \brief This method write a graph description on the file named
+        FileName. */
       virtual std::ostream & writeGraph(std::ostream & os) const;
 
-      /// Return true for children that provide the errordot output signal
-      SOT_CORE_DEPRECATED virtual bool withErrorDot( void ) const
-      {
-	return true;
-      }
       virtual SignalTimeDependent<dg::Vector,int>& getErrorDot()
       {
 	return errordotSOUT;

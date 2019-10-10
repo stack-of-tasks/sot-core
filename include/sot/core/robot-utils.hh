@@ -250,7 +250,7 @@ namespace dynamicgraph {
 
       /** \name Logger related methods */
       /** \{*/
-      /// \brief Send messages \param msg with level t. Add string file and line to message.
+      /// \brief Send messages \c msg with level \c t. Add string \c file and \c line to message.
       void sendMsg(const std::string &msg,
 		   MsgType t=MSG_TYPE_INFO,
 		   const char *file="",

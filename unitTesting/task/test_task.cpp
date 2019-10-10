@@ -37,8 +37,10 @@ int main( void )
   srand(12);
   dynamicgraph::Matrix Jq(6,6); Jq.setIdentity();
 
-  dynamicgraph::Vector p1xy(2); p1xy(0)=1.; p1xy(1)=-2;
-
+  dynamicgraph::Vector p1xy(6);
+  p1xy(0)=1.; p1xy(1)=-2; p1xy(2)=1.;
+  p1xy(3)=1.; p1xy(4)=-2; p1xy(5)=1.;
+  
   sotDEBUGF("Create feature");
   FeatureVisualPoint * p1 = new FeatureVisualPoint("p1");
   FeatureVisualPoint * p1des = new FeatureVisualPoint("p1d");
@@ -48,13 +50,12 @@ int main( void )
   p1->setReference(p1des);
   p1->xySIN = p1xy;
 
-  p1des->xySIN = dynamicgraph::Vector(2);
+  p1des->xySIN = dynamicgraph::Vector(6);
 
   sotDEBUGF("Create Task");
   //  sotDEBUG(0) << dynamicgraph::MATLAB;
 
   Task * task = new Task("t");
-  task->addFeature(*p1);
   task->addFeature(*p1);
 
   GainAdaptive * lambda = new GainAdaptive("g");

@@ -80,6 +80,10 @@ namespace dynamicgraph {
     typedef Eigen::Matrix<double,6,6> SOT_CORE_EXPORT MatrixForce;
     typedef Eigen::Matrix<double,6,6> SOT_CORE_EXPORT MatrixTwist;
 
+    typedef Eigen::Matrix<double,7,1> SOT_CORE_EXPORT Vector7;
+    typedef Eigen::Quaternion<double> SOT_CORE_EXPORT Quaternion;
+    typedef Eigen::Map<Quaternion> SOT_CORE_EXPORT QuaternionMap;
+
     inline void buildFrom (const MatrixHomogeneous& MH, MatrixTwist& MT) {
 
       Eigen::Vector3d _t = MH.translation();

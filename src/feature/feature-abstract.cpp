@@ -116,14 +116,12 @@ computeErrorDot( dynamicgraph::Vector& res,int time )
 					 "Error: dimension uncompatible with des->errorIN size."
 					 " (while considering feature <%s>).",getName().c_str() ); }
 
-      for( int i=0;i<errdotDes.size();++i ) if( fl(i) )
-	if( fl(i) ) res( curr++ ) = errdotDes(i);
+      for( int i=0;i<errdotDes.size();++i )
+        if( fl(i) )
+          res( curr++ ) = - errdotDes(i);
     }
   else
-    {
-      for( int i=0;i<dim;++i )
-	if( fl(i) ) res( curr++ ) = 0.0;
-    }
+      res.setZero();
 
   return res;
 }

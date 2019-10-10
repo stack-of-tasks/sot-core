@@ -111,10 +111,8 @@ namespace dynamicgraph {
       res.resize (nbActiveDofs_);
       std::size_t index=0;
       for (std::size_t i=0; i<activeDofs_.size (); ++i) {
-	if (activeDofs_ [i]) {
-	  res (index) = postureDot (i);
-	  index ++;
-	}
+	if (activeDofs_ [i])
+	  res (index++) = - postureDot (i);
       }
       return res;
     }
