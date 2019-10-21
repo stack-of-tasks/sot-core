@@ -556,7 +556,6 @@ void Device::integrate( const double & dt )
 
   if (controlInputType_==CONTROL_INPUT_NO_INTEGRATION)
   {
-    assert(state_.size()==controlIN.size()+6);
     state_.tail(controlIN.size()) = controlIN;
     return;
   }
@@ -586,13 +585,16 @@ void Device::integrate( const double & dt )
     CHECK_BOUNDS(velocity_, lowerVelocity_, upperVelocity_, "velocity");
   }
 
-  // Freeflyer integration
   if (vel_control_.size() == state_.size()) {
+    // Freeflyer integration
     integrateRollPitchYaw(state_, vel_control_, dt);
+    // Joints integration
+    state_.tail(state_.size()-6) += vel_control_.tail(state_.size()-6) * dt;
   }
-
-  // Position integration
-  state_.tail(controlIN.size()) += vel_control_ * dt;
+  else{
+    // Position integration
+    state_.tail(controlIN.size()) += vel_control_ * dt;
+}
 
   // Position bounds check
   if (sanityCheck_) {
