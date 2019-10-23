@@ -45,7 +45,7 @@ PKG_CONFIG_APPEND_LIBS("sot-core")
 SET(BOOST_COMPONENTS thread filesystem program_options unit_test_framework system regex )
 SEARCH_FOR_EIGEN()
 
-ADD_REQUIRED_DEPENDENCY("dynamic-graph >= 3.0.0")
+ADD_REQUIRED_DEPENDENCY("dynamic-graph >= 3.7.2")
 
 OPTION (BUILD_PYTHON_INTERFACE "Build the python binding" ON)
 OPTION (INSTALL_PYTHON_INTERFACE_ONLY "Install *ONLY* the python binding" OFF)
