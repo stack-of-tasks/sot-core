@@ -471,17 +471,19 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
   const Matrix &K = constraintSOUT(iterTime);
   const Matrix::Index mJ = K.cols(); // number dofs - number constraints
 
-  try {
-    control = q0SIN( iterTime );
-    sotDEBUG(15) << "initial velocity q0 = " << control << endl;
-    if( mJ!=control.size() ) { control.resize( mJ ); control.setZero(); }
-  }
-  catch (...)
-    {
-      if( mJ!=control.size() ) { control.resize( mJ );}
-      control.setZero();
-      sotDEBUG(25) << "No initial velocity." <<endl;
+  if (q0SIN.isPlugged()) {
+    try {
+      control = q0SIN( iterTime );
+      sotDEBUG(15) << "initial velocity q0 = " << control << endl;
+      if( mJ!=control.size() )
+        control = Vector::Zero(mJ);
+    } catch (...) { // This catch is kept for backward compatibility.
+      control = Vector::Zero (mJ);
     }
+  } else {
+    control = Vector::Zero (mJ);
+    sotDEBUG(25) << "No initial velocity." <<endl;
+  }
 
   sotDEBUGF(5, " --- Time %d -------------------", iterTime );
   unsigned int iterTask = 0;
