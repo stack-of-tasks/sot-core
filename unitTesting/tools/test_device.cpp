@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE(test_device) {
   for (unsigned int i = 0; i < 2000; i++) {
     aDevice.stateSOUT.recompute(i);
     if (i == 1)
-      std::cout << " First integration " << aDevice.stateSOUT << std::endl;
+      std::cout << "First integration:\n" << aDevice.stateSOUT(i).transpose() << std::endl;
   }
 
   aDevice.display(std::cout);
