@@ -472,15 +472,19 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
   const Matrix::Index mJ = K.cols(); // number dofs - number constraints
 
   if (q0SIN.isPlugged()) {
-    try {
-      control = q0SIN( iterTime );
-      sotDEBUG(15) << "initial velocity q0 = " << control << endl;
-      if( mJ!=control.size() )
-        control = Vector::Zero(mJ);
-    } catch (...) { // This catch is kept for backward compatibility.
-      control = Vector::Zero (mJ);
+    control = q0SIN( iterTime );
+    if (control.size() != mJ) {
+      std::ostringstream oss;
+      oss << "SOT(" + name() + "): q0SIN value length is " << control.size()
+        << "while the expected lenth is " << mJ;
+      throw std::length_error (oss.str());
     }
   } else {
+    if (stack.size() == 0) {
+      std::ostringstream oss;
+      oss << "SOT(" + name() + ") contains no task and q0SIN is not plugged.";
+      throw std::logic_error (oss.str());
+    }
     control = Vector::Zero (mJ);
     sotDEBUG(25) << "No initial velocity." <<endl;
   }
