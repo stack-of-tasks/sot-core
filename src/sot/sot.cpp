@@ -475,14 +475,14 @@ computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
     control = q0SIN( iterTime );
     if (control.size() != mJ) {
       std::ostringstream oss;
-      oss << "SOT(" + name() + "): q0SIN value length is " << control.size()
+      oss << "SOT(" << getName() << "): q0SIN value length is " << control.size()
         << "while the expected lenth is " << mJ;
       throw std::length_error (oss.str());
     }
   } else {
     if (stack.size() == 0) {
       std::ostringstream oss;
-      oss << "SOT(" + name() + ") contains no task and q0SIN is not plugged.";
+      oss << "SOT(" << getName() << ") contains no task and q0SIN is not plugged.";
       throw std::logic_error (oss.str());
     }
     control = Vector::Zero (mJ);
