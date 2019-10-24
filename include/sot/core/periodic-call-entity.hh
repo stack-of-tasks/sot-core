@@ -14,12 +14,11 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-
 /* SOT */
-#include <dynamic-graph/entity.h>
-#include <sot/core/periodic-call.hh>
-#include <sot/core/periodic-call-entity.hh>
 #include <dynamic-graph/all-signals.h>
+#include <dynamic-graph/entity.h>
+#include <sot/core/periodic-call-entity.hh>
+#include <sot/core/periodic-call.hh>
 /* STD */
 #include <list>
 #include <map>
@@ -29,14 +28,14 @@
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (periodic_call_entity_EXPORTS)
-#    define PeriodicCallEntity_EXPORT __declspec(dllexport)
-#  else
-#    define PeriodicCallEntity_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(periodic_call_entity_EXPORTS)
+#define PeriodicCallEntity_EXPORT __declspec(dllexport)
 #else
-#  define PeriodicCallEntity_EXPORT
+#define PeriodicCallEntity_EXPORT __declspec(dllimport)
+#endif
+#else
+#define PeriodicCallEntity_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
@@ -54,26 +53,27 @@ namespace sot {
   If the trigerOnce is called, the stacks are flushed after the execution.
 */
 class PeriodicCallEntity_EXPORT PeriodicCallEntity
-: public Entity, protected sot::PeriodicCall
-{
+    : public Entity,
+      protected sot::PeriodicCall {
 
- public:
+public:
   static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-  Signal<int,int> triger;
-  Signal<int,int> trigerOnce;
+  Signal<int, int> triger;
+  Signal<int, int> trigerOnce;
 
-  int& trigerCall( int& dummy,const int & time );
-  int& trigerOnceCall( int& dummy,const int & time );
+  int &trigerCall(int &dummy, const int &time);
+  int &trigerOnceCall(int &dummy, const int &time);
 
-  /* --- FUNCTIONS ------------------------------------------------------------ */
- public:
-  PeriodicCallEntity( const std::string& name );
-  virtual ~PeriodicCallEntity( void ) {}
+  /* --- FUNCTIONS ------------------------------------------------------------
+   */
+public:
+  PeriodicCallEntity(const std::string &name);
+  virtual ~PeriodicCallEntity(void) {}
 
-  virtual void display( std::ostream& os ) const;
-} ;
+  virtual void display(std::ostream &os) const;
+};
 
 } // namespace sot
 } // namespace dynamicgraph

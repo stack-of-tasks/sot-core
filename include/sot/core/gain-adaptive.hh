@@ -26,82 +26,72 @@ namespace dg = dynamicgraph;
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (gain_adaptive_EXPORTS)
-#    define SOTGAINADAPTATIVE_EXPORT __declspec(dllexport)
-#  else
-#    define SOTGAINADAPTATIVE_EXPORT  __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(gain_adaptive_EXPORTS)
+#define SOTGAINADAPTATIVE_EXPORT __declspec(dllexport)
 #else
-#  define SOTGAINADAPTATIVE_EXPORT
+#define SOTGAINADAPTATIVE_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTGAINADAPTATIVE_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 namespace dg = dynamicgraph;
 
-class SOTGAINADAPTATIVE_EXPORT GainAdaptive
-: public dg::Entity
-{
+class SOTGAINADAPTATIVE_EXPORT GainAdaptive : public dg::Entity {
 
- public: /* --- CONSTANTS --- */
-
+public: /* --- CONSTANTS --- */
   /* Default values. */
-  static const double ZERO_DEFAULT;   // = 0.1
-  static const double INFTY_DEFAULT;  // = 0.1
-  static const double TAN_DEFAULT;    // = 1.
+  static const double ZERO_DEFAULT;  // = 0.1
+  static const double INFTY_DEFAULT; // = 0.1
+  static const double TAN_DEFAULT;   // = 1.
 
- public: /* --- ENTITY INHERITANCE --- */
+public: /* --- ENTITY INHERITANCE --- */
   static const std::string CLASS_NAME;
-  virtual void display( std::ostream& os ) const;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  virtual void display(std::ostream &os) const;
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-
- protected:
-
+protected:
   /* Parameters of the adaptative-gain function:
    * lambda (x) = a * exp (-b*x) + c. */
   double coeff_a;
   double coeff_b;
   double coeff_c;
 
- public: /* --- CONSTRUCTORS ---- */
+public: /* --- CONSTRUCTORS ---- */
+  GainAdaptive(const std::string &name);
+  GainAdaptive(const std::string &name, const double &lambda);
+  GainAdaptive(const std::string &name, const double &valueAt0,
+               const double &valueAtInfty, const double &tanAt0);
 
-  GainAdaptive( const std::string & name );
-  GainAdaptive( const std::string & name,const double& lambda );
-  GainAdaptive( const std::string & name,
-		     const double& valueAt0,
-		     const double& valueAtInfty,
-		     const double& tanAt0 );
+public: /* --- INIT --- */
+  inline void init(void) { init(ZERO_DEFAULT, INFTY_DEFAULT, TAN_DEFAULT); }
+  inline void init(const double &lambda) { init(lambda, lambda, 1.); }
+  void init(const double &valueAt0, const double &valueAtInfty,
+            const double &tanAt0);
+  void initFromPassingPoint(const double &valueAt0, const double &valueAtInfty,
+                            const double &errorReference,
+                            const double &valueAtReference);
+  void forceConstant(void);
 
- public: /* --- INIT --- */
+public: /* --- SIGNALS --- */
+  dg::SignalPtr<dg::Vector, int> errorSIN;
+  dg::SignalTimeDependent<double, int> gainSOUT;
 
-  inline void init( void ) { init( ZERO_DEFAULT,INFTY_DEFAULT,TAN_DEFAULT ); }
-  inline void init( const double& lambda ) { init( lambda,lambda,1.); }
-  void init( const double& valueAt0,
-	     const double& valueAtInfty,
-	     const double& tanAt0 );
-  void initFromPassingPoint( const double& valueAt0,
-			     const double& valueAtInfty,
-			     const double& errorReference,
-			     const double& valueAtReference );
-  void forceConstant( void );
+protected:
+  double &computeGain(double &res, int t);
 
- public:  /* --- SIGNALS --- */
-  dg::SignalPtr<dg::Vector,int> errorSIN;
-  dg::SignalTimeDependent<double,int> gainSOUT;
- protected:
-  double& computeGain( double& res,int t );
-
- private:
+private:
   void addCommands();
 };
 
-} /* namespace sot */} /* namespace dynamicgraph */
-
-
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_GAIN_ADAPTATIVE_HH__

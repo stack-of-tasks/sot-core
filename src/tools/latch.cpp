@@ -5,11 +5,11 @@
  *
  */
 
-#include <sot/core/latch.hh>
 #include <sot/core/factory.hh>
+#include <sot/core/latch.hh>
 
 namespace dynamicgraph {
-  namespace sot {
-    DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN (Latch, "Latch");
-  } // namespace sot
+namespace sot {
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Latch, "Latch");
+} // namespace sot
 } // namespace dynamicgraph

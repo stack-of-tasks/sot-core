@@ -18,10 +18,11 @@ using namespace std;
 using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
 
-std::string localName("robot_test");
-RobotUtilShrPtr robot_util;
-int main(void) {
-  robot_util = createRobotUtil(localName);
+void set_robot_util_for_simple_humanoid_robot() {
+  std::string localName("simple_humanoid");
+
+  RobotUtilShrPtr robot_util = createRobotUtil(localName);
+
   /*Test set and get joint_limits_for_id */
   const double upper_lim(1);
   const double lower_lim(2);
@@ -75,8 +76,7 @@ int main(void) {
     std::cout << "joints_urdf_to_sot and joints_sot_to_urdf work !"
               << std::endl;
   } else {
-    std::cout << "ERROR: joints_urdf_to_sot or joints_sot_to_urdf "
-                 "do not work !"
+    std::cout << "ERROR: joints_urdf_to_sot or joints_sot_to_urdf do not work !"
               << std::endl;
   }
 
@@ -143,11 +143,10 @@ int main(void) {
       robot_util->m_force_util.get_limits_from_id(1).lower == lf_lim) {
     std::cout << "force_util set and get id to limits work !" << std::endl;
   } else {
-    std::cout << "ERROR: force_util set and get id to "
-                 "limits works do not work !"
-              << std::endl;
+    std::cout
+        << "ERROR: force_util set and get id to limits works do not work !"
+        << std::endl;
   }
   robot_util->m_force_util.display(std::cout);
   robot_util->m_foot_util.display(std::cout);
-  return 0;
 }

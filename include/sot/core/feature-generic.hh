@@ -15,33 +15,35 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot/core/feature-abstract.hh>
 #include <sot/core/exception-task.hh>
+#include <sot/core/feature-abstract.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (feature_generic_EXPORTS)
-#    define SOTFEATUREGENERIC_EXPORT __declspec(dllexport)
-#  else
-#    define SOTFEATUREGENERIC_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(feature_generic_EXPORTS)
+#define SOTFEATUREGENERIC_EXPORT __declspec(dllexport)
 #else
-#  define SOTFEATUREGENERIC_EXPORT
+#define SOTFEATUREGENERIC_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTFEATUREGENERIC_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 namespace dg = dynamicgraph;
 
 /*!
   \class FeatureGeneric
-  \brief Class that defines a generic implementation of the abstract interface for features.
+  \brief Class that defines a generic implementation of the abstract interface
+  for features.
 
   This class is very useful if the feature can be easily computed using
   the basic operator provided. For instance a free space controller on a
@@ -53,20 +55,20 @@ namespace dg = dynamicgraph;
 
 */
 class SOTFEATUREGENERIC_EXPORT FeatureGeneric
-: public FeatureAbstract, FeatureReferenceHelper<FeatureGeneric>
-{
+    : public FeatureAbstract,
+      FeatureReferenceHelper<FeatureGeneric> {
 
- public:
+public:
   /*! Field storing the class name. */
   static const std::string CLASS_NAME;
   /*! Returns the name of the class. */
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
- protected:
+protected:
   dg::Vector::Index dimensionDefault;
 
   /* --- SIGNALS ------------------------------------------------------------ */
- public:
+public:
   /*! \name dg::Signals
     @{
   */
@@ -74,60 +76,59 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
     @{
    */
   /*! \brief Input for the error. */
-  dg::SignalPtr< dg::Vector,int > errorSIN;
+  dg::SignalPtr<dg::Vector, int> errorSIN;
 
   /*! \brief Input for the Jacobian. */
-  dg::SignalPtr< dg::Matrix,int > jacobianSIN;
+  dg::SignalPtr<dg::Matrix, int> jacobianSIN;
 
   /*! @} */
 
   /*! \name Output signals
     @{
   */
-  /*! \brief Publish the jacobian of the feature according to the robot state. */
+  /*! \brief Publish the jacobian of the feature according to the robot state.
+   */
   using FeatureAbstract::jacobianSOUT;
 
   /*! \brief Publish the error between the desired and the current value of the
       feature. */
   using FeatureAbstract::errorSOUT;
 
- public:
-
+public:
   /*! \brief Default constructor */
-  FeatureGeneric( const std::string& name );
+  FeatureGeneric(const std::string &name);
 
   /*! \brief Default destructor */
-  virtual ~FeatureGeneric( void ) {}
+  virtual ~FeatureGeneric(void) {}
 
   /*! \brief Get the dimension of the feature. */
-  virtual unsigned int& getDimension( unsigned int & dim, int time );
+  virtual unsigned int &getDimension(unsigned int &dim, int time);
 
   /*! \name Methods to trigger computation related to this feature.
     @{
   */
 
-  /*! \brief Compute the error between the desired value and the value itself. */
-  virtual dg::Vector& computeError( dg::Vector& res,int time );
+  /*! \brief Compute the error between the desired value and the value itself.
+   */
+  virtual dg::Vector &computeError(dg::Vector &res, int time);
 
   /*! \brief Compute the Jacobian of the value according to the robot state.. */
-  virtual dg::Matrix& computeJacobian( dg::Matrix& res,int time );
+  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time);
 
   /*! @} */
 
   /*! \brief Display the information related to this generic implementation. */
-  virtual void display( std::ostream& os ) const;
+  virtual void display(std::ostream &os) const;
 
   /*! \name Dealing with the reference value to be reach with this feature.
     @{
   */
   DECLARE_REFERENCE_FUNCTIONS(FeatureGeneric);
   /*! @} */
+};
 
-
-} ;
-
-} /* namespace sot */} /* namespace dynamicgraph */
-
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_FEATURE_GENERIC_HH__
 

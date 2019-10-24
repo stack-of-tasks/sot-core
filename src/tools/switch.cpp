@@ -8,18 +8,20 @@
 #include "type-name-helper.hh"
 
 namespace dynamicgraph {
-  namespace sot {
-    template< typename Tin, typename Tout, typename Time >
-    std::string VariadicAbstract<Tin,Tout,Time>::getTypeInName (void) { return TypeNameHelper<Tin>::typeName; }
-    template< typename Tin, typename Tout, typename Time >
-    std::string VariadicAbstract<Tin,Tout,Time>::getTypeOutName(void) { return TypeNameHelper<Tout>::typeName; }
+namespace sot {
+template <typename Tin, typename Tout, typename Time>
+std::string VariadicAbstract<Tin, Tout, Time>::getTypeInName(void) {
+  return TypeNameHelper<Tin>::typeName;
+}
+template <typename Tin, typename Tout, typename Time>
+std::string VariadicAbstract<Tin, Tout, Time>::getTypeOutName(void) {
+  return TypeNameHelper<Tout>::typeName;
+}
 
-    typedef Switch<Vector,int> SwitchVector;
-    template<>
-    DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN (SwitchVector, "SwitchVector");
+typedef Switch<Vector, int> SwitchVector;
+template <> DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SwitchVector, "SwitchVector");
 
-    typedef Switch<bool,int> SwitchBool;
-    template<>
-    DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN (SwitchBool, "SwitchBoolean");
-  } // namespace sot
+typedef Switch<bool, int> SwitchBool;
+template <> DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SwitchBool, "SwitchBoolean");
+} // namespace sot
 } // namespace dynamicgraph

@@ -9,28 +9,26 @@
 #include <iostream>
 #include <sot/core/debug.hh>
 
-
 #ifndef WIN32
 #include <unistd.h>
 #endif
 
 using namespace std;
 
-#include <dynamic-graph/factory.h>
 #include <dynamic-graph/entity.h>
+#include <dynamic-graph/factory.h>
 #include <sot/core/control-pd.hh>
 #include <sstream>
 
 using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
 
-#define BOOST_TEST_MODULE debug-control-pd
+#define BOOST_TEST_MODULE debug - control - pd
 
-#include <boost/test/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
+#include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE(control_pd)
-{
+BOOST_AUTO_TEST_CASE(control_pd) {
   sot::ControlPD *aControlPD = new ControlPD("acontrol_pd");
   aControlPD->init(0.001);
   std::istringstream Kpiss("[5](10.0,20.0,30.0,40.0,50.0)");
@@ -60,10 +58,8 @@ BOOST_AUTO_TEST_CASE(control_pd)
     BOOST_CHECK(output.is_equal("  2\n2.1\n2.2\n2.3\n2.4\n"));
   }
   {
-    boost::test_tools::output_test_stream output;    
+    boost::test_tools::output_test_stream output;
     aControlPD->velocityErrorSOUT.get(output);
     BOOST_CHECK(output.is_equal("1.5\n1.4\n1.3\n1.2\n1.1\n"));
   }
 }
-
-

@@ -17,14 +17,14 @@
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (integrator_abstract_EXPORTS)
-#    define INTEGRATOR_ABSTRACT_EXPORT __declspec(dllexport)
-#  else
-#    define INTEGRATOR_ABSTRACT_EXPORT  __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(integrator_abstract_EXPORTS)
+#define INTEGRATOR_ABSTRACT_EXPORT __declspec(dllexport)
 #else
-#  define INTEGRATOR_ABSTRACT_EXPORT
+#define INTEGRATOR_ABSTRACT_EXPORT __declspec(dllimport)
+#endif
+#else
+#define INTEGRATOR_ABSTRACT_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
@@ -32,21 +32,21 @@
 /* --------------------------------------------------------------------- */
 
 #ifdef WIN32
-# define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType)\
-   class INTEGRATOR_ABSTRACT_EXPORT className :                   \
-	public IntegratorAbstract<sotSigType, sotCoefType>            \
-   {                                                              \
- public:                                                          \
-   className( const std::string& name );                          \
-   };
+#define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType)              \
+  class INTEGRATOR_ABSTRACT_EXPORT className                                   \
+      : public IntegratorAbstract<sotSigType, sotCoefType> {                   \
+  public:                                                                      \
+    className(const std::string &name);                                        \
+  };
 #else
-# define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType) \
-   typedef IntegratorAbstract<sotSigType,sotCoefType> className;
+#define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType)              \
+  typedef IntegratorAbstract<sotSigType, sotCoefType> className;
 #endif
 
-namespace dynamicgraph { namespace sot {
-	DECLARE_SPECIFICATION(IntegratorAbstractDouble,double,double)
-	DECLARE_SPECIFICATION(IntegratorAbstractVector,dg::Vector,dg::Matrix)
-}
-}
+namespace dynamicgraph {
+namespace sot {
+DECLARE_SPECIFICATION(IntegratorAbstractDouble, double, double)
+DECLARE_SPECIFICATION(IntegratorAbstractVector, dg::Vector, dg::Matrix)
+} // namespace sot
+} // namespace dynamicgraph
 #endif // #ifndef  __SOT_MAILBOX_HH
