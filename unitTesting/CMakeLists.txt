@@ -98,6 +98,7 @@ SET (tests
   task/test_task
 
   tools/test_boost
+  tools/test_device  
   tools/test_mailbox
   tools/test_matrix
   tools/test_robot_utils
