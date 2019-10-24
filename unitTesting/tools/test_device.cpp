@@ -40,25 +40,20 @@ BOOST_AUTO_TEST_CASE(test_device) {
   dg::Vector aVelocityVector(38);
   dg::Vector aLowerVelBound(38), anUpperVelBound(38);
   dg::Vector anAccelerationVector(38);
-  std::ostringstream ossControlVector;
-  std::istringstream issControlVector;
+  dg::Vector aControlVector(38);
 
-  ossControlVector << "[38](";
   for (unsigned int i = 0; i < 38; i++) {
     aLowerVelBound[i] = -3.14;
     aStateVector[i] = -0.5;
     anUpperVelBound[i] = 3.14;
-    ossControlVector << "-0.1";
-    if (i < 37)
-      ossControlVector << ",";
+    aControlVector(i)=-0.1;
   }
-  ossControlVector << ")";
-  issControlVector.str(ossControlVector.str());
+  
   aDevice.setVelocitySize(38);
   aDevice.setVelocityBounds(aLowerVelBound, anUpperVelBound);
   aDevice.setVelocity(aStateVector);
   aDevice.setState(aStateVector); // entry signal in position
-  aDevice.controlSIN.set(issControlVector);
+  aDevice.controlSIN.setConstant(aControlVector);
 
   for (unsigned int i = 0; i < 2000; i++) {
     aDevice.stateSOUT.recompute(i);
@@ -68,6 +63,6 @@ BOOST_AUTO_TEST_CASE(test_device) {
 
   aDevice.display(std::cout);
   aDevice.cmdDisplay();
-  const dg::Vector &aControl = aDevice.motorcontrolSOUT(2001);
-  double diff = 0, ldiff;
+  // const dg::Vector &aControl = aDevice.motorcontrolSOUT(2001);
+  //  double diff = 0, ldiff;
 }

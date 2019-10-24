@@ -55,12 +55,12 @@ BOOST_PYTHON_MODULE(robot_utils_sot_py) {
       //.def("get_id_from_name",&RobotUtil::get_id_from_name)
       ;
 
-  class_<std::map<Index, ForceLimits>>("IndexForceLimits")
-      .def(map_indexing_suite<std::map<Index, ForceLimits>>());
+  class_<std::map<Index, ForceLimits> >("IndexForceLimits")
+      .def(map_indexing_suite<std::map<Index, ForceLimits> >());
 
-  class_<std::map<std::string, Index>>("stringIndex")
-      .def(map_indexing_suite<std::map<std::string, Index>>());
+  class_<std::map<std::string, Index> >("stringIndex")
+      .def(map_indexing_suite<std::map<std::string, Index> >());
 
-  class_<std::map<Index, std::string>>("Indexstring")
-      .def(map_indexing_suite<std::map<Index, std::string>>());
+  class_<std::map<Index, std::string> >("Indexstring")
+      .def(map_indexing_suite<std::map<Index, std::string> >());
 }
