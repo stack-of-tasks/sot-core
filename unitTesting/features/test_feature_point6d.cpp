@@ -105,10 +105,24 @@ class TestPoint6d
     dynamicgraph::Vector manual;
     const std::vector<dynamicgraph::sot::MultiBound> & taskTaskSOUT
         =task_.taskSOUT(time_);
-        
+    
+    /// Verify the computation of the desired frame.
+    /// -gain *(s-sd) - ([w]x (sd -s)-vd)
+    dynamicgraph::Matrix aM;
+    dynamicgraph::Vector aV;
+    aM.resize(3,3);
+    aV.resize(3);
+    aM(0,0) =    0.0;aM(0,1) = -vd(5); aM(0,2) = vd(4);
+    aM(1,0) =  vd(5);aM(1,1) = 0.0;    aM(1,2) =-vd(3);
+    aM(2,0) = -vd(4); aM(2,1) = vd(3); aM(2,2) = 0.0;
+    for(unsigned int i=0;i<3;i++)
+      aV(i) = sd(i,3)-s(i,3);
+    
+    aV = aM*aV;
+  
     for(unsigned int i=0;i<3;i++)
     {
-      manual_[i]  = - gain*(s(i,3)-sd(i,3)) - (-vd(i));
+      manual_[i]  = - gain*(s(i,3)-sd(i,3)) - ( aV(i)-vd(i));
       if (manual_[i]!=taskTaskSOUT[i].getSingleBound())
           return -1;
     }
