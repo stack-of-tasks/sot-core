@@ -61,6 +61,10 @@ SET(TEST_test_control_pd_LIBS
   control-pd
   )
 
+SET(TEST_test_feature_generic_INC
+  pinocchio
+  )
+
 SET(TEST_test_filter_differentiator_LIBS
   filter-differentiator
   )
@@ -68,6 +72,7 @@ SET(TEST_test_filter_differentiator_LIBS
 SET(TEST_test_madgwick_ahrs_LIBS
   madgwickahrs
   )
+
 
 #test paths and names (without .cpp extension)
 SET (tests
@@ -77,10 +82,10 @@ SET (tests
 
   features/test_feature_point6d
   features/test_feature_generic
-  
+
   filters/test_filter_differentiator
   filters/test_madgwick_ahrs
-  
+
   signal/test_signal
   signal/test_depend
   signal/test_ptr
@@ -98,7 +103,7 @@ SET (tests
   task/test_task
 
   tools/test_boost
-  tools/test_device  
+  tools/test_device
   tools/test_mailbox
   tools/test_matrix
   tools/test_robot_utils
@@ -143,6 +148,10 @@ FOREACH(test ${tests})
   TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${PROJECT_NAME})
   ADD_DEPENDENCIES     (${EXECUTABLE_NAME} ${PROJECT_NAME})
 
+  IF( TEST_${EXECUTABLE_NAME}_INC )
+    PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} pinocchio)
+  ENDIF(TEST_${EXECUTABLE_NAME}_INC)
+
   IF( TEST_${EXECUTABLE_NAME}_LIBS )
     TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_LIBS})
     ADD_DEPENDENCIES     (${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_LIBS})
@@ -157,6 +166,7 @@ FOREACH(test ${tests})
   ENDIF(UNIX)
 
   PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} dynamic-graph)
+
   IF(BUILD_PYTHON_INTERFACE)
     PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} dynamic-graph-python)
   ENDIF(BUILD_PYTHON_INTERFACE)

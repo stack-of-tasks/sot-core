@@ -597,7 +597,7 @@ void Device::integrate( const double & dt )
   else{
     // Position integration
     state_.tail(controlIN.size()) += vel_control_ * dt;
-}
+  }
 
   // Position bounds check
   if (sanityCheck_) {
