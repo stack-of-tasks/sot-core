@@ -30,7 +30,7 @@ class TestPoint6d
   int time_;
   int dim_,robotDim_,featureDim_;
   dynamicgraph::Vector manual_;
-  
+
   TestPoint6d(unsigned dim,std::string &name):
       feature_("feature"+name),
       featureDes_("featureDes"+name),
@@ -62,15 +62,15 @@ class TestPoint6d
     feature_.positionSIN = s;
     feature_.positionSIN.access(time_);
     feature_.positionSIN.setReady();
-    
+
     featureDes_.positionSIN = sd;
     featureDes_.positionSIN.access(time_);
     featureDes_.positionSIN.setReady();
-    
+
     featureDes_.velocitySIN = vd;
     featureDes_.velocitySIN.access(time_);
     featureDes_.velocitySIN.setReady();
-    
+
     task_.controlGainSIN = gain;
     task_.controlGainSIN.access(time_);
     task_.controlGainSIN.setReady();
@@ -91,12 +91,12 @@ class TestPoint6d
 
   int recompute()
   {
-    
+
     feature_.errorSOUT.recompute(time_);
     feature_.errordotSOUT.recompute(time_);
     task_.taskSOUT.recompute(time_);
     task_.errorSOUT.recompute(time_);
-    task_.errorTimeDerivativeSOUT.recompute(time_);    
+    task_.errorTimeDerivativeSOUT.recompute(time_);
     time_++;
     MatrixHomogeneous s = feature_.positionSIN;
     MatrixHomogeneous sd = featureDes_.positionSIN;
@@ -105,7 +105,8 @@ class TestPoint6d
     dynamicgraph::Vector manual;
     const std::vector<dynamicgraph::sot::MultiBound> & taskTaskSOUT
         =task_.taskSOUT(time_);
-    
+
+
     /// Verify the computation of the desired frame.
     /// -gain *(s-sd) - ([w]x (sd -s)-vd)
     dynamicgraph::Matrix aM;
@@ -117,9 +118,10 @@ class TestPoint6d
     aM(2,0) = -vd(4); aM(2,1) = vd(3); aM(2,2) = 0.0;
     for(unsigned int i=0;i<3;i++)
       aV(i) = sd(i,3)-s(i,3);
-    
+
     aV = aM*aV;
-  
+
+    /// Recompute error_th.
     for(unsigned int i=0;i<3;i++)
     {
       manual_[i]  = - gain*(s(i,3)-sd(i,3)) - ( aV(i)-vd(i));
@@ -138,11 +140,11 @@ class TestPoint6d
     std::cout << "feature.errordotSOUT: " << feature_.errordotSOUT(time_).transpose()
               << std::endl;
     std::cout << "task.taskSOUT: " << task_.taskSOUT(time_)
-              << std::endl;    
+              << std::endl;
     //    std::cout << "task.errorSOUT: " << task_.errorSOUT(time_)
     //<< std::endl;
     //std::cout << "task.errordtSOUT: " << task_.errorTimeDerivativeSOUT(time_)
-    //<< std::endl;    
+    //<< std::endl;
     std::cout << "manual: " << manual_.transpose() << std::endl;
   }
 
@@ -173,28 +175,28 @@ int main( void )
   double gain;
   // Result of test
   int r;
-  
+
   TestPoint6d testFeaturePoint6d(dim,srobot);
-  
+
   std::cout << " ----- Test Velocity -----" << std::endl;
   s .setIdentity();
   sd.setIdentity();
   vd.setConstant(1.);
   gain=0.0;
-  
+
   if ((r=testFeaturePoint6d.runTest(s,sd,vd,gain))<0)
   {
     std::cerr << "Failure on 1st test." << std::endl;
     return r;
   }
-  
+
   std::cout << " ----- Test Position -----" << std::endl;
   s .setIdentity();
   sd.setIdentity();
   sd.translation()[2] = 2.0;
   vd.setZero();
   gain=1.0;
-  
+
   if ((r=testFeaturePoint6d.runTest(s,sd,vd,gain))<0)
   {
     std::cerr << "Failure on 2nd test." << std::endl;
@@ -207,7 +209,7 @@ int main( void )
   sd.translation()[2] = 2.0;
   vd.setConstant(1.);
   gain=3.0;
-  
+
   if ((r=testFeaturePoint6d.runTest(s,sd,vd,gain))<0)
   {
     std::cerr << "Failure on 3th test." << std::endl;
@@ -220,7 +222,7 @@ int main( void )
   sd.translation()[2] = 2.0;
   vd.setConstant(1.);
   gain=3.0;
-  
+
   if ((r=testFeaturePoint6d.runTest(s,sd,vd,gain))<0)
   {
     std::cerr << "Failure on 4th test." << std::endl;
