@@ -6,6 +6,8 @@
  *
  */
 
+#include <pinocchio/multibody/liegroup/special-euclidean.hpp>
+
 #include <iostream>
 #include <sot/core/debug.hh>
 
@@ -60,6 +62,9 @@ BOOST_AUTO_TEST_CASE(test_device) {
     // Specify control vector
     aControlVector(i)= 0.1;
   }
+
+  dg::Vector expected = aStateVector; // backup initial state vector
+
   /// Specify state size
   aDevice.setStateSize(38);
   /// Specify state bounds
@@ -75,16 +80,15 @@ BOOST_AUTO_TEST_CASE(test_device) {
   /// Specify constant control value
   aDevice.controlSIN.setConstant(aControlVector);
 
-  for (unsigned int i = 0; i < 2000; i++) {
-    double dt=0.001;
+  const double dt = 0.001;
+  const unsigned int N = 2000;
+  for (unsigned int i = 0; i < N; i++) {
     aDevice.increment(dt);
     if (i == 0)
     {
       aDevice.stateSOUT.get(std::cout);
       std::ostringstream anoss;
       aDevice.stateSOUT.get(anoss);
-      for (unsigned int i = 0; i < 38; i++)
-        aControlVector[i]= 0.5;
     }
     if (i == 1)
     {
@@ -96,4 +100,29 @@ BOOST_AUTO_TEST_CASE(test_device) {
 
   aDevice.display(std::cout);
   aDevice.cmdDisplay();
+
+  // verify correct integration
+  typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3;
+  Eigen::Matrix<double, 7, 1> qin, qout;
+  qin.head<3>() = expected.head<3>();
+
+  Eigen::QuaternionMapd quat (qin.tail<4>().data());
+  quat = Eigen::AngleAxisd(expected(5), Eigen::Vector3d::UnitZ())
+       * Eigen::AngleAxisd(expected(4), Eigen::Vector3d::UnitY())
+       * Eigen::AngleAxisd(expected(3), Eigen::Vector3d::UnitX());
+
+  const double T = dt*N;
+  Eigen::Matrix<double, 6, 1> control = aControlVector.head<6>()*T;
+  SE3().integrate (qin, control, qout);
+
+  // Manual integration
+  expected.head<3>() = qout.head<3>();
+  expected.segment<3>(3) = Eigen::QuaternionMapd(qout.tail<4>().data()).toRotationMatrix().eulerAngles(2,1,0).reverse();
+  for(int i=6; i<expected.size(); i++)
+    expected[i] = 0.3;
+
+  std::cout << expected.transpose() << std::endl;
+  std::cout << aDevice.stateSOUT(N).transpose() << std::endl;
+
+  BOOST_CHECK(aDevice.stateSOUT(N).isApprox(expected));
 }
