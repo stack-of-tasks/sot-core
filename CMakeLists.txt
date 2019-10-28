@@ -15,15 +15,16 @@
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
+SET(PROJECT_ORG stack-of-tasks)
+SET(PROJECT_NAME sot-core)
+SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
+SET(PROJECT_URL "http://github.com/${PROJECT_ORG}/${PROJECT_NAME}")
+
 INCLUDE(cmake/base.cmake)
 INCLUDE(cmake/boost.cmake)
 INCLUDE(cmake/eigen.cmake)
 INCLUDE(cmake/python.cmake)
 
-SET(PROJECT_NAMESPACE stack-of-tasks)
-SET(PROJECT_NAME sot-core)
-SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
-SET(PROJECT_URL "http://github.com/${PROJECT_NAMESPACE}/${PROJECT_NAME}")
 
 SET(DOXYGEN_USE_MATHJAX YES)
 
