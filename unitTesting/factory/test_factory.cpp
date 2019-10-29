@@ -10,16 +10,16 @@
 /* -------------------------------------------------------------------------- */
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
-#include <string>
 #include <iostream>
+#include <string>
 
-#include <sot/core/factory.hh>
+#include "../test-paths.h"
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/linear-algebra.h>
-#include "../test-paths.h"
-#include <sot/core/feature-visual-point.hh>
-#include <sot/core/exception-feature.hh>
 #include <sot/core/debug.hh>
+#include <sot/core/exception-feature.hh>
+#include <sot/core/factory.hh>
+#include <sot/core/feature-visual-point.hh>
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dg;
@@ -31,115 +31,113 @@ using namespace dg;
 #endif
 
 #ifdef WIN32
-	typedef HMODULE sotPluginKey;
+typedef HMODULE sotPluginKey;
 #else
-	typedef void* sotPluginKey;
+typedef void *sotPluginKey;
 #endif
 
-class TestFeature
-  :public FeatureAbstract
-{
+class TestFeature : public FeatureAbstract {
 public:
-  TestFeature( void ) : FeatureAbstract("") {}
-  virtual ~TestFeature( void ) {}
-  virtual unsigned int& getDimension( unsigned int& res,int /*time*/ ) {return res;}
+  TestFeature(void) : FeatureAbstract("") {}
+  virtual ~TestFeature(void) {}
+  virtual unsigned int &getDimension(unsigned int &res, int /*time*/) {
+    return res;
+  }
 
-  virtual dg::Vector& computeError( dg::Vector& res, int /*time*/ ) {return res;}
-  virtual dg::Matrix& computeJacobian( dg::Matrix& res, int /*time*/ ) {return res;}
-  virtual dg::Vector& computeActivation( dg::Vector& res, int /*time*/ ) {return res;}
+  virtual dg::Vector &computeError(dg::Vector &res, int /*time*/) {
+    return res;
+  }
+  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int /*time*/) {
+    return res;
+  }
+  virtual dg::Vector &computeActivation(dg::Vector &res, int /*time*/) {
+    return res;
+  }
 };
 
+int main() {
 
-int main()
-{
-
-  sotDEBUG(0) << "# In {"<<endl;
-//   Entity test("");
-//   ExceptionFeature t2(ExceptionFeature::BAD_INIT);
-//   ExceptionSignal t4(ExceptionSignal::COPY_NOT_INITIALIZED);
-//   Flags t3;
-//   TestFeature t5;
+  sotDEBUG(0) << "# In {" << endl;
+  //   Entity test("");
+  //   ExceptionFeature t2(ExceptionFeature::BAD_INIT);
+  //   ExceptionSignal t4(ExceptionSignal::COPY_NOT_INITIALIZED);
+  //   Flags t3;
+  //   TestFeature t5;
 
 #ifdef WIN32
-  sotPluginKey dlib = LoadLibrary (PLUGIN_LIB_INSTALL_PATH "/feature-visual-point" TESTS_DYNLIBSUFFIX);
+  sotPluginKey dlib = LoadLibrary(PLUGIN_LIB_INSTALL_PATH
+                                  "/feature-visual-point" TESTS_DYNLIBSUFFIX);
 #else
-  sotPluginKey dlib = dlopen(PLUGIN_LIB_INSTALL_PATH "/feature-visual-point" TESTS_DYNLIBSUFFIX, RTLD_NOW);
+  sotPluginKey dlib =
+      dlopen(PLUGIN_LIB_INSTALL_PATH "/feature-visual-point" TESTS_DYNLIBSUFFIX,
+             RTLD_NOW);
 #endif
 
-if( NULL==dlib )
-    {
-      cerr << " Error dl"<<endl;
+  if (NULL == dlib) {
+    cerr << " Error dl" << endl;
 #ifndef WIN32
-      cerr << dlerror() <<endl;
+    cerr << dlerror() << endl;
 #else
     // Retrieve the system error message for the last-error code
     LPTSTR pszMessage;
     DWORD dwLastError = GetLastError();
-    FormatMessage(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_IGNORE_INSERTS,
-        NULL,
-        dwLastError,
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        (LPTSTR)&pszMessage,
-        0, NULL );
+    FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM |
+                      FORMAT_MESSAGE_IGNORE_INSERTS,
+                  NULL, dwLastError, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                  (LPTSTR)&pszMessage, 0, NULL);
 
-
-	  cerr << pszMessage <<endl;
-	  LocalFree(pszMessage);
+    cerr << pszMessage << endl;
+    LocalFree(pszMessage);
 #endif
 
-      exit(1);
-    }
-
+    exit(1);
+  }
 
 #ifdef WIN32
-	dlib = LoadLibrary (PLUGIN_LIB_INSTALL_PATH "/gain-adaptive" TESTS_DYNLIBSUFFIX);
+  dlib =
+      LoadLibrary(PLUGIN_LIB_INSTALL_PATH "/gain-adaptive" TESTS_DYNLIBSUFFIX);
 #else
-	dlib = dlopen(PLUGIN_LIB_INSTALL_PATH "/gain-adaptive" TESTS_DYNLIBSUFFIX, RTLD_NOW);
+  dlib = dlopen(PLUGIN_LIB_INSTALL_PATH "/gain-adaptive" TESTS_DYNLIBSUFFIX,
+                RTLD_NOW);
 #endif
 
-  if( NULL==dlib )
-    {
-      cerr << " Error dl"<<endl;
+  if (NULL == dlib) {
+    cerr << " Error dl" << endl;
 #ifndef WIN32
-      cerr << dlerror() <<endl;
+    cerr << dlerror() << endl;
 #else
     // Retrieve the system error message for the last-error code
     LPTSTR pszMessage;
     DWORD dwLastError = GetLastError();
-    FormatMessage(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_IGNORE_INSERTS,
-        NULL,
-        dwLastError,
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        (LPTSTR)&pszMessage,
-        0, NULL );
+    FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM |
+                      FORMAT_MESSAGE_IGNORE_INSERTS,
+                  NULL, dwLastError, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                  (LPTSTR)&pszMessage, 0, NULL);
 
-
-	  cerr << pszMessage <<endl;
-	  LocalFree(pszMessage);
+    cerr << pszMessage << endl;
+    LocalFree(pszMessage);
 #endif
-      exit(1);
-    }
+    exit(1);
+  }
 
-  Entity* gain =
-    FactoryStorage::getInstance()->newEntity("GainAdaptive","Gain");
-  FeatureAbstract* point = sotFactory.newFeature("FeatureVisualPoint","DynamicTest.");
+  Entity *gain =
+      FactoryStorage::getInstance()->newEntity("GainAdaptive", "Gain");
+  FeatureAbstract *point =
+      sotFactory.newFeature("FeatureVisualPoint", "DynamicTest.");
 
   try {
-  gain->display(cout); cout << endl;
-  cout <<gain->getClassName(); cout << endl;
+    gain->display(cout);
+    cout << endl;
+    cout << gain->getClassName();
+    cout << endl;
 
-  point->display(cout); cout << endl;
-  cout <<point->getClassName(); cout << endl;
-  }
-  catch ( ExceptionSignal e ) {
-	  cout << "Exception caught! " << e << endl;
+    point->display(cout);
+    cout << endl;
+    cout << point->getClassName();
+    cout << endl;
+  } catch (ExceptionSignal e) {
+    cout << "Exception caught! " << e << endl;
   }
 
-  sotDEBUG(0) << "# Out }"<<endl;
+  sotDEBUG(0) << "# Out }" << endl;
 }

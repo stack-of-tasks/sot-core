@@ -15,28 +15,29 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot/core/feature-abstract.hh>
 #include <sot/core/exception-task.hh>
+#include <sot/core/feature-abstract.hh>
 #include <sot/core/matrix-geometry.hh>
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (feature_line_distance_EXPORTS)
-#    define SOTFEATURELINEDISTANCE_EXPORT __declspec(dllexport)
-#  else
-#    define SOTFEATURELINEDISTANCE_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(feature_line_distance_EXPORTS)
+#define SOTFEATURELINEDISTANCE_EXPORT __declspec(dllexport)
 #else
-#  define SOTFEATURELINEDISTANCE_EXPORT
+#define SOTFEATURELINEDISTANCE_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTFEATURELINEDISTANCE_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 namespace dg = dynamicgraph;
 
 /*!
@@ -44,26 +45,24 @@ namespace dg = dynamicgraph;
   \brief Class that defines point-3d control feature
 */
 class SOTFEATURELINEDISTANCE_EXPORT FeatureLineDistance
-: public FeatureAbstract
-{
+    : public FeatureAbstract {
 
- public:
+public:
   static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
- protected:
-
+protected:
   /* --- SIGNALS ------------------------------------------------------------ */
- public:
-  dg::SignalPtr< MatrixHomogeneous,int > positionSIN;
-  dg::SignalPtr< dg::Matrix,int > articularJacobianSIN;
-  dg::SignalPtr< dg::Vector,int > positionRefSIN;
-  dg::SignalPtr< dg::Vector,int > vectorSIN;
-  dg::SignalTimeDependent<dg::Vector,int> lineSOUT;
+public:
+  dg::SignalPtr<MatrixHomogeneous, int> positionSIN;
+  dg::SignalPtr<dg::Matrix, int> articularJacobianSIN;
+  dg::SignalPtr<dg::Vector, int> positionRefSIN;
+  dg::SignalPtr<dg::Vector, int> vectorSIN;
+  dg::SignalTimeDependent<dg::Vector, int> lineSOUT;
 
-  using FeatureAbstract::selectionSIN;
-  using FeatureAbstract::jacobianSOUT;
   using FeatureAbstract::errorSOUT;
+  using FeatureAbstract::jacobianSOUT;
+  using FeatureAbstract::selectionSIN;
 
   /*! \name Dealing with the reference value to be reach with this feature.
     @{
@@ -71,23 +70,21 @@ class SOTFEATURELINEDISTANCE_EXPORT FeatureLineDistance
   DECLARE_NO_REFERENCE;
   /*! @} */
 
+public:
+  FeatureLineDistance(const std::string &name);
+  virtual ~FeatureLineDistance(void) {}
 
- public:
-  FeatureLineDistance( const std::string& name );
-  virtual ~FeatureLineDistance( void ) {}
+  virtual unsigned int &getDimension(unsigned int &dim, int time);
 
-  virtual unsigned int& getDimension( unsigned int & dim, int time );
+  virtual dg::Vector &computeError(dg::Vector &res, int time);
+  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time);
+  dg::Vector &computeLineCoordinates(dg::Vector &cood, int time);
 
-  virtual dg::Vector& computeError( dg::Vector& res,int time );
-  virtual dg::Matrix& computeJacobian( dg::Matrix& res,int time );
-  dg::Vector& computeLineCoordinates( dg::Vector& cood,int time );
+  virtual void display(std::ostream &os) const;
+};
 
-  virtual void display( std::ostream& os ) const;
-
-} ;
-
-
-} /* namespace sot */} /* namespace dynamicgraph */
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_FEATURE_LINEDISTANCE_HH__
 

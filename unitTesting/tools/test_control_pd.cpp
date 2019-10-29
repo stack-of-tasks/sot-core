@@ -9,23 +9,21 @@
 #include <iostream>
 #include <sot/core/debug.hh>
 
-
 #ifndef WIN32
 #include <unistd.h>
 #endif
 
 using namespace std;
 
-#include <dynamic-graph/factory.h>
 #include <dynamic-graph/entity.h>
+#include <dynamic-graph/factory.h>
 #include <sot/core/control-pd.hh>
 #include <sstream>
 
 using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
 
-BOOST_AUTO_TEST_CASE(control_pd)
-{
+BOOST_AUTO_TEST_CASE(control_pd) {
   sot::ControlPD *aControlPD = ControlPD("acontrol_pd");
   aControlPD->init(0.001);
   aControlPD->setsize(5);
@@ -45,7 +43,4 @@ BOOST_AUTO_TEST_CASE(control_pd)
   aControlPD->recompute(0);
   output_test_stream output;
   aControlPD->controlSOUT.get(output);
-  
 }
-
-

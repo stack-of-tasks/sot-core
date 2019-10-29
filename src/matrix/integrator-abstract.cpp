@@ -15,12 +15,13 @@
 #include <sot/core/integrator-abstract-impl.hh>
 
 #ifdef WIN32
-  IntegratorAbstractDouble::IntegratorAbstractDouble( const std::string& name ) :
-		IntegratorAbstract<double,double> (name) {}
+IntegratorAbstractDouble::IntegratorAbstractDouble(const std::string &name)
+    : IntegratorAbstract<double, double>(name) {}
 
-  IntegratorAbstractVector::IntegratorAbstractVector( const std::string& name ) :
-		IntegratorAbstract<dynamicgraph::Vector,dynamicgraph::Matrix> (name) {}
+IntegratorAbstractVector::IntegratorAbstractVector(const std::string &name)
+    : IntegratorAbstract<dynamicgraph::Vector, dynamicgraph::Matrix>(name) {}
 
-  IntegratorAbstractVector::IntegratorAbstractVectorDouble( const std::string& name ) :
-		IntegratorAbstract<dynamicgraph::Vector,double> (name) {}
+IntegratorAbstractVector::IntegratorAbstractVectorDouble(
+    const std::string &name)
+    : IntegratorAbstract<dynamicgraph::Vector, double>(name) {}
 #endif

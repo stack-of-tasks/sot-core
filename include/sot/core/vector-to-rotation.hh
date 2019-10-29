@@ -10,9 +10,8 @@
 #ifndef __SOTVECTORTOMATRIX_HH
 #define __SOTVECTORTOMATRIX_HH
 
+#include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
-#include <dynamic-graph/all-signals.h>
-#include <dynamic-graph/all-signals.h>
 #include <sot/core/matrix-geometry.hh>
 
 /* Matrix */
@@ -26,54 +25,45 @@ namespace dg = dynamicgraph;
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (vector_to_rotation_EXPORTS)
-#    define SOTVECTORTOROTATION_EXPORT __declspec(dllexport)
-#  else
-#    define SOTVECTORTOROTATION_EXPORT  __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(vector_to_rotation_EXPORTS)
+#define SOTVECTORTOROTATION_EXPORT __declspec(dllexport)
 #else
-#  define SOTVECTORTOROTATION_EXPORT
+#define SOTVECTORTOROTATION_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTVECTORTOROTATION_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 namespace dg = dynamicgraph;
 
-class SOTVECTORTOROTATION_EXPORT VectorToRotation
-: public dg::Entity
-{
+class SOTVECTORTOROTATION_EXPORT VectorToRotation : public dg::Entity {
   static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-  enum sotAxis
-    {
-      AXIS_X
-      ,AXIS_Y
-      ,AXIS_Z
-    };
+  enum sotAxis { AXIS_X, AXIS_Y, AXIS_Z };
 
   unsigned int size;
-  std::vector< sotAxis > axes;
-
+  std::vector<sotAxis> axes;
 
 public:
-  VectorToRotation( const std::string& name );
+  VectorToRotation(const std::string &name);
 
-  virtual ~VectorToRotation( void ){}
+  virtual ~VectorToRotation(void) {}
 
-  dg::SignalPtr<dg::Vector,int> SIN;
-  dg::SignalTimeDependent<MatrixRotation,int> SOUT;
+  dg::SignalPtr<dg::Vector, int> SIN;
+  dg::SignalTimeDependent<MatrixRotation, int> SOUT;
 
-  MatrixRotation& computeRotation( const dg::Vector& angles,
-				      MatrixRotation& res );
-
+  MatrixRotation &computeRotation(const dg::Vector &angles,
+                                  MatrixRotation &res);
 };
 
-} /* namespace sot */} /* namespace dynamicgraph */
-
-
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOTVECTORTOMATRIX_HH

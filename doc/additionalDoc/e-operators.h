@@ -5,7 +5,7 @@
 
 \subsection ssubp_unitary_op Vector selector
 
-This entity output a vector remapping an input vector 
+This entity output a vector remapping an input vector
 \f${\bf v}_{in}=[v_0,v_1,\cdots,v_n]\f$.
 It is realized by specifying bounds such as \f$({[i,j],[k,l]})\f$,
 then the output vector will be the contanetion of the
@@ -13,7 +13,7 @@ intervals extracted from the input vector:
 \f${\bf v}_{out}=[v_i,v_{i+1},\cdots,v_{j-1},v_{j},v_{k},
 v_{k+1},\cdots,v_{l-1},v_l]\f$
 For instance if we have an input vector
-such that: 
+such that:
 \code
 1
 2
