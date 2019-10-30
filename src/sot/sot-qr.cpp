@@ -598,7 +598,8 @@ const double sotHouseholdMatrices::THRESHOLD = 1e-9;
 /* ---------------------------------------------------------- */
 
 typedef bub::triangular_adaptor<
-    bub::matrix_range<bub::matrix<double, boost::numeric::ublas::column_major>>,
+    bub::matrix_range<
+        bub::matrix<double, boost::numeric::ublas::column_major> >,
     bub::upper>
     MatrixTriSquare;
 
@@ -733,11 +734,11 @@ dynamicgraph::Vector &SotQr::computeControlLaw(dynamicgraph::Vector &control,
     if (rank1 < m1) // Rank deficiency
     {
       bub::matrix_range<
-          bub::matrix<double, boost::numeric::ublas::column_major>>
+          bub::matrix<double, boost::numeric::ublas::column_major> >
           QR1sup(QR1, bub::range(0, rank1), bub::range(0, m1));
       invGeneralizeCholeskiUpdate(QR1sup);
     }
-    bub::matrix_range<bub::matrix<double, boost::numeric::ublas::column_major>>
+    bub::matrix_range<bub::matrix<double, boost::numeric::ublas::column_major> >
         QR1sup(QR1, bub::range(0, rank1), bub::range(0, rank1));
     const MatrixTriSquare R1(QR1sup);
 
@@ -829,11 +830,11 @@ dynamicgraph::Vector &SotQr::computeControlLaw(dynamicgraph::Vector &control,
     if (rank2 < m2) // Rank deficiency
     {
       bub::matrix_range<
-          bub::matrix<double, boost::numeric::ublas::column_major>>
+          bub::matrix<double, boost::numeric::ublas::column_major> >
           QR2sup(QR2, bub::range(0, rank2), bub::range(0, m2));
       invGeneralizeCholeskiUpdate(QR2sup);
     }
-    bub::matrix_range<bub::matrix<double, boost::numeric::ublas::column_major>>
+    bub::matrix_range<bub::matrix<double, boost::numeric::ublas::column_major> >
         QR2sup(QR2, bub::range(0, rank2), bub::range(0, rank2));
     const MatrixTriSquare R2(QR2sup);
 

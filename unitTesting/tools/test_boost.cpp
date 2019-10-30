@@ -245,7 +245,8 @@ int main(int argc, char **argv) {
     if (!ib) {
       //	  sotDEBUG(15) << dynamicgraph::MATLAB <<"M = "<< M <<endl;
       //	  sotDEBUG(15) << dynamicgraph::MATLAB <<"Mcreuse = "<< Mcreuse
-      //<<endl; 	  sotDEBUG(15) << dynamicgraph::MATLAB <<"Minvnc = "<< Minv
+      //<<endl; 	  sotDEBUG(15) << dynamicgraph::MATLAB <<"Minvnc = "<<
+      // Minv
       //<<endl;
     }
   }
@@ -296,7 +297,8 @@ int main(int argc, char **argv) {
     {
       //	  sotDEBUG(15) << dynamicgraph::MATLAB <<"M = "<< M <<endl;
       //	  sotDEBUG(15) << dynamicgraph::MATLAB <<"Mcreuse = "<< Mcreuse
-      //<<endl; 	  sotDEBUG(15) << dynamicgraph::MATLAB <<"Minvnc = "<< Minv
+      //<<endl; 	  sotDEBUG(15) << dynamicgraph::MATLAB <<"Minvnc = "<<
+      // Minv
       //<<endl;
     }
   }

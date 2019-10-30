@@ -55,11 +55,11 @@ enum StopwatchMode {
 
 /**
     @brief A class representing a stopwatch.
-    
+
     @code
     Stopwatch swatch();
     @endcode
-    
+
     The Stopwatch class can be used to measure execution time of code,
     algorithms, etc., // TODO: he Stopwatch can be initialized in two
     time-taking modes, CPU time and real time:
@@ -67,13 +67,13 @@ enum StopwatchMode {
     @code
     swatch.set_mode(REAL_TIME);
     @endcode
-    
+
     CPU time is the time spent by the processor on a certain piece of code,
     while real time is the real amount of time taken by a certain piece of
     code to execute (i.e. in general if you are doing hard work such as
     image or video editing on a different process the measured time will
     probably increase).
-    
+
     How does it work? Basically, one wraps the code to be measured with the
     following method calls:
 
@@ -82,24 +82,24 @@ enum StopwatchMode {
     // Hic est code
     swatch.stop("My astounding algorithm");
     @endcode
-    
+
     A string representing the code ID is provided so that nested portions of
     code can be profiled separately:
 
     @code
     swatch.start("My astounding algorithm");
-    
+
     swatch.start("My astounding algorithm - Super smart init");
     // Initialization
     swatch.stop("My astounding algorithm - Super smart init");
-    
+
     swatch.start("My astounding algorithm - Main loop");
     // Loop
     swatch.stop("My astounding algorithm - Main loop");
-    
+
     swatch.stop("My astounding algorithm");
     @endcode
-    
+
     Note: ID strings can be whatever you like, in the previous example I have
     used "My astounding algorithm - *" only to enforce the fact that the
     measured code portions are part of My astounding algorithm, but there's no
@@ -112,22 +112,22 @@ enum StopwatchMode {
     swatch.start("Setup");
     // First part of setup
     swatch.pause("Setup");
-    
+
     swatch.start("Main logic");
     // Main logic
     swatch.stop("Main logic");
-    
+
     swatch.start("Setup");
     // Cleanup (part of the setup)
     swatch.stop("Setup");
     @endcode
-    
+
     Finally, to report the results of the measurements just run:
-    
+
     @code
     swatch.report("Code ID");
     @endcode
-    
+
     Thou can also provide an additional std::ostream& parameter to report() to
     redirect the logging on a different output. Also, you can use the
     get_total/min/max/average_time() methods to get the individual numeric data,
@@ -135,11 +135,11 @@ enum StopwatchMode {
     implement your own logging syntax.
 
     To report all the measurements:
-    
+
     @code
     swatch.report_all();
     @endcode
-    
+
     Same as above, you can redirect the output by providing a std::ostream&
     parameter.
 

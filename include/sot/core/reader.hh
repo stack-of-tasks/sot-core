@@ -73,7 +73,7 @@ public:
   void rewind(void);
 
 protected:
-  typedef std::list<std::vector<double>> DataType;
+  typedef std::list<std::vector<double> > DataType;
   DataType dataSet;
   DataType::const_iterator currentData;
   bool iteratorSet;

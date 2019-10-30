@@ -35,7 +35,7 @@ using namespace dynamicgraph::sot;
 
 typedef pinocchio::CartesianProductOperation<
     pinocchio::VectorSpaceOperationTpl<3, double>,
-    pinocchio::SpecialOrthogonalOperationTpl<3, double>>
+    pinocchio::SpecialOrthogonalOperationTpl<3, double> >
     R3xSO3_t;
 typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3_t;
 template <Representation_t representation> struct LG_t {
