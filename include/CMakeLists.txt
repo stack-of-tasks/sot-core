@@ -31,6 +31,7 @@ SET(NEWHEADERS
   sot/core/feature-line-distance.hh  
   sot/core/feature-point6d-relative.hh
   sot/core/feature-point6d.hh
+  sot/core/feature-pose.hh  
   sot/core/feature-posture.hh  
   sot/core/feature-task.hh  
   sot/core/feature-vector3.hh
