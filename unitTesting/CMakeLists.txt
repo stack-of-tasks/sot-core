@@ -98,7 +98,7 @@ SET (tests
   )
 
 IF (YAML_CPP_FOUND AND URDFDOM_FOUND)
-  SET(tests ${tests} tools/test_device  )
+  SET(tests ${tests} tools/test_generic_device  )
 ENDIF ()
 
 # TODO

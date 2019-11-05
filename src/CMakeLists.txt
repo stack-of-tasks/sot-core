@@ -89,7 +89,7 @@ SET(plugins
   )
 
 IF (YAML_CPP_FOUND AND URDFDOM_FOUND)
-  SET(plugins ${plugins} tools/device  )
+  SET(plugins ${plugins} tools/generic-device  )
 ENDIF ()
 
 
@@ -147,6 +147,7 @@ SET(${LIBRARY_NAME}_SOURCES
   tools/utils-windows.cpp
   tools/periodic-call.cpp
   tools/device.cpp
+  tools/generic-device.cpp
   tools/trajectory.cpp
   tools/robot-utils.cpp
 
