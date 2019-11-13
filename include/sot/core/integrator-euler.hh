@@ -27,6 +27,16 @@ namespace dynamicgraph {
 namespace sot {
 namespace dg = dynamicgraph;
 
+namespace internal
+{
+  template<class coefT>
+  bool integratorEulerCoeffIsIdentity(const coefT c) { return c == 1; }
+
+  bool integratorEulerCoeffIsIdentity(const Vector c) { return c.isOnes(); }
+
+  bool integratorEulerCoeffIsIdentity(const Matrix c) { return c.isIdentity(); }
+}
+
 /*!
  * \class IntegratorEuler
  * \brief integrates an ODE using a naive Euler integration.
@@ -116,15 +126,15 @@ public:
       inputMemory[i] = tmp2;
       sum += (num[i] * inputMemory[i]);
     }
-    // End of step 2. Here, sum is b_m * d(m)X / dt^m + ... - b_0 X
+    // End of step 2. Here, sum is b_m * d(m)X / dt^m + ... + b_0 X
 
     // Step 3
     int denomsize = (int)denom.size() - 1;
     for (int i = 0; i < denomsize; ++i) {
       sum -= (denom[i] * outputMemory[i]);
     }
-    // End of step 3. Here, sum is b_m * d(m)X / dt^m + ... - b_0 X - a_0 Y -
-    // ... a_n-1 d(n-1)Y / dt^(n-1)
+    // End of step 3. Here, sum is b_m * d(m)X / dt^m + ... + b_0 X
+    //                           - a_0 Y - ... a_n-1 d(n-1)Y / dt^(n-1)
 
     // Step 4
     outputMemory[denomsize] = sum;
@@ -171,6 +181,11 @@ public:
     for (std::size_t i = 0; i < denomsize; ++i) {
       outputMemory[i] = inputMemory[0];
     }
+
+    // Check that denominator.back is the identity
+    if (!internal::integratorEulerCoeffIsIdentity(denominator.back()))
+      throw dg::ExceptionSignal (dg::ExceptionSignal::GENERIC,
+          "The coefficient of the highest order derivative of denominator should be 1 (the last pushDenomCoef should be the identity).");
   }
 };
 
