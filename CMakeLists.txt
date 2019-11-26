@@ -15,7 +15,6 @@ SET(PROJECT_USE_CMAKE_EXPORT TRUE)
 SET(CXX_DISABLE_WERROR True)
 
 INCLUDE(cmake/base.cmake)
-INCLUDE(cmake/boost.cmake)
 
 # Specify the project.
 cmake_policy(SET CMP0048 NEW)
@@ -31,6 +30,7 @@ find_package (Boost REQUIRED
 find_package (Eigen3 REQUIRED NO_MODULE)
 
 INCLUDE(cmake/python.cmake)
+INCLUDE(cmake/boost.cmake)
 
 SET(DOXYGEN_USE_MATHJAX YES)
 
