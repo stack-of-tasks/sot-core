@@ -36,7 +36,6 @@ class VectorConstant : public Entity {
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
   int rows;
-  double color;
 
 public:
   VectorConstant(const std::string &name);

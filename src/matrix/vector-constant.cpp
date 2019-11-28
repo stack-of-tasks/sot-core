@@ -22,7 +22,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(VectorConstant, "VectorConstant");
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 VectorConstant::VectorConstant(const std::string &name)
-    : Entity(name), rows(0), color(0.),
+    : Entity(name), rows(0),
       SOUT("sotVectorConstant(" + name + ")::output(vector)::sout") {
   SOUT.setDependencyType(TimeDependency<int>::BOOL_DEPENDENT);
   signalRegistration(SOUT);
@@ -34,7 +34,7 @@ VectorConstant::VectorConstant(const std::string &name)
   std::string docstring;
   docstring =
       "    \n"
-      "    Resize the vector and fill with value stored in color field.\n"
+      "    Resize the vector and set it to zero.\n"
       "      Input\n"
       "        unsigned size.\n"
       "\n";

@@ -14,6 +14,7 @@ SET(NEWHEADERS
   sot/core/debug.hh
   sot/core/derivator.hh
   sot/core/device.hh
+  sot/core/double-constant.hh
   sot/core/event.hh
   sot/core/exception-abstract.hh
   sot/core/exception-dynamic.hh
