@@ -5,8 +5,8 @@ Tiny matrix functions, taken from Oscar source code.
 from math import atan2
 from random import random
 
-from numpy import array, cos, matrix, pi, sin, sqrt
-from numpy.linalg import inner, norm
+from numpy import array, cos, inner, matrix, pi, sin, sqrt
+from numpy.linalg import norm
 
 
 # Convert matrix to tuple
