@@ -32,63 +32,55 @@ namespace dg = dynamicgraph;
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (task_conti_EXPORTS)
-#    define SOTTASKCONTI_EXPORT __declspec(dllexport)
-#  else
-#    define SOTTASKCONTI_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(task_conti_EXPORTS)
+#define SOTTASKCONTI_EXPORT __declspec(dllexport)
 #else
-#  define SOTTASKCONTI_EXPORT
+#define SOTTASKCONTI_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTTASKCONTI_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 namespace dg = dynamicgraph;
 
-class SOTTASKCONTI_EXPORT TaskConti
-: public Task
-{
- protected:
-  enum TimeRefValues
-    {
-      TIME_REF_UNSIGNIFICANT = -1
-      ,TIME_REF_TO_BE_SET =-2
-    };
-
+class SOTTASKCONTI_EXPORT TaskConti : public Task {
+protected:
+  enum TimeRefValues { TIME_REF_UNSIGNIFICANT = -1, TIME_REF_TO_BE_SET = -2 };
 
   int timeRef;
   double mu;
   dg::Vector q0;
 
- public:
+public:
   static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
- public:
-  TaskConti( const std::string& n );
+public:
+  TaskConti(const std::string &n);
 
-  void referenceTime( const unsigned int & t ) { timeRef = t; }
-  const int &  referenceTime( void ) { return timeRef; }
+  void referenceTime(const unsigned int &t) { timeRef = t; }
+  const int &referenceTime(void) { return timeRef; }
 
   /* --- COMPUTATION --- */
-  VectorMultiBound& computeContiDesiredVelocity( VectorMultiBound &task,
-                                                    const int & time );
-
+  VectorMultiBound &computeContiDesiredVelocity(VectorMultiBound &task,
+                                                const int &time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
- public:
-  dg::SignalPtr< dg::Vector,int > controlPrevSIN;
+public:
+  dg::SignalPtr<dg::Vector, int> controlPrevSIN;
 
   /* --- DISPLAY ------------------------------------------------------------ */
-  void display( std::ostream& os ) const;
+  void display(std::ostream &os) const;
 };
 
-} /* namespace sot */} /* namespace dynamicgraph */
-
-
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif /* #ifndef __SOT_TASKCONTI_H__ */

@@ -10,7 +10,7 @@
     <ul>
     <li> Feature1D : \f$ L_2 \f$  norm of \f$ e(t)\f$
     dynamicgraph::sot::Feature1D</li>
-    <li> FeatureGeneric : Externalisation of the Feature computation 
+    <li> FeatureGeneric : Externalisation of the Feature computation
     dynamicgraph::sot::FeatureGeneric </li>
     <li> FeatureJointLimits : Distance to the joint limits and its Jacobian
     dynamicgraph::sot::FeatureJointLimits </li>

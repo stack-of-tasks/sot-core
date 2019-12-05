@@ -19,32 +19,32 @@
 namespace dg = dynamicgraph;
 
 /* STD */
-#include <string>
-#include <vector>
-#include <list>
 #include <boost/function.hpp>
 #include <fstream>
+#include <list>
+#include <string>
+#include <vector>
 
 /* SOT & DG*/
-#include <dynamic-graph/signal-base.h>
-#include <dynamic-graph/signal-time-dependent.h>
-#include <dynamic-graph/signal-ptr.h>
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/exception-traces.h>
+#include <dynamic-graph/signal-base.h>
+#include <dynamic-graph/signal-ptr.h>
+#include <dynamic-graph/signal-time-dependent.h>
 #include <sot/core/flags.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (reader_EXPORTS)
-#    define SOTREADER_EXPORT __declspec(dllexport)
-#  else
-#    define SOTREADER_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(reader_EXPORTS)
+#define SOTREADER_EXPORT __declspec(dllexport)
 #else
-#  define SOTREADER_EXPORT
+#define SOTREADER_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTREADER_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
@@ -56,45 +56,38 @@ using dynamicgraph::SignalPtr;
 using dynamicgraph::SignalTimeDependent;
 using dynamicgraph::sot::Flags;
 
-class SOTREADER_EXPORT sotReader
-: public Entity
-{
+class SOTREADER_EXPORT sotReader : public Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
- public:
 
-  SignalPtr< Flags,int > selectionSIN;
-  SignalTimeDependent<dg::Vector,int> vectorSOUT;
-  SignalTimeDependent<dg::Matrix,int> matrixSOUT;
+public:
+  SignalPtr<Flags, int> selectionSIN;
+  SignalTimeDependent<dg::Vector, int> vectorSOUT;
+  SignalTimeDependent<dg::Matrix, int> matrixSOUT;
 
- public:
-  sotReader( const std::string n );
-  virtual ~sotReader( void ){}
+public:
+  sotReader(const std::string n);
+  virtual ~sotReader(void) {}
 
-  void load( const std::string& filename );
-  void clear( void );
-  void rewind( void );
+  void load(const std::string &filename);
+  void clear(void);
+  void rewind(void);
 
- protected:
-
-  typedef std::list< std::vector<double> > DataType;
+protected:
+  typedef std::list<std::vector<double> > DataType;
   DataType dataSet;
   DataType::const_iterator currentData;
   bool iteratorSet;
 
-  int rows,cols;
+  int rows, cols;
 
-  dg::Vector& getNextData( dg::Vector& res, const unsigned int time );
-  dg::Matrix& getNextMatrix( dg::Matrix& res, const unsigned int time );
-  void resize(const int & nbRow, const int & nbCol);
+  dg::Vector &getNextData(dg::Vector &res, const unsigned int time);
+  dg::Matrix &getNextMatrix(dg::Matrix &res, const unsigned int time);
+  void resize(const int &nbRow, const int &nbCol);
 
- public:
+public:
   /* --- PARAMS --- */
-  void display( std::ostream& os ) const;
+  void display(std::ostream &os) const;
   virtual void initCommands();
 };
-
-
-
-
 
 #endif /* #ifndef __SOT_TRACER_H__ */

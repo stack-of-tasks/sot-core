@@ -32,14 +32,14 @@ namespace dg = dynamicgraph;
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined task_EXPORTS
-#    define SOTTASK_EXPORT __declspec(dllexport)
-#  else
-#    define SOTTASK_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined task_EXPORTS
+#define SOTTASK_EXPORT __declspec(dllexport)
 #else
-#  define SOTTASK_EXPORT
+#define SOTTASK_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTTASK_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
@@ -68,61 +68,59 @@ namespace dg = dynamicgraph;
   addControlSelection, clearControlSelection.
  */
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 namespace dg = dynamicgraph;
 
-class SOTTASK_EXPORT Task
-: public TaskAbstract
-{
- public:
-  typedef std::list< FeatureAbstract* > FeatureList_t;
- protected:
+class SOTTASK_EXPORT Task : public TaskAbstract {
+public:
+  typedef std::list<FeatureAbstract *> FeatureList_t;
+
+protected:
   FeatureList_t featureList;
   bool withDerivative;
 
   DYNAMIC_GRAPH_ENTITY_DECL();
 
- public:
-  Task( const std::string& n );
-  void initCommands( void );
+public:
+  Task(const std::string &n);
+  void initCommands(void);
 
-  void addFeature( FeatureAbstract& s );
-  void addFeatureFromName( const std::string & name );
-  void clearFeatureList( void );
-  FeatureList_t & getFeatureList( void ) { return featureList; }
+  void addFeature(FeatureAbstract &s);
+  void addFeatureFromName(const std::string &name);
+  void clearFeatureList(void);
+  FeatureList_t &getFeatureList(void) { return featureList; }
 
-  void setControlSelection( const Flags& act );
-  void addControlSelection( const Flags& act );
-  void clearControlSelection( void );
+  void setControlSelection(const Flags &act);
+  void addControlSelection(const Flags &act);
+  void clearControlSelection(void);
 
-  void setWithDerivative( const bool & s );
-  bool getWithDerivative( void );
+  void setWithDerivative(const bool &s);
+  bool getWithDerivative(void);
 
   /* --- COMPUTATION --- */
-  dg::Vector& computeError( dg::Vector& error,int time );
-  VectorMultiBound&
-    computeTaskExponentialDecrease( VectorMultiBound& errorRef,int time );
-  dg::Matrix& computeJacobian( dg::Matrix& J,int time );
-  dg::Vector& computeErrorTimeDerivative( dg::Vector & res, int time);
-
+  dg::Vector &computeError(dg::Vector &error, int time);
+  VectorMultiBound &computeTaskExponentialDecrease(VectorMultiBound &errorRef,
+                                                   int time);
+  dg::Matrix &computeJacobian(dg::Matrix &J, int time);
+  dg::Vector &computeErrorTimeDerivative(dg::Vector &res, int time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
- public:
-  dg::SignalPtr< double,int > controlGainSIN;
-  dg::SignalPtr< double,int > dampingGainSINOUT;
-  dg::SignalPtr< Flags,int > controlSelectionSIN;
-  dg::SignalTimeDependent< dg::Vector,int > errorSOUT;
-  dg::SignalTimeDependent< dg::Vector,int > errorTimeDerivativeSOUT;
+public:
+  dg::SignalPtr<double, int> controlGainSIN;
+  dg::SignalPtr<double, int> dampingGainSINOUT;
+  dg::SignalPtr<Flags, int> controlSelectionSIN;
+  dg::SignalTimeDependent<dg::Vector, int> errorSOUT;
+  dg::SignalTimeDependent<dg::Vector, int> errorTimeDerivativeSOUT;
 
   /* --- DISPLAY ------------------------------------------------------------ */
-  void display( std::ostream& os ) const;
+  void display(std::ostream &os) const;
 
   /* --- Writing graph --- */
-  virtual std::ostream& writeGraph( std::ostream& os ) const;
+  virtual std::ostream &writeGraph(std::ostream &os) const;
 };
 
-} /* namespace sot */} /* namespace dynamicgraph */
-
-
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif /* #ifndef __SOT_TASK_H__ */

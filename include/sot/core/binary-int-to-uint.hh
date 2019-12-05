@@ -15,51 +15,48 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
+#include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
 #include <sot/core/exception-task.hh>
-#include <dynamic-graph/all-signals.h>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (binary_int_to_uint_EXPORTS)
-#    define SOTBINARYINTTOUINT_EXPORT __declspec(dllexport)
-#  else
-#    define SOTBINARYINTTOUINT_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(binary_int_to_uint_EXPORTS)
+#define SOTBINARYINTTOUINT_EXPORT __declspec(dllexport)
 #else
-#  define SOTBINARYINTTOUINT_EXPORT
+#define SOTBINARYINTTOUINT_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTBINARYINTTOUINT_EXPORT
 #endif
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 namespace dg = dynamicgraph;
 
-class SOTBINARYINTTOUINT_EXPORT BinaryIntToUint
-  : public dg::Entity
-{
+class SOTBINARYINTTOUINT_EXPORT BinaryIntToUint : public dg::Entity {
 public:
   static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
-
-  dg::SignalPtr< int,int > binaryIntSIN;
-  dg::SignalTimeDependent< unsigned,int > binaryUintSOUT;
+  dg::SignalPtr<int, int> binaryIntSIN;
+  dg::SignalTimeDependent<unsigned, int> binaryUintSOUT;
 
 public:
-  BinaryIntToUint( const std::string& name );
+  BinaryIntToUint(const std::string &name);
   virtual ~BinaryIntToUint() {}
 
-  virtual unsigned& computeOutput( unsigned& res,int time );
+  virtual unsigned &computeOutput(unsigned &res, int time);
 
-  virtual void display( std::ostream& os ) const;
+  virtual void display(std::ostream &os) const;
 };
 
-
-} /* namespace sot */} /* namespace dynamicgraph */
-
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif

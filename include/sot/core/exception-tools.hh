@@ -14,51 +14,42 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-
-#include <sot/core/exception-abstract.hh>
 #include "sot/core/api.hh"
+#include <sot/core/exception-abstract.hh>
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
 namespace dynamicgraph {
-  namespace sot {
+namespace sot {
 
-    /* \class ExceptionTools
-     */
-    class SOT_CORE_EXPORT ExceptionTools
-      :public ExceptionAbstract
+/* \class ExceptionTools
+ */
+class SOT_CORE_EXPORT ExceptionTools : public ExceptionAbstract
 
-    {
-    public:
-      enum ErrorCodeEnum
-      {
-	GENERIC = ExceptionAbstract::TOOLS
+{
+public:
+  enum ErrorCodeEnum {
+    GENERIC = ExceptionAbstract::TOOLS
 
-	,CORBA
-	,KALMAN_SIZE
-      };
+    ,
+    CORBA,
+    KALMAN_SIZE
+  };
 
-      static const std::string EXCEPTION_NAME;
-      virtual const std::string& getExceptionName() const {
-	return EXCEPTION_NAME;
-      }
+  static const std::string EXCEPTION_NAME;
+  virtual const std::string &getExceptionName() const { return EXCEPTION_NAME; }
 
-    public:
+public:
+  ExceptionTools(const ExceptionTools::ErrorCodeEnum &errcode,
+                 const std::string &msg = "");
+  ExceptionTools(const ExceptionTools::ErrorCodeEnum &errcode,
+                 const std::string &msg, const char *format, ...);
+  virtual ~ExceptionTools(void) throw() {}
+};
 
-      ExceptionTools ( const ExceptionTools::ErrorCodeEnum& errcode,
-		       const std::string & msg = "" );
-      ExceptionTools( const ExceptionTools::ErrorCodeEnum& errcode,
-		      const std::string & msg,const char* format, ... );
-      virtual ~ExceptionTools( void ) throw() {}
-
-
-    };
-
-  } // namespace sot
+} // namespace sot
 } // namespace dynamicgraph
-
-
 
 #endif /* #ifndef __SOT_TOOLS_EXCEPTION_H */
 

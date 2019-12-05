@@ -10,8 +10,7 @@
 #include <iostream>
 #include <sot/core/debug.hh>
 
-int main (int , char** )
-{
+int main(int, char **) {
   dynamicgraph::sot::sotDEBUGFLOW.openFile();
   dynamicgraph::sot::sotDEBUGFLOW.trace("test test test");
 

@@ -19,55 +19,46 @@
 namespace dg = dynamicgraph;
 
 /* SOT */
+#include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
 #include <sot/core/exception-task.hh>
-#include <dynamic-graph/all-signals.h>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (motion_period_EXPORTS)
-#    define SOTMOTIONPERIOD_EXPORT __declspec(dllexport)
-#  else
-#    define SOTMOTIONPERIOD_EXPORT  __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(motion_period_EXPORTS)
+#define SOTMOTIONPERIOD_EXPORT __declspec(dllexport)
 #else
-#  define SOTMOTIONPERIOD_EXPORT
+#define SOTMOTIONPERIOD_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTMOTIONPERIOD_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-
 /*!
   \class MotionPeriod
 */
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 
 namespace dg = dynamicgraph;
 
-class SOTMOTIONPERIOD_EXPORT MotionPeriod
-: public dg::Entity
-{
+class SOTMOTIONPERIOD_EXPORT MotionPeriod : public dg::Entity {
 
- public:
+public:
   static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
- protected:
+protected:
+  enum MotionPeriodType { MOTION_CONSTANT, MOTION_SIN, MOTION_COS };
 
-  enum MotionPeriodType
-    {
-      MOTION_CONSTANT
-      ,MOTION_SIN
-      ,MOTION_COS
-    };
-
-  struct sotMotionParam
-  {
+  struct sotMotionParam {
     MotionPeriodType motionType;
     unsigned int period;
     unsigned int initPeriod;
@@ -76,26 +67,25 @@ class SOTMOTIONPERIOD_EXPORT MotionPeriod
   };
 
   unsigned int size;
-  std::vector< sotMotionParam > motionParams;
+  std::vector<sotMotionParam> motionParams;
 
-  void resize( const unsigned int & size );
-
+  void resize(const unsigned int &size);
 
   /* --- SIGNALS ------------------------------------------------------------ */
- public:
+public:
+  dg::SignalTimeDependent<dg::Vector, int> motionSOUT;
 
-  dg::SignalTimeDependent< dg::Vector,int > motionSOUT;
+public:
+  MotionPeriod(const std::string &name);
+  virtual ~MotionPeriod(void) {}
 
- public:
-  MotionPeriod( const std::string& name );
-  virtual ~MotionPeriod( void ) {}
+  dg::Vector &computeMotion(dg::Vector &res, const int &time);
 
-  dg::Vector& computeMotion( dg::Vector& res,const int& time );
+  virtual void display(std::ostream &os) const;
+};
 
-  virtual void display( std::ostream& os ) const;
-} ;
-
-} /* namespace sot */} /* namespace dynamicgraph */
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_JOINTLIMITS_HH__
 

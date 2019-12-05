@@ -2,16 +2,18 @@
 # Copyright 2011, Florent Lamiraux, Thomas Moulard, JRL, CNRS/AIST
 #
 
-from dynamic_graph.sot.core.feature_point6d_relative \
-    import FeaturePoint6dRelative
-from dynamic_graph.signal_base import SignalBase
+from functools import reduce
+
 from dynamic_graph import plug
 from dynamic_graph.entity import Entity
+from dynamic_graph.signal_base import SignalBase
+from dynamic_graph.sot.core.feature_point6d_relative import FeaturePoint6dRelative
 
 # Identity matrix of order 4
-I4 = reduce(lambda m, i: m + (i*(0.,)+(1.,)+ (3-i)*(0.,),), range(4), ())
+I4 = reduce(lambda m, i: m + (i * (0., ) + (1., ) + (3 - i) * (0., ), ), range(4), ())
 
-class FeaturePositionRelative (Entity):
+
+class FeaturePositionRelative(Entity):
     """
     Relative position of two rigid-body frames in space as a feature
 
@@ -58,33 +60,43 @@ class FeaturePositionRelative (Entity):
 
     signalMap = dict()
 
-    def __init__(self, name, basePosition=None, otherPosition=None,
-                 baseReference = None, otherReference = None,
-                 JqBase = None, JqOther = None):
-        self._feature = FeaturePoint6dRelative (name)
+    def __init__(self,
+                 name,
+                 basePosition=None,
+                 otherPosition=None,
+                 baseReference=None,
+                 otherReference=None,
+                 JqBase=None,
+                 JqOther=None):
+        self._feature = FeaturePoint6dRelative(name)
         self.obj = self._feature.obj
-        self._reference = FeaturePoint6dRelative (name + '_ref')
+        self._reference = FeaturePoint6dRelative(name + '_ref')
         # Set undefined input parameters as identity matrix
-        if basePosition is None: basePosition = I4
-        if otherPosition is None: otherPosition = I4
-        if baseReference is None: baseReference = I4
-        if otherReference is None: otherReference = I4
+        if basePosition is None:
+            basePosition = I4
+        if otherPosition is None:
+            otherPosition = I4
+        if baseReference is None:
+            baseReference = I4
+        if otherReference is None:
+            otherReference = I4
 
         # If input positions are signals, plug them, otherwise set values
         for (sout, sin) in \
-            ((basePosition, self._feature.signal ('positionRef')),
-             (otherPosition, self._feature.signal ('position')),
-             (baseReference, self._reference.signal ('positionRef')),
-             (otherReference, self._reference.signal ('position'))):
-            if isinstance (sout, SignalBase): plug (sout, sin)
-            else:                             sin.value = sout
-
+            ((basePosition, self._feature.signal('positionRef')),
+             (otherPosition, self._feature.signal('position')),
+             (baseReference, self._reference.signal('positionRef')),
+             (otherReference, self._reference.signal('position'))):
+            if isinstance(sout, SignalBase):
+                plug(sout, sin)
+            else:
+                sin.value = sout
 
         if JqBase:
             plug(JqBase, self._feature.signal('JqRef'))
         if JqOther:
             plug(JqOther, self._feature.signal('Jq'))
-        self._feature.setReference (self._reference.name)
+        self._feature.setReference(self._reference.name)
         self._feature.signal('selec').value = '111111'
         self._feature.frame('current')
 
@@ -96,33 +108,35 @@ class FeaturePositionRelative (Entity):
         self.JqBase = self._feature.signal('JqRef')
         self.JqOther = self._feature.signal('Jq')
         self.error = self._feature.signal('error')
-        self.jacobian = self._feature.signal ('jacobian')
+        self.jacobian = self._feature.signal('jacobian')
         self.selec = self._feature.signal('selec')
 
-        self.signalMap = {'basePosition':self.basePosition,
-                          'otherPosition':self.otherPosition,
-                          'baseReference':self.baseReference,
-                          'otherReference':self.otherReference,
-                          'JqBase':self.JqBase,
-                          'JqOther':self.JqOther,
-                          'error':self.error,
-                          'jacobian':self.jacobian,
-                          'selec':self.selec}
+        self.signalMap = {
+            'basePosition': self.basePosition,
+            'otherPosition': self.otherPosition,
+            'baseReference': self.baseReference,
+            'otherReference': self.otherReference,
+            'JqBase': self.JqBase,
+            'JqOther': self.JqOther,
+            'error': self.error,
+            'jacobian': self.jacobian,
+            'selec': self.selec
+        }
 
     @property
-    def name(self) :
+    def name(self):
         return self._feature.name
 
-    def signal (self, name):
+    def signal(self, name):
         """
         Get a signal of the entity from signal name
         """
         if name in self.signalMap.keys():
             return self.signalMap[name]
         else:
-            raise RunTimeError('No signal with this name')
+            raise RuntimeError('No signal with this name')
 
-    def signals(self) :
+    def signals(self):
         """
         Return the list of signals
         """
@@ -137,5 +151,5 @@ class FeaturePositionRelative (Entity):
     def frame(self, f):
         return self._feature.frame(f)
 
-    def keep (self):
-        return self._feature.keep ()
+    def keep(self):
+        return self._feature.keep()

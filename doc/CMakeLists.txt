@@ -9,8 +9,10 @@ IF(BUILD_PYTHON_INTERFACE)
   INCLUDE(../cmake/sphinx.cmake)
   SPHINX_SETUP()
   SPHINX_FINALIZE()
-  INSTALL (FILES
-    pictures/feature.png
-    pictures/task.png
-    DESTINATION ${_PKG_CONFIG_DOXYGENDOCDIR}/pictures)
+  IF(INSTALL_DOCUMENTATION)
+    INSTALL (FILES
+      pictures/feature.png
+      pictures/task.png
+      DESTINATION ${_PKG_CONFIG_DOXYGENDOCDIR}/pictures)
+  ENDIF(INSTALL_DOCUMENTATION)
 ENDIF(BUILD_PYTHON_INTERFACE)

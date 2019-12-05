@@ -28,6 +28,7 @@ SET(plugins
 
   matrix/operator
   matrix/derivator
+  matrix/double-constant
   matrix/fir-filter
   matrix/integrator-abstract
   matrix/integrator-euler

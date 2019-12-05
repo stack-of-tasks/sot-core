@@ -19,14 +19,14 @@
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (mailbox_vector_EXPORTS)
-#    define MAILBOX_VECTOR_EXPORT __declspec(dllexport)
-#  else
-#    define MAILBOX_VECTOR_EXPORT  __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(mailbox_vector_EXPORTS)
+#define MAILBOX_VECTOR_EXPORT __declspec(dllexport)
 #else
-#  define MAILBOX_VECTOR_EXPORT
+#define MAILBOX_VECTOR_EXPORT __declspec(dllimport)
+#endif
+#else
+#define MAILBOX_VECTOR_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
@@ -34,17 +34,17 @@
 /* --------------------------------------------------------------------- */
 
 namespace dynamicgraph {
-  namespace sot {
+namespace sot {
 #ifdef WIN32
-    class MAILBOX_VECTOR_EXPORT MailboxVector : public Mailbox<dynamicgraph::Vector>
-    {
-    public:
-      MailboxVector( const std::string& name );
-    };
+class MAILBOX_VECTOR_EXPORT MailboxVector
+    : public Mailbox<dynamicgraph::Vector> {
+public:
+  MailboxVector(const std::string &name);
+};
 #else
-    typedef Mailbox<dynamicgraph::Vector> MailboxVector;
+typedef Mailbox<dynamicgraph::Vector> MailboxVector;
 #endif
-  } // namespace sot
+} // namespace sot
 } // namespace dynamicgraph
 
 #endif // #ifndef  __SOT_MAILBOX_HH

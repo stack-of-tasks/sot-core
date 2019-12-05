@@ -34,101 +34,98 @@
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (madgwickahrs_EXPORTS)
-#    define SOTMADGWICKAHRS_EXPORT __declspec(dllexport)
-#  else
-#    define SOTMADGWICKAHRS_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(madgwickahrs_EXPORTS)
+#define SOTMADGWICKAHRS_EXPORT __declspec(dllexport)
 #else
-#  define SOTMADGWICKAHRS_EXPORT
+#define SOTMADGWICKAHRS_EXPORT __declspec(dllimport)
 #endif
-
+#else
+#define SOTMADGWICKAHRS_EXPORT
+#endif
 
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#include <dynamic-graph/signal-helper.h>
-#include <sot/core/matrix-geometry.hh>
-#include <map>
 #include "boost/assign.hpp"
+#include <dynamic-graph/signal-helper.h>
+#include <map>
+#include <sot/core/matrix-geometry.hh>
 
 #define betaDef 0.01 // 2 * proportional g
 
 namespace dynamicgraph {
-  namespace sot {
-    /** \addtogroup Filters
-    \section subsec_madgwickahrs MadgwickAHRS filter
-    \class MadgwickARHS
-    This class implements the MadgwickAHRS filter as described
-    in http://x-io.co.uk/res/doc/madgwick_internal_report.pdf
-    This method uses a gradient descent approach to compute the orientation
-    from an IMU.
-    
-    The signals input are:
-    <ul>
-    <li>m_accelerometerSIN: \f$[a_x, a_y, a_z]^T\f$ in \f$m.s^{-2}\f$</li>
-    <li>m_gyroscopeSIN: \f$[g_x, g_y, g_z]^T\f$ in \f$rad.s^{-1}\f$</li>
-    <li>m_imu_quatSOUT: \f$[q_0, q_1, q_2, q_3]^T\f$ </li> estimated rotation
-    as a quaternion</li>
-    </ul>
+namespace sot {
+/** \addtogroup Filters
+\section subsec_madgwickahrs MadgwickAHRS filter
+\class MadgwickARHS
+This class implements the MadgwickAHRS filter as described
+in http://x-io.co.uk/res/doc/madgwick_internal_report.pdf
+This method uses a gradient descent approach to compute the orientation
+from an IMU.
 
-    The internal parameters are:
-    <ul>
-    <li>\f$Beta\f$: Gradient step weight (default to 0.01) </li>
-    <li>\f$m_sampleFref\f$: Sampling Frequency computed from the control
-    period when using init.</li>
-    </ul>
-    */
-    class SOTMADGWICKAHRS_EXPORT MadgwickAHRS
-      :public::dynamicgraph::Entity
-    {
-      typedef MadgwickAHRS EntityClassName;
-      DYNAMIC_GRAPH_ENTITY_DECL();
+The signals input are:
+<ul>
+<li>m_accelerometerSIN: \f$[a_x, a_y, a_z]^T\f$ in \f$m.s^{-2}\f$</li>
+<li>m_gyroscopeSIN: \f$[g_x, g_y, g_z]^T\f$ in \f$rad.s^{-1}\f$</li>
+<li>m_imu_quatSOUT: \f$[q_0, q_1, q_2, q_3]^T\f$ </li> estimated rotation
+as a quaternion</li>
+</ul>
 
-    public:
-      EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+The internal parameters are:
+<ul>
+<li>\f$Beta\f$: Gradient step weight (default to 0.01) </li>
+<li>\f$m_sampleFref\f$: Sampling Frequency computed from the control
+period when using init.</li>
+</ul>
+*/
+class SOTMADGWICKAHRS_EXPORT MadgwickAHRS : public ::dynamicgraph::Entity {
+  typedef MadgwickAHRS EntityClassName;
+  DYNAMIC_GRAPH_ENTITY_DECL();
 
-        /* --- CONSTRUCTOR ---- */
-        MadgwickAHRS( const std::string & name );
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-      void init(const double& dt);
-      void set_beta(const double & beta);
+  /* --- CONSTRUCTOR ---- */
+  MadgwickAHRS(const std::string &name);
 
-      /// Set the quaternion as [w,x,y,z]
-      void set_imu_quat(const dynamicgraph::Vector & imu_quat);
+  void init(const double &dt);
+  void set_beta(const double &beta);
 
-      /* --- SIGNALS --- */
-      /// ax ay az in m.s-2
-      DECLARE_SIGNAL_IN(accelerometer,              dynamicgraph::Vector);
-      /// gx gy gz in rad.s-1
-      DECLARE_SIGNAL_IN(gyroscope,                  dynamicgraph::Vector);
-      /// Estimated orientation of IMU as a quaternion
-      DECLARE_SIGNAL_OUT(imu_quat,                  dynamicgraph::Vector);
+  /// Set the quaternion as [w,x,y,z]
+  void set_imu_quat(const dynamicgraph::Vector &imu_quat);
 
-    protected:
-      /* --- COMMANDS --- */
-      /* --- ENTITY INHERITANCE --- */
-      virtual void display( std::ostream& os ) const;
+  /* --- SIGNALS --- */
+  /// ax ay az in m.s-2
+  DECLARE_SIGNAL_IN(accelerometer, dynamicgraph::Vector);
+  /// gx gy gz in rad.s-1
+  DECLARE_SIGNAL_IN(gyroscope, dynamicgraph::Vector);
+  /// Estimated orientation of IMU as a quaternion
+  DECLARE_SIGNAL_OUT(imu_quat, dynamicgraph::Vector);
 
-      /* --- METHODS --- */
-      double invSqrt(double x);
-      void madgwickAHRSupdateIMU
-           (double gx, double gy, double gz, double ax, double ay, double az);
+protected:
+  /* --- COMMANDS --- */
+  /* --- ENTITY INHERITANCE --- */
+  virtual void display(std::ostream &os) const;
 
-    protected:
-      /// true if the entity has been successfully initialized
-      bool     m_initSucceeded;
-      /// 2 * proportional gain (Kp)
-      double   m_beta;
-      /// quaternion of sensor frame
-      double   m_q0, m_q1, m_q2, m_q3;
-      /// sample frequency in Hz
-      double   m_sampleFreq;           
+  /* --- METHODS --- */
+  double invSqrt(double x);
+  void madgwickAHRSupdateIMU(double gx, double gy, double gz, double ax,
+                             double ay, double az);
 
-    }; // class MadgwickAHRS
-  }      // namespace sot
-}        // namespace dynamicgraph
+protected:
+  /// true if the entity has been successfully initialized
+  bool m_initSucceeded;
+  /// 2 * proportional gain (Kp)
+  double m_beta;
+  /// quaternion of sensor frame
+  double m_q0, m_q1, m_q2, m_q3;
+  /// sample frequency in Hz
+  double m_sampleFreq;
+
+}; // class MadgwickAHRS
+} // namespace sot
+} // namespace dynamicgraph
 
 #endif // #ifndef __sot_torque_control_madgwickahrs_H__

@@ -34,9 +34,7 @@ public:
   ~TestDevice() {}
 };
 
-
 BOOST_AUTO_TEST_CASE(test_device) {
-
 
   TestDevice aDevice(std::string("simple_humanoid"));
 
@@ -52,15 +50,15 @@ BOOST_AUTO_TEST_CASE(test_device) {
     // Specify lower velocity bound
     aLowerVelBound[i] = -3.14;
     // Specify lower position bound
-    aLowerBound[i]=-3.14;
+    aLowerBound[i] = -3.14;
     // Specify state vector
     aStateVector[i] = 0.1;
     // Specify upper velocity bound
     anUpperVelBound[i] = 3.14;
     // Specify upper position bound
-    anUpperBound[i]=3.14;
+    anUpperBound[i] = 3.14;
     // Specify control vector
-    aControlVector(i)= 0.1;
+    aControlVector(i) = 0.1;
   }
 
   dg::Vector expected = aStateVector; // backup initial state vector
@@ -68,7 +66,7 @@ BOOST_AUTO_TEST_CASE(test_device) {
   /// Specify state size
   aDevice.setStateSize(38);
   /// Specify state bounds
-  aDevice.setPositionBounds(aLowerBound,anUpperBound);
+  aDevice.setPositionBounds(aLowerBound, anUpperBound);
   /// Specify velocity size
   aDevice.setVelocitySize(38);
   /// Specify velocity
@@ -84,14 +82,12 @@ BOOST_AUTO_TEST_CASE(test_device) {
   const unsigned int N = 2000;
   for (unsigned int i = 0; i < N; i++) {
     aDevice.increment(dt);
-    if (i == 0)
-    {
+    if (i == 0) {
       aDevice.stateSOUT.get(std::cout);
       std::ostringstream anoss;
       aDevice.stateSOUT.get(anoss);
     }
-    if (i == 1)
-    {
+    if (i == 1) {
       aDevice.stateSOUT.get(std::cout);
       std::ostringstream anoss;
       aDevice.stateSOUT.get(anoss);
@@ -106,19 +102,22 @@ BOOST_AUTO_TEST_CASE(test_device) {
   Eigen::Matrix<double, 7, 1> qin, qout;
   qin.head<3>() = expected.head<3>();
 
-  Eigen::QuaternionMapd quat (qin.tail<4>().data());
-  quat = Eigen::AngleAxisd(expected(5), Eigen::Vector3d::UnitZ())
-       * Eigen::AngleAxisd(expected(4), Eigen::Vector3d::UnitY())
-       * Eigen::AngleAxisd(expected(3), Eigen::Vector3d::UnitX());
+  Eigen::QuaternionMapd quat(qin.tail<4>().data());
+  quat = Eigen::AngleAxisd(expected(5), Eigen::Vector3d::UnitZ()) *
+         Eigen::AngleAxisd(expected(4), Eigen::Vector3d::UnitY()) *
+         Eigen::AngleAxisd(expected(3), Eigen::Vector3d::UnitX());
 
-  const double T = dt*N;
-  Eigen::Matrix<double, 6, 1> control = aControlVector.head<6>()*T;
-  SE3().integrate (qin, control, qout);
+  const double T = dt * N;
+  Eigen::Matrix<double, 6, 1> control = aControlVector.head<6>() * T;
+  SE3().integrate(qin, control, qout);
 
   // Manual integration
   expected.head<3>() = qout.head<3>();
-  expected.segment<3>(3) = Eigen::QuaternionMapd(qout.tail<4>().data()).toRotationMatrix().eulerAngles(2,1,0).reverse();
-  for(int i=6; i<expected.size(); i++)
+  expected.segment<3>(3) = Eigen::QuaternionMapd(qout.tail<4>().data())
+                               .toRotationMatrix()
+                               .eulerAngles(2, 1, 0)
+                               .reverse();
+  for (int i = 6; i < expected.size(); i++)
     expected[i] = 0.3;
 
   std::cout << expected.transpose() << std::endl;
