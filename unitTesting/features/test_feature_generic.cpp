@@ -311,15 +311,15 @@ public:
     pinocchio::buildModels::humanoid(model_, true); // use freeflyer
     model_.lowerPositionLimit.head<3>().setConstant(-1.);
     model_.upperPositionLimit.head<3>().setConstant(1.);
-    jb_ = model_.getJointId("rarmwrist2_joint");
+    jb_ = model_.getJointId("rarm_wrist2_joint");
     fb_ = model_.addFrame(pinocchio::Model::Frame(
-        "frame_b", jb_, model_.getFrameId("rarmwrist2_joint", pinocchio::JOINT),
+        "frame_b", jb_, model_.getFrameId("rarm_wrist2_joint", pinocchio::JOINT),
         SE3::Identity(), pinocchio::OP_FRAME));
     if (relative) {
-      ja_ = model_.getJointId("larmwrist2_joint");
+      ja_ = model_.getJointId("larm_wrist2_joint");
       fa_ = model_.addFrame(pinocchio::Model::Frame(
           "frame_a", ja_,
-          model_.getFrameId("larmwrist2_joint", pinocchio::JOINT),
+          model_.getFrameId("larm_wrist2_joint", pinocchio::JOINT),
           SE3::Identity(), pinocchio::OP_FRAME));
     } else {
       ja_ = 0;
