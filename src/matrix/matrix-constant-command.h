@@ -38,8 +38,7 @@ public:
     std::vector<Value> values = getParameterValues();
     unsigned rows = values[0].value();
     unsigned cols = values[1].value();
-    dynamicgraph::Matrix m(rows, cols);
-    m.fill(mc.color);
+    Matrix m (Matrix::Zero(rows, cols));
     mc.SOUT.setConstant(m);
 
     // return void

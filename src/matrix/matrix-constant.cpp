@@ -23,7 +23,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MatrixConstant, "MatrixConstant");
 /* --------------------------------------------------------------------- */
 
 MatrixConstant::MatrixConstant(const std::string &name)
-    : Entity(name), rows(0), cols(0), color(0.),
+    : Entity(name), rows(0), cols(0),
       SOUT("sotMatrixConstant(" + name + ")::output(matrix)::sout") {
   SOUT.setDependencyType(TimeDependency<int>::BOOL_DEPENDENT);
   signalRegistration(SOUT);
@@ -34,7 +34,7 @@ MatrixConstant::MatrixConstant(const std::string &name)
   std::string docstring;
   docstring =
       "    \n"
-      "    Resize the matrix and fill with value stored in color field.\n"
+      "    Resize the matrix and set it to zero.\n"
       "      Input\n"
       "        - unsigned int: number of lines.\n"
       "        - unsigned int: number of columns.\n"

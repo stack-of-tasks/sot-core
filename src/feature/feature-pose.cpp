@@ -297,6 +297,7 @@ Vector &FeaturePose<representation>::computeErrorDot(Vector &errordot,
 
   q_faMfb.recompute(time);
   q_faMfbDes.recompute(time);
+  faNufafbDes.recompute(time);
 
   const MatrixHomogeneous &_faMfbDes = faMfbDes(time);
 
