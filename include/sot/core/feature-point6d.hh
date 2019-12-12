@@ -44,7 +44,8 @@ namespace dg = dynamicgraph;
 
 /*!
   \class FeaturePoint6d
-  \brief Class that defines point-6d control feature
+  \brief Class that defines point-6d control feature.
+  \deprecated This class was replaced by FeaturePose.
 */
 class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
     : public FeatureAbstract,
