@@ -16,7 +16,7 @@ using namespace dynamicgraph;
 const std::string MemoryTaskSOT::CLASS_NAME = "MemoryTaskSOT";
 
 MemoryTaskSOT::MemoryTaskSOT(const std::string &name, const Matrix::Index nJ,
-                             const Matrix::Index mJ, const Matrix::Index ffsize)
+                             const Matrix::Index mJ)
     : Entity(name),
       jacobianInvSINOUT("sotTaskAbstract(" + name + ")::inout(matrix)::Jinv"),
       jacobianConstrainedSINOUT("sotTaskAbstract(" + name +
@@ -29,11 +29,10 @@ MemoryTaskSOT::MemoryTaskSOT(const std::string &name, const Matrix::Index nJ,
   signalRegistration(jacobianInvSINOUT << singularBaseImageSINOUT << rankSINOUT
                                        << jacobianConstrainedSINOUT
                                        << jacobianProjectedSINOUT);
-  initMemory(nJ, mJ, ffsize, true);
+  initMemory(nJ, mJ, true);
 }
 
 void MemoryTaskSOT::initMemory(const Matrix::Index nJ, const Matrix::Index mJ,
-                               const Matrix::Index ffsize,
                                bool atConstruction) {
   sotDEBUG(15) << "Task-mermory " << getName() << ": resize " << nJ << "x" << mJ
                << std::endl;
@@ -41,9 +40,6 @@ void MemoryTaskSOT::initMemory(const Matrix::Index nJ, const Matrix::Index mJ,
   Jt.resize(nJ, mJ);
   Jp.resize(mJ, nJ);
   PJp.resize(mJ, nJ);
-
-  Jff.resize(nJ, ffsize);
-  Jact.resize(nJ, mJ);
 
   JK.resize(nJ, mJ);
 
@@ -54,8 +50,6 @@ void MemoryTaskSOT::initMemory(const Matrix::Index nJ, const Matrix::Index mJ,
     Jt.setZero();
     Jp.setZero();
     PJp.setZero();
-    Jff.setZero();
-    Jact.setZero();
     JK.setZero();
   } else {
     Eigen::pseudoInverse(Jt, Jp);

@@ -22,29 +22,6 @@ namespace classSot {
 using ::dynamicgraph::command::Command;
 using ::dynamicgraph::command::Value;
 
-// Command AddConstraint
-class AddConstraint : public Command {
-public:
-  virtual ~AddConstraint() {}
-  /// Create command and store it in Entity
-  /// \param entity instance of Entity owning this command
-  /// \param docstring documentation of the command
-  AddConstraint(Sot &entity, const std::string &docstring)
-      : Command(entity, boost::assign::list_of(Value::STRING), docstring) {}
-  virtual Value doExecute() {
-    Sot &sot = static_cast<Sot &>(owner());
-    std::vector<Value> values = getParameterValues();
-    std::string constraintName = values[0].value();
-
-    Constraint &constraint = dynamic_cast<Constraint &>(
-        PoolStorage::getInstance()->getTask(constraintName));
-    sot.addConstraint(constraint);
-    sot.constraintSOUT.setReady();
-    // return void
-    return Value();
-  }
-}; // class AddConstraint
-
 // Command Push
 class Push : public Command {
 public:

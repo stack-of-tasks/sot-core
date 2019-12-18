@@ -30,8 +30,6 @@ public: //   protected:
   dg::Matrix Jp;
   dg::Matrix PJp;
 
-  dg::Matrix Jff;  //( nJ,FF_SIZE ); // Free-floating part
-  dg::Matrix Jact; //( nJ,mJ );     // Activated part
   dg::Matrix JK;   //(nJ,mJ);
 
   dg::Matrix Proj;
@@ -40,13 +38,14 @@ public: //   protected:
   SVD_t svd;
 
 public:
-  /* mJ is the number of actuated joints, nJ the number of feature in the task,
-   * and ffsize the number of unactuated DOF. */
+  /**
+   * \param mJ is the number of joints
+   * \param nJ the number of feature in the task
+   **/
   MemoryTaskSOT(const std::string &name, const Matrix::Index nJ = 0,
-                const Matrix::Index mJ = 0, const Matrix::Index ffsize = 0);
+                const Matrix::Index mJ = 0);
 
   virtual void initMemory(const Matrix::Index nJ, const Matrix::Index mJ,
-                          const Matrix::Index ffsize,
                           bool atConstruction = false);
 
 public: /* --- ENTITY INHERITANCE --- */

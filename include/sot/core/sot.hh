@@ -23,7 +23,6 @@ namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/entity.h>
-#include <sot/core/constraint.hh>
 #include <sot/core/flags.hh>
 #include <sot/core/task-abstract.hh>
 
@@ -53,10 +52,7 @@ namespace sot {
 /*! @ingroup stackoftasks
   \brief This class implements the Stack of Task.
   It allows to deal with the priority of the controllers
-  through the shell. The controllers can be either constraints
-  either tasks.
-
-
+  through the shell.
 */
 class SOTSOT_CORE_EXPORT Sot : public Entity {
 public:
@@ -74,21 +70,6 @@ protected:
   /*! \brief This field is a list of controllers
     managed by the stack of tasks. */
   StackType stack;
-
-  /*! \brief Defines a type for a list of constraints */
-  typedef std::list<Constraint *> ConstraintListType;
-  /*! \brief This field is a list of constraints
-    managed by the stack of tasks. */
-  ConstraintListType constraintList;
-
-  /*! \brief Defines an interval in the state vector of the robot
-    which is the free flyer. */
-  unsigned int ffJointIdFirst, ffJointIdLast;
-  /*! \brief Defines a default joint. */
-  static const unsigned int FF_JOINT_ID_DEFAULT = 0;
-
-  /*   double directionalThreshold; */
-  /*   bool useContiInverse; */
 
   /*! \brief Store the number of joints to be used in the
     command computed by the stack of tasks. */
@@ -110,11 +91,6 @@ public:
   /*   static const bool USE_CONTI_INVERSE_DEFAULT = false; */
 
   /*! \brief Number of joints by default. */
-  static dg::Matrix &computeJacobianConstrained(const dg::Matrix &Jac,
-                                                const dg::Matrix &K,
-                                                dg::Matrix &JK);
-  static dg::Matrix &computeJacobianConstrained(const TaskAbstract &task,
-                                                const dg::Matrix &K);
   static void taskVectorToMlVector(const VectorMultiBound &taskVector,
                                    Vector &err);
 
@@ -164,23 +140,10 @@ public:
   virtual void clear(void);
   /*! @} */
 
-  /*! \name Methods to handle the constraints.
-    @{
-  */
-  /*! \brief Add a constraint to the stack with the current level
-    of priority. */
-  virtual void addConstraint(Constraint &constraint);
-  /*! \brief Remove a constraint from the stack. */
-  virtual void removeConstraint(const Constraint &constraint);
-  /*! \brief Remove all the constraints from the stack. */
-  virtual void clearConstraint(void);
-
   /*! @} */
 
   /*! \brief This method defines the part of the state vector
     which correspond to the free flyer of the robot. */
-  virtual void defineFreeFloatingJoints(const unsigned int &jointIdFirst,
-                                        const unsigned int &jointIdLast = -1);
   virtual void defineNbDof(const unsigned int &nbDof);
   virtual const unsigned int &getNbDof() const { return nbJoints; }
 
@@ -193,10 +156,6 @@ public: /* --- CONTROL --- */
 
   /*! \brief Compute the control law. */
   virtual dg::Vector &computeControlLaw(dg::Vector &control, const int &time);
-
-  /*! \brief Compute the projector of the constraint. */
-  virtual dg::Matrix &computeConstraintProjector(dg::Matrix &Proj,
-                                                 const int &time);
 
   /*! @} */
 
@@ -227,8 +186,6 @@ public: /* --- SIGNALS --- */
   /*! \brief This signal allow to change the threshold for the
     damped pseudo-inverse on-line */
   SignalPtr<double, int> inversionThresholdSIN;
-  /*! \brief Allow to get the result of the Constraint projector. */
-  SignalTimeDependent<dg::Matrix, int> constraintSOUT;
   /*! \brief Allow to get the result of the computed control law. */
   SignalTimeDependent<dg::Vector, int> controlSOUT;
   /*! @} */
