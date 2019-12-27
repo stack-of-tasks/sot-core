@@ -7,4 +7,3 @@
     This is the namespace for a subset of helperd classes related to the
     implementation of the Stack-Of-Tasks.
 */
-    

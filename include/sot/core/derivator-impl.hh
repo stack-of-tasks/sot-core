@@ -17,41 +17,40 @@
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (derivator_EXPORTS)
-#    define DERIVATOR_EXPORT __declspec(dllexport)
-#  else
-#    define DERIVATOR_EXPORT  __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(derivator_EXPORTS)
+#define DERIVATOR_EXPORT __declspec(dllexport)
 #else
-#  define DERIVATOR_EXPORT
+#define DERIVATOR_EXPORT __declspec(dllimport)
+#endif
+#else
+#define DERIVATOR_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 namespace dg = dynamicgraph;
 
 #ifdef WIN32
-# define DECLARE_SPECIFICATION(className, sotSigType )            \
-   class DERIVATOR_EXPORT className : public Derivator<sotSigType>  \
-   {                                                                \
- public:                                                           \
-   className( const std::string& name );                            \
-   };
+#define DECLARE_SPECIFICATION(className, sotSigType)                           \
+  class DERIVATOR_EXPORT className : public Derivator<sotSigType> {            \
+  public:                                                                      \
+    className(const std::string &name);                                        \
+  };
 #else
-# define DECLARE_SPECIFICATION(className, sotSigType) \
-   typedef Derivator<sotSigType> className;
+#define DECLARE_SPECIFICATION(className, sotSigType)                           \
+  typedef Derivator<sotSigType> className;
 #endif
 
-DECLARE_SPECIFICATION(DerivatorDouble,double)
-DECLARE_SPECIFICATION(DerivatorVector,dg::Vector)
-DECLARE_SPECIFICATION(DerivatorMatrix,dg::Matrix)
-DECLARE_SPECIFICATION(DerivatorVectorQuaternion,VectorQuaternion)
-} /* namespace sot */} /* namespace dynamicgraph */
-
-
+DECLARE_SPECIFICATION(DerivatorDouble, double)
+DECLARE_SPECIFICATION(DerivatorVector, dg::Vector)
+DECLARE_SPECIFICATION(DerivatorMatrix, dg::Matrix)
+DECLARE_SPECIFICATION(DerivatorVectorQuaternion, VectorQuaternion)
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_DERIVATOR_H__

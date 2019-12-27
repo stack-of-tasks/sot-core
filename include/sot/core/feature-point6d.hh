@@ -15,30 +15,31 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot/core/feature-abstract.hh>
-#include <sot/core/exception-task.hh>
 #include <sot/core/exception-feature.hh>
+#include <sot/core/exception-task.hh>
+#include <sot/core/feature-abstract.hh>
 #include <sot/core/matrix-geometry.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (feature_point6d_EXPORTS)
-#    define SOTFEATUREPOINT6D_EXPORT __declspec(dllexport)
-#  else
-#    define SOTFEATUREPOINT6D_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(feature_point6d_EXPORTS)
+#define SOTFEATUREPOINT6D_EXPORT __declspec(dllexport)
 #else
-#  define SOTFEATUREPOINT6D_EXPORT
+#define SOTFEATUREPOINT6D_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTFEATUREPOINT6D_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 namespace dg = dynamicgraph;
 
 /*!
@@ -46,81 +47,80 @@ namespace dg = dynamicgraph;
   \brief Class that defines point-6d control feature
 */
 class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
-  : public FeatureAbstract, public FeatureReferenceHelper<FeaturePoint6d>
-{
+    : public FeatureAbstract,
+      public FeatureReferenceHelper<FeaturePoint6d> {
 
- public:
+public:
   static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
   /* --- Frame type --------------------------------------------------------- */
- protected:
-  enum ComputationFrameType
-    {
-      FRAME_DESIRED
-      ,FRAME_CURRENT
-    };
+protected:
+  enum ComputationFrameType { FRAME_DESIRED, FRAME_CURRENT };
   static const ComputationFrameType COMPUTATION_FRAME_DEFAULT;
- public:
+
+public:
   /// \brief Set computation frame
-  void computationFrame(const std::string& inFrame);
+  void computationFrame(const std::string &inFrame);
   /// \brief Get computation frame
   std::string computationFrame() const;
- private:
+
+private:
   ComputationFrameType computationFrame_;
 
   /* --- SIGNALS ------------------------------------------------------------ */
- public:
-  dg::SignalPtr< MatrixHomogeneous,int > positionSIN;
-  dg::SignalPtr< dg::Vector, int > velocitySIN;
-  dg::SignalPtr< dg::Matrix,int > articularJacobianSIN;
+public:
+  dg::SignalPtr<MatrixHomogeneous, int> positionSIN;
+  dg::SignalPtr<dg::Vector, int> velocitySIN;
+  dg::SignalPtr<dg::Matrix, int> articularJacobianSIN;
 
-  using FeatureAbstract::selectionSIN;
-  using FeatureAbstract::jacobianSOUT;
   using FeatureAbstract::errorSOUT;
+  using FeatureAbstract::jacobianSOUT;
+  using FeatureAbstract::selectionSIN;
 
   /*! \name Dealing with the reference value to be reach with this feature.
     @{  */
   DECLARE_REFERENCE_FUNCTIONS(FeaturePoint6d);
   /*! @} */
 
- public:
-  FeaturePoint6d( const std::string& name );
-  virtual ~FeaturePoint6d( void ) {}
+public:
+  FeaturePoint6d(const std::string &name);
+  virtual ~FeaturePoint6d(void) {}
 
-  virtual unsigned int& getDimension( unsigned int & dim, int time );
+  virtual unsigned int &getDimension(unsigned int &dim, int time);
 
-  virtual dg::Vector& computeError( dg::Vector& res,int time );
-  virtual dg::Vector& computeErrordot( dg::Vector& res,int time );
-  virtual dg::Matrix& computeJacobian( dg::Matrix& res,int time );
+  virtual dg::Vector &computeError(dg::Vector &res, int time);
+  virtual dg::Vector &computeErrordot(dg::Vector &res, int time);
+  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time);
 
   /** Static Feature selection. */
-  inline static Flags selectX( void )  { return FLAG_LINE_1; }
-  inline static Flags selectY( void )  { return FLAG_LINE_2; }
-  inline static Flags selectZ( void )  { return FLAG_LINE_3; }
-  inline static Flags selectRX( void ) { return FLAG_LINE_4; }
-  inline static Flags selectRY( void ) { return FLAG_LINE_5; }
-  inline static Flags selectRZ( void ) { return FLAG_LINE_6; }
+  inline static Flags selectX(void) { return FLAG_LINE_1; }
+  inline static Flags selectY(void) { return FLAG_LINE_2; }
+  inline static Flags selectZ(void) { return FLAG_LINE_3; }
+  inline static Flags selectRX(void) { return FLAG_LINE_4; }
+  inline static Flags selectRY(void) { return FLAG_LINE_5; }
+  inline static Flags selectRZ(void) { return FLAG_LINE_6; }
 
-  inline static Flags selectTranslation( void ) { return Flags(7); }
-  inline static Flags selectRotation( void ) { return Flags(56); }
+  inline static Flags selectTranslation(void) { return Flags(7); }
+  inline static Flags selectRotation(void) { return Flags(56); }
 
-  virtual void display( std::ostream& os ) const;
+  virtual void display(std::ostream &os) const;
 
- public:
-  void servoCurrentPosition( void );
- private:
+public:
+  void servoCurrentPosition(void);
+
+private:
   // Intermediate variables for internal computations
-  Eigen::Vector3d v_, omega_, errordot_t_, errordot_th_, Rreftomega_,
-    t_, tref_;
-  VectorUTheta  error_th_;
+  Eigen::Vector3d v_, omega_, errordot_t_, errordot_th_, Rreftomega_, t_, tref_;
+  VectorUTheta error_th_;
   MatrixRotation R_, Rref_, Rt_, Rreft_;
   Eigen::Matrix3d P_, Pinv_;
   double accuracy_;
-  void inverseJacobianRodrigues ();
-} ;
+  void inverseJacobianRodrigues();
+};
 
-} /* namespace sot */} /* namespace dynamicgraph */
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_FEATURE_POINT6D_HH__
 

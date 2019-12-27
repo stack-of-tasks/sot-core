@@ -21,101 +21,98 @@
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (__sot_torque_parameter_server_H__)
-#    define SOTParameterServer_EXPORT __declspec(dllexport)
-#  else
-#    define SOTParameterServer_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(__sot_torque_parameter_server_H__)
+#define SOTParameterServer_EXPORT __declspec(dllexport)
 #else
-#  define SOTParameterServer_EXPORT
+#define SOTParameterServer_EXPORT __declspec(dllimport)
 #endif
-
+#else
+#define SOTParameterServer_EXPORT
+#endif
 
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+#include "boost/assign.hpp"
 #include <dynamic-graph/signal-helper.h>
+#include <map>
 #include <sot/core/matrix-geometry.hh>
 #include <sot/core/robot-utils.hh>
-#include <map>
-#include "boost/assign.hpp"
-
-
 
 namespace dynamicgraph {
-  namespace sot {
+namespace sot {
 
+/* --------------------------------------------------------------------- */
+/* --- CLASS ----------------------------------------------------------- */
+/* --------------------------------------------------------------------- */
 
-    /* --------------------------------------------------------------------- */
-    /* --- CLASS ----------------------------------------------------------- */
-    /* --------------------------------------------------------------------- */
-
-    /// Number of time step to transition from one ctrl mode to another
+/// Number of time step to transition from one ctrl mode to another
 #define CTRL_MODE_TRANSITION_TIME_STEP 1000.0
 
+class SOTParameterServer_EXPORT ParameterServer
+    : public ::dynamicgraph::Entity {
+  typedef ParameterServer EntityClassName;
+  DYNAMIC_GRAPH_ENTITY_DECL();
 
-    class SOTParameterServer_EXPORT ParameterServer
-      :public::dynamicgraph::Entity
-    {
-      typedef ParameterServer EntityClassName;
-      DYNAMIC_GRAPH_ENTITY_DECL();
+public:
+  /* --- CONSTRUCTOR ---- */
+  ParameterServer(const std::string &name);
 
-    public:
-      /* --- CONSTRUCTOR ---- */
-      ParameterServer( const std::string & name);
+  /// Initialize
+  /// @param dt: control interval
+  /// @param urdfFile: path to the URDF model of the robot
+  void init(const double &dt, const std::string &urdfFile,
+            const std::string &robotRef);
 
-      /// Initialize
-      /// @param dt: control interval
-      /// @param urdfFile: path to the URDF model of the robot
-      void init(const double & dt,
-		const std::string & urdfFile,
-		const std::string & robotRef);
+  /* --- SIGNALS --- */
 
-      /* --- SIGNALS --- */
+  /* --- COMMANDS --- */
 
+  /// Commands related to joint name and joint id
+  void setNameToId(const std::string &jointName, const double &jointId);
+  void setJointLimitsFromId(const double &jointId, const double &lq,
+                            const double &uq);
 
-      /* --- COMMANDS --- */
+  /// Command related to ForceUtil
+  void setForceLimitsFromId(const double &jointId,
+                            const dynamicgraph::Vector &lq,
+                            const dynamicgraph::Vector &uq);
+  void setForceNameToForceId(const std::string &forceName,
+                             const double &forceId);
 
-      /// Commands related to joint name and joint id
-      void setNameToId(const std::string& jointName, const double & jointId);
-      void setJointLimitsFromId(const double &jointId, const double &lq, const double &uq);
+  /// Commands related to FootUtil
+  void setRightFootSoleXYZ(const dynamicgraph::Vector &);
+  void setRightFootForceSensorXYZ(const dynamicgraph::Vector &);
+  void setFootFrameName(const std::string &, const std::string &);
+  void setImuJointName(const std::string &);
+  void displayRobotUtil();
+  /// Set the mapping between urdf and sot.
+  void setJoints(const dynamicgraph::Vector &);
 
-      /// Command related to ForceUtil
-      void setForceLimitsFromId(const double &jointId, const dynamicgraph::Vector &lq, const dynamicgraph::Vector &uq);
-      void setForceNameToForceId(const std::string& forceName, const double & forceId);
-	
-      /// Commands related to FootUtil
-      void setRightFootSoleXYZ(const dynamicgraph::Vector &);
-      void setRightFootForceSensorXYZ(const dynamicgraph::Vector &);
-      void setFootFrameName(const std::string &, const std::string &);
-      void setImuJointName(const std::string &);
-      void displayRobotUtil();
-      /// Set the mapping between urdf and sot.
-      void setJoints(const dynamicgraph::Vector &);
+  /* --- ENTITY INHERITANCE --- */
+  virtual void display(std::ostream &os) const;
 
-      /* --- ENTITY INHERITANCE --- */
-      virtual void display( std::ostream& os ) const;
+protected:
+  RobotUtilShrPtr m_robot_util;
+  bool m_initSucceeded; /// true if the entity has been successfully initialized
+  double m_dt;          /// control loop time period
+  bool m_emergency_stop_triggered; /// true if an emergency condition as been
+                                   /// triggered either by an other entity, or
+                                   /// by control limit violation
+  bool m_is_first_iter; /// true at the first iteration, false otherwise
+  int m_iter;
+  double m_sleep_time; /// time to sleep at every iteration (to slow down
+                       /// simulation)
 
-    protected:
-      RobotUtilShrPtr                   m_robot_util;
-      bool    m_initSucceeded;    /// true if the entity has been successfully initialized
-      double  m_dt;               /// control loop time period
-      bool    m_emergency_stop_triggered;  /// true if an emergency condition as been triggered either by an other entity, or by control limit violation
-      bool    m_is_first_iter;    /// true at the first iteration, false otherwise
-      int     m_iter;
-      double  m_sleep_time;       /// time to sleep at every iteration (to slow down simulation)
+  bool convertJointNameToJointId(const std::string &name, unsigned int &id);
+  bool isJointInRange(unsigned int id, double q);
+  void updateJointCtrlModesOutputSignal();
 
-      bool convertJointNameToJointId(const std::string& name, unsigned int& id);
-      bool isJointInRange(unsigned int id, double q);
-      void updateJointCtrlModesOutputSignal();
+}; // class ParameterServer
 
-    }; // class ParameterServer
-
-  }      // namespace sot
-}        // namespace dynamicgraph
-
-
+} // namespace sot
+} // namespace dynamicgraph
 
 #endif // #ifndef __sot_torque_control_control_manager_H__

@@ -1,7 +1,7 @@
 /** \page codeorganization Code organization
 
     \section sec_organization Organization of the code
-   
+
 The code is based on the <c>dynamic-graph</c> package, which provides the
 framework on which sot-core relies. Hence most of the code in <c>sot-core</c>
 consists of classes that derive from dynamic_graph::Entity.

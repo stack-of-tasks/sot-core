@@ -15,61 +15,58 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
+#include <sot/core/exception-task.hh>
 #include <sot/core/feature-generic.hh>
 #include <sot/core/task-abstract.hh>
-#include <sot/core/exception-task.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (feature_task_EXPORTS)
-#    define SOTFEATURETASK_EXPORT __declspec(dllexport)
-#  else
-#    define SOTFEATURETASK_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(feature_task_EXPORTS)
+#define SOTFEATURETASK_EXPORT __declspec(dllexport)
 #else
-#  define SOTFEATURETASK_EXPORT
+#define SOTFEATURETASK_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTFEATURETASK_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 namespace dg = dynamicgraph;
 
-class SOTFEATURETASK_EXPORT FeatureTask
-  : public FeatureGeneric
-{
+class SOTFEATURETASK_EXPORT FeatureTask : public FeatureGeneric {
 
- public:
+public:
   /*! Field storing the class name. */
   static const std::string CLASS_NAME;
   /*! Returns the name of the class. */
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
- protected:
-  TaskAbstract * taskPtr;
+protected:
+  TaskAbstract *taskPtr;
 
   /* --- SIGNALS ------------------------------------------------------------ */
- public:
-
- public:
-
+public:
+public:
   /*! \brief Default constructor */
-  FeatureTask( const std::string& name );
+  FeatureTask(const std::string &name);
 
   /*! \brief Default destructor */
-  virtual ~FeatureTask( void ) {}
+  virtual ~FeatureTask(void) {}
 
   /*! \brief Display the information related to this task implementation. */
-  virtual void display( std::ostream& os ) const;
+  virtual void display(std::ostream &os) const;
+};
 
-} ;
-
-} /* namespace sot */} /* namespace dynamicgraph */
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_FEATURE_TASK_HH__
 

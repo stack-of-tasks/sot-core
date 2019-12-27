@@ -19,25 +19,25 @@
 namespace dg = dynamicgraph;
 
 /* SOT */
-#include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
+#include <dynamic-graph/entity.h>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (com_freezer_EXPORTS)
-#    define SOTSMOOTHREACH_EXPORT __declspec(dllexport)
-#  else
-#    define SOTSMOOTHREACH_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(com_freezer_EXPORTS)
+#define SOTSMOOTHREACH_EXPORT __declspec(dllexport)
 #else
-#  define SOTSMOOTHREACH_EXPORT
+#define SOTSMOOTHREACH_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTSMOOTHREACH_EXPORT
 #endif
 
-
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 
 namespace dg = dynamicgraph;
 
@@ -45,49 +45,45 @@ namespace dg = dynamicgraph;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class SOTSMOOTHREACH_EXPORT SmoothReach
-: public dg::Entity
-{
-  public:
-    static const std::string CLASS_NAME;
-    virtual const std::string & getClassName() const { return CLASS_NAME; }
+class SOTSMOOTHREACH_EXPORT SmoothReach : public dg::Entity {
+public:
+  static const std::string CLASS_NAME;
+  virtual const std::string &getClassName() const { return CLASS_NAME; }
 
-  private:
-    dg::Vector start,goal;
-    int startTime, lengthTime;
-    bool isStarted, isParam;
-    int smoothMode; double smoothParam;
+private:
+  dg::Vector start, goal;
+  int startTime, lengthTime;
+  bool isStarted, isParam;
+  int smoothMode;
+  double smoothParam;
 
-    double smoothFunction( double x );
+  double smoothFunction(double x);
 
-  public: /* --- CONSTRUCTION --- */
-    SmoothReach(const std::string & name);
-    virtual ~SmoothReach(void) {};
+public: /* --- CONSTRUCTION --- */
+  SmoothReach(const std::string &name);
+  virtual ~SmoothReach(void){};
 
-  public: /* --- SIGNAL --- */
-    dg::SignalPtr<dg::Vector, int> startSIN;
-    dg::SignalTimeDependent<dg::Vector, int> goalSOUT;
-    //dg::SignalTimeDependent<double, int> percentSOUT;
+public: /* --- SIGNAL --- */
+  dg::SignalPtr<dg::Vector, int> startSIN;
+  dg::SignalTimeDependent<dg::Vector, int> goalSOUT;
+  // dg::SignalTimeDependent<double, int> percentSOUT;
 
-  public: /* --- FUNCTION --- */
-    dg::Vector& goalSOUT_function(dg::Vector & goal, const int& time);
+public: /* --- FUNCTION --- */
+  dg::Vector &goalSOUT_function(dg::Vector &goal, const int &time);
 
-    void set( const dg::Vector & goal, const int & length );
-    const dg::Vector & getGoal( void );
-    const int & getLength( void );
-    const int & getStart( void );
+  void set(const dg::Vector &goal, const int &length);
+  const dg::Vector &getGoal(void);
+  const int &getLength(void);
+  const int &getStart(void);
 
-    void setSmoothing( const int & mode, const double & param );
+  void setSmoothing(const int &mode, const double &param);
 
-  public: /* --- PARAMS --- */
-    virtual void display(std::ostream & os) const;
-    void initCommands( void );
+public: /* --- PARAMS --- */
+  virtual void display(std::ostream &os) const;
+  void initCommands(void);
 };
 
-
-
-} /* namespace sot */} /* namespace dynamicgraph */
-
-
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif /* #ifndef __SOT_SMOOTHREACH_H_H */

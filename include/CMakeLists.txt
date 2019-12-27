@@ -1,19 +1,20 @@
 # Copyright 2010, François Bleibel, Olivier Stasse, JRL, CNRS/AIST
 
 SET(NEWHEADERS
-  sot/core/abstract-sot-external-interface.hh  
-  sot/core/additional-functions.hh  
+  sot/core/abstract-sot-external-interface.hh
+  sot/core/additional-functions.hh
   sot/core/api.hh
-  sot/core/binary-int-to-uint.hh  
-  sot/core/binary-op.hh  
+  sot/core/binary-int-to-uint.hh
+  sot/core/binary-op.hh
   sot/core/causal-filter.hh
   sot/core/clamp-workspace.hh
-  sot/core/com-freezer.hh  
+  sot/core/com-freezer.hh
   sot/core/contiifstream.hh
-  sot/core/constraint.hh  
+  sot/core/constraint.hh
   sot/core/debug.hh
-  sot/core/derivator.hh  
+  sot/core/derivator.hh
   sot/core/device.hh
+  sot/core/double-constant.hh
   sot/core/event.hh
   sot/core/exception-abstract.hh
   sot/core/exception-dynamic.hh
@@ -24,62 +25,62 @@ SET(NEWHEADERS
   sot/core/exception-tools.hh
   sot/core/exp-moving-avg.hh
   sot/core/factory.hh
-  sot/core/feature-1d.hh  
+  sot/core/feature-1d.hh
   sot/core/feature-abstract.hh
   sot/core/feature-generic.hh
   sot/core/feature-joint-limits.hh
-  sot/core/feature-line-distance.hh  
+  sot/core/feature-line-distance.hh
   sot/core/feature-point6d-relative.hh
   sot/core/feature-point6d.hh
-  sot/core/feature-pose.hh  
-  sot/core/feature-posture.hh  
-  sot/core/feature-task.hh  
+  sot/core/feature-pose.hh
+  sot/core/feature-posture.hh
+  sot/core/feature-task.hh
   sot/core/feature-vector3.hh
   sot/core/feature-visual-point.hh
-  sot/core/filter-differentiator.hh  
+  sot/core/filter-differentiator.hh
   sot/core/fir-filter.hh
   sot/core/flags.hh
   sot/core/gain-adaptive.hh
   sot/core/gain-hyperbolic.hh
-  sot/core/gripper-control.hh    
+  sot/core/gripper-control.hh
   sot/core/integrator-abstract.hh
   sot/core/integrator-euler.hh
-  sot/core/joint-limitator.hh  
+  sot/core/joint-limitator.hh
   sot/core/kalman.hh
   sot/core/latch.hh
   sot/core/macros-signal.hh
   sot/core/mailbox-vector.hh
   sot/core/mailbox.hh
-  sot/core/mailbox.hxx    
+  sot/core/mailbox.hxx
   sot/core/matrix-constant.hh
   sot/core/matrix-geometry.hh
   sot/core/matrix-svd.hh
   sot/core/memory-task-sot.hh
-  sot/core/motion-period.hh  
+  sot/core/motion-period.hh
   sot/core/multi-bound.hh
-  sot/core/neck-limitation.hh  
+  sot/core/neck-limitation.hh
   sot/core/op-point-modifier.hh
   sot/core/parameter-server.hh
   sot/core/periodic-call.hh
-  sot/core/periodic-call-entity.hh    
+  sot/core/periodic-call-entity.hh
   sot/core/pool.hh
-  sot/core/reader.hh    
+  sot/core/reader.hh
   sot/core/robot-simu.hh
-  sot/core/robot-utils.hh  
+  sot/core/robot-utils.hh
   sot/core/sot.hh
   sot/core/stop-watch.hh
-  sot/core/switch.hh    
-  sot/core/task.hh  
+  sot/core/switch.hh
+  sot/core/task.hh
   sot/core/task-abstract.hh
   sot/core/task-conti.hh
   sot/core/task-pd.hh
   sot/core/task-unilateral.hh
   sot/core/time-stamp.hh
   sot/core/timer.hh
-  sot/core/trajectory.hh  
+  sot/core/trajectory.hh
   sot/core/unary-op.hh
   sot/core/utils-windows.hh
-  sot/core/variadic-op.hh  
+  sot/core/variadic-op.hh
   sot/core/vector-constant.hh
   sot/core/vector-to-rotation.hh
   sot/core/visual-point-projecter.hh

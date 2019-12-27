@@ -19,9 +19,9 @@
 namespace dg = dynamicgraph;
 
 /* SOT */
+#include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
 #include <sot/core/flags.hh>
-#include <dynamic-graph/all-signals.h>
 
 /* STD */
 #include <string>
@@ -30,21 +30,22 @@ namespace dg = dynamicgraph;
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (gripper_control_EXPORTS)
-#    define SOTGRIPPERCONTROL_EXPORT __declspec(dllexport)
-#  else
-#    define SOTGRIPPERCONTROL_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(gripper_control_EXPORTS)
+#define SOTGRIPPERCONTROL_EXPORT __declspec(dllexport)
 #else
-#  define SOTGRIPPERCONTROL_EXPORT
+#define SOTGRIPPERCONTROL_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTGRIPPERCONTROL_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 
 namespace dg = dynamicgraph;
 
@@ -54,91 +55,82 @@ namespace dg = dynamicgraph;
 kept
  *
  */
-class SOTGRIPPERCONTROL_EXPORT GripperControl
-{
- protected:
-
+class SOTGRIPPERCONTROL_EXPORT GripperControl {
+protected:
   double offset;
   static const double OFFSET_DEFAULT;
   //! \brief The multiplication
   dg::Vector factor;
 
- public:
-  GripperControl( void );
+public:
+  GripperControl(void);
 
   //! \brief Computes the
   // if the torque limit is reached, the normalized position is reduced by
   // (offset)
-  void computeIncrement( const dg::Vector& torques,
-                         const dg::Vector& torqueLimits,
-                         const dg::Vector& currentNormVel );
+  void computeIncrement(const dg::Vector &torques,
+                        const dg::Vector &torqueLimits,
+                        const dg::Vector &currentNormVel);
 
   //! \brief
-  dg::Vector& computeDesiredPosition( const dg::Vector& currentPos,
-                                      const dg::Vector& desiredPos,
-                                      const dg::Vector& torques,
-                                      const dg::Vector& torqueLimits,
-                                      dg::Vector& referencePos );
+  dg::Vector &computeDesiredPosition(const dg::Vector &currentPos,
+                                     const dg::Vector &desiredPos,
+                                     const dg::Vector &torques,
+                                     const dg::Vector &torqueLimits,
+                                     dg::Vector &referencePos);
 
   /*! \brief select only some of the values of the vector fullsize,
-  *   based on the Flags vector.
-  */
+   *   based on the Flags vector.
+   */
 
-  static dg::Vector& selector( const dg::Vector& fullsize,
-                               const Flags& selec,
-                               dg::Vector& desPos );
+  static dg::Vector &selector(const dg::Vector &fullsize, const Flags &selec,
+                              dg::Vector &desPos);
 };
 
 /* --------------------------------------------------------------------- */
 /* --- PLUGIN ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
-:public dg::Entity, public GripperControl
-{
+class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin : public dg::Entity,
+                                                      public GripperControl {
   DYNAMIC_GRAPH_ENTITY_DECL();
- public:
+
+public:
   bool calibrationStarted;
 
-
- public: /* --- CONSTRUCTION --- */
-
-  GripperControlPlugin( const std::string& name );
-  virtual ~GripperControlPlugin( void );
+public: /* --- CONSTRUCTION --- */
+  GripperControlPlugin(const std::string &name);
+  virtual ~GripperControlPlugin(void);
 
   /* --- DOCUMENTATION --- */
-  virtual std::string getDocString () const;
+  virtual std::string getDocString() const;
 
- public: /* --- SIGNAL --- */
-
+public: /* --- SIGNAL --- */
   /* --- INPUTS --- */
-  dg::SignalPtr<dg::Vector,int> positionSIN;
-  dg::SignalPtr<dg::Vector,int> positionDesSIN;
-  dg::SignalPtr<dg::Vector,int> torqueSIN;
-  dg::SignalPtr<dg::Vector,int> torqueLimitSIN;
-  dg::SignalPtr<Flags,int> selectionSIN;
+  dg::SignalPtr<dg::Vector, int> positionSIN;
+  dg::SignalPtr<dg::Vector, int> positionDesSIN;
+  dg::SignalPtr<dg::Vector, int> torqueSIN;
+  dg::SignalPtr<dg::Vector, int> torqueLimitSIN;
+  dg::SignalPtr<Flags, int> selectionSIN;
 
   /* --- INTERMEDIARY --- */
-  dg::SignalPtr<dg::Vector,int> positionFullSizeSIN;
-  dg::SignalTimeDependent<dg::Vector,int> positionReduceSOUT;
-  dg::SignalPtr<dg::Vector,int> torqueFullSizeSIN;
-  dg::SignalTimeDependent<dg::Vector,int> torqueReduceSOUT;
-  dg::SignalPtr<dg::Vector,int> torqueLimitFullSizeSIN;
-  dg::SignalTimeDependent<dg::Vector,int> torqueLimitReduceSOUT;
+  dg::SignalPtr<dg::Vector, int> positionFullSizeSIN;
+  dg::SignalTimeDependent<dg::Vector, int> positionReduceSOUT;
+  dg::SignalPtr<dg::Vector, int> torqueFullSizeSIN;
+  dg::SignalTimeDependent<dg::Vector, int> torqueReduceSOUT;
+  dg::SignalPtr<dg::Vector, int> torqueLimitFullSizeSIN;
+  dg::SignalTimeDependent<dg::Vector, int> torqueLimitReduceSOUT;
 
   /* --- OUTPUTS --- */
-  dg::SignalTimeDependent<dg::Vector,int> desiredPositionSOUT;
+  dg::SignalTimeDependent<dg::Vector, int> desiredPositionSOUT;
 
-
- public: /* --- COMMANDLINE --- */
-
+public: /* --- COMMANDLINE --- */
   void initCommands();
 
-  void setOffset(const double & value);
+  void setOffset(const double &value);
 };
 
-
-} /* namespace sot */} /* namespace dynamicgraph */
-
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_SOTGRIPPERCONTROL_H__

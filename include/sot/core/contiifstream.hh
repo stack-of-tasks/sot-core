@@ -14,7 +14,6 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-
 #include <fstream>
 #include <sstream>
 #ifndef WIN32
@@ -27,36 +26,38 @@
 #include <pthread.h>
 #endif
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-class SOT_CORE_EXPORT Contiifstream
-{
+class SOT_CORE_EXPORT Contiifstream {
 protected:
   std::string filename;
   std::streamoff cursor;
   static const unsigned int BUFFER_SIZE = 256;
   char buffer[BUFFER_SIZE];
-  std::list< std::string > reader;
+  std::list<std::string> reader;
   bool first;
 
 public: /* --- Constructor --- */
-  Contiifstream( const std::string& n="" );
-  ~Contiifstream( void );
-  void open( const std::string& n ) { filename=n; cursor=0; }
+  Contiifstream(const std::string &n = "");
+  ~Contiifstream(void);
+  void open(const std::string &n) {
+    filename = n;
+    cursor = 0;
+  }
 
 public: /* --- READ FILE --- */
-  bool loop( void );
+  bool loop(void);
 
 public: /* --- READ LIST --- */
-  inline bool ready( void ) { return 0<reader.size();}
-  std::string next( void ) ;
-
-
+  inline bool ready(void) { return 0 < reader.size(); }
+  std::string next(void);
 };
 
-} /* namespace sot */} /* namespace dynamicgraph */
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif /* #ifndef __SOT_CONTIIFSTREAM_HH__ */

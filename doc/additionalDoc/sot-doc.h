@@ -1,5 +1,5 @@
 /** \page page_sot Stack-of-Tasks
-    
+
     As explained in class dynamicgraph::sot::FeatureAbstract,
     \f[
     {\bf E}(t) = {\bf e}({\bf q}(t), t)= {\bf s}({\bf q}(t)) - {\bf s}^*(t)

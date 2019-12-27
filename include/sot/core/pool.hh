@@ -16,25 +16,25 @@
 
 /* --- STD --- */
 #include <map>
-#include <string>
 #include <sstream>
+#include <string>
 
 /* --- SOT --- */
-#include <sot/core/exception-factory.hh>
-#include <dynamic-graph/signal-base.h>
 #include "sot/core/api.hh"
 #include <dynamic-graph/pool.h>
+#include <dynamic-graph/signal-base.h>
+#include <sot/core/exception-factory.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 
 // Preliminary declarations
 class FeatureAbstract;
 class TaskAbstract;
-
 
 /*! @ingroup factory
   \brief This singleton class keep tracks of all features and tasks.
@@ -58,20 +58,19 @@ class TaskAbstract;
 
   It also returns references to signals from their fully-qualified names.
  */
-class SOT_CORE_EXPORT PoolStorage
-{
- public:
+class SOT_CORE_EXPORT PoolStorage {
+public:
   /*! \name Define types to simplify the writing
     @{
    */
   /*! \brief Sorted set of tasks with unique key (name). */
-  typedef std::map< std::string,TaskAbstract* > Tasks;
+  typedef std::map<std::string, TaskAbstract *> Tasks;
 
   /*! \brief Sorted set of features with unique key (name). */
-  typedef std::map< std::string,FeatureAbstract* > Features;
+  typedef std::map<std::string, FeatureAbstract *> Features;
   /*! @} */
 
- protected:
+protected:
   /*! \name Fields of the class to manage the three entities.
     Also the name is singular, those are true sets.
     @{
@@ -84,12 +83,12 @@ class SOT_CORE_EXPORT PoolStorage
   Features feature;
   /*! @} */
 
- public:
+public:
   /*! \brief Default destructor */
-  ~PoolStorage( void );
+  ~PoolStorage(void);
 
   /// \brief Get unique instance of the class
-  static PoolStorage* getInstance();
+  static PoolStorage *getInstance();
 
   /// \brief destroy unique instance of the class
   static void destroy();
@@ -98,30 +97,32 @@ class SOT_CORE_EXPORT PoolStorage
     @{
    */
   /*! \brief Registering a feature. */
-  void registerFeature( const std::string& entname,FeatureAbstract* ent );
+  void registerFeature(const std::string &entname, FeatureAbstract *ent);
 
   /*! \brief Get a reference to a feature. */
-  FeatureAbstract& getFeature( const std::string& name );
+  FeatureAbstract &getFeature(const std::string &name);
   /*! @} */
 
   /*! \name Methods related to the handling of the tasks
     @{
    */
   /*! \brief Registering a task. */
-  void registerTask( const std::string& entname,TaskAbstract* ent );
+  void registerTask(const std::string &entname, TaskAbstract *ent);
   /*! \brief Get a reference to a task. */
-  TaskAbstract& getTask( const std::string& name );
+  TaskAbstract &getTask(const std::string &name);
   /*! @} */
 
-  /*! \brief This method write a graph description on the file named FileName. */
+  /*! \brief This method write a graph description on the file named FileName.
+   */
   void writeGraph(const std::string &aFileName);
-  void writeCompletionList(std::ostream& os);
+  void writeCompletionList(std::ostream &os);
 
- private:
+private:
   PoolStorage();
-  static PoolStorage* instance_;
+  static PoolStorage *instance_;
 };
 
-} /* namespace sot */} /* namespace dynamicgraph */
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif /* #ifndef __SOT_POOL_HH__ */

@@ -1,7 +1,7 @@
 # Copyright 2010, 2019 JRL, CNRS/AIST, LAAS CNRS
 # See LICENSE file.
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 SET(PROJECT_ORG stack-of-tasks)
 SET(PROJECT_NAME sot-core)
@@ -17,13 +17,8 @@ SET(CXX_DISABLE_WERROR True)
 INCLUDE(cmake/base.cmake)
 
 # Specify the project.
-cmake_policy(SET CMP0048 NEW)
-PROJECT(${PROJECT_NAME}
-  LANGUAGES
-  CXX
-  VERSION
-  ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}
-  )
+COMPUTE_PROJECT_ARGS(PROJECT_ARGS LANGUAGES CXX)
+PROJECT(${PROJECT_NAME} ${PROJECT_ARGS})
 
 find_package (Boost REQUIRED
   python filesystem system thread program_options unit_test_framework)
@@ -47,6 +42,9 @@ install(FILES "src/sot-coreMacros.cmake"
 set(PACKAGE_EXTRA_MACROS "${PACKAGE_EXTRA_MACROS}
 include(\"\${CMAKE_CURRENT_LIST_DIR}/sot-coreMacros.cmake\")")
 
+OPTION (BUILD_PYTHON_INTERFACE "Build the python binding" ON)
+OPTION (INSTALL_PYTHON_INTERFACE_ONLY "Install *ONLY* the python binding" OFF)
+
 PKG_CONFIG_APPEND_LIBS("sot-core")
 
 # Search for dependencies.
@@ -57,11 +55,8 @@ SET(BOOST_COMPONENTS
 
 ADD_PROJECT_DEPENDENCY(dynamic-graph REQUIRED)
 
-OPTION (BUILD_PYTHON_INTERFACE "Build the python binding" ON)
-OPTION (INSTALL_PYTHON_INTERFACE_ONLY "Install *ONLY* the python binding" OFF)
-
 IF(BUILD_PYTHON_INTERFACE)
-  FINDPYTHON(2.7 EXACT REQUIRED)
+  FINDPYTHON()
   STRING(REGEX REPLACE "-" "_" PY_NAME ${PROJECT_NAME})
   SET(${PY_NAME}_INSTALL_DIR ${PYTHON_SITELIB}/${PY_NAME})
   INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIRS})
@@ -71,16 +66,14 @@ IF(BUILD_PYTHON_INTERFACE)
 
 ENDIF(BUILD_PYTHON_INTERFACE)
 
-ADD_REQUIRED_DEPENDENCY ("pinocchio >= 2.0.0")
+ADD_REQUIRED_DEPENDENCY ("pinocchio >= 2.2.1")
 
 SEARCH_FOR_BOOST()
 
 ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(unitTesting)
-IF (NOT INSTALL_PYTHON_INTERFACE_ONLY)
-  ADD_SUBDIRECTORY(doc)
-ENDIF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
+ADD_SUBDIRECTORY(doc)
 
 # **********************************
 # Robot_utils_sot_py PYTHON module *
@@ -107,3 +100,5 @@ list (SORT _variableNames)
 foreach (_variableName ${_variableNames})
     message(STATUS "${_variableName}=${${_variableName}}")
 endforeach()
+=======
+>>>>>>> origin/devel
