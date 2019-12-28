@@ -65,6 +65,10 @@ SET(TEST_test_feature_generic_INC
   pinocchio
   )
 
+SET(TEST_test_device_INC
+  pinocchio
+  )
+
 SET(TEST_test_filter_differentiator_LIBS
   filter-differentiator
   )
