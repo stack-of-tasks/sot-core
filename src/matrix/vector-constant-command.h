@@ -35,7 +35,7 @@ public:
     VectorConstant &vc = static_cast<VectorConstant &>(owner());
     std::vector<Value> values = getParameterValues();
     unsigned size = values[0].value();
-    Vector m (Vector::Zero(size));
+    Vector m(Vector::Zero(size));
     vc.SOUT.setConstant(m);
 
     // return void

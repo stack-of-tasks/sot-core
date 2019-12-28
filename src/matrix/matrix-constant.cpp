@@ -32,13 +32,12 @@ MatrixConstant::MatrixConstant(const std::string &name)
 
   // Resize
   std::string docstring;
-  docstring =
-      "    \n"
-      "    Resize the matrix and set it to zero.\n"
-      "      Input\n"
-      "        - unsigned int: number of lines.\n"
-      "        - unsigned int: number of columns.\n"
-      "\n";
+  docstring = "    \n"
+              "    Resize the matrix and set it to zero.\n"
+              "      Input\n"
+              "        - unsigned int: number of lines.\n"
+              "        - unsigned int: number of columns.\n"
+              "\n";
   addCommand("resize", new command::matrixConstant::Resize(*this, docstring));
   // set
   docstring = "    \n"

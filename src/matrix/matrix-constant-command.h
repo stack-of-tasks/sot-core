@@ -38,7 +38,7 @@ public:
     std::vector<Value> values = getParameterValues();
     unsigned rows = values[0].value();
     unsigned cols = values[1].value();
-    Matrix m (Matrix::Zero(rows, cols));
+    Matrix m(Matrix::Zero(rows, cols));
     mc.SOUT.setConstant(m);
 
     // return void

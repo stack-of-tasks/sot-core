@@ -27,15 +27,15 @@ namespace dynamicgraph {
 namespace sot {
 namespace dg = dynamicgraph;
 
-namespace internal
-{
-  template<class coefT>
-  bool integratorEulerCoeffIsIdentity(const coefT c) { return c == 1; }
-
-  bool integratorEulerCoeffIsIdentity(const Vector c) { return c.isOnes(); }
-
-  bool integratorEulerCoeffIsIdentity(const Matrix c) { return c.isIdentity(); }
+namespace internal {
+template <class coefT> bool integratorEulerCoeffIsIdentity(const coefT c) {
+  return c == 1;
 }
+
+bool integratorEulerCoeffIsIdentity(const Vector c) { return c.isOnes(); }
+
+bool integratorEulerCoeffIsIdentity(const Matrix c) { return c.isIdentity(); }
+} // namespace internal
 
 /*!
  * \class IntegratorEuler
@@ -184,8 +184,10 @@ public:
 
     // Check that denominator.back is the identity
     if (!internal::integratorEulerCoeffIsIdentity(denominator.back()))
-      throw dg::ExceptionSignal (dg::ExceptionSignal::GENERIC,
-          "The coefficient of the highest order derivative of denominator should be 1 (the last pushDenomCoef should be the identity).");
+      throw dg::ExceptionSignal(
+          dg::ExceptionSignal::GENERIC,
+          "The coefficient of the highest order derivative of denominator "
+          "should be 1 (the last pushDenomCoef should be the identity).");
   }
 };
 

@@ -50,8 +50,8 @@ const double Sot::INVERSION_THRESHOLD_DEFAULT = 1e-4;
 /* --- CONSTRUCTION ---------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 Sot::Sot(const std::string &name)
-    : Entity(name), stack(),
-      nbJoints(0), taskGradient(0), recomputeEachTime(true),
+    : Entity(name), stack(), nbJoints(0), taskGradient(0),
+      recomputeEachTime(true),
       q0SIN(NULL, "sotSOT(" + name + ")::input(double)::q0"),
       proj0SIN(NULL, "sotSOT(" + name + ")::input(double)::proj0"),
       inversionThresholdSIN(NULL,
@@ -61,8 +61,7 @@ Sot::Sot(const std::string &name)
                   "sotSOT(" + name + ")::output(vector)::control") {
   inversionThresholdSIN = INVERSION_THRESHOLD_DEFAULT;
 
-  signalRegistration(inversionThresholdSIN << controlSOUT
-                                           << q0SIN << proj0SIN);
+  signalRegistration(inversionThresholdSIN << controlSOUT << q0SIN << proj0SIN);
 
   // Commands
   //
@@ -401,7 +400,7 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
 
     unsigned int rankJ;
     const Matrix::Index nJ = Jac.rows(); // task dimension
-    assert (Jac.cols() == mJ);
+    assert(Jac.cols() == mJ);
 
     /* Init memory. */
     MemoryTaskSOT *mem = dynamic_cast<MemoryTaskSOT *>(task.memoryInternal);

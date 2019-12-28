@@ -47,7 +47,7 @@ namespace dg = dynamicgraph;
 /** Exponentially decreasing gain.
  * It follows the law \f[ g(e) = a \exp (-b ||e||) + c \f].
  *
- * The default values for 
+ * The default values for
  * - \f$ a = 0   \f$,
  * - \f$ b = 0   \f$,
  * - \f$ c = 0.1 \f$.
@@ -102,15 +102,13 @@ public: /* --- INIT --- */
    *     g.error.time = t
    *     g.gain.recompute(t)
    *     return g.gain.value
-   * 
+   *
    * gains = [ compute(e) for e in errors ]
    *
    * lg = plt.plot(errors, gains, 'r', label="Gain")
-   * ld = plt.twinx().plot(errors, [ g*e for e,g in zip(errors,gains) ], 'b', label="Derivative")
-   * lines = lg + ld
-   * plt.legend(lines, [l.get_label() for l in lines])
-   * plt.show()
-   * \endcode
+   * ld = plt.twinx().plot(errors, [ g*e for e,g in zip(errors,gains) ], 'b',
+   * label="Derivative") lines = lg + ld plt.legend(lines, [l.get_label() for l
+   * in lines]) plt.show() \endcode
    */
   void initFromPassingPoint(const double &valueAt0, const double &valueAtInfty,
                             const double &errorReference,

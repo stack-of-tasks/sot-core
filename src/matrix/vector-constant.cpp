@@ -32,12 +32,11 @@ VectorConstant::VectorConstant(const std::string &name)
   //
   // Resize
   std::string docstring;
-  docstring =
-      "    \n"
-      "    Resize the vector and set it to zero.\n"
-      "      Input\n"
-      "        unsigned size.\n"
-      "\n";
+  docstring = "    \n"
+              "    Resize the vector and set it to zero.\n"
+              "      Input\n"
+              "        unsigned size.\n"
+              "\n";
   addCommand("resize", new command::vectorConstant::Resize(*this, docstring));
   // set
   docstring = "    \n"

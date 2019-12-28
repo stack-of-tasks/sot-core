@@ -30,7 +30,7 @@ public: //   protected:
   dg::Matrix Jp;
   dg::Matrix PJp;
 
-  dg::Matrix JK;   //(nJ,mJ);
+  dg::Matrix JK; //(nJ,mJ);
 
   dg::Matrix Proj;
 
