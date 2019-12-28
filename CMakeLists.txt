@@ -73,7 +73,7 @@ SEARCH_FOR_BOOST()
 ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(unitTesting)
-ADD_SUBDIRECTORY(doc)
+#ADD_SUBDIRECTORY(doc)
 
 # **********************************
 # Robot_utils_sot_py PYTHON module *
