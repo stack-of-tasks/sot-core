@@ -50,39 +50,22 @@ const double Sot::INVERSION_THRESHOLD_DEFAULT = 1e-4;
 /* --- CONSTRUCTION ---------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 Sot::Sot(const std::string &name)
-    : Entity(name), stack(), constraintList(),
-      ffJointIdFirst(FF_JOINT_ID_DEFAULT),
-      ffJointIdLast(FF_JOINT_ID_DEFAULT + 6)
-
-      ,
-      nbJoints(0), taskGradient(0), recomputeEachTime(true),
+    : Entity(name), stack(), nbJoints(0), taskGradient(0),
+      recomputeEachTime(true),
       q0SIN(NULL, "sotSOT(" + name + ")::input(double)::q0"),
       proj0SIN(NULL, "sotSOT(" + name + ")::input(double)::proj0"),
       inversionThresholdSIN(NULL,
                             "sotSOT(" + name + ")::input(double)::damping"),
-      constraintSOUT(
-          boost::bind(&Sot::computeConstraintProjector, this, _1, _2),
-          sotNOSIGNAL, "sotSOT(" + name + ")::output(matrix)::constraint"),
       controlSOUT(boost::bind(&Sot::computeControlLaw, this, _1, _2),
-                  constraintSOUT << inversionThresholdSIN << q0SIN << proj0SIN,
+                  inversionThresholdSIN << q0SIN << proj0SIN,
                   "sotSOT(" + name + ")::output(vector)::control") {
   inversionThresholdSIN = INVERSION_THRESHOLD_DEFAULT;
 
-  signalRegistration(inversionThresholdSIN << controlSOUT << constraintSOUT
-                                           << q0SIN << proj0SIN);
+  signalRegistration(inversionThresholdSIN << controlSOUT << q0SIN << proj0SIN);
 
   // Commands
   //
   std::string docstring;
-  // addConstraint
-  docstring = "    \n"
-              "    AddConstraint\n"
-              "    \n"
-              "      Input:\n"
-              "        - a string: name of the constraint object\n"
-              "    \n";
-  addCommand("addConstraint",
-             new command::classSot::AddConstraint(*this, docstring));
 
   docstring = "    \n"
               "    setNumberDofs.\n"
@@ -269,88 +252,14 @@ void Sot::clear(void) {
   controlSOUT.setReady();
 }
 
-/* --------------------------------------------------------------------- */
-/* --- CONSTRAINTS ----------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-void Sot::addConstraint(Constraint &constraint) {
-  constraintList.push_back(&constraint);
-  constraintSOUT.addDependency(constraint.jacobianSOUT);
-}
-
-void Sot::removeConstraint(const Constraint &key) {
-  bool find = false;
-  ConstraintListType::iterator it;
-  for (it = constraintList.begin(); constraintList.end() != it; ++it) {
-    if (*it == &key) {
-      find = true;
-      break;
-    }
-  }
-  if (!find) {
-    return;
-  }
-
-  constraintList.erase(it);
-
-  constraintSOUT.removeDependency(key.jacobianSOUT);
-}
-void Sot::clearConstraint(void) {
-  for (ConstraintListType::iterator it = constraintList.begin();
-       constraintList.end() != it; ++it) {
-    constraintSOUT.removeDependency((*it)->jacobianSOUT);
-  }
-  constraintList.clear();
-}
-
-void Sot::defineFreeFloatingJoints(const unsigned int &first,
-                                   const unsigned int &last) {
-  ffJointIdFirst = first;
-  if (last > 0)
-    ffJointIdLast = last;
-  else
-    ffJointIdLast = ffJointIdFirst + 6;
-}
-
 void Sot::defineNbDof(const unsigned int &nbDof) {
   nbJoints = nbDof;
-  constraintSOUT.setReady();
   controlSOUT.setReady();
 }
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-
-dynamicgraph::Matrix &
-Sot::computeJacobianConstrained(const dynamicgraph::Matrix &Jac,
-                                const dynamicgraph::Matrix &K,
-                                dynamicgraph::Matrix &JK) {
-  const Matrix::Index nJ = Jac.rows();
-  const Matrix::Index mJ = K.cols();
-  const Matrix::Index nbConstraints = Jac.cols() - mJ;
-
-  if (nbConstraints == 0) {
-    JK = Jac;
-    return JK;
-  }
-  JK.resize(nJ, mJ);
-  JK.noalias() = Jac.leftCols(nbConstraints) * K;
-  JK.noalias() += Jac.rightCols(Jac.cols() - nbConstraints);
-
-  return JK;
-}
-
-dynamicgraph::Matrix &
-Sot::computeJacobianConstrained(const TaskAbstract &task,
-                                const dynamicgraph::Matrix &K) {
-  const dynamicgraph::Matrix &Jac = task.jacobianSOUT.accessCopy();
-  MemoryTaskSOT *mem = dynamic_cast<MemoryTaskSOT *>(task.memoryInternal);
-  if (NULL == mem)
-    throw; // TODO
-  dynamicgraph::Matrix &JK = mem->JK;
-  return computeJacobianConstrained(Jac, K, JK);
-}
 
 static void computeJacobianActivated(Task *taskSpec, dynamicgraph::Matrix &Jt,
                                      const int &iterTime) {
@@ -453,8 +362,7 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
   sotSTARTPARTCOUNTERS;
 
   const double &th = inversionThresholdSIN(iterTime);
-  const Matrix &K = constraintSOUT(iterTime);
-  const Matrix::Index mJ = K.cols(); // number dofs - number constraints
+  const Matrix::Index mJ = nbJoints; // number dofs
 
   if (q0SIN.isPlugged()) {
     control = q0SIN(iterTime);
@@ -491,7 +399,8 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
     sotCOUNTER(0, 1); // Direct Dynamic
 
     unsigned int rankJ;
-    const Matrix::Index nJ = Jac.rows(); // number dofs
+    const Matrix::Index nJ = Jac.rows(); // task dimension
+    assert(Jac.cols() == mJ);
 
     /* Init memory. */
     MemoryTaskSOT *mem = dynamic_cast<MemoryTaskSOT *>(task.memoryInternal);
@@ -527,28 +436,13 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
       sotDEBUG(2) << "Recompute inverse." << endl;
 
       /* --- FIRST ALLOCS --- */
-      sotDEBUG(1) << "Size = "
-                  << std::min(nJ, mJ) + mem->Jff.cols() * mem->Jff.rows() +
-                         mem->Jact.cols() * mem->Jact.rows()
-                  << std::endl;
-
-      sotDEBUG(1) << std::endl;
       sotDEBUG(1) << "nJ=" << nJ << " "
-                  << "Jac.cols()=" << Jac.cols() << " "
                   << "mJ=" << mJ << std::endl;
-      mem->Jff.resize(nJ, Jac.cols() - mJ); // number dofs, number constraints
-      sotDEBUG(1) << std::endl;
-      mem->Jact.resize(nJ, mJ);
-      sotDEBUG(1) << std::endl;
-      sotDEBUG(1) << "Size = "
-                  << std::min(nJ, mJ) + mem->Jff.cols() * mem->Jff.rows() +
-                         mem->Jact.cols() * mem->Jact.rows()
-                  << std::endl;
 
       /***/ sotCOUNTER(1, 2); // first allocs
 
       /* --- COMPUTE JK --- */
-      computeJacobianConstrained(task, K);
+      JK = task.jacobianSOUT.accessCopy();
       /***/ sotCOUNTER(2, 3); // compute JK
 
       /* --- COMPUTE S --- */
@@ -676,8 +570,7 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
     taskVectorToMlVector(taskGradient->taskSOUT.access(iterTime), mem->err);
     const dynamicgraph::Vector &err = mem->err;
 
-    sotDEBUG(45) << "K = " << K << endl;
-    sotDEBUG(45) << "Jff = " << Jac << endl;
+    sotDEBUG(45) << "Jac = " << Jac << endl;
 
     /* --- MEMORY INIT --- */
     dynamicgraph::Matrix &Jp = mem->Jp;
@@ -687,13 +580,11 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
 
     mem->JK.resize(nJ, mJ);
     mem->Jt.resize(nJ, mJ);
-    mem->Jff.resize(nJ, Jac.cols() - mJ);
-    mem->Jact.resize(nJ, mJ);
     Jp.resize(mJ, nJ);
     PJp.resize(nJ, mJ);
 
     /* --- COMPUTE JK --- */
-    dynamicgraph::Matrix &JK = computeJacobianConstrained(*taskGradient, K);
+    const dynamicgraph::Matrix &JK = Jac;
 
     /* --- COMPUTE Jinv --- */
     sotDEBUG(35) << "grad = " << err << endl;
@@ -728,46 +619,6 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
   return control;
 }
 
-dynamicgraph::Matrix &
-Sot::computeConstraintProjector(dynamicgraph::Matrix &ProjK, const int &time) {
-  sotDEBUGIN(15);
-  const dynamicgraph::Matrix *Jptr;
-  if (0 == constraintList.size()) {
-    ProjK.resize(0, nbJoints);
-    sotDEBUGOUT(15);
-    return ProjK;
-  } else if (1 == constraintList.size()) {
-    Jptr = &(*constraintList.begin())->jacobianSOUT(time);
-  } else {
-    SOT_THROW ExceptionTask(ExceptionTask::EMPTY_LIST, "Not implemented yet.");
-  }
-
-  const dynamicgraph::Matrix &J = *Jptr;
-  sotDEBUG(12) << "J = " << J;
-
-  const Matrix::Index nJc = J.cols();
-  dynamicgraph::Matrix Jff(J.rows(), ffJointIdLast - ffJointIdFirst);
-  dynamicgraph::Matrix Jc(J.rows(), nJc - ffJointIdLast + ffJointIdFirst);
-
-  Jc.leftCols(ffJointIdFirst) = J.leftCols(ffJointIdFirst);
-  Jc.rightCols(nJc - ffJointIdLast) = J.rightCols(nJc - ffJointIdLast);
-  Jff = J.middleCols(ffJointIdFirst, ffJointIdLast);
-
-  sotDEBUG(25) << "Jc = " << Jc;
-  sotDEBUG(25) << "Jff = " << Jff;
-
-  dynamicgraph::Matrix Jffinv(Jff.cols(), Jff.rows());
-  Eigen::pseudoInverse(Jff, Jffinv);
-
-  dynamicgraph::Matrix &Jffc = ProjK;
-  Jffc.resize(Jffinv.rows(), Jc.cols());
-  Jffc = -Jffinv * Jc;
-  sotDEBUG(15) << "Jffc = " << Jffc;
-
-  sotDEBUGOUT(15);
-  return ProjK;
-}
-
 /* --------------------------------------------------------------------- */
 /* --- DISPLAY --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -784,10 +635,6 @@ void Sot::display(std::ostream &os) const {
   if (taskGradient) {
     os << "| {Grad} " << taskGradient->getName() << std::endl;
     os << "+-----------------" << std::endl;
-  }
-  for (ConstraintListType::const_iterator it = constraintList.begin();
-       it != constraintList.end(); ++it) {
-    os << "| K: " << (*it)->getName() << endl;
   }
 }
 

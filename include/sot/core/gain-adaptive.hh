@@ -44,6 +44,14 @@ namespace dynamicgraph {
 namespace sot {
 namespace dg = dynamicgraph;
 
+/** Exponentially decreasing gain.
+ * It follows the law \f[ g(e) = a \exp (-b ||e||) + c \f].
+ *
+ * The default values for
+ * - \f$ a = 0   \f$,
+ * - \f$ b = 0   \f$,
+ * - \f$ c = 0.1 \f$.
+ */
 class SOTGAINADAPTATIVE_EXPORT GainAdaptive : public dg::Entity {
 
 public: /* --- CONSTANTS --- */
@@ -75,9 +83,36 @@ public: /* --- INIT --- */
   inline void init(const double &lambda) { init(lambda, lambda, 1.); }
   void init(const double &valueAt0, const double &valueAtInfty,
             const double &tanAt0);
+  /** \brief Set the gain
+   * by providing the value at 0, at \f$ \infty \f$ and the percentage of
+   * accomplishment between both to be reached when the error is
+   * \c errorReference.
+   *
+   * To visualize the curve of the gain versus the error, use
+   * \code{.py}
+   * from dynamic_graph.sot.core import GainAdaptive
+   * import numpy, matplotlib.pyplot as plt
+   * g = GainAdaptive('g')
+   * g.setByPoint(4.9, 0.001, 0.01, 0.1)
+   *
+   * errors = numpy.linspace(0, 0.1, 1000)
+   * def compute(e):
+   *     t = g.error.time + 1
+   *     g.error.value = (e,)
+   *     g.error.time = t
+   *     g.gain.recompute(t)
+   *     return g.gain.value
+   *
+   * gains = [ compute(e) for e in errors ]
+   *
+   * lg = plt.plot(errors, gains, 'r', label="Gain")
+   * ld = plt.twinx().plot(errors, [ g*e for e,g in zip(errors,gains) ], 'b',
+   * label="Derivative") lines = lg + ld plt.legend(lines, [l.get_label() for l
+   * in lines]) plt.show() \endcode
+   */
   void initFromPassingPoint(const double &valueAt0, const double &valueAtInfty,
                             const double &errorReference,
-                            const double &valueAtReference);
+                            const double &percentage);
   void forceConstant(void);
 
 public: /* --- SIGNALS --- */

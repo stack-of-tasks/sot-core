@@ -20,7 +20,6 @@
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/linear-algebra.h>
-#include <sot/core/constraint.hh>
 
 /* -------------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------------ */
