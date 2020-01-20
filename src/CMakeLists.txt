@@ -38,7 +38,6 @@ SET(plugins
 
   task/gain-adaptive
   task/task-pd
-  task/constraint
   task/gain-hyperbolic
   task/task
   task/task-conti
@@ -105,7 +104,7 @@ ENDIF(WIN32)
 set(ADDITIONAL_feature-task_LIBS feature-generic task)
 set(ADDITIONAL_feature-point6d-relative_LIBS feature-point6d)
 
-set(ADDITIONAL_sot_LIBS constraint task)
+set(ADDITIONAL_sot_LIBS task)
 
 set(ADDITIONAL_sequencer_LIBS sot)
 

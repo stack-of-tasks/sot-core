@@ -14,32 +14,27 @@
 namespace dynamicgraph {
 namespace sot {
 
-DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(DoubleConstant,"DoubleConstant");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(DoubleConstant, "DoubleConstant");
 
-DoubleConstant::DoubleConstant(const std::string& name)
-  : Entity(name),
-    SOUT("DoubleConstant(" + name + ")::output(double)::sout")
-{
+DoubleConstant::DoubleConstant(const std::string &name)
+    : Entity(name), SOUT("DoubleConstant(" + name + ")::output(double)::sout") {
   SOUT.setDependencyType(TimeDependency<int>::BOOL_DEPENDENT);
   signalRegistration(SOUT);
   //
   // Commands
 
   // set
-  std::string docstring =
-      "    \n"
-      "    Set value of output signal\n"
-      "    \n"
-      "      input:\n"
-      "        - a double\n"
-      "    \n";
-  addCommand("set",
-	     new ::dynamicgraph::command::Setter<DoubleConstant, double>
-	     (*this, &DoubleConstant::setValue, docstring));
+  std::string docstring = "    \n"
+                          "    Set value of output signal\n"
+                          "    \n"
+                          "      input:\n"
+                          "        - a double\n"
+                          "    \n";
+  addCommand("set", new ::dynamicgraph::command::Setter<DoubleConstant, double>(
+                        *this, &DoubleConstant::setValue, docstring));
 }
 
-void DoubleConstant::setValue(const double& inValue)
-{
+void DoubleConstant::setValue(const double &inValue) {
   SOUT.setConstant(inValue);
 }
 

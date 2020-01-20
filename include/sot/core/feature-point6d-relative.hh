@@ -46,6 +46,7 @@ namespace dg = dynamicgraph;
   \class FeaturePoint6dRelative
   \brief Class that defines the motion of a point of the body wrt. another
   point.
+  \deprecated This class was replaced by FeaturePose.
 */
 class SOTFEATUREPOINT6DRELATIVE_EXPORT FeaturePoint6dRelative
     : public FeaturePoint6d {

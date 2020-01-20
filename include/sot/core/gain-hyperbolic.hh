@@ -44,6 +44,14 @@ namespace dynamicgraph {
 namespace sot {
 namespace dg = dynamicgraph;
 
+/** \brief Hyperbolic gain.
+ * It follows the law \f[ g(e) = a \frac{\tanh(-b(||e|| - d)) + 1}{2} + c \f]
+ * The default coefficients are:
+ * - \f$ a = 0   \f$,
+ * - \f$ b = 0   \f$,
+ * - \f$ c = 0.1 \f$,
+ * - \f$ d = 0   \f$.
+ */
 class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic : public dg::Entity {
 
 public: /* --- CONSTANTS --- */
@@ -75,6 +83,12 @@ public: /* --- CONSTRUCTORS ---- */
 public: /* --- INIT --- */
   inline void init(void) { init(ZERO_DEFAULT, INFTY_DEFAULT, TAN_DEFAULT, 0); }
   inline void init(const double &lambda) { init(lambda, lambda, 1., 0); }
+  /** Set the coefficients.
+   * - \f$ a = valueAt0 - valueAtInfty \f$,
+   * - \f$ b = \frac{tanAt0}{2*a} \f$, or \f$ b = 0 \f$ if \f$ a == 0 \f$,
+   * - \f$ c = valueAtInfty \f$,
+   * - \f$ d = decal0 \f$.
+   */
   void init(const double &valueAt0, const double &valueAtInfty,
             const double &tanAt0, const double &decal0);
   void forceConstant(void);

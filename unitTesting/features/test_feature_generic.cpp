@@ -313,7 +313,8 @@ public:
     model_.upperPositionLimit.head<3>().setConstant(1.);
     jb_ = model_.getJointId("rarm_wrist2_joint");
     fb_ = model_.addFrame(pinocchio::Model::Frame(
-        "frame_b", jb_, model_.getFrameId("rarm_wrist2_joint", pinocchio::JOINT),
+        "frame_b", jb_,
+        model_.getFrameId("rarm_wrist2_joint", pinocchio::JOINT),
         SE3::Identity(), pinocchio::OP_FRAME));
     if (relative) {
       ja_ = model_.getJointId("larm_wrist2_joint");

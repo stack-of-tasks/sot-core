@@ -10,7 +10,6 @@ SET(NEWHEADERS
   sot/core/clamp-workspace.hh
   sot/core/com-freezer.hh
   sot/core/contiifstream.hh
-  sot/core/constraint.hh
   sot/core/debug.hh
   sot/core/derivator.hh
   sot/core/device.hh

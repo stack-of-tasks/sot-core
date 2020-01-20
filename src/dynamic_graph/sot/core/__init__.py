@@ -1,5 +1,4 @@
 # flake8: noqa
-from .constraint import *
 from .exp_moving_avg import *
 from .feature_generic import *
 from .feature_joint_limits import *

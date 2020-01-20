@@ -18,20 +18,20 @@ namespace sot {
 
 class DoubleConstant : public Entity {
   static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
 public:
-  DoubleConstant( const std::string& name );
+  DoubleConstant(const std::string &name);
 
-  virtual ~DoubleConstant( void ){}
+  virtual ~DoubleConstant(void) {}
 
-  SignalTimeDependent<double,int> SOUT;
+  SignalTimeDependent<double, int> SOUT;
 
   /// \brief Set value of vector (and therefore of output signal)
-  void setValue(const double& inValue);
+  void setValue(const double &inValue);
 };
 
 } // namespace sot
 } // namespace dynamicgraph
 
-#endif //DYNAMICGRAPH_SOT_DOUBLE_CONSTANT_H
+#endif // DYNAMICGRAPH_SOT_DOUBLE_CONSTANT_H
