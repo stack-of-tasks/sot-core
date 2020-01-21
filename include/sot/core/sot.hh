@@ -169,13 +169,14 @@ public: /* --- SIGNALS --- */
     @{
   */
   /*! \brief Intrinsec velocity of the robot, that is used to initialized
-   * the recurence of the SOT (e.g. velocity comming from the other
+   * the recurence of the SOT (e.g. velocity coming from the other
    * OpenHRP plugins).
    */
   SignalPtr<dg::Vector, int> q0SIN;
   /*! \brief A matrix K whose columns are a base of the desired velocity.
    * In other words, \f$ \dot{q} = K * u \f$ where \f$ u \f$ is the free
    * parameter to be computed.
+   * \note K should be an orthonormal matrix.
    */
   SignalPtr<dg::Matrix, int> proj0SIN;
   /*! \brief This signal allow to change the threshold for the

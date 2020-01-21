@@ -31,6 +31,7 @@ sotSOT__INIT sotSOT_initiator;
 #include <sot/core/pool.hh>
 #include <sot/core/sot.hh>
 #include <sot/core/task.hh>
+#include <sot/core/feature-posture.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;
@@ -260,28 +261,83 @@ void Sot::defineNbDof(const unsigned int &nbDof) {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-static void computeJacobianActivated(Task *taskSpec, dynamicgraph::Matrix &Jt,
-                                     const int &iterTime) {
-  if (NULL != taskSpec) {
-    const Flags &controlSelec = taskSpec->controlSelectionSIN(iterTime);
+const Matrix &computeJacobianActivated(TaskAbstract *Ta, Task* T, Matrix &Jmem,
+    const int &iterTime) {
+  if (T != NULL) {
+    const Flags &controlSelec = T->controlSelectionSIN(iterTime);
     sotDEBUG(25) << "Control selection = " << controlSelec << endl;
     if (controlSelec) {
       if (!controlSelec) {
-        sotDEBUG(15) << "Control selection." << endl;
-        for (int i = 0; i < Jt.cols(); ++i) {
-          if (!controlSelec(i)) {
-            Jt.col(i).setZero();
-          }
-        }
-      } else {
-        sotDEBUG(15) << "S is equal to Id." << endl;
-      }
+        Jmem = Ta->jacobianSOUT.accessCopy();
+        for (int i = 0; i < Jmem.cols(); ++i)
+          if (!controlSelec(i))
+            Jmem.col(i).setZero();
+        return Jmem;
+      } else
+        return Ta->jacobianSOUT.accessCopy();
     } else {
       sotDEBUG(15) << "Task not activated." << endl;
-      Jt *= 0;
+      const Matrix& Jac = Ta->jacobianSOUT.accessCopy();
+      Jmem = Matrix::Zero(Jac.rows(), Jac.cols());
+      return Jmem;
     }
-  } else { /* No selection specification: nothing to do. */
+  } else /* No selection specification: nothing to do. */
+    return Ta->jacobianSOUT.accessCopy();
+}
+
+typedef MemoryTaskSOT::Kernel_t Kernel_t;
+typedef MemoryTaskSOT::KernelConst_t KernelConst_t;
+
+template <typename MapType, typename MatrixType>
+inline void makeMap (MapType& map, MatrixType& m) {
+  // There is not memory allocation here.
+  // See https://eigen.tuxfamily.org/dox/group__TutorialMapClass.html
+  new (&map) KernelConst_t(m.data(), m.rows(), m.cols());
+}
+
+void updateControl (MemoryTaskSOT* mem, const Matrix::Index rankJ,
+    bool has_kernel, const KernelConst_t& kernel, Vector& control)
+{
+  const SVD_t &svd (mem->svd);
+  Vector &tmpTask (mem->tmpTask);
+  Vector &tmpVar (mem->tmpVar);
+  const Vector &err (mem->err);
+
+  // tmpTask <- S^-1 * U^T * err
+  tmpTask.head(rankJ).noalias() = svd.matrixU().leftCols(rankJ).adjoint() * err;
+  tmpTask.head(rankJ).array() *= svd.singularValues().head(rankJ).array().inverse();
+
+  // control <- kernel * (V * S^-1 * U^T * err)
+  if (has_kernel) {
+    tmpVar.head(kernel.cols()).noalias() = svd.matrixV().leftCols(rankJ) * tmpTask.head(rankJ);
+    control.noalias() += kernel * tmpVar.head(kernel.cols());
+  } else
+    control.noalias() += svd.matrixV().leftCols(rankJ) * tmpTask.head(rankJ);
+}
+
+bool isFullPostureTask (Task* task, const Matrix::Index& nDof,
+    const int &iterTime) {
+  if (task == NULL
+      || task->getFeatureList().size() != 1
+      || !task->controlSelectionSIN(iterTime))
+    return false;
+  FeaturePosture* posture =
+    dynamic_cast<FeaturePosture*>(task->getFeatureList().front());
+
+  return posture !=NULL
+    && posture->dimensionSOUT(iterTime) == nDof;
+}
+
+MemoryTaskSOT *getMemory (TaskAbstract& t, const Matrix::Index& tDim,
+    const Matrix::Index& nDof) {
+  MemoryTaskSOT *mem = dynamic_cast<MemoryTaskSOT *>(t.memoryInternal);
+  if (NULL == mem) {
+    if (NULL != t.memoryInternal)
+      delete t.memoryInternal;
+    mem = new MemoryTaskSOT(tDim, nDof);
+    t.memoryInternal = mem;
   }
+  return mem;
 }
 
 /* --------------------------------------------------------------------- */
@@ -354,21 +410,19 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
   sotINITCOUNTER(4);
   sotINITCOUNTER(5);
   sotINITCOUNTER(6);
-  sotINITCOUNTER(7);
-  sotINITCOUNTER(8);
 
   sotSTART_CHRONO1;
-  sotSTARTPARTCOUNTERS;
 
   const double &th = inversionThresholdSIN(iterTime);
-  const Matrix::Index mJ = nbJoints; // number dofs
 
+  bool controlIsZero = true;
   if (q0SIN.isPlugged()) {
     control = q0SIN(iterTime);
-    if (control.size() != mJ) {
+    controlIsZero = false;
+    if (control.size() != nbJoints) {
       std::ostringstream oss;
       oss << "SOT(" << getName() << "): q0SIN value length is "
-          << control.size() << "while the expected lenth is " << mJ;
+          << control.size() << "while the expected lenth is " << nbJoints;
       throw std::length_error(oss.str());
     }
   } else {
@@ -378,145 +432,108 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
           << ") contains no task and q0SIN is not plugged.";
       throw std::logic_error(oss.str());
     }
-    control = Vector::Zero(mJ);
+    control = Vector::Zero(nbJoints);
     sotDEBUG(25) << "No initial velocity." << endl;
   }
 
   sotDEBUGF(5, " --- Time %d -------------------", iterTime);
   unsigned int iterTask = 0;
-  const Matrix *PrevProj = NULL;
+  KernelConst_t kernel(NULL, 0, 0);
+  bool has_kernel = false;
   // Get initial projector if any.
   if (proj0SIN.isPlugged()) {
-    const Matrix &initialProjector = proj0SIN.access(iterTime);
-    PrevProj = &initialProjector;
+    const Matrix &K = proj0SIN.access(iterTime);
+    makeMap (kernel, K);
+    has_kernel = true;
   }
   for (StackType::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
+    sotSTARTPARTCOUNTERS;
+
     sotDEBUGF(5, "Rank %d.", iterTask);
-    TaskAbstract &task = **iter;
-    sotDEBUG(15) << "Task: e_" << task.getName() << std::endl;
-    const dynamicgraph::Matrix &Jac = task.jacobianSOUT(iterTime);
+    TaskAbstract &taskA = **iter;
+    Task *task = dynamic_cast<Task*>(*iter);
+
+    bool last = (iterTask+1 == stack.size());
+    bool fullPostureTask = (last && isFullPostureTask(task, nbJoints, iterTime));
+
+    sotDEBUG(15) << "Task: e_" << taskA.getName() << std::endl;
+
+    /// Computing first the jacobian may be a little faster overall.
+    if (!fullPostureTask) taskA.jacobianSOUT.recompute(iterTime);
+    taskA.taskSOUT.recompute(iterTime);
+    const Matrix::Index dim = taskA.taskSOUT.accessCopy().size();
     sotCOUNTER(0, 1); // Direct Dynamic
 
-    unsigned int rankJ;
-    const Matrix::Index nJ = Jac.rows(); // task dimension
-    assert(Jac.cols() == mJ);
-
     /* Init memory. */
-    MemoryTaskSOT *mem = dynamic_cast<MemoryTaskSOT *>(task.memoryInternal);
-    if (NULL == mem) {
-      if (NULL != task.memoryInternal)
-        delete task.memoryInternal;
-      mem = new MemoryTaskSOT(task.getName() + "_memSOT", nJ, mJ);
-      task.memoryInternal = mem;
-    }
-
-    Matrix &Jp = mem->Jp;
-    Matrix &JK = mem->JK;
-    Matrix &Jt = mem->Jt;
-    Matrix &Proj = mem->Proj;
-    MemoryTaskSOT::SVD_t &svd = mem->svd;
-
-    taskVectorToMlVector(task.taskSOUT(iterTime), mem->err);
-    const dynamicgraph::Vector &err = mem->err;
-
-    JK.resize(nJ, mJ);
-
-    sotDEBUG(2) << "Recompute inverse." << endl;
-
-    /* --- FIRST ALLOCS --- */
-    sotDEBUG(1) << "nJ=" << nJ << " "
-                << "mJ=" << mJ << std::endl;
-
+    MemoryTaskSOT *mem = getMemory (taskA, dim, nbJoints);
     /***/ sotCOUNTER(1, 2); // first allocs
 
-    /* --- COMPUTE JK --- */
-    JK = task.jacobianSOUT.accessCopy();
-    /***/ sotCOUNTER(2, 3); // compute JK
+    Matrix::Index rankJ = -1;
+    taskVectorToMlVector(taskA.taskSOUT(iterTime), mem->err);
 
-    /* --- COMPUTE S --- */
-    computeJacobianActivated(dynamic_cast<Task *>(&task), JK, iterTime);
-    /***/ sotCOUNTER(3, 4); // compute JK*S
+    if (fullPostureTask) {
+      /***/ sotCOUNTER(2, 3); // compute JK*S
+      /***/ sotCOUNTER(3, 4); // compute Jt
 
-    /* --- COMPUTE Jt --- */
-    if (PrevProj != NULL)
-      Jt.noalias() = JK * (*PrevProj);
-    else {
-      Jt = JK;
-    }
-    /***/ sotCOUNTER(4, 5); // compute Jt
+      // Jp = kernel.transpose()
+      rankJ = kernel.cols();
+      /***/ sotCOUNTER(4, 5); // SVD and rank
 
-    /* --- PINV --- */
-    svd.compute(Jt);
-    Eigen::dampedInverse(svd, Jp, th);
-    /***/ sotCOUNTER(5, 6); // PINV
-    sotDEBUG(20) << "V after dampedInverse." << svd.matrixV() << endl;
-    /* --- RANK --- */
-    {
-      rankJ = 0;
-      while (rankJ < svd.singularValues().size() &&
-             th < svd.singularValues()[rankJ]) {
-        ++rankJ;
+      /* --- COMPUTE QDOT AND P --- */
+      if (!controlIsZero)
+        mem->err.noalias() -= control;
+      mem->tmpVar.head(rankJ).noalias() =
+        kernel.transpose().rightCols(nbJoints-6) * mem->err.tail(nbJoints-6);
+      control.noalias() += kernel * mem->tmpVar.head(rankJ);
+      controlIsZero = false;
+    } else {
+      assert(taskA.jacobianSOUT.accessCopy().cols() == nbJoints);
+
+      /* --- COMPUTE S * JK --- */
+      const Matrix& JK = computeJacobianActivated(&taskA, task, mem->JK, iterTime);
+      /***/ sotCOUNTER(2, 3); // compute JK*S
+
+      /* --- COMPUTE Jt --- */
+      const Matrix *Jt = &mem->Jt;
+      if (has_kernel)
+        mem->Jt.noalias() = JK * kernel;
+      else
+        Jt = &JK;
+      /***/ sotCOUNTER(3, 4); // compute Jt
+
+      /* --- SVD and RANK--- */
+      SVD_t &svd = mem->svd;
+      if (last) svd.compute(*Jt, Eigen::ComputeThinU | Eigen::ComputeThinV);
+      else      svd.compute(*Jt, Eigen::ComputeThinU | Eigen::ComputeFullV);
+      svd.setThreshold(th);
+      rankJ = svd.rank();
+      /***/ sotCOUNTER(4, 5); // SVD and rank
+
+      /* --- COMPUTE QDOT AND P --- */
+      if (!controlIsZero)
+        mem->err.noalias() -= JK * control;
+
+      updateControl (mem, rankJ, has_kernel, kernel, control);
+      controlIsZero = false;
+
+      if (!last) {
+        Matrix::Index cols = svd.matrixV().cols() - rankJ;
+        if (has_kernel)
+          mem->getKernel(nbJoints, cols).noalias()
+            = kernel * svd.matrixV().rightCols(cols);
+        else
+          mem->getKernel(nbJoints, cols).noalias()
+            = svd.matrixV().rightCols(cols);
+        makeMap (kernel, mem->kernel);
+        has_kernel = true;
       }
     }
-
-    sotDEBUG(45) << "control" << iterTask << " = " << control << endl;
-    sotDEBUG(25) << "J" << iterTask << " = " << Jac << endl;
-    sotDEBUG(25) << "JK" << iterTask << " = " << JK << endl;
-    sotDEBUG(25) << "Jt" << iterTask << " = " << Jt << endl;
-    sotDEBUG(15) << "Jp" << iterTask << " = " << Jp << endl;
-    sotDEBUG(15) << "e" << iterTask << " = " << err << endl;
-    sotDEBUG(45) << "JJp" << iterTask << " = " << JK * Jp << endl;
-    // sotDEBUG(45) << "U"<<iterTask<<" = "<< U<<endl;
-    sotDEBUG(45) << "S" << iterTask << " = " << svd.singularValues() << endl;
-    sotDEBUG(45) << "V" << iterTask << " = " << svd.matrixV() << endl;
-    sotDEBUG(45) << "U" << iterTask << " = " << svd.matrixU() << endl;
-
-    mem->jacobianInvSINOUT = Jp;
-    mem->jacobianInvSINOUT.setTime(iterTime);
-    mem->jacobianConstrainedSINOUT = JK;
-    mem->jacobianConstrainedSINOUT.setTime(iterTime);
-    mem->jacobianProjectedSINOUT = Jt;
-    mem->jacobianProjectedSINOUT.setTime(iterTime);
-    mem->rankSINOUT = rankJ;
-    mem->rankSINOUT.setTime(iterTime);
-
-    sotDEBUG(25) << "Inverse recomputed." << endl;
-    /***/ sotCOUNTER(6, 7); // TRACE
-
-    /* --- COMPUTE QDOT AND P --- */
-    /*DEBUG: normally, the first iter (ie the test below)
-     * is the same than the other, starting with control_0 = q0SIN. */
-    if (PrevProj == NULL)
-      control.noalias() += Jp * err;
-    else
-      control += *PrevProj * (Jp * (err - JK * control));
-    /***/ sotCOUNTER(7, 8); // QDOT
-
-    /* --- OPTIMAL FORM: To debug. --- */
-    if (PrevProj == NULL) {
-      Proj.noalias() = svd.matrixV().rightCols(svd.matrixV().cols() - rankJ);
-    } else {
-      Proj.noalias() =
-          *PrevProj * svd.matrixV().rightCols(svd.matrixV().cols() - rankJ);
-    }
-
-    /* --- OLIVIER START  --- */
-    // Update by Joseph Mirabel to match Eigen API
+    /***/ sotCOUNTER(5, 6); // QDOT + Projector
 
     sotDEBUG(2) << "Proj non optimal (rankJ= " << rankJ
                 << ", iterTask =" << iterTask << ")";
-    sotDEBUG(20) << "V = " << svd.matrixV();
-    sotDEBUG(20) << "Jt = " << Jt;
-    sotDEBUG(20) << "JpxJt = " << Jp * Jt;
-    sotDEBUG(25) << "Proj-Jp*Jt" << iterTask << " = " << (Proj - Jp * Jt)
-                 << endl;
 
-    /* --- OLIVIER END --- */
-
-    sotDEBUG(15) << "q" << iterTask << " = " << control << std::endl;
-    sotDEBUG(25) << "P" << iterTask << " = " << Proj << endl;
     iterTask++;
-    PrevProj = &Proj;
 
     sotPRINTCOUNTER(1);
     sotPRINTCOUNTER(2);
@@ -524,8 +541,7 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
     sotPRINTCOUNTER(4);
     sotPRINTCOUNTER(5);
     sotPRINTCOUNTER(6);
-    sotPRINTCOUNTER(7);
-    sotPRINTCOUNTER(8);
+    if (last || kernel.cols() == 0) break;
   }
 
   sotCHRONO1;
