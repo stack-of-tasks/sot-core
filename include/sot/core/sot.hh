@@ -75,9 +75,6 @@ protected:
     command computed by the stack of tasks. */
   unsigned int nbJoints;
 
-  /*! \brief Store a pointer to compute the gradient */
-  TaskAbstract *taskGradient;
-
   // Eigen::MatrixXd<double,Eigen::Dynamic,Eigen::Dynamic, Eigen::RowMajor>
   // Proj;
   /*! Force the recomputation at each step. */

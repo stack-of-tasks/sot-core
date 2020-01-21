@@ -50,7 +50,7 @@ const double Sot::INVERSION_THRESHOLD_DEFAULT = 1e-4;
 /* --- CONSTRUCTION ---------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 Sot::Sot(const std::string &name)
-    : Entity(name), stack(), nbJoints(0), taskGradient(0),
+    : Entity(name), stack(), nbJoints(0),
       recomputeEachTime(true),
       q0SIN(NULL, "sotSOT(" + name + ")::input(double)::q0"),
       proj0SIN(NULL, "sotSOT(" + name + ")::input(double)::proj0"),
@@ -544,70 +544,6 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
 
   sotCHRONO1;
 
-  if (0 != taskGradient) {
-    const dynamicgraph::Matrix &Jac =
-        taskGradient->jacobianSOUT.access(iterTime);
-
-    const Matrix::Index nJ = Jac.rows();
-
-    MemoryTaskSOT *mem =
-        dynamic_cast<MemoryTaskSOT *>(taskGradient->memoryInternal);
-    if (NULL == mem) {
-      if (NULL != taskGradient->memoryInternal) {
-        delete taskGradient->memoryInternal;
-      }
-      mem = new MemoryTaskSOT(taskGradient->getName() + "_memSOT", nJ, mJ);
-      taskGradient->memoryInternal = mem;
-    }
-
-    taskVectorToMlVector(taskGradient->taskSOUT.access(iterTime), mem->err);
-    const dynamicgraph::Vector &err = mem->err;
-
-    sotDEBUG(45) << "Jac = " << Jac << endl;
-
-    /* --- MEMORY INIT --- */
-    dynamicgraph::Matrix &Jp = mem->Jp;
-    dynamicgraph::Matrix &PJp = mem->PJp;
-    dynamicgraph::Matrix &Jt = mem->Jt;
-    MemoryTaskSOT::SVD_t &svd = mem->svd;
-
-    mem->JK.resize(nJ, mJ);
-    mem->Jt.resize(nJ, mJ);
-    Jp.resize(mJ, nJ);
-    PJp.resize(nJ, mJ);
-
-    /* --- COMPUTE JK --- */
-    const dynamicgraph::Matrix &JK = Jac;
-
-    /* --- COMPUTE Jinv --- */
-    sotDEBUG(35) << "grad = " << err << endl;
-    sotDEBUG(35) << "Jgrad = " << JK << endl;
-
-    // Use optimized-memory Jt to do the p-inverse.
-    Jt = JK;
-    svd.compute(Jt);
-    // TODO the two next lines could be replaced by
-    Eigen::dampedInverse(svd, Jp, th);
-    if (PrevProj != NULL)
-      PJp.noalias() = (*PrevProj) * Jp;
-    else
-      PJp.noalias() = Jp;
-
-    /* --- COMPUTE ERR --- */
-    const dynamicgraph::Vector &Herr(err);
-
-    /* --- COMPUTE CONTROL --- */
-    control.noalias() += PJp * Herr;
-
-    /* ---  TRACE  --- */
-    sotDEBUG(45) << "Pgrad = " << (PJp * Herr) << endl;
-    if (PrevProj != NULL) {
-      sotDEBUG(45) << "P = " << *PrevProj << endl;
-    }
-    sotDEBUG(45) << "Jp = " << Jp << endl;
-    sotDEBUG(45) << "PJp = " << PJp << endl;
-  }
-
   sotDEBUGOUT(15);
   return control;
 }
@@ -625,10 +561,6 @@ void Sot::display(std::ostream &os) const {
     os << "| " << (*it)->getName() << std::endl;
   }
   os << "+-----------------" << std::endl;
-  if (taskGradient) {
-    os << "| {Grad} " << taskGradient->getName() << std::endl;
-    os << "+-----------------" << std::endl;
-  }
 }
 
 std::ostream &operator<<(std::ostream &os, const Sot &sot) {
