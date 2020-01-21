@@ -77,8 +77,6 @@ protected:
 
   // Eigen::MatrixXd<double,Eigen::Dynamic,Eigen::Dynamic, Eigen::RowMajor>
   // Proj;
-  /*! Force the recomputation at each step. */
-  bool recomputeEachTime;
 
 public:
   /*! \brief Threshold to compute the dumped pseudo inverse. */

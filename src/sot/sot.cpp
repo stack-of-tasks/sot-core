@@ -51,7 +51,6 @@ const double Sot::INVERSION_THRESHOLD_DEFAULT = 1e-4;
 /* --------------------------------------------------------------------- */
 Sot::Sot(const std::string &name)
     : Entity(name), stack(), nbJoints(0),
-      recomputeEachTime(true),
       q0SIN(NULL, "sotSOT(" + name + ")::input(double)::q0"),
       proj0SIN(NULL, "sotSOT(" + name + ")::input(double)::proj0"),
       inversionThresholdSIN(NULL,
@@ -422,79 +421,66 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
 
     JK.resize(nJ, mJ);
 
-    if ((recomputeEachTime) ||
-        (task.jacobianSOUT.getTime() > mem->jacobianInvSINOUT.getTime()) ||
-        (mem->jacobianInvSINOUT.accessCopy().cols() != nJ) ||
-        (task.jacobianSOUT.getTime() >
-         mem->jacobianConstrainedSINOUT.getTime()) ||
-        (task.jacobianSOUT.getTime() > mem->rankSINOUT.getTime())) {
-      sotDEBUG(2) << "Recompute inverse." << endl;
+    sotDEBUG(2) << "Recompute inverse." << endl;
 
-      /* --- FIRST ALLOCS --- */
-      sotDEBUG(1) << "nJ=" << nJ << " "
-                  << "mJ=" << mJ << std::endl;
+    /* --- FIRST ALLOCS --- */
+    sotDEBUG(1) << "nJ=" << nJ << " "
+                << "mJ=" << mJ << std::endl;
 
-      /***/ sotCOUNTER(1, 2); // first allocs
+    /***/ sotCOUNTER(1, 2); // first allocs
 
-      /* --- COMPUTE JK --- */
-      JK = task.jacobianSOUT.accessCopy();
-      /***/ sotCOUNTER(2, 3); // compute JK
+    /* --- COMPUTE JK --- */
+    JK = task.jacobianSOUT.accessCopy();
+    /***/ sotCOUNTER(2, 3); // compute JK
 
-      /* --- COMPUTE S --- */
-      computeJacobianActivated(dynamic_cast<Task *>(&task), JK, iterTime);
-      /***/ sotCOUNTER(3, 4); // compute JK*S
+    /* --- COMPUTE S --- */
+    computeJacobianActivated(dynamic_cast<Task *>(&task), JK, iterTime);
+    /***/ sotCOUNTER(3, 4); // compute JK*S
 
-      /* --- COMPUTE Jt --- */
-      if (PrevProj != NULL)
-        Jt.noalias() = JK * (*PrevProj);
-      else {
-        Jt = JK;
-      }
-      /***/ sotCOUNTER(4, 5); // compute Jt
-
-      /* --- PINV --- */
-      svd.compute(Jt);
-      Eigen::dampedInverse(svd, Jp, th);
-      /***/ sotCOUNTER(5, 6); // PINV
-      sotDEBUG(20) << "V after dampedInverse." << svd.matrixV() << endl;
-      /* --- RANK --- */
-      {
-        rankJ = 0;
-        while (rankJ < svd.singularValues().size() &&
-               th < svd.singularValues()[rankJ]) {
-          ++rankJ;
-        }
-      }
-
-      sotDEBUG(45) << "control" << iterTask << " = " << control << endl;
-      sotDEBUG(25) << "J" << iterTask << " = " << Jac << endl;
-      sotDEBUG(25) << "JK" << iterTask << " = " << JK << endl;
-      sotDEBUG(25) << "Jt" << iterTask << " = " << Jt << endl;
-      sotDEBUG(15) << "Jp" << iterTask << " = " << Jp << endl;
-      sotDEBUG(15) << "e" << iterTask << " = " << err << endl;
-      sotDEBUG(45) << "JJp" << iterTask << " = " << JK * Jp << endl;
-      // sotDEBUG(45) << "U"<<iterTask<<" = "<< U<<endl;
-      sotDEBUG(45) << "S" << iterTask << " = " << svd.singularValues() << endl;
-      sotDEBUG(45) << "V" << iterTask << " = " << svd.matrixV() << endl;
-      sotDEBUG(45) << "U" << iterTask << " = " << svd.matrixU() << endl;
-
-      mem->jacobianInvSINOUT = Jp;
-      mem->jacobianInvSINOUT.setTime(iterTime);
-      mem->jacobianConstrainedSINOUT = JK;
-      mem->jacobianConstrainedSINOUT.setTime(iterTime);
-      mem->jacobianProjectedSINOUT = Jt;
-      mem->jacobianProjectedSINOUT.setTime(iterTime);
-      mem->rankSINOUT = rankJ;
-      mem->rankSINOUT.setTime(iterTime);
-
-      sotDEBUG(25) << "Inverse recomputed." << endl;
-    } else {
-      sotDEBUG(2) << "Inverse not recomputed." << endl;
-      rankJ = mem->rankSINOUT.accessCopy();
-      Jp = mem->jacobianInvSINOUT.accessCopy();
-      JK = mem->jacobianConstrainedSINOUT.accessCopy();
-      Jt = mem->jacobianProjectedSINOUT.accessCopy();
+    /* --- COMPUTE Jt --- */
+    if (PrevProj != NULL)
+      Jt.noalias() = JK * (*PrevProj);
+    else {
+      Jt = JK;
     }
+    /***/ sotCOUNTER(4, 5); // compute Jt
+
+    /* --- PINV --- */
+    svd.compute(Jt);
+    Eigen::dampedInverse(svd, Jp, th);
+    /***/ sotCOUNTER(5, 6); // PINV
+    sotDEBUG(20) << "V after dampedInverse." << svd.matrixV() << endl;
+    /* --- RANK --- */
+    {
+      rankJ = 0;
+      while (rankJ < svd.singularValues().size() &&
+             th < svd.singularValues()[rankJ]) {
+        ++rankJ;
+      }
+    }
+
+    sotDEBUG(45) << "control" << iterTask << " = " << control << endl;
+    sotDEBUG(25) << "J" << iterTask << " = " << Jac << endl;
+    sotDEBUG(25) << "JK" << iterTask << " = " << JK << endl;
+    sotDEBUG(25) << "Jt" << iterTask << " = " << Jt << endl;
+    sotDEBUG(15) << "Jp" << iterTask << " = " << Jp << endl;
+    sotDEBUG(15) << "e" << iterTask << " = " << err << endl;
+    sotDEBUG(45) << "JJp" << iterTask << " = " << JK * Jp << endl;
+    // sotDEBUG(45) << "U"<<iterTask<<" = "<< U<<endl;
+    sotDEBUG(45) << "S" << iterTask << " = " << svd.singularValues() << endl;
+    sotDEBUG(45) << "V" << iterTask << " = " << svd.matrixV() << endl;
+    sotDEBUG(45) << "U" << iterTask << " = " << svd.matrixU() << endl;
+
+    mem->jacobianInvSINOUT = Jp;
+    mem->jacobianInvSINOUT.setTime(iterTime);
+    mem->jacobianConstrainedSINOUT = JK;
+    mem->jacobianConstrainedSINOUT.setTime(iterTime);
+    mem->jacobianProjectedSINOUT = Jt;
+    mem->jacobianProjectedSINOUT.setTime(iterTime);
+    mem->rankSINOUT = rankJ;
+    mem->rankSINOUT.setTime(iterTime);
+
+    sotDEBUG(25) << "Inverse recomputed." << endl;
     /***/ sotCOUNTER(6, 7); // TRACE
 
     /* --- COMPUTE QDOT AND P --- */
