@@ -420,19 +420,14 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
     taskVectorToMlVector(task.taskSOUT(iterTime), mem->err);
     const dynamicgraph::Vector &err = mem->err;
 
-    Jp.resize(mJ, nJ);
-    Jt.resize(nJ, mJ);
     JK.resize(nJ, mJ);
 
     if ((recomputeEachTime) ||
         (task.jacobianSOUT.getTime() > mem->jacobianInvSINOUT.getTime()) ||
-        (mem->jacobianInvSINOUT.accessCopy().rows() != mJ) ||
         (mem->jacobianInvSINOUT.accessCopy().cols() != nJ) ||
         (task.jacobianSOUT.getTime() >
          mem->jacobianConstrainedSINOUT.getTime()) ||
-        (task.jacobianSOUT.getTime() > mem->rankSINOUT.getTime()) ||
-        (task.jacobianSOUT.getTime() >
-         mem->singularBaseImageSINOUT.getTime())) {
+        (task.jacobianSOUT.getTime() > mem->rankSINOUT.getTime())) {
       sotDEBUG(2) << "Recompute inverse." << endl;
 
       /* --- FIRST ALLOCS --- */
@@ -489,8 +484,6 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
       mem->jacobianConstrainedSINOUT.setTime(iterTime);
       mem->jacobianProjectedSINOUT = Jt;
       mem->jacobianProjectedSINOUT.setTime(iterTime);
-      mem->singularBaseImageSINOUT = svd.matrixV().leftCols(rankJ);
-      mem->singularBaseImageSINOUT.setTime(iterTime);
       mem->rankSINOUT = rankJ;
       mem->rankSINOUT.setTime(iterTime);
 
