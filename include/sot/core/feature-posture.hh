@@ -12,6 +12,7 @@
 
 #include "sot/core/api.hh"
 #include "sot/core/feature-abstract.hh"
+#include <dynamic-graph/value.h>
 #include <dynamic-graph/signal-ptr.h>
 #include <dynamic-graph/signal-time-dependent.h>
 /* --------------------------------------------------------------------- */

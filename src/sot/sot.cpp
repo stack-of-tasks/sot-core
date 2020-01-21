@@ -160,7 +160,7 @@ TaskAbstract &Sot::pop(void) {
   return *res;
 }
 bool Sot::exist(const TaskAbstract &key) {
-  std::list<TaskAbstract *>::iterator it;
+  StackType::iterator it;
   for (it = stack.begin(); stack.end() != it; ++it) {
     if (*it == &key) {
       return true;
@@ -170,7 +170,7 @@ bool Sot::exist(const TaskAbstract &key) {
 }
 void Sot::remove(const TaskAbstract &key) {
   bool find = false;
-  std::list<TaskAbstract *>::iterator it;
+  StackType::iterator it;
   for (it = stack.begin(); stack.end() != it; ++it) {
     if (*it == &key) {
       find = true;
@@ -193,7 +193,7 @@ void Sot::removeDependency(const TaskAbstract &key) {
 
 void Sot::up(const TaskAbstract &key) {
   bool find = false;
-  std::list<TaskAbstract *>::iterator it;
+  StackType::iterator it;
   for (it = stack.begin(); stack.end() != it; ++it) {
     if (*it == &key) {
       find = true;
@@ -207,7 +207,7 @@ void Sot::up(const TaskAbstract &key) {
     return;
   }
 
-  std::list<TaskAbstract *>::iterator pos = it;
+  StackType::iterator pos = it;
   pos--;
   TaskAbstract *task = *it;
   stack.erase(it);
@@ -216,7 +216,7 @@ void Sot::up(const TaskAbstract &key) {
 }
 void Sot::down(const TaskAbstract &key) {
   bool find = false;
-  std::list<TaskAbstract *>::iterator it;
+  StackType::iterator it;
   for (it = stack.begin(); stack.end() != it; ++it) {
     if (*it == &key) {
       find = true;
@@ -230,7 +230,7 @@ void Sot::down(const TaskAbstract &key) {
     return;
   }
 
-  std::list<TaskAbstract *>::iterator pos = it;
+  StackType::iterator pos = it;
   pos++;
   TaskAbstract *task = *it;
   stack.erase(it);
@@ -244,7 +244,7 @@ void Sot::down(const TaskAbstract &key) {
 }
 
 void Sot::clear(void) {
-  for (std::list<TaskAbstract *>::iterator it = stack.begin();
+  for (StackType::iterator it = stack.begin();
        stack.end() != it; ++it) {
     removeDependency(**it);
   }
@@ -627,7 +627,7 @@ void Sot::display(std::ostream &os) const {
   os << "+-----------------" << std::endl
      << "+   SOT     " << std::endl
      << "+-----------------" << std::endl;
-  for (std::list<TaskAbstract *>::const_iterator it = this->stack.begin();
+  for (StackType::const_iterator it = this->stack.begin();
        this->stack.end() != it; ++it) {
     os << "| " << (*it)->getName() << std::endl;
   }
@@ -648,10 +648,10 @@ std::ostream &operator<<(std::ostream &os, const Sot &sot) {
 /* --------------------------------------------------------------------- */
 
 std::ostream &Sot::writeGraph(std::ostream &os) const {
-  std::list<TaskAbstract *>::const_iterator iter;
+  StackType::const_iterator iter;
   for (iter = stack.begin(); iter != stack.end(); ++iter) {
     const TaskAbstract &task = **iter;
-    std::list<TaskAbstract *>::const_iterator nextiter = iter;
+    StackType::const_iterator nextiter = iter;
     nextiter++;
 
     if (nextiter != stack.end()) {
