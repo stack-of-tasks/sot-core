@@ -2,7 +2,7 @@
 // JRL, CNRS/AIST.
 
 #include <boost/assign/list_of.hpp>
-#include <dynamic-graph/command-setter.h>
+#include <dynamic-graph/command-bind.h>
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/pool.h>
 #include <string>
@@ -11,7 +11,6 @@
 #include <sot/core/feature-posture.hh>
 namespace dg = ::dynamicgraph;
 
-using ::dynamicgraph::command::Setter;
 using dynamicgraph::sot::FeatureAbstract;
 
 namespace dynamicgraph {
@@ -40,10 +39,11 @@ FeaturePosture::FeaturePosture(const std::string &name)
       state_(NULL, "FeaturePosture(" + name + ")::input(Vector)::state"),
       posture_(0, "FeaturePosture(" + name + ")::input(Vector)::posture"),
       postureDot_(0, "FeaturePosture(" + name + ")::input(Vector)::postureDot"),
-      jacobian_(), activeDofs_(), nbActiveDofs_(0) {
+      activeDofs_(), nbActiveDofs_(0) {
   signalRegistration(state_ << posture_ << postureDot_);
 
   errorSOUT.addDependency(state_);
+  jacobianSOUT.setConstant(Matrix());
 
   std::string docstring;
   docstring = "    \n"
@@ -83,13 +83,9 @@ dg::Vector &FeaturePosture::computeError(dg::Vector &res, int t) {
   return res;
 }
 
-dg::Matrix &FeaturePosture::computeJacobian(dg::Matrix &res, int) {
-  res = jacobian_;
-  return res;
-}
-
-dg::Vector &FeaturePosture::computeActivation(dg::Vector &res, int) {
-  return res;
+dg::Matrix &FeaturePosture::computeJacobian(dg::Matrix &, int) {
+  throw std::runtime_error ("jacobian signal should be constant."
+      " This function should never be called");
 }
 
 dg::Vector &FeaturePosture::computeErrorDot(dg::Vector &res, int t) {
@@ -139,16 +135,17 @@ void FeaturePosture::selectDof(unsigned dofId, bool control) {
     }
   }
   // recompute jacobian
-  jacobian_.resize(nbActiveDofs_, dim);
-  jacobian_.setZero();
+  Matrix J (Matrix::Zero(nbActiveDofs_, dim));
 
   std::size_t index = 0;
   for (std::size_t i = 0; i < activeDofs_.size(); ++i) {
     if (activeDofs_[i]) {
-      jacobian_(index, i) = 1;
+      J(index, i) = 1;
       index++;
     }
   }
+
+  jacobianSOUT.setConstant(J);
 }
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePosture, "FeaturePosture");
