@@ -75,8 +75,9 @@ protected:
     command computed by the stack of tasks. */
   unsigned int nbJoints;
 
-  // Eigen::MatrixXd<double,Eigen::Dynamic,Eigen::Dynamic, Eigen::RowMajor>
-  // Proj;
+  /*! \brief Option to disable the computation of the SVD for the last task
+    if this task is a Task with a single FeaturePosture */
+  bool enablePostureTaskAcceleration;
 
 public:
   /*! \brief Threshold to compute the dumped pseudo inverse. */

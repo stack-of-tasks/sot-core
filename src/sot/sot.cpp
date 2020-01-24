@@ -24,12 +24,15 @@ public:
 sotSOT__INIT sotSOT_initiator;
 #endif //#ifdef VP_DEBUG
 
+#include <sot/core/sot.hh>
+
+#include <dynamic-graph/command-direct-getter.h>
+#include <dynamic-graph/command-direct-setter.h>
 #include <sot/core/factory.hh>
 #include <sot/core/matrix-geometry.hh>
 #include <sot/core/matrix-svd.hh>
 #include <sot/core/memory-task-sot.hh>
 #include <sot/core/pool.hh>
-#include <sot/core/sot.hh>
 #include <sot/core/task.hh>
 #include <sot/core/feature-posture.hh>
 
@@ -52,6 +55,7 @@ const double Sot::INVERSION_THRESHOLD_DEFAULT = 1e-4;
 /* --------------------------------------------------------------------- */
 Sot::Sot(const std::string &name)
     : Entity(name), stack(), nbJoints(0),
+      enablePostureTaskAcceleration (false),
       q0SIN(NULL, "sotSOT(" + name + ")::input(double)::q0"),
       proj0SIN(NULL, "sotSOT(" + name + ")::input(double)::proj0"),
       inversionThresholdSIN(NULL,
@@ -87,6 +91,18 @@ Sot::Sot(const std::string &name)
   addCommand("getSize",
              new dynamicgraph::command::Getter<Sot, const unsigned int &>(
                  *this, &Sot::getNbDof, docstring));
+
+  addCommand("enablePostureTaskAcceleration",
+      dynamicgraph::command::makeDirectSetter(*this,
+        &enablePostureTaskAcceleration, dynamicgraph::command::docDirectSetter(
+          "option to bypass SVD computation for the posture task at the last"
+          "level", "boolean")));
+
+  addCommand("isPostureTaskAccelerationEnabled",
+      dynamicgraph::command::makeDirectGetter(*this,
+        &enablePostureTaskAcceleration, dynamicgraph::command::docDirectGetter(
+          "option to bypass SVD computation for the posture task at the last"
+          "level", "boolean")));
 
   docstring = "    \n"
               "    push a task into the stack.\n"
@@ -324,8 +340,9 @@ bool isFullPostureTask (Task* task, const Matrix::Index& nDof,
   FeaturePosture* posture =
     dynamic_cast<FeaturePosture*>(task->getFeatureList().front());
 
+  assert(posture->dimensionSOUT(iterTime) <= nDof-6);
   return posture !=NULL
-    && posture->dimensionSOUT(iterTime) == nDof;
+    && posture->dimensionSOUT(iterTime) == nDof-6;
 }
 
 MemoryTaskSOT *getMemory (TaskAbstract& t, const Matrix::Index& tDim,
@@ -455,7 +472,8 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
     Task *task = dynamic_cast<Task*>(*iter);
 
     bool last = (iterTask+1 == stack.size());
-    bool fullPostureTask = (last && isFullPostureTask(task, nbJoints, iterTime));
+    bool fullPostureTask = (last && enablePostureTaskAcceleration
+        && isFullPostureTask(task, nbJoints, iterTime));
 
     sotDEBUG(15) << "Task: e_" << taskA.getName() << std::endl;
 
@@ -482,9 +500,9 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
 
       /* --- COMPUTE QDOT AND P --- */
       if (!controlIsZero)
-        mem->err.noalias() -= control;
+        mem->err.noalias() -= control.tail(nbJoints-6);
       mem->tmpVar.head(rankJ).noalias() =
-        kernel.transpose().rightCols(nbJoints-6) * mem->err.tail(nbJoints-6);
+        kernel.transpose().rightCols(nbJoints-6) * mem->err;
       control.noalias() += kernel * mem->tmpVar.head(rankJ);
       controlIsZero = false;
     } else {
