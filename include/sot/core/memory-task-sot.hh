@@ -12,6 +12,7 @@
 
 #include "sot/core/api.hh"
 #include <sot/core/task-abstract.hh>
+#include <sot/core/matrix-svd.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
