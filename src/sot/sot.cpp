@@ -356,26 +356,27 @@ MemoryTaskSOT *getMemory (TaskAbstract& t, const Matrix::Index& tDim,
 
 #ifdef WITH_CHRONO
 #define sotINIT_CHRONO1                                                        \
-  struct timeval t0, t1;                                                       \
+  struct timespec t0, t1;                                                      \
   double dt
-#define sotSTART_CHRONO1 gettimeofday(&t0, NULL)
+#define sotSTART_CHRONO1 clock_gettime(CLOCK_THREAD_CPUTIME_ID, &t0)
 #define sotCHRONO1                                                             \
-  gettimeofday(&t1, NULL);                                                     \
-  dt = ((double)(t1.tv_sec - t0.tv_sec) * 1000. * 1000. +                      \
-        (double)(t1.tv_usec - t0.tv_usec));                                    \
-  sotDEBUG(1) << "dt: " << dt / 1000. << std::endl
-#define sotINITPARTCOUNTERS struct timeval tpart0
-#define sotSTARTPARTCOUNTERS gettimeofday(&tpart0, NULL)
+  clock_gettime(CLOCK_THREAD_CPUTIME_ID, &t1);                                                     \
+  dt = ((double)(t1.tv_sec - t0.tv_sec) * 1e6 +                                \
+        (double)(t1.tv_nsec - t0.tv_nsec) / 1e3 );                             \
+  sotDEBUG(1) << "dT " << (long int)dt << std::endl
+#define sotINITPARTCOUNTERS struct timespec tpart0
+#define sotSTARTPARTCOUNTERS clock_gettime(CLOCK_THREAD_CPUTIME_ID, &tpart0)
 #define sotCOUNTER(nbc1, nbc2)                                                 \
-  gettimeofday(&tpart##nbc2, NULL);                                            \
-  dt##nbc2 +=                                                                  \
-      ((double)(tpart##nbc2.tv_sec - tpart##nbc1.tv_sec) * 1000. * 1000. +     \
-       (double)(tpart##nbc2.tv_usec - tpart##nbc1.tv_usec))
+  clock_gettime(CLOCK_THREAD_CPUTIME_ID, &tpart##nbc2);                                            \
+  dt##nbc2 =                                                                   \
+      ((double)(tpart##nbc2.tv_sec - tpart##nbc1.tv_sec) * 1e6 +               \
+       (double)(tpart##nbc2.tv_nsec - tpart##nbc1.tv_nsec) / 1e3 )
 #define sotINITCOUNTER(nbc1)                                                   \
-  struct timeval tpart##nbc1;                                                  \
+  struct timespec tpart##nbc1;                                                 \
   double dt##nbc1 = 0;
 #define sotPRINTCOUNTER(nbc1)                                                  \
-  sotDEBUG(1) << "dt" << nbc1 << " = " << dt##nbc1 << std::endl
+  sotDEBUG(1) << "dt" << iterTask << '_' << nbc1 << ' '                        \
+      << (long int)dt##nbc1 << ' '
 #else // #ifdef  WITH_CHRONO
 #define sotINIT_CHRONO1
 #define sotSTART_CHRONO1
