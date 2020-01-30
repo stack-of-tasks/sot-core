@@ -141,3 +141,54 @@ BOOST_AUTO_TEST_CASE(test_matrix_selector) {
   output << aMatrixSelector->getClassName();
   BOOST_CHECK(output.is_equal("Selec_of_matrix"));
 }
+
+BOOST_AUTO_TEST_SUITE(test_rotation_conversions)
+
+template<typename type> type random();
+template<> VectorRollPitchYaw random<VectorRollPitchYaw>()
+{ return VectorRollPitchYaw::Random(); }
+template<> VectorQuaternion random<VectorQuaternion>()
+{ return VectorQuaternion(Eigen::Vector4d::Random().normalized()); }
+template<> MatrixRotation random<MatrixRotation>()
+{ return MatrixRotation(random<VectorQuaternion>()); }
+
+template<typename type> bool compare(const type& a, const type& b)
+{
+  return a.isApprox (b);
+}
+template<> bool compare<VectorQuaternion>(const VectorQuaternion& a, const VectorQuaternion& b)
+{
+  return a.isApprox (b) || a.coeffs().isApprox(-b.coeffs());
+}
+
+template<typename AtoB, typename BtoA>
+void test_impl ()
+{
+  typedef typename AtoB::Tin  A;
+  typedef typename AtoB::Tout B;
+
+  AtoB a2b;
+  BtoA b2a;
+
+  for (std::size_t i = 1; i < 10; ++i) {
+    A ain = random<A>(), aout;
+    B b;
+
+    a2b (ain, b);
+    b2a (b, aout);
+
+    BOOST_CHECK(compare(ain, aout));
+  }
+}
+
+BOOST_AUTO_TEST_CASE(matrix_rpy) {
+  test_impl<MatrixToRPY, RPYToMatrix>();
+}
+BOOST_AUTO_TEST_CASE(quaternion_rpy) {
+  test_impl<QuaternionToRPY, RPYToQuaternion>();
+}
+BOOST_AUTO_TEST_CASE(matrix_quaternion) {
+  test_impl<MatrixToQuaternion, QuaternionToMatrix>();
+}
+
+BOOST_AUTO_TEST_SUITE_END()
