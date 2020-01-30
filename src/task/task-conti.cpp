@@ -110,7 +110,7 @@ void TaskConti::display(std::ostream &os) const {
      << ": " << endl;
   os << "--- LIST ---  " << std::endl;
 
-  for (std::list<FeatureAbstract *>::const_iterator iter = featureList.begin();
+  for (FeatureList_t::const_iterator iter = featureList.begin();
        iter != featureList.end(); ++iter) {
     os << "-> " << (*iter)->getName() << endl;
   }

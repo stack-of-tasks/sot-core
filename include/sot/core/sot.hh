@@ -75,13 +75,9 @@ protected:
     command computed by the stack of tasks. */
   unsigned int nbJoints;
 
-  /*! \brief Store a pointer to compute the gradient */
-  TaskAbstract *taskGradient;
-
-  // Eigen::MatrixXd<double,Eigen::Dynamic,Eigen::Dynamic, Eigen::RowMajor>
-  // Proj;
-  /*! Force the recomputation at each step. */
-  bool recomputeEachTime;
+  /*! \brief Option to disable the computation of the SVD for the last task
+    if this task is a Task with a single FeaturePosture */
+  bool enablePostureTaskAcceleration;
 
 public:
   /*! \brief Threshold to compute the dumped pseudo inverse. */
@@ -174,13 +170,14 @@ public: /* --- SIGNALS --- */
     @{
   */
   /*! \brief Intrinsec velocity of the robot, that is used to initialized
-   * the recurence of the SOT (e.g. velocity comming from the other
+   * the recurence of the SOT (e.g. velocity coming from the other
    * OpenHRP plugins).
    */
   SignalPtr<dg::Vector, int> q0SIN;
   /*! \brief A matrix K whose columns are a base of the desired velocity.
    * In other words, \f$ \dot{q} = K * u \f$ where \f$ u \f$ is the free
    * parameter to be computed.
+   * \note K should be an orthonormal matrix.
    */
   SignalPtr<dg::Matrix, int> proj0SIN;
   /*! \brief This signal allow to change the threshold for the

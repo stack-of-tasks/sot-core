@@ -13,47 +13,25 @@
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
-const std::string MemoryTaskSOT::CLASS_NAME = "MemoryTaskSOT";
-
-MemoryTaskSOT::MemoryTaskSOT(const std::string &name, const Matrix::Index nJ,
-                             const Matrix::Index mJ)
-    : Entity(name),
-      jacobianInvSINOUT("sotTaskAbstract(" + name + ")::inout(matrix)::Jinv"),
-      jacobianConstrainedSINOUT("sotTaskAbstract(" + name +
-                                ")::inout(matrix)::JK"),
-      jacobianProjectedSINOUT("sotTaskAbstract(" + name +
-                              ")::inout(matrix)::Jt"),
-      singularBaseImageSINOUT("sotTaskAbstract(" + name +
-                              ")::inout(matrix)::V"),
-      rankSINOUT("sotTaskAbstract(" + name + ")::inout(matrix)::rank") {
-  signalRegistration(jacobianInvSINOUT << singularBaseImageSINOUT << rankSINOUT
-                                       << jacobianConstrainedSINOUT
-                                       << jacobianProjectedSINOUT);
-  initMemory(nJ, mJ, true);
+MemoryTaskSOT::MemoryTaskSOT(const Matrix::Index nJ, const Matrix::Index mJ)
+: kernel(NULL, 0, 0) {
+  initMemory(nJ, mJ);
 }
 
-void MemoryTaskSOT::initMemory(const Matrix::Index nJ, const Matrix::Index mJ,
-                               bool atConstruction) {
-  sotDEBUG(15) << "Task-mermory " << getName() << ": resize " << nJ << "x" << mJ
-               << std::endl;
-
+void MemoryTaskSOT::initMemory(const Matrix::Index nJ, const Matrix::Index mJ) {
+  err.resize(nJ);
+  tmpTask.resize(nJ);
+  tmpVar.resize(mJ);
   Jt.resize(nJ, mJ);
-  Jp.resize(mJ, nJ);
-  PJp.resize(mJ, nJ);
 
   JK.resize(nJ, mJ);
 
   svd = SVD_t(nJ, mJ, Eigen::ComputeThinU | Eigen::ComputeFullV);
+  // If the constraint is well conditioned, the kernel can be pre-allocated.
+  if (mJ > nJ) kernelMem.resize(mJ-nJ, mJ);
 
-  JK.fill(0);
-  if (atConstruction) {
-    Jt.setZero();
-    Jp.setZero();
-    PJp.setZero();
-    JK.setZero();
-  } else {
-    Eigen::pseudoInverse(Jt, Jp);
-  }
+  JK.setZero();
+  Jt.setZero();
 }
 
 void MemoryTaskSOT::display(std::ostream & /*os*/) const {} // TODO

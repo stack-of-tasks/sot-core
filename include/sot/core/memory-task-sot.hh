@@ -12,6 +12,7 @@
 
 #include "sot/core/api.hh"
 #include <sot/core/task-abstract.hh>
+#include <sot/core/matrix-svd.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -21,44 +22,47 @@ namespace dynamicgraph {
 namespace sot {
 namespace dg = dynamicgraph;
 
-class SOT_CORE_EXPORT MemoryTaskSOT : public TaskAbstract::MemoryTaskAbstract,
-                                      public dg::Entity {
+class SOT_CORE_EXPORT MemoryTaskSOT : public TaskAbstract::MemoryTaskAbstract {
 public: //   protected:
+  typedef Eigen::Map<Matrix, Eigen::internal::traits<Matrix>::Alignment> Kernel_t;
+  typedef Eigen::Map<const Matrix, Eigen::internal::traits<Matrix>::Alignment> KernelConst_t;
+
   /* Internal memory to reduce the dynamic allocation at task resolution. */
-  dg::Vector err;
+  dg::Vector err, tmpTask, tmpVar;
   dg::Matrix Jt; //( nJ,mJ );
-  dg::Matrix Jp;
-  dg::Matrix PJp;
 
   dg::Matrix JK; //(nJ,mJ);
 
-  dg::Matrix Proj;
-
-  typedef Eigen::JacobiSVD<dg::Matrix> SVD_t;
   SVD_t svd;
+  Kernel_t kernel;
+
+  void resizeKernel(const Matrix::Index r, const Matrix::Index c)
+  {
+    if (kernel.rows() != r || kernel.cols() != c) {
+      if (kernelMem.size() < r*c) kernelMem.resize(r, c);
+      new (&kernel) Kernel_t(kernelMem.data(), r, c);
+    }
+  }
+
+  Kernel_t& getKernel(const Matrix::Index r, const Matrix::Index c)
+  {
+    resizeKernel(r,c);
+    return kernel;
+  }
 
 public:
   /**
    * \param mJ is the number of joints
    * \param nJ the number of feature in the task
    **/
-  MemoryTaskSOT(const std::string &name, const Matrix::Index nJ = 0,
-                const Matrix::Index mJ = 0);
+  MemoryTaskSOT(const Matrix::Index nJ = 0, const Matrix::Index mJ = 0);
 
-  virtual void initMemory(const Matrix::Index nJ, const Matrix::Index mJ,
-                          bool atConstruction = false);
+  void display(std::ostream &os) const;
 
-public: /* --- ENTITY INHERITANCE --- */
-  static const std::string CLASS_NAME;
-  virtual void display(std::ostream &os) const;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+private:
+  void initMemory(const Matrix::Index nJ, const Matrix::Index mJ);
 
-public: /* --- SIGNALS --- */
-  dg::Signal<dg::Matrix, int> jacobianInvSINOUT;
-  dg::Signal<dg::Matrix, int> jacobianConstrainedSINOUT;
-  dg::Signal<dg::Matrix, int> jacobianProjectedSINOUT;
-  dg::Signal<dg::Matrix, int> singularBaseImageSINOUT;
-  dg::Signal<unsigned int, int> rankSINOUT;
+  Matrix kernelMem;
 };
 
 } /* namespace sot */

@@ -106,10 +106,10 @@ FeaturePose<representation>::FeaturePose(const string &pointName)
     using namespace dynamicgraph::command;
     addCommand(
         "keep",
-        makeCommandVoid0(
+        makeCommandVoid1(
             *this, &FeaturePose<representation>::servoCurrentPosition,
-            docCommandVoid0(
-                "modify the desired position to servo at current pos.")));
+            docCommandVoid1(
+                "modify the desired position to servo at current pos.", "time")));
   }
 }
 
@@ -319,15 +319,15 @@ Vector &FeaturePose<representation>::computeErrorDot(Vector &errordot,
  * to the current position. The effect on the servo is to maintain the
  * current position and correct any drift. */
 template <Representation_t representation>
-void FeaturePose<representation>::servoCurrentPosition(void) {
+void FeaturePose<representation>::servoCurrentPosition(const int& time) {
   check(*this);
 
-  const MatrixHomogeneous &_oMja = (oMja.isPlugged() ? oMja.accessCopy() : Id),
+  const MatrixHomogeneous &_oMja = (oMja.isPlugged() ? oMja.access(time) : Id),
                           _jaMfa =
-                              (jaMfa.isPlugged() ? jaMfa.accessCopy() : Id),
-                          _oMjb = oMjb.accessCopy(),
+                              (jaMfa.isPlugged() ? jaMfa.access(time) : Id),
+                          _oMjb = oMjb.access(time),
                           _jbMfb =
-                              (jbMfb.isPlugged() ? jbMfb.accessCopy() : Id);
+                              (jbMfb.isPlugged() ? jbMfb.access(time) : Id);
   faMfbDes = (_oMja * _jaMfa).inverse(Eigen::Affine) * _oMjb * _jbMfb;
 }
 
