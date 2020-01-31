@@ -531,8 +531,10 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
         svd.compute(*Jt, Eigen::ComputeThinU | Eigen::ComputeThinV);
       else
         svd.compute(*Jt, Eigen::ComputeThinU | Eigen::ComputeFullV);
-      svd.setThreshold(th);
-      rankJ = svd.rank();
+      rankJ = 0;
+      while (rankJ < svd.singularValues().size() &&
+             th < svd.singularValues()[rankJ])
+        ++rankJ;
       /***/ sotCOUNTER(4, 5); // SVD and rank
 
       /* --- COMPUTE QDOT AND P --- */
