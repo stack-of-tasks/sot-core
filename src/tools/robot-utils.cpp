@@ -360,9 +360,9 @@ void RobotUtil::display(std::ostream &os) const {
   }
   os << std::endl;
 }
-void RobotUtil::sendMsg(const std::string &msg, MsgType t, const char *file,
-                        int line) {
-  logger_.sendMsg("[RobotUtil]" + msg, t, file, line);
+void RobotUtil::sendMsg(const std::string &msg, MsgType t,
+    const std::string &lineId) {
+  logger_.sendMsg("[RobotUtil]" + msg, t, lineId);
 }
 bool base_se3_to_sot(ConstRefVector pos, ConstRefMatrix R, RefVector q_sot) {
   assert(q_sot.size() == 6);

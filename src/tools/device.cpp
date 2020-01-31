@@ -243,11 +243,13 @@ void Device::setState(const Vector &st) {
         throw std::invalid_argument(
             "Upper and/or lower torque bounds "
             "do not match state size. Set them first with setTorqueBounds");
+      // fall through
     case CONTROL_INPUT_ONE_INTEGRATION:
       if (s != lowerVelocity_.size() || s != upperVelocity_.size())
         throw std::invalid_argument("Upper and/or lower velocity bounds "
                                     "do not match state size."
                                     " Set them first with setVelocityBounds");
+      // fall through
     case CONTROL_INPUT_NO_INTEGRATION:
       break;
     default:
@@ -315,11 +317,13 @@ void Device::setSanityCheck(const bool &enableCheck) {
         throw std::invalid_argument(
             "Upper and/or lower torque bounds "
             "do not match state size. Set them first with setTorqueBounds");
+      // fall through
     case CONTROL_INPUT_ONE_INTEGRATION:
       if (s != lowerVelocity_.size() || s != upperVelocity_.size())
         throw std::invalid_argument(
             "Upper and/or lower velocity bounds "
             "do not match state size. Set them first with setVelocityBounds");
+      // fall through
     case CONTROL_INPUT_NO_INTEGRATION:
       if (s != lowerPosition_.size() || s != upperPosition_.size())
         throw std::invalid_argument(
