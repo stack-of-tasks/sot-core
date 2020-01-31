@@ -406,6 +406,7 @@ MemoryTaskSOT *getMemory(TaskAbstract &t, const Matrix::Index &tDim,
 #endif /*WITH_CHRONO*/
 
 #ifdef WITH_CHRONO
+#define TIME_STREAM DYNAMIC_GRAPH_ENTITY_DEBUG(*this)
 #define sotINIT_CHRONO1                                                        \
   struct timespec t0, t1;                                                      \
   double dt
@@ -414,7 +415,7 @@ MemoryTaskSOT *getMemory(TaskAbstract &t, const Matrix::Index &tDim,
   clock_gettime(CLOCK_THREAD_CPUTIME_ID, &t1);                                 \
   dt = ((double)(t1.tv_sec - t0.tv_sec) * 1e6 +                                \
         (double)(t1.tv_nsec - t0.tv_nsec) / 1e3);                              \
-  sotDEBUG(1) << "dT " << (long int)dt << std::endl
+  TIME_STREAM << "dT " << (long int)dt << std::endl
 #define sotINITPARTCOUNTERS struct timespec tpart0
 #define sotSTARTPARTCOUNTERS clock_gettime(CLOCK_THREAD_CPUTIME_ID, &tpart0)
 #define sotCOUNTER(nbc1, nbc2)                                                 \
@@ -425,7 +426,7 @@ MemoryTaskSOT *getMemory(TaskAbstract &t, const Matrix::Index &tDim,
   struct timespec tpart##nbc1;                                                 \
   double dt##nbc1 = 0;
 #define sotPRINTCOUNTER(nbc1)                                                  \
-  sotDEBUG(1) << "dt" << iterTask << '_' << nbc1 << ' ' << (long int)dt##nbc1  \
+  TIME_STREAM << "dt" << iterTask << '_' << nbc1 << ' ' << (long int)dt##nbc1  \
               << ' '
 #else // #ifdef  WITH_CHRONO
 #define sotINIT_CHRONO1
