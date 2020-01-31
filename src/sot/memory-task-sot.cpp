@@ -22,6 +22,7 @@ void MemoryTaskSOT::initMemory(const Matrix::Index nJ, const Matrix::Index mJ) {
   err.resize(nJ);
   tmpTask.resize(nJ);
   tmpVar.resize(mJ);
+  tmpControl.resize(mJ);
   Jt.resize(nJ, mJ);
 
   JK.resize(nJ, mJ);

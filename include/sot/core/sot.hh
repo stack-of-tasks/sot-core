@@ -79,6 +79,12 @@ protected:
     if this task is a Task with a single FeaturePosture */
   bool enablePostureTaskAcceleration;
 
+  /*! \brief Maximum allowed squared norm of control increment.
+    A task whose control increment is above this value is discarded.
+    It defaults to \c std::numeric_limits<double>::max().
+    */
+  double maxControlIncrementSquaredNorm;
+
 public:
   /*! \brief Threshold to compute the dumped pseudo inverse. */
   static const double INVERSION_THRESHOLD_DEFAULT; // = 1e-4;
