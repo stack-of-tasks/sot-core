@@ -39,6 +39,9 @@ SET(PKG_CONFIG_ADDITIONAL_VARIABLES
 
 OPTION (BUILD_PYTHON_INTERFACE "Build the python binding" ON)
 OPTION (INSTALL_PYTHON_INTERFACE_ONLY "Install *ONLY* the python binding" OFF)
+OPTION(SUFFIX_SO_VERSION
+  "Suffix shared library name by a string depending on git status of project"
+  ON)
 
 CMAKE_POLICY(SET CMP0048 OLD)
 PROJECT(${PROJECT_NAME} CXX)
