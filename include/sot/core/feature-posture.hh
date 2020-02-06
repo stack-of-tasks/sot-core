@@ -12,6 +12,7 @@
 
 #include "sot/core/api.hh"
 #include "sot/core/feature-abstract.hh"
+#include <dynamic-graph/value.h>
 #include <dynamic-graph/signal-ptr.h>
 #include <dynamic-graph/signal-time-dependent.h>
 /* --------------------------------------------------------------------- */
@@ -64,14 +65,12 @@ public:
 protected:
   virtual dg::Vector &computeError(dg::Vector &res, int);
   virtual dg::Matrix &computeJacobian(dg::Matrix &res, int);
-  virtual dg::Vector &computeActivation(dg::Vector &res, int);
   virtual dg::Vector &computeErrorDot(dg::Vector &res, int time);
 
   signalIn_t state_;
   signalIn_t posture_;
   signalIn_t postureDot_;
   signalOut_t error_;
-  dg::Matrix jacobian_;
 
 private:
   std::vector<bool> activeDofs_;

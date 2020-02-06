@@ -151,7 +151,7 @@ public:
   virtual void display(std::ostream &os) const;
 
 public:
-  void servoCurrentPosition(void);
+  void servoCurrentPosition(const int& time);
 
 private:
   MatrixHomogeneous &computefaMfb(MatrixHomogeneous &res, int time);

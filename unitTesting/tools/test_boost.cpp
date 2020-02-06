@@ -165,13 +165,13 @@ int main(int argc, char **argv) {
 
   START_CHRONO(inv);
   for (int i = 0; i < BENCH; ++i)
-    Eigen::pseudoInverse(M, Minv);
+    dynamicgraph::pseudoInverse(M, Minv);
   STOP_CHRONO(inv, "init");
   sotDEBUG(15) << "Minv = " << Minv << endl;
 
   START_CHRONO(inv);
   for (int i = 0; i < BENCH; ++i)
-    Eigen::pseudoInverse(M, Minv);
+    dynamicgraph::pseudoInverse(M, Minv);
   STOP_CHRONO(inv, "M+standard");
   cout << dt_inv << endl;
 
@@ -232,7 +232,7 @@ int main(int argc, char **argv) {
 
     // dynamicgraph::Matrix Mcreuseinv( Mcreuse.nbCols(),r );
     Mcreuseinv.resize(Mcreuse.cols(), r);
-    Eigen::pseudoInverse(Mcreuse, Mcreuseinv);
+    dynamicgraph::pseudoInverse(Mcreuse, Mcreuseinv);
     parc = 0;
     Minv.fill(0.);
     for (std::list<unsigned int>::iterator iter = nonzeros.begin();
@@ -281,7 +281,7 @@ int main(int argc, char **argv) {
     dynamicgraph::Matrix Mcreuseinv(Mcreuse.cols(), r);
     START_CHRONO(inv);
     for (int ib = 0; ib < BENCH; ++ib) {
-      Eigen::pseudoInverse(Mcreuse, Mcreuseinv);
+      dynamicgraph::pseudoInverse(Mcreuse, Mcreuseinv);
     }
     STOP_CHRONO(inv, "M+creuseseule");
 

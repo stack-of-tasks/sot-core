@@ -44,6 +44,9 @@ include(\"\${CMAKE_CURRENT_LIST_DIR}/sot-coreMacros.cmake\")")
 
 OPTION (BUILD_PYTHON_INTERFACE "Build the python binding" ON)
 OPTION (INSTALL_PYTHON_INTERFACE_ONLY "Install *ONLY* the python binding" OFF)
+OPTION(SUFFIX_SO_VERSION
+  "Suffix shared library name by a string depending on git status of project"
+  ON)
 
 PKG_CONFIG_APPEND_LIBS("sot-core")
 

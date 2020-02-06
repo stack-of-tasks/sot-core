@@ -114,7 +114,7 @@ void Task::addFeatureFromName(const std::string &featureName) {
 
 void Task::clearFeatureList(void) {
 
-  for (std::list<FeatureAbstract *>::iterator iter = featureList.begin();
+  for (FeatureList_t::iterator iter = featureList.begin();
        iter != featureList.end(); ++iter) {
     FeatureAbstract &s = **iter;
     jacobianSOUT.removeDependency(s.jacobianSOUT);
@@ -174,7 +174,7 @@ dynamicgraph::Vector &Task::computeError(dynamicgraph::Vector &error,
     int cursorError = 0;
 
     /* For each cell of the list, recopy value of s, s_star and error. */
-    for (std::list<FeatureAbstract *>::iterator iter = featureList.begin();
+    for (FeatureList_t::iterator iter = featureList.begin();
          iter != featureList.end(); ++iter) {
       FeatureAbstract &feature = **iter;
 
@@ -211,7 +211,7 @@ Task::computeErrorTimeDerivative(dynamicgraph::Vector &res, int time) {
   res.resize(errorSOUT(time).size());
   dynamicgraph::Vector::Index cursor = 0;
 
-  for (std::list<FeatureAbstract *>::iterator iter = featureList.begin();
+  for (FeatureList_t::iterator iter = featureList.begin();
        iter != featureList.end(); ++iter) {
     FeatureAbstract &feature = **iter;
 
@@ -263,7 +263,7 @@ dynamicgraph::Matrix &Task::computeJacobian(dynamicgraph::Matrix &J, int time) {
     // const Flags& selection = controlSelectionSIN(time);
 
     /* For each cell of the list, recopy value of s, s_star and error. */
-    for (std::list<FeatureAbstract *>::iterator iter = featureList.begin();
+    for (FeatureList_t::iterator iter = featureList.begin();
          iter != featureList.end(); ++iter) {
       FeatureAbstract &feature = **iter;
       sotDEBUG(25) << "Feature <" << feature.getName() << ">" << endl;
@@ -315,14 +315,14 @@ void Task::display(std::ostream &os) const {
   os << "Task " << name << ": " << endl;
   os << "--- LIST ---  " << std::endl;
 
-  for (std::list<FeatureAbstract *>::const_iterator iter = featureList.begin();
+  for (FeatureList_t::const_iterator iter = featureList.begin();
        iter != featureList.end(); ++iter) {
     os << "-> " << (*iter)->getName() << endl;
   }
 }
 
 std::ostream &Task::writeGraph(std::ostream &os) const {
-  std::list<FeatureAbstract *>::const_iterator itFeatureAbstract;
+  FeatureList_t::const_iterator itFeatureAbstract;
   itFeatureAbstract = featureList.begin();
   while (itFeatureAbstract != featureList.end()) {
     os << "\t\"" << (*itFeatureAbstract)->getName() << "\" -> \"" << getName()
