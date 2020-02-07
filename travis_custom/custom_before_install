@@ -17,7 +17,7 @@ curl http://robotpkg.openrobots.org/packages/debian/robotpkg.key | sudo apt-key 
 sudo free -m -t
 
 # Setup environment variables.
-export APT_DEPENDENCIES="doxygen libboost-system-dev libboost-test-dev libboost-filesystem-dev libboost-program-options-dev libeigen3-dev  libtinyxml-dev libconsole-bridge-dev robotpkg-pinocchio robotpkg-dynamic-graph-v3 robotpkg-py27-dynamic-graph-v3 "
+export APT_DEPENDENCIES="doxygen libboost-system-dev libboost-test-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev libeigen3-dev  libtinyxml-dev libconsole-bridge-dev robotpkg-pinocchio robotpkg-dynamic-graph-v3 robotpkg-py27-dynamic-graph-v3 "
 # Add Python dependency
 export APT_DEPENDENCIES=$APT_DEPENDENCIES" libboost-python-dev robotpkg-py27-eigenpy python2.7-dev python-numpy"
 
