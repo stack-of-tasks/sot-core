@@ -35,6 +35,11 @@ SET(PKG_CONFIG_ADDITIONAL_VARIABLES
   plugindir
   )
 
+# Specific to PKG module
+# FIXME: to be changed into lib/dynamic-graph
+# to avoid name collision when installing dynamic-graph in /usr.
+SET(PLUGINDIR "${CMAKE_INSTALL_FULL_LIBDIR}/plugin")
+
 # Extra macros for sot-core
 install(FILES "src/sot-coreMacros.cmake"
   DESTINATION "${CONFIG_INSTALL_DIR}")
