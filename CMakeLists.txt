@@ -82,7 +82,11 @@ ADD_SUBDIRECTORY(unitTesting)
 # Robot_utils_sot_py PYTHON module *
 # **********************************
 IF(BUILD_PYTHON_INTERFACE)
-  PYTHON_ADD_MODULE(robot_utils_sot_py src/tools/robot-utils-py.cpp)
+  IF(NOT CMAKE_VERSION VERSION_LESS "3.12" AND NOT WIN32)
+    Python_add_library(robot_utils_sot_py MODULE src/tools/robot-utils-py.cpp)    
+  ELSE(NOT CMAKE_VERSION VERSION_LESS "3.12" AND NOT WIN32)
+    PYTHON_ADD_MODULE(robot_utils_sot_py src/tools/robot-utils-py.cpp)    
+  ENDIF()    
   TARGET_LINK_LIBRARIES(robot_utils_sot_py
     ${Boost_LIBRARIES}
     ${PYTHON_LIBRARIES} ${LIBRARY_NAME}
