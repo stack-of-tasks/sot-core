@@ -278,9 +278,15 @@ IF(BUILD_PYTHON_INTERFACE)
 
   # Install empty __init__.py files in intermediate directories.
   INSTALL(FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/__init__.py
+    DESTINATION ${PYTHON_SITELIB}/dynamic_graph/
+    )
+  
+  INSTALL(FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/__init__.py
     DESTINATION ${PYTHON_SITELIB}/dynamic_graph/sot
     )
+
   INSTALL(FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/__init__.py
     ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/math_small_entities.py
