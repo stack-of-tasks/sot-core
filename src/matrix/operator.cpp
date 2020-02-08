@@ -480,7 +480,8 @@ struct MatrixToRPY : public UnaryOpHeader<MatrixRotation, VectorRollPitchYaw> {
 };
 REGISTER_UNARY_OP(MatrixToRPY, MatrixToRPY);
 
-struct RPYToQuaternion : public UnaryOpHeader<VectorRollPitchYaw, VectorQuaternion> {
+struct RPYToQuaternion
+    : public UnaryOpHeader<VectorRollPitchYaw, VectorQuaternion> {
   void operator()(const VectorRollPitchYaw &r, VectorQuaternion &res) {
     res = (Eigen::AngleAxisd(r(2), Eigen::Vector3d::UnitZ()) *
            Eigen::AngleAxisd(r(1), Eigen::Vector3d::UnitY()) *
@@ -490,7 +491,8 @@ struct RPYToQuaternion : public UnaryOpHeader<VectorRollPitchYaw, VectorQuaterni
 };
 REGISTER_UNARY_OP(RPYToQuaternion, RPYToQuaternion);
 
-struct QuaternionToRPY : public UnaryOpHeader<VectorQuaternion, VectorRollPitchYaw> {
+struct QuaternionToRPY
+    : public UnaryOpHeader<VectorQuaternion, VectorRollPitchYaw> {
   void operator()(const VectorQuaternion &r, VectorRollPitchYaw &res) {
     res = (r.toRotationMatrix().eulerAngles(2, 1, 0)).reverse();
   }

@@ -14,7 +14,7 @@ using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 MemoryTaskSOT::MemoryTaskSOT(const Matrix::Index nJ, const Matrix::Index mJ)
-: kernel(NULL, 0, 0) {
+    : kernel(NULL, 0, 0) {
   initMemory(nJ, mJ);
 }
 
@@ -28,7 +28,8 @@ void MemoryTaskSOT::initMemory(const Matrix::Index nJ, const Matrix::Index mJ) {
 
   svd = SVD_t(nJ, mJ, Eigen::ComputeThinU | Eigen::ComputeFullV);
   // If the constraint is well conditioned, the kernel can be pre-allocated.
-  if (mJ > nJ) kernelMem.resize(mJ-nJ, mJ);
+  if (mJ > nJ)
+    kernelMem.resize(mJ - nJ, mJ);
 
   JK.setZero();
   Jt.setZero();

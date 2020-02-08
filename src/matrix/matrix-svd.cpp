@@ -5,15 +5,14 @@
 #include <sot/core/matrix-svd.hh>
 
 namespace dynamicgraph {
+using Eigen::ComputeFullV;
 using Eigen::ComputeThinU;
 using Eigen::ComputeThinV;
-using Eigen::ComputeFullV;
 
 void pseudoInverse(Matrix &_inputMatrix, Matrix &_inverseMatrix,
                    const double threshold) {
   SVD_t svd(_inputMatrix, ComputeThinU | ComputeThinV);
-  SVD_t::SingularValuesType m_singularValues =
-      svd.singularValues();
+  SVD_t::SingularValuesType m_singularValues = svd.singularValues();
   SVD_t::SingularValuesType singularValues_inv;
   singularValues_inv.resizeLike(m_singularValues);
   for (long i = 0; i < m_singularValues.size(); ++i) {
@@ -56,4 +55,4 @@ void dampedInverse(const Matrix &_inputMatrix, Matrix &_inverseMatrix,
   dampedInverse(svd, _inverseMatrix, threshold);
 }
 
-} // namespace Eigen
+} // namespace dynamicgraph

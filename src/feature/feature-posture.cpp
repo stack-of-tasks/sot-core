@@ -84,8 +84,8 @@ dg::Vector &FeaturePosture::computeError(dg::Vector &res, int t) {
 }
 
 dg::Matrix &FeaturePosture::computeJacobian(dg::Matrix &, int) {
-  throw std::runtime_error ("jacobian signal should be constant."
-      " This function should never be called");
+  throw std::runtime_error("jacobian signal should be constant."
+                           " This function should never be called");
 }
 
 dg::Vector &FeaturePosture::computeErrorDot(dg::Vector &res, int t) {
@@ -135,7 +135,7 @@ void FeaturePosture::selectDof(unsigned dofId, bool control) {
     }
   }
   // recompute jacobian
-  Matrix J (Matrix::Zero(nbActiveDofs_, dim));
+  Matrix J(Matrix::Zero(nbActiveDofs_, dim));
 
   std::size_t index = 0;
   for (std::size_t i = 0; i < activeDofs_.size(); ++i) {
