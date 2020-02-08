@@ -11,8 +11,8 @@
 #define __SOT_MEMORY_TASK_HH
 
 #include "sot/core/api.hh"
-#include <sot/core/task-abstract.hh>
 #include <sot/core/matrix-svd.hh>
+#include <sot/core/task-abstract.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -24,8 +24,10 @@ namespace dg = dynamicgraph;
 
 class SOT_CORE_EXPORT MemoryTaskSOT : public TaskAbstract::MemoryTaskAbstract {
 public: //   protected:
-  typedef Eigen::Map<Matrix, Eigen::internal::traits<Matrix>::Alignment> Kernel_t;
-  typedef Eigen::Map<const Matrix, Eigen::internal::traits<Matrix>::Alignment> KernelConst_t;
+  typedef Eigen::Map<Matrix, Eigen::internal::traits<Matrix>::Alignment>
+      Kernel_t;
+  typedef Eigen::Map<const Matrix, Eigen::internal::traits<Matrix>::Alignment>
+      KernelConst_t;
 
   /* Internal memory to reduce the dynamic allocation at task resolution. */
   dg::Vector err, tmpTask, tmpVar;
@@ -36,17 +38,16 @@ public: //   protected:
   SVD_t svd;
   Kernel_t kernel;
 
-  void resizeKernel(const Matrix::Index r, const Matrix::Index c)
-  {
+  void resizeKernel(const Matrix::Index r, const Matrix::Index c) {
     if (kernel.rows() != r || kernel.cols() != c) {
-      if (kernelMem.size() < r*c) kernelMem.resize(r, c);
+      if (kernelMem.size() < r * c)
+        kernelMem.resize(r, c);
       new (&kernel) Kernel_t(kernelMem.data(), r, c);
     }
   }
 
-  Kernel_t& getKernel(const Matrix::Index r, const Matrix::Index c)
-  {
-    resizeKernel(r,c);
+  Kernel_t &getKernel(const Matrix::Index r, const Matrix::Index c) {
+    resizeKernel(r, c);
     return kernel;
   }
 

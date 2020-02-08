@@ -104,12 +104,12 @@ FeaturePose<representation>::FeaturePose(const string &pointName)
   //
   {
     using namespace dynamicgraph::command;
-    addCommand(
-        "keep",
-        makeCommandVoid1(
-            *this, &FeaturePose<representation>::servoCurrentPosition,
-            docCommandVoid1(
-                "modify the desired position to servo at current pos.", "time")));
+    addCommand("keep",
+               makeCommandVoid1(
+                   *this, &FeaturePose<representation>::servoCurrentPosition,
+                   docCommandVoid1(
+                       "modify the desired position to servo at current pos.",
+                       "time")));
   }
 }
 
@@ -319,7 +319,7 @@ Vector &FeaturePose<representation>::computeErrorDot(Vector &errordot,
  * to the current position. The effect on the servo is to maintain the
  * current position and correct any drift. */
 template <Representation_t representation>
-void FeaturePose<representation>::servoCurrentPosition(const int& time) {
+void FeaturePose<representation>::servoCurrentPosition(const int &time) {
   check(*this);
 
   const MatrixHomogeneous &_oMja = (oMja.isPlugged() ? oMja.access(time) : Id),

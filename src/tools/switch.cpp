@@ -25,6 +25,8 @@ typedef Switch<bool, int> SwitchBool;
 template <> DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SwitchBool, "SwitchBoolean");
 
 typedef Switch<MatrixHomogeneous, int> SwitchMatrixHomogeneous;
-template <> DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SwitchMatrixHomogeneous, "SwitchMatrixHomogeneous");
+template <>
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SwitchMatrixHomogeneous,
+                                   "SwitchMatrixHomogeneous");
 } // namespace sot
 } // namespace dynamicgraph
