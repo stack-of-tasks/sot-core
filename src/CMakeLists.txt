@@ -277,10 +277,6 @@ IF(BUILD_PYTHON_INTERFACE)
     ${NO_INSTALL_OF_INIT_PY})
 
   # Install empty __init__.py files in intermediate directories.
-  INSTALL(FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/__init__.py
-    DESTINATION ${PYTHON_SITELIB}/dynamic_graph/
-    )
   
   INSTALL(FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/__init__.py
