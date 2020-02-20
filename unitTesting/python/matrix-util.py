@@ -39,6 +39,22 @@ class MatrixUtilTest(unittest.TestCase):
             np.testing.assert_allclose(rpy, mod.matrixToRPY(mod.RPYToMatrix(rpy)))
             # np.testing.assert_allclose(mat, mod.RPYToMatrix(mod.matrixToRPY(mat)))
 
+        def test_rotate(self):
+            for axis, angle, mat in [
+                ('x', np.pi, ((1, 0, 0, 0), (0, -1, 0, 0), (0, 0, -1, 0), (0, 0, 0, 1))),
+                ('y', np.pi, ((-1, 0, 0, 0), (0, 1, 0, 0), (0, 0, -1, 0), (0, 0, 0, 1))),
+                ('z', np.pi, ((-1, 0, 0, 0), (0, -1, 0, 0), (0, 0, 1, 0), (0, 0, 0, 1))),
+            ]:
+                self.assertEqual(mat, mod.rotate(axis, angle))
+
+        def test_quat_mat(self):
+            for quat, mat in [
+                ((0, 0, 0, 1), np.identity(3)),
+                ((0, 0, 1, 0), ((-1, 0, 0), (0, -1, 0), (0, 0, 1))),
+                ((0, -0.5, 0, 0.5), ((0.5, 0, -0.5), (0, 1, 0), (0.5, 0, 0.5))),
+            ]:
+                self.assertEqual(mat, mod.quaternionToMatrix(quat))
+
 
 if __name__ == '__main__':
     unittest.main()
