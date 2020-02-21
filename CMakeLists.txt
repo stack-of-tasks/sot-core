@@ -8,6 +8,12 @@ SET(PROJECT_NAME sot-core)
 SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
 SET(PROJECT_URL "http://github.com/${PROJECT_ORG}/${PROJECT_NAME}")
 
+OPTION (BUILD_PYTHON_INTERFACE "Build the python binding" ON)
+OPTION (INSTALL_PYTHON_INTERFACE_ONLY "Install *ONLY* the python binding" OFF)
+OPTION(SUFFIX_SO_VERSION
+  "Suffix shared library name by a string depending on git status of project"
+  ON)
+
 IF (NOT INSTALL_PYTHON_INTERFACE_ONLY)
   # Export CMake Target
   SET(PROJECT_USE_CMAKE_EXPORT TRUE)
@@ -50,12 +56,6 @@ ENDIF (NOT INSTALL_PYTHON_INTERFACE_ONLY)
 
 set(PACKAGE_EXTRA_MACROS "${PACKAGE_EXTRA_MACROS}
 include(\"\${CMAKE_CURRENT_LIST_DIR}/sot-coreMacros.cmake\")")
-
-OPTION (BUILD_PYTHON_INTERFACE "Build the python binding" ON)
-OPTION (INSTALL_PYTHON_INTERFACE_ONLY "Install *ONLY* the python binding" OFF)
-OPTION(SUFFIX_SO_VERSION
-  "Suffix shared library name by a string depending on git status of project"
-  ON)
 
 PKG_CONFIG_APPEND_LIBS("sot-core")
 
