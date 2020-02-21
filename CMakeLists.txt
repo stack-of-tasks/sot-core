@@ -28,9 +28,10 @@ INCLUDE(cmake/base.cmake)
 COMPUTE_PROJECT_ARGS(PROJECT_ARGS LANGUAGES CXX)
 PROJECT(${PROJECT_NAME} ${PROJECT_ARGS})
 
-find_package (Boost REQUIRED
+SET(BOOST_COMPONENTS
   python filesystem system thread program_options unit_test_framework)
-find_package (Eigen3 REQUIRED NO_MODULE)
+SEARCH_FOR_BOOST()
+ADD_REQUIRED_DEPENDENCY(eigen3)
 
 INCLUDE(cmake/python.cmake)
 INCLUDE(cmake/boost.cmake)
