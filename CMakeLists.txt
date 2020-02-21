@@ -23,6 +23,8 @@ ENDIF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
 SET(CXX_DISABLE_WERROR True)
 
 INCLUDE(cmake/base.cmake)
+INCLUDE(cmake/python.cmake)
+INCLUDE(cmake/boost.cmake)
 
 # Specify the project.
 COMPUTE_PROJECT_ARGS(PROJECT_ARGS LANGUAGES CXX)
@@ -32,9 +34,6 @@ SET(BOOST_COMPONENTS
   python filesystem system thread program_options unit_test_framework)
 SEARCH_FOR_BOOST()
 ADD_REQUIRED_DEPENDENCY(eigen3)
-
-INCLUDE(cmake/python.cmake)
-INCLUDE(cmake/boost.cmake)
 
 SET(DOXYGEN_USE_MATHJAX YES)
 
