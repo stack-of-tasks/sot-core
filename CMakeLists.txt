@@ -42,9 +42,11 @@ SET(PKG_CONFIG_ADDITIONAL_VARIABLES
 # to avoid name collision when installing dynamic-graph in /usr.
 SET(PLUGINDIR "${CMAKE_INSTALL_FULL_LIBDIR}/plugin")
 
-# Extra macros for sot-core
-install(FILES "src/sot-coreMacros.cmake"
-  DESTINATION "${CONFIG_INSTALL_DIR}")
+IF (NOT INSTALL_PYTHON_INTERFACE_ONLY)
+  # Extra macros for sot-core
+  install(FILES "src/sot-coreMacros.cmake"
+    DESTINATION "${CONFIG_INSTALL_DIR}")
+ENDIF (NOT INSTALL_PYTHON_INTERFACE_ONLY)
 
 set(PACKAGE_EXTRA_MACROS "${PACKAGE_EXTRA_MACROS}
 include(\"\${CMAKE_CURRENT_LIST_DIR}/sot-coreMacros.cmake\")")
@@ -90,10 +92,10 @@ ADD_SUBDIRECTORY(unitTesting)
 # **********************************
 IF(BUILD_PYTHON_INTERFACE)
   IF(NOT CMAKE_VERSION VERSION_LESS "3.12" AND NOT WIN32)
-    Python_add_library(robot_utils_sot_py MODULE src/tools/robot-utils-py.cpp)    
+    Python_add_library(robot_utils_sot_py MODULE src/tools/robot-utils-py.cpp)
   ELSE(NOT CMAKE_VERSION VERSION_LESS "3.12" AND NOT WIN32)
-    PYTHON_ADD_MODULE(robot_utils_sot_py src/tools/robot-utils-py.cpp)    
-  ENDIF()    
+    PYTHON_ADD_MODULE(robot_utils_sot_py src/tools/robot-utils-py.cpp)
+  ENDIF()
   TARGET_LINK_LIBRARIES(robot_utils_sot_py
     ${Boost_LIBRARIES}
     ${PYTHON_LIBRARIES} ${LIBRARY_NAME}
