@@ -63,15 +63,11 @@ FeaturePose<representation>::FeaturePose(const string &pointName)
       oMjb(NULL, CLASS_NAME + "(" + name + ")::input(matrixHomo)::oMjb"),
       jbMfb(NULL, CLASS_NAME + "(" + name + ")::input(matrixHomo)::jbMfb"),
       jaJja(NULL, CLASS_NAME + "(" + name + ")::input(matrix)::jaJja"),
-      jbJjb(NULL, CLASS_NAME + "(" + name + ")::input(matrix)::jbJjb")
-
-      ,
+      jbJjb(NULL, CLASS_NAME + "(" + name + ")::input(matrix)::jbJjb"),
       faMfbDes(NULL,
                CLASS_NAME + "(" + name + ")::input(matrixHomo)::faMfbDes"),
       faNufafbDes(NULL,
-                  CLASS_NAME + "(" + name + ")::input(vector)::faNufafbDes")
-
-      ,
+                  CLASS_NAME + "(" + name + ")::input(vector)::faNufafbDes"),
       faMfb(
           boost::bind(&FeaturePose<representation>::computefaMfb, this, _1, _2),
           oMja << jaMfa << oMjb << jbMfb,
