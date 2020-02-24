@@ -75,7 +75,7 @@ FeaturePose<representation>::FeaturePose(const string &pointName)
       faMfb(
           boost::bind(&FeaturePose<representation>::computefaMfb, this, _1, _2),
           oMja << jaMfa << oMjb << jbMfb,
-          CLASS_NAME + "(" + name + ")::output(vector7)::q_faMfbDes"),
+          CLASS_NAME + "(" + name + ")::output(matrixHomo)::faMfb"),
       q_faMfb(boost::bind(&FeaturePose<representation>::computeQfaMfb, this, _1,
                           _2),
               faMfb, CLASS_NAME + "(" + name + ")::output(vector7)::q_faMfb"),
@@ -94,7 +94,7 @@ FeaturePose<representation>::FeaturePose(const string &pointName)
   errorSOUT.addDependencies(q_faMfbDes << q_faMfb);
 
   signalRegistration(oMja << jaMfa << oMjb << jbMfb << jaJja << jbJjb);
-  signalRegistration(errordotSOUT << faMfbDes << faNufafbDes);
+  signalRegistration(faMfb << errordotSOUT << faMfbDes << faNufafbDes);
 
   errordotSOUT.setFunction(
       boost::bind(&FeaturePose<representation>::computeErrorDot, this, _1, _2));
