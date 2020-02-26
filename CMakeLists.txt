@@ -44,7 +44,7 @@ ENDIF(BUILD_PYTHON_INTERFACE)
 SET(BOOST_COMPONENTS
   python filesystem system thread program_options unit_test_framework)
 SEARCH_FOR_BOOST()
-ADD_REQUIRED_DEPENDENCY(eigen3)
+ADD_PROJECT_DEPENDENCY(Eigen3)
 
 SET(DOXYGEN_USE_MATHJAX YES)
 
