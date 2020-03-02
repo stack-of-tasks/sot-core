@@ -1,20 +1,20 @@
 # Copyright 2010, 2019 JRL, CNRS/AIST, LAAS CNRS
 # See LICENSE file.
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 
 SET(PROJECT_ORG stack-of-tasks)
 SET(PROJECT_NAME sot-core)
 SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
 SET(PROJECT_URL "http://github.com/${PROJECT_ORG}/${PROJECT_NAME}")
 
-OPTION (BUILD_PYTHON_INTERFACE "Build the python binding" ON)
-OPTION (INSTALL_PYTHON_INTERFACE_ONLY "Install *ONLY* the python binding" OFF)
+OPTION(BUILD_PYTHON_INTERFACE "Build the python binding" ON)
+OPTION(INSTALL_PYTHON_INTERFACE_ONLY "Install *ONLY* the python binding" OFF)
 OPTION(SUFFIX_SO_VERSION
   "Suffix shared library name by a string depending on git status of project"
   ON)
 
-IF (NOT INSTALL_PYTHON_INTERFACE_ONLY)
+IF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
   # Export CMake Target
   SET(PROJECT_USE_CMAKE_EXPORT TRUE)
 ENDIF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
@@ -37,14 +37,13 @@ IF(BUILD_PYTHON_INTERFACE)
   INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIRS})
   SET(PYTHON_INSTALL_DIR
     ${CMAKE_INSTALL_PREFIX}/${PYTHON_SITELIB}/dynamic_graph/sot/core)
-  #ADD_PROJECT_DEPENDENCY(dynamic-graph-python 3.0.0 REQUIRED)
-  ADD_REQUIRED_DEPENDENCY(dynamic-graph-python 3.0.0 REQUIRED)
+  ADD_PROJECT_DEPENDENCY(dynamic-graph-python 3.0.0 REQUIRED PKG_CONFIG_REQUIRES "dynamic-graph-python >= 3.0.0")
 ENDIF(BUILD_PYTHON_INTERFACE)
 
 SET(BOOST_COMPONENTS
   python filesystem system thread program_options unit_test_framework)
 SEARCH_FOR_BOOST()
-ADD_PROJECT_DEPENDENCY(Eigen3)
+ADD_PROJECT_DEPENDENCY(Eigen3 REQUIRED PKG_CONFIG_REQUIRES eigen3)
 
 SET(DOXYGEN_USE_MATHJAX YES)
 
@@ -59,11 +58,11 @@ SET(PKG_CONFIG_ADDITIONAL_VARIABLES
 # to avoid name collision when installing dynamic-graph in /usr.
 SET(PLUGINDIR "${CMAKE_INSTALL_FULL_LIBDIR}/plugin")
 
-IF (NOT INSTALL_PYTHON_INTERFACE_ONLY)
+IF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
   # Extra macros for sot-core
   install(FILES "src/sot-coreMacros.cmake"
     DESTINATION "${CONFIG_INSTALL_DIR}")
-ENDIF (NOT INSTALL_PYTHON_INTERFACE_ONLY)
+ENDIF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
 
 set(PACKAGE_EXTRA_MACROS "${PACKAGE_EXTRA_MACROS}
 include(\"\${CMAKE_CURRENT_LIST_DIR}/sot-coreMacros.cmake\")")
@@ -76,9 +75,8 @@ SET(BOOST_COMPONENTS
   thread filesystem program_options
   unit_test_framework system regex )
 
-ADD_PROJECT_DEPENDENCY(dynamic-graph REQUIRED)
-
-ADD_REQUIRED_DEPENDENCY ("pinocchio >= 2.2.1")
+ADD_PROJECT_DEPENDENCY(dynamic-graph REQUIRED PKG_CONFIG_REQUIRES dynamic-graph)
+ADD_PROJECT_DEPENDENCY(pinocchio 2.3.1 REQUIRED PKG_CONFIG_REQUIRES "pinocchio >= 2.3.1")
 
 SEARCH_FOR_BOOST()
 
@@ -99,20 +97,22 @@ IF(BUILD_PYTHON_INTERFACE)
   TARGET_LINK_LIBRARIES(robot_utils_sot_py
     ${Boost_LIBRARIES}
     ${PYTHON_LIBRARIES} ${LIBRARY_NAME}
-    dynamic-graph::dynamic-graph)
-  PKG_CONFIG_USE_DEPENDENCY(robot_utils_sot_py pinocchio)
+    dynamic-graph::dynamic-graph
+    pinocchio::pinocchio
+    )
+  TARGET_INCLUDE_DIRECTORIES(robot_utils_sot_py PUBLIC pinocchio::pinocchio)
   TARGET_LINK_BOOST_PYTHON(robot_utils_sot_py)
   INSTALL(TARGETS robot_utils_sot_py DESTINATION ${PYTHON_INSTALL_DIR})
 ENDIF(BUILD_PYTHON_INTERFACE)
 
 # We do not want the project to be finalized if this is
 # to install only the  python interface.
-IF (NOT INSTALL_PYTHON_INTERFACE_ONLY)
+IF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
   SETUP_PROJECT_PACKAGE_FINALIZE()
 ENDIF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
 
 get_cmake_property(_variableNames VARIABLES)
-list (SORT _variableNames)
-foreach (_variableName ${_variableNames})
+list(SORT _variableNames)
+foreach(_variableName ${_variableNames})
     message(STATUS "${_variableName}=${${_variableName}}")
 endforeach()
