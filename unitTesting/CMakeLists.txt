@@ -1,16 +1,6 @@
-# Copyright 2010, François Bleibel, Olivier Stasse, JRL, CNRS/AIST
-
-# Relative plug-in directory (i.e. lib/plugin for instance)
-# as exposed by the dynamic-graph pkg-config file.
-SET(PLUGINDIR ${DYNAMIC_GRAPH_PLUGINDIRNAME})
-SET(FULLPLUGINDIR ${CMAKE_INSTALL_PREFIX}/${PLUGINDIR})
-SET(SOT_PLUGIN_OUT_DIR ${CMAKE_BINARY_DIR}/src)
+# Copyright 2010, 2020, François Bleibel, Olivier Stasse, Guilhem Saurel, JRL, CNRS/AIST, LAAS-CNRS
 
 CONFIG_FILES_CMAKE(test-paths.h)
-
-IF(UNIX)
-  ADD_DEFINITIONS(-pthread)
-ENDIF(UNIX)
 
 # Make Boost.Test generates the main function in test cases.
 ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
@@ -27,58 +17,41 @@ SET(TEST_tsot_LIBS
   gain-adaptive
   )
 
-IF(WIN32)
-  SET(TEST_test_traces_EXT_LIBS
-    ${DYNAMIC_GRAPH_PLUGINDIR}/tracer${CMAKE_LINK_LIBRARY_SUFFIX}
-    )
-ELSE(WIN32)
-  SET(TEST_test_traces_EXT_LIBS
-    ${DYNAMIC_GRAPH_PLUGINDIR}/tracer${CMAKE_SHARED_LIBRARY_SUFFIX}
-    )
-ENDIF(WIN32)
+LINK_DIRECTORIES(${DYNAMIC_GRAPH_PLUGINDIR})
+
+SET(TEST_test_traces_EXT_LIBS tracer)
 
 SET(TEST_test_gain_LIBS
-  gain-adaptive feature-visual-point
-  )
+  gain-adaptive feature-visual-point)
 
 SET(TEST_test_task_LIBS
-  gain-adaptive feature-visual-point task
-  )
+  gain-adaptive feature-visual-point task)
 
 SET(TEST_test_feature_point6d_LIBS
-  gain-adaptive feature-point6d task
-  )
+  gain-adaptive feature-point6d task)
 
 SET(TEST_test_feature_generic_LIBS
-  gain-adaptive feature-generic task feature-pose
-  )
+  gain-adaptive feature-generic task feature-pose)
 
 SET(TEST_test_mailbox_LIBS
-  mailbox-vector
-  )
+  mailbox-vector)
 
 SET(TEST_test_control_pd_LIBS
-  control-pd
-  )
+  control-pd)
 
-SET(TEST_test_feature_generic_INC
-  pinocchio
-  )
+SET(TEST_test_feature_generic_EXT_LIBS
+  pinocchio::pinocchio)
 
-SET(TEST_test_device_INC
-  pinocchio
-  )
+SET(TEST_test_device_EXT_LIBS
+  pinocchio::pinocchio)
 
 SET(TEST_test_filter_differentiator_LIBS
-  filter-differentiator
-  )
+  filter-differentiator)
 
 SET(TEST_test_madgwick_ahrs_LIBS
-  madgwickahrs
-  )
+  madgwickahrs)
 
 
-#test paths and names (without .cpp extension)
 SET(tests
   dummy
 
@@ -124,68 +97,25 @@ IF(WIN32)
 ENDIF(WIN32)
 
 IF(UNIX)
-  ADD_LIBRARY(pluginabstract
-    SHARED
-    tools/plugin.cc)
+  ADD_LIBRARY(pluginabstract SHARED tools/plugin.cc)
 
-  ADD_EXECUTABLE(test_abstract_interface
-    tools/test_abstract_interface.cpp
-    )
+  ADD_EXECUTABLE(test_abstract_interface tools/test_abstract_interface.cpp)
   TARGET_LINK_LIBRARIES(test_abstract_interface
     pluginabstract ${CMAKE_DL_LIBS} ${Boost_LIBRARIES})
-
-  LINK_DIRECTORIES(${SOT_PLUGIN_OUT_DIR} ${FULLPLUGINDIR})
 ENDIF(UNIX)
 
+FOREACH(path ${tests})
+  GET_FILENAME_COMPONENT(test ${path} NAME)
+  ADD_UNIT_TEST(${test} ${path}.cpp)
 
-
-ADD_DEFINITIONS(-DDEBUG=2)
-
-# Add MatrixAbstractLayer compilation flags
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
-
-FOREACH(test ${tests})
-  GET_FILENAME_COMPONENT(EXECUTABLE_NAME ${test} NAME)
-
-  ADD_EXECUTABLE(${EXECUTABLE_NAME} ${test}.cpp)
-
-  TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${PROJECT_NAME})
-  ADD_DEPENDENCIES     (${EXECUTABLE_NAME} ${PROJECT_NAME})
-
-  IF( TEST_${EXECUTABLE_NAME}_INC )
-    TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} pinocchio::pinocchio)
-  ENDIF(TEST_${EXECUTABLE_NAME}_INC)
-
-  IF( TEST_${EXECUTABLE_NAME}_LIBS )
-    TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_LIBS})
-    ADD_DEPENDENCIES     (${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_LIBS})
-  ENDIF( TEST_${EXECUTABLE_NAME}_LIBS )
-
-  IF( TEST_${EXECUTABLE_NAME}_EXT_LIBS )
-    TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${TEST_${EXECUTABLE_NAME}_EXT_LIBS})
-  ENDIF( TEST_${EXECUTABLE_NAME}_EXT_LIBS )
+  TARGET_LINK_LIBRARIES(${test} ${PROJECT_NAME} ${Boost_LIBRARIES}
+    ${TEST_${test}_LIBS} ${TEST_${test}_EXT_LIBS}
+    dynamic-graph::dynamic-graph)
 
   IF(UNIX)
-    TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${CMAKE_DL_LIBS})
+    TARGET_LINK_LIBRARIES(${test} ${CMAKE_DL_LIBS})
   ENDIF(UNIX)
-
-#  PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} dynamic-graph)
-
-#  IF(BUILD_PYTHON_INTERFACE)
-#    PKG_CONFIG_USE_DEPENDENCY(${EXECUTABLE_NAME} dynamic-graph-python)
-#  ENDIF(BUILD_PYTHON_INTERFACE)
-
-  # Link against Boost.
-  TARGET_LINK_LIBRARIES(${EXECUTABLE_NAME} ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY})
-  ADD_TEST(${test} ${EXECUTABLE_NAME})
-
-  IF(UNIX)
-    SET(EXTRA_LD_LIBRARY_PATH $ENV{LD_LIBRARY_PATH})
-    SET_PROPERTY(TEST ${test} PROPERTY
-      ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/src:${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}:${BOOST_ROOT}/lib:${EXTRA_LD_LIBRARY_PATH}")
-  ENDIF(UNIX)
-
-ENDFOREACH(test)
+ENDFOREACH(path ${tests})
 
 IF(BUILD_PYTHON_INTERFACE)
   ADD_SUBDIRECTORY(python)

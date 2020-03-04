@@ -6,7 +6,6 @@
 # get the python script install path
 
 IF(BUILD_PYTHON_INTERFACE)
-  INCLUDE(../cmake/sphinx.cmake)
   SPHINX_SETUP()
   SPHINX_FINALIZE()
   IF(INSTALL_DOCUMENTATION)

@@ -1,23 +1,5 @@
-# Copyright 2010, François Bleibel, Olivier Stasse, JRL, CNRS/AIST
+# Copyright 2010, 2020, François Bleibel, Olivier Stasse, Guilhem Saurel, JRL, CNRS/AIST, LAAS-CNRS
 
-# Verbosity level
-IF(NOT (\"${CMAKE_VERBOSITY_LEVEL}\" STREQUAL \"\"))
-  ADD_DEFINITIONS(-DVP_DEBUG_MODE=${CMAKE_VERBOSITY_LEVEL} -DVP_DEBUG)
-ENDIF (NOT (\"${CMAKE_VERBOSITY_LEVEL}\" STREQUAL \"\"))
-
-#define DEBUG=2 if we're building in debug mode (what for?)
-IF("${CMAKE_BUILD_TYPE}" STREQUAL DEBUG)
-  ADD_DEFINITIONS(-DDEBUG=2)
-ENDIF("${CMAKE_BUILD_TYPE}" STREQUAL DEBUG)
-
-IF(UNIX)
-  ADD_DEFINITIONS(-pthread)
-ENDIF(UNIX)
-
-# The main library name
-SET(SOTCORE_LIB_NAME ${PROJECT_NAME})
-
-#This project will create many plugins as shared libraries, listed here
 SET(plugins
   sot/sot
 
@@ -83,7 +65,6 @@ SET(plugins
 
   control/control-gr
   control/control-pd
-
   )
 
 # TODO
@@ -98,195 +79,84 @@ IF(WIN32)
     )
 ENDIF(WIN32)
 
-set(ADDITIONAL_feature-task_LIBS feature-generic task)
-set(ADDITIONAL_feature-point6d-relative_LIBS feature-point6d)
+set(feature-task_deps feature-generic task)
+set(feature-point6d-relative_deps feature-point6d)
+set(sot_deps task)
+set(sequencer_deps sot)
+set(task-conti_deps task)
+set(task-pd_deps task)
+set(task-unilateral_deps task)
 
-set(ADDITIONAL_sot_LIBS task)
-
-set(ADDITIONAL_sequencer_LIBS sot)
-
-set(ADDITIONAL_task-conti_LIBS task)
-set(ADDITIONAL_task-pd_LIBS task)
-set(ADDITIONAL_task-unilateral_LIBS task)
-
-#Build sot-core
-SET(LIBRARY_NAME ${SOTCORE_LIB_NAME})
-
-#sot-core library sources
-SET(${LIBRARY_NAME}_SOURCES
-  debug/debug.cpp
-  debug/contiifstream.cpp
-
-  exception/exception-abstract.cpp
-  exception/exception-dynamic.cpp
-  exception/exception-factory.cpp
-  exception/exception-feature.cpp
-  exception/exception-signal.cpp
-  exception/exception-task.cpp
-  exception/exception-tools.cpp
-
-  signal/signal-cast.cpp
-
-  feature/feature-abstract.cpp
-
-  task/task-abstract.cpp
-  task/multi-bound.cpp
-
-  sot/flags.cpp
-  sot/memory-task-sot.cpp
-
-  factory/pool.cpp
-
-  tools/utils-windows
-  tools/periodic-call
-  tools/device
-  tools/trajectory
-  tools/robot-utils
-
-  matrix/matrix-svd
-
-  filters/causal-filter
-
-  utils/stop-watch
-
-  )
-
-ADD_LIBRARY(${LIBRARY_NAME}
-  SHARED
-  ${${LIBRARY_NAME}_SOURCES})
-
-target_include_directories(${LIBRARY_NAME}
-  PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/../include>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/>
-  INTERFACE
-  $<INSTALL_INTERFACE:include>
-)
-
-IF(SUFFIX_SO_VERSION)
-  SET_TARGET_PROPERTIES(${LIBRARY_NAME}
-    PROPERTIES
-    SOVERSION ${PROJECT_VERSION})
-ENDIF()
-
-target_link_libraries(${LIBRARY_NAME} dynamic-graph::dynamic-graph pinocchio::pinocchio ${Boost_LIBRARIES})
-
-IF(UNIX)
-  TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${CMAKE_DL_LIBS})
-ENDIF(UNIX)
-
-IF(UNIX AND NOT APPLE)
-  TARGET_LINK_LIBRARIES(${LIBRARY_NAME} pthread)
-ENDIF(UNIX AND NOT APPLE)
-
-IF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
-  INSTALL(TARGETS ${LIBRARY_NAME}
-    EXPORT ${TARGETS_EXPORT_NAME}
-    PUBLIC_HEADER
-    INCLUDES DESTINATION include
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-    )
-ENDIF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
-
-#Plugins compilation, link, and installation
-#Compiles a plugin. The plugin library is ${LIBRARY_NAME}
 FOREACH(plugin ${plugins})
-  #retrieve plugin name
   GET_FILENAME_COMPONENT(LIBRARY_NAME ${plugin} NAME)
+  ADD_LIBRARY(${LIBRARY_NAME} SHARED ${plugin})
 
-  # only one source file per plugin
-  ADD_LIBRARY(${LIBRARY_NAME}
-    SHARED
-    ${plugin}.cpp)
+  IF(SUFFIX_SO_VERSION)
+    SET_TARGET_PROPERTIES(${LIBRARY_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION})
+  ENDIF(SUFFIX_SO_VERSION)
 
-  #remove the "lib" prefix from the plugin output name
-  SET_TARGET_PROPERTIES(${LIBRARY_NAME}
-    PROPERTIES
-    PREFIX ""
-    INSTALL_RPATH ${PLUGINDIR}
-    )
-  IF(${SUFFIX_SO_VERSION})
-    SET_TARGET_PROPERTIES(${LIBRARY_NAME}
-      PROPERTIES
-      SOVERSION ${PROJECT_VERSION}
-      )
-  ENDIF()
+  TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${PROJECT_NAME} ${${LIBRARY_NAME}_deps})
 
-  target_link_libraries(${LIBRARY_NAME}
-    ${SOTCORE_LIB_NAME}
-    ${Boost_LIBRARIES}
-    dynamic-graph::dynamic-graph
-    pinocchio::pinocchio)
-
-  ADD_DEPENDENCIES(${LIBRARY_NAME} ${SOTCORE_LIB_NAME})
-
-  IF(ADDITIONAL_${LIBRARY_NAME}_LIBS)
-    ADD_DEPENDENCIES(${LIBRARY_NAME} ${ADDITIONAL_${LIBRARY_NAME}_LIBS})
-    TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${ADDITIONAL_${LIBRARY_NAME}_LIBS})
-  ENDIF(ADDITIONAL_${LIBRARY_NAME}_LIBS)
-
-  # Linux dynamic loading library flags
-  IF(UNIX)
-    TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${CMAKE_DL_LIBS})
-  ENDIF(UNIX)
-
-  # build python submodule
-  IF(BUILD_PYTHON_INTERFACE)
-    STRING(REPLACE - _ PYTHON_LIBRARY_NAME ${LIBRARY_NAME})
-    DYNAMIC_GRAPH_PYTHON_MODULE("sot/core/${PYTHON_LIBRARY_NAME}"
-      ${LIBRARY_NAME}
-      sot-core-${PYTHON_LIBRARY_NAME}-wrap
-      )
-  ENDIF(BUILD_PYTHON_INTERFACE)
-
-  IF (NOT INSTALL_PYTHON_INTERFACE_ONLY)
-    # Install plugins
-    INSTALL(TARGETS ${LIBRARY_NAME}
-      EXPORT ${TARGETS_EXPORT_NAME}
-      PUBLIC_HEADER
-      INCLUDES DESTINATION include
-      LIBRARY DESTINATION ${PLUGINDIR}
-      )
+  IF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
+    INSTALL(TARGETS ${LIBRARY_NAME} EXPORT ${TARGETS_EXPORT_NAME}
+      DESTINATION ${DYNAMIC_GRAPH_PLUGINDIR})
   ENDIF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
 
+  IF(BUILD_PYTHON_INTERFACE)
+    STRING(REPLACE - _ PYTHON_LIBRARY_NAME ${LIBRARY_NAME})
+    DYNAMIC_GRAPH_PYTHON_MODULE("${PYTHON_DIR}/${PYTHON_LIBRARY_NAME}"
+      ${LIBRARY_NAME} ${PROJECT_NAME}-${PYTHON_LIBRARY_NAME}-wrap)
+  ENDIF(BUILD_PYTHON_INTERFACE)
 ENDFOREACH(plugin)
 
 IF(BUILD_PYTHON_INTERFACE)
-  SET(NO_INSTALL_OF_INIT_PY 0)
-  DYNAMIC_GRAPH_PYTHON_MODULE("sot/core" ${SOTCORE_LIB_NAME} wrap
-    ${NO_INSTALL_OF_INIT_PY})
-
-  # Install empty __init__.py files in intermediate directories.
+  DYNAMIC_GRAPH_PYTHON_MODULE(${PYTHON_DIR} ${PROJECT_NAME} wrap)
 
   INSTALL(FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/__init__.py
-    DESTINATION ${PYTHON_SITELIB}/dynamic_graph/sot
+    DESTINATION ${PYTHON_SITELIB}/dynamic_graph/sot)
+
+  SET(${PROJECT_NAME}_PYTHON
+    __init__.py
+    math_small_entities.py
+    feature_position.py
+    feature_position_relative.py
+    matrix_util.py
+    meta_tasks.py
+    meta_task_6d.py
+    meta_tasks_kine.py
+    meta_tasks_kine_relative.py
+    meta_task_posture.py
+    meta_task_visual_point.py
     )
 
-  INSTALL(FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/__init__.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/math_small_entities.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/feature_position.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/feature_position_relative.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/matrix_util.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_tasks.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_task_6d.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_tasks_kine.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_tasks_kine_relative.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_task_posture.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/meta_task_visual_point.py
-    DESTINATION ${PYTHON_SITELIB}/dynamic_graph/sot/core
+  FOREACH(file ${${PROJECT_NAME}_PYTHON})
+    PYTHON_INSTALL_ON_SITE("dynamic_graph/${PYTHON_DIR}" ${file})
+  ENDFOREACH(file ${${PROJECT_NAME}_PYTHON})
+
+  SET(${PY_NAME}_PYTHON_UTILS
+    __init__.py
+    attime.py
+    history.py
+    thread_interruptible_loop.py
+    viewer_loger.py
+    viewer_helper.py
     )
-  INSTALL(FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/utils/__init__.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/utils/attime.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/utils/history.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/utils/thread_interruptible_loop.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/utils/viewer_loger.py
-    ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/core/utils/viewer_helper.py
-    DESTINATION ${PYTHON_SITELIB}/dynamic_graph/sot/core/utils
-    )
+
+  FOREACH(file ${${PY_NAME}_PYTHON_UTILS})
+    PYTHON_INSTALL_ON_SITE("dynamic_graph/${PYTHON_DIR}/utils" ${file})
+  ENDFOREACH(file ${${PY_NAME}_PYTHON_UTILS})
+
+  # **********************************
+  # Robot_utils_sot_py PYTHON module *
+  # **********************************
+  ADD_LIBRARY(robot_utils_sot_py SHARED tools/robot-utils-py.cpp)
+  TARGET_INCLUDE_DIRECTORIES(robot_utils_sot_py SYSTEM PUBLIC ${PYTHON_INCLUDE_DIRS})
+  TARGET_LINK_LIBRARIES(robot_utils_sot_py
+    ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${PROJECT_NAME}
+    dynamic-graph::dynamic-graph pinocchio::pinocchio)
+  TARGET_INCLUDE_DIRECTORIES(robot_utils_sot_py PUBLIC pinocchio::pinocchio)
+  TARGET_LINK_BOOST_PYTHON(robot_utils_sot_py)
+  SET_TARGET_PROPERTIES(robot_utils_sot_py PROPERTIES PREFIX "")
+  INSTALL(TARGETS robot_utils_sot_py DESTINATION "${PYTHON_SITELIB}/dynamic_graph/${PYTHON_DIR}")
 ENDIF(BUILD_PYTHON_INTERFACE)

@@ -3,117 +3,188 @@
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 
+# Project properties
 SET(PROJECT_ORG stack-of-tasks)
 SET(PROJECT_NAME sot-core)
 SET(PROJECT_DESCRIPTION "Hierarchical task solver plug-in for dynamic-graph.")
-SET(PROJECT_URL "http://github.com/${PROJECT_ORG}/${PROJECT_NAME}")
+SET(PROJECT_URL "https://github.com/${PROJECT_ORG}/${PROJECT_NAME}")
 
-OPTION(BUILD_PYTHON_INTERFACE "Build the python binding" ON)
-OPTION(INSTALL_PYTHON_INTERFACE_ONLY "Install *ONLY* the python binding" OFF)
-OPTION(SUFFIX_SO_VERSION
-  "Suffix shared library name by a string depending on git status of project"
-  ON)
+# Project options
+OPTION(BUILD_PYTHON_INTERFACE "Build the python bindings" ON)
+OPTION(INSTALL_PYTHON_INTERFACE_ONLY "Install *ONLY* the python bindings" OFF)
+OPTION(SUFFIX_SO_VERSION "Suffix library name with its version" ON)
 
+# Project configuration
 IF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
-  # Export CMake Target
   SET(PROJECT_USE_CMAKE_EXPORT TRUE)
 ENDIF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
+SET(CUSTOM_HEADER_DIR "sot/core")
+SET(CXX_DISABLE_WERROR TRUE)
+SET(DOXYGEN_USE_MATHJAX YES)
 
-# Disable -Werror on Unix for now.
-SET(CXX_DISABLE_WERROR True)
-
+# JRL-cmakemodule setup
 INCLUDE(cmake/base.cmake)
-INCLUDE(cmake/python.cmake)
 INCLUDE(cmake/boost.cmake)
+INCLUDE(cmake/python.cmake)
+INCLUDE(cmake/sphinx.cmake)
 
-# Specify the project.
+# Project definition
 COMPUTE_PROJECT_ARGS(PROJECT_ARGS LANGUAGES CXX)
 PROJECT(${PROJECT_NAME} ${PROJECT_ARGS})
 
-SET(BOOST_COMPONENTS filesystem system thread program_options unit_test_framework)
+# Project dependencies
+ADD_PROJECT_DEPENDENCY(dynamic-graph REQUIRED PKG_CONFIG_REQUIRES dynamic-graph)
+ADD_PROJECT_DEPENDENCY(pinocchio REQUIRED PKG_CONFIG_REQUIRES pinocchio)
+SET(BOOST_COMPONENTS filesystem system thread program_options
+  unit_test_framework regex)
 
 IF(BUILD_PYTHON_INTERFACE)
   FINDPYTHON()
-  STRING(REGEX REPLACE "-" "_" PY_NAME ${PROJECT_NAME})
-  SET(${PY_NAME}_INSTALL_DIR ${PYTHON_SITELIB}/${PY_NAME})
-  INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIRS})
-  SET(PYTHON_INSTALL_DIR
-    ${CMAKE_INSTALL_PREFIX}/${PYTHON_SITELIB}/dynamic_graph/sot/core)
-  ADD_PROJECT_DEPENDENCY(dynamic-graph-python 3.0.0 REQUIRED PKG_CONFIG_REQUIRES "dynamic-graph-python >= 3.0.0")
+  STRING(REGEX REPLACE "-" "_" PYTHON_DIR ${CUSTOM_HEADER_DIR})
+  ADD_PROJECT_DEPENDENCY(dynamic-graph-python REQUIRED
+    PKG_CONFIG_REQUIRES dynamic-graph-python)
   SET(BOOST_COMPONENTS ${BOOST_COMPONENTS} python)
 ENDIF(BUILD_PYTHON_INTERFACE)
 
 SEARCH_FOR_BOOST()
-ADD_PROJECT_DEPENDENCY(Eigen3 REQUIRED PKG_CONFIG_REQUIRES eigen3)
 
-SET(DOXYGEN_USE_MATHJAX YES)
+# Verbosity level
+IF(NOT (\"${CMAKE_VERBOSITY_LEVEL}\" STREQUAL \"\"))
+  ADD_DEFINITIONS(-DVP_DEBUG_MODE=${CMAKE_VERBOSITY_LEVEL} -DVP_DEBUG)
+ENDIF(NOT (\"${CMAKE_VERBOSITY_LEVEL}\" STREQUAL \"\"))
 
-SET(PKG_CONFIG_ADDITIONAL_VARIABLES
-  ${PKG_CONFIG_ADDITIONAL_VARIABLES}
-  plugindirname
-  plugindir
+# Main Library
+SET(${PROJECT_NAME}_HEADERS
+  include/${CUSTOM_HEADER_DIR}/abstract-sot-external-interface.hh
+  include/${CUSTOM_HEADER_DIR}/additional-functions.hh
+  include/${CUSTOM_HEADER_DIR}/api.hh
+  include/${CUSTOM_HEADER_DIR}/binary-int-to-uint.hh
+  include/${CUSTOM_HEADER_DIR}/binary-op.hh
+  include/${CUSTOM_HEADER_DIR}/causal-filter.hh
+  include/${CUSTOM_HEADER_DIR}/clamp-workspace.hh
+  include/${CUSTOM_HEADER_DIR}/com-freezer.hh
+  include/${CUSTOM_HEADER_DIR}/contiifstream.hh
+  include/${CUSTOM_HEADER_DIR}/debug.hh
+  include/${CUSTOM_HEADER_DIR}/derivator.hh
+  include/${CUSTOM_HEADER_DIR}/device.hh
+  include/${CUSTOM_HEADER_DIR}/double-constant.hh
+  include/${CUSTOM_HEADER_DIR}/event.hh
+  include/${CUSTOM_HEADER_DIR}/exception-abstract.hh
+  include/${CUSTOM_HEADER_DIR}/exception-dynamic.hh
+  include/${CUSTOM_HEADER_DIR}/exception-factory.hh
+  include/${CUSTOM_HEADER_DIR}/exception-feature.hh
+  include/${CUSTOM_HEADER_DIR}/exception-signal.hh
+  include/${CUSTOM_HEADER_DIR}/exception-task.hh
+  include/${CUSTOM_HEADER_DIR}/exception-tools.hh
+  include/${CUSTOM_HEADER_DIR}/exp-moving-avg.hh
+  include/${CUSTOM_HEADER_DIR}/factory.hh
+  include/${CUSTOM_HEADER_DIR}/feature-1d.hh
+  include/${CUSTOM_HEADER_DIR}/feature-abstract.hh
+  include/${CUSTOM_HEADER_DIR}/feature-generic.hh
+  include/${CUSTOM_HEADER_DIR}/feature-joint-limits.hh
+  include/${CUSTOM_HEADER_DIR}/feature-line-distance.hh
+  include/${CUSTOM_HEADER_DIR}/feature-point6d-relative.hh
+  include/${CUSTOM_HEADER_DIR}/feature-point6d.hh
+  include/${CUSTOM_HEADER_DIR}/feature-pose.hh
+  include/${CUSTOM_HEADER_DIR}/feature-posture.hh
+  include/${CUSTOM_HEADER_DIR}/feature-task.hh
+  include/${CUSTOM_HEADER_DIR}/feature-vector3.hh
+  include/${CUSTOM_HEADER_DIR}/feature-visual-point.hh
+  include/${CUSTOM_HEADER_DIR}/filter-differentiator.hh
+  include/${CUSTOM_HEADER_DIR}/fir-filter.hh
+  include/${CUSTOM_HEADER_DIR}/flags.hh
+  include/${CUSTOM_HEADER_DIR}/gain-adaptive.hh
+  include/${CUSTOM_HEADER_DIR}/gain-hyperbolic.hh
+  include/${CUSTOM_HEADER_DIR}/gripper-control.hh
+  include/${CUSTOM_HEADER_DIR}/integrator-abstract.hh
+  include/${CUSTOM_HEADER_DIR}/integrator-euler.hh
+  include/${CUSTOM_HEADER_DIR}/joint-limitator.hh
+  include/${CUSTOM_HEADER_DIR}/kalman.hh
+  include/${CUSTOM_HEADER_DIR}/latch.hh
+  include/${CUSTOM_HEADER_DIR}/macros-signal.hh
+  include/${CUSTOM_HEADER_DIR}/mailbox-vector.hh
+  include/${CUSTOM_HEADER_DIR}/mailbox.hh
+  include/${CUSTOM_HEADER_DIR}/mailbox.hxx
+  include/${CUSTOM_HEADER_DIR}/matrix-constant.hh
+  include/${CUSTOM_HEADER_DIR}/matrix-geometry.hh
+  include/${CUSTOM_HEADER_DIR}/matrix-svd.hh
+  include/${CUSTOM_HEADER_DIR}/memory-task-sot.hh
+  include/${CUSTOM_HEADER_DIR}/motion-period.hh
+  include/${CUSTOM_HEADER_DIR}/multi-bound.hh
+  include/${CUSTOM_HEADER_DIR}/neck-limitation.hh
+  include/${CUSTOM_HEADER_DIR}/op-point-modifier.hh
+  include/${CUSTOM_HEADER_DIR}/parameter-server.hh
+  include/${CUSTOM_HEADER_DIR}/periodic-call.hh
+  include/${CUSTOM_HEADER_DIR}/periodic-call-entity.hh
+  include/${CUSTOM_HEADER_DIR}/pool.hh
+  include/${CUSTOM_HEADER_DIR}/reader.hh
+  include/${CUSTOM_HEADER_DIR}/robot-simu.hh
+  include/${CUSTOM_HEADER_DIR}/robot-utils.hh
+  include/${CUSTOM_HEADER_DIR}/sot.hh
+  include/${CUSTOM_HEADER_DIR}/stop-watch.hh
+  include/${CUSTOM_HEADER_DIR}/switch.hh
+  include/${CUSTOM_HEADER_DIR}/task.hh
+  include/${CUSTOM_HEADER_DIR}/task-abstract.hh
+  include/${CUSTOM_HEADER_DIR}/task-conti.hh
+  include/${CUSTOM_HEADER_DIR}/task-pd.hh
+  include/${CUSTOM_HEADER_DIR}/task-unilateral.hh
+  include/${CUSTOM_HEADER_DIR}/time-stamp.hh
+  include/${CUSTOM_HEADER_DIR}/timer.hh
+  include/${CUSTOM_HEADER_DIR}/trajectory.hh
+  include/${CUSTOM_HEADER_DIR}/unary-op.hh
+  include/${CUSTOM_HEADER_DIR}/utils-windows.hh
+  include/${CUSTOM_HEADER_DIR}/variadic-op.hh
+  include/${CUSTOM_HEADER_DIR}/vector-constant.hh
+  include/${CUSTOM_HEADER_DIR}/vector-to-rotation.hh
+  include/${CUSTOM_HEADER_DIR}/visual-point-projecter.hh
   )
 
-# Specific to PKG module
-# FIXME: to be changed into lib/dynamic-graph
-# to avoid name collision when installing dynamic-graph in /usr.
-SET(PLUGINDIR "${CMAKE_INSTALL_FULL_LIBDIR}/plugin")
+SET(${PROJECT_NAME}_SOURCES
+  src/debug/debug.cpp
+  src/debug/contiifstream.cpp
+  src/exception/exception-abstract.cpp
+  src/exception/exception-dynamic.cpp
+  src/exception/exception-factory.cpp
+  src/exception/exception-feature.cpp
+  src/exception/exception-signal.cpp
+  src/exception/exception-task.cpp
+  src/exception/exception-tools.cpp
+  src/signal/signal-cast.cpp
+  src/feature/feature-abstract.cpp
+  src/task/task-abstract.cpp
+  src/task/multi-bound.cpp
+  src/sot/flags.cpp
+  src/sot/memory-task-sot.cpp
+  src/factory/pool.cpp
+  src/tools/utils-windows
+  src/tools/periodic-call
+  src/tools/device
+  src/tools/trajectory
+  src/tools/robot-utils
+  src/matrix/matrix-svd
+  src/filters/causal-filter
+  src/utils/stop-watch
+  )
+
+ADD_LIBRARY(${PROJECT_NAME} SHARED
+  ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_HEADERS})
+TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PUBLIC $<INSTALL_INTERFACE:include>)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${Boost_LIBRARIES}
+  dynamic-graph::dynamic-graph pinocchio::pinocchio)
+
+IF(SUFFIX_SO_VERSION)
+  SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION})
+ENDIF(SUFFIX_SO_VERSION)
 
 IF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
-  # Extra macros for sot-core
-  install(FILES "src/sot-coreMacros.cmake"
-    DESTINATION "${CONFIG_INSTALL_DIR}")
+  INSTALL(TARGETS ${PROJECT_NAME} EXPORT ${TARGETS_EXPORT_NAME} DESTINATION lib)
 ENDIF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
 
-set(PACKAGE_EXTRA_MACROS "${PACKAGE_EXTRA_MACROS}
-include(\"\${CMAKE_CURRENT_LIST_DIR}/sot-coreMacros.cmake\")")
-
-PKG_CONFIG_APPEND_LIBS("sot-core")
-
-# Search for dependencies.
-# Boost
-SET(BOOST_COMPONENTS
-  thread filesystem program_options
-  unit_test_framework system regex )
-
-ADD_PROJECT_DEPENDENCY(dynamic-graph REQUIRED PKG_CONFIG_REQUIRES dynamic-graph)
-ADD_PROJECT_DEPENDENCY(pinocchio 2.3.1 REQUIRED PKG_CONFIG_REQUIRES "pinocchio >= 2.3.1")
-
-SEARCH_FOR_BOOST()
-
-ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(unitTesting)
-#ADD_SUBDIRECTORY(doc)
+ADD_SUBDIRECTORY(doc)
 
-# **********************************
-# Robot_utils_sot_py PYTHON module *
-# **********************************
-IF(BUILD_PYTHON_INTERFACE)
-  IF(NOT CMAKE_VERSION VERSION_LESS "3.12" AND NOT WIN32)
-    Python_add_library(robot_utils_sot_py MODULE src/tools/robot-utils-py.cpp)
-  ELSE(NOT CMAKE_VERSION VERSION_LESS "3.12" AND NOT WIN32)
-    PYTHON_ADD_MODULE(robot_utils_sot_py src/tools/robot-utils-py.cpp)
-  ENDIF()
-  TARGET_LINK_LIBRARIES(robot_utils_sot_py
-    ${Boost_LIBRARIES}
-    ${PYTHON_LIBRARIES} ${LIBRARY_NAME}
-    dynamic-graph::dynamic-graph
-    pinocchio::pinocchio
-    )
-  TARGET_INCLUDE_DIRECTORIES(robot_utils_sot_py PUBLIC pinocchio::pinocchio)
-  TARGET_LINK_BOOST_PYTHON(robot_utils_sot_py)
-  INSTALL(TARGETS robot_utils_sot_py DESTINATION ${PYTHON_INSTALL_DIR})
-ENDIF(BUILD_PYTHON_INTERFACE)
-
-# We do not want the project to be finalized if this is
-# to install only the  python interface.
+PKG_CONFIG_APPEND_LIBS(${PROJECT_NAME})
 IF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
-  SETUP_PROJECT_PACKAGE_FINALIZE()
+  INSTALL(FILES package.xml DESTINATION share/${PROJECT_NAME})
 ENDIF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
-
-get_cmake_property(_variableNames VARIABLES)
-list(SORT _variableNames)
-foreach(_variableName ${_variableNames})
-    message(STATUS "${_variableName}=${${_variableName}}")
-endforeach()
