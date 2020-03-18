@@ -4,7 +4,7 @@
 
 from dynamic_graph import plug
 from dynamic_graph.entity import Entity
-from dynamic_graph.sot.core import FeaturePoint6d
+from dynamic_graph.sot.core.feature_point6d import FeaturePoint6d
 
 
 class FeaturePosition(Entity):

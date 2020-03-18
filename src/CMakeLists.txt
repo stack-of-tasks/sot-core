@@ -81,7 +81,7 @@ ENDIF(WIN32)
 
 set(feature-task_deps feature-generic task)
 set(feature-point6d-relative_deps feature-point6d)
-set(sot_deps task)
+set(sot_deps task feature-posture)
 set(sequencer_deps sot)
 set(task-conti_deps task)
 set(task-pd_deps task)

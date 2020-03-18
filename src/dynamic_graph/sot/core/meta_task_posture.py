@@ -1,8 +1,10 @@
 from dynamic_graph import plug
-from dynamic_graph.sot.core import FeatureGeneric, GainAdaptive, Task
+from dynamic_graph.sot.core.feature_generic import FeatureGeneric
+from dynamic_graph.sot.core.gain_adaptive import GainAdaptive
 from dynamic_graph.sot.core.matrix_util import matrixToTuple, vectorToTuple
 from dynamic_graph.sot.core.meta_task_6d import toFlags
 from dynamic_graph.sot.core.meta_tasks import setGain
+from dynamic_graph.sot.core.sot import Task
 from numpy import identity, matrix, zeros
 
 

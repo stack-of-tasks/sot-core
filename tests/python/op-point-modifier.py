@@ -5,7 +5,7 @@
 import unittest
 
 import numpy as np
-from dynamic_graph.sot.core import OpPointModifier
+from dynamic_graph.sot.core.op_point_modifier import OpPointModifier
 
 gaze = tuple(((1.0, 0.0, 0.0, 0.025000000000000001), (0.0, 1.0, 0.0, 0.0), (0.0, 0.0, 1.0, 0.64800000000000002),
               (0.0, 0.0, 0.0, 1.0)))

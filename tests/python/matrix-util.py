@@ -3,7 +3,7 @@
 import unittest
 
 import numpy as np
-from dynamic_graph.sot.core import matrix_util as mod
+import dynamic_graph.sot.core.matrix_util as mod
 
 
 class MatrixUtilTest(unittest.TestCase):

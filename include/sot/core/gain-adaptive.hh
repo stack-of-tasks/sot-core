@@ -90,7 +90,7 @@ public: /* --- INIT --- */
    *
    * To visualize the curve of the gain versus the error, use
    * \code{.py}
-   * from dynamic_graph.sot.core import GainAdaptive
+   * from dynamic_graph.sot.core.gain_adaptive import GainAdaptive
    * import numpy, matplotlib.pyplot as plt
    * g = GainAdaptive('g')
    * g.setByPoint(4.9, 0.001, 0.01, 0.1)

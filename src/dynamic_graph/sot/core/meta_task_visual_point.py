@@ -1,6 +1,10 @@
 from dynamic_graph import plug
-from dynamic_graph.sot.core import FeatureVisualPoint, GainAdaptive, OpPointModifier, Task, VisualPointProjecter
+from dynamic_graph.sot.core.feature_visual_point import FeatureVisualPoint
+from dynamic_graph.sot.core.gain_adaptive import GainAdaptive
 from dynamic_graph.sot.core.meta_tasks import setGain
+from dynamic_graph.sot.core.op_point_modifier import OpPointModifier
+from dynamic_graph.sot.core.sot import Task
+from dynamic_graph.sot.core.visual_point_projecter import VisualPointProjecter
 
 
 class MetaTaskVisualPoint(object):

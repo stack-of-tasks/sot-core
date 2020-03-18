@@ -1,5 +1,6 @@
 from dynamic_graph import plug
-from dynamic_graph.sot.core import FeatureGeneric, GainAdaptive
+from dynamic_graph.sot.core.feature_generic import FeatureGeneric
+from dynamic_graph.sot.core.gain_adaptive import GainAdaptive
 from dynamic_graph.sot.core.matrix_util import matrixToTuple, rpy2tr
 from dynamic_graph.sot.core.meta_task_6d import toFlags
 from numpy import array, eye, matrix, ndarray

@@ -1,5 +1,8 @@
 from dynamic_graph import plug
-from dynamic_graph.sot.core import FeaturePoint6d, GainAdaptive, OpPointModifier, Task
+from dynamic_graph.sot.core.feature_point6d import FeaturePoint6d
+from dynamic_graph.sot.core.gain_adaptive import GainAdaptive
+from dynamic_graph.sot.core.op_point_modifier import OpPointModifier
+from dynamic_graph.sot.core.sot import Task
 
 
 def toFlags(arr):
@@ -26,8 +29,8 @@ class MetaTask6d(object):
     featureDes = 0
 
     def opPointExist(self, opPoint):
-        sigsP = filter(lambda x: x.getName().split(':')[-1] == opPoint, self.dyn.signals())
-        sigsJ = filter(lambda x: x.getName().split(':')[-1] == 'J' + opPoint, self.dyn.signals())
+        sigsP = [x for x in self.dyn.signals() if x.getName().split(':')[-1] == opPoint]
+        sigsJ = [x for x in self.dyn.signals() if x.getName().split(':')[-1] == 'J' + opPoint]
         return len(sigsP) == 1 & len(sigsJ) == 1
 
     def defineDynEntities(self, dyn):
