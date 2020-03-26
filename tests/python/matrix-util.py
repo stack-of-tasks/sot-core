@@ -10,6 +10,9 @@ class MatrixUtilTest(unittest.TestCase):
     def test_matrix_to_tuple(self):
         mat = ((1, 2), (3, 4))
         self.assertEqual(mat, mod.matrixToTuple(np.matrix(mat)))
+
+    def test_array_to_tuple(self):
+        mat = ((1, 2), (3, 4))
         self.assertEqual(mat, mod.matrixToTuple(np.array(mat)))
 
     def test_vector_to_tuple(self):
