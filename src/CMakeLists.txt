@@ -65,6 +65,7 @@ SET(plugins
 
   control/control-gr
   control/control-pd
+  control/admittance-control-op-point
   )
 
 # TODO

@@ -39,6 +39,9 @@ SET(TEST_test_mailbox_LIBS
 SET(TEST_test_control_pd_LIBS
   control-pd)
 
+SET(TEST_test_control_admittance_LIBS
+  admittance-control-op-point)
+
 SET(TEST_test_feature_generic_EXT_LIBS
   pinocchio::pinocchio)
 
@@ -56,6 +59,7 @@ SET(tests
   dummy
 
   control/test_control_pd
+  control/test_control_admittance
 
   features/test_feature_point6d
   features/test_feature_generic
