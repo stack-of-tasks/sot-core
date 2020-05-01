@@ -93,8 +93,10 @@ struct SOT_CORE_EXPORT ForceUtil {
 struct SOT_CORE_EXPORT FootUtil {
   /// Position of the foot soles w.r.t. the frame of the foot
   dynamicgraph::Vector m_Right_Foot_Sole_XYZ;
+
   /// Position of the force/torque sensors w.r.t. the frame of the hosting link
   dynamicgraph::Vector m_Right_Foot_Force_Sensor_XYZ;
+
   std::string m_Left_Foot_Frame_Name;
   std::string m_Right_Foot_Frame_Name;
   void display(std::ostream &os) const;
@@ -212,8 +214,29 @@ public:
 
   void display(std::ostream &os) const;
 
+  /**{ \name Handling general parameters */
+  /** \brief Set a parameter of type string.
+      If parameter_name already exists the value is overwritten.
+      If not it is inserted.
+   */
+  void set_parameter(const std::string &parameter_name,
+                     const std::string &parameter_value);
+
+  /** \brief Get a parameter of type string.
+      If parameter_name already exists the value is overwritten.
+      If not it is inserted.
+      @param parameter_name: Name of the parameter
+      Return false if the parameter is not found.
+   */
+  const std::string &get_parameter(const std::string &parameter_name);
+
+  /** @} */
 protected:
   Logger logger_;
+
+  /** \brief Map of the parameters: map of strings. */
+  std::map<std::string, std::string> parameters_strings_;
+
 }; // struct RobotUtil
 
 /// Accessors - This should be changed to RobotUtilPtrShared
