@@ -9,9 +9,9 @@
  */
 
 #include "sot/core/admittance-control-op-point.hh"
-#include <sot/core/debug.hh>
-#include <dynamic-graph/factory.h>
 #include <dynamic-graph/all-commands.h>
+#include <dynamic-graph/factory.h>
+#include <sot/core/debug.hh>
 #include <sot/core/stop-watch.hh>
 
 namespace dynamicgraph {
@@ -22,17 +22,18 @@ using namespace dg;
 using namespace pinocchio;
 using namespace dg::command;
 
-#define PROFILE_ADMITTANCECONTROLOPPOINT_WFORCE_COMPUTATION \
+#define PROFILE_ADMITTANCECONTROLOPPOINT_WFORCE_COMPUTATION                    \
   "AdmittanceControlOpPoint: w_force computation   "
 
-#define PROFILE_ADMITTANCECONTROLOPPOINT_WDQ_COMPUTATION \
+#define PROFILE_ADMITTANCECONTROLOPPOINT_WDQ_COMPUTATION                       \
   "AdmittanceControlOpPoint: w_dq computation      "
 
-#define PROFILE_ADMITTANCECONTROLOPPOINT_DQ_COMPUTATION \
+#define PROFILE_ADMITTANCECONTROLOPPOINT_DQ_COMPUTATION                        \
   "AdmittanceControlOpPoint: dq computation        "
 
-#define INPUT_SIGNALS m_KpSIN << m_KdSIN << m_dqSaturationSIN << m_forceSIN << m_w_forceDesSIN << \
-                      m_opPoseSIN << m_sensorPoseSIN
+#define INPUT_SIGNALS                                                          \
+  m_KpSIN << m_KdSIN << m_dqSaturationSIN << m_forceSIN << m_w_forceDesSIN     \
+          << m_opPoseSIN << m_sensorPoseSIN
 
 #define INNER_SIGNALS m_w_forceSINNER << m_w_dqSINNER
 
@@ -50,33 +51,33 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(AdmittanceControlOpPoint,
 /* --- CONSTRUCTION -------------------------------------------------- */
 /* ------------------------------------------------------------------- */
 AdmittanceControlOpPoint::AdmittanceControlOpPoint(const std::string &name)
-  : Entity(name),
-    CONSTRUCT_SIGNAL_IN(Kp, dynamicgraph::Vector),
-    CONSTRUCT_SIGNAL_IN(Kd, dynamicgraph::Vector),
-    CONSTRUCT_SIGNAL_IN(dqSaturation, dynamicgraph::Vector),
-    CONSTRUCT_SIGNAL_IN(force, dynamicgraph::Vector),
-    CONSTRUCT_SIGNAL_IN(w_forceDes, dynamicgraph::Vector),
-    CONSTRUCT_SIGNAL_IN(opPose, dynamicgraph::sot::MatrixHomogeneous),
-    CONSTRUCT_SIGNAL_IN(sensorPose, dynamicgraph::sot::MatrixHomogeneous),
-    CONSTRUCT_SIGNAL_INNER(w_force, dynamicgraph::Vector, m_forceSIN),
-    CONSTRUCT_SIGNAL_INNER(w_dq, dynamicgraph::Vector, INPUT_SIGNALS << m_w_forceSINNER),
-    CONSTRUCT_SIGNAL_OUT(dq, dynamicgraph::Vector, m_w_dqSINNER),
-    m_initSucceeded(false) {
+    : Entity(name), CONSTRUCT_SIGNAL_IN(Kp, dynamicgraph::Vector),
+      CONSTRUCT_SIGNAL_IN(Kd, dynamicgraph::Vector),
+      CONSTRUCT_SIGNAL_IN(dqSaturation, dynamicgraph::Vector),
+      CONSTRUCT_SIGNAL_IN(force, dynamicgraph::Vector),
+      CONSTRUCT_SIGNAL_IN(w_forceDes, dynamicgraph::Vector),
+      CONSTRUCT_SIGNAL_IN(opPose, dynamicgraph::sot::MatrixHomogeneous),
+      CONSTRUCT_SIGNAL_IN(sensorPose, dynamicgraph::sot::MatrixHomogeneous),
+      CONSTRUCT_SIGNAL_INNER(w_force, dynamicgraph::Vector, m_forceSIN),
+      CONSTRUCT_SIGNAL_INNER(w_dq, dynamicgraph::Vector,
+                             INPUT_SIGNALS << m_w_forceSINNER),
+      CONSTRUCT_SIGNAL_OUT(dq, dynamicgraph::Vector, m_w_dqSINNER),
+      m_initSucceeded(false) {
   Entity::signalRegistration(INPUT_SIGNALS << INNER_SIGNALS << OUTPUT_SIGNALS);
 
   /* Commands. */
-  addCommand("init", makeCommandVoid1(*this,
-                                      &AdmittanceControlOpPoint::init,
+  addCommand("init", makeCommandVoid1(*this, &AdmittanceControlOpPoint::init,
                                       docCommandVoid1("Initialize the entity.",
                                                       "time step")));
-  addCommand("resetDq", makeCommandVoid0(*this,
-                                         &AdmittanceControlOpPoint::resetDq,
-                                         docCommandVoid0("resetDq")));
+  addCommand("resetDq",
+             makeCommandVoid0(*this, &AdmittanceControlOpPoint::resetDq,
+                              docCommandVoid0("resetDq")));
 }
 
 void AdmittanceControlOpPoint::init(const double &dt) {
   if (!m_dqSaturationSIN.isPlugged())
-    return SEND_MSG("Init failed: signal dqSaturation is not plugged", MSG_TYPE_ERROR);
+    return SEND_MSG("Init failed: signal dqSaturation is not plugged",
+                    MSG_TYPE_ERROR);
   if (!m_KpSIN.isPlugged())
     return SEND_MSG("Init failed: signal Kp is not plugged", MSG_TYPE_ERROR);
   if (!m_KdSIN.isPlugged())
@@ -84,11 +85,14 @@ void AdmittanceControlOpPoint::init(const double &dt) {
   if (!m_forceSIN.isPlugged())
     return SEND_MSG("Init failed: signal force is not plugged", MSG_TYPE_ERROR);
   if (!m_w_forceDesSIN.isPlugged())
-    return SEND_MSG("Init failed: signal w_forceDes is not plugged", MSG_TYPE_ERROR);
+    return SEND_MSG("Init failed: signal w_forceDes is not plugged",
+                    MSG_TYPE_ERROR);
   if (!m_opPoseSIN.isPlugged())
-    return SEND_MSG("Init failed: signal opPose is not plugged", MSG_TYPE_ERROR);
+    return SEND_MSG("Init failed: signal opPose is not plugged",
+                    MSG_TYPE_ERROR);
   if (!m_sensorPoseSIN.isPlugged())
-    return SEND_MSG("Init failed: signal sensorPose is not plugged", MSG_TYPE_ERROR);
+    return SEND_MSG("Init failed: signal sensorPose is not plugged",
+                    MSG_TYPE_ERROR);
 
   m_n = 6;
   m_dt = dt;
@@ -106,7 +110,8 @@ void AdmittanceControlOpPoint::resetDq() {
 /* ------------------------------------------------------------------- */
 DEFINE_SIGNAL_INNER_FUNCTION(w_force, dynamicgraph::Vector) {
   if (!m_initSucceeded) {
-    SEND_WARNING_STREAM_MSG("Cannot compute signal w_force before initialization!");
+    SEND_WARNING_STREAM_MSG(
+        "Cannot compute signal w_force before initialization!");
     return s;
   }
   if (s.size() != 6)
@@ -117,7 +122,8 @@ DEFINE_SIGNAL_INNER_FUNCTION(w_force, dynamicgraph::Vector) {
   const Vector &force = m_forceSIN(iter);
   const MatrixHomogeneous &sensorPose = m_sensorPoseSIN(iter);
   assert(force.size() == m_n && "Unexpected size of signal force");
-  pinocchio::SE3 sensorPlacement(sensorPose.matrix()); // homogeneous matrix to SE3
+  pinocchio::SE3 sensorPlacement(
+      sensorPose.matrix()); // homogeneous matrix to SE3
   s = sensorPlacement.act(pinocchio::Force(force)).toVector();
 
   getProfiler().stop(PROFILE_ADMITTANCECONTROLOPPOINT_WFORCE_COMPUTATION);
@@ -127,7 +133,8 @@ DEFINE_SIGNAL_INNER_FUNCTION(w_force, dynamicgraph::Vector) {
 
 DEFINE_SIGNAL_INNER_FUNCTION(w_dq, dynamicgraph::Vector) {
   if (!m_initSucceeded) {
-    SEND_WARNING_STREAM_MSG("Cannot compute signal w_dq before initialization!");
+    SEND_WARNING_STREAM_MSG(
+        "Cannot compute signal w_dq before initialization!");
     return s;
   }
   if (s.size() != 6)
@@ -144,9 +151,11 @@ DEFINE_SIGNAL_INNER_FUNCTION(w_dq, dynamicgraph::Vector) {
   assert(w_forceDes.size() == m_n && "Unexpected size of signal w_forceDes");
   assert(Kp.size() == m_n && "Unexpected size of signal Kp");
   assert(Kd.size() == m_n && "Unexpected size of signal Kd");
-  assert(dqSaturation.size() == m_n && "Unexpected size of signal dqSaturation");
+  assert(dqSaturation.size() == m_n &&
+         "Unexpected size of signal dqSaturation");
 
-  m_w_dq = m_w_dq + m_dt * (Kp.cwiseProduct(w_forceDes - w_force)) - Kd.cwiseProduct(m_w_dq);
+  m_w_dq = m_w_dq + m_dt * (Kp.cwiseProduct(w_forceDes - w_force)) -
+           Kd.cwiseProduct(m_w_dq);
 
   for (int i = 0; i < m_n; i++) {
     if (m_w_dq[i] > dqSaturation[i])
