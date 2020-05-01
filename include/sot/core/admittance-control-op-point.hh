@@ -16,13 +16,13 @@
 /* --------------------------------------------------------------------- */
 
 #if defined(WIN32)
-#  if defined(admittance_control_op_point_EXPORTS)
-#    define ADMITTANCECONTROLOPPOINT_EXPORT __declspec(dllexport)
-#  else
-#    define ADMITTANCECONTROLOPPOINT_EXPORT __declspec(dllimport)
-#  endif
+#if defined(admittance_control_op_point_EXPORTS)
+#define ADMITTANCECONTROLOPPOINT_EXPORT __declspec(dllexport)
 #else
-#  define ADMITTANCECONTROLOPPOINT_EXPORT
+#define ADMITTANCECONTROLOPPOINT_EXPORT __declspec(dllimport)
+#endif
+#else
+#define ADMITTANCECONTROLOPPOINT_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
@@ -31,9 +31,9 @@
 
 #include <dynamic-graph/signal-helper.h>
 
-#include "pinocchio/spatial/se3.hpp"
-#include "pinocchio/spatial/motion.hpp"
 #include "pinocchio/spatial/force.hpp"
+#include "pinocchio/spatial/motion.hpp"
+#include "pinocchio/spatial/se3.hpp"
 
 #include <sot/core/matrix-geometry.hh>
 
@@ -47,8 +47,9 @@ namespace core {
 
 /**
  * @brief  Admittance controller for an operational point wrt to a force sensor.
- *         It can be a point of the model (hand) or not (created operational point: an object in the hand of the robot)
- *         Which is closed to a force sensor (for instance the right or left wrist ft)
+ *         It can be a point of the model (hand) or not (created operational
+ * point: an object in the hand of the robot) Which is closed to a force sensor
+ * (for instance the right or left wrist ft)
  *
  *  This entity computes a velocity reference for an operational point based
  *  on the force error in the world frame :
@@ -56,10 +57,10 @@ namespace core {
  *
  */
 class ADMITTANCECONTROLOPPOINT_EXPORT AdmittanceControlOpPoint
-  : public ::dynamicgraph::Entity {
+    : public ::dynamicgraph::Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
- public:
+public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /* --- CONSTRUCTOR ---- */
@@ -82,7 +83,8 @@ class ADMITTANCECONTROLOPPOINT_EXPORT AdmittanceControlOpPoint
   DECLARE_SIGNAL_IN(force, dynamicgraph::Vector);
   /// \brief  6d desired force of the end-effector in the world frame
   DECLARE_SIGNAL_IN(w_forceDes, dynamicgraph::Vector);
-  /// \brief  Current position (matrixHomogeneous) of the given operational point
+  /// \brief  Current position (matrixHomogeneous) of the given operational
+  /// point
   DECLARE_SIGNAL_IN(opPose, dynamicgraph::sot::MatrixHomogeneous);
   /// \brief  Current position (matrixHomogeneous) of the given force sensor
   DECLARE_SIGNAL_IN(sensorPose, dynamicgraph::sot::MatrixHomogeneous);
@@ -104,7 +106,7 @@ class ADMITTANCECONTROLOPPOINT_EXPORT AdmittanceControlOpPoint
   /* --- ENTITY INHERITANCE --- */
   virtual void display(std::ostream &os) const;
 
- protected:
+protected:
   /// Dimension of the force signals and of the output
   int m_n;
   /// True if the entity has been successfully initialized

@@ -129,18 +129,16 @@ Sot::Sot(const std::string &name)
   addCommand("setMaxControlIncrementSquaredNorm",
              dynamicgraph::command::makeDirectSetter(
                  *this, &maxControlIncrementSquaredNorm,
-                 docstring +
-                 "     Input:\n"
-                 "       - a strictly positive double\n"
-                 "    \n"));
+                 docstring + "     Input:\n"
+                             "       - a strictly positive double\n"
+                             "    \n"));
 
   addCommand("getMaxControlIncrementSquaredNorm",
              dynamicgraph::command::makeDirectGetter(
                  *this, &maxControlIncrementSquaredNorm,
-                 docstring +
-                 "     Output:\n"
-                 "       - a double\n"
-                 "    \n"));
+                 docstring + "     Output:\n"
+                             "       - a double\n"
+                             "    \n"));
 
   docstring = "    \n"
               "    push a task into the stack.\n"
