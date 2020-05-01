@@ -360,10 +360,21 @@ void RobotUtil::display(std::ostream &os) const {
   }
   os << std::endl;
 }
+
 void RobotUtil::sendMsg(const std::string &msg, MsgType t,
-    const std::string &lineId) {
+                        const std::string &lineId) {
   logger_.sendMsg("[RobotUtil]" + msg, t, lineId);
 }
+
+void RobotUtil::set_parameter(const std::string &parameter_name,
+                              const std::string &parameter_value) {
+  parameters_strings_[parameter_name] = parameter_value;
+}
+
+const std::string &RobotUtil::get_parameter(const std::string &parameter_name) {
+  return parameters_strings_[parameter_name];
+}
+
 bool base_se3_to_sot(ConstRefVector pos, ConstRefMatrix R, RefVector q_sot) {
   assert(q_sot.size() == 6);
   assert(pos.size() == 3);
@@ -442,6 +453,7 @@ bool isNameInRobotUtil(std::string &robotName) {
     return true;
   return false;
 }
+
 RobotUtilShrPtr createRobotUtil(std::string &robotName) {
   std::map<std::string, RobotUtilShrPtr>::iterator it =
       sgl_map_name_to_robot_util.find(robotName);
@@ -451,8 +463,6 @@ RobotUtilShrPtr createRobotUtil(std::string &robotName) {
     it = sgl_map_name_to_robot_util.find(robotName);
     return it->second;
   }
-  std::cout << "Another robot is already in the map for " << robotName
-            << std::endl;
   return RefVoidRobotUtil();
 }
 } // namespace sot
