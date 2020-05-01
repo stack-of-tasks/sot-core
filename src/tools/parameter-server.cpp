@@ -121,6 +121,21 @@ ParameterServer::ParameterServer(const std::string &name)
              makeCommandVoid0(
                  *this, &ParameterServer::displayRobotUtil,
                  docCommandVoid0("Display the current robot util data set.")));
+
+  addCommand("setParameter",
+             makeCommandVoid2(
+                 *this, &ParameterServer::setParameter,
+                 docCommandVoid2("Set a parameter named ParameterName to value "
+                                 "ParameterValue (string format).",
+                                 "(string) ParameterName",
+                                 "(string) ParameterValue")));
+
+  addCommand("getParameter", makeCommandReturnType1(
+                                 *this, &ParameterServer::getParameter,
+                                 docCommandReturnType1<std::string>(
+                                     "Return the parameter value for parameter"
+                                     " named ParameterName.",
+                                     "(string) ParameterName")));
 }
 
 void ParameterServer::init(const double &dt, const std::string &urdfFile,
@@ -289,6 +304,30 @@ bool ParameterServer::isJointInRange(unsigned int id, double q) {
     return false;
   }
   return true;
+}
+
+void ParameterServer::setParameter(const std::string &ParameterName,
+                                   const std::string &ParameterValue) {
+
+  if (!m_initSucceeded) {
+    SEND_WARNING_STREAM_MSG("Cannot set parameter " + ParameterName + " to " +
+                            ParameterValue + " before initialization!");
+    return;
+  }
+  m_robot_util->set_parameter(ParameterName, ParameterValue);
+}
+
+std::string ParameterServer::getParameter(const std::string &ParameterName) {
+  std::string ParameterValue("");
+
+  if (!m_initSucceeded) {
+    SEND_WARNING_STREAM_MSG("Cannot get parameter " + ParameterName +
+                            " before initialization!");
+    return ParameterValue;
+  }
+  ParameterValue = m_robot_util->get_parameter(ParameterName);
+
+  return ParameterValue;
 }
 
 /* ------------------------------------------------------------------- */
