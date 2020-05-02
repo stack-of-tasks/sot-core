@@ -12,6 +12,7 @@ class ViewerLoger:
     robot.viewer = ViewerLoger(robot)
 
     '''
+
     def __init__(self, robot):
         self.robot = robot
         self.viewer = robot.viewer
@@ -23,7 +24,8 @@ class ViewerLoger:
         t = self.robot.state.time
         if name not in self.fileMap:
             self.fileMap[name] = open('/tmp/view_' + name + '.dat', 'w')
-        self.fileMap[name].write("\t".join([str(f) for f in [
-            t,
-        ] + list(state)]) + '\n')
+        self.fileMap[name].write(
+            "\t".join([str(f) for f in [
+                t,
+            ] + list(state)]) + '\n')
         self.viewer.updateElementConfig(name, state)

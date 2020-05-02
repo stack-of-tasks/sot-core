@@ -11,8 +11,10 @@ class OpPointModifierTest(unittest.TestCase):
         ent = ie.IntegratorEulerVectorDouble("ie")
         with self.assertRaises(dgpy.dgpyError) as cm:
             ent.initialize()
-        self.assertEqual(str(cm.exception),
-                         'In SignalPtr: SIN ptr not set. (in signal <sotIntegratorAbstract(ie)::input(vector)::sin>)')
+        self.assertEqual(
+            str(cm.exception),
+            'In SignalPtr: SIN ptr not set. (in signal <sotIntegratorAbstract(ie)::input(vector)::sin>)'
+        )
 
 
 if __name__ == '__main__':

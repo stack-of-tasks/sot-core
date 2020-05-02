@@ -90,7 +90,8 @@ class VisualPinger:
         self.refresh()
 
     def refresh(self):
-        self.viewer.updateElementConfig('pong', [0, 0.9, self.pos * 0.1, 0, 0, 0])
+        self.viewer.updateElementConfig('pong',
+                                        [0, 0.9, self.pos * 0.1, 0, 0, 0])
 
     def __call__(self):
         self.pos += 1
@@ -99,4 +100,5 @@ class VisualPinger:
 
 def updateComDisplay(robot, comsig, objname='com'):
     if comsig.time > 0:
-        robot.viewer.updateElementConfig(objname, [comsig.value[0], comsig.value[1], 0, 0, 0, 0])
+        robot.viewer.updateElementConfig(
+            objname, [comsig.value[0], comsig.value[1], 0, 0, 0, 0])

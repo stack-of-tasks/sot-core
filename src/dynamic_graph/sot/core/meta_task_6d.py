@@ -29,8 +29,14 @@ class MetaTask6d(object):
     featureDes = 0
 
     def opPointExist(self, opPoint):
-        sigsP = [x for x in self.dyn.signals() if x.getName().split(':')[-1] == opPoint]
-        sigsJ = [x for x in self.dyn.signals() if x.getName().split(':')[-1] == 'J' + opPoint]
+        sigsP = [
+            x for x in self.dyn.signals()
+            if x.getName().split(':')[-1] == opPoint
+        ]
+        sigsJ = [
+            x for x in self.dyn.signals()
+            if x.getName().split(':')[-1] == 'J' + opPoint
+        ]
         return len(sigsP) == 1 & len(sigsJ) == 1
 
     def defineDynEntities(self, dyn):
@@ -44,8 +50,12 @@ class MetaTask6d(object):
 
     def createOpPointModif(self):
         self.opPointModif = OpPointModifier('opmodif' + self.name)
-        plug(self.dyn.signal(self.opPoint), self.opPointModif.signal('positionIN'))
-        plug(self.dyn.signal('J' + self.opPoint), self.opPointModif.signal('jacobianIN'))
+        plug(
+            self.dyn.signal(self.opPoint),
+            self.opPointModif.signal('positionIN'))
+        plug(
+            self.dyn.signal('J' + self.opPoint),
+            self.opPointModif.signal('jacobianIN'))
         self.opPointModif.activ = False
 
     def createFeatures(self):
@@ -101,12 +111,16 @@ class MetaTask6d(object):
     @opmodif.setter
     def opmodif(self, m):
         if isinstance(m, bool) and not m:
-            plug(self.dyn.signal(self.opPoint), self.feature.signal('position'))
-            plug(self.dyn.signal('J' + self.opPoint), self.feature.signal('Jq'))
+            plug(
+                self.dyn.signal(self.opPoint), self.feature.signal('position'))
+            plug(
+                self.dyn.signal('J' + self.opPoint), self.feature.signal('Jq'))
             self.opPointModif.activ = False
         else:
             if not self.opPointModif.activ:
-                plug(self.opPointModif.signal('position'), self.feature.position)
+                plug(
+                    self.opPointModif.signal('position'),
+                    self.feature.position)
                 plug(self.opPointModif.signal('jacobian'), self.feature.Jq)
             self.opPointModif.setTransformation(m)
             self.opPointModif.activ = True

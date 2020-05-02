@@ -19,13 +19,18 @@ class MetaTaskKine6dRel(MetaTask6d):
 
     def createOpPointModifBase(self):
         self.opPointModifBase = OpPointModifier('opmodifBase' + self.name)
-        plug(self.dyn.signal(self.opPointBase), self.opPointModifBase.signal('positionIN'))
-        plug(self.dyn.signal('J' + self.opPointBase), self.opPointModifBase.signal('jacobianIN'))
+        plug(
+            self.dyn.signal(self.opPointBase),
+            self.opPointModifBase.signal('positionIN'))
+        plug(
+            self.dyn.signal('J' + self.opPointBase),
+            self.opPointModifBase.signal('jacobianIN'))
         self.opPointModifBase.activ = False
 
     def createFeatures(self):
         self.feature = FeaturePoint6dRelative('featureRel' + self.name)
-        self.featureDes = FeaturePoint6dRelative('featureRel' + self.name + '_ref')
+        self.featureDes = FeaturePoint6dRelative(
+            'featureRel' + self.name + '_ref')
         self.feature.selec.value = '111111'
         self.feature.frame('current')
 
@@ -33,8 +38,12 @@ class MetaTaskKine6dRel(MetaTask6d):
         self.feature.setReference(self.featureDes.name)
         plug(self.dyn.signal(self.opPoint), self.feature.signal('position'))
         plug(self.dyn.signal('J' + self.opPoint), self.feature.signal('Jq'))
-        plug(self.dyn.signal(self.opPointBase), self.feature.signal('positionRef'))
-        plug(self.dyn.signal('J' + self.opPointBase), self.feature.signal('JqRef'))
+        plug(
+            self.dyn.signal(self.opPointBase),
+            self.feature.signal('positionRef'))
+        plug(
+            self.dyn.signal('J' + self.opPointBase),
+            self.feature.signal('JqRef'))
         self.task.add(self.feature.name)
         plug(self.task.error, self.gain.error)
         plug(self.gain.gain, self.task.controlGain)
@@ -43,7 +52,13 @@ class MetaTaskKine6dRel(MetaTask6d):
         self.feature.position.recompute(self.dyn.position.time)
         self.feature.keep()
 
-    def __init__(self, name, dyn, opPoint, opPointBase, opPointRef='right-wrist', opPointRefBase='left-wrist'):
+    def __init__(self,
+                 name,
+                 dyn,
+                 opPoint,
+                 opPointBase,
+                 opPointRef='right-wrist',
+                 opPointRefBase='left-wrist'):
         self.name = name
         self.defineDynEntities(dyn)
         self.createOpPoint(opPoint, opPointRef)
@@ -65,13 +80,21 @@ class MetaTaskKine6dRel(MetaTask6d):
     @opmodifBase.setter
     def opmodifBase(self, m):
         if isinstance(m, bool) and not m:
-            plug(self.dyn.signal(self.opPointBase), self.feature.signal('positionRef'))
-            plug(self.dyn.signal('J' + self.opPointBase), self.feature.signal('JqRef'))
+            plug(
+                self.dyn.signal(self.opPointBase),
+                self.feature.signal('positionRef'))
+            plug(
+                self.dyn.signal('J' + self.opPointBase),
+                self.feature.signal('JqRef'))
             self.opPointModifBase.activ = False
         else:
             if not self.opPointModifBase.activ:
-                plug(self.opPointModifBase.signal('position'), self.feature.positionRef)
-                plug(self.opPointModifBase.signal('jacobian'), self.feature.JqRef)
+                plug(
+                    self.opPointModifBase.signal('position'),
+                    self.feature.positionRef)
+                plug(
+                    self.opPointModifBase.signal('jacobian'),
+                    self.feature.JqRef)
             self.opPointModifBase.setTransformation(m)
             self.opPointModifBase.activ = True
 
@@ -86,11 +109,17 @@ def goto6dRel(task, position, positionRef, gain=None, resetJacobian=True):
     task.featureDes.positionRef.value = matrixToTuple(MRef)
     task.feature.selec.value = "111111"
     setGain(task.gain, gain)
-    if 'resetJacobianDerivative' in task.task.__class__.__dict__.keys() and resetJacobian:
+    if 'resetJacobianDerivative' in task.task.__class__.__dict__.keys(
+    ) and resetJacobian:
         task.task.resetJacobianDerivative()
 
 
-def gotoNdRel(task, position, positionRef, selec=None, gain=None, resetJacobian=True):
+def gotoNdRel(task,
+              position,
+              positionRef,
+              selec=None,
+              gain=None,
+              resetJacobian=True):
     M = generic6dReference(position)
     MRef = generic6dReference(positionRef)
     if selec is not None:
@@ -101,7 +130,8 @@ def gotoNdRel(task, position, positionRef, selec=None, gain=None, resetJacobian=
     task.featureDes.position.value = matrixToTuple(M)
     task.featureDes.positionRef.value = matrixToTuple(MRef)
     setGain(task.gain, gain)
-    if 'resetJacobianDerivative' in task.task.__class__.__dict__.keys() and resetJacobian:
+    if 'resetJacobianDerivative' in task.task.__class__.__dict__.keys(
+    ) and resetJacobian:
         task.task.resetJacobianDerivative()
 
 

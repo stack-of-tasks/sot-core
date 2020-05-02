@@ -18,10 +18,9 @@ mapJointLimits = {
 vfMax = [100.0, 100.0]
 vfMin = [-100.0, -100.0]
 
-mapForceIdToForceLimits = {0: [vfMin, vfMax],
-                           1: [vfMin, vfMax]}
+mapForceIdToForceLimits = {0: [vfMin, vfMax], 1: [vfMin, vfMax]}
 
-mapNameToForceId = {"rf": 0, "lf": 1 }
+mapNameToForceId = {"rf": 0, "lf": 1}
 
 indexOfForceSensors = ()
 
