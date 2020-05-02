@@ -28,6 +28,7 @@
 
   <exec_depend>dynamic-graph-python</exec_depend>
   <exec_depend>pinocchio</exec_depend>
+  <exec_depend>example-robot-data</exec_depend>
 
   <test_depend>gtest</test_depend>
 
