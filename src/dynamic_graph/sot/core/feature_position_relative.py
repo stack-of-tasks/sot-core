@@ -10,7 +10,8 @@ from dynamic_graph.signal_base import SignalBase
 from dynamic_graph.sot.core.feature_point6d_relative import FeaturePoint6dRelative
 
 # Identity matrix of order 4
-I4 = reduce(lambda m, i: m + (i * (0., ) + (1., ) + (3 - i) * (0., ), ), range(4), ())
+I4 = reduce(lambda m, i: m + (i * (0., ) + (1., ) + (3 - i) * (0., ), ),
+            range(4), ())
 
 
 class FeaturePositionRelative(Entity):
