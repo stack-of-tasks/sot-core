@@ -40,20 +40,6 @@ class TestParameterServer(unittest.TestCase):
         urdf_rrbot_model_string = fs.read()
         fs.close()
 
-        print(EXAMPLE_ROBOT_DATA_MODEL_DIR)
-        #
-        model = pin.buildModelFromXML(urdf_rrbot_model_string)
-
-        neutral_configuration_model = pin.neutral(model)
-        jointIds = []
-        #print(model)
-        reduced_model = pin.buildReducedModel(model, jointIds,
-                                              neutral_configuration_model)
-
-        data = model.createData()
-        com = pin.centerOfMass(model, data, neutral_configuration_model)
-        pin.updateFramePlacements(model, data)
-        m = data.mass[0]
         param_server.setParameter("urdf_model", urdf_rrbot_model_string)
         model2_string = param_server.getParameter("urdf_model")
 
