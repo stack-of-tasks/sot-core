@@ -35,6 +35,7 @@ PROJECT(${PROJECT_NAME} ${PROJECT_ARGS})
 # Project dependencies
 ADD_PROJECT_DEPENDENCY(dynamic-graph REQUIRED PKG_CONFIG_REQUIRES dynamic-graph)
 ADD_PROJECT_DEPENDENCY(pinocchio REQUIRED PKG_CONFIG_REQUIRES pinocchio)
+ADD_PROJECT_DEPENDENCY(example-robot-data)
 SET(BOOST_COMPONENTS filesystem system thread program_options
   unit_test_framework regex)
 
