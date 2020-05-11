@@ -22,36 +22,33 @@ namespace dg = dynamicgraph;
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 namespace dynamicgraph {
-  namespace sot {
+namespace sot {
 
-    namespace command {
-      namespace vectorConstant {
-	class Resize;
-      }
-    }
+namespace command {
+namespace vectorConstant {
+class Resize;
+}
+} // namespace command
 
-    class VectorConstant
-      : public Entity
-    {
-      friend class command::vectorConstant::Resize;
-      static const std::string CLASS_NAME;
-      virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+class VectorConstant : public Entity {
+  friend class command::vectorConstant::Resize;
+  static const std::string CLASS_NAME;
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-      int rows;
-      double color;
+  int rows;
 
-    public:
-      VectorConstant( const std::string& name );
+public:
+  VectorConstant(const std::string &name);
 
-      virtual ~VectorConstant( void ){}
+  virtual ~VectorConstant(void) {}
 
-      SignalTimeDependent<dg::Vector,int> SOUT;
+  SignalTimeDependent<dg::Vector, int> SOUT;
 
-      /// \brief Set value of vector (and therefore of output signal)
-      void setValue(const dg::Vector& inValue);
-    };
+  /// \brief Set value of vector (and therefore of output signal)
+  void setValue(const dg::Vector &inValue);
+};
 
-  } // namespace sot
+} // namespace sot
 } // namespace dynamicgraph
 
-#endif //DYNAMICGRAPH_SOT_VECTOR_CONSTANT_H
+#endif // DYNAMICGRAPH_SOT_VECTOR_CONSTANT_H

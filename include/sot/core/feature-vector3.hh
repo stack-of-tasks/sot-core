@@ -15,73 +15,70 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot/core/feature-abstract.hh>
 #include <sot/core/exception-task.hh>
+#include <sot/core/feature-abstract.hh>
 #include <sot/core/matrix-geometry.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (feature_vector3_EXPORTS)
-#    define SOTFEATUREVECTOR3_EXPORT __declspec(dllexport)
-#  else
-#    define SOTFEATUREVECTOR3_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(feature_vector3_EXPORTS)
+#define SOTFEATUREVECTOR3_EXPORT __declspec(dllexport)
 #else
-#  define SOTFEATUREVECTOR3_EXPORT
+#define SOTFEATUREVECTOR3_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTFEATUREVECTOR3_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 namespace dg = dynamicgraph;
 
 /*!
   \class FeatureVector3
   \brief Class that defines point-3d control feature
 */
-class SOTFEATUREVECTOR3_EXPORT FeatureVector3
-: public FeatureAbstract
-{
+class SOTFEATUREVECTOR3_EXPORT FeatureVector3 : public FeatureAbstract {
 
- public:
+public:
   static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
   DECLARE_NO_REFERENCE;
 
- protected:
-
+protected:
   /* --- SIGNALS ------------------------------------------------------------ */
- public:
-  dg::SignalPtr< dg::Vector,int > vectorSIN;
-  dg::SignalPtr< MatrixHomogeneous,int > positionSIN;
-  dg::SignalPtr< dg::Matrix,int > articularJacobianSIN;
-  dg::SignalPtr< dg::Vector,int > positionRefSIN;
+public:
+  dg::SignalPtr<dg::Vector, int> vectorSIN;
+  dg::SignalPtr<MatrixHomogeneous, int> positionSIN;
+  dg::SignalPtr<dg::Matrix, int> articularJacobianSIN;
+  dg::SignalPtr<dg::Vector, int> positionRefSIN;
 
-  using FeatureAbstract::selectionSIN;
-  using FeatureAbstract::jacobianSOUT;
   using FeatureAbstract::errorSOUT;
+  using FeatureAbstract::jacobianSOUT;
+  using FeatureAbstract::selectionSIN;
 
- public:
-  FeatureVector3( const std::string& name );
-  virtual ~FeatureVector3( void ) {}
+public:
+  FeatureVector3(const std::string &name);
+  virtual ~FeatureVector3(void) {}
 
-  virtual unsigned int& getDimension( unsigned int & dim, int time );
+  virtual unsigned int &getDimension(unsigned int &dim, int time);
 
-  virtual dg::Vector& computeError( dg::Vector& res,int time );
-  virtual dg::Matrix& computeJacobian( dg::Matrix& res,int time );
+  virtual dg::Vector &computeError(dg::Vector &res, int time);
+  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time);
 
-  virtual void display( std::ostream& os ) const;
+  virtual void display(std::ostream &os) const;
+};
 
-} ;
-
-} /* namespace sot */} /* namespace dynamicgraph */
-
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_FEATURE_VECTOR3_HH__
 

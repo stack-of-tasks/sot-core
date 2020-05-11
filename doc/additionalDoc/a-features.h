@@ -1,3 +1,3 @@
 /**
-   \defgroup Filters
+   \defgroup Filters Filters
  */

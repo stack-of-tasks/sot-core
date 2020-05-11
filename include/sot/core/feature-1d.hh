@@ -15,28 +15,29 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot/core/feature-abstract.hh>
 #include <sot/core/exception-task.hh>
+#include <sot/core/feature-abstract.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (feature_1d_EXPORTS)
-#    define SOTFEATURE1D_EXPORT __declspec(dllexport)
-#  else
-#    define SOTFEATURE1D_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(feature_1d_EXPORTS)
+#define SOTFEATURE1D_EXPORT __declspec(dllexport)
 #else
-#  define SOTFEATURE1D_EXPORT
+#define SOTFEATURE1D_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTFEATURE1D_EXPORT
 #endif
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 namespace dg = dynamicgraph;
 /*!
   \class Feature1D
@@ -45,20 +46,18 @@ namespace dg = dynamicgraph;
   of the mother task.
 
 */
-class SOTFEATURE1D_EXPORT Feature1D
-  : public FeatureAbstract, FeatureReferenceHelper<Feature1D>
-{
+class SOTFEATURE1D_EXPORT Feature1D : public FeatureAbstract,
+                                      FeatureReferenceHelper<Feature1D> {
 
- public:
+public:
   /*! Field storing the class name. */
   static const std::string CLASS_NAME;
   /*! Returns the name of the class. */
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
- protected:
-
+protected:
   /* --- SIGNALS ------------------------------------------------------------ */
- public:
+public:
   /*! \name Signals
     @{
   */
@@ -66,58 +65,59 @@ class SOTFEATURE1D_EXPORT Feature1D
     @{
    */
   /*! \brief Input for the error. */
-  dg::SignalPtr< dg::Vector,int > errorSIN;
+  dg::SignalPtr<dg::Vector, int> errorSIN;
 
   /*! \brief Input for the Jacobian. */
-  dg::SignalPtr< dg::Matrix,int > jacobianSIN;
+  dg::SignalPtr<dg::Matrix, int> jacobianSIN;
 
   /*! @} */
 
   /*! \name Output signals
     @{
   */
-  /*! \brief Publish the jacobian of the feature according to the robot state. */
+  /*! \brief Publish the jacobian of the feature according to the robot state.
+   */
   using FeatureAbstract::jacobianSOUT;
 
-  /*! \brief Publish the error between the desired and the current value of the feature. */
+  /*! \brief Publish the error between the desired and the current value of the
+   * feature. */
   using FeatureAbstract::errorSOUT;
 
- public:
-
+public:
   /*! \brief Default constructor */
-  Feature1D( const std::string& name );
+  Feature1D(const std::string &name);
 
   /*! \brief Default destructor */
-  virtual ~Feature1D( void ) {}
+  virtual ~Feature1D(void) {}
 
   /*! \brief Get the dimension of the feature. */
-  virtual unsigned int& getDimension( unsigned int & dim, int time );
+  virtual unsigned int &getDimension(unsigned int &dim, int time);
 
   /*! \name Methods to trigger computation related to this feature.
     @{
   */
 
-  /*! \brief Compute the error between the desired value and the value itself. */
-  virtual dg::Vector& computeError( dg::Vector& res,int time );
+  /*! \brief Compute the error between the desired value and the value itself.
+   */
+  virtual dg::Vector &computeError(dg::Vector &res, int time);
 
   /*! \brief Compute the Jacobian of the value according to the robot state.. */
-  virtual dg::Matrix& computeJacobian( dg::Matrix& res,int time );
+  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time);
 
   /*! @} */
 
   /*! \brief Display the information related to this 1D implementation. */
-  virtual void display( std::ostream& os ) const;
-
+  virtual void display(std::ostream &os) const;
 
   /*! \name Dealing with the reference value to be reach with this feature.
     @{
   */
   DECLARE_REFERENCE_FUNCTIONS(Feature1D);
   /*! @} */
+};
 
-} ;
-
-} /* namespace sot */} /* namespace dynamicgraph */
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif // #ifndef __SOT_FEATURE_1D_HH__
 

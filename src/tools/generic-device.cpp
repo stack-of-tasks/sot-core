@@ -22,6 +22,7 @@ using namespace std;
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/linear-algebra.h>
 #include <sot/core/matrix-geometry.hh>
+#include <boost/move/move.hpp>
 
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
@@ -435,7 +436,7 @@ int GenericDevice::ParseYAMLJointSensor(YAML::Node &aJointSensor) {
 }
 
 int GenericDevice::ParseYAMLMapHardwareJointNames(YAML::Node & map_joint_name) {
-  if (control_.size() != map_joint_name.size()) {
+  if (unsigned(control_.size()) != map_joint_name.size()) {
     control_.resize(map_joint_name.size());
   }
 

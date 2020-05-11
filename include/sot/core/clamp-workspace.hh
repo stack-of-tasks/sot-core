@@ -18,64 +18,59 @@
 namespace dg = dynamicgraph;
 
 /* SOT */
+#include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
 #include <sot/core/exception-task.hh>
-#include <dynamic-graph/all-signals.h>
 #include <sot/core/matrix-geometry.hh>
-
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#if defined (WIN32)
-#  if defined (clamp_workspace_EXPORTS)
-#    define SOTCLAMPWORKSPACE_EXPORT __declspec(dllexport)
-#  else
-#    define SOTCLAMPWORKSPACE_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(clamp_workspace_EXPORTS)
+#define SOTCLAMPWORKSPACE_EXPORT __declspec(dllexport)
 #else
-#  define SOTCLAMPWORKSPACE_EXPORT
+#define SOTCLAMPWORKSPACE_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTCLAMPWORKSPACE_EXPORT
 #endif
 
-namespace dynamicgraph { namespace sot {
+namespace dynamicgraph {
+namespace sot {
 namespace dg = dynamicgraph;
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace
-  : public dg::Entity
-{
- public:
+class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace : public dg::Entity {
+public:
   static const std::string CLASS_NAME;
-  virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
   /* --- SIGNALS ------------------------------------------------------------ */
- public:
+public:
+  dg::SignalPtr<MatrixHomogeneous, int> positionrefSIN;
+  dg::SignalPtr<MatrixHomogeneous, int> positionSIN;
+  dg::SignalTimeDependent<dg::Matrix, int> alphaSOUT;
+  dg::SignalTimeDependent<dg::Matrix, int> alphabarSOUT;
+  dg::SignalTimeDependent<MatrixHomogeneous, int> handrefSOUT;
 
-  dg::SignalPtr< MatrixHomogeneous,int > positionrefSIN;
-  dg::SignalPtr< MatrixHomogeneous,int > positionSIN;
-  dg::SignalTimeDependent< dg::Matrix,int > alphaSOUT;
-  dg::SignalTimeDependent< dg::Matrix,int > alphabarSOUT;
-  dg::SignalTimeDependent< MatrixHomogeneous,int > handrefSOUT;
+public:
+  ClampWorkspace(const std::string &name);
+  virtual ~ClampWorkspace(void) {}
 
- public:
+  void update(int time);
 
-  ClampWorkspace( const std::string& name );
-  virtual ~ClampWorkspace( void ) {}
+  virtual dg::Matrix &computeOutput(dg::Matrix &res, int time);
+  virtual dg::Matrix &computeOutputBar(dg::Matrix &res, int time);
+  virtual MatrixHomogeneous &computeRef(MatrixHomogeneous &res, int time);
 
-  void update( int time );
+  virtual void display(std::ostream &) const;
 
-  virtual dg::Matrix& computeOutput( dg::Matrix& res, int time );
-  virtual dg::Matrix& computeOutputBar( dg::Matrix& res, int time );
-  virtual MatrixHomogeneous& computeRef( MatrixHomogeneous& res, int time );
-
-  virtual void display( std::ostream& ) const;
-
- private:
-
+private:
   int timeUpdate;
 
   dg::Matrix alpha;
@@ -95,16 +90,12 @@ class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace
   double theta_max;
   int mode;
 
-  enum {
-    FRAME_POINT,
-    FRAME_REF
-  } frame;
+  enum { FRAME_POINT, FRAME_REF } frame;
 
-  std::pair<double,double> bounds[3];
+  std::pair<double, double> bounds[3];
 };
 
-
-} /* namespace sot */} /* namespace dynamicgraph */
-
+} /* namespace sot */
+} /* namespace dynamicgraph */
 
 #endif

@@ -17,20 +17,24 @@
 
 /* SOT */
 #ifdef VP_DEBUG
-class sotSOT__INIT
-{
-public:sotSOT__INIT( void ) { dynamicgraph::sot::DebugTrace::openFile(); }
+class sotSOT__INIT {
+public:
+  sotSOT__INIT(void) { dynamicgraph::sot::DebugTrace::openFile(); }
 };
 sotSOT__INIT sotSOT_initiator;
 #endif //#ifdef VP_DEBUG
 
 #include <sot/core/sot.hh>
+
+#include <dynamic-graph/command-direct-getter.h>
+#include <dynamic-graph/command-direct-setter.h>
+#include <sot/core/factory.hh>
+#include <sot/core/feature-posture.hh>
+#include <sot/core/matrix-geometry.hh>
+#include <sot/core/matrix-svd.hh>
+#include <sot/core/memory-task-sot.hh>
 #include <sot/core/pool.hh>
 #include <sot/core/task.hh>
-#include <sot/core/memory-task-sot.hh>
-#include <sot/core/matrix-svd.hh>
-#include <sot/core/matrix-geometry.hh>
-#include <sot/core/factory.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;
@@ -42,289 +46,265 @@ using namespace dynamicgraph;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-
-DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Sot,"SOT");
-
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Sot, "SOT");
 
 const double Sot::INVERSION_THRESHOLD_DEFAULT = 1e-4;
+const Eigen::IOFormat python(Eigen::FullPrecision, 0,
+                             ", ",     // coeff sep
+                             ",\n",    // row sep
+                             "[", "]", // row prefix and suffix
+                             "[", "]"  // mat prefix and suffix
+);
 
 /* --------------------------------------------------------------------- */
 /* --- CONSTRUCTION ---------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-Sot::
-Sot( const std::string& name )
-  :Entity(name)
-  ,stack()
-  ,constraintList()
-  ,ffJointIdFirst( FF_JOINT_ID_DEFAULT )
-  ,ffJointIdLast( FF_JOINT_ID_DEFAULT+6 )
-
-  ,nbJoints( 0 )
-  ,taskGradient(0)
-  ,recomputeEachTime(true)
-  ,q0SIN( NULL,"sotSOT("+name+")::input(double)::q0" )
-  ,proj0SIN( NULL,"sotSOT("+name+")::input(double)::proj0" )
-  ,inversionThresholdSIN( NULL,"sotSOT("+name+")::input(double)::damping" )
-  ,constraintSOUT( boost::bind(&Sot::computeConstraintProjector,this,_1,_2),
-		   sotNOSIGNAL,
-		   "sotSOT("+name+")::output(matrix)::constraint" )
-  ,controlSOUT( boost::bind(&Sot::computeControlLaw,this,_1,_2),
-		constraintSOUT<<inversionThresholdSIN<<q0SIN<<proj0SIN,
-		"sotSOT("+name+")::output(vector)::control" )
-{
+Sot::Sot(const std::string &name)
+    : Entity(name), stack(), nbJoints(0), enablePostureTaskAcceleration(false),
+      maxControlIncrementSquaredNorm(std::numeric_limits<double>::max()),
+      q0SIN(NULL, "sotSOT(" + name + ")::input(double)::q0"),
+      proj0SIN(NULL, "sotSOT(" + name + ")::input(double)::proj0"),
+      inversionThresholdSIN(NULL,
+                            "sotSOT(" + name + ")::input(double)::damping"),
+      controlSOUT(boost::bind(&Sot::computeControlLaw, this, _1, _2),
+                  inversionThresholdSIN << q0SIN << proj0SIN,
+                  "sotSOT(" + name + ")::output(vector)::control") {
   inversionThresholdSIN = INVERSION_THRESHOLD_DEFAULT;
 
-  signalRegistration( inversionThresholdSIN<<controlSOUT<<constraintSOUT<<q0SIN<<proj0SIN );
+  signalRegistration(inversionThresholdSIN << controlSOUT << q0SIN << proj0SIN);
 
   // Commands
   //
   std::string docstring;
-  // addConstraint
-  docstring ="    \n"
-    "    AddConstraint\n"
-    "    \n"
-    "      Input:\n"
-    "        - a string: name of the constraint object\n"
-    "    \n";
-  addCommand("addConstraint",
-	     new command::classSot::AddConstraint(*this, docstring));
 
-  docstring ="    \n"
-    "    setNumberDofs.\n"
-    "    \n"
-    "      Input:\n"
-    "        - a positive integer : number of degrees of freedom of the robot.\n"
-    "    \n";
-  addCommand("setSize",
-	     new dynamicgraph::command::Setter<Sot, unsigned int>
-	     (*this, &Sot::defineNbDof, docstring));
+  docstring = "    \n"
+              "    setNumberDofs.\n"
+              "    \n"
+              "      Input:\n"
+              "        - a positive integer : number of degrees of freedom of "
+              "the robot.\n"
+              "    \n";
+  addCommand("setSize", new dynamicgraph::command::Setter<Sot, unsigned int>(
+                            *this, &Sot::defineNbDof, docstring));
 
-  docstring ="    \n"
-    "    getNumberDofs.\n"
-    "    \n"
-    "      Output:\n"
-    "        - a positive integer : number of degrees of freedom of the robot.\n"
-    "    \n";
+  docstring = "    \n"
+              "    getNumberDofs.\n"
+              "    \n"
+              "      Output:\n"
+              "        - a positive integer : number of degrees of freedom of "
+              "the robot.\n"
+              "    \n";
   addCommand("getSize",
-	     new dynamicgraph::command::Getter<Sot, const unsigned int&>
-	     (*this, &Sot::getNbDof, docstring));
+             new dynamicgraph::command::Getter<Sot, const unsigned int &>(
+                 *this, &Sot::getNbDof, docstring));
 
-  docstring ="    \n"
-    "    push a task into the stack.\n"
-    "    \n"
-    "      Input:\n"
-    "        - a string : Name of the task.\n"
-    "    \n";
-  addCommand("push",
-	     new command::classSot::Push(*this, docstring));
+  addCommand("enablePostureTaskAcceleration",
+             dynamicgraph::command::makeDirectSetter(
+                 *this, &enablePostureTaskAcceleration,
+                 dynamicgraph::command::docDirectSetter(
+                     "option to bypass SVD computation for the posture task at "
+                     "the last"
+                     "level",
+                     "boolean")));
 
-  docstring ="    \n"
-    "    remove a task into the stack.\n"
-    "    \n"
-    "      Input:\n"
-    "        - a string : Name of the task.\n"
-    "    \n";
-  addCommand("remove",
-	     new command::classSot::Remove(*this, docstring));
+  addCommand("isPostureTaskAccelerationEnabled",
+             dynamicgraph::command::makeDirectGetter(
+                 *this, &enablePostureTaskAcceleration,
+                 dynamicgraph::command::docDirectGetter(
+                     "option to bypass SVD computation for the posture task at "
+                     "the last"
+                     "level",
+                     "boolean")));
 
-  docstring ="    \n"
-    "    up a task into the stack.\n"
-    "    \n"
-    "      Input:\n"
-    "        - a string : Name of the task.\n"
-    "    \n";
-  addCommand("up",
-	     new command::classSot::Up(*this, docstring));
+  docstring = "    \n"
+              "    Maximum allowed squared norm of control increment.\n"
+              "    A task whose control increment is above this value is\n"
+              "    discarded. It defaults to the maximum double value.\n"
+              "    \n"
+              "    WARNING: This is a security feature and is **not** a good\n"
+              "             way of adding a proper constraint on the control\n"
+              "             generated by SoT.\n"
+              "    \n";
 
-  docstring ="    \n"
-    "    down a task into the stack.\n"
-    "    \n"
-    "      Input:\n"
-    "        - a string : Name of the task.\n"
-    "    \n";
-  addCommand("down",
-	     new command::classSot::Down(*this, docstring));
+  addCommand("setMaxControlIncrementSquaredNorm",
+             dynamicgraph::command::makeDirectSetter(
+                 *this, &maxControlIncrementSquaredNorm,
+                 docstring + "     Input:\n"
+                             "       - a strictly positive double\n"
+                             "    \n"));
+
+  addCommand("getMaxControlIncrementSquaredNorm",
+             dynamicgraph::command::makeDirectGetter(
+                 *this, &maxControlIncrementSquaredNorm,
+                 docstring + "     Output:\n"
+                             "       - a double\n"
+                             "    \n"));
+
+  docstring = "    \n"
+              "    push a task into the stack.\n"
+              "    \n"
+              "      Input:\n"
+              "        - a string : Name of the task.\n"
+              "    \n";
+  addCommand("push", new command::classSot::Push(*this, docstring));
+
+  docstring = "    \n"
+              "    remove a task into the stack.\n"
+              "    \n"
+              "      Input:\n"
+              "        - a string : Name of the task.\n"
+              "    \n";
+  addCommand("remove", new command::classSot::Remove(*this, docstring));
+
+  docstring = "    \n"
+              "    up a task into the stack.\n"
+              "    \n"
+              "      Input:\n"
+              "        - a string : Name of the task.\n"
+              "    \n";
+  addCommand("up", new command::classSot::Up(*this, docstring));
+
+  docstring = "    \n"
+              "    down a task into the stack.\n"
+              "    \n"
+              "      Input:\n"
+              "        - a string : Name of the task.\n"
+              "    \n";
+  addCommand("down", new command::classSot::Down(*this, docstring));
 
   // Display
-  docstring ="    \n"
-    "    display the list of tasks pushed inside the stack.\n"
-    "    \n";
-  addCommand("display",
-	     new command::classSot::Display(*this, docstring));
-
+  docstring = "    \n"
+              "    display the list of tasks pushed inside the stack.\n"
+              "    \n";
+  addCommand("display", new command::classSot::Display(*this, docstring));
 
   // Clear
-  docstring ="    \n"
-    "    clear the list of tasks pushed inside the stack.\n"
-    "    \n";
-  addCommand("clear",
-	     new command::classSot::Clear(*this, docstring));
+  docstring = "    \n"
+              "    clear the list of tasks pushed inside the stack.\n"
+              "    \n";
+  addCommand("clear", new command::classSot::Clear(*this, docstring));
 
   // List
-  docstring ="    \n"
-    "    returns the list of tasks pushed inside the stack.\n"
-    "    \n";
-  addCommand("list",
-	     new command::classSot::List(*this, docstring));
-
-
+  docstring = "    \n"
+              "    returns the list of tasks pushed inside the stack.\n"
+              "    \n";
+  addCommand("list", new command::classSot::List(*this, docstring));
 }
 
 /* --------------------------------------------------------------------- */
 /* --- STACK MANIPULATION --- */
 /* --------------------------------------------------------------------- */
-void Sot::
-push( TaskAbstract& task )
-{
+void Sot::push(TaskAbstract &task) {
   if (nbJoints == 0)
-    throw std::logic_error ("Set joint size of "+ getClassName() + " \""+getName()+"\" first");
-  stack.push_back( &task );
-  controlSOUT.addDependency( task.taskSOUT );
-  controlSOUT.addDependency( task.jacobianSOUT );
+    throw std::logic_error("Set joint size of " + getClassName() + " \"" +
+                           getName() + "\" first");
+  stack.push_back(&task);
+  controlSOUT.addDependency(task.taskSOUT);
+  controlSOUT.addDependency(task.jacobianSOUT);
   controlSOUT.setReady();
 }
-TaskAbstract& Sot::
-pop( void )
-{
-  TaskAbstract* res = stack.back();
+TaskAbstract &Sot::pop(void) {
+  TaskAbstract *res = stack.back();
   stack.pop_back();
-  controlSOUT.removeDependency( res->taskSOUT );
-  controlSOUT.removeDependency( res->jacobianSOUT );
+  controlSOUT.removeDependency(res->taskSOUT);
+  controlSOUT.removeDependency(res->jacobianSOUT);
   controlSOUT.setReady();
   return *res;
 }
-bool Sot::
-exist( const TaskAbstract& key )
-{
-  std::list<TaskAbstract*>::iterator it;
-  for ( it=stack.begin();stack.end()!=it;++it )
-    {
-      if( *it == &key ) { return true; }
+bool Sot::exist(const TaskAbstract &key) {
+  StackType::iterator it;
+  for (it = stack.begin(); stack.end() != it; ++it) {
+    if (*it == &key) {
+      return true;
     }
+  }
   return false;
 }
-void Sot::
-remove( const TaskAbstract& key )
-{
-  bool find =false; std::list<TaskAbstract*>::iterator it;
-  for ( it=stack.begin();stack.end()!=it;++it )
-    {
-      if( *it == &key ) { find=true; break; }
+void Sot::remove(const TaskAbstract &key) {
+  bool find = false;
+  StackType::iterator it;
+  for (it = stack.begin(); stack.end() != it; ++it) {
+    if (*it == &key) {
+      find = true;
+      break;
     }
-  if(! find ){ return; }
+  }
+  if (!find) {
+    return;
+  }
 
-  stack.erase( it );
-  removeDependency( key );
+  stack.erase(it);
+  removeDependency(key);
 }
 
-void Sot::
-removeDependency( const TaskAbstract& key )
-{
-  controlSOUT.removeDependency( key.taskSOUT );
-  controlSOUT.removeDependency( key.jacobianSOUT );
+void Sot::removeDependency(const TaskAbstract &key) {
+  controlSOUT.removeDependency(key.taskSOUT);
+  controlSOUT.removeDependency(key.jacobianSOUT);
   controlSOUT.setReady();
 }
 
-void Sot::
-up( const TaskAbstract& key )
-{
-  bool find =false; std::list<TaskAbstract*>::iterator it;
-  for ( it=stack.begin();stack.end()!=it;++it )
-    {
-      if( *it == &key ) { find=true; break; }
+void Sot::up(const TaskAbstract &key) {
+  bool find = false;
+  StackType::iterator it;
+  for (it = stack.begin(); stack.end() != it; ++it) {
+    if (*it == &key) {
+      find = true;
+      break;
     }
-  if( stack.begin()==it ) { return; }
-  if(! find ){ return; }
+  }
+  if (stack.begin() == it) {
+    return;
+  }
+  if (!find) {
+    return;
+  }
 
-  std::list<TaskAbstract*>::iterator pos=it; pos--;
-  TaskAbstract * task = *it;
-  stack.erase( it );
-  stack.insert( pos,task );
+  StackType::iterator pos = it;
+  pos--;
+  TaskAbstract *task = *it;
+  stack.erase(it);
+  stack.insert(pos, task);
   controlSOUT.setReady();
 }
-void Sot::
-down( const TaskAbstract& key )
-{
-  bool find =false; std::list<TaskAbstract*>::iterator it;
-  for ( it=stack.begin();stack.end()!=it;++it )
-    {
-      if( *it == &key ) { find=true; break; }
+void Sot::down(const TaskAbstract &key) {
+  bool find = false;
+  StackType::iterator it;
+  for (it = stack.begin(); stack.end() != it; ++it) {
+    if (*it == &key) {
+      find = true;
+      break;
     }
-  if( stack.end()==it ) { return; }
-  if(! find ){ return; }
+  }
+  if (stack.end() == it) {
+    return;
+  }
+  if (!find) {
+    return;
+  }
 
-  std::list<TaskAbstract*>::iterator pos=it; pos++;
-  TaskAbstract* task=*it;
-  stack.erase( it );
-  if( stack.end()==pos ){ stack.push_back(task); }
-  else
-    {
-      pos++;
-      stack.insert( pos,task );
-    }
+  StackType::iterator pos = it;
+  pos++;
+  TaskAbstract *task = *it;
+  stack.erase(it);
+  if (stack.end() == pos) {
+    stack.push_back(task);
+  } else {
+    pos++;
+    stack.insert(pos, task);
+  }
   controlSOUT.setReady();
 }
 
-void Sot::
-clear( void )
-{
-  for (  std::list<TaskAbstract*>::iterator it=stack.begin();stack.end()!=it;++it )
-    {
-      removeDependency( **it );
-    }
+void Sot::clear(void) {
+  for (StackType::iterator it = stack.begin(); stack.end() != it; ++it) {
+    removeDependency(**it);
+  }
   stack.clear();
   controlSOUT.setReady();
 }
 
-/* --------------------------------------------------------------------- */
-/* --- CONSTRAINTS ----------------------------------------------------- */
-/* --------------------------------------------------------------------- */
-
-void Sot::
-addConstraint( Constraint& constraint )
-{
-  constraintList.push_back( &constraint );
-  constraintSOUT.addDependency( constraint.jacobianSOUT );
-}
-
-void Sot::
-removeConstraint( const Constraint& key )
-{
-  bool find =false; ConstraintListType::iterator it;
-  for ( it=constraintList.begin();constraintList.end()!=it;++it )
-    {
-      if( *it == &key ) { find=true; break; }
-    }
-  if(! find ){ return; }
-
-  constraintList.erase( it );
-
-  constraintSOUT.removeDependency( key.jacobianSOUT );
-}
-void Sot::
-clearConstraint( void )
-{
-  for (  ConstraintListType::iterator it=constraintList.begin();
-	 constraintList.end()!=it;++it )
-    {
-      constraintSOUT.removeDependency( (*it)->jacobianSOUT );
-    }
-  constraintList.clear();
-}
-
-void Sot::
-defineFreeFloatingJoints( const unsigned int& first,const unsigned int& last )
-{
-  ffJointIdFirst = first ;
-  if( last>0 ) ffJointIdLast=last ;
-  else ffJointIdLast=ffJointIdFirst+6;
-}
-
-void Sot::
-defineNbDof( const unsigned int& nbDof )
-{
+void Sot::defineNbDof(const unsigned int &nbDof) {
   nbJoints = nbDof;
-  constraintSOUT.setReady();
   controlSOUT.setReady();
 }
 
@@ -332,81 +312,98 @@ defineNbDof( const unsigned int& nbDof )
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-dynamicgraph::Matrix & Sot::
-computeJacobianConstrained( const dynamicgraph::Matrix& Jac,
-                            const dynamicgraph::Matrix& K,
-                            dynamicgraph::Matrix& JK)
-{
-  const Matrix::Index nJ = Jac.rows();
-  const Matrix::Index mJ = K.cols();
-  const Matrix::Index nbConstraints = Jac.cols() - mJ;
-
-  if (nbConstraints == 0) {
-    JK = Jac;
-    return JK;
-  }
-  JK.resize(nJ, mJ);
-  JK.noalias() = Jac.leftCols (nbConstraints) * K;
-  JK.noalias() += Jac.rightCols (Jac.cols() - nbConstraints);
-
-  return JK;
-}
-
-
-dynamicgraph::Matrix & Sot::
-computeJacobianConstrained( const TaskAbstract& task,
-                            const dynamicgraph::Matrix& K )
-{
-  const dynamicgraph::Matrix &Jac = task.jacobianSOUT.accessCopy ();
-  MemoryTaskSOT * mem = dynamic_cast<MemoryTaskSOT *>( task.memoryInternal );
-  if( NULL==mem ) throw; // TODO
-  dynamicgraph::Matrix &JK = mem->JK;
-  return computeJacobianConstrained(Jac,K,JK);
-}
-
-static void computeJacobianActivated( Task* taskSpec,
-				      dynamicgraph::Matrix& Jt,
-				      const int& iterTime )
-{
-  if( NULL!=taskSpec )
-    {
-      const Flags& controlSelec = taskSpec->controlSelectionSIN( iterTime );
-      sotDEBUG(25) << "Control selection = " << controlSelec <<endl;
-      if( controlSelec )
-	{
-	  if(!controlSelec)
-	    {
-	      sotDEBUG(15) << "Control selection."<<endl;
-	      for( int i=0;i<Jt.cols();++i )
-		{
-		  if(! controlSelec(i) )
-		    { Jt.col (i).setZero(); }
-		}
-	    }
-	  else
-	    {
-	      sotDEBUG(15) << "S is equal to Id."<<endl;
-	    }
-	}
-      else
-	{
-	  sotDEBUG(15) << "Task not activated."<<endl;
-	  Jt *= 0;
-	}
+const Matrix &computeJacobianActivated(TaskAbstract *Ta, Task *T, Matrix &Jmem,
+                                       const int &iterTime) {
+  if (T != NULL) {
+    const Flags &controlSelec = T->controlSelectionSIN(iterTime);
+    sotDEBUG(25) << "Control selection = " << controlSelec << endl;
+    if (controlSelec) {
+      if (!controlSelec) {
+        Jmem = Ta->jacobianSOUT.accessCopy();
+        for (int i = 0; i < Jmem.cols(); ++i)
+          if (!controlSelec(i))
+            Jmem.col(i).setZero();
+        return Jmem;
+      } else
+        return Ta->jacobianSOUT.accessCopy();
+    } else {
+      sotDEBUG(15) << "Task not activated." << endl;
+      const Matrix &Jac = Ta->jacobianSOUT.accessCopy();
+      Jmem = Matrix::Zero(Jac.rows(), Jac.cols());
+      return Jmem;
     }
-  else { /* No selection specification: nothing to do. */ }
+  } else /* No selection specification: nothing to do. */
+    return Ta->jacobianSOUT.accessCopy();
 }
 
+typedef MemoryTaskSOT::Kernel_t Kernel_t;
+typedef MemoryTaskSOT::KernelConst_t KernelConst_t;
+
+template <typename MapType, typename MatrixType>
+inline void makeMap(MapType &map, MatrixType &m) {
+  // There is not memory allocation here.
+  // See https://eigen.tuxfamily.org/dox/group__TutorialMapClass.html
+  new (&map) KernelConst_t(m.data(), m.rows(), m.cols());
+}
+
+bool updateControl(MemoryTaskSOT *mem, const Matrix::Index rankJ,
+                   bool has_kernel, const KernelConst_t &kernel,
+                   Vector &control, const double &threshold) {
+  const SVD_t &svd(mem->svd);
+  Vector &tmpTask(mem->tmpTask);
+  Vector &tmpVar(mem->tmpVar);
+  Vector &tmpControl(mem->tmpControl);
+  const Vector &err(mem->err);
+
+  // tmpTask <- S^-1 * U^T * err
+  tmpTask.head(rankJ).noalias() = svd.matrixU().leftCols(rankJ).adjoint() * err;
+  tmpTask.head(rankJ).array() *=
+      svd.singularValues().head(rankJ).array().inverse();
+
+  // control <- kernel * (V * S^-1 * U^T * err)
+  if (has_kernel) {
+    tmpVar.head(kernel.cols()).noalias() =
+        svd.matrixV().leftCols(rankJ) * tmpTask.head(rankJ);
+    tmpControl.noalias() = kernel * tmpVar.head(kernel.cols());
+  } else
+    tmpControl.noalias() = svd.matrixV().leftCols(rankJ) * tmpTask.head(rankJ);
+  if (tmpControl.squaredNorm() > threshold)
+    return false;
+  control += tmpControl;
+  return true;
+}
+
+bool isFullPostureTask(Task *task, const Matrix::Index &nDof,
+                       const int &iterTime) {
+  if (task == NULL || task->getFeatureList().size() != 1 ||
+      !task->controlSelectionSIN(iterTime))
+    return false;
+  FeaturePosture *posture =
+      dynamic_cast<FeaturePosture *>(task->getFeatureList().front());
+
+  assert(posture->dimensionSOUT(iterTime) <= nDof - 6);
+  return posture != NULL && posture->dimensionSOUT(iterTime) == nDof - 6;
+}
+
+MemoryTaskSOT *getMemory(TaskAbstract &t, const Matrix::Index &tDim,
+                         const Matrix::Index &nDof) {
+  MemoryTaskSOT *mem = dynamic_cast<MemoryTaskSOT *>(t.memoryInternal);
+  if (NULL == mem) {
+    if (NULL != t.memoryInternal)
+      delete t.memoryInternal;
+    mem = new MemoryTaskSOT(tDim, nDof);
+    t.memoryInternal = mem;
+  }
+  return mem;
+}
 
 /* --------------------------------------------------------------------- */
 /* --- CONTROL --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-
 //#define WITH_CHRONO
 
-
-#ifdef  WITH_CHRONO
+#ifdef WITH_CHRONO
 #ifndef WIN32
 #include <sys/time.h>
 #else /*WIN32*/
@@ -414,389 +411,241 @@ static void computeJacobianActivated( Task* taskSpec,
 #endif /*WIN32*/
 #endif /*WITH_CHRONO*/
 
-
-#ifdef  WITH_CHRONO
-#   define sotINIT_CHRONO1 struct timeval t0,t1; double dt
-#   define sotSTART_CHRONO1  gettimeofday(&t0,NULL)
-#   define sotCHRONO1					\
-  gettimeofday(&t1,NULL);				\
-  dt = ( (double)(t1.tv_sec-t0.tv_sec) * 1000.* 1000.	\
-	 + (double)(t1.tv_usec-t0.tv_usec)  );		\
-  sotDEBUG(1) << "dt: "<< dt / 1000. << std::endl
-#   define sotINITPARTCOUNTERS  struct timeval tpart0
-#   define sotSTARTPARTCOUNTERS  gettimeofday(&tpart0,NULL)
-#   define sotCOUNTER(nbc1,nbc2)					\
-  gettimeofday(&tpart##nbc2,NULL);					\
-  dt##nbc2 += ( (double)(tpart##nbc2.tv_sec-tpart##nbc1.tv_sec) * 1000.* 1000. \
-		+    (double)(tpart##nbc2.tv_usec-tpart##nbc1.tv_usec)  )
-#   define sotINITCOUNTER(nbc1)				\
-  struct timeval tpart##nbc1; double dt##nbc1=0;
-#   define sotPRINTCOUNTER(nbc1)  sotDEBUG(1) << "dt" << nbc1 << " = " << dt##nbc1 << std::endl
+#ifdef WITH_CHRONO
+#define TIME_STREAM DYNAMIC_GRAPH_ENTITY_DEBUG(*this)
+#define sotINIT_CHRONO1                                                        \
+  struct timespec t0, t1;                                                      \
+  double dt
+#define sotSTART_CHRONO1 clock_gettime(CLOCK_THREAD_CPUTIME_ID, &t0)
+#define sotCHRONO1                                                             \
+  clock_gettime(CLOCK_THREAD_CPUTIME_ID, &t1);                                 \
+  dt = ((double)(t1.tv_sec - t0.tv_sec) * 1e6 +                                \
+        (double)(t1.tv_nsec - t0.tv_nsec) / 1e3);                              \
+  TIME_STREAM << "dT " << (long int)dt << std::endl
+#define sotINITPARTCOUNTERS struct timespec tpart0
+#define sotSTARTPARTCOUNTERS clock_gettime(CLOCK_THREAD_CPUTIME_ID, &tpart0)
+#define sotCOUNTER(nbc1, nbc2)                                                 \
+  clock_gettime(CLOCK_THREAD_CPUTIME_ID, &tpart##nbc2);                        \
+  dt##nbc2 = ((double)(tpart##nbc2.tv_sec - tpart##nbc1.tv_sec) * 1e6 +        \
+              (double)(tpart##nbc2.tv_nsec - tpart##nbc1.tv_nsec) / 1e3)
+#define sotINITCOUNTER(nbc1)                                                   \
+  struct timespec tpart##nbc1;                                                 \
+  double dt##nbc1 = 0;
+#define sotPRINTCOUNTER(nbc1)                                                  \
+  TIME_STREAM << "dt" << iterTask << '_' << nbc1 << ' ' << (long int)dt##nbc1  \
+              << ' '
 #else // #ifdef  WITH_CHRONO
-#   define sotINIT_CHRONO1
-#   define sotSTART_CHRONO1
-#   define sotCHRONO1
-#   define sotINITPARTCOUNTERS
-#   define sotSTARTPARTCOUNTERS
-#   define sotCOUNTER(nbc1,nbc2)
-#   define sotINITCOUNTER(nbc1)
-#   define sotPRINTCOUNTER(nbc1)
+#define sotINIT_CHRONO1
+#define sotSTART_CHRONO1
+#define sotCHRONO1
+#define sotINITPARTCOUNTERS
+#define sotSTARTPARTCOUNTERS
+#define sotCOUNTER(nbc1, nbc2)
+#define sotINITCOUNTER(nbc1)
+#define sotPRINTCOUNTER(nbc1)
 #endif // #ifdef  WITH_CHRONO
 
-void Sot::
-taskVectorToMlVector( const VectorMultiBound& taskVector, Vector& res )
-{
+void Sot::taskVectorToMlVector(const VectorMultiBound &taskVector,
+                               Vector &res) {
   res.resize(taskVector.size());
-  unsigned int i=0;
+  unsigned int i = 0;
 
-  for( VectorMultiBound::const_iterator iter=taskVector.begin();
-       iter!=taskVector.end();++iter,++i ) {
-    res(i)=iter->getSingleBound();
+  for (VectorMultiBound::const_iterator iter = taskVector.begin();
+       iter != taskVector.end(); ++iter, ++i) {
+    res(i) = iter->getSingleBound();
   }
 }
 
-dynamicgraph::Vector& Sot::
-computeControlLaw( dynamicgraph::Vector& control,const int& iterTime )
-{
+dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
+                                             const int &iterTime) {
   sotDEBUGIN(15);
 
-  sotINIT_CHRONO1; sotINITPARTCOUNTERS;
-  sotINITCOUNTER(1); sotINITCOUNTER(2);sotINITCOUNTER(3);sotINITCOUNTER(4);
-  sotINITCOUNTER(5); sotINITCOUNTER(6);sotINITCOUNTER(7);sotINITCOUNTER(8);
+  sotINIT_CHRONO1;
+  sotINITPARTCOUNTERS;
+  sotINITCOUNTER(1);
+  sotINITCOUNTER(2);
+  sotINITCOUNTER(3);
+  sotINITCOUNTER(4);
+  sotINITCOUNTER(5);
+  sotINITCOUNTER(6);
 
   sotSTART_CHRONO1;
-  sotSTARTPARTCOUNTERS;
 
   const double &th = inversionThresholdSIN(iterTime);
-  const Matrix &K = constraintSOUT(iterTime);
-  const Matrix::Index mJ = K.cols(); // number dofs - number constraints
 
-  try {
-    control = q0SIN( iterTime );
-    sotDEBUG(15) << "initial velocity q0 = " << control << endl;
-    if( mJ!=control.size() ) { control.resize( mJ ); control.setZero(); }
-  }
-  catch (...)
-    {
-      if( mJ!=control.size() ) { control.resize( mJ );}
-      control.setZero();
-      sotDEBUG(25) << "No initial velocity." <<endl;
+  bool controlIsZero = true;
+  if (q0SIN.isPlugged()) {
+    control = q0SIN(iterTime);
+    controlIsZero = false;
+    if (control.size() != nbJoints) {
+      std::ostringstream oss;
+      oss << "SOT(" << getName() << "): q0SIN value length is "
+          << control.size() << "while the expected lenth is " << nbJoints;
+      throw std::length_error(oss.str());
     }
+  } else {
+    if (stack.size() == 0) {
+      std::ostringstream oss;
+      oss << "SOT(" << getName()
+          << ") contains no task and q0SIN is not plugged.";
+      throw std::logic_error(oss.str());
+    }
+    control = Vector::Zero(nbJoints);
+    sotDEBUG(25) << "No initial velocity." << endl;
+  }
 
-  sotDEBUGF(5, " --- Time %d -------------------", iterTime );
+  sotDEBUGF(5, " --- Time %d -------------------", iterTime);
   unsigned int iterTask = 0;
-  const Matrix* PrevProj = NULL;
+  KernelConst_t kernel(NULL, 0, 0);
+  bool has_kernel = false;
   // Get initial projector if any.
   if (proj0SIN.isPlugged()) {
-    const Matrix& initialProjector = proj0SIN.access (iterTime);
-    PrevProj = &initialProjector;
+    const Matrix &K = proj0SIN.access(iterTime);
+    makeMap(kernel, K);
+    has_kernel = true;
   }
-  for( StackType::iterator iter = stack.begin(); iter!=stack.end();++iter )
-    {
-      sotDEBUGF(5,"Rank %d.",iterTask);
-      TaskAbstract & task = **iter;
-      sotDEBUG(15) << "Task: e_" << task.getName() << std::endl;
-      const dynamicgraph::Matrix &Jac = task.jacobianSOUT(iterTime);
-      sotCOUNTER(0,1); // Direct Dynamic
+  for (StackType::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
+    sotSTARTPARTCOUNTERS;
 
-      unsigned int rankJ;
-      const Matrix::Index nJ = Jac.rows(); // number dofs
+    sotDEBUGF(5, "Rank %d.", iterTask);
+    TaskAbstract &taskA = **iter;
+    Task *task = dynamic_cast<Task *>(*iter);
 
-      /* Init memory. */
-      MemoryTaskSOT * mem = dynamic_cast<MemoryTaskSOT *>( task.memoryInternal );
-      if( NULL==mem )
-        {
-          if( NULL!=task.memoryInternal ) delete task.memoryInternal;
-          mem = new MemoryTaskSOT( task.getName()+"_memSOT",nJ,mJ );
-          task.memoryInternal = mem;
-        }
+    bool last = (iterTask + 1 == stack.size());
+    bool fullPostureTask = (last && enablePostureTaskAcceleration &&
+                            isFullPostureTask(task, nbJoints, iterTime));
 
-      Matrix &Jp = mem->Jp;
-      Matrix &JK = mem->JK;
-      Matrix &Jt = mem->Jt;
-      Matrix &Proj = mem->Proj;
-      MemoryTaskSOT::SVD_t& svd = mem->svd;
+    sotDEBUG(15) << "Task: e_" << taskA.getName() << std::endl;
 
-      taskVectorToMlVector(task.taskSOUT(iterTime), mem->err);
-      const dynamicgraph::Vector &err = mem->err;
+    /// Computing first the jacobian may be a little faster overall.
+    if (!fullPostureTask)
+      taskA.jacobianSOUT.recompute(iterTime);
+    taskA.taskSOUT.recompute(iterTime);
+    const Matrix::Index dim = taskA.taskSOUT.accessCopy().size();
+    sotCOUNTER(0, 1); // Direct Dynamic
 
-      Jp.resize( mJ,nJ );
-      Jt.resize( nJ,mJ );
-      JK.resize( nJ,mJ );
+    /* Init memory. */
+    MemoryTaskSOT *mem = getMemory(taskA, dim, nbJoints);
+    /***/ sotCOUNTER(1, 2); // first allocs
 
-      if( (recomputeEachTime)
-          ||(task.jacobianSOUT.getTime()>mem->jacobianInvSINOUT.getTime())
-          ||(mem->jacobianInvSINOUT.accessCopy().rows()!=mJ)
-          ||(mem->jacobianInvSINOUT.accessCopy().cols()!=nJ)
-          ||(task.jacobianSOUT.getTime()>mem->jacobianConstrainedSINOUT.getTime())
-          ||(task.jacobianSOUT.getTime()>mem->rankSINOUT.getTime())
-          ||(task.jacobianSOUT.getTime()>mem->singularBaseImageSINOUT.getTime()) )
-	{
-	  sotDEBUG(2) <<"Recompute inverse."<<endl;
+    Matrix::Index rankJ = -1;
+    taskVectorToMlVector(taskA.taskSOUT(iterTime), mem->err);
 
-	  /* --- FIRST ALLOCS --- */
-	  sotDEBUG(1) << "Size = "
-		      << std::min(nJ, mJ) + mem->Jff.cols()*mem->Jff.rows()
-	    + mem->Jact.cols()*mem->Jact.rows() << std::endl;
+    if (fullPostureTask) {
+      /***/ sotCOUNTER(2, 3); // compute JK*S
+      /***/ sotCOUNTER(3, 4); // compute Jt
 
-	  sotDEBUG(1) << std::endl;
-	  sotDEBUG(1) << "nJ=" << nJ << " " << "Jac.cols()=" << Jac.cols()
-		      <<" "<< "mJ=" << mJ<<std::endl;
-	  mem->Jff.resize( nJ,Jac.cols()-mJ ); // number dofs, number constraints
-	  sotDEBUG(1) << std::endl;
-	  mem->Jact.resize( nJ,mJ );
-	  sotDEBUG(1) << std::endl;
-	  sotDEBUG(1) << "Size = "
-		      << std::min(nJ, mJ) + mem->Jff.cols()*mem->Jff.rows()
-	    + mem->Jact.cols()*mem->Jact.rows() << std::endl;
-
-	  /***/sotCOUNTER(1,2); // first allocs
-
-	  /* --- COMPUTE JK --- */
-	  computeJacobianConstrained( task,K );
-	  /***/sotCOUNTER(2,3); // compute JK
-
-	  /* --- COMPUTE S --- */
-	  computeJacobianActivated( dynamic_cast<Task*>( &task ),JK,iterTime );
-	  /***/sotCOUNTER(3,4); // compute JK*S
-
-	  /* --- COMPUTE Jt --- */
-	  if( PrevProj!=NULL ) Jt.noalias() = JK*(*PrevProj); else { Jt = JK; }
-	  /***/sotCOUNTER(4,5); // compute Jt
-
-	  /* --- PINV --- */
-	  svd.compute (Jt);
-	  Eigen::dampedInverse (svd, Jp, th);
-	  /***/sotCOUNTER(5,6); // PINV
-	  sotDEBUG(20) << "V after dampedInverse." << svd.matrixV() <<endl;
-	  /* --- RANK --- */
-	  {
-	    rankJ = 0;
-	    while ( rankJ < svd.singularValues().size()
-		    &&  th    < svd.singularValues()[rankJ])
-	      { ++rankJ; }
-	  }
-
-	  sotDEBUG(45) << "control"<<iterTask<<" = "<<control<<endl;
-	  sotDEBUG(25) << "J"<<iterTask<<" = "<<Jac<<endl;
-	  sotDEBUG(25) << "JK"<<iterTask<<" = "<<JK<<endl;
-	  sotDEBUG(25) << "Jt"<<iterTask<<" = "<<Jt<<endl;
-	  sotDEBUG(15) << "Jp"<<iterTask<<" = "<<Jp<<endl;
-	  sotDEBUG(15) << "e"<<iterTask<<" = "<<err<<endl;
-	  sotDEBUG(45) << "JJp"<<iterTask<<" = "<< JK*Jp <<endl;
-	  //sotDEBUG(45) << "U"<<iterTask<<" = "<< U<<endl;
-	  sotDEBUG(45) << "S"<<iterTask<<" = "<< svd.singularValues()<<endl;
-	  sotDEBUG(45) << "V"<<iterTask<<" = "<< svd.matrixV()<<endl;
-	  sotDEBUG(45) << "U"<<iterTask<<" = "<< svd.matrixU()<<endl;
-
-	  mem->jacobianInvSINOUT = Jp;
-	  mem->jacobianInvSINOUT.setTime( iterTime );
-	  mem->jacobianConstrainedSINOUT = JK;
-	  mem->jacobianConstrainedSINOUT.setTime( iterTime );
-	  mem->jacobianProjectedSINOUT = Jt;
-	  mem->jacobianProjectedSINOUT.setTime( iterTime );
-	  mem->singularBaseImageSINOUT = svd.matrixV().leftCols(rankJ);
-	  mem->singularBaseImageSINOUT.setTime( iterTime );
-	  mem->rankSINOUT = rankJ;
-	  mem->rankSINOUT.setTime( iterTime );
-
-	  sotDEBUG(25)<<"Inverse recomputed."<<endl;
-	} else {
-	sotDEBUG(2)<<"Inverse not recomputed."<<endl;
-	rankJ = mem->rankSINOUT.accessCopy();
-	Jp = mem->jacobianInvSINOUT.accessCopy();
-	JK = mem->jacobianConstrainedSINOUT.accessCopy ();
-	Jt = mem->jacobianProjectedSINOUT.accessCopy ();
-      }
-      /***/sotCOUNTER(6,7); // TRACE
+      // Jp = kernel.transpose()
+      rankJ = kernel.cols();
+      /***/ sotCOUNTER(4, 5); // SVD and rank
 
       /* --- COMPUTE QDOT AND P --- */
-      /*DEBUG: normally, the first iter (ie the test below)
-       * is the same than the other, starting with control_0 = q0SIN. */
-      if( PrevProj == NULL ) control.noalias() += Jp*err;
-      else                   control           += *PrevProj * (Jp*(err - JK*control));
-      /***/sotCOUNTER(7,8); // QDOT
+      if (!controlIsZero)
+        mem->err.noalias() -= control.tail(nbJoints - 6);
+      mem->tmpVar.head(rankJ).noalias() =
+          kernel.transpose().rightCols(nbJoints - 6) * mem->err;
+      control.noalias() += kernel * mem->tmpVar.head(rankJ);
+      controlIsZero = false;
+    } else {
+      assert(taskA.jacobianSOUT.accessCopy().cols() == nbJoints);
 
-      /* --- OPTIMAL FORM: To debug. --- */
-      if( PrevProj == NULL ) {
-        Proj.noalias() = svd.matrixV().rightCols(svd.matrixV().cols()-rankJ);
+      /* --- COMPUTE S * JK --- */
+      const Matrix &JK =
+          computeJacobianActivated(&taskA, task, mem->JK, iterTime);
+      /***/ sotCOUNTER(2, 3); // compute JK*S
+
+      /* --- COMPUTE Jt --- */
+      const Matrix *Jt = &mem->Jt;
+      if (has_kernel)
+        mem->Jt.noalias() = JK * kernel;
+      else
+        Jt = &JK;
+      /***/ sotCOUNTER(3, 4); // compute Jt
+
+      /* --- SVD and RANK--- */
+      SVD_t &svd = mem->svd;
+      if (last)
+        svd.compute(*Jt, Eigen::ComputeThinU | Eigen::ComputeThinV);
+      else
+        svd.compute(*Jt, Eigen::ComputeThinU | Eigen::ComputeFullV);
+      rankJ = 0;
+      while (rankJ < svd.singularValues().size() &&
+             th < svd.singularValues()[rankJ])
+        ++rankJ;
+      /***/ sotCOUNTER(4, 5); // SVD and rank
+
+      /* --- COMPUTE QDOT AND P --- */
+      if (!controlIsZero)
+        mem->err.noalias() -= JK * control;
+
+      bool success = updateControl(mem, rankJ, has_kernel, kernel, control,
+                                   maxControlIncrementSquaredNorm);
+      if (success) {
+        controlIsZero = false;
+
+        if (!last) {
+          Matrix::Index cols = svd.matrixV().cols() - rankJ;
+          if (has_kernel)
+            mem->getKernel(nbJoints, cols).noalias() =
+                kernel * svd.matrixV().rightCols(cols);
+          else
+            mem->getKernel(nbJoints, cols).noalias() =
+                svd.matrixV().rightCols(cols);
+          makeMap(kernel, mem->kernel);
+          has_kernel = true;
+        }
       } else {
-        Proj.noalias() = *PrevProj * svd.matrixV().rightCols(svd.matrixV().cols()-rankJ);
+        DYNAMIC_GRAPH_ENTITY_ERROR(*this)
+            << iterTime << ": SOT " << getName() << " disabled task "
+            << taskA.getName() << " at level " << iterTask
+            << " because norm exceeded the limit.\n";
+        DYNAMIC_GRAPH_ENTITY_DEBUG(*this)
+            << "control = " << control.transpose().format(python)
+            << "\nJ = " << JK.format(python)
+            << "\nerr - J * control = " << mem->err.transpose().format(python)
+            << "\nJ * kernel = " << Jt->format(python) << "\ncontrol_update = "
+            << mem->tmpControl.transpose().format(python) << '\n';
       }
-
-      /* --- OLIVIER START  --- */
-      // Update by Joseph Mirabel to match Eigen API
-
-      sotDEBUG(2) << "Proj non optimal (rankJ= " <<rankJ
-		  << ", iterTask ="  << iterTask
-		  << ")";
-      sotDEBUG(20) << "V = " << svd.matrixV();
-      sotDEBUG(20) << "Jt = " << Jt;
-      sotDEBUG(20) << "JpxJt = " << Jp*Jt;
-      sotDEBUG(25) << "Proj-Jp*Jt"<<iterTask<<" = "<< (Proj-Jp*Jt) <<endl;
-
-      /* --- OLIVIER END --- */
-
-      sotDEBUG(15) << "q"<<iterTask<<" = "<<control<<std::endl;
-      sotDEBUG(25) << "P"<<iterTask<<" = "<< Proj <<endl;
-      iterTask++;
-      PrevProj = &Proj;
-
-      sotPRINTCOUNTER(1);     sotPRINTCOUNTER(2);    sotPRINTCOUNTER(3);
-      sotPRINTCOUNTER(4);     sotPRINTCOUNTER(5);    sotPRINTCOUNTER(6);
-      sotPRINTCOUNTER(7);     sotPRINTCOUNTER(8);
-
     }
+    /***/ sotCOUNTER(5, 6); // QDOT + Projector
+
+    sotDEBUG(2) << "Proj non optimal (rankJ= " << rankJ
+                << ", iterTask =" << iterTask << ")";
+
+    iterTask++;
+
+    sotPRINTCOUNTER(1);
+    sotPRINTCOUNTER(2);
+    sotPRINTCOUNTER(3);
+    sotPRINTCOUNTER(4);
+    sotPRINTCOUNTER(5);
+    sotPRINTCOUNTER(6);
+    if (last || kernel.cols() == 0)
+      break;
+  }
 
   sotCHRONO1;
-
-  if( 0!=taskGradient )
-    {
-      const dynamicgraph::Matrix & Jac = taskGradient->jacobianSOUT.access(iterTime);
-
-      const Matrix::Index nJ = Jac.rows();
-
-      MemoryTaskSOT * mem
-        = dynamic_cast<MemoryTaskSOT *>( taskGradient->memoryInternal );
-      if( NULL==mem )
-        {
-          if( NULL!=taskGradient->memoryInternal )
-            { delete taskGradient->memoryInternal; }
-          mem = new MemoryTaskSOT( taskGradient->getName()+"_memSOT",nJ,mJ );
-          taskGradient->memoryInternal = mem;
-        }
-
-      taskVectorToMlVector(taskGradient->taskSOUT.access(iterTime), mem->err);
-      const dynamicgraph::Vector& err = mem->err;
-
-      sotDEBUG(45) << "K = " << K <<endl;
-      sotDEBUG(45) << "Jff = " << Jac <<endl;
-
-      /* --- MEMORY INIT --- */
-      dynamicgraph::Matrix &Jp = mem->Jp;
-      dynamicgraph::Matrix &PJp = mem->PJp;
-      dynamicgraph::Matrix &Jt = mem->Jt;
-      MemoryTaskSOT::SVD_t& svd = mem->svd;
-
-      mem->JK.resize( nJ,mJ );
-      mem->Jt.resize( nJ,mJ );
-      mem->Jff.resize( nJ,Jac.cols()-mJ );
-      mem->Jact.resize( nJ,mJ );
-      Jp.resize( mJ,nJ );
-      PJp.resize( nJ,mJ );
-
-      /* --- COMPUTE JK --- */
-      dynamicgraph::Matrix &JK = computeJacobianConstrained( *taskGradient,K);
-
-      /* --- COMPUTE Jinv --- */
-      sotDEBUG(35) << "grad = " << err <<endl;
-      sotDEBUG(35) << "Jgrad = " << JK <<endl;
-
-      // Use optimized-memory Jt to do the p-inverse.
-      Jt=JK;
-      svd.compute (Jt);
-      // TODO the two next lines could be replaced by
-      Eigen::dampedInverse( svd, Jp,th );
-      if (PrevProj != NULL)
-        PJp.noalias() = (*PrevProj)*Jp;
-      else
-        PJp.noalias() = Jp;
-
-      /* --- COMPUTE ERR --- */
-      const dynamicgraph::Vector& Herr( err );
-
-      /* --- COMPUTE CONTROL --- */
-      control.noalias() += PJp*Herr;
-
-      /* ---  TRACE  --- */
-      sotDEBUG(45) << "Pgrad = " << (PJp*Herr) <<endl;
-      if (PrevProj != NULL) { sotDEBUG(45) << "P = " << *PrevProj <<endl; }
-      sotDEBUG(45) << "Jp = " << Jp <<endl;
-      sotDEBUG(45) << "PJp = " << PJp <<endl;
-    }
 
   sotDEBUGOUT(15);
   return control;
 }
 
-
-
-dynamicgraph::Matrix& Sot::
-computeConstraintProjector( dynamicgraph::Matrix& ProjK, const int& time )
-{
-  sotDEBUGIN(15);
-  const dynamicgraph::Matrix *Jptr;
-  if( 0==constraintList.size() )
-    {
-      ProjK.resize( 0, nbJoints );
-      sotDEBUGOUT(15);
-      return ProjK;
-    }
-  else if( 1==constraintList.size() )
-    { Jptr = &(*constraintList.begin())->jacobianSOUT(time); }
-  else
-    {
-      SOT_THROW ExceptionTask( ExceptionTask::EMPTY_LIST,
-			       "Not implemented yet." );
-    }
-
-  const dynamicgraph::Matrix &J = *Jptr;
-  sotDEBUG(12) << "J = "<< J;
-
-  const Matrix::Index nJc = J.cols();
-  dynamicgraph::Matrix Jff( J.rows(),ffJointIdLast-ffJointIdFirst );
-  dynamicgraph::Matrix Jc( J.rows(),nJc-ffJointIdLast+ffJointIdFirst );
-
-  Jc.leftCols (ffJointIdFirst)    = J.leftCols  (ffJointIdFirst);
-  Jc.rightCols(nJc-ffJointIdLast) = J.rightCols (nJc-ffJointIdLast);
-  Jff = J.middleCols(ffJointIdFirst, ffJointIdLast);
-
-  sotDEBUG(25) << "Jc = "<< Jc;
-  sotDEBUG(25) << "Jff = "<< Jff;
-
-  dynamicgraph::Matrix Jffinv( Jff.cols(),Jff.rows() );
-  Eigen::pseudoInverse(Jff, Jffinv);
-
-  dynamicgraph::Matrix& Jffc = ProjK;
-  Jffc.resize( Jffinv.rows(),Jc.cols() );
-  Jffc = -Jffinv*Jc;
-  sotDEBUG(15) << "Jffc = "<< Jffc;
-
-  sotDEBUGOUT(15);
-  return ProjK;
-}
-
-
 /* --------------------------------------------------------------------- */
 /* --- DISPLAY --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-void Sot::
-display( std::ostream& os ) const
-{
+void Sot::display(std::ostream &os) const {
 
-  os << "+-----------------"<<std::endl<<"+   SOT     "
-     << std::endl<< "+-----------------"<<std::endl;
-  for ( std::list<TaskAbstract*>::const_iterator it=this->stack.begin();
-	this->stack.end()!=it;++it )
-    {
-      os << "| " << (*it)->getName() <<std::endl;
-    }
-  os<< "+-----------------"<<std::endl;
-  if( taskGradient )
-    {
-      os << "| {Grad} " <<taskGradient->getName() << std::endl;
-      os<< "+-----------------"<<std::endl;
-    }
-  for( ConstraintListType::const_iterator it = constraintList.begin();
-       it!=constraintList.end();++it )
-    { os<< "| K: "<< (*it)->getName() << endl; }
-
-
+  os << "+-----------------" << std::endl
+     << "+   SOT     " << std::endl
+     << "+-----------------" << std::endl;
+  for (StackType::const_iterator it = this->stack.begin();
+       this->stack.end() != it; ++it) {
+    os << "| " << (*it)->getName() << std::endl;
+  }
+  os << "+-----------------" << std::endl;
 }
 
-std::ostream&
-operator<< ( std::ostream& os,const Sot& sot )
-{
+std::ostream &operator<<(std::ostream &os, const Sot &sot) {
   sot.display(os);
   return os;
 }
@@ -805,36 +654,33 @@ operator<< ( std::ostream& os,const Sot& sot )
 /* --- COMMAND --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-std::ostream& Sot::
-writeGraph( std::ostream& os ) const
-{
-  std::list<TaskAbstract *>::const_iterator iter;
-  for(  iter = stack.begin(); iter!=stack.end();++iter )
-    {
-      const TaskAbstract & task = **iter;
-      std::list<TaskAbstract *>::const_iterator nextiter =iter;
-      nextiter++;
+std::ostream &Sot::writeGraph(std::ostream &os) const {
+  StackType::const_iterator iter;
+  for (iter = stack.begin(); iter != stack.end(); ++iter) {
+    const TaskAbstract &task = **iter;
+    StackType::const_iterator nextiter = iter;
+    nextiter++;
 
-      if (nextiter!=stack.end())
-	{
-	  TaskAbstract & nexttask = **nextiter;
-	  os << "\t\t\t\"" << task.getName() << "\" -> \"" << nexttask.getName() << "\" [color=red]" << endl;
-	}
-
+    if (nextiter != stack.end()) {
+      TaskAbstract &nexttask = **nextiter;
+      os << "\t\t\t\"" << task.getName() << "\" -> \"" << nexttask.getName()
+         << "\" [color=red]" << endl;
     }
+  }
 
-  os << "\t\tsubgraph cluster_Tasks {" <<endl;
+  os << "\t\tsubgraph cluster_Tasks {" << endl;
   os << "\t\t\tsubgraph \"cluster_" << getName() << "\" {" << std::endl;
-  os << "\t\t\t\tcolor=lightsteelblue1; label=\"" << getName() <<"\"; style=filled;" << std::endl;
-  for(  iter = stack.begin(); iter!=stack.end();++iter )
-    {
-      const TaskAbstract & task = **iter;
-      os << "\t\t\t\t\"" << task.getName()
-	 <<"\" [ label = \"" << task.getName() << "\" ," << std::endl
-	 <<"\t\t\t\t   fontcolor = black, color = black, fillcolor = magenta, style=filled, shape=box ]" << std::endl;
-
-    }
+  os << "\t\t\t\tcolor=lightsteelblue1; label=\"" << getName()
+     << "\"; style=filled;" << std::endl;
+  for (iter = stack.begin(); iter != stack.end(); ++iter) {
+    const TaskAbstract &task = **iter;
+    os << "\t\t\t\t\"" << task.getName() << "\" [ label = \"" << task.getName()
+       << "\" ," << std::endl
+       << "\t\t\t\t   fontcolor = black, color = black, fillcolor = magenta, "
+          "style=filled, shape=box ]"
+       << std::endl;
+  }
   os << "\t\t\t}" << std::endl;
-  os << "\t\t\t}" <<endl;
+  os << "\t\t\t}" << endl;
   return os;
 }

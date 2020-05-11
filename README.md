@@ -1,10 +1,9 @@
 sot-core
 ========
 
-[![Building Status](https://travis-ci.org/stack-of-tasks/sot-core.svg?branch=master)](https://travis-ci.org/stack-of-tasks/sot-core)
+[![License](https://img.shields.io/badge/License-BSD%202--Clause-green.svg)](https://opensource.org/licenses/BSD-2-Clause)
 [![Pipeline status](https://gepgitlab.laas.fr/stack-of-tasks/sot-core/badges/master/pipeline.svg)](https://gepgitlab.laas.fr/stack-of-tasks/sot-core/commits/master)
-[![Coverage report](https://gepgitlab.laas.fr/stack-of-tasks/sot-core/badges/master/coverage.svg?job=doc-coverage)](http://projects.laas.fr/gepetto/doc/stack-of-tasks/sot-core/master/coverage/)
-
+[![Coverage report](https://gepgitlab.laas.fr/stack-of-tasks/sot-core/badges/master/coverage.svg?job=doc-coverage)](http://gepettoweb.laas.fr/doc/stack-of-tasks/sot-core/master/coverage/)
 
 This software provides a set of dynamic graph plug-ins which can be
 used to define and solve hierarchical tasks.

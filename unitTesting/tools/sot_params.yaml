@@ -1,9 +1,0 @@
-sot_controller:
-  libname: libsot-controller.so
-  joint_names: [ waist, LLEG_HIP_P, LLEG_HIP_R, LLEG_HIP_Y, LLEG_KNEE, LLEG_ANKLE_P, LLEG_ANKLE_R, RLEG_HIP_P, RLEG_HIP_R, RLEG_HIP_Y, RLEG_KNEE, RLEG_ANKLE_P, RLEG_ANKLE_R, WAIST_P, WAIST_R, CHEST, 			RARM_SHOULDER_P, RARM_SHOULDER_R, RARM_SHOULDER_Y, RARM_ELBOW, RARM_WRIST_Y, RARM_WRIST_P, RARM_WRIST_R, LARM_SHOULDER_P, LARM_SHOULDER_R, LARM_SHOULDER_Y, LARM_ELBOW, LARM_WRIST_Y, 			LARM_WRIST_P, LARM_WRIST_R ]
-  map_rc_to_sot_device: { motor-angles: motor-angles ,
-  joint-angles: joint-angles, velocities: velocities, forces: forces, currents: currents,
-  torques: torques, cmd-joints: control, cmd-effort: control, accelerometer_0: accelerometer_0, gyrometer_0: gyrometer_0 }
-  control_mode: POSITION
-  dt: 0.001
-  jitter: 0.0004

@@ -10,37 +10,30 @@
 #ifndef __SOT_MATRIX_SVD_H__
 #define __SOT_MATRIX_SVD_H__
 
-
 /* --- Matrix --- */
 #include <Eigen/SVD>
 #include <dynamic-graph/linear-algebra.h>
 
-
-namespace dg = dynamicgraph;
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-namespace Eigen {
+namespace dynamicgraph {
 
-void pseudoInverse( dg::Matrix& _inputMatrix,
-		    dg::Matrix& _inverseMatrix,
-		    const double threshold = 1e-6);
+typedef Eigen::JacobiSVD<Matrix> SVD_t;
 
-void dampedInverse( const JacobiSVD <dg::Matrix>& svd,
-		    dg::Matrix& _inverseMatrix,
-		    const double threshold = 1e-6);
+void pseudoInverse(Matrix &_inputMatrix, Matrix &_inverseMatrix,
+                   const double threshold = 1e-6);
 
-void dampedInverse( const dg::Matrix& _inputMatrix,
-		    dg::Matrix& _inverseMatrix,
-		    dg::Matrix& Uref,
-		    dg::Vector& Sref,
-		    dg::Matrix& Vref,
-		    const double threshold = 1e-6);
+void dampedInverse(const SVD_t &svd, Matrix &_inverseMatrix,
+                   const double threshold = 1e-6);
 
-void dampedInverse( const dg::Matrix& _inputMatrix,
-		    dg::Matrix& _inverseMatrix,
-		    const double threshold = 1e-6);
+void dampedInverse(const Matrix &_inputMatrix, Matrix &_inverseMatrix,
+                   Matrix &Uref, Vector &Sref, Matrix &Vref,
+                   const double threshold = 1e-6);
 
-}
+void dampedInverse(const Matrix &_inputMatrix, Matrix &_inverseMatrix,
+                   const double threshold = 1e-6);
+
+} // namespace dynamicgraph
 
 #endif /* #ifndef __SOT_MATRIX_SVD_H__ */

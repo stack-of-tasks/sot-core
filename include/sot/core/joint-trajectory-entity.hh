@@ -17,22 +17,22 @@
 #include <dynamic-graph/linear-algebra.h>
 namespace dg = dynamicgraph;
 // SOT
-#include <dynamic-graph/entity.h>
 #include <dynamic-graph/all-signals.h>
-#include <sot/core/trajectory.hh>
+#include <dynamic-graph/entity.h>
 #include <sot/core/matrix-geometry.hh>
+#include <sot/core/trajectory.hh>
 
 #include <sstream>
 // API
 
-#if defined (WIN32)
-#  if defined (joint_trajectory_entity_EXPORTS)
-#    define SOTJOINT_TRAJECTORY_ENTITY_EXPORT __declspec(dllexport)
-#  else
-#    define SOTJOINT_TRAJECTORY_ENTITY_EXPORT __declspec(dllimport)
-#  endif
+#if defined(WIN32)
+#if defined(joint_trajectory_entity_EXPORTS)
+#define SOTJOINT_TRAJECTORY_ENTITY_EXPORT __declspec(dllexport)
 #else
-#  define SOTJOINT_TRAJECTORY_ENTITY_EXPORT
+#define SOTJOINT_TRAJECTORY_ENTITY_EXPORT __declspec(dllimport)
+#endif
+#else
+#define SOTJOINT_TRAJECTORY_ENTITY_EXPORT
 #endif
 
 // Class
@@ -40,51 +40,54 @@ namespace dg = dynamicgraph;
 namespace dynamicgraph {
 namespace sot {
 
-/** \brief This object handles trajectory of quantities and publish them as signals.
+/** \brief This object handles trajectory of quantities and publish them as
+   signals.
 
  */
 
 class SOTJOINT_TRAJECTORY_ENTITY_EXPORT SotJointTrajectoryEntity
-    :public dynamicgraph::Entity
-{
+    : public dynamicgraph::Entity {
 public:
   DYNAMIC_GRAPH_ENTITY_DECL();
 
-
   /// \brief Constructor
-  SotJointTrajectoryEntity( const std::string& name );
-  virtual ~SotJointTrajectoryEntity( ) { }
+  SotJointTrajectoryEntity(const std::string &name);
+  virtual ~SotJointTrajectoryEntity() {}
 
-  void loadFile( const std::string& name );
+  void loadFile(const std::string &name);
 
   /// \brief Return the next pose for the legs.
-  dg::Vector& getNextPosition( dg::Vector& pos, const int& time );
+  dg::Vector &getNextPosition(dg::Vector &pos, const int &time);
 
   /// \brief Return the next com.
-  dg::Vector& getNextCoM( dg::Vector& com, const int& time );
+  dg::Vector &getNextCoM(dg::Vector &com, const int &time);
 
   /// \brief Return the next cop.
-  dg::Vector& getNextCoP( dg::Vector& cop, const int& time );
+  dg::Vector &getNextCoP(dg::Vector &cop, const int &time);
 
   /// \brief Return the next waist.
-  sot::MatrixHomogeneous& getNextWaist(sot::MatrixHomogeneous& waist, const int& time );
+  sot::MatrixHomogeneous &getNextWaist(sot::MatrixHomogeneous &waist,
+                                       const int &time);
 
   /// \brief Return the current seq identified of the current trajectory.
-  unsigned int & getSeqId(unsigned int &seqid, const int& time );
+  unsigned int &getSeqId(unsigned int &seqid, const int &time);
 
   /// \brief Convert a xyztheta vector into an homogeneous matrix
-  sot::MatrixHomogeneous XYZThetaToMatrixHomogeneous (const dg::Vector& xyztheta);
+  sot::MatrixHomogeneous
+  XYZThetaToMatrixHomogeneous(const dg::Vector &xyztheta);
 
   /// \brief Perform one update of the signals.
-  int & OneStepOfUpdate(int &dummy, const int& time);
+  int &OneStepOfUpdate(int &dummy, const int &time);
 
   /// @name Display
   /// @{
-  virtual void display( std::ostream& os ) const;
+  virtual void display(std::ostream &os) const;
   SOTJOINT_TRAJECTORY_ENTITY_EXPORT
-      friend std::ostream& operator<<
-      ( std::ostream& os,const SotJointTrajectoryEntity& r )
-  { r.display(os); return os;}
+  friend std::ostream &operator<<(std::ostream &os,
+                                  const SotJointTrajectoryEntity &r) {
+    r.display(os);
+    return os;
+  }
   /// @}
 
 public:
@@ -93,32 +96,31 @@ public:
   /// @name Signals
   /// @{
   /// \brief Internal signal for synchronisation.
-  dynamicgraph::SignalTimeDependent<int,int> refresherSINTERN;
+  dynamicgraph::SignalTimeDependent<int, int> refresherSINTERN;
 
   /// \brief Internal signal to trigger one step of the algorithm.
-  SignalTimeDependent<Dummy,int> OneStepOfUpdateS;
+  SignalTimeDependent<Dummy, int> OneStepOfUpdateS;
 
   /// \brief Publish pose for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<dg::Vector,int> positionSOUT;
+  dynamicgraph::SignalTimeDependent<dg::Vector, int> positionSOUT;
 
   /// \brief Publish com for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<dg::Vector,int> comSOUT;
+  dynamicgraph::SignalTimeDependent<dg::Vector, int> comSOUT;
 
   /// \brief Publish zmp for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<dg::Vector,int> zmpSOUT;
+  dynamicgraph::SignalTimeDependent<dg::Vector, int> zmpSOUT;
 
   /// \brief Publish waist for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<sot::MatrixHomogeneous,int> waistSOUT;
+  dynamicgraph::SignalTimeDependent<sot::MatrixHomogeneous, int> waistSOUT;
 
   /// \brief Publish ID of the trajectory currently realized.
-  dynamicgraph::SignalTimeDependent<unsigned int,int> seqIdSOUT;
+  dynamicgraph::SignalTimeDependent<unsigned int, int> seqIdSOUT;
 
   /// \brief Read a trajectory.
-  dynamicgraph::SignalPtr<Trajectory,int> trajectorySIN;
+  dynamicgraph::SignalPtr<Trajectory, int> trajectorySIN;
   ///@}
 
 protected:
-
   /// \brief Index on the point along the trajectory.
   std::deque<sot::Trajectory>::size_type index_;
 
@@ -150,13 +152,11 @@ protected:
   void UpdatePoint(const JointTrajectoryPoint &aJTP);
 
   /// \brief Update the entity with the trajectory aTrajectory.
-  void UpdateTrajectory(const Trajectory & aTrajectory);
+  void UpdateTrajectory(const Trajectory &aTrajectory);
 
   /// \brief Implements the parsing and the affectation of initial trajectory.
   void setInitTraj(const std::string &os);
-
 };
-
 
 } /* namespace sot */
 } /* namespace dynamicgraph */

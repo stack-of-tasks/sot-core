@@ -1,0 +1,41 @@
+<package format="2">
+  <name>sot-core</name>
+  <version>4.8.1</version>
+  <description>
+    Hierarchical task solver plug-in for dynamic-graph
+  </description>
+  <maintainer email="ostasse@laas.fr">Olivier Stasse</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://stack-of-tasks.github.io</url>
+  <url type="repository">http://www.github.com/stack-of-tasks/sot-core</url>
+  <url type="bugtracker">http://www.github.com/stack-of-tasks/sot-core/issues</url>
+  <author>Olivier Stasse</author>
+  <author email="ostasse@laas.fr">ostasse@laas.fr</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend version_gte="1.1" version_lt="2.0">genmsg</build_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>dynamic-graph-python</build_depend>
+  <build_depend>pinocchio</build_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_export_depend>dynamic-graph-python</build_export_depend>
+  <build_export_depend>pinocchio</build_export_depend>
+
+
+  <exec_depend>dynamic-graph-python</exec_depend>
+  <exec_depend>pinocchio</exec_depend>
+  <exec_depend>example-robot-data</exec_depend>
+
+  <test_depend>gtest</test_depend>
+
+  <doc_depend>doxygen</doc_depend>
+  <doc_depend>dynamic_graph</doc_depend>
+
+
+  <export>
+  </export>
+</package>

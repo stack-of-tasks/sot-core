@@ -10,62 +10,63 @@
 #ifndef __SOT_MEMORY_TASK_HH
 #define __SOT_MEMORY_TASK_HH
 
-
-#include <sot/core/task-abstract.hh>
 #include "sot/core/api.hh"
+#include <sot/core/matrix-svd.hh>
+#include <sot/core/task-abstract.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
 namespace dynamicgraph {
-  namespace sot {
-    namespace dg = dynamicgraph;
+namespace sot {
+namespace dg = dynamicgraph;
 
-    class SOT_CORE_EXPORT MemoryTaskSOT
-      : public TaskAbstract::MemoryTaskAbstract, public dg::Entity
-    {
-    public://   protected:
-      /* Internal memory to reduce the dynamic allocation at task resolution. */
-      dg::Vector err;
-      dg::Matrix Jt;  //( nJ,mJ );
-      dg::Matrix Jp;
-      dg::Matrix PJp;
+class SOT_CORE_EXPORT MemoryTaskSOT : public TaskAbstract::MemoryTaskAbstract {
+public: //   protected:
+  typedef Eigen::Map<Matrix, Eigen::internal::traits<Matrix>::Alignment>
+      Kernel_t;
+  typedef Eigen::Map<const Matrix, Eigen::internal::traits<Matrix>::Alignment>
+      KernelConst_t;
 
-      dg::Matrix Jff; //( nJ,FF_SIZE ); // Free-floating part
-      dg::Matrix Jact; //( nJ,mJ );     // Activated part
-      dg::Matrix JK; //(nJ,mJ);
+  /* Internal memory to reduce the dynamic allocation at task resolution. */
+  dg::Vector err, tmpTask, tmpVar, tmpControl;
+  dg::Matrix Jt; //( nJ,mJ );
 
-      dg::Matrix Proj;
+  dg::Matrix JK; //(nJ,mJ);
 
-      typedef Eigen::JacobiSVD<dg::Matrix> SVD_t;
-      SVD_t svd;
+  SVD_t svd;
+  Kernel_t kernel;
 
-    public:
-      /* mJ is the number of actuated joints, nJ the number of feature in the task,
-       * and ffsize the number of unactuated DOF. */
-      MemoryTaskSOT( const std::string & name,const Matrix::Index nJ=0,
-		     const Matrix::Index mJ=0,const Matrix::Index ffsize =0 );
+  void resizeKernel(const Matrix::Index r, const Matrix::Index c) {
+    if (kernel.rows() != r || kernel.cols() != c) {
+      if (kernelMem.size() < r * c)
+        kernelMem.resize(r, c);
+      new (&kernel) Kernel_t(kernelMem.data(), r, c);
+    }
+  }
 
-      virtual void initMemory( const Matrix::Index nJ,
-			       const Matrix::Index mJ,
-			       const Matrix::Index ffsize,
-			       bool atConstruction = false);
+  Kernel_t &getKernel(const Matrix::Index r, const Matrix::Index c) {
+    resizeKernel(r, c);
+    return kernel;
+  }
 
-    public: /* --- ENTITY INHERITANCE --- */
-      static const std::string CLASS_NAME;
-      virtual void display( std::ostream& os ) const;
-      virtual const std::string& getClassName( void ) const { return CLASS_NAME; }
+public:
+  /**
+   * \param mJ is the number of joints
+   * \param nJ the number of feature in the task
+   **/
+  MemoryTaskSOT(const Matrix::Index nJ = 0, const Matrix::Index mJ = 0);
 
-    public: /* --- SIGNALS --- */
-      dg::Signal< dg::Matrix,int > jacobianInvSINOUT;
-      dg::Signal< dg::Matrix,int > jacobianConstrainedSINOUT;
-      dg::Signal< dg::Matrix,int > jacobianProjectedSINOUT;
-      dg::Signal< dg::Matrix,int > singularBaseImageSINOUT;
-      dg::Signal< unsigned int,int > rankSINOUT;
-    };
+  void display(std::ostream &os) const;
 
-  } /* namespace sot */
+private:
+  void initMemory(const Matrix::Index nJ, const Matrix::Index mJ);
+
+  Matrix kernelMem;
+};
+
+} /* namespace sot */
 } /* namespace dynamicgraph */
 
 #endif // __SOT_MEMORY_TASK_HH
