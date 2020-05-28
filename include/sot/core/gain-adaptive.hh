@@ -107,8 +107,11 @@ public: /* --- INIT --- */
    *
    * lg = plt.plot(errors, gains, 'r', label="Gain")
    * ld = plt.twinx().plot(errors, [ g*e for e,g in zip(errors,gains) ], 'b',
-   * label="Derivative") lines = lg + ld plt.legend(lines, [l.get_label() for l
-   * in lines]) plt.show() \endcode
+   *   label="Derivative")
+   * lines = lg + ld
+   * plt.legend(lines, [l.get_label() for l in lines])
+   * plt.show()
+   * \endcode
    */
   void initFromPassingPoint(const double &valueAt0, const double &valueAtInfty,
                             const double &errorReference,
