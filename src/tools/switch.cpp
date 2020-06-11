@@ -18,11 +18,17 @@ std::string VariadicAbstract<Tin, Tout, Time>::getTypeOutName(void) {
   return TypeNameHelper<Tout>::typeName();
 }
 
+template class VariadicAbstract<Vector, Vector, int>;
+
 typedef Switch<Vector, int> SwitchVector;
 template <> DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SwitchVector, "SwitchVector");
 
+template class VariadicAbstract<bool, bool, int>;
+
 typedef Switch<bool, int> SwitchBool;
 template <> DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SwitchBool, "SwitchBoolean");
+
+template class VariadicAbstract<MatrixHomogeneous, MatrixHomogeneous, int>;
 
 typedef Switch<MatrixHomogeneous, int> SwitchMatrixHomogeneous;
 template <>

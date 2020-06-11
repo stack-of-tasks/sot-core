@@ -22,6 +22,7 @@ template <typename Value, typename Time = int>
 class SOT_CORE_DLLAPI Switch : public VariadicAbstract<Value, Value, Time> {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
+public:
   typedef VariadicAbstract<Value, Value, Time> Base;
 
   Switch(const std::string &name)
@@ -55,6 +56,9 @@ class SOT_CORE_DLLAPI Switch : public VariadicAbstract<Value, Value, Time> {
     return "Dynamically select a given signal based on a input information.\n";
   }
 
+  SignalPtr<int, Time> selectionSIN;
+  SignalPtr<bool, Time> boolSelectionSIN;
+
 private:
   Value &signal(Value &ret, const Time &time) {
     int sel;
@@ -70,9 +74,6 @@ private:
     ret = this->signalsIN[sel]->access(time);
     return ret;
   }
-
-  SignalPtr<int, Time> selectionSIN;
-  SignalPtr<bool, Time> boolSelectionSIN;
 };
 } // namespace sot
 } // namespace dynamicgraph
