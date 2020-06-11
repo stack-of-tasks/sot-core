@@ -56,6 +56,7 @@ public: /* --- CONSTRUCTION --- */
   };
 
 public: /* --- SIGNAL --- */
+  typedef SignalPtr<Tin, int> signal_t;
   SignalTimeDependent<Tout, int> SOUT;
 
   std::size_t addSignal() {
@@ -102,15 +103,24 @@ public: /* --- SIGNAL --- */
       signalsIN[i] = s;
       _declareSignal(s);
     }
+    updateSignalNumber(n);
   }
 
   int getSignalNumber() const { return (int)signalsIN.size(); }
 
+  signal_t* getSignalIn(int i)
+  {
+    if (i < 0 || i >= (int)signalsIN.size())
+      throw std::out_of_range("Wrong signal index");
+    return signalsIN[i];
+  }
+
 protected:
-  typedef SignalPtr<Tin, int> signal_t;
   std::vector<signal_t *> signalsIN;
   // Use signal->shortName instead
   // std::vector< std::string > names;
+
+  virtual void updateSignalNumber(int n) { (void)n; };
 
 private:
   void _removeSignal(const std::size_t i) {
@@ -129,12 +139,13 @@ private:
 template <typename Operator>
 class VariadicOp : public VariadicAbstract<typename Operator::Tin,
                                            typename Operator::Tout, int> {
-  Operator op;
   typedef typename Operator::Tin Tin;
   typedef typename Operator::Tout Tout;
   typedef VariadicOp<Operator> Self;
 
 public: /* --- CONSTRUCTION --- */
+  Operator op;
+
   typedef VariadicAbstract<Tin, Tout, int> Base;
 
   // static std::string getTypeInName ( void ) { return Operator::nameTypeIn ();
@@ -161,6 +172,8 @@ protected:
     op(in, res);
     return res;
   }
+
+  inline void updateSignalNumber(int n) { op.updateSignalNumber(n); }
 };
 } // namespace sot
 } // namespace dynamicgraph

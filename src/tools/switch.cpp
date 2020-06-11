@@ -11,11 +11,11 @@ namespace dynamicgraph {
 namespace sot {
 template <typename Tin, typename Tout, typename Time>
 std::string VariadicAbstract<Tin, Tout, Time>::getTypeInName(void) {
-  return TypeNameHelper<Tin>::typeName;
+  return TypeNameHelper<Tin>::typeName();
 }
 template <typename Tin, typename Tout, typename Time>
 std::string VariadicAbstract<Tin, Tout, Time>::getTypeOutName(void) {
-  return TypeNameHelper<Tout>::typeName;
+  return TypeNameHelper<Tout>::typeName();
 }
 
 typedef Switch<Vector, int> SwitchVector;
