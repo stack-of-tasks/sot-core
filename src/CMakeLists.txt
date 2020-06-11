@@ -43,7 +43,6 @@ SET(plugins
   tools/event
   tools/time-stamp
   tools/timer
-  tools/seq-play
   tools/sequencer
   tools/robot-simu
   tools/motion-period
