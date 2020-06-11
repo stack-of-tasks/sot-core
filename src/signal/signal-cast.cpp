@@ -36,57 +36,13 @@ namespace dgsot = dynamicgraph::sot;
 /* --- CASTER IMPLEMENTATION ------------------------------------------------ */
 /* --- CASTER IMPLEMENTATION ------------------------------------------------ */
 
-DG_SIGNAL_CAST_DEFINITION(sot::Flags);
-DG_ADD_CASTER(sot::Flags, flags);
-
-template <>
-void DefaultCastRegisterer<MatrixHomogeneous>::trace(const boost::any &object,
-                                                     std::ostream &os) {
-  const MatrixHomogeneous &M = boost::any_cast<MatrixHomogeneous>(object);
-  for (unsigned int i = 0; i < 4; ++i)
-    for (unsigned int j = 0; j < 4; ++j) {
-      os << "\t" << M(i, j);
-    }
-}
-namespace {
-dynamicgraph::DefaultCastRegisterer<sot::MatrixHomogeneous>
-    matrixHomegeneousCastRegisterer;
-
-dynamicgraph::DefaultCastRegisterer<sot::MatrixRotation>
-    matrixRotationCastRegisterer;
-} // namespace
-/* --- FEATURE ABSTRACT ----------------------------------------------------- */
-/* --- FEATURE ABSTRACT ----------------------------------------------------- */
-/* --- FEATURE ABSTRACT ----------------------------------------------------- */
-
-DG_SIGNAL_CAST_DEFINITION_HPP(sot::FeatureAbstract *);
-
-FeatureAbstract *SignalCast<FeatureAbstract *>::cast(std::istringstream &iss) {
-  FeatureAbstract *ref;
-  std::string name;
-  iss >> name;
-  if (name.length())
-    ref = &dynamicgraph::sot::PoolStorage::getInstance()->getFeature(name);
-  else
-    ref = 0;
-  return ref;
-}
-
-void SignalCast<FeatureAbstract *>::disp(FeatureAbstract *const &t,
-                                         std::ostream &os) {
-  if (t) {
-    t->display(os);
-    os << std::endl;
-  } else {
-    os << "NULL" << std::endl;
-  }
-}
-
-DG_ADD_CASTER(FeatureAbstract *, FAptr);
+//DG_SIGNAL_CAST_DEFINITION(sot::Flags);
+//DG_ADD_CASTER(sot::Flags, flags);
 
 /* --- TIMEVAL -------------------------------------------------------------- */
 /* --- TIMEVAL -------------------------------------------------------------- */
 /* --- TIMEVAL -------------------------------------------------------------- */
+/*
 DG_SIGNAL_CAST_DEFINITION_HPP(struct timeval);
 
 struct timeval SignalCast<struct timeval>::cast(std::istringstream &iss) {
@@ -102,6 +58,7 @@ struct timeval SignalCast<struct timeval>::cast(std::istringstream &iss) {
 }
 
 DG_ADD_CASTER(struct timeval, tv);
+*/
 
 /* --- Trajectory --------------------------------------------------------------
  */
@@ -109,6 +66,7 @@ DG_ADD_CASTER(struct timeval, tv);
  */
 /* --- Trajectory --------------------------------------------------------------
  */
+/*
 DG_SIGNAL_CAST_DEFINITION_HPP(dgsot::Trajectory);
 
 dgsot::Trajectory SignalCast<dgsot::Trajectory>::cast(std::istringstream &iss) {
@@ -185,21 +143,13 @@ void SignalCast<dgsot::Trajectory>::disp(const dgsot::Trajectory &aTraj,
 }
 
 DG_ADD_CASTER(Trajectory, Traject);
-
-///
-/// VectorUTheta and VectorRollPitchYaw
-///
-namespace {
-dynamicgraph::DefaultCastRegisterer<VectorUTheta> vectorUThetaCastRegisterer;
-
-dynamicgraph::DefaultCastRegisterer<VectorRollPitchYaw>
-    vectorRollPitchYawCastRegisterer;
-} // namespace
+*/
 
 /* --- MULTI BOUND ---------------------------------------------------------- */
 /* --- MULTI BOUND ---------------------------------------------------------- */
 /* --- MULTI BOUND ---------------------------------------------------------- */
 
+/*
 DG_SIGNAL_CAST_DEFINITION_TRACE(sot::VectorMultiBound);
 
 void SignalCast<VectorMultiBound>::trace(const VectorMultiBound &t,
@@ -224,5 +174,6 @@ void SignalCast<VectorMultiBound>::trace(const VectorMultiBound &t,
   }
 }
 DG_ADD_CASTER(sot::VectorMultiBound, sotVMB);
+*/
 
 } // namespace dynamicgraph

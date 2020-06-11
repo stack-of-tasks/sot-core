@@ -17,6 +17,8 @@
 #include <boost/assign/list_of.hpp>
 #include <boost/regex.hpp>
 
+#include <dynamic-graph/signal-caster.h>
+
 namespace dg = dynamicgraph;
 namespace ba = boost::assign;
 
@@ -192,6 +194,9 @@ public:
   void display(std::ostream &) const;
 };
 } // namespace sot
+
+template <> struct signal_io<sot::Trajectory> : signal_io_unimplemented<sot::Trajectory> {};
+
 } // namespace dynamicgraph
 
 #endif /* #ifndef SOT_TRAJECTORY_H__ */
