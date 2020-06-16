@@ -118,7 +118,6 @@ FOREACH(path ${tests})
   TARGET_LINK_LIBRARIES(${test}
     PUBLIC
     ${PROJECT_NAME}
-    ${Boost_LIBRARIES}
     ${TEST_${test}_LIBS} ${TEST_${test}_EXT_LIBS}
     dynamic-graph::dynamic-graph)
 
