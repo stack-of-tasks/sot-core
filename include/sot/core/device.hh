@@ -97,6 +97,9 @@ public:
   void setTorqueBounds(const Vector &lower, const Vector &upper);
   /// \}
 
+  PeriodicCall& periodicCallBefore() { return periodicCallBefore_; }
+  PeriodicCall& periodicCallAfter() { return periodicCallAfter_; }
+
 public: /* --- DISPLAY --- */
   virtual void display(std::ostream &os) const;
   virtual void cmdDisplay();
