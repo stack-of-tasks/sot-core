@@ -67,7 +67,7 @@ public:
         "pushDenomCoef",
         makeCommandVoid1(
             *this, &IntegratorAbstract::pushDenomCoef,
-            docCommandVoid1("Push a new denomicator coefficient", typeName)));
+            docCommandVoid1("Push a new denominator coefficient", typeName)));
 
     addCommand(
         "popNumCoef",
@@ -76,7 +76,7 @@ public:
     addCommand(
         "popDenomCoef",
         makeCommandVoid0(*this, &IntegratorAbstract::popDenomCoef,
-                         docCommandVoid0("Pop a new denomicator coefficient")));
+                         docCommandVoid0("Pop a new denominator coefficient")));
   }
 
   virtual ~IntegratorAbstract() {}
@@ -91,10 +91,32 @@ public:
   void popNumCoef() { numerator.pop_back(); }
   void popDenomCoef() { denominator.pop_back(); }
 
+  const std::vector<coefT>& numCoeffs() const { return numerator; }
+  void numCoeffs(const std::vector<coefT>& coeffs) { numerator = coeffs; }
+
+  const std::vector<coefT>& denomCoeffs() const { return denominator; }
+  void denomCoeffs(const std::vector<coefT>& coeffs) { denominator = coeffs; }
+
 public:
   dg::SignalPtr<sigT, int> SIN;
 
   dg::SignalTimeDependent<sigT, int> SOUT;
+
+  virtual void display(std::ostream &os) const
+  {
+    os << this->getClassName() << ": " << getName() << '\n'
+      << "  ";
+    if (numerator.empty() || denominator.empty()) {
+      os << "ill-formed.";
+      return;
+    }
+    os << numerator[0];
+    for (std::size_t i = 1; i < numerator.size(); ++i)
+      os << " + " << numerator[i] << " s^" << i;
+    os << "\n  " << denominator[0];
+    for (std::size_t i = 1; i < denominator.size(); ++i)
+      os << " + " << denominator[i] << " s^" << i;
+  }
 
 protected:
   std::vector<coefT> numerator;
