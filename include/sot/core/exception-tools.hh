@@ -34,7 +34,8 @@ public:
 
     ,
     CORBA,
-    KALMAN_SIZE
+    KALMAN_SIZE,
+    PARAMETER_SERVER
   };
 
   static const std::string EXCEPTION_NAME;
