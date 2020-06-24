@@ -154,7 +154,7 @@ void ParameterServer::init_simple(const double & dt) {
   m_emergency_stop_triggered = false;
   m_initSucceeded = true;
 
-  std::string localName;
+  std::string localName("robot");
   std::shared_ptr< std::vector<std::string> >
       listOfRobots = sot::getListOfRobots();
 
@@ -196,11 +196,6 @@ void ParameterServer::init(const double &dt, const std::string &urdfFile,
 
   m_robot_util->m_urdf_filename = urdfFile;
 
-  addCommand(
-      "getJointsUrdfToSot",
-      makeDirectGetter(*this, &m_robot_util->m_dgv_urdf_to_sot,
-                       docDirectSetter("Display map Joints From URDF to SoT.",
-                                       "Vector of integer for mapping")));
 }
 
 /* ------------------------------------------------------------------- */
