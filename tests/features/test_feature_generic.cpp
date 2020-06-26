@@ -270,15 +270,6 @@ MatrixHomogeneous randomM() {
 }
 
 typedef pinocchio::SE3 SE3;
-typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3_t;
-typedef pinocchio::CartesianProductOperation<
-    pinocchio::VectorSpaceOperationTpl<3, double>,
-    pinocchio::SpecialOrthogonalOperationTpl<3, double> >
-    R3xSO3_t;
-template <Representation_t representation> struct LG_t {
-  typedef typename boost::mpl::if_c<representation == SE3Representation, SE3_t,
-                                    R3xSO3_t>::type type;
-};
 
 Vector7 toVector(const pinocchio::SE3 &M) {
   Vector7 v;
@@ -333,6 +324,7 @@ public:
 
     setJointFrame();
   }
+
 
   void _setFrame() {
     setSignal(
