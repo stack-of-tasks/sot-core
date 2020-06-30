@@ -16,7 +16,6 @@ using dg::Matrix;
 template<typename S, typename C> void exposeIntegratorEuler()
 {
   typedef dgs::IntegratorEuler<S, C> IE_t;
-  typedef std::vector<C> Coeffs_t;
 
   const std::string cName =
     dgc::Value::typeName(dgc::ValueHelper<C>::TypeID);
