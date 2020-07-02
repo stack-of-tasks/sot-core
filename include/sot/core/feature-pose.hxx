@@ -29,7 +29,19 @@
 
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
+
+typedef pinocchio::CartesianProductOperation<
+    pinocchio::VectorSpaceOperationTpl<3, double>,
+    pinocchio::SpecialOrthogonalOperationTpl<3, double> >
+    R3xSO3_t;
+typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3_t;
+
+namespace internal {
+template <Representation_t representation> struct LG_t {
+  typedef typename boost::mpl::if_c<representation == SE3Representation, SE3_t,
+                                    R3xSO3_t>::type type;
+};
+}
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -142,7 +154,7 @@ Vector7 toVector(const MatrixHomogeneous &M) {
 
 template <Representation_t representation>
 Matrix &FeaturePose<representation>::computeJacobian(Matrix &J, int time) {
-  typedef typename LG_t<representation>::type LieGroup_t;
+  typedef typename internal::LG_t<representation>::type LieGroup_t;
 
   check(*this);
 
@@ -227,7 +239,7 @@ Vector7 &FeaturePose<representation>::computeQfaMfbDes(Vector7 &res, int time) {
 
 template <Representation_t representation>
 Vector &FeaturePose<representation>::computeError(Vector &error, int time) {
-  typedef typename LG_t<representation>::type LieGroup_t;
+  typedef typename internal::LG_t<representation>::type LieGroup_t;
   check(*this);
 
   const Flags &fl = selectionSIN(time);
@@ -247,7 +259,7 @@ Vector &FeaturePose<representation>::computeError(Vector &error, int time) {
 // This function is responsible of converting the input velocity expressed with
 // SE(3) convention onto a velocity expressed with the convention of this
 // feature (R^3xSO(3) or SE(3)), in the right frame.
-template <typename LG_t>
+template <typename internal::LG_t>
 Vector6d convertVelocity(const MatrixHomogeneous &M,
                          const MatrixHomogeneous &Mdes,
                          const Vector &faNufafbDes) {
@@ -270,7 +282,7 @@ Vector6d convertVelocity<R3xSO3_t>(const MatrixHomogeneous &M,
 template <Representation_t representation>
 Vector &FeaturePose<representation>::computeErrorDot(Vector &errordot,
                                                      int time) {
-  typedef typename LG_t<representation>::type LieGroup_t;
+  typedef typename internal::LG_t<representation>::type LieGroup_t;
   check(*this);
 
   errordot.resize(dimensionSOUT(time));
