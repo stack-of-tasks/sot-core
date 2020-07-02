@@ -161,6 +161,10 @@ private:
   /// \todo Intermediate variables for internal computations
 };
 
+template < typename T >
+Vector6d convertVelocity(const MatrixHomogeneous &M,
+                                const MatrixHomogeneous &Mdes,
+                                const Vector &faNufafbDes);
 #if __cplusplus >= 201103L
 extern template class SOT_CORE_DLLAPI FeaturePose<SE3Representation>;
 extern template class SOT_CORE_DLLAPI FeaturePose<R3xSO3Representation>;

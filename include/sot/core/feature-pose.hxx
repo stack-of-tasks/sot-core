@@ -50,7 +50,7 @@ template <Representation_t representation> struct LG_t {
 static const MatrixHomogeneous Id(MatrixHomogeneous::Identity());
 
 template <Representation_t representation>
-FeaturePose<representation>::FeaturePose(const string &pointName)
+FeaturePose<representation>::FeaturePose(const std::string &pointName)
     : FeatureAbstract(pointName),
       oMja(NULL, CLASS_NAME + "(" + name + ")::input(matrixHomo)::oMja"),
       jaMfa(NULL, CLASS_NAME + "(" + name + ")::input(matrixHomo)::jaMfa"),
@@ -128,7 +128,7 @@ static inline void check(const FeaturePose<representation> &ft) {
 template <Representation_t representation>
 unsigned int &FeaturePose<representation>::getDimension(unsigned int &dim,
                                                         int time) {
-  sotDEBUG(25) << "# In {" << endl;
+  sotDEBUG(25) << "# In {" << std::endl;
 
   const Flags &fl = selectionSIN.access(time);
 
@@ -137,7 +137,7 @@ unsigned int &FeaturePose<representation>::getDimension(unsigned int &dim,
     if (fl(i))
       dim++;
 
-  sotDEBUG(25) << "# Out }" << endl;
+  sotDEBUG(25) << "# Out }" << std::endl;
   return dim;
 }
 
@@ -259,8 +259,8 @@ Vector &FeaturePose<representation>::computeError(Vector &error, int time) {
 // This function is responsible of converting the input velocity expressed with
 // SE(3) convention onto a velocity expressed with the convention of this
 // feature (R^3xSO(3) or SE(3)), in the right frame.
-template <typename internal::LG_t>
-Vector6d convertVelocity(const MatrixHomogeneous &M,
+template <>
+Vector6d convertVelocity<SE3_t>(const MatrixHomogeneous &M,
                          const MatrixHomogeneous &Mdes,
                          const Vector &faNufafbDes) {
   (void)M;
