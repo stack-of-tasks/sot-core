@@ -27,10 +27,12 @@
 
 #include <Eigen/SVD>
 #include <dynamic-graph/linear-algebra.h>
+#include <dynamic-graph/factory.h>
 #include <sot/core/debug.hh>
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/feature-generic.hh>
 #include <sot/core/feature-pose.hh>
+#include <sot/core/feature-pose.hxx>
 #include <sot/core/gain-adaptive.hh>
 #include <sot/core/sot.hh>
 #include <sot/core/task.hh>
@@ -38,6 +40,7 @@
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
+namespace dg = dynamicgraph;
 
 #define EIGEN_VECTOR_IS_APPROX(Va, Vb, precision)                              \
   BOOST_CHECK_MESSAGE((Va).isApprox(Vb, precision),                            \
