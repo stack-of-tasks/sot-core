@@ -28,6 +28,7 @@
 #include <sot/core/debug.hh>
 #include <sot/core/factory.hh>
 #include <sot/core/feature-pose.hh>
+#include <sot/core/feature-pose.hxx>
 
 using namespace std;
 using namespace dynamicgraph;
