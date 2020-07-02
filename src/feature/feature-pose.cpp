@@ -37,5 +37,9 @@ template <> DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePose_t, "FeaturePose");
 template <>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePoseSE3_t, "FeaturePoseSE3");
 
+namespace dynamicgraph {
+namespace sot {
 template class FeaturePose<R3xSO3Representation>;
 template class FeaturePose<SE3Representation>;
+}
+}
