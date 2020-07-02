@@ -60,8 +60,6 @@ public:
   /* --- CONSTRUCTOR ---- */
   ParameterServer(const std::string &name);
 
-  ~ParameterServer() {};
-
   /// Initialize
   /// @param dt: control interval
   /// @param urdfFile: path to the URDF model of the robot
