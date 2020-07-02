@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef __SOT_FEATURE_TRANSFORMATION_HH__
-#define __SOT_FEATURE_TRANSFORMATION_HH__
+#ifndef __SOT_FEATURE_POSE_HH__
+#define __SOT_FEATURE_POSE_HH__
 
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */
@@ -166,36 +166,13 @@ extern template class SOT_CORE_DLLAPI FeaturePose<SE3Representation>;
 extern template class SOT_CORE_DLLAPI FeaturePose<R3xSO3Representation>;
 #endif
 
+typedef FeaturePose<R3xSO3Representation> FeaturePose_t;
+typedef FeaturePose<SE3Representation> FeaturePoseSE3_t;
+
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-
-using namespace std;
-using namespace dynamicgraph;
-using namespace dynamicgraph::sot;
-
-typedef pinocchio::CartesianProductOperation<
-    pinocchio::VectorSpaceOperationTpl<3, double>,
-    pinocchio::SpecialOrthogonalOperationTpl<3, double> >
-    R3xSO3_t;
-typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3_t;
-
-namespace dynamicgraph {
-namespace sot {
-namespace dg = dynamicgraph;
-
-template <Representation_t representation> struct LG_t {
-  typedef typename boost::mpl::if_c<representation == SE3Representation, SE3_t,
-                                    R3xSO3_t>::type type;
-};
-
-typedef FeaturePose<R3xSO3Representation> FeaturePose_t;
-typedef FeaturePose<SE3Representation> FeaturePoseSE3_t;
-}
-}
-
-
-#endif // #ifndef __SOT_FEATURE_TRANSFORMATION_HH__
+#endif // #ifndef __SOT_FEATURE_POSE_HH__
 
 /*
  * Local variables:
