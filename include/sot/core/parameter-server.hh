@@ -66,11 +66,6 @@ public:
   void init(const double &dt, const std::string &urdfFile,
             const std::string &robotRef);
 
-  /// Initialize
-  /// The dtparam is found from ros_param
-  /// The urdf model is found by reading /robot_description
-  /// The robot name is found using the name inside robot_description
-  void init_simple();
   /* --- SIGNALS --- */
 
   /* --- COMMANDS --- */

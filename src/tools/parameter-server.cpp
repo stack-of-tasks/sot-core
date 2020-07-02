@@ -60,9 +60,6 @@ ParameterServer::ParameterServer(const std::string &name)
                                               "Time period in seconds (double)",
                                               "URDF file path (string)",
                                               "Robot reference (string)")));
-  addCommand("init_simple",
-             makeCommandVoid0(*this, &ParameterServer::init_simple,
-                              docCommandVoid0("Initialize the entity.")));
 
   addCommand("setNameToId",
              makeCommandVoid2(*this, &ParameterServer::setNameToId,
@@ -139,39 +136,6 @@ ParameterServer::ParameterServer(const std::string &name)
                                      "Return the parameter value for parameter"
                                      " named ParameterName.",
                                      "(string) ParameterName")));
-}
-
-void ParameterServer::init_simple() {
-
-  m_emergency_stop_triggered = false;
-  m_initSucceeded = true;
-
-  std::string localName;
-  std::shared_ptr< std::vector<std::string> >
-      listOfRobots = sot::getListOfRobots();
-
-  std::cerr << "listOfRobots.size()="
-            << listOfRobots->size()
-            << std::endl;
-  
-  if (listOfRobots->size()==1)
-    localName = (*listOfRobots)[0];
-
-  std::cerr << "localName" << localName.c_str()
-            << std::endl;
-  
-  if (!isNameInRobotUtil(localName)) {
-    m_robot_util = createRobotUtil(localName);
-  } else {
-    m_robot_util = getRobotUtil(localName);
-  }
-
-  addCommand(
-      "getJointsUrdfToSot",
-      makeDirectGetter(*this, &m_robot_util->m_dgv_urdf_to_sot,
-                       docDirectSetter("Display map Joints From URDF to SoT.",
-                                       "Vector of integer for mapping")));
-
 }
 
 void ParameterServer::init(const double &dt, const std::string &urdfFile,

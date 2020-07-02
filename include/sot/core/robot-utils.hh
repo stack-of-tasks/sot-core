@@ -246,7 +246,6 @@ RobotUtilShrPtr RefVoidRobotUtil();
 RobotUtilShrPtr getRobotUtil(std::string &robotName);
 bool isNameInRobotUtil(std::string &robotName);
 RobotUtilShrPtr createRobotUtil(std::string &robotName);
-std::shared_ptr< std::vector<std::string> > getListOfRobots();
 
 bool base_se3_to_sot(ConstRefVector pos, ConstRefMatrix R, RefVector q_sot);
 
