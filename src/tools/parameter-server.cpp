@@ -18,7 +18,6 @@
 #include <dynamic-graph/factory.h>
 #include <iostream>
 #include <sot/core/debug.hh>
-#include <sot/core/exception-tools.hh>
 #include <sot/core/parameter-server.hh>
 
 namespace dynamicgraph {
@@ -62,10 +61,8 @@ ParameterServer::ParameterServer(const std::string &name)
                                               "URDF file path (string)",
                                               "Robot reference (string)")));
   addCommand("init_simple",
-             makeCommandVoid1(*this, &ParameterServer::init_simple,
-                              docCommandVoid1("Initialize the entity.",
-                                              "Time period in seconds (double)"
-                                              )));
+             makeCommandVoid0(*this, &ParameterServer::init_simple,
+                              docCommandVoid0("Initialize the entity.")));
 
   addCommand("setNameToId",
              makeCommandVoid2(*this, &ParameterServer::setNameToId,
@@ -144,12 +141,7 @@ ParameterServer::ParameterServer(const std::string &name)
                                      "(string) ParameterName")));
 }
 
-void ParameterServer::init_simple(const double & dt) {
-
-  if (dt <= 0.0)
-    return SEND_MSG("Timestep must be positive", MSG_TYPE_ERROR);
-
-  m_dt = dt;
+void ParameterServer::init_simple() {
 
   m_emergency_stop_triggered = false;
   m_initSucceeded = true;
@@ -158,13 +150,16 @@ void ParameterServer::init_simple(const double & dt) {
   std::shared_ptr< std::vector<std::string> >
       listOfRobots = sot::getListOfRobots();
 
+  std::cerr << "listOfRobots.size()="
+            << listOfRobots->size()
+            << std::endl;
+  
   if (listOfRobots->size()==1)
     localName = (*listOfRobots)[0];
-  else {
-    throw ExceptionTools(ExceptionTools::ErrorCodeEnum::PARAMETER_SERVER,
-                         "No robot registered in the parameter server list");
-  }
 
+  std::cerr << "localName" << localName.c_str()
+            << std::endl;
+  
   if (!isNameInRobotUtil(localName)) {
     m_robot_util = createRobotUtil(localName);
   } else {

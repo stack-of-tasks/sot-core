@@ -67,10 +67,10 @@ public:
             const std::string &robotRef);
 
   /// Initialize
-  /// @param dt: control interval provided by the device.
+  /// The dtparam is found from ros_param
   /// The urdf model is found by reading /robot_description
   /// The robot name is found using the name inside robot_description
-  void init_simple(const double &dt);
+  void init_simple();
   /* --- SIGNALS --- */
 
   /* --- COMMANDS --- */
