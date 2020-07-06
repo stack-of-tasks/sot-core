@@ -33,7 +33,6 @@
 
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
 
 #ifdef WIN32
 #define DECLARE_SPECIFICATION(className, sotSigType)                           \
@@ -47,8 +46,8 @@ namespace dg = dynamicgraph;
 #endif
 
 DECLARE_SPECIFICATION(DerivatorDouble, double)
-DECLARE_SPECIFICATION(DerivatorVector, dg::Vector)
-DECLARE_SPECIFICATION(DerivatorMatrix, dg::Matrix)
+DECLARE_SPECIFICATION(DerivatorVector, dynamicgraph::Vector)
+DECLARE_SPECIFICATION(DerivatorMatrix, dynamicgraph::Matrix)
 DECLARE_SPECIFICATION(DerivatorVectorQuaternion, VectorQuaternion)
 } /* namespace sot */
 } /* namespace dynamicgraph */

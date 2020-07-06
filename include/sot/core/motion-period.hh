@@ -16,7 +16,6 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
-namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/all-signals.h>
@@ -47,9 +46,8 @@ namespace dg = dynamicgraph;
 namespace dynamicgraph {
 namespace sot {
 
-namespace dg = dynamicgraph;
 
-class SOTMOTIONPERIOD_EXPORT MotionPeriod : public dg::Entity {
+class SOTMOTIONPERIOD_EXPORT MotionPeriod : public dynamicgraph::Entity {
 
 public:
   static const std::string CLASS_NAME;
@@ -73,13 +71,13 @@ protected:
 
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
-  dg::SignalTimeDependent<dg::Vector, int> motionSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> motionSOUT;
 
 public:
   MotionPeriod(const std::string &name);
   virtual ~MotionPeriod(void) {}
 
-  dg::Vector &computeMotion(dg::Vector &res, const int &time);
+  dynamicgraph::Vector &computeMotion(dynamicgraph::Vector &res, const int &time);
 
   virtual void display(std::ostream &os) const;
 };
