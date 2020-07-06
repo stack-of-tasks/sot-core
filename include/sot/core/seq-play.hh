@@ -16,7 +16,7 @@
 
 /* -- MaaL --- */
 #include <dynamic-graph/linear-algebra.h>
-namespace dg = dynamicgraph;
+
 /* SOT */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
@@ -50,7 +50,7 @@ public:
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
 protected:
-  typedef std::list<dg::Vector> StateList;
+  typedef std::list<dynamicgraph::Vector> StateList;
   StateList stateList;
   StateList::iterator currPos;
   unsigned int currRank;
@@ -64,7 +64,7 @@ public:
 
   void loadFile(const std::string &name);
 
-  dg::Vector &getNextPosition(dg::Vector &pos, const int &time);
+  dynamicgraph::Vector &getNextPosition(dynamicgraph::Vector &pos, const int &time);
 
 public: /* --- DISPLAY --- */
   virtual void display(std::ostream &os) const;
@@ -75,10 +75,8 @@ public: /* --- DISPLAY --- */
   }
 
 public: /* --- SIGNALS --- */
-  // dynamicgraph::SignalPtr<dg::Vector,int> positionSIN;
-  // dynamicgraph::SignalTimeDependant<dg::Vector,int> velocitySOUT;
   dynamicgraph::SignalTimeDependent<int, int> refresherSINTERN;
-  dynamicgraph::SignalTimeDependent<dg::Vector, int> positionSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> positionSOUT;
 };
 
 } /* namespace sot */

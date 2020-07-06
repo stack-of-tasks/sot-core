@@ -213,7 +213,7 @@ void ParameterServer::setForceNameToForceId(const std::string &forceName,
                                                   static_cast<Index>(forceId));
 }
 
-void ParameterServer::setJoints(const dg::Vector &urdf_to_sot) {
+void ParameterServer::setJoints(const dynamicgraph::Vector &urdf_to_sot) {
   if (!m_initSucceeded) {
     SEND_WARNING_STREAM_MSG("Cannot set mapping to sot before initialization!");
     return;
