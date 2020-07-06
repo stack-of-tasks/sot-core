@@ -16,7 +16,6 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
-namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/entity.h>
@@ -67,22 +66,22 @@ protected:
   double TimeStep;
 
 public: /* --- SIGNALS --- */
-  SignalPtr<dg::Vector, int> KpSIN;
-  SignalPtr<dg::Vector, int> KdSIN;
-  SignalPtr<dg::Vector, int> positionSIN;
-  SignalPtr<dg::Vector, int> desiredpositionSIN;
-  SignalPtr<dg::Vector, int> velocitySIN;
-  SignalPtr<dg::Vector, int> desiredvelocitySIN;
-  SignalTimeDependent<dg::Vector, int> controlSOUT;
-  SignalTimeDependent<dg::Vector, int> positionErrorSOUT;
-  SignalTimeDependent<dg::Vector, int> velocityErrorSOUT;
+  SignalPtr<dynamicgraph::Vector, int> KpSIN;
+  SignalPtr<dynamicgraph::Vector, int> KdSIN;
+  SignalPtr<dynamicgraph::Vector, int> positionSIN;
+  SignalPtr<dynamicgraph::Vector, int> desiredpositionSIN;
+  SignalPtr<dynamicgraph::Vector, int> velocitySIN;
+  SignalPtr<dynamicgraph::Vector, int> desiredvelocitySIN;
+  SignalTimeDependent<dynamicgraph::Vector, int> controlSOUT;
+  SignalTimeDependent<dynamicgraph::Vector, int> positionErrorSOUT;
+  SignalTimeDependent<dynamicgraph::Vector, int> velocityErrorSOUT;
 
 protected:
-  dg::Vector &computeControl(dg::Vector &tau, int t);
-  dg::Vector position_error_;
-  dg::Vector velocity_error_;
-  dg::Vector &getPositionError(dg::Vector &position_error, int t);
-  dg::Vector &getVelocityError(dg::Vector &velocity_error, int t);
+  dynamicgraph::Vector &computeControl(dynamicgraph::Vector &tau, int t);
+  dynamicgraph::Vector position_error_;
+  dynamicgraph::Vector velocity_error_;
+  dynamicgraph::Vector &getPositionError(dynamicgraph::Vector &position_error, int t);
+  dynamicgraph::Vector &getVelocityError(dynamicgraph::Vector &velocity_error, int t);
 };
 
 } // namespace sot

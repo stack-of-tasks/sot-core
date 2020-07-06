@@ -15,7 +15,7 @@
 
 // Maal
 #include <dynamic-graph/linear-algebra.h>
-namespace dg = dynamicgraph;
+
 // SOT
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
@@ -57,13 +57,13 @@ public:
   void loadFile(const std::string &name);
 
   /// \brief Return the next pose for the legs.
-  dg::Vector &getNextPosition(dg::Vector &pos, const int &time);
+  dynamicgraph::Vector &getNextPosition(dynamicgraph::Vector &pos, const int &time);
 
   /// \brief Return the next com.
-  dg::Vector &getNextCoM(dg::Vector &com, const int &time);
+  dynamicgraph::Vector &getNextCoM(dynamicgraph::Vector &com, const int &time);
 
   /// \brief Return the next cop.
-  dg::Vector &getNextCoP(dg::Vector &cop, const int &time);
+  dynamicgraph::Vector &getNextCoP(dynamicgraph::Vector &cop, const int &time);
 
   /// \brief Return the next waist.
   sot::MatrixHomogeneous &getNextWaist(sot::MatrixHomogeneous &waist,
@@ -74,7 +74,7 @@ public:
 
   /// \brief Convert a xyztheta vector into an homogeneous matrix
   sot::MatrixHomogeneous
-  XYZThetaToMatrixHomogeneous(const dg::Vector &xyztheta);
+  XYZThetaToMatrixHomogeneous(const dynamicgraph::Vector &xyztheta);
 
   /// \brief Perform one update of the signals.
   int &OneStepOfUpdate(int &dummy, const int &time);
@@ -102,13 +102,13 @@ public:
   SignalTimeDependent<Dummy, int> OneStepOfUpdateS;
 
   /// \brief Publish pose for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<dg::Vector, int> positionSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> positionSOUT;
 
   /// \brief Publish com for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<dg::Vector, int> comSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> comSOUT;
 
   /// \brief Publish zmp for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<dg::Vector, int> zmpSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> zmpSOUT;
 
   /// \brief Publish waist for each evaluation of the graph.
   dynamicgraph::SignalTimeDependent<sot::MatrixHomogeneous, int> waistSOUT;
@@ -128,13 +128,13 @@ protected:
   timestamp traj_timestamp_;
 
   /// \brief Store the pos;
-  dg::Vector pose_;
+  dynamicgraph::Vector pose_;
 
   /// \brief Store the center of mass.
-  dg::Vector com_;
+  dynamicgraph::Vector com_;
 
   /// \brief Store the center of pressure ZMP.
-  dg::Vector cop_;
+  dynamicgraph::Vector cop_;
 
   /// \brief Store the waist position.
   sot::MatrixHomogeneous waist_;
