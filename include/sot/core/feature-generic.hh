@@ -38,7 +38,6 @@
 
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
 
 /*!
   \class FeatureGeneric
@@ -65,21 +64,21 @@ public:
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
 protected:
-  dg::Vector::Index dimensionDefault;
+  dynamicgraph::Vector::Index dimensionDefault;
 
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
-  /*! \name dg::Signals
+  /*! \name dynamicgraph::Signals
     @{
   */
   /*! \name Input signals
     @{
    */
   /*! \brief Input for the error. */
-  dg::SignalPtr<dg::Vector, int> errorSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> errorSIN;
 
   /*! \brief Input for the Jacobian. */
-  dg::SignalPtr<dg::Matrix, int> jacobianSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> jacobianSIN;
 
   /*! @} */
 
@@ -110,10 +109,10 @@ public:
 
   /*! \brief Compute the error between the desired value and the value itself.
    */
-  virtual dg::Vector &computeError(dg::Vector &res, int time);
+  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int time);
 
   /*! \brief Compute the Jacobian of the value according to the robot state.. */
-  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time);
+  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int time);
 
   /*! @} */
 
