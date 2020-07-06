@@ -40,7 +40,6 @@
 
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
 
 /*!
   \class FeaturePoint6dRelative
@@ -56,23 +55,23 @@ public:
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
 protected:
-  dg::Matrix L;
+  dynamicgraph::Matrix L;
 
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
-  dg::SignalPtr<MatrixHomogeneous, int> positionReferenceSIN;
-  dg::SignalPtr<dg::Matrix, int> articularJacobianReferenceSIN;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionReferenceSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> articularJacobianReferenceSIN;
 
-  /*! dg::Signals related to the computation of the derivative of
+  /*! dynamicgraph::Signals related to the computation of the derivative of
     the error
   @{ */
 
-  /*! dg::Signals giving the derivative of the input signals.
+  /*! dynamicgraph::Signals giving the derivative of the input signals.
     @{*/
   /*! Derivative of the relative position. */
-  dg::SignalPtr<MatrixHomogeneous, int> dotpositionSIN;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, int> dotpositionSIN;
   /*! Derivative of the reference position. */
-  dg::SignalPtr<MatrixHomogeneous, int> dotpositionReferenceSIN;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, int> dotpositionReferenceSIN;
   /*! @} */
 
   using FeaturePoint6d::getReference;
@@ -81,9 +80,9 @@ public:
   FeaturePoint6dRelative(const std::string &name);
   virtual ~FeaturePoint6dRelative(void) {}
 
-  virtual dg::Vector &computeError(dg::Vector &res, int time);
-  virtual dg::Vector &computeErrorDot(dg::Vector &res, int time);
-  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time);
+  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int time);
+  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res, int time);
+  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int time);
 
   virtual void display(std::ostream &os) const;
 

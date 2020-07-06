@@ -21,7 +21,6 @@
 #include <dynamic-graph/command-setter.h>
 #include <dynamic-graph/entity.h>
 
-namespace dg = dynamicgraph;
 
 namespace dynamicgraph {
 namespace sot {

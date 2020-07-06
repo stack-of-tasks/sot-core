@@ -47,9 +47,8 @@
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-namespace dg = dynamicgraph;
 
-template <class T> class Timer_EXPORT Timer : public dg::Entity {
+template <class T> class Timer_EXPORT Timer : public dynamicgraph::Entity {
 public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
@@ -72,13 +71,13 @@ public: /* --- DISPLAY --- */
   }
 
 public: /* --- SIGNALS --- */
-  dg::SignalPtr<T, int> sigSIN;
-  dg::SignalTimeDependent<T, int> sigSOUT;
-  dg::SignalTimeDependent<T, int> sigClockSOUT;
-  dg::Signal<double, int> timerSOUT;
+  dynamicgraph::SignalPtr<T, int> sigSIN;
+  dynamicgraph::SignalTimeDependent<T, int> sigSOUT;
+  dynamicgraph::SignalTimeDependent<T, int> sigClockSOUT;
+  dynamicgraph::Signal<double, int> timerSOUT;
 
 protected: /* --- SIGNAL FUNCTIONS --- */
-  void plug(dg::Signal<T, int> &sig) {
+  void plug(dynamicgraph::Signal<T, int> &sig) {
     sigSIN = &sig;
     dt = 0.;
   }

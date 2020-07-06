@@ -15,7 +15,6 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
-namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/all-signals.h>
@@ -39,24 +38,23 @@ namespace dg = dynamicgraph;
 
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace : public dg::Entity {
+class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace : public dynamicgraph::Entity {
 public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
-  dg::SignalPtr<MatrixHomogeneous, int> positionrefSIN;
-  dg::SignalPtr<MatrixHomogeneous, int> positionSIN;
-  dg::SignalTimeDependent<dg::Matrix, int> alphaSOUT;
-  dg::SignalTimeDependent<dg::Matrix, int> alphabarSOUT;
-  dg::SignalTimeDependent<MatrixHomogeneous, int> handrefSOUT;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionrefSIN;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionSIN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, int> alphaSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, int> alphabarSOUT;
+  dynamicgraph::SignalTimeDependent<MatrixHomogeneous, int> handrefSOUT;
 
 public:
   ClampWorkspace(const std::string &name);
@@ -64,8 +62,8 @@ public:
 
   void update(int time);
 
-  virtual dg::Matrix &computeOutput(dg::Matrix &res, int time);
-  virtual dg::Matrix &computeOutputBar(dg::Matrix &res, int time);
+  virtual dynamicgraph::Matrix &computeOutput(dynamicgraph::Matrix &res, int time);
+  virtual dynamicgraph::Matrix &computeOutputBar(dynamicgraph::Matrix &res, int time);
   virtual MatrixHomogeneous &computeRef(MatrixHomogeneous &res, int time);
 
   virtual void display(std::ostream &) const;
@@ -73,10 +71,10 @@ public:
 private:
   int timeUpdate;
 
-  dg::Matrix alpha;
-  dg::Matrix alphabar;
+  dynamicgraph::Matrix alpha;
+  dynamicgraph::Matrix alphabar;
   MatrixHomogeneous prefMp;
-  dg::Vector pd;
+  dynamicgraph::Vector pd;
   MatrixRotation Rd;
   MatrixHomogeneous handref;
 

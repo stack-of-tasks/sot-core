@@ -16,7 +16,6 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
-namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/all-signals.h>
@@ -42,7 +41,6 @@ namespace dg = dynamicgraph;
 
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
 
 /** \brief Hyperbolic gain.
  * It follows the law \f[ g(e) = a \frac{\tanh(-b(||e|| - d)) + 1}{2} + c \f]
@@ -52,7 +50,7 @@ namespace dg = dynamicgraph;
  * - \f$ c = 0.1 \f$,
  * - \f$ d = 0   \f$.
  */
-class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic : public dg::Entity {
+class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic : public dynamicgraph::Entity {
 
 public: /* --- CONSTANTS --- */
   /* Default values. */
@@ -94,8 +92,8 @@ public: /* --- INIT --- */
   void forceConstant(void);
 
 public: /* --- SIGNALS --- */
-  dg::SignalPtr<dg::Vector, int> errorSIN;
-  dg::SignalTimeDependent<double, int> gainSOUT;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> errorSIN;
+  dynamicgraph::SignalTimeDependent<double, int> gainSOUT;
 
 protected:
   double &computeGain(double &res, int t);
