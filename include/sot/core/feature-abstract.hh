@@ -16,7 +16,6 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
-namespace dg = dynamicgraph;
 
 /* SOT */
 #include "sot/core/api.hh"
@@ -137,20 +136,20 @@ public:
     \par[in] time: The time at which the error is computed.
     \return The vector res with the appropriate value.
   */
-  virtual dg::Vector &computeError(dg::Vector &res, int time) = 0;
+  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int time) = 0;
 
   /*! \brief Compute the Jacobian of the error according the robot state.
 
     \par[out] res: The matrix in which the error will be written.
     \return The matrix res with the appropriate values.
   */
-  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time) = 0;
+  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int time) = 0;
 
   /// Callback for signal errordotSOUT
   ///
   /// Copy components of the input signal errordotSIN defined by selection
   /// flag selectionSIN.
-  virtual dg::Vector &computeErrorDot(dg::Vector &res, int time);
+  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res, int time);
 
   /*! @} */
 
@@ -170,7 +169,7 @@ public:
   SignalPtr<Flags, int> selectionSIN;
 
   /// Derivative of the reference value.
-  SignalPtr<dg::Vector, int> errordotSIN;
+  SignalPtr<dynamicgraph::Vector, int> errordotSIN;
 
   /*! @} */
 
@@ -179,15 +178,15 @@ public:
 
   /*! \brief This signal returns the error between the desired value and
     the current value : \f$ E(t) = {\bf s}(t) - {\bf s}^*(t)\f$ */
-  SignalTimeDependent<dg::Vector, int> errorSOUT;
+  SignalTimeDependent<dynamicgraph::Vector, int> errorSOUT;
 
   /*! \brief Derivative of the error with respect to time:
    * \f$ \frac{\partial e}{\partial t} = - \frac{d{\bf s}^*}{dt} \f$ */
-  SignalTimeDependent<dg::Vector, int> errordotSOUT;
+  SignalTimeDependent<dynamicgraph::Vector, int> errordotSOUT;
 
   /*! \brief Jacobian of the error wrt the robot state:
    * \f$ J = \frac{\partial {\bf s}}{\partial {\bf q}}\f$ */
-  SignalTimeDependent<dg::Matrix, int> jacobianSOUT;
+  SignalTimeDependent<dynamicgraph::Matrix, int> jacobianSOUT;
 
   /*! \brief Returns the dimension of the feature as an output signal. */
   SignalTimeDependent<unsigned int, int> dimensionSOUT;
@@ -196,7 +195,7 @@ public:
     FileName. */
   virtual std::ostream &writeGraph(std::ostream &os) const;
 
-  virtual SignalTimeDependent<dg::Vector, int> &getErrorDot() {
+  virtual SignalTimeDependent<dynamicgraph::Vector, int> &getErrorDot() {
     return errordotSOUT;
   }
 
