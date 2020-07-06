@@ -38,7 +38,6 @@
 
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
 
 /*!
   \class FeatureJointLimits
@@ -62,10 +61,10 @@ protected:
 
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
-  dg::SignalPtr<dg::Vector, int> jointSIN;
-  dg::SignalPtr<dg::Vector, int> upperJlSIN;
-  dg::SignalPtr<dg::Vector, int> lowerJlSIN;
-  dg::SignalTimeDependent<dg::Vector, int> widthJlSINTERN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> jointSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> upperJlSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> lowerJlSIN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> widthJlSINTERN;
 
   using FeatureAbstract::selectionSIN;
 
@@ -84,9 +83,9 @@ public:
 
   virtual unsigned int &getDimension(unsigned int &dim, int time);
 
-  virtual dg::Vector &computeError(dg::Vector &res, int time);
-  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time);
-  dg::Vector &computeWidthJl(dg::Vector &res, const int &time);
+  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int time);
+  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int time);
+  dynamicgraph::Vector &computeWidthJl(dynamicgraph::Vector &res, const int &time);
 
   /** Static Feature selection. */
   inline static Flags selectActuated(void);

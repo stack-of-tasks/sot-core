@@ -29,13 +29,12 @@
 
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-template <class T> class Derivator : public dg::Entity {
+template <class T> class Derivator : public dynamicgraph::Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
 protected:
@@ -48,7 +47,7 @@ public: /* --- CONSTRUCTION --- */
   static std::string getTypeName(void) { return "Unknown"; }
 
   Derivator(const std::string &name)
-      : dg::Entity(name), memory(), initialized(false),
+      : dynamicgraph::Entity(name), memory(), initialized(false),
         timestep(TIMESTEP_DEFAULT),
         SIN(NULL, "sotDerivator<" + getTypeName() + ">(" + name + ")::input(" +
                       getTypeName() + ")::sin"),
@@ -65,9 +64,9 @@ public: /* --- CONSTRUCTION --- */
   virtual ~Derivator(void){};
 
 public: /* --- SIGNAL --- */
-  dg::SignalPtr<T, int> SIN;
-  dg::SignalTimeDependent<T, int> SOUT;
-  dg::Signal<double, int> timestepSIN;
+  dynamicgraph::SignalPtr<T, int> SIN;
+  dynamicgraph::SignalTimeDependent<T, int> SOUT;
+  dynamicgraph::Signal<double, int> timestepSIN;
 
 protected:
   T &computeDerivation(T &res, int time) {

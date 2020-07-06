@@ -12,7 +12,6 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
-namespace dg = dynamicgraph;
 
 /* --------------------------------------------------------------------- */
 /* --- MATRIX ---------------------------------------------------------- */
@@ -36,14 +35,14 @@ public:
   int rows, cols;
   double color;
 
-  void setValue(const dg::Matrix &inValue);
+  void setValue(const dynamicgraph::Matrix &inValue);
 
 public:
   MatrixConstant(const std::string &name);
 
   virtual ~MatrixConstant(void) {}
 
-  SignalTimeDependent<dg::Matrix, int> SOUT;
+  SignalTimeDependent<dynamicgraph::Matrix, int> SOUT;
 };
 
 } // namespace sot
