@@ -16,7 +16,6 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
-namespace dg = dynamicgraph;
 
 /* STD */
 #include <string>
@@ -48,7 +47,6 @@ namespace dg = dynamicgraph;
 
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
 
 class SOTTASKCONTI_EXPORT TaskConti : public Task {
 protected:
@@ -56,7 +54,7 @@ protected:
 
   int timeRef;
   double mu;
-  dg::Vector q0;
+  dynamicgraph::Vector q0;
 
 public:
   static const std::string CLASS_NAME;
@@ -74,7 +72,7 @@ public:
 
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
-  dg::SignalPtr<dg::Vector, int> controlPrevSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> controlPrevSIN;
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display(std::ostream &os) const;
