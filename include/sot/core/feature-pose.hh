@@ -116,7 +116,7 @@ public:
 
 public:
   FeaturePose(const std::string &name);
-  virtual ~FeaturePose(void);
+  virtual ~FeaturePose(void) {}
 
   virtual unsigned int &getDimension(unsigned int &dim, int time);
 
@@ -161,15 +161,8 @@ private:
   /// \todo Intermediate variables for internal computations
 };
 
-#if __cplusplus >= 201103L
-extern template class SOT_CORE_DLLAPI FeaturePose<SE3Representation>;
-extern template class SOT_CORE_DLLAPI FeaturePose<R3xSO3Representation>;
-#endif
-
 } /* namespace sot */
 } /* namespace dynamicgraph */
-
-#include <sot/core/feature-pose.hxx>
 
 #endif // #ifndef __SOT_FEATURE_TRANSFORMATION_HH__
 
