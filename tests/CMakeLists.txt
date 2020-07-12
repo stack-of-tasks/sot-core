@@ -122,7 +122,7 @@ FOREACH(path ${tests})
     dynamic-graph::dynamic-graph)
 
   IF(UNIX)
-    TARGET_LINK_LIBRARIES(${test} PUBLIC ${CMAKE_DL_LIBS})
+    TARGET_LINK_LIBRARIES(${test} ${CMAKE_DL_LIBS})
   ENDIF(UNIX)
 ENDFOREACH(path ${tests})
 
