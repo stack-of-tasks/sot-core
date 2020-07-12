@@ -59,7 +59,7 @@ public:
       cmdArgs >> taskname;
       sotDEBUG(15) << "Add task " << taskname << std::endl;
       taskPtr = dynamic_cast<TaskAbstract *>(
-          &dynamicgraph::PoolStorage::getInstance()->getEntity(taskname));
+          &dg::PoolStorage::getInstance()->getEntity(taskname));
     }
   }
   virtual void display(std::ostream &os) const {

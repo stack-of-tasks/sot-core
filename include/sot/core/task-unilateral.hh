@@ -16,6 +16,7 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* STD */
 #include <string>
@@ -47,6 +48,7 @@
 
 namespace dynamicgraph {
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOTTASKUNILATERAL_EXPORT TaskUnilateral : public Task {
 protected:
@@ -64,10 +66,10 @@ public:
 
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> positionSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> referenceInfSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> referenceSupSIN;
-  dynamicgraph::SignalPtr<double, int> dtSIN;
+  dg::SignalPtr<dg::Vector, int> positionSIN;
+  dg::SignalPtr<dg::Vector, int> referenceInfSIN;
+  dg::SignalPtr<dg::Vector, int> referenceSupSIN;
+  dg::SignalPtr<double, int> dtSIN;
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display(std::ostream &os) const;

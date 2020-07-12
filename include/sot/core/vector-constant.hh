@@ -16,6 +16,7 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* --------------------------------------------------------------------- */
 /* --- VECTOR ---------------------------------------------------------- */
@@ -41,10 +42,10 @@ public:
 
   virtual ~VectorConstant(void) {}
 
-  SignalTimeDependent<dynamicgraph::Vector, int> SOUT;
+  SignalTimeDependent<dg::Vector, int> SOUT;
 
   /// \brief Set value of vector (and therefore of output signal)
-  void setValue(const dynamicgraph::Vector &inValue);
+  void setValue(const dg::Vector &inValue);
 };
 
 } // namespace sot

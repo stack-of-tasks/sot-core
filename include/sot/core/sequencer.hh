@@ -16,6 +16,7 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/all-signals.h>

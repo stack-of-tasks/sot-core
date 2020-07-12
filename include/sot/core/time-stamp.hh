@@ -16,6 +16,7 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* Classes standards. */
 #ifndef WIN32
@@ -49,8 +50,9 @@
 
 namespace dynamicgraph {
 namespace sot {
+namespace dg = dynamicgraph;
 
-class TimeStamp_EXPORT TimeStamp : public dynamicgraph::Entity {
+class TimeStamp_EXPORT TimeStamp : public dg::Entity {
 public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
@@ -70,17 +72,17 @@ public: /* --- DISPLAY --- */
 public: /* --- SIGNALS --- */
   /* These signals can be called several time per period, given
    * each time a different results. Useful for chronos. */
-  dynamicgraph::Signal<dynamicgraph::Vector, int> timeSOUT;
-  dynamicgraph::Signal<double, int> timeDoubleSOUT;
+  dg::Signal<dg::Vector, int> timeSOUT;
+  dg::Signal<double, int> timeDoubleSOUT;
 
   /* These signals can be called several time per period, but give
    * always the same results different results. Useful for synchro. */
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> timeOnceSOUT;
-  dynamicgraph::SignalTimeDependent<double, int> timeOnceDoubleSOUT;
+  dg::SignalTimeDependent<dg::Vector, int> timeOnceSOUT;
+  dg::SignalTimeDependent<double, int> timeOnceDoubleSOUT;
 
 protected: /* --- SIGNAL FUNCTIONS --- */
-  dynamicgraph::Vector &getTimeStamp(dynamicgraph::Vector &res, const int &time);
-  double &getTimeStampDouble(const dynamicgraph::Vector &vect, double &res);
+  dg::Vector &getTimeStamp(dg::Vector &res, const int &time);
+  double &getTimeStampDouble(const dg::Vector &vect, double &res);
 };
 
 } /* namespace sot */

@@ -25,7 +25,7 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
-
+namespace dg = dynamicgraph;
 #include <sot/core/matrix-geometry.hh>
 
 /* SOT */
@@ -52,12 +52,12 @@ public: /* --- ENTITY INHERITANCE --- */
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
 public: /* --- SIGNALS --- */
-  DECLARE_SIGNAL_IN(point3D, dynamicgraph::Vector);
+  DECLARE_SIGNAL_IN(point3D, dg::Vector);
   DECLARE_SIGNAL_IN(transfo, MatrixHomogeneous);
 
-  DECLARE_SIGNAL_OUT(point3Dgaze, dynamicgraph::Vector);
+  DECLARE_SIGNAL_OUT(point3Dgaze, dg::Vector);
   DECLARE_SIGNAL_OUT(depth, double);
-  DECLARE_SIGNAL_OUT(point2D, dynamicgraph::Vector);
+  DECLARE_SIGNAL_OUT(point2D, dg::Vector);
 
 }; // class VisualPointProjecter
 

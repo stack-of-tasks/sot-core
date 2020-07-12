@@ -16,6 +16,7 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* STD */
 #include <string>
@@ -69,6 +70,7 @@
 
 namespace dynamicgraph {
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOTTASK_EXPORT Task : public TaskAbstract {
 public:
@@ -97,19 +99,19 @@ public:
   bool getWithDerivative(void);
 
   /* --- COMPUTATION --- */
-  dynamicgraph::Vector &computeError(dynamicgraph::Vector &error, int time);
+  dg::Vector &computeError(dg::Vector &error, int time);
   VectorMultiBound &computeTaskExponentialDecrease(VectorMultiBound &errorRef,
                                                    int time);
-  dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &J, int time);
-  dynamicgraph::Vector &computeErrorTimeDerivative(dynamicgraph::Vector &res, int time);
+  dg::Matrix &computeJacobian(dg::Matrix &J, int time);
+  dg::Vector &computeErrorTimeDerivative(dg::Vector &res, int time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
-  dynamicgraph::SignalPtr<double, int> controlGainSIN;
-  dynamicgraph::SignalPtr<double, int> dampingGainSINOUT;
-  dynamicgraph::SignalPtr<Flags, int> controlSelectionSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> errorSOUT;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> errorTimeDerivativeSOUT;
+  dg::SignalPtr<double, int> controlGainSIN;
+  dg::SignalPtr<double, int> dampingGainSINOUT;
+  dg::SignalPtr<Flags, int> controlSelectionSIN;
+  dg::SignalTimeDependent<dg::Vector, int> errorSOUT;
+  dg::SignalTimeDependent<dg::Vector, int> errorTimeDerivativeSOUT;
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display(std::ostream &os) const;

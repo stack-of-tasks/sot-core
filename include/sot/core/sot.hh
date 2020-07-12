@@ -16,6 +16,7 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* Classes standards. */
 #include <list> /* Classe std::list   */
@@ -158,7 +159,7 @@ public: /* --- CONTROL --- */
   */
 
   /*! \brief Compute the control law. */
-  virtual dynamicgraph::Vector &computeControlLaw(dynamicgraph::Vector &control, const int &time);
+  virtual dg::Vector &computeControlLaw(dg::Vector &control, const int &time);
 
   /*! @} */
 
@@ -180,18 +181,18 @@ public: /* --- SIGNALS --- */
    * the recurence of the SOT (e.g. velocity coming from the other
    * OpenHRP plugins).
    */
-  SignalPtr<dynamicgraph::Vector, int> q0SIN;
+  SignalPtr<dg::Vector, int> q0SIN;
   /*! \brief A matrix K whose columns are a base of the desired velocity.
    * In other words, \f$ \dot{q} = K * u \f$ where \f$ u \f$ is the free
    * parameter to be computed.
    * \note K should be an orthonormal matrix.
    */
-  SignalPtr<dynamicgraph::Matrix, int> proj0SIN;
+  SignalPtr<dg::Matrix, int> proj0SIN;
   /*! \brief This signal allow to change the threshold for the
     damped pseudo-inverse on-line */
   SignalPtr<double, int> inversionThresholdSIN;
   /*! \brief Allow to get the result of the computed control law. */
-  SignalTimeDependent<dynamicgraph::Vector, int> controlSOUT;
+  SignalTimeDependent<dg::Vector, int> controlSOUT;
   /*! @} */
 
   /*! \brief This method write the priority between tasks in the output stream
