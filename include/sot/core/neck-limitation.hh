@@ -16,6 +16,7 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/all-signals.h>
@@ -48,8 +49,9 @@
 namespace dynamicgraph {
 namespace sot {
 
+namespace dg = dynamicgraph;
 
-class NeckLimitation_EXPORT NeckLimitation : public dynamicgraph::Entity {
+class NeckLimitation_EXPORT NeckLimitation : public dg::Entity {
 public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
@@ -72,11 +74,11 @@ public: /* --- CONSTRUCTION --- */
   virtual ~NeckLimitation(void);
 
 public: /* --- SIGNAL --- */
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> jointSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> jointSOUT;
+  dg::SignalPtr<dg::Vector, int> jointSIN;
+  dg::SignalTimeDependent<dg::Vector, int> jointSOUT;
 
 public: /* --- FUNCTIONS --- */
-  dynamicgraph::Vector &computeJointLimitation(dynamicgraph::Vector &jointLimited,
+  dg::Vector &computeJointLimitation(dg::Vector &jointLimited,
                                      const int &timeSpec);
 
 public: /* --- PARAMS --- */

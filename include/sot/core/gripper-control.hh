@@ -16,6 +16,7 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/all-signals.h>
@@ -46,6 +47,7 @@
 namespace dynamicgraph {
 namespace sot {
 
+namespace dg = dynamicgraph;
 
 /*! \brief The goal of this entity is to ensure that the maximal torque will not
  * be exceeded during a grasping task.
@@ -58,7 +60,7 @@ protected:
   double offset;
   static const double OFFSET_DEFAULT;
   //! \brief The multiplication
-  dynamicgraph::Vector factor;
+  dg::Vector factor;
 
 public:
   GripperControl(void);
@@ -66,30 +68,30 @@ public:
   //! \brief Computes the
   // if the torque limit is reached, the normalized position is reduced by
   // (offset)
-  void computeIncrement(const dynamicgraph::Vector &torques,
-                        const dynamicgraph::Vector &torqueLimits,
-                        const dynamicgraph::Vector &currentNormVel);
+  void computeIncrement(const dg::Vector &torques,
+                        const dg::Vector &torqueLimits,
+                        const dg::Vector &currentNormVel);
 
   //! \brief
-  dynamicgraph::Vector &computeDesiredPosition(const dynamicgraph::Vector &currentPos,
-                                     const dynamicgraph::Vector &desiredPos,
-                                     const dynamicgraph::Vector &torques,
-                                     const dynamicgraph::Vector &torqueLimits,
-                                     dynamicgraph::Vector &referencePos);
+  dg::Vector &computeDesiredPosition(const dg::Vector &currentPos,
+                                     const dg::Vector &desiredPos,
+                                     const dg::Vector &torques,
+                                     const dg::Vector &torqueLimits,
+                                     dg::Vector &referencePos);
 
   /*! \brief select only some of the values of the vector fullsize,
    *   based on the Flags vector.
    */
 
-  static dynamicgraph::Vector &selector(const dynamicgraph::Vector &fullsize, const Flags &selec,
-                              dynamicgraph::Vector &desPos);
+  static dg::Vector &selector(const dg::Vector &fullsize, const Flags &selec,
+                              dg::Vector &desPos);
 };
 
 /* --------------------------------------------------------------------- */
 /* --- PLUGIN ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin : public dynamicgraph::Entity,
+class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin : public dg::Entity,
                                                       public GripperControl {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
@@ -105,22 +107,22 @@ public: /* --- CONSTRUCTION --- */
 
 public: /* --- SIGNAL --- */
   /* --- INPUTS --- */
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> positionSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> positionDesSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> torqueSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> torqueLimitSIN;
-  dynamicgraph::SignalPtr<Flags, int> selectionSIN;
+  dg::SignalPtr<dg::Vector, int> positionSIN;
+  dg::SignalPtr<dg::Vector, int> positionDesSIN;
+  dg::SignalPtr<dg::Vector, int> torqueSIN;
+  dg::SignalPtr<dg::Vector, int> torqueLimitSIN;
+  dg::SignalPtr<Flags, int> selectionSIN;
 
   /* --- INTERMEDIARY --- */
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> positionFullSizeSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> positionReduceSOUT;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> torqueFullSizeSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> torqueReduceSOUT;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> torqueLimitFullSizeSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> torqueLimitReduceSOUT;
+  dg::SignalPtr<dg::Vector, int> positionFullSizeSIN;
+  dg::SignalTimeDependent<dg::Vector, int> positionReduceSOUT;
+  dg::SignalPtr<dg::Vector, int> torqueFullSizeSIN;
+  dg::SignalTimeDependent<dg::Vector, int> torqueReduceSOUT;
+  dg::SignalPtr<dg::Vector, int> torqueLimitFullSizeSIN;
+  dg::SignalTimeDependent<dg::Vector, int> torqueLimitReduceSOUT;
 
   /* --- OUTPUTS --- */
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> desiredPositionSOUT;
+  dg::SignalTimeDependent<dg::Vector, int> desiredPositionSOUT;
 
 public: /* --- COMMANDLINE --- */
   void initCommands();

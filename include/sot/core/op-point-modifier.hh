@@ -17,6 +17,7 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -38,6 +39,7 @@
 
 namespace dynamicgraph {
 namespace sot {
+namespace dg = dynamicgraph;
 
 ///
 /// \brief Compute position and jacobian of a local frame attached to a joint.
@@ -45,23 +47,23 @@ namespace sot {
 /// The position of the local frame in the frame of the joint is represented by
 /// transformation.
 ///
-class SOTOPPOINTMODIFIER_EXPORT OpPointModifier : public dynamicgraph::Entity {
+class SOTOPPOINTMODIFIER_EXPORT OpPointModifier : public dg::Entity {
 public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
 public:
-  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> jacobianSIN;
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionSIN;
+  dg::SignalPtr<dg::Matrix, int> jacobianSIN;
+  dg::SignalPtr<MatrixHomogeneous, int> positionSIN;
 
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, int> jacobianSOUT;
-  dynamicgraph::SignalTimeDependent<MatrixHomogeneous, int> positionSOUT;
+  dg::SignalTimeDependent<dg::Matrix, int> jacobianSOUT;
+  dg::SignalTimeDependent<MatrixHomogeneous, int> positionSOUT;
 
 public:
   OpPointModifier(const std::string &name);
   virtual ~OpPointModifier(void) {}
 
-  dynamicgraph::Matrix &jacobianSOUT_function(dynamicgraph::Matrix &res, const int &time);
+  dg::Matrix &jacobianSOUT_function(dg::Matrix &res, const int &time);
   MatrixHomogeneous &positionSOUT_function(MatrixHomogeneous &res,
                                            const int &time);
   void setTransformation(const Eigen::Matrix4d &tr);

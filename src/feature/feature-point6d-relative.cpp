@@ -23,7 +23,6 @@
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
-namespace dg = dynamicgraph;
 
 #include <sot/core/factory.hh>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePoint6dRelative,

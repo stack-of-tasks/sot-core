@@ -35,16 +35,17 @@
 
 namespace dynamicgraph {
 namespace sot {
+namespace dg = dynamicgraph;
 
-class SOTBINARYINTTOUINT_EXPORT BinaryIntToUint : public dynamicgraph::Entity {
+class SOTBINARYINTTOUINT_EXPORT BinaryIntToUint : public dg::Entity {
 public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
-  dynamicgraph::SignalPtr<int, int> binaryIntSIN;
-  dynamicgraph::SignalTimeDependent<unsigned, int> binaryUintSOUT;
+  dg::SignalPtr<int, int> binaryIntSIN;
+  dg::SignalTimeDependent<unsigned, int> binaryUintSOUT;
 
 public:
   BinaryIntToUint(const std::string &name);

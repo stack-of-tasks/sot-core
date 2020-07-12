@@ -18,6 +18,7 @@
 #include <dynamic-graph/signal-time-dependent.h>
 #include <sot/core/config.hh>
 
+namespace dg = ::dynamicgraph;
 
 namespace dynamicgraph {
 namespace sot {
@@ -34,19 +35,19 @@ class SOT_CORE_DLLAPI GradientAscent : public Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
 public:
-  SignalPtr<dynamicgraph::Vector, int> gradientSIN;
+  SignalPtr<dg::Vector, int> gradientSIN;
   SignalPtr<double, int> learningRateSIN;
   SignalTimeDependent<int, int> refresherSINTERN;
-  SignalTimeDependent<dynamicgraph::Vector, int> valueSOUT;
+  SignalTimeDependent<dg::Vector, int> valueSOUT;
 
 public:
   GradientAscent(const std::string &n);
   virtual ~GradientAscent(void);
 
 protected:
-  dynamicgraph::Vector &update(dynamicgraph::Vector &res, const int &inTime);
+  dg::Vector &update(dg::Vector &res, const int &inTime);
 
-  dynamicgraph::Vector value;
+  dg::Vector value;
 
   double alpha;
   bool init;

@@ -46,7 +46,7 @@
 namespace dynamicgraph {
 namespace sot {
 DECLARE_SPECIFICATION(IntegratorAbstractDouble, double, double)
-DECLARE_SPECIFICATION(IntegratorAbstractVector, dynamicgraph::Vector, dynamicgraph::Matrix)
+DECLARE_SPECIFICATION(IntegratorAbstractVector, dg::Vector, dg::Matrix)
 } // namespace sot
 } // namespace dynamicgraph
 #endif // #ifndef  __SOT_MAILBOX_HH

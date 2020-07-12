@@ -11,6 +11,7 @@
 #define SOT_FEATURE_JOINTLIMITS_HH
 // Matrix
 #include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 // SOT
 #include <dynamic-graph/all-signals.h>
@@ -29,31 +30,32 @@
 
 namespace dynamicgraph {
 namespace sot {
+namespace dg = dynamicgraph;
 
 /// \brief Filter control vector to avoid exceeding joint maximum values.
 ///
 /// This must be plugged between the entity producing the command
 /// (i.e. usually the sot) and the entity executing it (the device).
-class SOTJOINTLIMITATOR_EXPORT JointLimitator : public dynamicgraph::Entity {
+class SOTJOINTLIMITATOR_EXPORT JointLimitator : public dg::Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
 public:
   JointLimitator(const std::string &name);
   virtual ~JointLimitator() {}
 
-  virtual dynamicgraph::Vector &computeControl(dynamicgraph::Vector &res, int time);
-  dynamicgraph::Vector &computeWidthJl(dynamicgraph::Vector &res, const int &time);
+  virtual dg::Vector &computeControl(dg::Vector &res, int time);
+  dg::Vector &computeWidthJl(dg::Vector &res, const int &time);
 
   virtual void display(std::ostream &os) const;
 
   /// \name Signals
   /// \{
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> jointSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> upperJlSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> lowerJlSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> controlSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> controlSOUT;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> widthJlSINTERN;
+  dg::SignalPtr<dg::Vector, int> jointSIN;
+  dg::SignalPtr<dg::Vector, int> upperJlSIN;
+  dg::SignalPtr<dg::Vector, int> lowerJlSIN;
+  dg::SignalPtr<dg::Vector, int> controlSIN;
+  dg::SignalTimeDependent<dg::Vector, int> controlSOUT;
+  dg::SignalTimeDependent<dg::Vector, int> widthJlSINTERN;
   /// \}
 };
 } // end of namespace sot.

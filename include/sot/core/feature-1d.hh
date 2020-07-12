@@ -38,6 +38,7 @@
 
 namespace dynamicgraph {
 namespace sot {
+namespace dg = dynamicgraph;
 /*!
   \class Feature1D
   \brief Simple test: the task is defined to be e_2 = .5 . e'.e, with
@@ -64,10 +65,10 @@ public:
     @{
    */
   /*! \brief Input for the error. */
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> errorSIN;
+  dg::SignalPtr<dg::Vector, int> errorSIN;
 
   /*! \brief Input for the Jacobian. */
-  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> jacobianSIN;
+  dg::SignalPtr<dg::Matrix, int> jacobianSIN;
 
   /*! @} */
 
@@ -98,10 +99,10 @@ public:
 
   /*! \brief Compute the error between the desired value and the value itself.
    */
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int time);
+  virtual dg::Vector &computeError(dg::Vector &res, int time);
 
   /*! \brief Compute the Jacobian of the value according to the robot state.. */
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int time);
+  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time);
 
   /*! @} */
 

@@ -34,6 +34,7 @@
 
 namespace dynamicgraph {
 namespace sot {
+namespace dg = dynamicgraph;
 
 /*! \brief integrates an ODE. If Y is the output and X the input, the
  * following equation is integrated:
@@ -42,20 +43,20 @@ namespace sot {
  * function between X and Y, while the b_i are those of the numerator.
  */
 template <class sigT, class coefT>
-class IntegratorAbstract : public dynamicgraph::Entity {
+class IntegratorAbstract : public dg::Entity {
 public:
   IntegratorAbstract(const std::string &name)
-      : dynamicgraph::Entity(name),
+      : dg::Entity(name),
         SIN(NULL, "sotIntegratorAbstract(" + name + ")::input(vector)::sin"),
         SOUT(boost::bind(&IntegratorAbstract<sigT, coefT>::integrate, this, _1,
                          _2),
              SIN, "sotIntegratorAbstract(" + name + ")::output(vector)::sout") {
     signalRegistration(SIN << SOUT);
 
-    using namespace dynamicgraph::command;
+    using namespace dg::command;
 
     const std::string typeName =
-        Value::typeName(dynamicgraph::command::ValueHelper<coefT>::TypeID);
+        Value::typeName(dg::command::ValueHelper<coefT>::TypeID);
 
     addCommand(
         "pushNumCoef",
@@ -91,9 +92,9 @@ public:
   void popDenomCoef() { denominator.pop_back(); }
 
 public:
-  dynamicgraph::SignalPtr<sigT, int> SIN;
+  dg::SignalPtr<sigT, int> SIN;
 
-  dynamicgraph::SignalTimeDependent<sigT, int> SOUT;
+  dg::SignalTimeDependent<sigT, int> SOUT;
 
 protected:
   std::vector<coefT> numerator;

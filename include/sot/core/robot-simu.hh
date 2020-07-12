@@ -17,7 +17,7 @@
 
 /* -- MaaL --- */
 #include <dynamic-graph/linear-algebra.h>
-
+namespace dg = dynamicgraph;
 /* SOT */
 #include "sot/core/api.hh"
 #include "sot/core/device.hh"

@@ -16,6 +16,7 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
+namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/entity.h>
@@ -39,6 +40,7 @@
 namespace dynamicgraph {
 namespace sot {
 
+namespace dg = dynamicgraph;
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -68,14 +70,14 @@ protected:
   double _dimension;
 
 public: /* --- SIGNALS --- */
-  SignalPtr<dynamicgraph::Matrix, int> matrixASIN;
-  SignalPtr<dynamicgraph::Vector, int> accelerationSIN;
-  SignalPtr<dynamicgraph::Vector, int> gravitySIN;
-  SignalTimeDependent<dynamicgraph::Vector, int> controlSOUT;
+  SignalPtr<dg::Matrix, int> matrixASIN;
+  SignalPtr<dg::Vector, int> accelerationSIN;
+  SignalPtr<dg::Vector, int> gravitySIN;
+  SignalTimeDependent<dg::Vector, int> controlSOUT;
 
 protected:
   double &setsize(int dimension);
-  dynamicgraph::Vector &computeControl(dynamicgraph::Vector &tau, int t);
+  dg::Vector &computeControl(dg::Vector &tau, int t);
 };
 
 } // namespace sot

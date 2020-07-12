@@ -20,6 +20,7 @@
 
 namespace dynamicgraph {
 namespace sot {
+namespace dg = dynamicgraph;
 
 class SOT_CORE_EXPORT MemoryTaskSOT : public TaskAbstract::MemoryTaskAbstract {
 public: //   protected:
@@ -29,10 +30,10 @@ public: //   protected:
       KernelConst_t;
 
   /* Internal memory to reduce the dynamic allocation at task resolution. */
-  dynamicgraph::Vector err, tmpTask, tmpVar, tmpControl;
-  dynamicgraph::Matrix Jt; //( nJ,mJ );
+  dg::Vector err, tmpTask, tmpVar, tmpControl;
+  dg::Matrix Jt; //( nJ,mJ );
 
-  dynamicgraph::Matrix JK; //(nJ,mJ);
+  dg::Matrix JK; //(nJ,mJ);
 
   SVD_t svd;
   Kernel_t kernel;

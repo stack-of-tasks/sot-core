@@ -25,7 +25,6 @@ using namespace std;
 
 using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
-namespace dg = dynamicgraph;
 
 class TestDevice : public dg::sot::Device {
 public:

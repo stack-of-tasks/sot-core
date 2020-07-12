@@ -24,6 +24,7 @@
 
 namespace dynamicgraph {
 namespace sot {
+namespace dg = dynamicgraph;
 
 /// Enum used to specify what difference operation is used in FeaturePose.
 enum Representation_t { SE3Representation, R3xSO3Representation };
@@ -70,23 +71,23 @@ public:
     @{
   */
   /// Input pose of <em>Joint A</em> wrt to world frame.
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> oMja;
+  dg::SignalPtr<MatrixHomogeneous, int> oMja;
   /// Input pose of <em>Frame A</em> wrt to <em>Joint A</em>.
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> jaMfa;
+  dg::SignalPtr<MatrixHomogeneous, int> jaMfa;
   /// Input pose of <em>Joint B</em> wrt to world frame.
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> oMjb;
+  dg::SignalPtr<MatrixHomogeneous, int> oMjb;
   /// Input pose of <em>Frame B</em> wrt to <em>Joint B</em>.
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> jbMfb;
+  dg::SignalPtr<MatrixHomogeneous, int> jbMfb;
   /// Jacobian of the input <em>Joint A</em>, expressed in <em>Joint A</em>
-  dynamicgraph::SignalPtr<Matrix, int> jaJja;
+  dg::SignalPtr<Matrix, int> jaJja;
   /// Jacobian of the input <em>Joint B</em>, expressed in <em>Joint B</em>
-  dynamicgraph::SignalPtr<Matrix, int> jbJjb;
+  dg::SignalPtr<Matrix, int> jbJjb;
 
   /// The desired pose of <em>Frame B</em> wrt to <em>Frame A</em>.
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> faMfbDes;
+  dg::SignalPtr<MatrixHomogeneous, int> faMfbDes;
   /// The desired velocity of <em>Frame B</em> wrt to <em>Frame A</em>. The
   /// value is expressed in <em>Frame A</em>.
-  dynamicgraph::SignalPtr<Vector, int> faNufafbDes;
+  dg::SignalPtr<Vector, int> faNufafbDes;
   /*! @} */
 
   /*! \name Output signals
@@ -120,21 +121,21 @@ public:
   virtual unsigned int &getDimension(unsigned int &dim, int time);
 
   /// Computes \f$ {}^oM^{-1}_{fa} {}^oM_{fb} \ominus {}^{fa}M^*_{fb} \f$
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int time);
+  virtual dg::Vector &computeError(dg::Vector &res, int time);
   /// Computes \f$ \frac{\partial\ominus}{\partial b} X {}^{fa}\nu^*_{fafb} \f$.
   /// There are two different cases, depending on the representation:
   /// - R3xSO3Representation: \f$ X = \left( \begin{array}{cc} I_3 & [
   /// {}^{fa}t_{fb} ] \\ 0_3 & {{}^{fa}R^*_{fb}}^T \end{array} \right) \f$
   /// - SE3Representation: \f$ X = {{}^{fa}X^*_{fb}}^{-1} \f$ (see
   /// pinocchio::SE3Base<Scalar,Options>::toActionMatrix)
-  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res, int time);
+  virtual dg::Vector &computeErrorDot(dg::Vector &res, int time);
   /// Computes \f$ \frac{\partial\ominus}{\partial b} Y \left( {{}^{fb}X_{jb}}
   /// {}^{jb}J_{jb} - {{}^{fb}X_{ja}} {}^{ja}J_{ja} \right) \f$. There are two
   /// different cases, depending on the representation:
   /// - R3xSO3Representation: \f$ Y = \left( \begin{array}{cc} {{}^{fa}R_{fb}} &
   /// 0_3 \\ 0_3 & I_3 \end{array} \right) \f$
   /// - SE3Representation: \f$ Y = I_6 \f$
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int time);
+  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time);
 
   /** Static Feature selection. */
   inline static Flags selectX(void) { return FLAG_LINE_1; }

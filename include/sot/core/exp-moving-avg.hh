@@ -18,6 +18,7 @@
 #include <dynamic-graph/signal-time-dependent.h>
 #include <sot/core/config.hh>
 
+namespace dg = ::dynamicgraph;
 
 namespace dynamicgraph {
 namespace sot {
@@ -34,9 +35,9 @@ class SOT_CORE_DLLAPI ExpMovingAvg : public Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
 public:
-  SignalPtr<dynamicgraph::Vector, int> updateSIN;
+  SignalPtr<dg::Vector, int> updateSIN;
   SignalTimeDependent<int, int> refresherSINTERN;
-  SignalTimeDependent<dynamicgraph::Vector, int> averageSOUT;
+  SignalTimeDependent<dg::Vector, int> averageSOUT;
 
 public:
   ExpMovingAvg(const std::string &n);
@@ -45,9 +46,9 @@ public:
   void setAlpha(const double &alpha_);
 
 protected:
-  dynamicgraph::Vector &update(dynamicgraph::Vector &res, const int &inTime);
+  dg::Vector &update(dg::Vector &res, const int &inTime);
 
-  dynamicgraph::Vector average;
+  dg::Vector average;
 
   double alpha;
   bool init;

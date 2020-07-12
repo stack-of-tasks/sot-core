@@ -40,6 +40,7 @@
 
 namespace dynamicgraph {
 namespace sot {
+namespace dg = dynamicgraph;
 
 /*!
   \class FeaturePoint6d
@@ -70,9 +71,9 @@ private:
 
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> velocitySIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> articularJacobianSIN;
+  dg::SignalPtr<MatrixHomogeneous, int> positionSIN;
+  dg::SignalPtr<dg::Vector, int> velocitySIN;
+  dg::SignalPtr<dg::Matrix, int> articularJacobianSIN;
 
   using FeatureAbstract::errorSOUT;
   using FeatureAbstract::jacobianSOUT;
@@ -89,9 +90,9 @@ public:
 
   virtual unsigned int &getDimension(unsigned int &dim, int time);
 
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int time);
-  virtual dynamicgraph::Vector &computeErrordot(dynamicgraph::Vector &res, int time);
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int time);
+  virtual dg::Vector &computeError(dg::Vector &res, int time);
+  virtual dg::Vector &computeErrordot(dg::Vector &res, int time);
+  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time);
 
   /** Static Feature selection. */
   inline static Flags selectX(void) { return FLAG_LINE_1; }

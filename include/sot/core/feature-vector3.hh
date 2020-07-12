@@ -39,6 +39,7 @@
 
 namespace dynamicgraph {
 namespace sot {
+namespace dg = dynamicgraph;
 
 /*!
   \class FeatureVector3
@@ -55,10 +56,10 @@ public:
 protected:
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> vectorSIN;
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> articularJacobianSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> positionRefSIN;
+  dg::SignalPtr<dg::Vector, int> vectorSIN;
+  dg::SignalPtr<MatrixHomogeneous, int> positionSIN;
+  dg::SignalPtr<dg::Matrix, int> articularJacobianSIN;
+  dg::SignalPtr<dg::Vector, int> positionRefSIN;
 
   using FeatureAbstract::errorSOUT;
   using FeatureAbstract::jacobianSOUT;
@@ -70,8 +71,8 @@ public:
 
   virtual unsigned int &getDimension(unsigned int &dim, int time);
 
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int time);
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int time);
+  virtual dg::Vector &computeError(dg::Vector &res, int time);
+  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time);
 
   virtual void display(std::ostream &os) const;
 };

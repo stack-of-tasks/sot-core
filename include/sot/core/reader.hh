@@ -16,7 +16,7 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
-
+namespace dg = dynamicgraph;
 
 /* STD */
 #include <boost/function.hpp>
@@ -61,8 +61,8 @@ class SOTREADER_EXPORT sotReader : public Entity {
 
 public:
   SignalPtr<Flags, int> selectionSIN;
-  SignalTimeDependent<dynamicgraph::Vector, int> vectorSOUT;
-  SignalTimeDependent<dynamicgraph::Matrix, int> matrixSOUT;
+  SignalTimeDependent<dg::Vector, int> vectorSOUT;
+  SignalTimeDependent<dg::Matrix, int> matrixSOUT;
 
 public:
   sotReader(const std::string n);
@@ -80,8 +80,8 @@ protected:
 
   int rows, cols;
 
-  dynamicgraph::Vector &getNextData(dynamicgraph::Vector &res, const unsigned int time);
-  dynamicgraph::Matrix &getNextMatrix(dynamicgraph::Matrix &res, const unsigned int time);
+  dg::Vector &getNextData(dg::Vector &res, const unsigned int time);
+  dg::Matrix &getNextMatrix(dg::Matrix &res, const unsigned int time);
   void resize(const int &nbRow, const int &nbCol);
 
 public:
