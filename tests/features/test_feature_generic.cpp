@@ -38,7 +38,6 @@
 
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
 
 typedef pinocchio::CartesianProductOperation<
     pinocchio::VectorSpaceOperationTpl<3, double>,
@@ -58,6 +57,7 @@ template <Representation_t representation> struct LG_t {
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
+namespace dg = dynamicgraph;
 
 #define EIGEN_VECTOR_IS_APPROX(Va, Vb, precision)                              \
   BOOST_CHECK_MESSAGE((Va).isApprox(Vb, precision),                            \
