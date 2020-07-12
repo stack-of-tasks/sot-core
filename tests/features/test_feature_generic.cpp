@@ -32,27 +32,10 @@
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/feature-generic.hh>
 #include <sot/core/feature-pose.hh>
+#include <sot/core/feature-pose.hxx>
 #include <sot/core/gain-adaptive.hh>
 #include <sot/core/sot.hh>
 #include <sot/core/task.hh>
-
-namespace dynamicgraph {
-namespace sot {
-
-typedef pinocchio::CartesianProductOperation<
-    pinocchio::VectorSpaceOperationTpl<3, double>,
-    pinocchio::SpecialOrthogonalOperationTpl<3, double> >
-    R3xSO3_t;
-typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3_t;
-
-namespace internal {
-template <Representation_t representation> struct LG_t {
-  typedef typename boost::mpl::if_c<representation == SE3Representation, SE3_t,
-                                    R3xSO3_t>::type type;
-};
-}
-}
-}
 
 using namespace std;
 using namespace dynamicgraph::sot;
@@ -308,7 +291,7 @@ Vector toVector(const std::vector<MultiBound> &in) {
 template <Representation_t representation>
 class TestFeaturePose : public FeatureTestBase {
 public:
-  typedef typename dg::sot::internal::LG_t<representation>::type LieGroup_t;
+  typedef typename LG_t<representation>::type LieGroup_t;
   FeaturePose<representation> feature_;
   bool relative_;
   pinocchio::Model model_;
