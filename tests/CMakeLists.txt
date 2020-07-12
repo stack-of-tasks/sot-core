@@ -115,12 +115,12 @@ FOREACH(path ${tests})
   GET_FILENAME_COMPONENT(test ${path} NAME)
   ADD_UNIT_TEST(${test} ${path}.cpp)
 
-  TARGET_LINK_LIBRARIES(${test}
-    PUBLIC
-    ${PROJECT_NAME}
-    ${Boost_LIBRARIES}
+  TARGET_LINK_LIBRARIES(${test} ${PROJECT_NAME} ${Boost_LIBRARIES}
     ${TEST_${test}_LIBS} ${TEST_${test}_EXT_LIBS}
     dynamic-graph::dynamic-graph)
+
+  TARGET_INCLUDE_DIRECTORIES(${test}
+    SYSTEM PUBLIC ${Boost_INCLUDE_DIRS})
 
   IF(UNIX)
     TARGET_LINK_LIBRARIES(${test} ${CMAKE_DL_LIBS})
