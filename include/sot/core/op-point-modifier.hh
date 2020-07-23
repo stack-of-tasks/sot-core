@@ -61,7 +61,8 @@ public:
   OpPointModifier(const std::string &name);
   virtual ~OpPointModifier(void) {}
 
-  dynamicgraph::Matrix &jacobianSOUT_function(dynamicgraph::Matrix &res, const int &time);
+  dynamicgraph::Matrix &jacobianSOUT_function(dynamicgraph::Matrix &res,
+                                              const int &time);
   MatrixHomogeneous &positionSOUT_function(MatrixHomogeneous &res,
                                            const int &time);
   void setTransformation(const Eigen::Matrix4d &tr);

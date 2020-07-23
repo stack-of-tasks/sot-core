@@ -80,8 +80,10 @@ protected:
   dynamicgraph::Vector &computeControl(dynamicgraph::Vector &tau, int t);
   dynamicgraph::Vector position_error_;
   dynamicgraph::Vector velocity_error_;
-  dynamicgraph::Vector &getPositionError(dynamicgraph::Vector &position_error, int t);
-  dynamicgraph::Vector &getVelocityError(dynamicgraph::Vector &velocity_error, int t);
+  dynamicgraph::Vector &getPositionError(dynamicgraph::Vector &position_error,
+                                         int t);
+  dynamicgraph::Vector &getVelocityError(dynamicgraph::Vector &velocity_error,
+                                         int t);
 };
 
 } // namespace sot

@@ -26,8 +26,8 @@
 #include <boost/test/unit_test.hpp>
 
 #include <Eigen/SVD>
-#include <dynamic-graph/linear-algebra.h>
 #include <dynamic-graph/factory.h>
+#include <dynamic-graph/linear-algebra.h>
 #include <sot/core/debug.hh>
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/feature-generic.hh>
@@ -51,9 +51,9 @@ template <Representation_t representation> struct LG_t {
   typedef typename boost::mpl::if_c<representation == SE3Representation, SE3_t,
                                     R3xSO3_t>::type type;
 };
-}
-}
-}
+} // namespace internal
+} // namespace sot
+} // namespace dynamicgraph
 
 using namespace std;
 using namespace dynamicgraph::sot;
@@ -344,7 +344,6 @@ public:
 
     setJointFrame();
   }
-
 
   void _setFrame() {
     setSignal(

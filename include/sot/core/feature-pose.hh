@@ -120,21 +120,24 @@ public:
   virtual unsigned int &getDimension(unsigned int &dim, int time);
 
   /// Computes \f$ {}^oM^{-1}_{fa} {}^oM_{fb} \ominus {}^{fa}M^*_{fb} \f$
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int time);
+  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+                                             int time);
   /// Computes \f$ \frac{\partial\ominus}{\partial b} X {}^{fa}\nu^*_{fafb} \f$.
   /// There are two different cases, depending on the representation:
   /// - R3xSO3Representation: \f$ X = \left( \begin{array}{cc} I_3 & [
   /// {}^{fa}t_{fb} ] \\ 0_3 & {{}^{fa}R^*_{fb}}^T \end{array} \right) \f$
   /// - SE3Representation: \f$ X = {{}^{fa}X^*_{fb}}^{-1} \f$ (see
   /// pinocchio::SE3Base<Scalar,Options>::toActionMatrix)
-  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res, int time);
+  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res,
+                                                int time);
   /// Computes \f$ \frac{\partial\ominus}{\partial b} Y \left( {{}^{fb}X_{jb}}
   /// {}^{jb}J_{jb} - {{}^{fb}X_{ja}} {}^{ja}J_{ja} \right) \f$. There are two
   /// different cases, depending on the representation:
   /// - R3xSO3Representation: \f$ Y = \left( \begin{array}{cc} {{}^{fa}R_{fb}} &
   /// 0_3 \\ 0_3 & I_3 \end{array} \right) \f$
   /// - SE3Representation: \f$ Y = I_6 \f$
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int time);
+  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+                                                int time);
 
   /** Static Feature selection. */
   inline static Flags selectX(void) { return FLAG_LINE_1; }
@@ -160,10 +163,10 @@ private:
   /// \todo Intermediate variables for internal computations
 };
 
-template < typename T >
+template <typename T>
 Vector6d convertVelocity(const MatrixHomogeneous &M,
-                                const MatrixHomogeneous &Mdes,
-                                const Vector &faNufafbDes);
+                         const MatrixHomogeneous &Mdes,
+                         const Vector &faNufafbDes);
 #if __cplusplus >= 201103L
 extern template class SOT_CORE_DLLAPI FeaturePose<SE3Representation>;
 extern template class SOT_CORE_DLLAPI FeaturePose<R3xSO3Representation>;

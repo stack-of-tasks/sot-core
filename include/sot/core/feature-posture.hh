@@ -53,7 +53,8 @@ class SOTFEATUREPOSTURE_EXPORT FeaturePosture : public FeatureAbstract {
 
 public:
   typedef dynamicgraph::SignalPtr<dynamicgraph::Vector, int> signalIn_t;
-  typedef dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> signalOut_t;
+  typedef dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int>
+      signalOut_t;
 
   DECLARE_NO_REFERENCE;
 
@@ -65,7 +66,8 @@ public:
 protected:
   virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int);
   virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int);
-  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res, int time);
+  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res,
+                                                int time);
 
   signalIn_t state_;
   signalIn_t posture_;

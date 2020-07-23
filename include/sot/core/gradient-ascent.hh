@@ -18,7 +18,6 @@
 #include <dynamic-graph/signal-time-dependent.h>
 #include <sot/core/config.hh>
 
-
 namespace dynamicgraph {
 namespace sot {
 

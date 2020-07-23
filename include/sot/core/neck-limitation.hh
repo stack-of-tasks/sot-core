@@ -48,7 +48,6 @@
 namespace dynamicgraph {
 namespace sot {
 
-
 class NeckLimitation_EXPORT NeckLimitation : public dynamicgraph::Entity {
 public:
   static const std::string CLASS_NAME;
@@ -76,8 +75,9 @@ public: /* --- SIGNAL --- */
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> jointSOUT;
 
 public: /* --- FUNCTIONS --- */
-  dynamicgraph::Vector &computeJointLimitation(dynamicgraph::Vector &jointLimited,
-                                     const int &timeSpec);
+  dynamicgraph::Vector &
+  computeJointLimitation(dynamicgraph::Vector &jointLimited,
+                         const int &timeSpec);
 
 public: /* --- PARAMS --- */
   virtual void display(std::ostream &os) const;

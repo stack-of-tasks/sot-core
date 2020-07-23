@@ -141,8 +141,8 @@ public: /* --- SIGNALS --- */
 
 protected:
   /// Compute roll pitch yaw angles of freeflyer joint.
-  void integrateRollPitchYaw(dynamicgraph::Vector &state, const dynamicgraph::Vector &control,
-                             double dt);
+  void integrateRollPitchYaw(dynamicgraph::Vector &state,
+                             const dynamicgraph::Vector &control, double dt);
   /// Store Position of free flyer joint
   MatrixHomogeneous ffPose_;
   /// Compute the new position, from the current control.

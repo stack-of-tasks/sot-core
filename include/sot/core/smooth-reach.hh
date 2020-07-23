@@ -38,7 +38,6 @@
 namespace dynamicgraph {
 namespace sot {
 
-
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -66,7 +65,8 @@ public: /* --- SIGNAL --- */
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> goalSOUT;
 
 public: /* --- FUNCTION --- */
-  dynamicgraph::Vector &goalSOUT_function(dynamicgraph::Vector &goal, const int &time);
+  dynamicgraph::Vector &goalSOUT_function(dynamicgraph::Vector &goal,
+                                          const int &time);
 
   void set(const dynamicgraph::Vector &goal, const int &length);
   const dynamicgraph::Vector &getGoal(void);

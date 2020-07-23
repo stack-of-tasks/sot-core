@@ -18,7 +18,6 @@
 #include <map>
 #include <sot/core/matrix-geometry.hh>
 
-
 namespace dynamicgraph {
 namespace sot {
 
@@ -55,7 +54,8 @@ struct SOT_CORE_EXPORT ForceUtil {
 
   void set_name_to_force_id(const std::string &name, const Index &force_id);
 
-  void set_force_id_to_limits(const Index &force_id, const dynamicgraph::Vector &lf,
+  void set_force_id_to_limits(const Index &force_id,
+                              const dynamicgraph::Vector &lf,
                               const dynamicgraph::Vector &uf);
 
   void create_force_id_to_name_map();
@@ -244,7 +244,7 @@ RobotUtilShrPtr RefVoidRobotUtil();
 RobotUtilShrPtr getRobotUtil(std::string &robotName);
 bool isNameInRobotUtil(std::string &robotName);
 RobotUtilShrPtr createRobotUtil(std::string &robotName);
-std::shared_ptr< std::vector<std::string> > getListOfRobots();
+std::shared_ptr<std::vector<std::string> > getListOfRobots();
 
 bool base_se3_to_sot(ConstRefVector pos, ConstRefMatrix R, RefVector q_sot);
 

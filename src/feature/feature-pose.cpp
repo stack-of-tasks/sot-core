@@ -41,5 +41,5 @@ namespace dynamicgraph {
 namespace sot {
 template class FeaturePose<R3xSO3Representation>;
 template class FeaturePose<SE3Representation>;
-}
-}
+} // namespace sot
+} // namespace dynamicgraph

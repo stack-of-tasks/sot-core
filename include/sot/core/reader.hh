@@ -17,7 +17,6 @@
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
 
-
 /* STD */
 #include <boost/function.hpp>
 #include <fstream>
@@ -80,8 +79,10 @@ protected:
 
   int rows, cols;
 
-  dynamicgraph::Vector &getNextData(dynamicgraph::Vector &res, const unsigned int time);
-  dynamicgraph::Matrix &getNextMatrix(dynamicgraph::Matrix &res, const unsigned int time);
+  dynamicgraph::Vector &getNextData(dynamicgraph::Vector &res,
+                                    const unsigned int time);
+  dynamicgraph::Matrix &getNextMatrix(dynamicgraph::Matrix &res,
+                                      const unsigned int time);
   void resize(const int &nbRow, const int &nbCol);
 
 public:

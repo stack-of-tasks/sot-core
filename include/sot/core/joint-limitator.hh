@@ -41,8 +41,10 @@ public:
   JointLimitator(const std::string &name);
   virtual ~JointLimitator() {}
 
-  virtual dynamicgraph::Vector &computeControl(dynamicgraph::Vector &res, int time);
-  dynamicgraph::Vector &computeWidthJl(dynamicgraph::Vector &res, const int &time);
+  virtual dynamicgraph::Vector &computeControl(dynamicgraph::Vector &res,
+                                               int time);
+  dynamicgraph::Vector &computeWidthJl(dynamicgraph::Vector &res,
+                                       const int &time);
 
   virtual void display(std::ostream &os) const;
 

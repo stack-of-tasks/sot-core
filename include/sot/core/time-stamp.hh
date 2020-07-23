@@ -79,7 +79,8 @@ public: /* --- SIGNALS --- */
   dynamicgraph::SignalTimeDependent<double, int> timeOnceDoubleSOUT;
 
 protected: /* --- SIGNAL FUNCTIONS --- */
-  dynamicgraph::Vector &getTimeStamp(dynamicgraph::Vector &res, const int &time);
+  dynamicgraph::Vector &getTimeStamp(dynamicgraph::Vector &res,
+                                     const int &time);
   double &getTimeStampDouble(const dynamicgraph::Vector &vect, double &res);
 };
 

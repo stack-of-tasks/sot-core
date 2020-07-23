@@ -46,7 +46,6 @@
 namespace dynamicgraph {
 namespace sot {
 
-
 /*! \brief The goal of this entity is to ensure that the maximal torque will not
  * be exceeded during a grasping task.
  * If the maximal torque is reached, then the current position of the gripper is
@@ -71,26 +70,29 @@ public:
                         const dynamicgraph::Vector &currentNormVel);
 
   //! \brief
-  dynamicgraph::Vector &computeDesiredPosition(const dynamicgraph::Vector &currentPos,
-                                     const dynamicgraph::Vector &desiredPos,
-                                     const dynamicgraph::Vector &torques,
-                                     const dynamicgraph::Vector &torqueLimits,
-                                     dynamicgraph::Vector &referencePos);
+  dynamicgraph::Vector &
+  computeDesiredPosition(const dynamicgraph::Vector &currentPos,
+                         const dynamicgraph::Vector &desiredPos,
+                         const dynamicgraph::Vector &torques,
+                         const dynamicgraph::Vector &torqueLimits,
+                         dynamicgraph::Vector &referencePos);
 
   /*! \brief select only some of the values of the vector fullsize,
    *   based on the Flags vector.
    */
 
-  static dynamicgraph::Vector &selector(const dynamicgraph::Vector &fullsize, const Flags &selec,
-                              dynamicgraph::Vector &desPos);
+  static dynamicgraph::Vector &selector(const dynamicgraph::Vector &fullsize,
+                                        const Flags &selec,
+                                        dynamicgraph::Vector &desPos);
 };
 
 /* --------------------------------------------------------------------- */
 /* --- PLUGIN ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin : public dynamicgraph::Entity,
-                                                      public GripperControl {
+class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
+    : public dynamicgraph::Entity,
+      public GripperControl {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
 public:
@@ -113,14 +115,17 @@ public: /* --- SIGNAL --- */
 
   /* --- INTERMEDIARY --- */
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> positionFullSizeSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> positionReduceSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int>
+      positionReduceSOUT;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> torqueFullSizeSIN;
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> torqueReduceSOUT;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> torqueLimitFullSizeSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> torqueLimitReduceSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int>
+      torqueLimitReduceSOUT;
 
   /* --- OUTPUTS --- */
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> desiredPositionSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int>
+      desiredPositionSOUT;
 
 public: /* --- COMMANDLINE --- */
   void initCommands();

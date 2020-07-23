@@ -46,7 +46,6 @@
 namespace dynamicgraph {
 namespace sot {
 
-
 class SOTMOTIONPERIOD_EXPORT MotionPeriod : public dynamicgraph::Entity {
 
 public:
@@ -77,7 +76,8 @@ public:
   MotionPeriod(const std::string &name);
   virtual ~MotionPeriod(void) {}
 
-  dynamicgraph::Vector &computeMotion(dynamicgraph::Vector &res, const int &time);
+  dynamicgraph::Vector &computeMotion(dynamicgraph::Vector &res,
+                                      const int &time);
 
   virtual void display(std::ostream &os) const;
 };

@@ -62,7 +62,8 @@ public: /* --- SIGNAL --- */
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> freezedCoMSOUT;
 
 public: /* --- FUNCTION --- */
-  dynamicgraph::Vector &computeFreezedCoM(dynamicgraph::Vector &freezedCoM, const int &time);
+  dynamicgraph::Vector &computeFreezedCoM(dynamicgraph::Vector &freezedCoM,
+                                          const int &time);
 
 public: /* --- PARAMS --- */
   virtual void display(std::ostream &os) const;

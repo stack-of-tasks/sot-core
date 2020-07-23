@@ -57,7 +57,8 @@ public:
   void loadFile(const std::string &name);
 
   /// \brief Return the next pose for the legs.
-  dynamicgraph::Vector &getNextPosition(dynamicgraph::Vector &pos, const int &time);
+  dynamicgraph::Vector &getNextPosition(dynamicgraph::Vector &pos,
+                                        const int &time);
 
   /// \brief Return the next com.
   dynamicgraph::Vector &getNextCoM(dynamicgraph::Vector &com, const int &time);

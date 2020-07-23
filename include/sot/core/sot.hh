@@ -158,7 +158,8 @@ public: /* --- CONTROL --- */
   */
 
   /*! \brief Compute the control law. */
-  virtual dynamicgraph::Vector &computeControlLaw(dynamicgraph::Vector &control, const int &time);
+  virtual dynamicgraph::Vector &computeControlLaw(dynamicgraph::Vector &control,
+                                                  const int &time);
 
   /*! @} */
 

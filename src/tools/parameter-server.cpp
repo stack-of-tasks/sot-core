@@ -61,11 +61,11 @@ ParameterServer::ParameterServer(const std::string &name)
                                               "Time period in seconds (double)",
                                               "URDF file path (string)",
                                               "Robot reference (string)")));
-  addCommand("init_simple",
-             makeCommandVoid1(*this, &ParameterServer::init_simple,
-                              docCommandVoid1("Initialize the entity.",
-                                              "Time period in seconds (double)"
-                                              )));
+  addCommand(
+      "init_simple",
+      makeCommandVoid1(*this, &ParameterServer::init_simple,
+                       docCommandVoid1("Initialize the entity.",
+                                       "Time period in seconds (double)")));
 
   addCommand("setNameToId",
              makeCommandVoid2(*this, &ParameterServer::setNameToId,
@@ -144,7 +144,7 @@ ParameterServer::ParameterServer(const std::string &name)
                                      "(string) ParameterName")));
 }
 
-void ParameterServer::init_simple(const double & dt) {
+void ParameterServer::init_simple(const double &dt) {
 
   if (dt <= 0.0)
     return SEND_MSG("Timestep must be positive", MSG_TYPE_ERROR);
@@ -155,10 +155,10 @@ void ParameterServer::init_simple(const double & dt) {
   m_initSucceeded = true;
 
   std::string localName("robot");
-  std::shared_ptr< std::vector<std::string> >
-      listOfRobots = sot::getListOfRobots();
+  std::shared_ptr<std::vector<std::string> > listOfRobots =
+      sot::getListOfRobots();
 
-  if (listOfRobots->size()==1)
+  if (listOfRobots->size() == 1)
     localName = (*listOfRobots)[0];
   else {
     throw ExceptionTools(ExceptionTools::ErrorCodeEnum::PARAMETER_SERVER,
@@ -176,7 +176,6 @@ void ParameterServer::init_simple(const double & dt) {
       makeDirectGetter(*this, &m_robot_util->m_dgv_urdf_to_sot,
                        docDirectSetter("Display map Joints From URDF to SoT.",
                                        "Vector of integer for mapping")));
-
 }
 
 void ParameterServer::init(const double &dt, const std::string &urdfFile,
@@ -195,7 +194,6 @@ void ParameterServer::init(const double &dt, const std::string &urdfFile,
   }
 
   m_robot_util->m_urdf_filename = urdfFile;
-
 }
 
 /* ------------------------------------------------------------------- */

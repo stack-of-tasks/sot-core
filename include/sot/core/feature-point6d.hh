@@ -89,9 +89,12 @@ public:
 
   virtual unsigned int &getDimension(unsigned int &dim, int time);
 
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int time);
-  virtual dynamicgraph::Vector &computeErrordot(dynamicgraph::Vector &res, int time);
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int time);
+  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+                                             int time);
+  virtual dynamicgraph::Vector &computeErrordot(dynamicgraph::Vector &res,
+                                                int time);
+  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+                                                int time);
 
   /** Static Feature selection. */
   inline static Flags selectX(void) { return FLAG_LINE_1; }

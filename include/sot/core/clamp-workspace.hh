@@ -62,8 +62,10 @@ public:
 
   void update(int time);
 
-  virtual dynamicgraph::Matrix &computeOutput(dynamicgraph::Matrix &res, int time);
-  virtual dynamicgraph::Matrix &computeOutputBar(dynamicgraph::Matrix &res, int time);
+  virtual dynamicgraph::Matrix &computeOutput(dynamicgraph::Matrix &res,
+                                              int time);
+  virtual dynamicgraph::Matrix &computeOutputBar(dynamicgraph::Matrix &res,
+                                                 int time);
   virtual MatrixHomogeneous &computeRef(MatrixHomogeneous &res, int time);
 
   virtual void display(std::ostream &) const;

@@ -136,20 +136,23 @@ public:
     \par[in] time: The time at which the error is computed.
     \return The vector res with the appropriate value.
   */
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int time) = 0;
+  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+                                             int time) = 0;
 
   /*! \brief Compute the Jacobian of the error according the robot state.
 
     \par[out] res: The matrix in which the error will be written.
     \return The matrix res with the appropriate values.
   */
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int time) = 0;
+  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+                                                int time) = 0;
 
   /// Callback for signal errordotSOUT
   ///
   /// Copy components of the input signal errordotSIN defined by selection
   /// flag selectionSIN.
-  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res, int time);
+  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res,
+                                                int time);
 
   /*! @} */
 

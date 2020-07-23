@@ -438,18 +438,17 @@ bool base_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf) {
 
 std::map<std::string, RobotUtilShrPtr> sgl_map_name_to_robot_util;
 
-std::shared_ptr<std::vector<std::string> >  getListOfRobots() {
+std::shared_ptr<std::vector<std::string> > getListOfRobots() {
   std::shared_ptr<std::vector<std::string> > res =
       std::make_shared<std::vector<std::string> >();
-  
+
   std::map<std::string, RobotUtilShrPtr>::iterator it =
       sgl_map_name_to_robot_util.begin();
-  while (it != sgl_map_name_to_robot_util.end())
-  {
+  while (it != sgl_map_name_to_robot_util.end()) {
     res->push_back(it->first);
     it++;
   }
-  
+
   return res;
 }
 

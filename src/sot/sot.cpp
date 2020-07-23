@@ -505,8 +505,9 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
       makeMap(kernel, K);
       has_kernel = true;
     } else {
-      DYNAMIC_GRAPH_ENTITY_ERROR_STREAM(*this) << "Projector of " << getName()
-        << " has " << K.rows() << " rows while " << nbJoints << " expected.\n";
+      DYNAMIC_GRAPH_ENTITY_ERROR_STREAM(*this)
+          << "Projector of " << getName() << " has " << K.rows()
+          << " rows while " << nbJoints << " expected.\n";
     }
   }
   for (StackType::iterator iter = stack.begin(); iter != stack.end(); ++iter) {

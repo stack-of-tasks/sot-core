@@ -64,7 +64,8 @@ public:
 
   void loadFile(const std::string &name);
 
-  dynamicgraph::Vector &getNextPosition(dynamicgraph::Vector &pos, const int &time);
+  dynamicgraph::Vector &getNextPosition(dynamicgraph::Vector &pos,
+                                        const int &time);
 
 public: /* --- DISPLAY --- */
   virtual void display(std::ostream &os) const;

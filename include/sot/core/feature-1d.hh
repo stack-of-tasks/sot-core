@@ -98,10 +98,12 @@ public:
 
   /*! \brief Compute the error between the desired value and the value itself.
    */
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int time);
+  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+                                             int time);
 
   /*! \brief Compute the Jacobian of the value according to the robot state.. */
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int time);
+  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+                                                int time);
 
   /*! @} */
 

@@ -60,7 +60,8 @@ protected:
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
   dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionReferenceSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> articularJacobianReferenceSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int>
+      articularJacobianReferenceSIN;
 
   /*! dynamicgraph::Signals related to the computation of the derivative of
     the error
@@ -80,9 +81,12 @@ public:
   FeaturePoint6dRelative(const std::string &name);
   virtual ~FeaturePoint6dRelative(void) {}
 
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int time);
-  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res, int time);
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int time);
+  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+                                             int time);
+  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res,
+                                                int time);
+  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+                                                int time);
 
   virtual void display(std::ostream &os) const;
 

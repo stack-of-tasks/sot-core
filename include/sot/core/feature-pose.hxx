@@ -41,7 +41,7 @@ template <Representation_t representation> struct LG_t {
   typedef typename boost::mpl::if_c<representation == SE3Representation, SE3_t,
                                     R3xSO3_t>::type type;
 };
-}
+} // namespace internal
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -104,11 +104,7 @@ FeaturePose<representation>::FeaturePose(const std::string &pointName)
 }
 
 template <Representation_t representation>
-FeaturePose<representation>::~FeaturePose()
-{
-}
-
-
+FeaturePose<representation>::~FeaturePose() {}
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -261,8 +257,8 @@ Vector &FeaturePose<representation>::computeError(Vector &error, int time) {
 // feature (R^3xSO(3) or SE(3)), in the right frame.
 template <>
 Vector6d convertVelocity<SE3_t>(const MatrixHomogeneous &M,
-                         const MatrixHomogeneous &Mdes,
-                         const Vector &faNufafbDes) {
+                                const MatrixHomogeneous &Mdes,
+                                const Vector &faNufafbDes) {
   (void)M;
   MatrixTwist X;
   buildFrom(Mdes.inverse(Eigen::Affine), X);
@@ -351,6 +347,5 @@ void FeaturePose<representation>::display(std::ostream &os) const {
   }
 }
 
-
-}
-}
+} // namespace sot
+} // namespace dynamicgraph

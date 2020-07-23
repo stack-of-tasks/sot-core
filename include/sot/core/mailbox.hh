@@ -31,7 +31,6 @@
 namespace dynamicgraph {
 namespace sot {
 
-
 template <class Object> class Mailbox : public dynamicgraph::Entity {
 public:
   static const std::string CLASS_NAME;

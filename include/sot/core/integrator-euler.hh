@@ -151,8 +151,9 @@ public:
 
   sigT &derivative(sigT &res, int time) {
     if (outputMemory.size() < 2)
-      throw dynamicgraph::ExceptionSignal(dynamicgraph::ExceptionSignal::GENERIC,
-                                "Integrator does not compute the derivative.");
+      throw dynamicgraph::ExceptionSignal(
+          dynamicgraph::ExceptionSignal::GENERIC,
+          "Integrator does not compute the derivative.");
 
     SOUT.recompute(time);
     res = outputMemory[1];

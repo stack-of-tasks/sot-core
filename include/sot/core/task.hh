@@ -101,7 +101,8 @@ public:
   VectorMultiBound &computeTaskExponentialDecrease(VectorMultiBound &errorRef,
                                                    int time);
   dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &J, int time);
-  dynamicgraph::Vector &computeErrorTimeDerivative(dynamicgraph::Vector &res, int time);
+  dynamicgraph::Vector &computeErrorTimeDerivative(dynamicgraph::Vector &res,
+                                                   int time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
@@ -109,7 +110,8 @@ public:
   dynamicgraph::SignalPtr<double, int> dampingGainSINOUT;
   dynamicgraph::SignalPtr<Flags, int> controlSelectionSIN;
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> errorSOUT;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> errorTimeDerivativeSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int>
+      errorTimeDerivativeSOUT;
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display(std::ostream &os) const;
