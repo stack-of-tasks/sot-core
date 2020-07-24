@@ -56,7 +56,7 @@ int main(void) {
 
   /*Test set urdf_to_sot */
 
-  dg::Vector urdf_to_sot(3);
+  dynamicgraph::Vector urdf_to_sot(3);
   urdf_to_sot << 0, 2, 1;
   robot_util->set_urdf_to_sot(urdf_to_sot);
   if (urdf_to_sot == robot_util->m_dgv_urdf_to_sot) {
@@ -65,10 +65,10 @@ int main(void) {
     std::cout << "ERROR: urdf_to_sot does not work !" << std::endl;
   }
   /*Test joints_urdf_to_sot and joints_sot_to_urdf */
-  dg::Vector q_urdf(3);
+  dynamicgraph::Vector q_urdf(3);
   q_urdf << 10, 20, 30;
-  dg::Vector q_sot(3);
-  dg::Vector q_test_urdf(3);
+  dynamicgraph::Vector q_sot(3);
+  dynamicgraph::Vector q_test_urdf(3);
   robot_util->joints_urdf_to_sot(q_urdf, q_sot);
   robot_util->joints_sot_to_urdf(q_sot, q_test_urdf);
   if (q_urdf == q_test_urdf) {
@@ -81,23 +81,23 @@ int main(void) {
   }
 
   /*Test velocity_sot_to_urdf and velocity_urdf_to_sot */
-  dg::Vector q2_urdf(10);
-  dg::Vector v_urdf(9);
-  dg::Vector v_sot(9);
+  dynamicgraph::Vector q2_urdf(10);
+  dynamicgraph::Vector v_urdf(9);
+  dynamicgraph::Vector v_sot(9);
   robot_util->velocity_urdf_to_sot(q2_urdf, v_urdf, v_sot);
   robot_util->velocity_sot_to_urdf(q2_urdf, v_sot, v_urdf);
   std::cout << "velocity_sot_to_urdf and velocity_urdf_to_sot work !"
             << std::endl;
 
   /*Test base_urdf_to_sot and base_sot_to_urdf */
-  dg::Vector base_q_urdf(7);
-  dg::Vector base_q_sot(6);
+  dynamicgraph::Vector base_q_urdf(7);
+  dynamicgraph::Vector base_q_sot(6);
   robot_util->base_urdf_to_sot(base_q_urdf, base_q_sot);
   robot_util->base_sot_to_urdf(base_q_sot, base_q_urdf);
   std::cout << "base_urdf_to_sot and base_sot_to_urdf work !" << std::endl;
 
   /*Test config_urdf_to_sot and config_sot_to_urdf */
-  dg::Vector q2_sot(9);
+  dynamicgraph::Vector q2_sot(9);
   robot_util->config_urdf_to_sot(q2_urdf, q2_sot);
   robot_util->config_sot_to_urdf(q2_sot, q2_urdf);
   std::cout << "config_urdf_to_sot and config_sot_to_urdf work !" << std::endl;
@@ -116,9 +116,9 @@ int main(void) {
   robot_util->m_force_util.set_name_to_force_id(lh, 2);
   robot_util->m_force_util.set_name_to_force_id(rh, 3);
 
-  dg::Vector lf_lim(6);
+  dynamicgraph::Vector lf_lim(6);
   lf_lim << 1, 2, 3, 4, 5, 6;
-  dg::Vector uf_lim(6);
+  dynamicgraph::Vector uf_lim(6);
   uf_lim << 10, 20, 30, 40, 50, 60;
   robot_util->m_force_util.set_force_id_to_limits(1, lf_lim, uf_lim);
   if (robot_util->m_force_util.get_id_from_name(rf) == 0 &&

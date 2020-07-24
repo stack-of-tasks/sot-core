@@ -38,7 +38,6 @@
 
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
 
 /*!
   \class FeatureLineDistance
@@ -54,11 +53,11 @@ public:
 protected:
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
-  dg::SignalPtr<MatrixHomogeneous, int> positionSIN;
-  dg::SignalPtr<dg::Matrix, int> articularJacobianSIN;
-  dg::SignalPtr<dg::Vector, int> positionRefSIN;
-  dg::SignalPtr<dg::Vector, int> vectorSIN;
-  dg::SignalTimeDependent<dg::Vector, int> lineSOUT;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> articularJacobianSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> positionRefSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> vectorSIN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> lineSOUT;
 
   using FeatureAbstract::errorSOUT;
   using FeatureAbstract::jacobianSOUT;
@@ -76,9 +75,12 @@ public:
 
   virtual unsigned int &getDimension(unsigned int &dim, int time);
 
-  virtual dg::Vector &computeError(dg::Vector &res, int time);
-  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time);
-  dg::Vector &computeLineCoordinates(dg::Vector &cood, int time);
+  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+                                             int time);
+  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+                                                int time);
+  dynamicgraph::Vector &computeLineCoordinates(dynamicgraph::Vector &cood,
+                                               int time);
 
   virtual void display(std::ostream &os) const;
 };

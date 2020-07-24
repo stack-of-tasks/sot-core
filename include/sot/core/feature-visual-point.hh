@@ -38,7 +38,6 @@
 
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
 
 /*!
   \class FeatureVisualPoint
@@ -53,15 +52,15 @@ public:
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
 protected:
-  dg::Matrix L;
+  dynamicgraph::Matrix L;
 
   /* --- SIGNALS ------------------------------------------------------------ */
 public:
-  dg::SignalPtr<dg::Vector, int> xySIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> xySIN;
   /** FeatureVisualPoint depth (required to compute the interaction matrix)
    * default Z = 1m. */
-  dg::SignalPtr<double, int> ZSIN;
-  dg::SignalPtr<dg::Matrix, int> articularJacobianSIN;
+  dynamicgraph::SignalPtr<double, int> ZSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> articularJacobianSIN;
 
   using FeatureAbstract::errorSOUT;
   using FeatureAbstract::jacobianSOUT;
@@ -75,8 +74,10 @@ public:
 
   virtual unsigned int &getDimension(unsigned int &dim, int time);
 
-  virtual dg::Vector &computeError(dg::Vector &res, int time);
-  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int time);
+  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+                                             int time);
+  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+                                                int time);
 
   /** Static Feature selection. */
   inline static Flags selectX(void) { return FLAG_LINE_1; }

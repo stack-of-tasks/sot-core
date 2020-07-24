@@ -17,9 +17,6 @@
 #include <boost/assign/list_of.hpp>
 #include <boost/regex.hpp>
 
-namespace dg = dynamicgraph;
-namespace ba = boost::assign;
-
 namespace dynamicgraph {
 namespace sot {
 
@@ -123,8 +120,8 @@ public:
   typedef std::vector<double> vec_ref;
 
   void display(std::ostream &os) const {
-    boost::array<std::string, 4> names =
-        ba::list_of("Positions")("Velocities")("Accelerations")("Effort");
+    boost::array<std::string, 4> names = boost::assign::list_of("Positions")(
+        "Velocities")("Accelerations")("Effort");
 
     const std::vector<double> *points = 0;
 

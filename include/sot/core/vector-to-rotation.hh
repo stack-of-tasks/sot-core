@@ -16,7 +16,6 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
-namespace dg = dynamicgraph;
 
 /* STD */
 #include <vector>
@@ -40,9 +39,9 @@ namespace dg = dynamicgraph;
 /* --------------------------------------------------------------------- */
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
 
-class SOTVECTORTOROTATION_EXPORT VectorToRotation : public dg::Entity {
+class SOTVECTORTOROTATION_EXPORT VectorToRotation
+    : public dynamicgraph::Entity {
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
@@ -56,10 +55,10 @@ public:
 
   virtual ~VectorToRotation(void) {}
 
-  dg::SignalPtr<dg::Vector, int> SIN;
-  dg::SignalTimeDependent<MatrixRotation, int> SOUT;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> SIN;
+  dynamicgraph::SignalTimeDependent<MatrixRotation, int> SOUT;
 
-  MatrixRotation &computeRotation(const dg::Vector &angles,
+  MatrixRotation &computeRotation(const dynamicgraph::Vector &angles,
                                   MatrixRotation &res);
 };
 

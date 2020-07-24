@@ -16,7 +16,6 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
-namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/all-signals.h>
@@ -39,19 +38,17 @@ namespace dg = dynamicgraph;
 namespace dynamicgraph {
 namespace sot {
 
-namespace dg = dynamicgraph;
-
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class SOTSMOOTHREACH_EXPORT SmoothReach : public dg::Entity {
+class SOTSMOOTHREACH_EXPORT SmoothReach : public dynamicgraph::Entity {
 public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName() const { return CLASS_NAME; }
 
 private:
-  dg::Vector start, goal;
+  dynamicgraph::Vector start, goal;
   int startTime, lengthTime;
   bool isStarted, isParam;
   int smoothMode;
@@ -64,15 +61,15 @@ public: /* --- CONSTRUCTION --- */
   virtual ~SmoothReach(void){};
 
 public: /* --- SIGNAL --- */
-  dg::SignalPtr<dg::Vector, int> startSIN;
-  dg::SignalTimeDependent<dg::Vector, int> goalSOUT;
-  // dg::SignalTimeDependent<double, int> percentSOUT;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> startSIN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> goalSOUT;
 
 public: /* --- FUNCTION --- */
-  dg::Vector &goalSOUT_function(dg::Vector &goal, const int &time);
+  dynamicgraph::Vector &goalSOUT_function(dynamicgraph::Vector &goal,
+                                          const int &time);
 
-  void set(const dg::Vector &goal, const int &length);
-  const dg::Vector &getGoal(void);
+  void set(const dynamicgraph::Vector &goal, const int &length);
+  const dynamicgraph::Vector &getGoal(void);
   const int &getLength(void);
   const int &getStart(void);
 

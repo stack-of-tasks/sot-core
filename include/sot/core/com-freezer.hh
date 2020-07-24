@@ -16,7 +16,6 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
-namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/all-signals.h>
@@ -39,19 +38,17 @@ namespace dg = dynamicgraph;
 namespace dynamicgraph {
 namespace sot {
 
-namespace dg = dynamicgraph;
-
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-class SOTCOMFREEZER_EXPORT CoMFreezer : public dg::Entity {
+class SOTCOMFREEZER_EXPORT CoMFreezer : public dynamicgraph::Entity {
 public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName() const { return CLASS_NAME; }
 
 private:
-  dg::Vector m_lastCoM;
+  dynamicgraph::Vector m_lastCoM;
   bool m_previousPGInProcess;
   int m_lastStopTime;
 
@@ -60,12 +57,13 @@ public: /* --- CONSTRUCTION --- */
   virtual ~CoMFreezer(void);
 
 public: /* --- SIGNAL --- */
-  dg::SignalPtr<dg::Vector, int> CoMRefSIN;
-  dg::SignalPtr<unsigned, int> PGInProcessSIN;
-  dg::SignalTimeDependent<dg::Vector, int> freezedCoMSOUT;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> CoMRefSIN;
+  dynamicgraph::SignalPtr<unsigned, int> PGInProcessSIN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> freezedCoMSOUT;
 
 public: /* --- FUNCTION --- */
-  dg::Vector &computeFreezedCoM(dg::Vector &freezedCoM, const int &time);
+  dynamicgraph::Vector &computeFreezedCoM(dynamicgraph::Vector &freezedCoM,
+                                          const int &time);
 
 public: /* --- PARAMS --- */
   virtual void display(std::ostream &os) const;
