@@ -26,6 +26,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <Eigen/SVD>
+#include <dynamic-graph/factory.h>
 #include <dynamic-graph/linear-algebra.h>
 #include <sot/core/debug.hh>
 #include <sot/core/feature-abstract.hh>
@@ -34,6 +35,25 @@
 #include <sot/core/gain-adaptive.hh>
 #include <sot/core/sot.hh>
 #include <sot/core/task.hh>
+
+namespace dynamicgraph {
+namespace sot {
+namespace dg = dynamicgraph;
+
+typedef pinocchio::CartesianProductOperation<
+    pinocchio::VectorSpaceOperationTpl<3, double>,
+    pinocchio::SpecialOrthogonalOperationTpl<3, double> >
+    R3xSO3_t;
+typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3_t;
+
+namespace internal {
+template <Representation_t representation> struct LG_t {
+  typedef typename boost::mpl::if_c<representation == SE3Representation, SE3_t,
+                                    R3xSO3_t>::type type;
+};
+} // namespace internal
+} // namespace sot
+} // namespace dynamicgraph
 
 using namespace std;
 using namespace dynamicgraph::sot;
@@ -270,15 +290,6 @@ MatrixHomogeneous randomM() {
 }
 
 typedef pinocchio::SE3 SE3;
-typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3_t;
-typedef pinocchio::CartesianProductOperation<
-    pinocchio::VectorSpaceOperationTpl<3, double>,
-    pinocchio::SpecialOrthogonalOperationTpl<3, double> >
-    R3xSO3_t;
-template <Representation_t representation> struct LG_t {
-  typedef typename boost::mpl::if_c<representation == SE3Representation, SE3_t,
-                                    R3xSO3_t>::type type;
-};
 
 Vector7 toVector(const pinocchio::SE3 &M) {
   Vector7 v;
@@ -297,7 +308,7 @@ Vector toVector(const std::vector<MultiBound> &in) {
 template <Representation_t representation>
 class TestFeaturePose : public FeatureTestBase {
 public:
-  typedef typename LG_t<representation>::type LieGroup_t;
+  typedef typename dg::sot::internal::LG_t<representation>::type LieGroup_t;
   FeaturePose<representation> feature_;
   bool relative_;
   pinocchio::Model model_;

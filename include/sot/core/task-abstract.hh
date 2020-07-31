@@ -17,7 +17,6 @@
 /* Matrix */
 #include <Eigen/SVD>
 #include <dynamic-graph/linear-algebra.h>
-namespace dg = dynamicgraph;
 
 /* STD */
 #include <string>
@@ -46,7 +45,7 @@ namespace sot {
 /// TaskAbstract. The value and Jacobian of a Task are computed from the
 /// features that are stored in the task.
 
-class SOT_CORE_EXPORT TaskAbstract : public dg::Entity {
+class SOT_CORE_EXPORT TaskAbstract : public dynamicgraph::Entity {
 public:
   /* Use a derivative of this class to store computational memory. */
   class MemoryTaskAbstract {
@@ -76,8 +75,8 @@ public:
   TaskAbstract(const std::string &n);
 
 public: /* --- SIGNALS --- */
-  dg::SignalTimeDependent<VectorMultiBound, int> taskSOUT;
-  dg::SignalTimeDependent<dg::Matrix, int> jacobianSOUT;
+  dynamicgraph::SignalTimeDependent<VectorMultiBound, int> taskSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, int> jacobianSOUT;
 };
 
 } /* namespace sot */

@@ -501,8 +501,14 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
   // Get initial projector if any.
   if (proj0SIN.isPlugged()) {
     const Matrix &K = proj0SIN.access(iterTime);
-    makeMap(kernel, K);
-    has_kernel = true;
+    if (K.rows() == nbJoints) {
+      makeMap(kernel, K);
+      has_kernel = true;
+    } else {
+      DYNAMIC_GRAPH_ENTITY_ERROR_STREAM(*this)
+          << "Projector of " << getName() << " has " << K.rows()
+          << " rows while " << nbJoints << " expected.\n";
+    }
   }
   for (StackType::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
     sotSTARTPARTCOUNTERS;

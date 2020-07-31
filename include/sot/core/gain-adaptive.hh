@@ -16,7 +16,6 @@
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
-namespace dg = dynamicgraph;
 
 /* SOT */
 #include <dynamic-graph/all-signals.h>
@@ -42,7 +41,6 @@ namespace dg = dynamicgraph;
 
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
 
 /** Exponentially decreasing gain.
  * It follows the law \f[ g(e) = a \exp (-b ||e||) + c \f].
@@ -52,7 +50,7 @@ namespace dg = dynamicgraph;
  * - \f$ b = 0   \f$,
  * - \f$ c = 0.1 \f$.
  */
-class SOTGAINADAPTATIVE_EXPORT GainAdaptive : public dg::Entity {
+class SOTGAINADAPTATIVE_EXPORT GainAdaptive : public dynamicgraph::Entity {
 
 public: /* --- CONSTANTS --- */
   /* Default values. */
@@ -107,8 +105,11 @@ public: /* --- INIT --- */
    *
    * lg = plt.plot(errors, gains, 'r', label="Gain")
    * ld = plt.twinx().plot(errors, [ g*e for e,g in zip(errors,gains) ], 'b',
-   * label="Derivative") lines = lg + ld plt.legend(lines, [l.get_label() for l
-   * in lines]) plt.show() \endcode
+   *   label="Derivative")
+   * lines = lg + ld
+   * plt.legend(lines, [l.get_label() for l in lines])
+   * plt.show()
+   * \endcode
    */
   void initFromPassingPoint(const double &valueAt0, const double &valueAtInfty,
                             const double &errorReference,
@@ -116,8 +117,8 @@ public: /* --- INIT --- */
   void forceConstant(void);
 
 public: /* --- SIGNALS --- */
-  dg::SignalPtr<dg::Vector, int> errorSIN;
-  dg::SignalTimeDependent<double, int> gainSOUT;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> errorSIN;
+  dynamicgraph::SignalTimeDependent<double, int> gainSOUT;
 
 protected:
   double &computeGain(double &res, int t);

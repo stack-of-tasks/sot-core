@@ -25,7 +25,6 @@
 
 namespace dynamicgraph {
 namespace sot {
-namespace dg = dynamicgraph;
 
 namespace internal {
 template <class coefT> bool integratorEulerCoeffIsIdentity(const coefT c) {
@@ -70,7 +69,7 @@ public:
                            ")::output(vector)::derivativesout") {
     this->signalRegistration(derivativeSOUT);
 
-    using namespace dg::command;
+    using namespace dynamicgraph::command;
 
     setSamplingPeriod(0.005);
 
@@ -97,7 +96,7 @@ protected:
   std::vector<sigT> inputMemory;
   std::vector<sigT> outputMemory;
 
-  dg::SignalTimeDependent<sigT, int> derivativeSOUT;
+  dynamicgraph::SignalTimeDependent<sigT, int> derivativeSOUT;
 
   double dt;
   double invdt;
@@ -152,8 +151,9 @@ public:
 
   sigT &derivative(sigT &res, int time) {
     if (outputMemory.size() < 2)
-      throw dg::ExceptionSignal(dg::ExceptionSignal::GENERIC,
-                                "Integrator does not compute the derivative.");
+      throw dynamicgraph::ExceptionSignal(
+          dynamicgraph::ExceptionSignal::GENERIC,
+          "Integrator does not compute the derivative.");
 
     SOUT.recompute(time);
     res = outputMemory[1];
@@ -184,8 +184,8 @@ public:
 
     // Check that denominator.back is the identity
     if (!internal::integratorEulerCoeffIsIdentity(denominator.back()))
-      throw dg::ExceptionSignal(
-          dg::ExceptionSignal::GENERIC,
+      throw dynamicgraph::ExceptionSignal(
+          dynamicgraph::ExceptionSignal::GENERIC,
           "The coefficient of the highest order derivative of denominator "
           "should be 1 (the last pushDenomCoef should be the identity).");
   }

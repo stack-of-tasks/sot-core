@@ -60,12 +60,19 @@ public:
   /* --- CONSTRUCTOR ---- */
   ParameterServer(const std::string &name);
 
+  ~ParameterServer(){};
+
   /// Initialize
   /// @param dt: control interval
   /// @param urdfFile: path to the URDF model of the robot
   void init(const double &dt, const std::string &urdfFile,
             const std::string &robotRef);
 
+  /// Initialize
+  /// @param dt: control interval provided by the device.
+  /// The urdf model is found by reading /robot_description
+  /// The robot name is found using the name inside robot_description
+  void init_simple(const double &dt);
   /* --- SIGNALS --- */
 
   /* --- COMMANDS --- */

@@ -18,6 +18,7 @@
 #include <dynamic-graph/factory.h>
 #include <iostream>
 #include <sot/core/debug.hh>
+#include <sot/core/exception-tools.hh>
 #include <sot/core/parameter-server.hh>
 
 namespace dynamicgraph {
@@ -60,6 +61,11 @@ ParameterServer::ParameterServer(const std::string &name)
                                               "Time period in seconds (double)",
                                               "URDF file path (string)",
                                               "Robot reference (string)")));
+  addCommand(
+      "init_simple",
+      makeCommandVoid1(*this, &ParameterServer::init_simple,
+                       docCommandVoid1("Initialize the entity.",
+                                       "Time period in seconds (double)")));
 
   addCommand("setNameToId",
              makeCommandVoid2(*this, &ParameterServer::setNameToId,
@@ -138,6 +144,40 @@ ParameterServer::ParameterServer(const std::string &name)
                                      "(string) ParameterName")));
 }
 
+void ParameterServer::init_simple(const double &dt) {
+
+  if (dt <= 0.0)
+    return SEND_MSG("Timestep must be positive", MSG_TYPE_ERROR);
+
+  m_dt = dt;
+
+  m_emergency_stop_triggered = false;
+  m_initSucceeded = true;
+
+  std::string localName("robot");
+  std::shared_ptr<std::vector<std::string> > listOfRobots =
+      sot::getListOfRobots();
+
+  if (listOfRobots->size() == 1)
+    localName = (*listOfRobots)[0];
+  else {
+    throw ExceptionTools(ExceptionTools::ErrorCodeEnum::PARAMETER_SERVER,
+                         "No robot registered in the parameter server list");
+  }
+
+  if (!isNameInRobotUtil(localName)) {
+    m_robot_util = createRobotUtil(localName);
+  } else {
+    m_robot_util = getRobotUtil(localName);
+  }
+
+  addCommand(
+      "getJointsUrdfToSot",
+      makeDirectGetter(*this, &m_robot_util->m_dgv_urdf_to_sot,
+                       docDirectSetter("Display map Joints From URDF to SoT.",
+                                       "Vector of integer for mapping")));
+}
+
 void ParameterServer::init(const double &dt, const std::string &urdfFile,
                            const std::string &robotRef) {
   if (dt <= 0.0)
@@ -154,12 +194,6 @@ void ParameterServer::init(const double &dt, const std::string &urdfFile,
   }
 
   m_robot_util->m_urdf_filename = urdfFile;
-
-  addCommand(
-      "getJointsUrdfToSot",
-      makeDirectGetter(*this, &m_robot_util->m_dgv_urdf_to_sot,
-                       docDirectSetter("Display map Joints From URDF to SoT.",
-                                       "Vector of integer for mapping")));
 }
 
 /* ------------------------------------------------------------------- */
@@ -213,7 +247,7 @@ void ParameterServer::setForceNameToForceId(const std::string &forceName,
                                                   static_cast<Index>(forceId));
 }
 
-void ParameterServer::setJoints(const dg::Vector &urdf_to_sot) {
+void ParameterServer::setJoints(const dynamicgraph::Vector &urdf_to_sot) {
   if (!m_initSucceeded) {
     SEND_WARNING_STREAM_MSG("Cannot set mapping to sot before initialization!");
     return;

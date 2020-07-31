@@ -2,7 +2,7 @@ from dynamic_graph import plug
 from dynamic_graph.sot.core.feature_point6d import FeaturePoint6d
 from dynamic_graph.sot.core.gain_adaptive import GainAdaptive
 from dynamic_graph.sot.core.op_point_modifier import OpPointModifier
-from dynamic_graph.sot.core.sot import Task
+from dynamic_graph.sot.core.task import Task
 
 
 def toFlags(arr):
