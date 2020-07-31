@@ -72,6 +72,7 @@ SET(${PROJECT_NAME}_HEADERS
   include/${CUSTOM_HEADER_DIR}/debug.hh
   include/${CUSTOM_HEADER_DIR}/derivator.hh
   include/${CUSTOM_HEADER_DIR}/device.hh
+  include/${CUSTOM_HEADER_DIR}/generic-device.hh
   include/${CUSTOM_HEADER_DIR}/double-constant.hh
   include/${CUSTOM_HEADER_DIR}/event.hh
   include/${CUSTOM_HEADER_DIR}/exception-abstract.hh
@@ -164,19 +165,13 @@ SET(${PROJECT_NAME}_SOURCES
   src/tools/utils-windows
   src/tools/periodic-call
   src/tools/device
+  src/tools/generic-device
   src/tools/trajectory
   src/tools/robot-utils
   src/matrix/matrix-svd
   src/filters/causal-filter
   src/utils/stop-watch
   )
-
-IF (YAML_CPP_FOUND)
-  SET(${PROJECT_NAME}_HEADERS ${${PROJECT_NAME}_HEADERS}
-  include/${CUSTOM_HEADER_DIR}/generic-device.hh  )
-  SET(${PROJECT_NAME}_SOURCES ${${PROJECT_NAME}_SOURCES}
-  src/tools/generic-device.cpp  )
-ENDIF ()
 
 ADD_LIBRARY(${PROJECT_NAME} SHARED
   ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_HEADERS})
