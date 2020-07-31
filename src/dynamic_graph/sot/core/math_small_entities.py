@@ -10,7 +10,7 @@ from .operator import (
     Compose_R_and_T, ConvolutionTemporal, HomoToMatrix, HomoToRotation,
     HomoToTwist, Inverse_of_matrix, Inverse_of_matrixHomo,
     Inverse_of_matrixrotation, Inverse_of_matrixtwist, Inverse_of_unitquat,
-    MatrixDiagonal, MatrixHomoToPose, MatrixHomoToPoseQuaternion,
+    MatrixDiagonal, MatrixHomoToPose, MatrixHomoToPoseQuaternion, PoseQuatToMatrixHomo,
     MatrixHomoToPoseRollPitchYaw, MatrixHomoToPoseUTheta, MatrixToHomo,
     MatrixToQuaternion, MatrixToRPY, MatrixToUTheta, MatrixTranspose,
     Multiply_double_vector, Multiply_matrix_vector,

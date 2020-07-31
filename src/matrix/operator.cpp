@@ -356,6 +356,15 @@ struct MatrixHomoToPoseQuaternion
 };
 REGISTER_UNARY_OP(MatrixHomoToPoseQuaternion, MatrixHomoToPoseQuaternion);
 
+struct PoseQuaternionToMatrixHomo
+    : public UnaryOpHeader<Vector, MatrixHomogeneous> {
+  void operator()(const dg::Vector &vect, MatrixHomogeneous &Mres) {
+    Mres.translation() = vect.head<3>();
+    Mres.linear() = VectorQuaternion(vect.tail<4>()).toRotationMatrix();
+  }
+};
+REGISTER_UNARY_OP(PoseQuaternionToMatrixHomo, PoseQuatToMatrixHomo);
+
 struct MatrixHomoToPoseRollPitchYaw
     : public UnaryOpHeader<MatrixHomogeneous, Vector> {
   void operator()(const MatrixHomogeneous &M, dg::Vector &res) {
