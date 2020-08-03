@@ -154,6 +154,12 @@ template <> VectorQuaternion random<VectorQuaternion>() {
 template <> MatrixRotation random<MatrixRotation>() {
   return MatrixRotation(random<VectorQuaternion>());
 }
+template <> MatrixHomogeneous random<MatrixHomogeneous>() {
+  MatrixHomogeneous matrix_homo;
+  matrix_homo.translation() = Eigen::Vector3d::Random();
+  matrix_homo.linear() = random<MatrixRotation>();
+  return matrix_homo;
+}
 
 template <typename type> bool compare(const type &a, const type &b) {
   return a.isApprox(b);
@@ -188,6 +194,9 @@ BOOST_AUTO_TEST_CASE(quaternion_rpy) {
 }
 BOOST_AUTO_TEST_CASE(matrix_quaternion) {
   test_impl<MatrixToQuaternion, QuaternionToMatrix>();
+}
+BOOST_AUTO_TEST_CASE(matrixHomo_poseQuaternion) {
+  test_impl<MatrixHomoToPoseQuaternion, PoseQuaternionToMatrixHomo>();
 }
 
 BOOST_AUTO_TEST_SUITE_END()
