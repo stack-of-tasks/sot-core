@@ -250,6 +250,8 @@ else
   install_dependencies
 fi
 
+${SUDO_CMD} chmod 777 /opt/openrobots/lib/dynamic-graph-plugins
+
 # End debug mode
 set +v
 set +x
