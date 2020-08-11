@@ -17,9 +17,9 @@ curl http://robotpkg.openrobots.org/packages/debian/robotpkg.key | sudo apt-key 
 sudo free -m -t
 
 # Setup environment variables.
-export APT_DEPENDENCIES="doxygen libboost-system-dev libboost-test-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev libeigen3-dev  libtinyxml-dev libconsole-bridge-dev robotpkg-pinocchio robotpkg-dynamic-graph-v3 robotpkg-py35-dynamic-graph-v3 "
+export APT_DEPENDENCIES="doxygen libboost-system-dev libboost-test-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev libeigen3-dev  libtinyxml-dev libconsole-bridge-dev robotpkg-pinocchio robotpkg-dynamic-graph-v3 robotpkg-py36-dynamic-graph-v3 "
 # Add Python dependency
-export APT_DEPENDENCIES=$APT_DEPENDENCIES" libboost-python-dev robotpkg-py35-eigenpy python3.5-dev python3-numpy robotpkg-py35-pinocchio"
+export APT_DEPENDENCIES=$APT_DEPENDENCIES" libboost-python-dev robotpkg-py36-eigenpy python3.6-dev python3-numpy robotpkg-py36-pinocchio"
 
 # Add Geometry dependencies
 if [[ $BUILD_WITH_COLLISION_SUPPORT -eq ON ]]; then
