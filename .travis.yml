@@ -17,8 +17,7 @@ notifications:
   - hpp-source@laas.fr
 branches:
   only:
-  - master
-  - devel
+  - disabled_travis_because_not_relevant_anymore
 matrix:
   allow_failures:
   - compiler: clang
