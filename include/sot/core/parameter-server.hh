@@ -104,8 +104,9 @@ public:
                     const Type &ParameterValue)
   {
     if (!m_initSucceeded) {
-      DYNAMIC_GRAPH_ENTITY_WARNING(*this) << "Cannot set parameter " << ParameterName
-        << " to " << ParameterValue << " before initialization!\n";
+      DYNAMIC_GRAPH_ENTITY_WARNING(*this) << "Cannot set parameter " <<
+          ParameterName << " to " << ParameterValue
+          << " before initialization!\n";
       return;
     }
 
@@ -117,8 +118,8 @@ public:
   {
 
     if (!m_initSucceeded) {
-      SEND_WARNING_STREAM_MSG("Cannot get parameter " + ParameterName +
-                              " before initialization!");
+      DYNAMIC_GRAPH_ENTITY_WARNING(*this) << "Cannot get parameter " <<
+          ParameterName << " before initialization!\n";
       Type ParameterValue;
       return ParameterValue;
     }

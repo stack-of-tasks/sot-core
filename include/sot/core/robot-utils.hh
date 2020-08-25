@@ -11,26 +11,22 @@
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
+
+/** pinocchio is forcing the BOOST_MPL_LIMIT_VECTOR_SIZE to a specific value.
+    This happen to be not working when including the boost property_tree library.
+    For this reason if defined, the current value of BOOST_MPL_LIMIT_VECTOR_SIZE
+    is saved in the preprocessor stack and unset.
+    Once the property_tree included the pinocchio value of this variable is
+    restored.
+ */
+
 #ifdef BOOST_MPL_LIMIT_VECTOR_SIZE
 #pragma push_macro("BOOST_MPL_LIMIT_VECTOR_SIZE")
 #undef BOOST_MPL_LIMIT_VECTOR_SIZE
-#define BOOST_MPL_LIMIT_VECTOR_SIZE_PUSH
-#endif
-
-#ifdef BOOST_MPL_LIMIT_LIST_SIZE
-#pragma push_macro("BOOST_MPL_LIMIT_LIST_SIZE")
-#undef BOOST_MPL_LIMIT_LIST_SIZE
-#define BOOST_MPL_LIMIT_LIST_SIZE_PUSH
-#endif
-
 #include <boost/property_tree/ptree.hpp>
-
-#ifdef BOOST_MPL_LIMIT_VECTOR_SIZE_PUSH
 #pragma pop_macro("BOOST_MPL_LIMIT_VECTOR_SIZE")
-#endif
-
-#ifdef BOOST_MPL_LIMIT_LIST_SIZE_PUSH
-#pragma pop_macro("BOOST_MPL_LIMIT_LIST_SIZE")
+#else
+#include <boost/property_tree/ptree.hpp>
 #endif
 
 #include "boost/assign.hpp"
@@ -271,10 +267,13 @@ public:
     }
     catch(const boost::property_tree::ptree_error &e)
     {
-      DYNAMIC_GRAPH_ENTITY_ERROR(*this) << "Robot utils: parameter path is invalid " << '\n'
+      std::ostringstream oss;
+      oss << "Robot utils: parameter path is invalid " << '\n'
           << " for set_parameter("
           << parameter_name << ")\n"
-          << e.what() << '\n';
+          << e.what() << std::endl;
+      sendMsg(oss.str(),
+              MSG_TYPE_ERROR);
       return;
 
     }
@@ -298,10 +297,13 @@ public:
     }
     catch(const boost::property_tree::ptree_error &e)
     {
-      DYNAMIC_GRAPH_ENTITY_ERROR(*this) << "Robot utils: parameter path is invalid " << '\n'
+      std::ostringstream oss;
+      oss << "Robot utils: parameter path is invalid " << '\n'
           << " for get_parameter("
           << parameter_name << ")\n"
-          << e.what() << '\n';
+          << e.what() << std::endl;
+      sendMsg(oss.str(),
+              MSG_TYPE_ERROR);
     }
   }
   /** @} */

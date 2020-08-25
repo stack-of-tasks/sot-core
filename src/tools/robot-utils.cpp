@@ -5,6 +5,13 @@
  *
  */
 
+/** pinocchio is forcing the BOOST_MPL_LIMIT_VECTOR_SIZE to a specific value.
+    This happen to be not working when including the boost property_tree library.
+    For this reason if defined, the current value of BOOST_MPL_LIMIT_VECTOR_SIZE
+    is saved in the preprocessor stack and unset.
+    Once the property_tree included the pinocchio value of this variable is
+    restored.
+ */
 #ifdef BOOST_MPL_LIMIT_VECTOR_SIZE
 #pragma push_macro("BOOST_MPL_LIMIT_VECTOR_SIZE")
 #undef BOOST_MPL_LIMIT_VECTOR_SIZE
@@ -40,7 +47,9 @@ RobotUtilShrPtr RefVoidRobotUtil() {
 ExtractJointMimics::ExtractJointMimics(std::string & robot_model) {
   // Parsing the model from a string.
   std::istringstream iss(robot_model);
+  /// Read the XML file in the property tree.
   boost::property_tree::read_xml(iss,tree_);
+  /// Start the recursive parsing.
   go_through_full();
 }
 
@@ -50,40 +59,56 @@ ExtractJointMimics::get_mimic_joints() {
 }
 
 void ExtractJointMimics::go_through_full()  {
+  /// Root of the recursive parsing.
   current_joint_name_="";
   go_through(tree_,0,0);
 }
 
 void ExtractJointMimics::go_through(pt::ptree &pt, int level, int stage)
 {
+  /// If pt is empty (i.e. this is a leaf)
   if (pt.empty()) {
+    /// and this is a name of a joint (stage == 3) update the
+    /// curret_joint_name_ variable.
     if (stage==3)
       current_joint_name_=pt.data();
   }
   else {
 
+    /// This is not a leaf
     for (auto pos : pt) {
       int new_stage = stage;
 
+      /// But this is joint
       if (pos.first=="joint")
+        /// the continue the exploration.
         new_stage=1;
       else if (pos.first=="<xmlattr>")
       {
+        /// we are exploring the xml attributes of a joint
+        /// -> continue the exploration
         if (stage==1)
           new_stage=2;
       }
+      /// The xml attribute of the joint is the name
+      /// next leaf is the name we are possibly looking for
       else if (pos.first=="name")
       {
         if (stage==2)
           new_stage=3;
       }
+      /// The exploration of the tree tracback on the joint
+      /// and find that this is a mimic joint.
       else if (pos.first=="mimic")
       {
         if (stage==1)
+          /// Save the current name of the joint
+          /// in mimic_joints.
           mimic_joints_.push_back(current_joint_name_);
       }
       else new_stage=0;
 
+      /// Explore the subtree of the XML robot description.
       go_through(pos.second, level + 1,new_stage);
 
     }
