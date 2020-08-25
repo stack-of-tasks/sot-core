@@ -298,13 +298,10 @@ public:
     }
     catch(const boost::property_tree::ptree_error &e)
     {
-      std::ostringstream oss;
-      oss << "Robot utils: parameter path is invalid " << '\n'
+      DYNAMIC_GRAPH_ENTITY_ERROR(*this) << "Robot utils: parameter path is invalid " << '\n'
           << " for get_parameter("
           << parameter_name << ")\n"
-          << e.what() << std::endl;
-      sendMsg(oss.str(),
-              MSG_TYPE_ERROR);
+          << e.what() << '\n';
     }
   }
   /** @} */
