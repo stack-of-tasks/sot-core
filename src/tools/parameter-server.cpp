@@ -14,6 +14,28 @@
  * with sot-torque-control.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef BOOST_MPL_LIMIT_VECTOR_SIZE
+#pragma push_macro("BOOST_MPL_LIMIT_VECTOR_SIZE")
+#undef BOOST_MPL_LIMIT_VECTOR_SIZE
+#define BOOST_MPL_LIMIT_VECTOR_SIZE_PUSH
+#endif
+
+#ifdef BOOST_MPL_LIMIT_LIST_SIZE
+#pragma push_macro("BOOST_MPL_LIMIT_LIST_SIZE")
+#undef BOOST_MPL_LIMIT_LIST_SIZE
+#define BOOST_MPL_LIMIT_LIST_SIZE_PUSH
+#endif
+
+#include <boost/property_tree/ptree.hpp>
+
+#ifdef BOOST_MPL_LIMIT_VECTOR_SIZE_PUSH
+#pragma pop_macro("BOOST_MPL_LIMIT_VECTOR_SIZE")
+#endif
+
+#ifdef BOOST_MPL_LIMIT_LIST_SIZE_PUSH
+#pragma pop_macro("BOOST_MPL_LIMIT_LIST_SIZE")
+#endif
+
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/factory.h>
 #include <iostream>
@@ -128,20 +150,69 @@ ParameterServer::ParameterServer(const std::string &name)
                  *this, &ParameterServer::displayRobotUtil,
                  docCommandVoid0("Display the current robot util data set.")));
 
+  addCommand("setParameterBool",
+             makeCommandVoid2(
+                 *this, &ParameterServer::setParameter<bool>,
+                 docCommandVoid2("Set a parameter named ParameterName to value "
+                                 "ParameterValue (string format).",
+                                 "(string) ParameterName",
+                                 "(bool) ParameterValue")));
+  addCommand("setParameterInt",
+             makeCommandVoid2(
+                 *this, &ParameterServer::setParameter<int>,
+                 docCommandVoid2("Set a parameter named ParameterName to value "
+                                 "ParameterValue (string format).",
+                                 "(string) ParameterName",
+                                 "(int) ParameterValue")));
+  addCommand("setParameterDbl",
+             makeCommandVoid2(
+                 *this, &ParameterServer::setParameter<double>,
+                 docCommandVoid2("Set a parameter named ParameterName to value "
+                                 "ParameterValue (string format).",
+                                 "(string) ParameterName",
+                                 "(double) ParameterValue")));
+
   addCommand("setParameter",
              makeCommandVoid2(
-                 *this, &ParameterServer::setParameter,
+                 *this, &ParameterServer::setParameter<std::string>,
                  docCommandVoid2("Set a parameter named ParameterName to value "
                                  "ParameterValue (string format).",
                                  "(string) ParameterName",
                                  "(string) ParameterValue")));
 
-  addCommand("getParameter", makeCommandReturnType1(
-                                 *this, &ParameterServer::getParameter,
-                                 docCommandReturnType1<std::string>(
-                                     "Return the parameter value for parameter"
-                                     " named ParameterName.",
-                                     "(string) ParameterName")));
+  addCommand("getParameter",
+             makeCommandReturnType1(
+                 *this, &ParameterServer::getParameter<std::string>,
+                 docCommandReturnType1<std::string>(
+                     "Return the parameter value for parameter"
+                     " named ParameterName.",
+                     "(string) ParameterName")));
+
+  addCommand("getParameterInt",
+             makeCommandReturnType1(
+                 *this, &ParameterServer::getParameter<int>,
+                 docCommandReturnType1<int>(
+                     "Return the parameter value for parameter"
+                     " named ParameterName.",
+                     "(int) ParameterName")));
+
+  addCommand("getParameterDbl",
+             makeCommandReturnType1(
+                 *this, &ParameterServer::getParameter<double>,
+                 docCommandReturnType1<double>(
+                     "Return the parameter value for parameter"
+                     " named ParameterName.",
+                     "(double) ParameterName")));
+
+  addCommand("getParameterBool",
+             makeCommandReturnType1(
+                 *this, &ParameterServer::getParameter<bool>,
+                 docCommandReturnType1<bool>(
+                     "Return the parameter value for parameter"
+                     " named ParameterName.",
+                     "(string) ParameterName")));
+
+
 }
 
 void ParameterServer::init_simple(const double &dt) {
@@ -340,29 +411,7 @@ bool ParameterServer::isJointInRange(unsigned int id, double q) {
   return true;
 }
 
-void ParameterServer::setParameter(const std::string &ParameterName,
-                                   const std::string &ParameterValue) {
 
-  if (!m_initSucceeded) {
-    SEND_WARNING_STREAM_MSG("Cannot set parameter " + ParameterName + " to " +
-                            ParameterValue + " before initialization!");
-    return;
-  }
-  m_robot_util->set_parameter(ParameterName, ParameterValue);
-}
-
-std::string ParameterServer::getParameter(const std::string &ParameterName) {
-  std::string ParameterValue("");
-
-  if (!m_initSucceeded) {
-    SEND_WARNING_STREAM_MSG("Cannot get parameter " + ParameterName +
-                            " before initialization!");
-    return ParameterValue;
-  }
-  ParameterValue = m_robot_util->get_parameter(ParameterName);
-
-  return ParameterValue;
-}
 
 /* ------------------------------------------------------------------- */
 /* --- ENTITY -------------------------------------------------------- */

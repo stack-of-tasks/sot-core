@@ -5,27 +5,91 @@
  *
  */
 
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
+#ifdef BOOST_MPL_LIMIT_VECTOR_SIZE
+#pragma push_macro("BOOST_MPL_LIMIT_VECTOR_SIZE")
+#undef BOOST_MPL_LIMIT_VECTOR_SIZE
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+#pragma pop_macro("BOOST_MPL_LIMIT_VECTOR_SIZE")
+#else
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+#endif
+
 #include <dynamic-graph/factory.h>
 #include <iostream>
+#include <sstream>
 #include <sot/core/debug.hh>
 #include <sot/core/robot-utils.hh>
 
 namespace dynamicgraph {
 namespace sot {
 namespace dg = ::dynamicgraph;
+namespace pt = boost::property_tree;
 using namespace dg;
 using namespace dg::command;
 
-RobotUtil VoidRobotUtil;
 ForceLimits VoidForceLimits;
 JointLimits VoidJointLimits;
 Index VoidIndex(-1);
 
 RobotUtilShrPtr RefVoidRobotUtil() {
-  return boost::make_shared<RobotUtil>(VoidRobotUtil);
+  return std::shared_ptr<RobotUtil>(nullptr);
 }
+
+ExtractJointMimics::ExtractJointMimics(std::string & robot_model) {
+  // Parsing the model from a string.
+  std::istringstream iss(robot_model);
+  boost::property_tree::read_xml(iss,tree_);
+  go_through_full();
+}
+
+const std::vector<std::string> &
+ExtractJointMimics::get_mimic_joints() {
+  return mimic_joints_;
+}
+
+void ExtractJointMimics::go_through_full()  {
+  current_joint_name_="";
+  go_through(tree_,0,0);
+}
+
+void ExtractJointMimics::go_through(pt::ptree &pt, int level, int stage)
+{
+  if (pt.empty()) {
+    if (stage==3)
+      current_joint_name_=pt.data();
+  }
+  else {
+
+    for (auto pos : pt) {
+      int new_stage = stage;
+
+      if (pos.first=="joint")
+        new_stage=1;
+      else if (pos.first=="<xmlattr>")
+      {
+        if (stage==1)
+          new_stage=2;
+      }
+      else if (pos.first=="name")
+      {
+        if (stage==2)
+          new_stage=3;
+      }
+      else if (pos.first=="mimic")
+      {
+        if (stage==1)
+          mimic_joints_.push_back(current_joint_name_);
+      }
+      else new_stage=0;
+
+      go_through(pos.second, level + 1,new_stage);
+
+    }
+  }
+}
+
 
 void ForceLimits::display(std::ostream &os) const {
   os << "Lower limits:" << std::endl;
@@ -366,15 +430,6 @@ void RobotUtil::sendMsg(const std::string &msg, MsgType t,
   logger_.sendMsg("[RobotUtil]" + msg, t, lineId);
 }
 
-void RobotUtil::set_parameter(const std::string &parameter_name,
-                              const std::string &parameter_value) {
-  parameters_strings_[parameter_name] = parameter_value;
-}
-
-const std::string &RobotUtil::get_parameter(const std::string &parameter_name) {
-  return parameters_strings_[parameter_name];
-}
-
 bool base_se3_to_sot(ConstRefVector pos, ConstRefMatrix R, RefVector q_sot) {
   assert(q_sot.size() == 6);
   assert(pos.size() == 3);
@@ -436,7 +491,7 @@ bool base_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf) {
   return true;
 }
 
-std::map<std::string, RobotUtilShrPtr> sgl_map_name_to_robot_util;
+static std::map<std::string, RobotUtilShrPtr> sgl_map_name_to_robot_util;
 
 std::shared_ptr<std::vector<std::string> > getListOfRobots() {
   std::shared_ptr<std::vector<std::string> > res =
@@ -469,11 +524,12 @@ bool isNameInRobotUtil(std::string &robotName) {
 }
 
 RobotUtilShrPtr createRobotUtil(std::string &robotName) {
+
   std::map<std::string, RobotUtilShrPtr>::iterator it =
       sgl_map_name_to_robot_util.find(robotName);
   if (it == sgl_map_name_to_robot_util.end()) {
     sgl_map_name_to_robot_util[robotName] =
-        boost::shared_ptr<RobotUtil>(new RobotUtil);
+        std::make_shared<RobotUtil>();
     it = sgl_map_name_to_robot_util.find(robotName);
     return it->second;
   }

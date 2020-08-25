@@ -25,6 +25,7 @@ from os.path import dirname, join, abspath
 
 
 class TestParameterServer(unittest.TestCase):
+
     def test_set_parameter(self):
         # Read talos model
         path = join(
@@ -40,11 +41,15 @@ class TestParameterServer(unittest.TestCase):
         urdf_rrbot_model_string = fs.read()
         fs.close()
 
-        param_server.setParameter("urdf_model", urdf_rrbot_model_string)
-        model2_string = param_server.getParameter("urdf_model")
+        param_server.setParameter("/robot_description", urdf_rrbot_model_string)
+        model2_string = param_server.getParameter("/robot_description")
 
         self.assertEqual(urdf_rrbot_model_string, model2_string)
 
-
+        aValue=0.122
+        param_server.setParameterDbl("/specificities/feet/right/size/height",aValue)
+        a2Value = param_server.getParameterDbl("/specificities/feet/right/size/height")
+        self.assertEqual(aValue,a2Value)
+                        
 if __name__ == '__main__':
     unittest.main()
