@@ -105,11 +105,8 @@ public:
                     const Type &ParameterValue)
   {
     if (!m_initSucceeded) {
-      std::ostringstream oss;
-      oss << ParameterValue;
-      SEND_WARNING_STREAM_MSG("Cannot set parameter " + ParameterName + " to " +
-                              oss.str().c_str() +
-                              " before initialization!");
+      DYNAMIC_GRAPH_ENTITY_WARNING(*this) << "Cannot set parameter " << ParameterName
+        << " to " << ParameterValue << " before initialization!\n";
       return;
     }
 
