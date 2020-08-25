@@ -104,25 +104,21 @@ IF(UNIX)
   ADD_LIBRARY(pluginabstract SHARED tools/plugin.cc)
 
   ADD_EXECUTABLE(test_abstract_interface tools/test_abstract_interface.cpp)
-  TARGET_LINK_LIBRARIES(test_abstract_interface
-    pluginabstract ${CMAKE_DL_LIBS} ${Boost_LIBRARIES})
-  TARGET_INCLUDE_DIRECTORIES(test_abstract_interface
-    SYSTEM PUBLIC ${Boost_INCLUDE_DIRS})
-
+  TARGET_LINK_LIBRARIES(test_abstract_interface PRIVATE
+    Boost::program_options
+    pluginabstract ${CMAKE_DL_LIBS})
 ENDIF(UNIX)
 
 FOREACH(path ${tests})
   GET_FILENAME_COMPONENT(test ${path} NAME)
   ADD_UNIT_TEST(${test} ${path}.cpp)
 
-  TARGET_LINK_LIBRARIES(${test}
-    PUBLIC
-    ${PROJECT_NAME}
-    ${TEST_${test}_LIBS} ${TEST_${test}_EXT_LIBS}
-    dynamic-graph::dynamic-graph)
+  TARGET_LINK_LIBRARIES(${test} PRIVATE ${PROJECT_NAME}
+    Boost::unit_test_framework
+    ${TEST_${test}_LIBS} ${TEST_${test}_EXT_LIBS})
 
   IF(UNIX)
-    TARGET_LINK_LIBRARIES(${test} PUBLIC ${CMAKE_DL_LIBS})
+    TARGET_LINK_LIBRARIES(${test} PRIVATE ${CMAKE_DL_LIBS})
   ENDIF(UNIX)
 ENDFOREACH(path ${tests})
 
