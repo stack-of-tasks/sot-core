@@ -35,7 +35,6 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#include <sstream>
 #include "boost/assign.hpp"
 #include <dynamic-graph/signal-helper.h>
 #include <map>
