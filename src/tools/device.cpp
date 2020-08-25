@@ -202,10 +202,6 @@ Device::Device(const std::string &n)
                command::makeDirectGetter(
                    *this, &this->timestep_,
                    command::docDirectGetter("Time step", "double")));
-
-    // Handle commands and signals called in a synchronous way.
-    periodicCallBefore_.addSpecificCommands(*this, commandMap, "before.");
-    periodicCallAfter_.addSpecificCommands(*this, commandMap, "after.");
   }
 }
 

@@ -40,17 +40,16 @@
 namespace dynamicgraph {
 namespace sot {
 
-class SOTVECTORTOROTATION_EXPORT VectorToRotation
-    : public dynamicgraph::Entity {
-  static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
-
+class SOTVECTORTOROTATION_EXPORT VectorToRotation : public dynamicgraph::Entity {
   enum sotAxis { AXIS_X, AXIS_Y, AXIS_Z };
 
   unsigned int size;
   std::vector<sotAxis> axes;
 
 public:
+  static const std::string CLASS_NAME;
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+
   VectorToRotation(const std::string &name);
 
   virtual ~VectorToRotation(void) {}

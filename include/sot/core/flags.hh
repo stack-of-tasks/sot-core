@@ -19,6 +19,7 @@
 #include <vector>
 
 /* SOT */
+#include <dynamic-graph/signal-caster.h>
 #include "sot/core/api.hh"
 
 /* --------------------------------------------------------------------- */
@@ -81,6 +82,8 @@ SOT_CORE_EXPORT extern const Flags FLAG_LINE_7;
 SOT_CORE_EXPORT extern const Flags FLAG_LINE_8;
 
 } // namespace sot
+
+template <> struct signal_io<sot::Flags> : signal_io_unimplemented<sot::Flags> {};
 } // namespace dynamicgraph
 
 #endif /* #ifndef __SOT_FLAGS_H */

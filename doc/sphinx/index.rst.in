@@ -46,9 +46,6 @@ Entities
 .. autoclass:: dynamic_graph.sot.core.task.Task
    :members:
 
-.. autoclass:: dynamic_graph.sot.core.constraint.Constraint
-   :members:
-
 .. autoclass:: dynamic_graph.sot.core.gain_adaptive.GainAdaptive
    :members:
 

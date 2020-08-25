@@ -43,7 +43,6 @@ SET(plugins
   tools/event
   tools/time-stamp
   tools/timer
-  tools/seq-play
   tools/sequencer
   tools/robot-simu
   tools/motion-period
@@ -105,13 +104,22 @@ FOREACH(plugin ${plugins})
 
   IF(BUILD_PYTHON_INTERFACE)
     STRING(REPLACE - _ PYTHON_LIBRARY_NAME ${LIBRARY_NAME})
-    DYNAMIC_GRAPH_PYTHON_MODULE("${PYTHON_DIR}/${PYTHON_LIBRARY_NAME}"
-      ${LIBRARY_NAME} ${PROJECT_NAME}-${PYTHON_LIBRARY_NAME}-wrap)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${plugin}-python-module-py.cc")
+      DYNAMIC_GRAPH_PYTHON_MODULE("${PYTHON_DIR}/${PYTHON_LIBRARY_NAME}"
+        ${LIBRARY_NAME} ${PROJECT_NAME}-${PYTHON_LIBRARY_NAME}-wrap
+        SOURCE_PYTHON_MODULE "${CMAKE_CURRENT_SOURCE_DIR}/${plugin}-python-module-py.cc")
+    else()
+      DYNAMIC_GRAPH_PYTHON_MODULE("${PYTHON_DIR}/${PYTHON_LIBRARY_NAME}"
+        ${LIBRARY_NAME} ${PROJECT_NAME}-${PYTHON_LIBRARY_NAME}-wrap
+        MODULE_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/${plugin}-python.h")
+    endif()
   ENDIF(BUILD_PYTHON_INTERFACE)
 ENDFOREACH(plugin)
 
 IF(BUILD_PYTHON_INTERFACE)
-  DYNAMIC_GRAPH_PYTHON_MODULE(${PYTHON_DIR} ${PROJECT_NAME} wrap)
+  DYNAMIC_GRAPH_PYTHON_MODULE("${PYTHON_DIR}"
+    ${PROJECT_NAME} ${PROJECT_NAME}-wrap
+    SOURCE_PYTHON_MODULE "${CMAKE_CURRENT_SOURCE_DIR}/python-module.cc")
 
   INSTALL(FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_graph/sot/__init__.py
