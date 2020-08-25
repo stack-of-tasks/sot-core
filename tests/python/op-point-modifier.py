@@ -7,21 +7,16 @@ import unittest
 import numpy as np
 from dynamic_graph.sot.core.op_point_modifier import OpPointModifier
 
-gaze = tuple(((1.0, 0.0, 0.0, 0.025000000000000001), (0.0, 1.0, 0.0, 0.0),
-              (0.0, 0.0, 1.0, 0.64800000000000002), (0.0, 0.0, 0.0, 1.0)))
+gaze = np.array((((1.0, 0.0, 0.0, 0.025), (0.0, 1.0, 0.0, 0.0), (0.0, 0.0, 1.0, 0.648), (0.0, 0.0, 0.0, 1.0))))
 
-Jgaze = tuple(
-    ((1.0, 0.0, 0.0, 0.0, 0.64800000000000002,
-      0.0), (0.0, 1.0, 0.0, -0.64800000000000002, 0.0,
-             0.025000000000000001), (0.0, 0.0, 1.0, 0.0, -0.025000000000000001,
-                                     0.0), (0.0, 0.0, 0.0, 1.0, 0.0, 0.0),
-     (0.0, 0.0, 0.0, 0.0, 1.0, 0.0), (0.0, 0.0, 0.0, 0.0, 0.0, 1.0)))
+Jgaze = np.array(
+    (((1.0, 0.0, 0.0, 0.0, 0.648, 0.0), (0.0, 1.0, 0.0, -0.648, 0.0, 0.025), (0.0, 0.0, 1.0, 0.0, -0.025, 0.0),
+      (0.0, 0.0, 0.0, 1.0, 0.0, 0.0), (0.0, 0.0, 0.0, 0.0, 1.0, 0.0), (0.0, 0.0, 0.0, 0.0, 0.0, 1.0))))
 
-I4 = ((1., 0., 0., 0.), (0., 1., 0., 0.), (0., 0., 1., 0.), (0., 0., 0., 1.))
+I4 = np.array(((1., 0., 0., 0.), (0., 1., 0., 0.), (0., 0., 1., 0.), (0., 0., 0., 1.)))
 
-I6 = ((1., 0., 0., 0., 0., 0.), (0., 1., 0., 0., 0., 0.),
-      (0., 0., 1., 0., 0., 0.), (0., 0., 0., 1., 0., 0.),
-      (0., 0., 0., 0., 1., 0.), (0., 0., 0., 0., 0., 1.))
+I6 = np.array(((1., 0., 0., 0., 0., 0.), (0., 1., 0., 0., 0., 0.), (0., 0., 1., 0., 0., 0.), (0., 0., 0., 1., 0., 0.),
+               (0., 0., 0., 0., 1., 0.), (0., 0., 0., 0., 0., 1.)))
 
 
 class OpPointModifierTest(unittest.TestCase):
@@ -33,17 +28,16 @@ class OpPointModifierTest(unittest.TestCase):
         op.position.recompute(0)
         op.jacobian.recompute(0)
 
-        self.assertEqual(op.getTransformation(), I4)
-        self.assertEqual(op.position.value, I4)
-        self.assertEqual(op.jacobian.value, I6)
+        self.assertTrue((op.getTransformation() == I4).all())
+        self.assertTrue((op.position.value == I4).all())
+        self.assertTrue((op.jacobian.value == I6).all())
 
     def test_translation(self):
         tx = 11.
         ty = 22.
         tz = 33.
 
-        T = ((1., 0., 0., tx), (0., 1., 0., ty), (0., 0., 1., tz), (0., 0., 0.,
-                                                                    1.))
+        T = np.array(((1., 0., 0., tx), (0., 1., 0., ty), (0., 0., 1., tz), (0., 0., 0., 1.)))
 
         op = OpPointModifier('op2')
         op.setTransformation(T)
@@ -52,31 +46,28 @@ class OpPointModifierTest(unittest.TestCase):
         op.position.recompute(1)
         op.jacobian.recompute(1)
 
-        self.assertEqual(op.getTransformation(), T)
+        self.assertTrue((op.getTransformation() == T).all())
 
         # w_M_s = w_M_g * g_M_s
-        w_M_g = np.asmatrix(gaze)
-        g_M_s = np.asmatrix(T)
-        w_M_s_ref = w_M_g * g_M_s
-        w_M_s = np.asmatrix(op.position.value)
+        w_M_g = gaze
+        g_M_s = T
+        w_M_s_ref = w_M_g.dot(g_M_s)
+        w_M_s = op.position.value
 
         # Check w_M_s == w_M_s_ref
-        self.assertEqual(np.equal(w_M_s, w_M_s_ref).all(), True)
+        self.assertTrue((w_M_s == w_M_s_ref).all())
 
-        twist = np.matrix([[1., 0., 0., 0., tz,
-                            -ty], [0., 1., 0., -tz, 0., tx],
-                           [0., 0., 1., ty, -tx, 0.], [0., 0., 0., 1., 0., 0.],
-                           [0., 0., 0., 0., 1., 0.], [0., 0., 0., 0., 0., 1.]])
+        twist = np.array([[1., 0., 0., 0., tz, -ty], [0., 1., 0., -tz, 0., tx], [0., 0., 1., ty, -tx, 0.],
+                          [0., 0., 0., 1., 0., 0.], [0., 0., 0., 0., 1., 0.], [0., 0., 0., 0., 0., 1.]])
 
-        J = np.asmatrix(op.jacobian.value)
-        J_ref = twist * Jgaze
+        J = op.jacobian.value
+        J_ref = twist.dot(Jgaze)
 
         # Check w_M_s == w_M_s_ref
-        self.assertEqual(np.equal(J, J_ref).all(), True)
+        self.assertTrue((J == J_ref).all())
 
     def test_rotation(self):
-        T = ((0., 0., 1., 0.), (0., -1., 0., 0.), (1., 0., 0., 0.), (0., 0.,
-                                                                     0., 1.))
+        T = np.array(((0., 0., 1., 0.), (0., -1., 0., 0.), (1., 0., 0., 0.), (0., 0., 0., 1.)))
 
         op = OpPointModifier('op3')
         op.setTransformation(T)
@@ -85,35 +76,32 @@ class OpPointModifierTest(unittest.TestCase):
         op.position.recompute(1)
         op.jacobian.recompute(1)
 
-        self.assertEqual(op.getTransformation(), T)
+        self.assertTrue((op.getTransformation() == T).all())
 
         # w_M_s = w_M_g * g_M_s
-        w_M_g = np.asmatrix(gaze)
-        g_M_s = np.asmatrix(T)
-        w_M_s_ref = w_M_g * g_M_s
-        w_M_s = np.asmatrix(op.position.value)
+        w_M_g = gaze
+        g_M_s = T
+        w_M_s_ref = w_M_g.dot(g_M_s)
+        w_M_s = op.position.value
 
         # Check w_M_s == w_M_s_ref
-        self.assertEqual(np.equal(w_M_s, w_M_s_ref).all(), True)
+        self.assertTrue((w_M_s == w_M_s_ref).all())
 
-        twist = np.matrix([[0., 0., 1., 0., 0., 0.], [0., -1., 0., 0., 0., 0.],
-                           [1., 0., 0., 0., 0., 0.], [0., 0., 0., 0., 0., 1.],
-                           [0., 0., 0., 0., -1., 0.], [0., 0., 0., 1., 0.,
-                                                       0.]])
+        twist = np.array([[0., 0., 1., 0., 0., 0.], [0., -1., 0., 0., 0., 0.], [1., 0., 0., 0., 0., 0.],
+                          [0., 0., 0., 0., 0., 1.], [0., 0., 0., 0., -1., 0.], [0., 0., 0., 1., 0., 0.]])
 
-        J = np.asmatrix(op.jacobian.value)
-        J_ref = twist * Jgaze
+        J = op.jacobian.value
+        J_ref = twist.dot(Jgaze)
 
         # Check w_M_s == w_M_s_ref
-        self.assertEqual(np.equal(J, J_ref).all(), True)
+        self.assertTrue((J == J_ref).all())
 
     def test_rotation_translation(self):
         tx = 11.
         ty = 22.
         tz = 33.
 
-        T = ((0., 0., 1., tx), (0., -1., 0., ty), (1., 0., 0., tz), (0., 0.,
-                                                                     0., 1.))
+        T = np.array(((0., 0., 1., tx), (0., -1., 0., ty), (1., 0., 0., tz), (0., 0., 0., 1.)))
 
         op = OpPointModifier('op4')
         op.setTransformation(T)
@@ -122,27 +110,25 @@ class OpPointModifierTest(unittest.TestCase):
         op.position.recompute(1)
         op.jacobian.recompute(1)
 
-        self.assertEqual(op.getTransformation(), T)
+        self.assertTrue((op.getTransformation() == T).all())
 
         # w_M_s = w_M_g * g_M_s
-        w_M_g = np.asmatrix(gaze)
-        g_M_s = np.asmatrix(T)
-        w_M_s_ref = w_M_g * g_M_s
-        w_M_s = np.asmatrix(op.position.value)
+        w_M_g = gaze
+        g_M_s = T
+        w_M_s_ref = w_M_g.dot(g_M_s)
+        w_M_s = op.position.value
 
         # Check w_M_s == w_M_s_ref
-        self.assertEqual(np.equal(w_M_s, w_M_s_ref).all(), True)
+        self.assertTrue((w_M_s == w_M_s_ref).all())
 
-        twist = np.matrix(
-            [[0., 0., 1., ty, -tx, 0.], [0., -1., 0., tz, 0., -tx],
-             [1., 0., 0., 0., tz, -ty], [0., 0., 0., 0., 0., 1.],
-             [0., 0., 0., 0., -1., 0.], [0., 0., 0., 1., 0., 0.]])
+        twist = np.array([[0., 0., 1., ty, -tx, 0.], [0., -1., 0., tz, 0., -tx], [1., 0., 0., 0., tz, -ty],
+                          [0., 0., 0., 0., 0., 1.], [0., 0., 0., 0., -1., 0.], [0., 0., 0., 1., 0., 0.]])
 
-        J = np.asmatrix(op.jacobian.value)
-        J_ref = twist * Jgaze
+        J = op.jacobian.value
+        J_ref = twist.dot(Jgaze)
 
         # Check w_M_s == w_M_s_ref
-        self.assertEqual(np.equal(J, J_ref).all(), True)
+        self.assertTrue((J == J_ref).all())
 
 
 if __name__ == '__main__':
