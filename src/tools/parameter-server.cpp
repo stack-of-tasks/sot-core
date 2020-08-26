@@ -15,9 +15,9 @@
  */
 
 /** pinocchio is forcing the BOOST_MPL_LIMIT_VECTOR_SIZE to a specific value.
-    This happen to be not working when including the boost property_tree library.
-    For this reason if defined, the current value of BOOST_MPL_LIMIT_VECTOR_SIZE
-    is saved in the preprocessor stack and unset.
+    This happen to be not working when including the boost property_tree
+   library. For this reason if defined, the current value of
+   BOOST_MPL_LIMIT_VECTOR_SIZE is saved in the preprocessor stack and unset.
     Once the property_tree included the pinocchio value of this variable is
     restored.
  */
@@ -145,20 +145,20 @@ ParameterServer::ParameterServer(const std::string &name)
                  *this, &ParameterServer::displayRobotUtil,
                  docCommandVoid0("Display the current robot util data set.")));
 
-  addCommand("setParameterBool",
-             makeCommandVoid2(
-                 *this, &ParameterServer::setParameter<bool>,
-                 docCommandVoid2("Set a parameter named ParameterName to value "
-                                 "ParameterValue (string format).",
-                                 "(string) ParameterName",
-                                 "(bool) ParameterValue")));
-  addCommand("setParameterInt",
-             makeCommandVoid2(
-                 *this, &ParameterServer::setParameter<int>,
-                 docCommandVoid2("Set a parameter named ParameterName to value "
-                                 "ParameterValue (string format).",
-                                 "(string) ParameterName",
-                                 "(int) ParameterValue")));
+  addCommand(
+      "setParameterBool",
+      makeCommandVoid2(
+          *this, &ParameterServer::setParameter<bool>,
+          docCommandVoid2("Set a parameter named ParameterName to value "
+                          "ParameterValue (string format).",
+                          "(string) ParameterName", "(bool) ParameterValue")));
+  addCommand(
+      "setParameterInt",
+      makeCommandVoid2(
+          *this, &ParameterServer::setParameter<int>,
+          docCommandVoid2("Set a parameter named ParameterName to value "
+                          "ParameterValue (string format).",
+                          "(string) ParameterName", "(int) ParameterValue")));
   addCommand("setParameterDbl",
              makeCommandVoid2(
                  *this, &ParameterServer::setParameter<double>,
@@ -175,39 +175,37 @@ ParameterServer::ParameterServer(const std::string &name)
                                  "(string) ParameterName",
                                  "(string) ParameterValue")));
 
-  addCommand("getParameter",
-             makeCommandReturnType1(
-                 *this, &ParameterServer::getParameter<std::string>,
-                 docCommandReturnType1<std::string>(
-                     "Return the parameter value for parameter"
-                     " named ParameterName.",
-                     "(string) ParameterName")));
+  addCommand(
+      "getParameter",
+      makeCommandReturnType1(*this, &ParameterServer::getParameter<std::string>,
+                             docCommandReturnType1<std::string>(
+                                 "Return the parameter value for parameter"
+                                 " named ParameterName.",
+                                 "(string) ParameterName")));
 
-  addCommand("getParameterInt",
-             makeCommandReturnType1(
-                 *this, &ParameterServer::getParameter<int>,
-                 docCommandReturnType1<int>(
-                     "Return the parameter value for parameter"
-                     " named ParameterName.",
-                     "(int) ParameterName")));
+  addCommand(
+      "getParameterInt",
+      makeCommandReturnType1(
+          *this, &ParameterServer::getParameter<int>,
+          docCommandReturnType1<int>("Return the parameter value for parameter"
+                                     " named ParameterName.",
+                                     "(int) ParameterName")));
 
-  addCommand("getParameterDbl",
-             makeCommandReturnType1(
-                 *this, &ParameterServer::getParameter<double>,
-                 docCommandReturnType1<double>(
-                     "Return the parameter value for parameter"
-                     " named ParameterName.",
-                     "(double) ParameterName")));
+  addCommand(
+      "getParameterDbl",
+      makeCommandReturnType1(*this, &ParameterServer::getParameter<double>,
+                             docCommandReturnType1<double>(
+                                 "Return the parameter value for parameter"
+                                 " named ParameterName.",
+                                 "(double) ParameterName")));
 
-  addCommand("getParameterBool",
-             makeCommandReturnType1(
-                 *this, &ParameterServer::getParameter<bool>,
-                 docCommandReturnType1<bool>(
-                     "Return the parameter value for parameter"
-                     " named ParameterName.",
-                     "(string) ParameterName")));
-
-
+  addCommand(
+      "getParameterBool",
+      makeCommandReturnType1(
+          *this, &ParameterServer::getParameter<bool>,
+          docCommandReturnType1<bool>("Return the parameter value for parameter"
+                                      " named ParameterName.",
+                                      "(string) ParameterName")));
 }
 
 void ParameterServer::init_simple(const double &dt) {
@@ -405,8 +403,6 @@ bool ParameterServer::isJointInRange(unsigned int id, double q) {
   }
   return true;
 }
-
-
 
 /* ------------------------------------------------------------------- */
 /* --- ENTITY -------------------------------------------------------- */

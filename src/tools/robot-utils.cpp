@@ -6,9 +6,9 @@
  */
 
 /** pinocchio is forcing the BOOST_MPL_LIMIT_VECTOR_SIZE to a specific value.
-    This happen to be not working when including the boost property_tree library.
-    For this reason if defined, the current value of BOOST_MPL_LIMIT_VECTOR_SIZE
-    is saved in the preprocessor stack and unset.
+    This happen to be not working when including the boost property_tree
+   library. For this reason if defined, the current value of
+   BOOST_MPL_LIMIT_VECTOR_SIZE is saved in the preprocessor stack and unset.
     Once the property_tree included the pinocchio value of this variable is
     restored.
  */
@@ -25,9 +25,9 @@
 
 #include <dynamic-graph/factory.h>
 #include <iostream>
-#include <sstream>
 #include <sot/core/debug.hh>
 #include <sot/core/robot-utils.hh>
+#include <sstream>
 
 namespace dynamicgraph {
 namespace sot {
@@ -44,77 +44,69 @@ RobotUtilShrPtr RefVoidRobotUtil() {
   return std::shared_ptr<RobotUtil>(nullptr);
 }
 
-ExtractJointMimics::ExtractJointMimics(std::string & robot_model) {
+ExtractJointMimics::ExtractJointMimics(std::string &robot_model) {
   // Parsing the model from a string.
   std::istringstream iss(robot_model);
   /// Read the XML file in the property tree.
-  boost::property_tree::read_xml(iss,tree_);
+  boost::property_tree::read_xml(iss, tree_);
   /// Start the recursive parsing.
   go_through_full();
 }
 
-const std::vector<std::string> &
-ExtractJointMimics::get_mimic_joints() {
+const std::vector<std::string> &ExtractJointMimics::get_mimic_joints() {
   return mimic_joints_;
 }
 
-void ExtractJointMimics::go_through_full()  {
+void ExtractJointMimics::go_through_full() {
   /// Root of the recursive parsing.
-  current_joint_name_="";
-  go_through(tree_,0,0);
+  current_joint_name_ = "";
+  go_through(tree_, 0, 0);
 }
 
-void ExtractJointMimics::go_through(pt::ptree &pt, int level, int stage)
-{
+void ExtractJointMimics::go_through(pt::ptree &pt, int level, int stage) {
   /// If pt is empty (i.e. this is a leaf)
   if (pt.empty()) {
     /// and this is a name of a joint (stage == 3) update the
     /// curret_joint_name_ variable.
-    if (stage==3)
-      current_joint_name_=pt.data();
-  }
-  else {
+    if (stage == 3)
+      current_joint_name_ = pt.data();
+  } else {
 
     /// This is not a leaf
     for (auto pos : pt) {
       int new_stage = stage;
 
       /// But this is joint
-      if (pos.first=="joint")
+      if (pos.first == "joint")
         /// the continue the exploration.
-        new_stage=1;
-      else if (pos.first=="<xmlattr>")
-      {
+        new_stage = 1;
+      else if (pos.first == "<xmlattr>") {
         /// we are exploring the xml attributes of a joint
         /// -> continue the exploration
-        if (stage==1)
-          new_stage=2;
+        if (stage == 1)
+          new_stage = 2;
       }
       /// The xml attribute of the joint is the name
       /// next leaf is the name we are possibly looking for
-      else if (pos.first=="name")
-      {
-        if (stage==2)
-          new_stage=3;
+      else if (pos.first == "name") {
+        if (stage == 2)
+          new_stage = 3;
       }
       /// The exploration of the tree tracback on the joint
       /// and find that this is a mimic joint.
-      else if (pos.first=="mimic")
-      {
-        if (stage==1)
+      else if (pos.first == "mimic") {
+        if (stage == 1)
           /// Save the current name of the joint
           /// in mimic_joints.
           mimic_joints_.push_back(current_joint_name_);
-      }
-      else new_stage=0;
+      } else
+        new_stage = 0;
 
       /// Explore the subtree of the XML robot description.
-      go_through(pos.second, level + 1,new_stage);
-
+      go_through(pos.second, level + 1, new_stage);
     }
   }
 }
-
 
 void ForceLimits::display(std::ostream &os) const {
   os << "Lower limits:" << std::endl;
@@ -553,8 +545,7 @@ RobotUtilShrPtr createRobotUtil(std::string &robotName) {
   std::map<std::string, RobotUtilShrPtr>::iterator it =
       sgl_map_name_to_robot_util.find(robotName);
   if (it == sgl_map_name_to_robot_util.end()) {
-    sgl_map_name_to_robot_util[robotName] =
-        std::make_shared<RobotUtil>();
+    sgl_map_name_to_robot_util[robotName] = std::make_shared<RobotUtil>();
     it = sgl_map_name_to_robot_util.find(robotName);
     return it->second;
   }

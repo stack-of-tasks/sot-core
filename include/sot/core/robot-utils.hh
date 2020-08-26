@@ -13,9 +13,9 @@
 /* --------------------------------------------------------------------- */
 
 /** pinocchio is forcing the BOOST_MPL_LIMIT_VECTOR_SIZE to a specific value.
-    This happen to be not working when including the boost property_tree library.
-    For this reason if defined, the current value of BOOST_MPL_LIMIT_VECTOR_SIZE
-    is saved in the preprocessor stack and unset.
+    This happen to be not working when including the boost property_tree
+   library. For this reason if defined, the current value of
+   BOOST_MPL_LIMIT_VECTOR_SIZE is saved in the preprocessor stack and unset.
     Once the property_tree included the pinocchio value of this variable is
     restored.
  */
@@ -54,20 +54,19 @@ class SOT_CORE_EXPORT ExtractJointMimics {
 
 public:
   /// Constructor
-  ExtractJointMimics(std::string & robot_model);
+  ExtractJointMimics(std::string &robot_model);
 
   /// Get mimic joints.
-  const std::vector<std::string>  &get_mimic_joints();
+  const std::vector<std::string> &get_mimic_joints();
 
 private:
-  void go_through(boost::property_tree::ptree &pt,int level, int stage);
+  void go_through(boost::property_tree::ptree &pt, int level, int stage);
 
   // Create empty property tree object
   boost::property_tree::ptree tree_;
   std::vector<std::string> mimic_joints_;
   std::string current_joint_name_;
   void go_through_full();
-
 };
 
 struct SOT_CORE_EXPORT ForceLimits {
@@ -255,29 +254,21 @@ public:
       If parameter_name already exists the value is overwritten.
       If not it is inserted.
    */
-  template < typename Type>
+  template <typename Type>
   void set_parameter(const std::string &parameter_name,
-                     const Type &parameter_value)
-  {
-    try
-    {
+                     const Type &parameter_value) {
+    try {
       typedef boost::property_tree::ptree::path_type path;
-      path apath(parameter_name,'/');
-      property_tree_.put<Type>(apath,parameter_value);
-    }
-    catch(const boost::property_tree::ptree_error &e)
-    {
+      path apath(parameter_name, '/');
+      property_tree_.put<Type>(apath, parameter_value);
+    } catch (const boost::property_tree::ptree_error &e) {
       std::ostringstream oss;
       oss << "Robot utils: parameter path is invalid " << '\n'
-          << " for set_parameter("
-          << parameter_name << ")\n"
+          << " for set_parameter(" << parameter_name << ")\n"
           << e.what() << std::endl;
-      sendMsg(oss.str(),
-              MSG_TYPE_ERROR);
+      sendMsg(oss.str(), MSG_TYPE_ERROR);
       return;
-
     }
-
   }
 
   /** \brief Get a parameter of type string.
@@ -287,29 +278,24 @@ public:
       Return false if the parameter is not found.
    */
   template <typename Type>
-  Type get_parameter(const std::string &parameter_name)
-  {
+  Type get_parameter(const std::string &parameter_name) {
     try {
-      boost::property_tree::ptree::path_type apath(parameter_name,'/');
-      const Type & res= property_tree_.get<Type>(apath);
+      boost::property_tree::ptree::path_type apath(parameter_name, '/');
+      const Type &res = property_tree_.get<Type>(apath);
 
       return res;
-    }
-    catch(const boost::property_tree::ptree_error &e)
-    {
+    } catch (const boost::property_tree::ptree_error &e) {
       std::ostringstream oss;
       oss << "Robot utils: parameter path is invalid " << '\n'
-          << " for get_parameter("
-          << parameter_name << ")\n"
+          << " for get_parameter(" << parameter_name << ")\n"
           << e.what() << std::endl;
-      sendMsg(oss.str(),
-              MSG_TYPE_ERROR);
+      sendMsg(oss.str(), MSG_TYPE_ERROR);
     }
   }
   /** @} */
 
   /** Access to property tree directly */
-  boost::property_tree::ptree & get_property_tree();
+  boost::property_tree::ptree &get_property_tree();
 
 protected:
   Logger logger_;

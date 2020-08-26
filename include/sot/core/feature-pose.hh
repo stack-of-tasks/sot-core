@@ -168,8 +168,8 @@ Vector6d convertVelocity(const MatrixHomogeneous &M,
                          const MatrixHomogeneous &Mdes,
                          const Vector &faNufafbDes);
 
-template<> const std::string FeaturePose<SE3Representation>::CLASS_NAME;
-template<> const std::string FeaturePose<R3xSO3Representation>::CLASS_NAME;
+template <> const std::string FeaturePose<SE3Representation>::CLASS_NAME;
+template <> const std::string FeaturePose<R3xSO3Representation>::CLASS_NAME;
 
 #if __cplusplus >= 201103L
 extern template class SOT_CORE_DLLAPI FeaturePose<SE3Representation>;
