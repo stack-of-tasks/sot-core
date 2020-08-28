@@ -618,9 +618,9 @@ operator()(const dynamicgraph::sot::MatrixHomogeneous &f,
 }
 
 template <>
-void Multiplier_FxE__E<double, dynamicgraph::Vector>::operator()(
-    const double &x, const dynamicgraph::Vector &v,
-    dynamicgraph::Vector &res) const {
+void Multiplier_FxE__E<double, dynamicgraph::Vector>::
+operator()(const double &x, const dynamicgraph::Vector &v,
+           dynamicgraph::Vector &res) const {
   res = v;
   res *= x;
 }
@@ -1100,9 +1100,9 @@ template <typename T> struct Multiplier : public VariadicOpHeader<T, T> {
 };
 template <> void Multiplier<double>::setIdentity(double &res) const { res = 1; }
 template <>
-void Multiplier<MatrixHomogeneous>::operator()(
-    const std::vector<const MatrixHomogeneous *> &vs,
-    MatrixHomogeneous &res) const {
+void Multiplier<MatrixHomogeneous>::
+operator()(const std::vector<const MatrixHomogeneous *> &vs,
+           MatrixHomogeneous &res) const {
   if (vs.size() == 0)
     setIdentity(res);
   else {

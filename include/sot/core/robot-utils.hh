@@ -32,7 +32,6 @@
 #undef BOOST_MPL_LIMIT_LIST_SIZE
 #endif
 
-
 #include <boost/property_tree/ptree.hpp>
 
 #ifdef UNDEF_BOOST_MPL_LIMIT_VECTOR_SIZE
