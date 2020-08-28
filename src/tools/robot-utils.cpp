@@ -23,6 +23,7 @@
 #include <boost/property_tree/xml_parser.hpp>
 #endif
 
+
 #include <dynamic-graph/factory.h>
 #include <iostream>
 #include <sot/core/debug.hh>
@@ -113,6 +114,7 @@ void ForceLimits::display(std::ostream &os) const {
   os << lower << std::endl;
   os << "Upper Limits:" << std::endl;
   os << upper << std::endl;
+  
 }
 
 /******************** FootUtil ***************************/
@@ -440,6 +442,9 @@ void RobotUtil::display(std::ostream &os) const {
     os << "(" << it->first << "," << it->second << ") ";
   }
   os << std::endl;
+
+  boost::property_tree::write_xml(os,property_tree_);
+
 }
 
 void RobotUtil::sendMsg(const std::string &msg, MsgType t,

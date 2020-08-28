@@ -225,8 +225,11 @@ void ParameterServer::init_simple(const double &dt) {
   if (listOfRobots->size() == 1)
     localName = (*listOfRobots)[0];
   else {
+    std::ostringstream oss;
+    oss << "No robot registered in the parameter server list";
+    oss << " listOfRobots->size: " << listOfRobots->size();
     throw ExceptionTools(ExceptionTools::ErrorCodeEnum::PARAMETER_SERVER,
-                         "No robot registered in the parameter server list");
+                         oss.str());
   }
 
   if (!isNameInRobotUtil(localName)) {
