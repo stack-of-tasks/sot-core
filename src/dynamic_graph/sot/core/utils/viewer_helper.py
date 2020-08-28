@@ -55,7 +55,8 @@ def addRobotViewer(robot, **args):
         if small:
             if verbose:
                 print('using a small robot')
-            RobotClass.stateFullSize = lambda x: stateFullSize(x, small_extra * (0.0, ))
+            RobotClass.stateFullSize = lambda x: \
+                stateFullSize(x, small_extra * (0.0, ))
         else:
             RobotClass.stateFullSize = stateFullSize
 

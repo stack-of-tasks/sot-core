@@ -12,8 +12,7 @@ class OpPointModifierTest(unittest.TestCase):
         with self.assertRaises(dgpy.dgpyError) as cm:
             ent.initialize()
         self.assertEqual(
-            str(cm.exception),
-            'In SignalPtr: SIN ptr not set. (in signal '
+            str(cm.exception), 'In SignalPtr: SIN ptr not set. (in signal '
             '<sotIntegratorAbstract(ie)::input(vector)::sin>)'
         )
 

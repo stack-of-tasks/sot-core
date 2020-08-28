@@ -8,7 +8,6 @@ from os.path import dirname, join, abspath
 # Switch pinocchio to numpy matrix
 pin.switchToNumpyMatrix()
 
-
 param_server = ParameterServer("param_server")
 param_server.init(0.001, "talos.urdf", "talos")
 
@@ -21,7 +20,6 @@ urdfDir = param_server_conf.model_path
 
 
 class TestParameterServer(unittest.TestCase):
-
     def test_set_parameter(self):
         # Read talos model
         path = join(

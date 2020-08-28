@@ -31,9 +31,6 @@ class MatrixUtilTest(unittest.TestCase):
                              (0, 0, 0, 1))),
         ]:
             np.testing.assert_allclose(tr, mod.rpy2tr(*rpy), atol=1e-15)
-            # np.testing.assert_allclose(rpy, mod.tr2rpy(tr), atol=1e-15)
-            # np.testing.assert_allclose(tr, mod.rpy2tr(*mod.tr2rpy(tr)), atol=1e-15)
-            # np.testing.assert_allclose(rpy, mod.tr2rpy(mod.rpy2tr(*rpy)), atol=1e-15)
 
     def test_matrix_rpy(self):
         for mat, rpy in [
@@ -44,7 +41,6 @@ class MatrixUtilTest(unittest.TestCase):
             # np.testing.assert_allclose(mat, mod.RPYToMatrix(rpy))
             np.testing.assert_allclose(rpy,
                                        mod.matrixToRPY(mod.RPYToMatrix(rpy)))
-            # np.testing.assert_allclose(mat, mod.RPYToMatrix(mod.matrixToRPY(mat)))
 
         def test_rotate(self):
             for axis, angle, mat in [
