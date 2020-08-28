@@ -36,10 +36,12 @@
 
 #ifdef UNDEF_BOOST_MPL_LIMIT_VECTOR_SIZE
 #pragma pop_macro("BOOST_MPL_LIMIT_VECTOR_SIZE")
+#undef UNDEF_BOOST_MPL_LIMIT_VECTOR_SIZE
 #endif
 
 #ifdef UNDEF_BOOST_MPL_LIMIT_LIST_SIZE
 #pragma pop_macro("BOOST_MPL_LIMIT_LIST_SIZE")
+#undef UNDEF_BOOST_MPL_LIMIT_LIST_SIZE
 #endif
 
 #include "boost/assign.hpp"
