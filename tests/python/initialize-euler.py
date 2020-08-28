@@ -13,7 +13,8 @@ class OpPointModifierTest(unittest.TestCase):
             ent.initialize()
         self.assertEqual(
             str(cm.exception),
-            'In SignalPtr: SIN ptr not set. (in signal <sotIntegratorAbstract(ie)::input(vector)::sin>)'
+            'In SignalPtr: SIN ptr not set. (in signal '
+            '<sotIntegratorAbstract(ie)::input(vector)::sin>)'
         )
 
 
