@@ -1,5 +1,5 @@
-# This class embeds a given loop function (generally by using a decorator) into a
-# dedicated thread, whose execution can be stoped or run on demand from the
+# This class embeds a given loop function (generally by using a decorator) into
+# a dedicated thread, whose execution can be stoped or run on demand from the
 # script thread.
 #
 # To use the previous class, a 'loop' function has to be defined.

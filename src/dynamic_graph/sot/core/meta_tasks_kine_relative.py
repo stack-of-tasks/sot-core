@@ -99,7 +99,7 @@ class MetaTaskKine6dRel(MetaTask6d):
             self.opPointModifBase.activ = True
 
 
-# --- HELPER FUNCTIONS ---------------------------------------------------------
+# --- HELPER FUNCTIONS --------------------------------------------------------
 
 
 def goto6dRel(task, position, positionRef, gain=None, resetJacobian=True):
@@ -141,20 +141,27 @@ Documentation
 
 Inherited from MetaTask6d.
 
-The aim of this MetaTask is to give a simple and immediate interface to implement a relative task between two
-operational points of the robot. The new variable "opPointBase" represents in fact the second operational point (the
+The aim of this MetaTask is to give a simple and immediate interface to
+implement a relative task between two
+operational points of the robot. The new variable "opPointBase" represents
+in fact the second operational point (the
 first is inherited from the father class).
 
-It's been decided to reuse (so not to redefine) all methodes from MetaTask6d related to the opPoint to implement the
-behaviour of one of the two points (called "Other" from now on) and to reimplement in a intuitive way the same
+It's been decided to reuse (so not to redefine) all methodes from MetaTask6d
+related to the opPoint to implement the
+behaviour of one of the two points (called "Other" from now on) and to
+reimplement in a intuitive way the same
 functions for the second point ("Ref").
 
 
 Utilization
 
-It should be noticed that both feature and reference are defined as a couple of signals, while normally it would be
-enough define the reference as one signal that represents the diplacement between the two positions. Nevertheless this
-redundant approach allows to a very intuitive and safe usage of the class because the references can be set just using
+It should be noticed that both feature and reference are defined as a
+couple of signals, while normally it would be
+enough define the reference as one signal that represents the diplacement
+between the two positions. Nevertheless this
+redundant approach allows to a very intuitive and safe usage of the class
+because the references can be set just using
 the current position of the two operational points.
 For this reason all the goTo functions have been redefined.
 

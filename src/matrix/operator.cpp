@@ -326,9 +326,10 @@ struct HomogeneousMatrixToSE3Vector
   void operator()(const MatrixHomogeneous &M, dg::Vector &res) {
     res.resize(12);
     res.head<3>() = M.translation();
-    res.segment(3, 3) = M.linear().row(0); 
-    res.segment(6, 3) = M.linear().row(1); 
-    res.segment(9, 3) = M.linear().row(2);   }
+    res.segment(3, 3) = M.linear().row(0);
+    res.segment(6, 3) = M.linear().row(1);
+    res.segment(9, 3) = M.linear().row(2);
+  }
 };
 REGISTER_UNARY_OP(HomogeneousMatrixToSE3Vector, MatrixHomoToSE3Vector);
 
