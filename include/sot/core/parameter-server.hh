@@ -99,9 +99,31 @@ public:
   /// @}
   /// \name Commands related to the model
   /// @{
+  template <typename Type>
   void setParameter(const std::string &ParameterName,
-                    const std::string &ParameterValue);
-  std::string getParameter(const std::string &ParameterName);
+                    const Type &ParameterValue) {
+    if (!m_initSucceeded) {
+      DYNAMIC_GRAPH_ENTITY_WARNING(*this)
+          << "Cannot set parameter " << ParameterName << " to "
+          << ParameterValue << " before initialization!\n";
+      return;
+    }
+
+    m_robot_util->set_parameter<Type>(ParameterName, ParameterValue);
+  }
+
+  template <typename Type> Type getParameter(const std::string &ParameterName) {
+
+    if (!m_initSucceeded) {
+      DYNAMIC_GRAPH_ENTITY_WARNING(*this)
+          << "Cannot get parameter " << ParameterName
+          << " before initialization!\n";
+      Type ParameterValue;
+      return ParameterValue;
+    }
+    return m_robot_util->get_parameter<Type>(ParameterName);
+  }
+
   /// @}
   /// Set the mapping between urdf and sot.
   void setJoints(const dynamicgraph::Vector &);

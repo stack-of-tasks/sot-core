@@ -34,7 +34,7 @@ class MetaTaskCom(object):
         self.featureDes.errorIN.value = v
 
 
-# --- HELPER FUNCTIONS ---------------------------------------------------------
+# --- HELPER FUNCTIONS --------------------------------------------------------
 def setGain(gain, val):
     if val is not None:
         if isinstance(val, int) or isinstance(val, float):

@@ -7,7 +7,8 @@ from dynamic_graph.sot.core.task import Task
 
 def toFlags(arr):
     """
-    Convert an array of boolean to a /flag/ format, type 001010110, in little indian
+    Convert an array of boolean to a /flag/ format, type 001010110,
+    in little indian
     (reverse order, first bool of the list will be the [01] of extrem right).
     """
     lres = [0] * (max(arr) + 1)

@@ -1,7 +1,7 @@
 NJ = 2
 model_path = ['/integration_tests/openrobots/share/']
-urdfFileName = "/integration_tests/openrobots/share/"+\
-    "simple_humanoid_description/urdf/"+\
+urdfFileName = "/integration_tests/openrobots/share/" + \
+    "simple_humanoid_description/urdf/" + \
     "simple_humanoid.urdf"
 ImuJointName = "imu_joint"
 

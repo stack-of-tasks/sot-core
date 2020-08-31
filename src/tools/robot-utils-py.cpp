@@ -4,6 +4,14 @@
  * This file is part of sot-core.
  * See license file.
  */
+#ifdef BOOST_MPL_LIMIT_VECTOR_SIZE
+#pragma push_macro("BOOST_MPL_LIMIT_VECTOR_SIZE")
+#undef BOOST_MPL_LIMIT_VECTOR_SIZE
+#include <boost/property_tree/ptree.hpp>
+#pragma pop_macro("BOOST_MPL_LIMIT_VECTOR_SIZE")
+#else
+#include <boost/property_tree/ptree.hpp>
+#endif
 
 #include <boost/python.hpp>
 #include <boost/python/suite/indexing/map_indexing_suite.hpp>
