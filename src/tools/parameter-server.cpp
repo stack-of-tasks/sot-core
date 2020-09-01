@@ -14,26 +14,14 @@
  * with sot-torque-control.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/** pinocchio is forcing the BOOST_MPL_LIMIT_VECTOR_SIZE to a specific value.
-    This happen to be not working when including the boost property_tree
-   library. For this reason if defined, the current value of
-   BOOST_MPL_LIMIT_VECTOR_SIZE is saved in the preprocessor stack and unset.
-    Once the property_tree included the pinocchio value of this variable is
-    restored.
- */
+#include <iostream>
 
-#ifdef BOOST_MPL_LIMIT_VECTOR_SIZE
-#pragma push_macro("BOOST_MPL_LIMIT_VECTOR_SIZE")
-#undef BOOST_MPL_LIMIT_VECTOR_SIZE
+#include <pinocchio/fwd.hpp>
+
 #include <boost/property_tree/ptree.hpp>
-#pragma pop_macro("BOOST_MPL_LIMIT_VECTOR_SIZE")
-#else
-#include <boost/property_tree/ptree.hpp>
-#endif
 
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/factory.h>
-#include <iostream>
 #include <sot/core/debug.hh>
 #include <sot/core/exception-tools.hh>
 #include <sot/core/parameter-server.hh>
