@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef __sot_torque_control_common_H__
-#define __sot_torque_control_common_H__
+#ifndef __sot_core_robot_utils_H__
+#define __sot_core_robot_utils_H__
 
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */
