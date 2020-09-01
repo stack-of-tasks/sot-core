@@ -6,8 +6,6 @@
 # get the python script install path
 
 IF(BUILD_PYTHON_INTERFACE)
-  SPHINX_SETUP()
-  SPHINX_FINALIZE()
   IF(INSTALL_DOCUMENTATION)
     INSTALL (FILES
       pictures/feature.png
