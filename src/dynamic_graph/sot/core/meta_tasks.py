@@ -68,7 +68,7 @@ def generic6dReference(p):
 
 def goto6d(task, position, gain=None, resetJacobian=True):
     M = generic6dReference(position)
-    task.featureDes.position.value = matrixToTuple(M)
+    task.featureDes.position.value = array(M)
     task.feature.selec.value = "111111"
     setGain(task.gain, gain)
     if 'resetJacobianDerivative' in task.task.__class__.__dict__.keys(
@@ -83,7 +83,7 @@ def gotoNd(task, position, selec=None, gain=None, resetJacobian=True):
             task.feature.selec.value = selec
         else:
             task.feature.selec.value = toFlags(selec)
-    task.featureDes.position.value = matrixToTuple(M)
+    task.featureDes.position.value = array(M)
     setGain(task.gain, gain)
     if 'resetJacobianDerivative' in task.task.__class__.__dict__.keys(
     ) and resetJacobian:
