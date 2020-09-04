@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>sot-core</name>
-  <version>4.10.0</version>
+  <version>4.11.1</version>
   <description>
     Hierarchical task solver plug-in for dynamic-graph
   </description>
@@ -24,9 +24,9 @@
 
   <doc_depend>doxygen</doc_depend>
   <doc_depend>dynamic-graph</doc_depend>
-  
-  <buildtool_depend>cmake</buildtool_depend> 
-  
+
+  <buildtool_depend>cmake</buildtool_depend>
+
   <export>
     <build_type>cmake</build_type>
   </export>
