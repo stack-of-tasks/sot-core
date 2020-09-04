@@ -15,7 +15,7 @@
   <author>Olivier Stasse</author>
   <author email="ostasse@laas.fr">ostasse@laas.fr</author>
 
-  <depend>dynamic-graph</depend>
+  <depend>dynamic-graph-python</depend>
   <depend>pinocchio</depend>
   <build_depend>doxygen</build_depend>
   <!-- The following tags are recommended by REP-136 -->
@@ -23,7 +23,7 @@
   <exec_depend condition="$ROS_VERSION == 2">ament_cmake</exec_depend>
 
   <doc_depend>doxygen</doc_depend>
-  <doc_depend>dynamic_graph</doc_depend>
+  <doc_depend>dynamic-graph</doc_depend>
   
   <buildtool_depend>cmake</buildtool_depend> 
   
