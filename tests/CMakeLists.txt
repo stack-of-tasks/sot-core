@@ -48,6 +48,9 @@ SET(TEST_test_feature_generic_EXT_LIBS
 SET(TEST_test_device_EXT_LIBS
   pinocchio::pinocchio)
 
+SET(TEST_test_generic_device_LIBS
+  yaml-cpp)
+
 SET(TEST_test_filter_differentiator_LIBS
   filter-differentiator)
 
@@ -85,6 +88,7 @@ SET(tests
 
   tools/test_boost
   tools/test_device
+  tools/test_generic_device
   tools/test_mailbox
   tools/test_matrix
   tools/test_robot_utils
@@ -94,6 +98,9 @@ SET(tests
 
   matrix/test_operator
   )
+
+configure_file(tools/sot_controller.yaml ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(tools/sot_params.yaml ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 # TODO
 IF(WIN32)

@@ -15,6 +15,7 @@ OPTION(INSTALL_PYTHON_INTERFACE_ONLY "Install *ONLY* the python bindings" OFF)
 OPTION(SUFFIX_SO_VERSION "Suffix library name with its version" ON)
 
 # Project configuration
+SET(CMAKE_CXX_STANDARD 11)
 IF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
   SET(PROJECT_USE_CMAKE_EXPORT TRUE)
 ENDIF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
@@ -40,6 +41,8 @@ ADD_PROJECT_DEPENDENCY(pinocchio REQUIRED PKG_CONFIG_REQUIRES pinocchio)
 ADD_PROJECT_DEPENDENCY(example-robot-data)
 SET(BOOST_COMPONENTS filesystem system thread program_options
   unit_test_framework regex)
+
+ADD_REQUIRED_DEPENDENCY("yaml-cpp")
 
 IF(BUILD_PYTHON_INTERFACE)
   FINDPYTHON()
@@ -70,6 +73,7 @@ SET(${PROJECT_NAME}_HEADERS
   include/${CUSTOM_HEADER_DIR}/debug.hh
   include/${CUSTOM_HEADER_DIR}/derivator.hh
   include/${CUSTOM_HEADER_DIR}/device.hh
+  include/${CUSTOM_HEADER_DIR}/generic-device.hh
   include/${CUSTOM_HEADER_DIR}/double-constant.hh
   include/${CUSTOM_HEADER_DIR}/event.hh
   include/${CUSTOM_HEADER_DIR}/exception-abstract.hh
@@ -162,6 +166,7 @@ SET(${PROJECT_NAME}_SOURCES
   src/tools/utils-windows
   src/tools/periodic-call
   src/tools/device
+  src/tools/generic-device
   src/tools/trajectory
   src/tools/robot-utils
   src/matrix/matrix-svd
@@ -175,7 +180,7 @@ TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PUBLIC $<INSTALL_INTERFACE:include>)
 TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME}
   SYSTEM PUBLIC ${Boost_INCLUDE_DIRS})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${Boost_LIBRARIES}
-  dynamic-graph::dynamic-graph pinocchio::pinocchio)
+  dynamic-graph::dynamic-graph pinocchio::pinocchio yaml-cpp)
 
 IF(SUFFIX_SO_VERSION)
   SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION})
