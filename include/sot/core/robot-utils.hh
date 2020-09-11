@@ -305,6 +305,7 @@ public:
           << " for get_parameter(" << parameter_name << ")\n"
           << e.what() << std::endl;
       sendMsg(oss.str(), MSG_TYPE_ERROR);
+      return 0;
     }
   }
   /** @} */
