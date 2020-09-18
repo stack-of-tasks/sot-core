@@ -80,8 +80,8 @@ public:
                                                 int time);
 
   /** Static Feature selection. */
-  inline static Flags selectX(void) { return FLAG_LINE_1; }
-  inline static Flags selectY(void) { return FLAG_LINE_2; }
+  inline static Flags selectX(void) { return Flags("10"); }
+  inline static Flags selectY(void) { return Flags("01"); }
 
   virtual void display(std::ostream &os) const;
 };

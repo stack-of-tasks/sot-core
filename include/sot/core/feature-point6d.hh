@@ -97,15 +97,15 @@ public:
                                                 int time);
 
   /** Static Feature selection. */
-  inline static Flags selectX(void) { return FLAG_LINE_1; }
-  inline static Flags selectY(void) { return FLAG_LINE_2; }
-  inline static Flags selectZ(void) { return FLAG_LINE_3; }
-  inline static Flags selectRX(void) { return FLAG_LINE_4; }
-  inline static Flags selectRY(void) { return FLAG_LINE_5; }
-  inline static Flags selectRZ(void) { return FLAG_LINE_6; }
+  inline static Flags selectX(void) { return Flags("100000"); }
+  inline static Flags selectY(void) { return Flags("010000"); }
+  inline static Flags selectZ(void) { return Flags("001000"); }
+  inline static Flags selectRX(void) { return Flags("000100"); }
+  inline static Flags selectRY(void) { return Flags("000010"); }
+  inline static Flags selectRZ(void) { return Flags("000001"); }
 
-  inline static Flags selectTranslation(void) { return Flags(7); }
-  inline static Flags selectRotation(void) { return Flags(56); }
+  inline static Flags selectTranslation(void) { return Flags("111000"); }
+  inline static Flags selectRotation(void) { return Flags("000111"); }
 
   virtual void display(std::ostream &os) const;
 
