@@ -75,10 +75,6 @@ int main(void) {
   cout << endl;
 
   cout << endl;
-  cout << "L1   \t" << FLAG_LINE_1 << endl;
-  cout << "L4   \t" << FLAG_LINE_4 << endl;
-  cout << "L8   \t" << FLAG_LINE_8 << endl;
-  cout << endl;
 
   istringstream iss("00101");
   Flags flread;

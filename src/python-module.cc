@@ -48,18 +48,17 @@ BOOST_PYTHON_MODULE(wrap)
     ;
 
   using dgs::Flags;
-  bp::class_<Flags>("Flags", bp::init<const bool&>())
-    .def(bp::init<const char&>())
-    .def(bp::init<const int &>())
-    .def("add", static_cast<void(Flags::*)(const char&)>(&Flags::add))
-    .def("add", static_cast<void(Flags::*)(const int &)>(&Flags::add))
+  bp::class_<Flags>("Flags", bp::init<>())
+    .def(bp::init<const char*>())
+    //TODO .def(bp::init<std::vector<bool>&& >())
+    .def("add", &Flags::add)
     .def("set", &Flags::set)
     .def("unset", &Flags::unset)
 
-    .def(bp::self & bool())
-    .def(bp::self | bool())
-    .def(bp::self &= bool())
-    .def(bp::self |= bool())
+    .def(bp::self & bp::self)
+    .def(bp::self | bp::self)
+    .def(bp::self &= bp::self)
+    .def(bp::self |= bp::self)
 
     .def("__call__", &Flags::operator())
     .def("__bool__", &Flags::operator bool)
