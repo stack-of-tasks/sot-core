@@ -1,6 +1,8 @@
 #include "dynamic-graph/python/module.hh"
+#include "dynamic-graph/python/signal.hh"
 
 #include <sot/core/device.hh>
+#include <sot/core/flags.hh>
 
 namespace dg = dynamicgraph;
 namespace dgs = dynamicgraph::sot;
@@ -44,4 +46,35 @@ BOOST_PYTHON_MODULE(wrap)
     .def_readonly("before", 
         bp::make_function(&dgs::Device::periodicCallBefore, reference_existing_object()))
     ;
+
+  using dgs::Flags;
+  bp::class_<Flags>("Flags", bp::init<const bool&>())
+    .def(bp::init<const char&>())
+    .def(bp::init<const int &>())
+    .def("add", static_cast<void(Flags::*)(const char&)>(&Flags::add))
+    .def("add", static_cast<void(Flags::*)(const int &)>(&Flags::add))
+    .def("set", &Flags::set)
+    .def("unset", &Flags::unset)
+
+    .def(bp::self & bool())
+    .def(bp::self | bool())
+    .def(bp::self &= bool())
+    .def(bp::self |= bool())
+
+    .def("__call__", &Flags::operator())
+    .def("__bool__", &Flags::operator bool)
+    .def("reversed", &Flags::operator!)
+
+    .def("set", +[](Flags& f, const std::string& s) {
+          std::istringstream is (s);
+          is >> f;
+        })
+    .def("__str__", +[](const Flags& f) {
+          std::ostringstream os;
+          os << f;
+          return os.str();
+        })
+    ;
+
+  dg::python::exposeSignalsOfType<Flags, int>("Flags");
 }
