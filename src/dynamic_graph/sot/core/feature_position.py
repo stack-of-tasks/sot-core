@@ -3,6 +3,7 @@
 #
 
 from dynamic_graph import plug
+from dynamic_graph.sot.core import Flags
 from dynamic_graph.entity import Entity
 from dynamic_graph.sot.core.feature_point6d import FeaturePoint6d
 
@@ -42,7 +43,7 @@ class FeaturePosition(Entity):
         if signalJacobian:
             plug(signalJacobian, self._feature.signal('Jq'))
         self._feature.setReference(self._reference.name)
-        self._feature.signal('selec').value = '111111'
+        self._feature.signal('selec').value = Flags('111111')
         self._feature.frame('current')
 
         # Signals stored in members
