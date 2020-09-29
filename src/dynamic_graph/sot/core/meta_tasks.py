@@ -5,7 +5,7 @@ from dynamic_graph.sot.core import Flags
 from dynamic_graph.sot.core.feature_generic import FeatureGeneric
 from dynamic_graph.sot.core.gain_adaptive import GainAdaptive
 from dynamic_graph.sot.core.matrix_util import matrixToTuple, rpy2tr
-from dynamic_graph.sot.core.meta_task_6d import toFlags
+from dynamic_graph.sot.core.meta_task_6d import toFlags # kept for backward compatibility
 
 
 class MetaTaskCom(object):
@@ -79,10 +79,9 @@ def goto6d(task, position, gain=None, resetJacobian=True):
 def gotoNd(task, position, selec=None, gain=None, resetJacobian=True):
     M = generic6dReference(position)
     if selec is not None:
-        if isinstance(selec, str):
-            task.feature.selec.value = Flags(selec)
-        else:
-            task.feature.selec.value = toFlags(selec)
+        if not isinstance(selec, Flags):
+            selec = Flags(selec)
+        task.feature.selec.value = selec
     task.featureDes.position.value = array(M)
     setGain(task.gain, gain)
     if 'resetJacobianDerivative' in task.task.__class__.__dict__.keys() and resetJacobian:

@@ -7,20 +7,9 @@ from dynamic_graph.sot.core.task import Task
 
 
 def toFlags(arr):
-    """
-    Convert an array of boolean to a /flag/ format, type 001010110,
-    in little indian
-    (reverse order, first bool of the list will be the [01] of extrem right).
-    """
-    lres = [0] * (max(arr) + 1)
-    for i in arr:
-        lres[i] = 1
-    lres.reverse()
-    res = ''
-    for i in lres:
-        res += str(i)
-    return Flags(res)
-
+    from warnings import warn
+    warn("This function is deprecated. Please, use Flags directly.")
+    return Flags(arr)
 
 class MetaTask6d(object):
     name = ''
