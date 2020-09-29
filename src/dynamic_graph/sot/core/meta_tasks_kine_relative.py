@@ -2,7 +2,7 @@ from dynamic_graph import plug
 from dynamic_graph.sot.core import Flags
 from dynamic_graph.sot.core.feature_point6d_relative import FeaturePoint6dRelative
 from dynamic_graph.sot.core.matrix_util import matrixToTuple
-from dynamic_graph.sot.core.meta_task_6d import MetaTask6d, toFlags
+from dynamic_graph.sot.core.meta_task_6d import MetaTask6d, toFlags # kept for backward compatibility
 from dynamic_graph.sot.core.meta_tasks import generic6dReference, setGain
 from dynamic_graph.sot.core.op_point_modifier import OpPointModifier
 
@@ -94,10 +94,9 @@ def gotoNdRel(task, position, positionRef, selec=None, gain=None, resetJacobian=
     M = generic6dReference(position)
     MRef = generic6dReference(positionRef)
     if selec is not None:
-        if isinstance(selec, str):
-            task.feature.selec.value = selec
-        else:
-            task.feature.selec.value = toFlags(selec)
+        if not isinstance(selec, Flags):
+            selec = Flags(selec)
+        task.feature.selec.value = selec
     task.featureDes.position.value = matrixToTuple(M)
     task.featureDes.positionRef.value = matrixToTuple(MRef)
     setGain(task.gain, gain)
