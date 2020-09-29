@@ -37,7 +37,7 @@ protected:
 public:
   Flags(const bool &b = false);
   Flags(const char *flags);
-  Flags(std::vector<bool> &&flags);
+  Flags(const std::vector<bool> &flags);
 
   void add(const bool &b);
 

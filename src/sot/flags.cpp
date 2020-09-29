@@ -47,7 +47,7 @@ Flags::Flags(const char *_flags)
   }
 }
 
-Flags::Flags(std::vector<bool> &&_flags)
+Flags::Flags(const std::vector<bool> &_flags)
     : flags(_flags), outOfRangeFlag(false) {}
 
 Flags::operator bool(void) const {
