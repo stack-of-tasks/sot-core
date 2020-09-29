@@ -50,7 +50,16 @@ BOOST_PYTHON_MODULE(wrap)
   using dgs::Flags;
   bp::class_<Flags>("Flags", bp::init<>())
     .def(bp::init<const char*>())
-    //TODO .def(bp::init<std::vector<bool>&& >())
+    .def("__init__", bp::make_constructor(+[](bp::list bools) {
+      std::vector<bool> flags (bp::len(bools));
+      for (std::size_t i = 0; i < flags.size(); ++i) flags[i] = bp::extract<bool>(bools[i]);
+      return new Flags(flags);
+    }))
+    .def("__init__", bp::make_constructor(+[](bp::tuple bools) {
+      std::vector<bool> flags (bp::len(bools));
+      for (std::size_t i = 0; i < flags.size(); ++i) flags[i] = bp::extract<bool>(bools[i]);
+      return new Flags(flags);
+    }))
     .def("add", &Flags::add)
     .def("set", &Flags::set)
     .def("unset", &Flags::unset)
