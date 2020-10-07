@@ -99,6 +99,9 @@ FOREACH(plugin ${plugins})
   TARGET_LINK_LIBRARIES(${LIBRARY_NAME} ${PROJECT_NAME} ${${LIBRARY_NAME}_deps})
 
   IF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
+    IF(EXISTS "/tmp/ws/build_isolated/catkin_make_isolated.cache") # Relocate the Dynamic-graph plugin to fix a CMake error only in ROS release configuration
+      SET(DYNAMIC_GRAPH_PLUGINDIR "lib/dynamic-graph-plugin")
+    ENDIF(EXISTS "/tmp/ws/build_isolated/catkin_make_isolated.cache") # It should not affect the build from source
     INSTALL(TARGETS ${LIBRARY_NAME} EXPORT ${TARGETS_EXPORT_NAME}
       DESTINATION ${DYNAMIC_GRAPH_PLUGINDIR})
   ENDIF(NOT INSTALL_PYTHON_INTERFACE_ONLY)
