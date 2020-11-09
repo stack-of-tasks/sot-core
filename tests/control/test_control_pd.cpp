@@ -50,16 +50,16 @@ BOOST_AUTO_TEST_CASE(control_pd) {
   {
     boost::test_tools::output_test_stream output;
     aControlPD->controlSOUT.get(output);
-    BOOST_CHECK(output.is_equal(" 20.15\n 42.28\n 66.39\n 92.48\n120.55\n"));
+    BOOST_CHECK(output.is_equal("20.15 42.28 66.39 92.48 120.55"));
   }
   {
     boost::test_tools::output_test_stream output;
     aControlPD->positionErrorSOUT.get(output);
-    BOOST_CHECK(output.is_equal("  2\n2.1\n2.2\n2.3\n2.4\n"));
+    BOOST_CHECK(output.is_equal("2 2.1 2.2 2.3 2.4"));
   }
   {
     boost::test_tools::output_test_stream output;
     aControlPD->velocityErrorSOUT.get(output);
-    BOOST_CHECK(output.is_equal("1.5\n1.4\n1.3\n1.2\n1.1\n"));
+    BOOST_CHECK(output.is_equal("1.5 1.4 1.3 1.2 1.1"));
   }
 }

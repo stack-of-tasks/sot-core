@@ -77,9 +77,6 @@ public:
   void clear(void) { signalMap.clear(); }
 
   void display(std::ostream &os) const;
-  void addSpecificCommands(dynamicgraph::Entity &ent,
-                           dynamicgraph::Entity::CommandMap_t &commap,
-                           const std::string &prefix = "");
 };
 
 } // namespace sot

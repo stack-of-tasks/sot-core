@@ -2,7 +2,7 @@ from dynamic_graph import plug
 from dynamic_graph.sot.core.feature_generic import FeatureGeneric
 from dynamic_graph.sot.core.gain_adaptive import GainAdaptive
 from dynamic_graph.sot.core.matrix_util import matrixToTuple, vectorToTuple
-from dynamic_graph.sot.core.meta_task_6d import toFlags
+from dynamic_graph.sot.core.meta_task_6d import toFlags # kept for backward compatibility
 from dynamic_graph.sot.core.meta_tasks import setGain
 from dynamic_graph.sot.core.sot import Task
 from numpy import identity, matrix, zeros
@@ -67,9 +67,11 @@ class MetaTaskPosture(object):
                 MetaTaskPosture.nbDof = len(self.feature.errorIN.value)
             qdes = zeros((MetaTaskPosture.nbDof, 1))
 
+        act = [ False, ] * MetaTaskPosture.nbDof
         for limbName, jointValues in kwargs.items():
             limbRange = self.postureRange[limbName]
-            act += limbRange
+            for i in limbRange:
+                act[i] = True
             if jointValues != []:
                 if isinstance(jointValues, matrix):
                     qdes[limbRange, 0] = vectorToTuple(jointValues)
@@ -77,7 +79,7 @@ class MetaTaskPosture(object):
                     qdes[limbRange, 0] = jointValues
         self.ref = vectorToTuple(qdes)
         if len(act) > 0:
-            self.feature.selec.value = toFlags(act)
+            self.feature.selec.value = Flags(act)
         setGain(self.gain, gain)
 
 

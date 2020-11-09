@@ -31,12 +31,12 @@ class Resize;
 
 class VectorConstant : public Entity {
   friend class command::vectorConstant::Resize;
-  static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
-
   int rows;
 
 public:
+  static const std::string CLASS_NAME;
+  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+
   VectorConstant(const std::string &name);
 
   virtual ~VectorConstant(void) {}

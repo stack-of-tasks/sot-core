@@ -168,6 +168,18 @@ public:
   double getSamplingPeriod() const { return dt; }
 
   void initialize() {
+    if (denominator.empty() || numerator.empty())
+      throw dynamicgraph::ExceptionSignal(
+          dynamicgraph::ExceptionSignal::GENERIC,
+          "The numerator or the denominator is empty.");
+
+    // Check that denominator.back is the identity
+    if (!internal::integratorEulerCoeffIsIdentity(denominator.back()))
+      throw dynamicgraph::ExceptionSignal(
+          dynamicgraph::ExceptionSignal::GENERIC,
+          "The coefficient of the highest order derivative of denominator "
+          "should be 1 (the last pushDenomCoef should be the identity).");
+
     std::size_t numsize = numerator.size();
     inputMemory.resize(numsize);
 
@@ -181,13 +193,6 @@ public:
     for (std::size_t i = 0; i < denomsize; ++i) {
       outputMemory[i] = inputMemory[0];
     }
-
-    // Check that denominator.back is the identity
-    if (!internal::integratorEulerCoeffIsIdentity(denominator.back()))
-      throw dynamicgraph::ExceptionSignal(
-          dynamicgraph::ExceptionSignal::GENERIC,
-          "The coefficient of the highest order derivative of denominator "
-          "should be 1 (the last pushDenomCoef should be the identity).");
   }
 };
 

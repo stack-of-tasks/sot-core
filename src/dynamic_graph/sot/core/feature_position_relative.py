@@ -7,12 +7,11 @@ from functools import reduce
 from dynamic_graph import plug
 from dynamic_graph.entity import Entity
 from dynamic_graph.signal_base import SignalBase
-from dynamic_graph.sot.core.feature_point6d_relative \
-    import FeaturePoint6dRelative
+from dynamic_graph.sot.core import Flags
+from dynamic_graph.sot.core.feature_point6d_relative import FeaturePoint6dRelative
 
 # Identity matrix of order 4
-I4 = reduce(lambda m, i: m + (i * (0., ) + (1., ) + (3 - i) * (0., ), ),
-            range(4), ())
+I4 = reduce(lambda m, i: m + (i * (0., ) + (1., ) + (3 - i) * (0., ), ), range(4), ())
 
 
 class FeaturePositionRelative(Entity):
@@ -99,7 +98,7 @@ class FeaturePositionRelative(Entity):
         if JqOther:
             plug(JqOther, self._feature.signal('Jq'))
         self._feature.setReference(self._reference.name)
-        self._feature.signal('selec').value = '111111'
+        self._feature.signal('selec').value = Flags('111111')
         self._feature.frame('current')
 
         # Signals stored in members

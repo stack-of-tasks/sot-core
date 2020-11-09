@@ -139,17 +139,6 @@ public:
   virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
                                                 int time);
 
-  /** Static Feature selection. */
-  inline static Flags selectX(void) { return FLAG_LINE_1; }
-  inline static Flags selectY(void) { return FLAG_LINE_2; }
-  inline static Flags selectZ(void) { return FLAG_LINE_3; }
-  inline static Flags selectRX(void) { return FLAG_LINE_4; }
-  inline static Flags selectRY(void) { return FLAG_LINE_5; }
-  inline static Flags selectRZ(void) { return FLAG_LINE_6; }
-
-  inline static Flags selectTranslation(void) { return Flags(7); }
-  inline static Flags selectRotation(void) { return Flags(56); }
-
   virtual void display(std::ostream &os) const;
 
 public:

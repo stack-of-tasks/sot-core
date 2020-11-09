@@ -5,50 +5,23 @@
  *
  */
 
-#ifndef __sot_torque_control_common_H__
-#define __sot_torque_control_common_H__
+#ifndef __sot_core_robot_utils_H__
+#define __sot_core_robot_utils_H__
 
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-/** pinocchio is forcing the BOOST_MPL_LIMIT_VECTOR_SIZE to a specific value.
-    This happen to be not working when including the boost property_tree
-   library. For this reason if defined, the current value of
-   BOOST_MPL_LIMIT_VECTOR_SIZE is saved in the preprocessor stack and unset.
-    Once the property_tree included the pinocchio value of this variable is
-    restored.
- */
+#include <map>
 
-#ifdef BOOST_MPL_LIMIT_VECTOR_SIZE
-#pragma push_macro("BOOST_MPL_LIMIT_VECTOR_SIZE")
-#define UNDEF_BOOST_MPL_LIMIT_VECTOR_SIZE
-#undef BOOST_MPL_LIMIT_VECTOR_SIZE
-#endif
+#include <pinocchio/fwd.hpp>
 
-#ifdef BOOST_MPL_LIMIT_LIST_SIZE
-#pragma push_macro("BOOST_MPL_LIMIT_LIST_SIZE")
-#define UNDEF_BOOST_MPL_LIMIT_LIST_SIZE
-#undef BOOST_MPL_LIMIT_LIST_SIZE
-#endif
-
+#include <boost/assign.hpp>
 #include <boost/property_tree/ptree.hpp>
 
-#ifdef UNDEF_BOOST_MPL_LIMIT_VECTOR_SIZE
-#pragma pop_macro("BOOST_MPL_LIMIT_VECTOR_SIZE")
-#undef UNDEF_BOOST_MPL_LIMIT_VECTOR_SIZE
-#endif
-
-#ifdef UNDEF_BOOST_MPL_LIMIT_LIST_SIZE
-#pragma pop_macro("BOOST_MPL_LIMIT_LIST_SIZE")
-#undef UNDEF_BOOST_MPL_LIMIT_LIST_SIZE
-#endif
-
-#include "boost/assign.hpp"
 #include <dynamic-graph/linear-algebra.h>
 #include <dynamic-graph/logger.h>
 #include <dynamic-graph/signal-helper.h>
-#include <map>
 #include <sot/core/matrix-geometry.hh>
 
 namespace dynamicgraph {

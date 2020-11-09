@@ -31,16 +31,21 @@
 namespace dynamicgraph {
 namespace sot {
 
-template <class Object> class Mailbox : public dynamicgraph::Entity {
+namespace dg = dynamicgraph;
+
+template <class Object> struct MailboxTimestampedObject
+{
+  Object obj;
+  struct timeval timestamp;
+};
+
+template <class Object> class Mailbox : public dg::Entity {
 public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
 public:
-  struct sotTimestampedObject {
-    Object obj;
-    struct timeval timestamp;
-  };
+  typedef MailboxTimestampedObject<Object> sotTimestampedObject;
 
 public:
   Mailbox(const std::string &name);
@@ -61,12 +66,17 @@ protected:
   bool update;
 
 public: /* --- SIGNALS --- */
-  dynamicgraph::SignalTimeDependent<struct sotTimestampedObject, int> SOUT;
+  dynamicgraph::SignalTimeDependent<sotTimestampedObject, int> SOUT;
   dynamicgraph::SignalTimeDependent<Object, int> objSOUT;
   dynamicgraph::SignalTimeDependent<struct timeval, int> timeSOUT;
 };
 
 } /* namespace sot */
+
+template <class Object> struct signal_io<sot::MailboxTimestampedObject<Object> >
+: signal_io_unimplemented<sot::MailboxTimestampedObject<Object> > {};
+
+template <> struct signal_io<timeval> : signal_io_unimplemented<timeval > {};
 } /* namespace dynamicgraph */
 
 #endif // #ifndef  __SOT_MAILBOX_HH

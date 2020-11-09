@@ -19,6 +19,7 @@
 #include <vector>
 
 /* SOT */
+#include <dynamic-graph/signal-caster.h>
 #include "sot/core/api.hh"
 
 /* --------------------------------------------------------------------- */
@@ -30,18 +31,15 @@ namespace sot {
 
 class SOT_CORE_EXPORT Flags {
 protected:
-  std::vector<char> flags;
-  bool reverse;
-
-  char operator[](const unsigned int &i) const;
+  std::vector<bool> flags;
+  bool outOfRangeFlag;
 
 public:
   Flags(const bool &b = false);
-  Flags(const char &c);
-  Flags(const int &c4);
+  Flags(const char *flags);
+  Flags(const std::vector<bool> &flags);
 
-  void add(const char &c);
-  void add(const int &c4);
+  void add(const bool &b);
 
   Flags operator!(void) const;
   SOT_CORE_EXPORT friend Flags operator&(const Flags &f1, const Flags &f2);
@@ -49,14 +47,8 @@ public:
   Flags &operator&=(const Flags &f2);
   Flags &operator|=(const Flags &f2);
 
-  SOT_CORE_EXPORT friend Flags operator&(const Flags &f1, const bool &b);
-  SOT_CORE_EXPORT friend Flags operator|(const Flags &f1, const bool &b);
-  Flags &operator&=(const bool &b);
-  Flags &operator|=(const bool &b);
-
   SOT_CORE_EXPORT friend std::ostream &operator<<(std::ostream &os,
                                                   const Flags &fl);
-  SOT_CORE_EXPORT friend char operator>>(const Flags &flags, const int &i);
   SOT_CORE_EXPORT friend std::istream &operator>>(std::istream &is, Flags &fl);
   bool operator()(const int &i) const;
 
@@ -64,23 +56,12 @@ public:
 
   void unset(const unsigned int &i);
   void set(const unsigned int &i);
-
-public: /* Selec "matlab-style" : 1:15, 1:, :45 ... */
-  static void readIndexMatlab(std::istream &iss, unsigned int &indexStart,
-                              unsigned int &indexEnd, bool &unspecifiedEnd);
-  static Flags readIndexMatlab(std::istream &iss);
 };
 
-SOT_CORE_EXPORT extern const Flags FLAG_LINE_1;
-SOT_CORE_EXPORT extern const Flags FLAG_LINE_2;
-SOT_CORE_EXPORT extern const Flags FLAG_LINE_3;
-SOT_CORE_EXPORT extern const Flags FLAG_LINE_4;
-SOT_CORE_EXPORT extern const Flags FLAG_LINE_5;
-SOT_CORE_EXPORT extern const Flags FLAG_LINE_6;
-SOT_CORE_EXPORT extern const Flags FLAG_LINE_7;
-SOT_CORE_EXPORT extern const Flags FLAG_LINE_8;
-
 } // namespace sot
+
+template <>
+struct signal_io<sot::Flags> : signal_io_unimplemented<sot::Flags> {};
 } // namespace dynamicgraph
 
 #endif /* #ifndef __SOT_FLAGS_H */

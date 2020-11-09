@@ -1,4 +1,5 @@
 from dynamic_graph import plug
+from dynamic_graph.sot.core import Flags
 from dynamic_graph.sot.core.feature_point6d import FeaturePoint6d
 from dynamic_graph.sot.core.gain_adaptive import GainAdaptive
 from dynamic_graph.sot.core.op_point_modifier import OpPointModifier
@@ -6,20 +7,9 @@ from dynamic_graph.sot.core.task import Task
 
 
 def toFlags(arr):
-    """
-    Convert an array of boolean to a /flag/ format, type 001010110,
-    in little indian
-    (reverse order, first bool of the list will be the [01] of extrem right).
-    """
-    lres = [0] * (max(arr) + 1)
-    for i in arr:
-        lres[i] = 1
-    lres.reverse()
-    res = ''
-    for i in lres:
-        res += str(i)
-    return res
-
+    from warnings import warn
+    warn("This function is deprecated. Please, use Flags directly.")
+    return Flags(arr)
 
 class MetaTask6d(object):
     name = ''
@@ -30,14 +20,8 @@ class MetaTask6d(object):
     featureDes = 0
 
     def opPointExist(self, opPoint):
-        sigsP = [
-            x for x in self.dyn.signals()
-            if x.getName().split(':')[-1] == opPoint
-        ]
-        sigsJ = [
-            x for x in self.dyn.signals()
-            if x.getName().split(':')[-1] == 'J' + opPoint
-        ]
+        sigsP = [x for x in self.dyn.signals() if x.getName().split(':')[-1] == opPoint]
+        sigsJ = [x for x in self.dyn.signals() if x.getName().split(':')[-1] == 'J' + opPoint]
         return len(sigsP) == 1 & len(sigsJ) == 1
 
     def defineDynEntities(self, dyn):
@@ -51,18 +35,14 @@ class MetaTask6d(object):
 
     def createOpPointModif(self):
         self.opPointModif = OpPointModifier('opmodif' + self.name)
-        plug(
-            self.dyn.signal(self.opPoint),
-            self.opPointModif.signal('positionIN'))
-        plug(
-            self.dyn.signal('J' + self.opPoint),
-            self.opPointModif.signal('jacobianIN'))
+        plug(self.dyn.signal(self.opPoint), self.opPointModif.signal('positionIN'))
+        plug(self.dyn.signal('J' + self.opPoint), self.opPointModif.signal('jacobianIN'))
         self.opPointModif.activ = False
 
     def createFeatures(self):
         self.feature = FeaturePoint6d('feature' + self.name)
         self.featureDes = FeaturePoint6d('feature' + self.name + '_ref')
-        self.feature.selec.value = '111111'
+        self.feature.selec.value = Flags('111111')
         self.feature.frame('current')
 
     def createTask(self):
@@ -112,16 +92,12 @@ class MetaTask6d(object):
     @opmodif.setter
     def opmodif(self, m):
         if isinstance(m, bool) and not m:
-            plug(
-                self.dyn.signal(self.opPoint), self.feature.signal('position'))
-            plug(
-                self.dyn.signal('J' + self.opPoint), self.feature.signal('Jq'))
+            plug(self.dyn.signal(self.opPoint), self.feature.signal('position'))
+            plug(self.dyn.signal('J' + self.opPoint), self.feature.signal('Jq'))
             self.opPointModif.activ = False
         else:
             if not self.opPointModif.activ:
-                plug(
-                    self.opPointModif.signal('position'),
-                    self.feature.position)
+                plug(self.opPointModif.signal('position'), self.feature.position)
                 plug(self.opPointModif.signal('jacobian'), self.feature.Jq)
             self.opPointModif.setTransformation(m)
             self.opPointModif.activ = True
