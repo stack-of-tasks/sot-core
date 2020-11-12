@@ -109,6 +109,8 @@ IF(UNIX)
     pluginabstract ${CMAKE_DL_LIBS})
 ENDIF(UNIX)
 
+# find -ltracer. TODO: that's ugly, properly export a component for each plugin instead.
+LINK_DIRECTORIES("${dynamic-graph_DIR}/../../../${DYNAMIC_GRAPH_PLUGINDIR}")
 FOREACH(path ${tests})
   GET_FILENAME_COMPONENT(test ${path} NAME)
   ADD_UNIT_TEST(${test} ${path}.cpp)
