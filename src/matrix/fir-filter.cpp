@@ -23,7 +23,7 @@ using dynamicgraph::Vector;
                                                                                \
   template <>                                                                  \
   const std::string sotClassType<sotSigType, sotCoefType>::CLASS_NAME =        \
-      std::string(className) + "_" + #sotSigType + "," + #sotCoefType + "_";   \
+      std::string(className) + "_" + #sotSigType + "_" + #sotCoefType;         \
                                                                                \
   template <>                                                                  \
   const std::string &sotClassType<sotSigType, sotCoefType>::getClassName(void) \
