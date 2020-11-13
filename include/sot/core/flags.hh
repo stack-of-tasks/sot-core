@@ -19,8 +19,8 @@
 #include <vector>
 
 /* SOT */
-#include <dynamic-graph/signal-caster.h>
 #include "sot/core/api.hh"
+#include <dynamic-graph/signal-caster.h>
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

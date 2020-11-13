@@ -17,10 +17,14 @@ template <typename TypeRef> struct TypeNameHelper {
   static inline std::string typeName();
 };
 template <typename TypeRef>
-inline std::string TypeNameHelper<TypeRef>::typeName() { return "unspecified"; }
+inline std::string TypeNameHelper<TypeRef>::typeName() {
+  return "unspecified";
+}
 
 #define ADD_KNOWN_TYPE(typeid)                                                 \
-  template <> inline std::string TypeNameHelper<typeid>::typeName () { return #typeid; }
+  template <> inline std::string TypeNameHelper<typeid>::typeName() {          \
+    return #typeid;                                                            \
+  }
 
 ADD_KNOWN_TYPE(bool)
 ADD_KNOWN_TYPE(double)

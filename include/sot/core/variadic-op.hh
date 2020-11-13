@@ -108,8 +108,7 @@ public: /* --- SIGNAL --- */
 
   int getSignalNumber() const { return (int)signalsIN.size(); }
 
-  signal_t* getSignalIn(int i)
-  {
+  signal_t *getSignalIn(int i) {
     if (i < 0 || i >= (int)signalsIN.size())
       throw std::out_of_range("Wrong signal index");
     return signalsIN[i];

@@ -195,7 +195,8 @@ public:
 };
 } // namespace sot
 
-template <> struct signal_io<sot::Trajectory> : signal_io_unimplemented<sot::Trajectory> {};
+template <>
+struct signal_io<sot::Trajectory> : signal_io_unimplemented<sot::Trajectory> {};
 
 } // namespace dynamicgraph
 

@@ -33,8 +33,7 @@ namespace sot {
 
 namespace dg = dynamicgraph;
 
-template <class Object> struct MailboxTimestampedObject
-{
+template <class Object> struct MailboxTimestampedObject {
   Object obj;
   struct timeval timestamp;
 };
@@ -73,10 +72,11 @@ public: /* --- SIGNALS --- */
 
 } /* namespace sot */
 
-template <class Object> struct signal_io<sot::MailboxTimestampedObject<Object> >
-: signal_io_unimplemented<sot::MailboxTimestampedObject<Object> > {};
+template <class Object>
+struct signal_io<sot::MailboxTimestampedObject<Object> >
+    : signal_io_unimplemented<sot::MailboxTimestampedObject<Object> > {};
 
-template <> struct signal_io<timeval> : signal_io_unimplemented<timeval > {};
+template <> struct signal_io<timeval> : signal_io_unimplemented<timeval> {};
 } /* namespace dynamicgraph */
 
 #endif // #ifndef  __SOT_MAILBOX_HH

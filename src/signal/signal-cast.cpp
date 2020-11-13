@@ -36,8 +36,8 @@ namespace dgsot = dynamicgraph::sot;
 /* --- CASTER IMPLEMENTATION ------------------------------------------------ */
 /* --- CASTER IMPLEMENTATION ------------------------------------------------ */
 
-//DG_SIGNAL_CAST_DEFINITION(sot::Flags);
-//DG_ADD_CASTER(sot::Flags, flags);
+// DG_SIGNAL_CAST_DEFINITION(sot::Flags);
+// DG_ADD_CASTER(sot::Flags, flags);
 
 /* --- TIMEVAL -------------------------------------------------------------- */
 /* --- TIMEVAL -------------------------------------------------------------- */

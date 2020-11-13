@@ -89,7 +89,8 @@ struct VectorSelecter : public UnaryOpHeader<dg::Vector, dg::Vector> {
     size += M - m;
   }
 
-  inline void addSpecificCommands(Entity &ent, Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity &ent,
+                                  Entity::CommandMap_t &commandMap) {
     using namespace dynamicgraph::command;
     std::string doc;
 
@@ -117,7 +118,8 @@ struct VectorComponent : public UnaryOpHeader<dg::Vector, double> {
   int index;
   inline void setIndex(const int &m) { index = m; }
 
-  inline void addSpecificCommands(Entity &ent, Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity &ent,
+                                  Entity::CommandMap_t &commandMap) {
     std::string doc;
 
     boost::function<void(const int &)> callback =
@@ -158,7 +160,8 @@ public:
     jmax = M;
   }
 
-  inline void addSpecificCommands(Entity &ent, Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity &ent,
+                                  Entity::CommandMap_t &commandMap) {
     using namespace dynamicgraph::command;
     std::string doc;
 
@@ -196,7 +199,8 @@ public:
     imax = M;
   }
 
-  inline void addSpecificCommands(Entity &ent, Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity &ent,
+                                  Entity::CommandMap_t &commandMap) {
     using namespace dynamicgraph::command;
     std::string doc;
 
@@ -231,7 +235,8 @@ public:
     nbr = r;
     nbc = c;
   }
-  inline void addSpecificCommands(Entity &ent, Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity &ent,
+                                  Entity::CommandMap_t &commandMap) {
     using namespace dynamicgraph::command;
     std::string doc;
 
@@ -255,7 +260,9 @@ struct Inverser : public UnaryOpHeader<matrixgen, matrixgen> {
 };
 
 struct Normalize : public UnaryOpHeader<dg::Vector, double> {
-  inline void operator()(const dg::Vector &m, double &res) const { res = m.norm(); }
+  inline void operator()(const dg::Vector &m, double &res) const {
+    res = m.norm();
+  }
 
   inline std::string getDocString() const {
     std::string docString("Computes the norm of a vector\n"
@@ -412,7 +419,7 @@ struct HomoToMatrix : public UnaryOpHeader<MatrixHomogeneous, Matrix> {
 
 struct MatrixToHomo : public UnaryOpHeader<Matrix, MatrixHomogeneous> {
   inline void operator()(const Eigen::Matrix<double, 4, 4> &M,
-                  MatrixHomogeneous &res) {
+                         MatrixHomogeneous &res) {
     res = M;
   }
 };
@@ -439,7 +446,6 @@ struct HomoToRotation
     res = M.linear();
   }
 };
-
 
 struct MatrixHomoToPose : public UnaryOpHeader<MatrixHomogeneous, Vector> {
   inline void operator()(const MatrixHomogeneous &M, Vector &res) {
@@ -489,16 +495,22 @@ struct QuaternionToMatrix
 
 struct MatrixToQuaternion
     : public UnaryOpHeader<MatrixRotation, VectorQuaternion> {
-  inline void operator()(const MatrixRotation &r, VectorQuaternion &res) { res = r; }
+  inline void operator()(const MatrixRotation &r, VectorQuaternion &res) {
+    res = r;
+  }
 };
 
 struct MatrixToUTheta : public UnaryOpHeader<MatrixRotation, VectorUTheta> {
-  inline void operator()(const MatrixRotation &r, VectorUTheta &res) { res = r; }
+  inline void operator()(const MatrixRotation &r, VectorUTheta &res) {
+    res = r;
+  }
 };
 
 struct UThetaToQuaternion
     : public UnaryOpHeader<VectorUTheta, VectorQuaternion> {
-  inline void operator()(const VectorUTheta &r, VectorQuaternion &res) { res = r; }
+  inline void operator()(const VectorUTheta &r, VectorQuaternion &res) {
+    res = r;
+  }
 };
 
 template <typename TypeIn1, typename TypeIn2, typename TypeOut>
@@ -547,8 +559,8 @@ struct Multiplier_FxE__E : public BinaryOpHeader<F, E, E> {
 };
 
 template <>
-inline void Multiplier_FxE__E<dynamicgraph::sot::MatrixHomogeneous,
-                       dynamicgraph::Vector>::
+inline void
+Multiplier_FxE__E<dynamicgraph::sot::MatrixHomogeneous, dynamicgraph::Vector>::
 operator()(const dynamicgraph::sot::MatrixHomogeneous &f,
            const dynamicgraph::Vector &e, dynamicgraph::Vector &res) const {
   res = f.matrix() * e;
@@ -579,7 +591,6 @@ template <typename T> struct Substraction : public BinaryOpHeader<T, T, T> {
   }
 };
 
-
 /* --- STACK ------------------------------------------------------------ */
 struct VectorStack
     : public BinaryOpHeader<dynamicgraph::Vector, dynamicgraph::Vector,
@@ -588,8 +599,8 @@ public:
   int v1min, v1max;
   int v2min, v2max;
   inline void operator()(const dynamicgraph::Vector &v1,
-                  const dynamicgraph::Vector &v2,
-                  dynamicgraph::Vector &res) const {
+                         const dynamicgraph::Vector &v2,
+                         dynamicgraph::Vector &res) const {
     assert((v1max >= v1min) && (v1.size() >= v1max));
     assert((v2max >= v2min) && (v2.size() >= v2max));
 
@@ -612,7 +623,8 @@ public:
     v2max = M;
   }
 
-  inline void addSpecificCommands(Entity &ent, Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity &ent,
+                                  Entity::CommandMap_t &commandMap) {
     using namespace dynamicgraph::command;
     std::string doc;
 
@@ -639,8 +651,9 @@ public:
 struct Composer
     : public BinaryOpHeader<dynamicgraph::Matrix, dynamicgraph::Vector,
                             MatrixHomogeneous> {
-  inline void operator()(const dynamicgraph::Matrix &R, const dynamicgraph::Vector &t,
-                  MatrixHomogeneous &H) const {
+  inline void operator()(const dynamicgraph::Matrix &R,
+                         const dynamicgraph::Vector &t,
+                         MatrixHomogeneous &H) const {
     H.linear() = R;
     H.translation() = t;
   }
@@ -654,7 +667,7 @@ struct ConvolutionTemporal
   MemoryType memory;
 
   inline void convolution(const MemoryType &f1, const dynamicgraph::Matrix &f2,
-                   dynamicgraph::Vector &res) {
+                          dynamicgraph::Vector &res) {
     const Vector::Index nconv = (Vector::Index)f1.size(), nsig = f2.rows();
     sotDEBUG(15) << "Size: " << nconv << "x" << nsig << std::endl;
     if (nconv > f2.cols())
@@ -676,7 +689,8 @@ struct ConvolutionTemporal
     }
   }
   inline void operator()(const dynamicgraph::Vector &v1,
-                  const dynamicgraph::Matrix &m2, dynamicgraph::Vector &res) {
+                         const dynamicgraph::Matrix &m2,
+                         dynamicgraph::Vector &res) {
     memory.push_front(v1);
     while ((Vector::Index)memory.size() > m2.cols())
       memory.pop_back();
@@ -687,7 +701,9 @@ struct ConvolutionTemporal
 /* --- BOOLEAN REDUCTION ------------------------------------------------ */
 
 template <typename T> struct Comparison : public BinaryOpHeader<T, T, bool> {
-  inline void operator()(const T &a, const T &b, bool &res) const { res = (a < b); }
+  inline void operator()(const T &a, const T &b, bool &res) const {
+    res = (a < b);
+  }
   inline std::string getDocString() const {
     typedef BinaryOpHeader<T, T, bool> Base;
     return std::string("Comparison of inputs:\n"
@@ -735,7 +751,8 @@ struct MatrixComparison : public BinaryOpHeader<T1, T2, bool> {
                        "comparison can be made <=.\n");
   }
   MatrixComparison() : any(true), equal(false) {}
-  inline void addSpecificCommands(Entity &ent, Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity &ent,
+                                  Entity::CommandMap_t &commandMap) {
     using namespace dynamicgraph::command;
     ADD_COMMAND(
         "setTrueIfAny",
@@ -766,7 +783,8 @@ public:
     res += gain2 * v2;
   }
 
-  inline void addSpecificCommands(Entity &ent, Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity &ent,
+                                  Entity::CommandMap_t &commandMap) {
     using namespace dynamicgraph::command;
     std::string doc;
 
@@ -838,7 +856,8 @@ public:
   typedef std::vector<segment_t> segments_t;
   Base *entity;
   segments_t idxs;
-  inline void operator()(const std::vector<const Vector *> &vs, Vector &res) const {
+  inline void operator()(const std::vector<const Vector *> &vs,
+                         Vector &res) const {
     res = *vs[0];
     for (std::size_t i = 0; i < idxs.size(); ++i) {
       const segment_t &s = idxs[i];
@@ -932,7 +951,9 @@ template <typename T> struct Multiplier : public VariadicOpHeader<T, T> {
     ent->setSignalNumber(2);
   }
 };
-template <> inline void Multiplier<double>::setIdentity(double &res) const { res = 1; }
+template <> inline void Multiplier<double>::setIdentity(double &res) const {
+  res = 1;
+}
 template <>
 inline void Multiplier<MatrixHomogeneous>::
 operator()(const std::vector<const MatrixHomogeneous *> &vs,
@@ -946,8 +967,8 @@ operator()(const std::vector<const MatrixHomogeneous *> &vs,
   }
 }
 template <>
-inline void Multiplier<Vector>::operator()(const std::vector<const Vector *> &vs,
-                                    Vector &res) const {
+inline void Multiplier<Vector>::
+operator()(const std::vector<const Vector *> &vs, Vector &res) const {
   if (vs.size() == 0)
     res.resize(0);
   else {
@@ -956,7 +977,6 @@ inline void Multiplier<Vector>::operator()(const std::vector<const Vector *> &vs
       res.array() *= vs[i]->array();
   }
 }
-
 
 /* --- BOOLEAN --------------------------------------------------------- */
 template <int operation> struct BoolOp : public VariadicOpHeader<bool, bool> {

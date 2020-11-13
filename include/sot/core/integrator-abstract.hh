@@ -90,21 +90,19 @@ public:
   void popNumCoef() { numerator.pop_back(); }
   void popDenomCoef() { denominator.pop_back(); }
 
-  const std::vector<coefT>& numCoeffs() const { return numerator; }
-  void numCoeffs(const std::vector<coefT>& coeffs) { numerator = coeffs; }
+  const std::vector<coefT> &numCoeffs() const { return numerator; }
+  void numCoeffs(const std::vector<coefT> &coeffs) { numerator = coeffs; }
 
-  const std::vector<coefT>& denomCoeffs() const { return denominator; }
-  void denomCoeffs(const std::vector<coefT>& coeffs) { denominator = coeffs; }
+  const std::vector<coefT> &denomCoeffs() const { return denominator; }
+  void denomCoeffs(const std::vector<coefT> &coeffs) { denominator = coeffs; }
 
 public:
   dynamicgraph::SignalPtr<sigT, int> SIN;
 
   dynamicgraph::SignalTimeDependent<sigT, int> SOUT;
 
-  virtual void display(std::ostream &os) const
-  {
-    os << this->getClassName() << ": " << getName() << '\n'
-      << "  ";
+  virtual void display(std::ostream &os) const {
+    os << this->getClassName() << ": " << getName() << '\n' << "  ";
     if (numerator.empty() || denominator.empty()) {
       os << "ill-formed.";
       return;
