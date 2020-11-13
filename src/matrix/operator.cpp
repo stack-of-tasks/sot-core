@@ -57,13 +57,13 @@ REGISTER_UNARY_OP(InverserQuaternion, Inverse_of_unitquat);
 /* --- SE3/SO3 conversions ----------------------------------------------- */
 /* ----------------------------------------------------------------------- */
 
-REGISTER_UNARY_OP(HomogeneousMatrixToVector, MatrixHomoToPoseUTheta);
-REGISTER_UNARY_OP(HomogeneousMatrixToSE3Vector, MatrixHomoToSE3Vector);
-REGISTER_UNARY_OP(SE3VectorToHomogeneousMatrix, SE3VectorToMatrixHomo);
+REGISTER_UNARY_OP(MatrixHomoToPoseUTheta, MatrixHomoToPoseUTheta);
+REGISTER_UNARY_OP(MatrixHomoToSE3Vector, MatrixHomoToSE3Vector);
+REGISTER_UNARY_OP(SE3VectorToMatrixHomo, SE3VectorToMatrixHomo);
 REGISTER_UNARY_OP(SkewSymToVector, SkewSymToVector);
 REGISTER_UNARY_OP(PoseUThetaToMatrixHomo, PoseUThetaToMatrixHomo);
 REGISTER_UNARY_OP(MatrixHomoToPoseQuaternion, MatrixHomoToPoseQuaternion);
-REGISTER_UNARY_OP(PoseQuaternionToMatrixHomo, PoseQuatToMatrixHomo);
+REGISTER_UNARY_OP(PoseQuaternionToMatrixHomo, PoseQuaternionToMatrixHomo);
 REGISTER_UNARY_OP(MatrixHomoToPoseRollPitchYaw, MatrixHomoToPoseRollPitchYaw);
 REGISTER_UNARY_OP(PoseRollPitchYawToMatrixHomo, PoseRollPitchYawToMatrixHomo);
 REGISTER_UNARY_OP(PoseRollPitchYawToPoseUTheta, PoseRollPitchYawToPoseUTheta);

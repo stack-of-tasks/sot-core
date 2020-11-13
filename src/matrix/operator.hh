@@ -278,7 +278,7 @@ struct InverserQuaternion
 /* --- SE3/SO3 conversions ----------------------------------------------- */
 /* ----------------------------------------------------------------------- */
 
-struct HomogeneousMatrixToVector
+struct MatrixHomoToPoseUTheta
     : public UnaryOpHeader<MatrixHomogeneous, dg::Vector> {
   inline void operator()(const MatrixHomogeneous &M, dg::Vector &res) {
     res.resize(6);
@@ -310,7 +310,7 @@ struct PoseUThetaToMatrixHomo
   }
 };
 
-struct SE3VectorToHomogeneousMatrix
+struct SE3VectorToMatrixHomo
     : public UnaryOpHeader<dg::Vector, MatrixHomogeneous> {
   void operator()(const dg::Vector &vect, MatrixHomogeneous &Mres) {
     Mres.translation() = vect.head<3>();
@@ -320,7 +320,7 @@ struct SE3VectorToHomogeneousMatrix
   }
 };
 
-struct HomogeneousMatrixToSE3Vector
+struct MatrixHomoToSE3Vector
     : public UnaryOpHeader<MatrixHomogeneous, dg::Vector> {
   void operator()(const MatrixHomogeneous &M, dg::Vector &res) {
     res.resize(12);

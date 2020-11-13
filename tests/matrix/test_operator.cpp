@@ -199,7 +199,7 @@ BOOST_AUTO_TEST_CASE(matrixHomo_poseQuaternion) {
   test_impl<MatrixHomoToPoseQuaternion, PoseQuaternionToMatrixHomo>();
 }
 BOOST_AUTO_TEST_CASE(matrixHomo_se3Vector) {
-  test_impl<HomogeneousMatrixToSE3Vector, SE3VectorToHomogeneousMatrix>();
+  test_impl<MatrixHomoToSE3Vector, SE3VectorToMatrixHomo>();
 }
 
 BOOST_AUTO_TEST_SUITE_END()

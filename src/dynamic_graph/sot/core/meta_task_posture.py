@@ -4,7 +4,7 @@ from dynamic_graph.sot.core.gain_adaptive import GainAdaptive
 from dynamic_graph.sot.core.matrix_util import matrixToTuple, vectorToTuple
 from dynamic_graph.sot.core.meta_task_6d import toFlags # kept for backward compatibility
 from dynamic_graph.sot.core.meta_tasks import setGain
-from dynamic_graph.sot.core.sot import Task
+from dynamic_graph.sot.core.task import Task
 from numpy import identity, matrix, zeros
 
 
