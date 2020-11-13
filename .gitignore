@@ -4,3 +4,4 @@ include/sot-core/import-default-paths.h
 unitTesting/test-paths.h
 *~
 _build*
+*__pycache__*
