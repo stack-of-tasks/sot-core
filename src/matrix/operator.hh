@@ -278,7 +278,7 @@ struct InverserQuaternion
 /* --- SE3/SO3 conversions ----------------------------------------------- */
 /* ----------------------------------------------------------------------- */
 
-struct HomogeneousMatrixToVector
+struct MatrixHomoToPoseUTheta
     : public UnaryOpHeader<MatrixHomogeneous, dg::Vector> {
   inline void operator()(const MatrixHomogeneous &M, dg::Vector &res) {
     res.resize(6);
@@ -307,6 +307,35 @@ struct PoseUThetaToMatrixHomo
       res.linear() = Eigen::AngleAxisd(theta, v.tail<3>() / theta).matrix();
     else
       res.linear().setIdentity();
+  }
+};
+
+struct SE3VectorToMatrixHomo
+    : public UnaryOpHeader<dg::Vector, MatrixHomogeneous> {
+  void operator()(const dg::Vector &vect, MatrixHomogeneous &Mres) {
+    Mres.translation() = vect.head<3>();
+    Mres.linear().row(0) = vect.segment(3, 3);
+    Mres.linear().row(1) = vect.segment(6, 3);
+    Mres.linear().row(2) = vect.segment(9, 3);
+  }
+};
+
+struct MatrixHomoToSE3Vector
+    : public UnaryOpHeader<MatrixHomogeneous, dg::Vector> {
+  void operator()(const MatrixHomogeneous &M, dg::Vector &res) {
+    res.resize(12);
+    res.head<3>() = M.translation();
+    res.segment(3, 3) = M.linear().row(0);
+    res.segment(6, 3) = M.linear().row(1);
+    res.segment(9, 3) = M.linear().row(2);
+  }
+};
+
+struct PoseQuaternionToMatrixHomo
+    : public UnaryOpHeader<Vector, MatrixHomogeneous> {
+  void operator()(const dg::Vector &vect, MatrixHomogeneous &Mres) {
+    Mres.translation() = vect.head<3>();
+    Mres.linear() = VectorQuaternion(vect.tail<4>()).toRotationMatrix();
   }
 };
 

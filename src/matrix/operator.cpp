@@ -57,42 +57,13 @@ REGISTER_UNARY_OP(InverserQuaternion, Inverse_of_unitquat);
 /* --- SE3/SO3 conversions ----------------------------------------------- */
 /* ----------------------------------------------------------------------- */
 
-REGISTER_UNARY_OP(HomogeneousMatrixToVector, MatrixHomoToPoseUTheta);
-
-struct HomogeneousMatrixToSE3Vector
-    : public UnaryOpHeader<MatrixHomogeneous, dg::Vector> {
-  void operator()(const MatrixHomogeneous &M, dg::Vector &res) {
-    res.resize(12);
-    res.head<3>() = M.translation();
-    res.segment(3, 3) = M.linear().row(0);
-    res.segment(6, 3) = M.linear().row(1);
-    res.segment(9, 3) = M.linear().row(2);
-  }
-};
-REGISTER_UNARY_OP(HomogeneousMatrixToSE3Vector, MatrixHomoToSE3Vector);
-
-struct SE3VectorToHomogeneousMatrix
-    : public UnaryOpHeader<dg::Vector, MatrixHomogeneous> {
-  void operator()(const dg::Vector &vect, MatrixHomogeneous &Mres) {
-    Mres.translation() = vect.head<3>();
-    Mres.linear().row(0) = vect.segment(3, 3);
-    Mres.linear().row(1) = vect.segment(6, 3);
-    Mres.linear().row(2) = vect.segment(9, 3);
-  }
-};
-REGISTER_UNARY_OP(SE3VectorToHomogeneousMatrix, SE3VectorToMatrixHomo);
+REGISTER_UNARY_OP(MatrixHomoToPoseUTheta, MatrixHomoToPoseUTheta);
+REGISTER_UNARY_OP(MatrixHomoToSE3Vector, MatrixHomoToSE3Vector);
+REGISTER_UNARY_OP(SE3VectorToMatrixHomo, SE3VectorToMatrixHomo);
 REGISTER_UNARY_OP(SkewSymToVector, SkewSymToVector);
 REGISTER_UNARY_OP(PoseUThetaToMatrixHomo, PoseUThetaToMatrixHomo);
 REGISTER_UNARY_OP(MatrixHomoToPoseQuaternion, MatrixHomoToPoseQuaternion);
-
-struct PoseQuaternionToMatrixHomo
-    : public UnaryOpHeader<Vector, MatrixHomogeneous> {
-  void operator()(const dg::Vector &vect, MatrixHomogeneous &Mres) {
-    Mres.translation() = vect.head<3>();
-    Mres.linear() = VectorQuaternion(vect.tail<4>()).toRotationMatrix();
-  }
-};
-REGISTER_UNARY_OP(PoseQuaternionToMatrixHomo, PoseQuatToMatrixHomo);
+REGISTER_UNARY_OP(PoseQuaternionToMatrixHomo, PoseQuaternionToMatrixHomo);
 REGISTER_UNARY_OP(MatrixHomoToPoseRollPitchYaw, MatrixHomoToPoseRollPitchYaw);
 REGISTER_UNARY_OP(PoseRollPitchYawToMatrixHomo, PoseRollPitchYawToMatrixHomo);
 REGISTER_UNARY_OP(PoseRollPitchYawToPoseUTheta, PoseRollPitchYawToPoseUTheta);
