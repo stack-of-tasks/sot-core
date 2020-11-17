@@ -55,7 +55,7 @@ BOOST_PYTHON_MODULE(wrap) {
   dynamicgraph::python::exposeEntity<dgs::Device>()
       .add_property("after", bp::make_function(&dgs::Device::periodicCallAfter,
                                                reference_existing_object()))
-      .def_readonly("before",
+      .add_property("before",
                     bp::make_function(&dgs::Device::periodicCallBefore,
                                       reference_existing_object()));
 
