@@ -17,9 +17,7 @@ SET(TEST_tsot_LIBS
   gain-adaptive
   )
 
-LINK_DIRECTORIES(${DYNAMIC_GRAPH_PLUGINDIR})
-
-SET(TEST_test_traces_EXT_LIBS tracer)
+SET(TEST_test_traces_EXT_LIBS dynamic-graph::tracer)
 
 SET(TEST_test_gain_LIBS
   gain-adaptive feature-visual-point)
@@ -109,8 +107,6 @@ IF(UNIX)
     pluginabstract ${CMAKE_DL_LIBS})
 ENDIF(UNIX)
 
-# find -ltracer. TODO: that's ugly, properly export a component for each plugin instead.
-LINK_DIRECTORIES("${dynamic-graph_DIR}/../../../${DYNAMIC_GRAPH_PLUGINDIR}")
 FOREACH(path ${tests})
   GET_FILENAME_COMPONENT(test ${path} NAME)
   ADD_UNIT_TEST(${test} ${path}.cpp)
