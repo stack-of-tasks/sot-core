@@ -61,6 +61,7 @@ SET(plugins
   tools/exp-moving-avg
   tools/gradient-ascent
   tools/parameter-server
+  tools/smooth-reach
 
   control/control-gr
   control/control-pd
