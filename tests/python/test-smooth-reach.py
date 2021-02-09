@@ -3,6 +3,7 @@
 import unittest
 from dynamic_graph.sot.core.smooth_reach import SmoothReach
 
+
 class SmoothReachTest(unittest.TestCase):
     def test_smooth_reach(self):
         sr = SmoothReach("banana")

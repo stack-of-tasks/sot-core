@@ -2,7 +2,7 @@ from dynamic_graph import plug
 from dynamic_graph.sot.core import Flags
 from dynamic_graph.sot.core.feature_point6d_relative import FeaturePoint6dRelative
 from dynamic_graph.sot.core.matrix_util import matrixToTuple
-from dynamic_graph.sot.core.meta_task_6d import MetaTask6d, toFlags # kept for backward compatibility
+from dynamic_graph.sot.core.meta_task_6d import MetaTask6d, toFlags  # noqa kept for backward compatibility
 from dynamic_graph.sot.core.meta_tasks import generic6dReference, setGain
 from dynamic_graph.sot.core.op_point_modifier import OpPointModifier
 

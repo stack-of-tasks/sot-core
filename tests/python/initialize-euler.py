@@ -2,7 +2,6 @@
 
 import unittest
 
-import dynamic_graph as dgpy
 import dynamic_graph.sot.core.integrator_euler as ie
 
 

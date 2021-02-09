@@ -11,6 +11,7 @@ def toFlags(arr):
     warn("This function is deprecated. Please, use Flags directly.")
     return Flags(arr)
 
+
 class MetaTask6d(object):
     name = ''
     opPoint = ''

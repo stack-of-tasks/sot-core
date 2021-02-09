@@ -1,2 +1,2 @@
-from . import wrap
-from .wrap import Flags
+from . import wrap  # noqa
+from .wrap import Flags  # noqa
