@@ -29,8 +29,7 @@ def vectorToTuple(M):
 
 # Convert from Roll, Pitch, Yaw to transformation Matrix
 def rpy2tr(r, p, y):
-    mat = matrix(rotate('z', y)) * matrix(rotate('y', p)) * matrix(
-        rotate('x', r))
+    mat = matrix(rotate('z', y)) * matrix(rotate('y', p)) * matrix(rotate('x', r))
     return matrixToTuple(mat)
 
 
@@ -64,8 +63,7 @@ def generateOrthonormalM(v1):
     e1 = e1.tolist()
     e2 = e2.tolist()
     e3 = e3.tolist()
-    M = ((e1[0][0], e2[0][0], e3[0][0]), (e1[0][1], e2[0][1], e3[0][1]),
-         (e1[0][2], e2[0][2], e3[0][2]))
+    M = ((e1[0][0], e2[0][0], e3[0][0]), (e1[0][1], e2[0][1], e3[0][1]), (e1[0][2], e2[0][2], e3[0][2]))
     return M
 
 
@@ -123,14 +121,7 @@ def rotate(axis, ang):
 
 def quaternionToMatrix(q):
     [qx, qy, qz, qw] = q
-    R = [[
-        1 - 2 * qy**2 - 2 * qz**2, 2 * qx * qy - 2 * qz * qw,
-        2 * qx * qz + 2 * qy * qw
-    ], [
-        2 * qx * qy + 2 * qz * qw, 1 - 2 * qx**2 - 2 * qz**2,
-        2 * qy * qz - 2 * qx * qw
-    ], [
-        2 * qx * qz - 2 * qy * qw, 2 * qy * qz + 2 * qx * qw,
-        1 - 2 * qx**2 - 2 * qy**2
-    ]]
+    R = [[1 - 2 * qy**2 - 2 * qz**2, 2 * qx * qy - 2 * qz * qw, 2 * qx * qz + 2 * qy * qw],
+         [2 * qx * qy + 2 * qz * qw, 1 - 2 * qx**2 - 2 * qz**2, 2 * qy * qz - 2 * qx * qw],
+         [2 * qx * qz - 2 * qy * qw, 2 * qy * qz + 2 * qx * qw, 1 - 2 * qx**2 - 2 * qy**2]]
     return R

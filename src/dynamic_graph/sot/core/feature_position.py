@@ -28,11 +28,7 @@ class FeaturePosition(Entity):
 
     signalMap = dict()
 
-    def __init__(self,
-                 name,
-                 signalPosition=None,
-                 signalJacobian=None,
-                 referencePosition=None):
+    def __init__(self, name, signalPosition=None, signalJacobian=None, referencePosition=None):
         self._feature = FeaturePoint6d(name)
         self.obj = self._feature.obj
         self._reference = FeaturePoint6d(name + '_ref')

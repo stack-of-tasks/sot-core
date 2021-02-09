@@ -69,8 +69,7 @@ class Calendar:
                     self.registerEvent(iter, fun)
                 else:  # assert iscallable(fun)
                     if 'functor' in fun.__dict__:
-                        self.registerEvent(iter,
-                                           (fun.functor, fun.functor.__doc__))
+                        self.registerEvent(iter, (fun.functor, fun.functor.__doc__))
                     else:
                         self.registerEvent(iter, (fun, fun.__doc__))
 
@@ -109,7 +108,6 @@ class Calendar:
         This next calling pattern is a little bit strange. Use it to decorate
         a function definition: @attime(30) def run30(): ...
         """
-
         class calendarDeco:
             iterRef = iterarg
             calendarRef = self
@@ -120,11 +118,9 @@ class Calendar:
                     functer.__doc__ = "No doc fun"
                 if len(functer.__doc__) > 0:
                     selfdeco.__doc__ = functer.__doc__
-                    selfdeco.__doc__ += " (will be run at time " + str(
-                        selfdeco.iterRef) + ")"
+                    selfdeco.__doc__ += " (will be run at time " + str(selfdeco.iterRef) + ")"
                 selfdeco.fun = functer
-                selfdeco.calendarRef.registerEvents(selfdeco.iterRef, functer,
-                                                    functer.__doc__)
+                selfdeco.calendarRef.registerEvents(selfdeco.iterRef, functer, functer.__doc__)
 
             def __call__(selfdeco, *args):
                 selfdeco.fun(*args)

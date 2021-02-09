@@ -13,8 +13,7 @@ class History:
         self.freq = freq
         self.zmpSig = zmpSig
         self.dynEnt = dynEnt
-        self.withZmp = (self.zmpSig is not None) and ("waist" in map(
-            lambda x: x.name, self.dynEnt.signals()))
+        self.withZmp = (self.zmpSig is not None) and ("waist" in map(lambda x: x.name, self.dynEnt.signals()))
 
     def record(self):
         i = self.dynEnt.position.time
@@ -41,13 +40,10 @@ class History:
         fileWaist = open(baseName + '.waist', 'w')
         sampleT = 0.005
         for nT, q in enumerate(self.q):
-            fileRPY.write(
-                str(sampleT * nT) + ' ' + str(q[3]) + ' ' + str(q[4]) + ' ' +
-                str(q[5]) + '\n')
+            fileRPY.write(str(sampleT * nT) + ' ' + str(q[3]) + ' ' + str(q[4]) + ' ' + str(q[5]) + '\n')
             fileWaist.write(
-                str(sampleT * nT) + ' ' + str(q[0]) + ' ' + str(q[1]) + ' ' +
-                str(q[2]) + ' ' + str(q[3]) + ' ' + str(q[4]) + ' ' +
-                str(q[5]) + '\n')
+                str(sampleT * nT) + ' ' + str(q[0]) + ' ' + str(q[1]) + ' ' + str(q[2]) + ' ' + str(q[3]) + ' ' +
+                str(q[4]) + ' ' + str(q[5]) + '\n')
             filePos.write(str(sampleT * nT) + ' ')
             for j in range(6, 36):
                 filePos.write(str(q[j]) + ' ')
@@ -55,9 +51,7 @@ class History:
         if self.withZmp:
             fileZMP = open(baseName + '.zmp', 'w')
             for nT, z in enumerate(self.zmp):
-                fileZMP.write(
-                    str(sampleT * nT) + ' ' + str(z[0]) + ' ' + str(z[1]) +
-                    ' ' + str(z[2]) + '\n')
+                fileZMP.write(str(sampleT * nT) + ' ' + str(z[0]) + ' ' + str(z[1]) + ' ' + str(z[2]) + '\n')
 
         filePos0 = open(baseName + '_pos0.py', 'w')
         filePos0.write("dyninv_posinit = '")

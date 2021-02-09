@@ -22,8 +22,7 @@ urdfDir = param_server_conf.model_path
 class TestParameterServer(unittest.TestCase):
     def test_set_parameter(self):
         # Read talos model
-        path = join(
-            dirname(dirname(abspath(__file__))), 'models', 'others', 'python')
+        path = join(dirname(dirname(abspath(__file__))), 'models', 'others', 'python')
         sys.path.append(path)
 
         from example_robot_data.path import EXAMPLE_ROBOT_DATA_MODEL_DIR
@@ -35,17 +34,14 @@ class TestParameterServer(unittest.TestCase):
         urdf_rrbot_model_string = fs.read()
         fs.close()
 
-        param_server.setParameter("/robot_description",
-                                  urdf_rrbot_model_string)
+        param_server.setParameter("/robot_description", urdf_rrbot_model_string)
         model2_string = param_server.getParameter("/robot_description")
 
         self.assertEqual(urdf_rrbot_model_string, model2_string)
 
         aValue = 0.122
-        param_server.setParameterDbl("/specificities/feet/right/size/height",
-                                     aValue)
-        a2Value = param_server.getParameterDbl(
-            "/specificities/feet/right/size/height")
+        param_server.setParameterDbl("/specificities/feet/right/size/height", aValue)
+        a2Value = param_server.getParameterDbl("/specificities/feet/right/size/height")
         self.assertEqual(aValue, a2Value)
 
 
