@@ -43,6 +43,12 @@ IF(BUILD_TESTING)
   FIND_PACKAGE(Boost REQUIRED COMPONENTS unit_test_framework program_options)
 ENDIF()
 
+IF(Boost_VERSION GREATER 107299 OR Boost_VERSION_MACRO GREATER 107299)
+  # Silence a warning about a deprecated use of boost bind by boost >= 1.73
+  # without dropping support for boost < 1.73
+  ADD_DEFINITIONS(-DBOOST_BIND_GLOBAL_PLACEHOLDERS)
+ENDIF()
+
 IF(BUILD_PYTHON_INTERFACE)
   FINDPYTHON()
   STRING(REGEX REPLACE "-" "_" PYTHON_DIR ${CUSTOM_HEADER_DIR})
