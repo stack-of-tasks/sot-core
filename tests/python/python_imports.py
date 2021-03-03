@@ -76,7 +76,6 @@ class PythonImportTest(unittest.TestCase):
         except ImportError as ie:
             self.fail(str(ie))
 
-    @unittest.skip("Fail on 'import dynamic_graph.matlab'")
     def test_thread_interruptible_loop(self):
         try:
             import dynamic_graph.sot.core.utils.thread_interruptible_loop  # noqa
