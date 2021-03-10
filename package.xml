@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>sot-core</name>
-  <version>4.11.4</version>
+  <version>4.11.5</version>
   <description>
     Hierarchical task solver plug-in for dynamic-graph
   </description>
