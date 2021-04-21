@@ -165,14 +165,14 @@ SET(${PROJECT_NAME}_SOURCES
   src/sot/flags.cpp
   src/sot/memory-task-sot.cpp
   src/factory/pool.cpp
-  src/tools/utils-windows
-  src/tools/periodic-call
-  src/tools/device
-  src/tools/trajectory
-  src/tools/robot-utils
-  src/matrix/matrix-svd
-  src/filters/causal-filter
-  src/utils/stop-watch
+  src/tools/utils-windows.cpp
+  src/tools/periodic-call.cpp
+  src/tools/device.cpp
+  src/tools/trajectory.cpp
+  src/tools/robot-utils.cpp
+  src/matrix/matrix-svd.cpp
+  src/filters/causal-filter.cpp
+  src/utils/stop-watch.cpp
   )
 
 ADD_LIBRARY(${PROJECT_NAME} SHARED
