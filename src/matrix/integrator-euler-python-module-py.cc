@@ -3,8 +3,6 @@
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 #include <dynamic-graph/python/dynamic-graph-py.hh>
 
-#include <eigenpy/registration.hpp>
-
 #include <sot/core/integrator-euler.hh>
 
 namespace dg = dynamicgraph;
