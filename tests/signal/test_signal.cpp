@@ -26,31 +26,31 @@ public:
   }
 };
 
-dynamicgraph::Vector data(6);
+dynamicgraph::Vector test_data(6);
 Signal<dynamicgraph::Vector, double> sig("sigtest");
 DummyClass dummy;
 
 dynamicgraph::Vector &fun(dynamicgraph::Vector &res, double /*j*/) {
-  return res = data;
+  return res = test_data;
 }
 
 int main(void) {
-  data.fill(1);
-  cout << "data: " << data << endl;
+  test_data.fill(1);
+  cout << "test_data: " << test_data << endl;
 
-  sig.setConstant(data);
+  sig.setConstant(test_data);
   cout << "Constant: " << sig.access(1.) << endl;
-  data *= 2;
+  test_data *= 2;
   cout << "Constant: " << sig(1.) << endl;
 
-  sig.setReference(&data);
+  sig.setReference(&test_data);
   cout << "Reference: " << sig(1.) << endl;
-  data *= 2;
+  test_data *= 2;
   cout << "Reference: " << sig(1.) << endl;
 
   sig.setFunction(&fun);
   cout << "Function: " << sig(1.) << endl;
-  data *= 2;
+  test_data *= 2;
   cout << "Function: " << sig(1.) << endl;
 
   // boost::function2<int,int,double> onClick = (&DummyClass::fun, &dummy,
@@ -58,12 +58,12 @@ int main(void) {
   // &dummy);
   sig.setFunction(boost::bind(&DummyClass::fun, &dummy, _1, _2));
   cout << "Function: " << sig(1.5) << endl;
-  data *= 2;
+  test_data *= 2;
   cout << "Function: " << sig(1.34) << endl;
 
   //   sig.setFunction(&DummyClass::fun, dummy);
   //   cout << "Function: " << sig(1.5) <<endl;
-  //   data*=2;
+  //   test_data*=2;
   //   cout << "Function: " << sig(12.34) <<endl;
 
   return 0;
