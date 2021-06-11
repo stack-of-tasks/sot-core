@@ -102,6 +102,7 @@ SET(${PROJECT_NAME}_HEADERS
   include/${CUSTOM_HEADER_DIR}/filter-differentiator.hh
   include/${CUSTOM_HEADER_DIR}/fir-filter.hh
   include/${CUSTOM_HEADER_DIR}/flags.hh
+  include/${CUSTOM_HEADER_DIR}/fwd.hh
   include/${CUSTOM_HEADER_DIR}/gain-adaptive.hh
   include/${CUSTOM_HEADER_DIR}/gain-hyperbolic.hh
   include/${CUSTOM_HEADER_DIR}/gripper-control.hh
