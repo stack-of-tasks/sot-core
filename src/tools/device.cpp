@@ -236,15 +236,27 @@ void Device::setState(const Vector &st) {
              "In order to make it work, use pinocchio and the contact forces "
              "to estimate the joint torques for the given acceleration.\n";
       if (s != lowerTorque_.size() || s != upperTorque_.size())
-        throw std::invalid_argument(
-            "Upper and/or lower torque bounds "
-            "do not match state size. Set them first with setTorqueBounds");
+      {
+	std::ostringstream os;
+	os << "dynamicgraph::sot::Device::setState: upper and/or lower torque"
+	  "bounds do not match state size. Input State size = " << st.size()
+	   << ", lowerTorque_.size() = " << lowerTorque_.size()
+	   << ", upperTorque_.size() = " << upperTorque_.size()
+	   << ". Set them first with setTorqueBounds.";
+	throw std::invalid_argument(os.str().c_str());
       // fall through
+      }
     case CONTROL_INPUT_ONE_INTEGRATION:
       if (s != lowerVelocity_.size() || s != upperVelocity_.size())
-        throw std::invalid_argument("Upper and/or lower velocity bounds "
-                                    "do not match state size."
-                                    " Set them first with setVelocityBounds");
+      {
+	std::ostringstream os;
+	os << "dynamicgraph::sot::Device::setState: upper and/or lower velocity"
+	  " bounds do not match state size. Input State size = " << st.size()
+	   << ", lowerVelocity_.size() = " << lowerVelocity_.size()
+	   << ", upperVelocity_.size() = " << upperVelocity_.size()
+	   << ". Set them first with setVelocityBounds.";
+	throw std::invalid_argument(os.str().c_str());
+      }
       // fall through
     case CONTROL_INPUT_NO_INTEGRATION:
       break;
