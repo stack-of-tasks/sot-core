@@ -115,10 +115,9 @@ void FeaturePosture::selectDof(unsigned dofId, bool control) {
   }
 
   // Check that selected dof id is valid
-  if ((dofId < 6) || (dofId >= dim)) {
+  if (dofId >= dim) {
     std::ostringstream oss;
-    oss << "dof id should be more than 5 and less than state "
-           "dimension: "
+    oss << "dof id should less than state dimension: "
         << dim << ". Received " << dofId << ".";
     throw ExceptionAbstract(ExceptionAbstract::TOOLS, oss.str());
   }
