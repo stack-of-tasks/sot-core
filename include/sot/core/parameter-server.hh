@@ -118,7 +118,7 @@ public:
       DYNAMIC_GRAPH_ENTITY_WARNING(*this)
           << "Cannot get parameter " << ParameterName
           << " before initialization!\n";
-      Type ParameterValue;
+      Type ParameterValue=Type();
       return ParameterValue;
     }
     return m_robot_util->get_parameter<Type>(ParameterName);
