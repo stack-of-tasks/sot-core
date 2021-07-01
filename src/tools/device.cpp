@@ -348,11 +348,13 @@ void Device::setSanityCheck(const bool &enableCheck) {
 void Device::setPositionBounds(const Vector &lower, const Vector &upper) {
   std::ostringstream oss;
   if (lower.size() != state_.size()) {
-    oss << "Lower bound size should be " << state_.size();
+    oss << "Lower bound size should be " << state_.size() << ", got "
+	<< lower.size();
     throw std::invalid_argument(oss.str());
   }
   if (upper.size() != state_.size()) {
-    oss << "Upper bound size should be " << state_.size();
+    oss << "Upper bound size should be " << state_.size() << ", got "
+	<< upper.size();
     throw std::invalid_argument(oss.str());
   }
   lowerPosition_ = lower;
@@ -362,11 +364,13 @@ void Device::setPositionBounds(const Vector &lower, const Vector &upper) {
 void Device::setVelocityBounds(const Vector &lower, const Vector &upper) {
   std::ostringstream oss;
   if (lower.size() != velocity_.size()) {
-    oss << "Lower bound size should be " << velocity_.size();
+    oss << "Lower bound size should be " << velocity_.size() << ", got "
+	<< lower.size();
     throw std::invalid_argument(oss.str());
   }
   if (upper.size() != velocity_.size()) {
-    oss << "Upper bound size should be " << velocity_.size();
+    oss << "Upper bound size should be " << velocity_.size() << ", got "
+	<< upper.size();
     throw std::invalid_argument(oss.str());
   }
   lowerVelocity_ = lower;
@@ -377,11 +381,13 @@ void Device::setTorqueBounds(const Vector &lower, const Vector &upper) {
   // TODO I think the torque bounds size are state_.size()-6...
   std::ostringstream oss;
   if (lower.size() != state_.size()) {
-    oss << "Lower bound size should be " << state_.size();
+    oss << "Lower bound size should be " << state_.size() << ", got "
+	<< lower.size();
     throw std::invalid_argument(oss.str());
   }
   if (upper.size() != state_.size()) {
-    oss << "Lower bound size should be " << state_.size();
+    oss << "Lower bound size should be " << state_.size() << ", got "
+	<< upper.size();
     throw std::invalid_argument(oss.str());
   }
   lowerTorque_ = lower;
