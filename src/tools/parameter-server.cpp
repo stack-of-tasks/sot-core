@@ -360,7 +360,7 @@ void ParameterServer::setHandFrameName(const std::string& HandName, const std::s
   else if (HandName == "Right")
     m_robot_util->m_hand_util.m_Right_Hand_Frame_Name = FrameName;
   else
-    SEND_WARNING_STREAM_MSG("Did not understand the hand name !" + HandName);
+    SEND_WARNING_STREAM_MSG("Available hand names are 'Left' and 'Right', not '" + HandName + "' !");
 }
 
 void ParameterServer::setImuJointName(const std::string &JointName) {
