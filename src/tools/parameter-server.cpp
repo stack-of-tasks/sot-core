@@ -123,6 +123,11 @@ ParameterServer::ParameterServer(const std::string &name)
                  *this, &ParameterServer::setFootFrameName,
                  docCommandVoid2("Set the Frame Name for the Foot Name.",
                                  "(string) Foot name", "(string) Frame name")));
+  addCommand("setHandFrameName",
+             makeCommandVoid2(
+                 *this, &ParameterServer::setHandFrameName,
+                 docCommandVoid2("Set the Frame Name for the Hand Name.",
+                                 "(string) Hand name", "(string) Frame name")));
   addCommand("setImuJointName",
              makeCommandVoid1(
                  *this, &ParameterServer::setImuJointName,
@@ -343,6 +348,19 @@ void ParameterServer::setFootFrameName(const std::string &FootName,
     m_robot_util->m_foot_util.m_Right_Foot_Frame_Name = FrameName;
   else
     SEND_WARNING_STREAM_MSG("Did not understand the foot name !" + FootName);
+}
+
+void ParameterServer::setHandFrameName(const std::string& HandName, const std::string& FrameName) {
+  if (!m_initSucceeded) {
+    SEND_WARNING_STREAM_MSG("Cannot set hand frame name!");
+    return;
+  }
+  if (HandName == "Left")
+    m_robot_util->m_hand_util.m_Left_Hand_Frame_Name = FrameName;
+  else if (HandName == "Right")
+    m_robot_util->m_hand_util.m_Right_Hand_Frame_Name = FrameName;
+  else
+    SEND_WARNING_STREAM_MSG("Did not understand the hand name !" + HandName);
 }
 
 void ParameterServer::setImuJointName(const std::string &JointName) {
