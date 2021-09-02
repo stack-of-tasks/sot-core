@@ -19,7 +19,6 @@
 
 /* SOT */
 #include "sot/core/api.hh"
-#include "sot/core/deprecated.hh"
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
 #include <sot/core/flags.hh>
