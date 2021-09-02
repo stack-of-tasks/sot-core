@@ -1,12 +1,12 @@
-import unittest
-import pinocchio as pin
-import parameter_server_conf as param_server_conf
-from dynamic_graph.sot.core.parameter_server import ParameterServer
 import sys
-from os.path import dirname, join, abspath
+import unittest
+from os.path import abspath, dirname, join
 
-# Switch pinocchio to numpy matrix
-pin.switchToNumpyMatrix()
+import pinocchio as pin
+from dynamic_graph.sot.core.parameter_server import ParameterServer
+from example_robot_data import load_full
+
+import parameter_server_conf as param_server_conf
 
 param_server = ParameterServer("param_server")
 param_server.init(0.001, "talos.urdf", "talos")
@@ -25,14 +25,9 @@ class TestParameterServer(unittest.TestCase):
         path = join(dirname(dirname(abspath(__file__))), 'models', 'others', 'python')
         sys.path.append(path)
 
-        from example_robot_data.path import EXAMPLE_ROBOT_DATA_MODEL_DIR
-
-        urdf_file_name = EXAMPLE_ROBOT_DATA_MODEL_DIR + \
-            '/talos_data/robots/talos_reduced.urdf'
-
-        fs = open(urdf_file_name, 'r')
-        urdf_rrbot_model_string = fs.read()
-        fs.close()
+        _, _, urdf_file_name, _ = load_full('talos')
+        with open(urdf_file_name) as fs:
+            urdf_rrbot_model_string = fs.read()
 
         param_server.setParameter("/robot_description", urdf_rrbot_model_string)
         model2_string = param_server.getParameter("/robot_description")
