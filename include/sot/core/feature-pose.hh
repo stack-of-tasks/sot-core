@@ -161,8 +161,8 @@ template <> const std::string FeaturePose<SE3Representation>::CLASS_NAME;
 template <> const std::string FeaturePose<R3xSO3Representation>::CLASS_NAME;
 
 #if __cplusplus >= 201103L
-extern template class SOT_CORE_DLLAPI FeaturePose<SE3Representation>;
-extern template class SOT_CORE_DLLAPI FeaturePose<R3xSO3Representation>;
+extern template class FeaturePose<SE3Representation>;
+extern template class FeaturePose<R3xSO3Representation>;
 #endif
 
 typedef FeaturePose<R3xSO3Representation> FeaturePose_t;

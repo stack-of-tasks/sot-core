@@ -18,6 +18,7 @@
 
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/pool.h>
+#include <sot/core/macros.hh>
 #include <sot/core/matrix-geometry.hh>
 
 using namespace std;
@@ -26,8 +27,11 @@ using namespace dynamicgraph;
 namespace dg = dynamicgraph;
 
 #include <sot/core/factory.hh>
+SOT_CORE_DISABLE_WARNING_PUSH
+SOT_CORE_DISABLE_WARNING_DEPRECATED
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePoint6dRelative,
                                    "FeaturePoint6dRelative");
+SOT_CORE_DISABLE_WARNING_POP
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

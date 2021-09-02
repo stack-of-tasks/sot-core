@@ -12,12 +12,16 @@
 #include <sot/core/debug.hh>
 #include <sot/core/factory.hh>
 #include <sot/core/macros-signal.hh>
+#include <sot/core/macros.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
+SOT_CORE_DISABLE_WARNING_PUSH
+SOT_CORE_DISABLE_WARNING_DEPRECATED
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(VectorToRotation, "VectorToRotation");
+SOT_CORE_DISABLE_WARNING_POP
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
