@@ -446,7 +446,7 @@ void RobotUtil::display(std::ostream &os) const {
 
 void RobotUtil::sendMsg(const std::string &msg, MsgType t,
                         const std::string &lineId) {
-  logger_.sendMsg("[RobotUtil]" + msg, t, lineId);
+  logger_.stream(t, lineId) << "[RobotUtil]" << msg << '\n';
 }
 
 bool base_se3_to_sot(ConstRefVector pos, ConstRefMatrix R, RefVector q_sot) {
