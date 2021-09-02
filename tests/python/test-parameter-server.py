@@ -2,7 +2,6 @@ import sys
 import unittest
 from os.path import abspath, dirname, join
 
-import pinocchio as pin
 from dynamic_graph.sot.core.parameter_server import ParameterServer
 from example_robot_data import load_full
 
