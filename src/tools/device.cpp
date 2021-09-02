@@ -15,6 +15,7 @@
 
 #include "sot/core/device.hh"
 #include <iostream>
+#include <sot/core/macros.hh>
 #include <sot/core/debug.hh>
 using namespace std;
 
@@ -229,6 +230,8 @@ void Device::setVelocitySize(const unsigned int &size) {
 void Device::setState(const Vector &st) {
   if (sanityCheck_) {
     const Vector::Index &s = st.size();
+SOT_CORE_DISABLE_WARNING_PUSH
+SOT_CORE_DISABLE_WARNING_FALLTHROUGH
     switch (controlInputType_) {
     case CONTROL_INPUT_TWO_INTEGRATION:
       dgRTLOG()
@@ -263,6 +266,7 @@ void Device::setState(const Vector &st) {
     default:
       throw std::invalid_argument("Invalid control mode type.");
     }
+SOT_CORE_DISABLE_WARNING_POP
   }
   state_ = st;
   stateSOUT.setConstant(state_);
@@ -315,6 +319,8 @@ void Device::setControlInputType(const std::string &cit) {
 void Device::setSanityCheck(const bool &enableCheck) {
   if (enableCheck) {
     const Vector::Index &s = state_.size();
+SOT_CORE_DISABLE_WARNING_PUSH
+SOT_CORE_DISABLE_WARNING_FALLTHROUGH
     switch (controlInputType_) {
     case CONTROL_INPUT_TWO_INTEGRATION:
       dgRTLOG()
@@ -341,6 +347,7 @@ void Device::setSanityCheck(const bool &enableCheck) {
     default:
       throw std::invalid_argument("Invalid control mode type.");
     }
+SOT_CORE_DISABLE_WARNING_POP
   }
   sanityCheck_ = enableCheck;
 }
