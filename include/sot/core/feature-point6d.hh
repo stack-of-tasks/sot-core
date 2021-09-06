@@ -46,9 +46,9 @@ namespace sot {
   \brief Class that defines point-6d control feature.
   \deprecated This class was replaced by FeaturePose.
 */
-class SOTFEATUREPOINT6D_EXPORT FeaturePoint6d
-    : public FeatureAbstract,
-      public FeatureReferenceHelper<FeaturePoint6d> {
+class[[deprecated("replaced by FeaturePose")]] SOTFEATUREPOINT6D_EXPORT
+    FeaturePoint6d : public FeatureAbstract,
+                     public FeatureReferenceHelper<FeaturePoint6d> {
 
 public:
   static const std::string CLASS_NAME;

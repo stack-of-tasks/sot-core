@@ -47,8 +47,8 @@ namespace sot {
   point.
   \deprecated This class was replaced by FeaturePose.
 */
-class SOTFEATUREPOINT6DRELATIVE_EXPORT FeaturePoint6dRelative
-    : public FeaturePoint6d {
+class[[deprecated("replaced by FeaturePose")]] SOTFEATUREPOINT6DRELATIVE_EXPORT
+    FeaturePoint6dRelative : public FeaturePoint6d {
 
 public:
   static const std::string CLASS_NAME;

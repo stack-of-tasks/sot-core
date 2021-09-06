@@ -26,13 +26,17 @@
 #include <sot/core/debug.hh>
 #include <sot/core/exception-feature.hh>
 #include <sot/core/feature-point6d.hh>
+#include <sot/core/macros.hh>
 
 using namespace std;
 using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
 
 #include <sot/core/factory.hh>
+SOT_CORE_DISABLE_WARNING_PUSH
+SOT_CORE_DISABLE_WARNING_DEPRECATED
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePoint6d, "FeaturePoint6d");
+SOT_CORE_DISABLE_WARNING_POP
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */

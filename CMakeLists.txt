@@ -111,6 +111,7 @@ SET(${PROJECT_NAME}_HEADERS
   include/${CUSTOM_HEADER_DIR}/joint-limitator.hh
   include/${CUSTOM_HEADER_DIR}/kalman.hh
   include/${CUSTOM_HEADER_DIR}/latch.hh
+  include/${CUSTOM_HEADER_DIR}/macros.hh
   include/${CUSTOM_HEADER_DIR}/macros-signal.hh
   include/${CUSTOM_HEADER_DIR}/mailbox-vector.hh
   include/${CUSTOM_HEADER_DIR}/mailbox.hh

@@ -17,6 +17,7 @@
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/feature-point6d.hh>
 #include <sot/core/gain-adaptive.hh>
+#include <sot/core/macros.hh>
 #include <sot/core/sot.hh>
 #include <sot/core/task.hh>
 using namespace std;
@@ -24,7 +25,10 @@ using namespace dynamicgraph::sot;
 
 class TestPoint6d {
 public:
+  SOT_CORE_DISABLE_WARNING_PUSH
+  SOT_CORE_DISABLE_WARNING_DEPRECATED
   FeaturePoint6d feature_, featureDes_;
+  SOT_CORE_DISABLE_WARNING_POP
   Task task_;
   int time_;
   int dim_, robotDim_, featureDim_;
