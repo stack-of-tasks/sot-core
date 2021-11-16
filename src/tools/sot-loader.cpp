@@ -174,6 +174,10 @@ void SotLoader::oneIteration() {
 }
 
 void SotLoader::loadDeviceInPython(const Device &device) {
+  loadDeviceInPython(device.getName());
+}
+
+void SotLoader::loadDeviceInPython(const std::string &device_name) {
   std::string result, out, err;
   // Debug print.
   runPythonCommand("print(\"Load device from C++ to Python...\")", result, out,
@@ -184,7 +188,7 @@ void SotLoader::loadDeviceInPython(const Device &device) {
                    err);
 
   // Get the existing C++ entity pointer in the Python interpreter.
-  runPythonCommand("device_cpp_object = Device(" + device.getName() + ")",
+  runPythonCommand("device_cpp_object = Device(" + device_name + ")",
                    result, out, err);
 
   // Debug print.

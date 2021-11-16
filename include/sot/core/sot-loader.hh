@@ -95,6 +95,9 @@ public:
 
   /// \brief Load the Device entity in the python global scope.
   void loadDeviceInPython(const Device &device);
+
+  /// \brief Load the Device entity in the python global scope.
+  void loadDeviceInPython(const std::string &device_name);
 };
 
 } /* namespace sot */
