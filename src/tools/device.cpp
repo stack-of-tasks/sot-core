@@ -15,8 +15,8 @@
 
 #include "sot/core/device.hh"
 #include <iostream>
-#include <sot/core/macros.hh>
 #include <sot/core/debug.hh>
+#include <sot/core/macros.hh>
 using namespace std;
 
 #include <Eigen/Geometry>
@@ -230,35 +230,33 @@ void Device::setVelocitySize(const unsigned int &size) {
 void Device::setState(const Vector &st) {
   if (sanityCheck_) {
     const Vector::Index &s = st.size();
-SOT_CORE_DISABLE_WARNING_PUSH
-SOT_CORE_DISABLE_WARNING_FALLTHROUGH
+    SOT_CORE_DISABLE_WARNING_PUSH
+    SOT_CORE_DISABLE_WARNING_FALLTHROUGH
     switch (controlInputType_) {
     case CONTROL_INPUT_TWO_INTEGRATION:
       dgRTLOG()
           << "Sanity check for this control is not well supported. "
              "In order to make it work, use pinocchio and the contact forces "
              "to estimate the joint torques for the given acceleration.\n";
-      if (s != lowerTorque_.size() || s != upperTorque_.size())
-      {
-	std::ostringstream os;
-	os << "dynamicgraph::sot::Device::setState: upper and/or lower torque"
-	  "bounds do not match state size. Input State size = " << st.size()
-	   << ", lowerTorque_.size() = " << lowerTorque_.size()
-	   << ", upperTorque_.size() = " << upperTorque_.size()
-	   << ". Set them first with setTorqueBounds.";
-	throw std::invalid_argument(os.str().c_str());
-      // fall through
+      if (s != lowerTorque_.size() || s != upperTorque_.size()) {
+        std::ostringstream os;
+        os << "dynamicgraph::sot::Device::setState: upper and/or lower torque"
+              "bounds do not match state size. Input State size = "
+           << st.size() << ", lowerTorque_.size() = " << lowerTorque_.size()
+           << ", upperTorque_.size() = " << upperTorque_.size()
+           << ". Set them first with setTorqueBounds.";
+        throw std::invalid_argument(os.str().c_str());
+        // fall through
       }
     case CONTROL_INPUT_ONE_INTEGRATION:
-      if (s != lowerVelocity_.size() || s != upperVelocity_.size())
-      {
-	std::ostringstream os;
-	os << "dynamicgraph::sot::Device::setState: upper and/or lower velocity"
-	  " bounds do not match state size. Input State size = " << st.size()
-	   << ", lowerVelocity_.size() = " << lowerVelocity_.size()
-	   << ", upperVelocity_.size() = " << upperVelocity_.size()
-	   << ". Set them first with setVelocityBounds.";
-	throw std::invalid_argument(os.str().c_str());
+      if (s != lowerVelocity_.size() || s != upperVelocity_.size()) {
+        std::ostringstream os;
+        os << "dynamicgraph::sot::Device::setState: upper and/or lower velocity"
+              " bounds do not match state size. Input State size = "
+           << st.size() << ", lowerVelocity_.size() = " << lowerVelocity_.size()
+           << ", upperVelocity_.size() = " << upperVelocity_.size()
+           << ". Set them first with setVelocityBounds.";
+        throw std::invalid_argument(os.str().c_str());
       }
       // fall through
     case CONTROL_INPUT_NO_INTEGRATION:
@@ -266,7 +264,7 @@ SOT_CORE_DISABLE_WARNING_FALLTHROUGH
     default:
       throw std::invalid_argument("Invalid control mode type.");
     }
-SOT_CORE_DISABLE_WARNING_POP
+    SOT_CORE_DISABLE_WARNING_POP
   }
   state_ = st;
   stateSOUT.setConstant(state_);
@@ -319,8 +317,8 @@ void Device::setControlInputType(const std::string &cit) {
 void Device::setSanityCheck(const bool &enableCheck) {
   if (enableCheck) {
     const Vector::Index &s = state_.size();
-SOT_CORE_DISABLE_WARNING_PUSH
-SOT_CORE_DISABLE_WARNING_FALLTHROUGH
+    SOT_CORE_DISABLE_WARNING_PUSH
+    SOT_CORE_DISABLE_WARNING_FALLTHROUGH
     switch (controlInputType_) {
     case CONTROL_INPUT_TWO_INTEGRATION:
       dgRTLOG()
@@ -347,7 +345,7 @@ SOT_CORE_DISABLE_WARNING_FALLTHROUGH
     default:
       throw std::invalid_argument("Invalid control mode type.");
     }
-SOT_CORE_DISABLE_WARNING_POP
+    SOT_CORE_DISABLE_WARNING_POP
   }
   sanityCheck_ = enableCheck;
 }
@@ -356,12 +354,12 @@ void Device::setPositionBounds(const Vector &lower, const Vector &upper) {
   std::ostringstream oss;
   if (lower.size() != state_.size()) {
     oss << "Lower bound size should be " << state_.size() << ", got "
-	<< lower.size();
+        << lower.size();
     throw std::invalid_argument(oss.str());
   }
   if (upper.size() != state_.size()) {
     oss << "Upper bound size should be " << state_.size() << ", got "
-	<< upper.size();
+        << upper.size();
     throw std::invalid_argument(oss.str());
   }
   lowerPosition_ = lower;
@@ -372,12 +370,12 @@ void Device::setVelocityBounds(const Vector &lower, const Vector &upper) {
   std::ostringstream oss;
   if (lower.size() != velocity_.size()) {
     oss << "Lower bound size should be " << velocity_.size() << ", got "
-	<< lower.size();
+        << lower.size();
     throw std::invalid_argument(oss.str());
   }
   if (upper.size() != velocity_.size()) {
     oss << "Upper bound size should be " << velocity_.size() << ", got "
-	<< upper.size();
+        << upper.size();
     throw std::invalid_argument(oss.str());
   }
   lowerVelocity_ = lower;
@@ -389,12 +387,12 @@ void Device::setTorqueBounds(const Vector &lower, const Vector &upper) {
   std::ostringstream oss;
   if (lower.size() != state_.size()) {
     oss << "Lower bound size should be " << state_.size() << ", got "
-	<< lower.size();
+        << lower.size();
     throw std::invalid_argument(oss.str());
   }
   if (upper.size() != state_.size()) {
     oss << "Lower bound size should be " << state_.size() << ", got "
-	<< upper.size();
+        << upper.size();
     throw std::invalid_argument(oss.str());
   }
   lowerTorque_ = lower;

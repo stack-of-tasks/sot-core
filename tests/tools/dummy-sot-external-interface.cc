@@ -24,7 +24,7 @@ void DummySotExternalInterface::setupSetSensors(
 }
 
 void DummySotExternalInterface::nominalSetSensors(
-    std::map<std::string, dynamicgraph::sot::SensorValues> &/*sensorsIn*/) {
+    std::map<std::string, dynamicgraph::sot::SensorValues> & /*sensorsIn*/) {
   return;
 }
 

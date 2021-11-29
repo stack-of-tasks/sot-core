@@ -89,11 +89,11 @@ public:
 
   virtual unsigned int &getDimension(unsigned int &dim, int time);
 
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector & res,
                                              int time);
-  virtual dynamicgraph::Vector &computeErrordot(dynamicgraph::Vector &res,
+  virtual dynamicgraph::Vector &computeErrordot(dynamicgraph::Vector & res,
                                                 int time);
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix & res,
                                                 int time);
 
   /** Static Feature selection. */
@@ -107,7 +107,7 @@ public:
   inline static Flags selectTranslation(void) { return Flags("111000"); }
   inline static Flags selectRotation(void) { return Flags("000111"); }
 
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream & os) const;
 
 public:
   void servoCurrentPosition(void);

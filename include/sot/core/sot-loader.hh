@@ -106,8 +106,7 @@ public:
                         std::string &out, std::string &err);
 
   /// \brief Run a python script inside the embeded python interpreter.
-  inline void runPythonFile(std::string ifilename,
-                                       std::string &err) {
+  inline void runPythonFile(std::string ifilename, std::string &err) {
     embeded_python_interpreter_.runPythonFile(ifilename, err);
   }
 

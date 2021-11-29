@@ -128,8 +128,7 @@ bool SotLoader::initialization() {
 void SotLoader::cleanUp() {
   // Unregister the device first if it exists to avoid a double destruction from
   // the pool of entity and the class that handle the Device pointer.
-  if(device_name_ != "")
-  {
+  if (device_name_ != "") {
     PoolStorage::getInstance()->deregisterEntity(device_name_);
   }
 
@@ -192,8 +191,8 @@ void SotLoader::loadDeviceInPython(const std::string &device_name) {
                    err);
 
   // Get the existing C++ entity pointer in the Python interpreter.
-  runPythonCommand("loaded_device_name = \"" + device_name + "\"", result,
-                   out, err);
+  runPythonCommand("loaded_device_name = \"" + device_name + "\"", result, out,
+                   err);
   runPythonCommand("device_cpp_object = Device(loaded_device_name)", result,
                    out, err);
 
