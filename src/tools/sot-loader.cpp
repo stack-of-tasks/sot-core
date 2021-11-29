@@ -35,6 +35,7 @@ SotLoader::SotLoader() {
   sot_external_interface_ = nullptr;
   sot_dynamic_library_filename_ = "";
   sot_dynamic_library_ = nullptr;
+  device_name_ = "";
 }
 
 SotLoader::~SotLoader() { cleanUp(); }
@@ -66,13 +67,13 @@ int SotLoader::parseOptions(int argc, char *argv[]) {
   return 0;
 }
 
-void SotLoader::initialization() {
+bool SotLoader::initialization() {
   // Load the library containing the AbstractSotExternalInterface.
   sot_dynamic_library_ =
       dlopen(sot_dynamic_library_filename_.c_str(), RTLD_LAZY | RTLD_GLOBAL);
   if (!sot_dynamic_library_) {
     std::cerr << "Cannot load library: " << dlerror() << '\n';
-    return;
+    return false;
   }
 
   // reset errors
@@ -85,13 +86,14 @@ void SotLoader::initialization() {
   const char *dlsym_error = dlerror();
   if (dlsym_error) {
     std::cerr << "Cannot load symbol create: " << dlsym_error << '\n';
-    return;
+    return false;
   }
 
   // Create robot-controller
   sot_external_interface_ = createSotExternalInterface();
-  std::cout << "SoT loaded from " << sot_dynamic_library_filename_ << "."
-            << std::endl;
+  assert(sot_external_interface_ && "Fail to create the sotExternalInterface");
+  std::cout << "SoT loaded at address [" << &sot_external_interface_
+            << "] from " << sot_dynamic_library_filename_ << "." << std::endl;
 
   // Init the python interpreter.
   std::string result, out, err;
@@ -119,9 +121,18 @@ void SotLoader::initialization() {
   // Debug print.
   runPythonCommand("print(\"Executing python interpreter prologue... Done\")",
                    result, out, err);
+
+  return true;
 }
 
 void SotLoader::cleanUp() {
+  // Unregister the device first if it exists to avoid a double destruction from
+  // the pool of entity and the class that handle the Device pointer.
+  if(device_name_ != "")
+  {
+    PoolStorage::getInstance()->deregisterEntity(device_name_);
+  }
+
   // We do not destroy the FactoryStorage singleton because the module will not
   // be reloaded at next initialization (because Python C API cannot safely
   // unload a module...).
@@ -155,26 +166,19 @@ void SotLoader::runPythonCommand(const std::string &command,
   embeded_python_interpreter_.python(command, result, out, err);
 }
 
-void SotLoader::runPythonFile(const std::string &ifilename) {
-  embeded_python_interpreter_.runPythonFile(ifilename);
-}
-
-void SotLoader::setupSensors() {
-  sot_external_interface_->setupSetSensors(sensors_in_);
-  sot_external_interface_->getControl(control_values_);
-}
-
-void SotLoader::oneIteration() {
-  try {
-    sot_external_interface_->nominalSetSensors(sensors_in_);
-    sot_external_interface_->getControl(control_values_);
-  } catch (std::exception &) {
-    throw;
+void SotLoader::oneIteration(
+    std::map<std::string, SensorValues> &sensors_in,
+    std::map<std::string, ControlValues> &control_values) {
+  if (!dynamic_graph_stopped_) {
+    try {
+      sot_external_interface_->nominalSetSensors(sensors_in);
+      sot_external_interface_->getControl(control_values);
+    } catch (std::exception &e) {
+      std::cout << "Exception while running the graph:\n"
+                << e.what() << std::endl;
+      throw e;
+    }
   }
-}
-
-void SotLoader::loadDeviceInPython(const Device &device) {
-  loadDeviceInPython(device.getName());
 }
 
 void SotLoader::loadDeviceInPython(const std::string &device_name) {
@@ -188,12 +192,17 @@ void SotLoader::loadDeviceInPython(const std::string &device_name) {
                    err);
 
   // Get the existing C++ entity pointer in the Python interpreter.
-  runPythonCommand("device_cpp_object = Device(" + device_name + ")",
-                   result, out, err);
+  runPythonCommand("loaded_device_name = \"" + device_name + "\"", result,
+                   out, err);
+  runPythonCommand("device_cpp_object = Device(loaded_device_name)", result,
+                   out, err);
 
   // Debug print.
   runPythonCommand("print(\"Load device from C++ to Python... Done!!\")",
                    result, out, err);
+
+  // strore the device name to unregister it upon cleanup.
+  device_name_ = device_name;
 }
 
 } /* namespace sot */

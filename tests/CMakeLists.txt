@@ -83,6 +83,7 @@ SET(tests
 
   tools/test_boost
   tools/test_device
+  tools/test_sot_loader
   tools/test_mailbox
   tools/test_matrix
   tools/test_robot_utils
@@ -105,7 +106,12 @@ IF(UNIX)
   TARGET_LINK_LIBRARIES(test_abstract_interface PRIVATE
     Boost::program_options
     pluginabstract ${CMAKE_DL_LIBS})
+
+  ADD_LIBRARY(dummy_sot_external_interface SHARED
+    tools/dummy-sot-external-interface.cc)
 ENDIF(UNIX)
+
+
 
 FOREACH(path ${tests})
   GET_FILENAME_COMPONENT(test ${path} NAME)
@@ -114,6 +120,14 @@ FOREACH(path ${tests})
   TARGET_LINK_LIBRARIES(${test} PRIVATE ${PROJECT_NAME}
     Boost::unit_test_framework
     ${TEST_${test}_LIBS} ${TEST_${test}_EXT_LIBS})
+  
+  # add some preprocessor variable
+  TARGET_COMPILE_DEFINITIONS(
+    ${test}
+    PUBLIC LIB_PLUGIN_ABSTRACT_PATH="${CMAKE_BINARY_DIR}/tests/libdummy_sot_external_interface.so"
+           TEST_GOOD_PYTHON_SCRIPT="${PROJECT_SOURCE_DIR}/tests/tools/good_python_script.py"
+           TEST_BAD_PYTHON_SCRIPT="${PROJECT_SOURCE_DIR}/tests/tools/bad_python_script.py"
+  )
 
   IF(UNIX)
     TARGET_LINK_LIBRARIES(${test} PRIVATE ${CMAKE_DL_LIBS})
