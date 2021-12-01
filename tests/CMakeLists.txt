@@ -126,7 +126,7 @@ FOREACH(path ${tests})
     ${test}
     PUBLIC LIB_PLUGIN_ABSTRACT_PATH="${CMAKE_BINARY_DIR}/tests/libdummy_sot_external_interface.so"
            TEST_GOOD_PYTHON_SCRIPT="${PROJECT_SOURCE_DIR}/tests/tools/good_python_script.py"
-           TEST_BAD_PYTHON_SCRIPT="${PROJECT_SOURCE_DIR}/tests/tools/bad_python_script.py"
+           TEST_BAD_PYTHON_SCRIPT="${PROJECT_SOURCE_DIR}/tests/tools/bad_python_script"
   )
 
   IF(UNIX)
