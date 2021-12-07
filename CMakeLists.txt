@@ -36,11 +36,12 @@ CHECK_MINIMAL_CXX_STANDARD(11 ENFORCE)
 
 # Project dependencies
 ADD_PROJECT_DEPENDENCY(dynamic-graph REQUIRED)
+ADD_PROJECT_DEPENDENCY(dynamic-graph-python 4.0.0 REQUIRED)
 ADD_PROJECT_DEPENDENCY(pinocchio REQUIRED)
-ADD_PROJECT_DEPENDENCY(Boost REQUIRED COMPONENTS regex)
+ADD_PROJECT_DEPENDENCY(Boost REQUIRED COMPONENTS regex program_options)
 IF(BUILD_TESTING)
   ADD_PROJECT_DEPENDENCY(example-robot-data 3.8.0)
-  FIND_PACKAGE(Boost REQUIRED COMPONENTS unit_test_framework program_options)
+  FIND_PACKAGE(Boost REQUIRED COMPONENTS unit_test_framework)
 ENDIF()
 
 IF(Boost_VERSION GREATER 107299 OR Boost_VERSION_MACRO GREATER 107299)
@@ -52,7 +53,6 @@ ENDIF()
 IF(BUILD_PYTHON_INTERFACE)
   FINDPYTHON()
   STRING(REGEX REPLACE "-" "_" PYTHON_DIR ${CUSTOM_HEADER_DIR})
-  ADD_PROJECT_DEPENDENCY(dynamic-graph-python 4.0.0 REQUIRED)
   ADD_PROJECT_DEPENDENCY(eigenpy REQUIRED)
   SEARCH_FOR_BOOST_PYTHON(REQUIRED)
 ENDIF(BUILD_PYTHON_INTERFACE)
@@ -131,6 +131,7 @@ SET(${PROJECT_NAME}_HEADERS
   include/${CUSTOM_HEADER_DIR}/reader.hh
   include/${CUSTOM_HEADER_DIR}/robot-simu.hh
   include/${CUSTOM_HEADER_DIR}/robot-utils.hh
+  include/${CUSTOM_HEADER_DIR}/sot-loader.hh
   include/${CUSTOM_HEADER_DIR}/sot.hh
   include/${CUSTOM_HEADER_DIR}/stop-watch.hh
   include/${CUSTOM_HEADER_DIR}/switch.hh
@@ -170,6 +171,7 @@ SET(${PROJECT_NAME}_SOURCES
   src/tools/utils-windows.cpp
   src/tools/periodic-call.cpp
   src/tools/device.cpp
+  src/tools/sot-loader.cpp
   src/tools/trajectory.cpp
   src/tools/robot-utils.cpp
   src/matrix/matrix-svd.cpp
@@ -180,8 +182,8 @@ SET(${PROJECT_NAME}_SOURCES
 ADD_LIBRARY(${PROJECT_NAME} SHARED
   ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_HEADERS})
 TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PUBLIC $<INSTALL_INTERFACE:include>)
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} PUBLIC Boost::regex
-  dynamic-graph::dynamic-graph pinocchio::pinocchio)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} PUBLIC Boost::regex Boost::program_options
+  dynamic-graph::dynamic-graph dynamic-graph-python::dynamic-graph-python pinocchio::pinocchio)
 
 IF(SUFFIX_SO_VERSION)
   SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION})

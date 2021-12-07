@@ -65,4 +65,4 @@ createSotExternalInterface_t();
 typedef void destroySotExternalInterface_t(
     dynamicgraph::sot::AbstractSotExternalInterface *);
 
-#endif
+#endif // ABSTRACT_SOT_EXTERNAL_INTERFACE_HH
