@@ -104,7 +104,7 @@ bool SotLoader::initialization() {
   // python interpreter.
   runPythonCommand("import sys, os", result, out, err);
   runPythonCommand("print(\"python version:\", sys.version)", result, out, err);
-  runPythonCommand("pythonpath = os.environ['PYTHONPATH']", result, out, err);
+  runPythonCommand("pythonpath = os.environ.get('PYTHONPATH', '')", result, out, err);
   runPythonCommand("path = []", result, out, err);
   runPythonCommand("for p in pythonpath.split(':'):\n"
                    "  if p not in sys.path:\n"
