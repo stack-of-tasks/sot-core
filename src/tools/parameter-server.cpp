@@ -14,12 +14,14 @@
  * with sot-torque-control.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <pinocchio/fwd.hpp>
+// include pinocchio before boost
+
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/factory.h>
 
 #include <boost/property_tree/ptree.hpp>
 #include <iostream>
-#include <pinocchio/fwd.hpp>
 #include <sot/core/debug.hh>
 #include <sot/core/exception-tools.hh>
 #include <sot/core/parameter-server.hh>
