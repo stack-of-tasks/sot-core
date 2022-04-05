@@ -40,7 +40,11 @@ ADD_PROJECT_DEPENDENCY(dynamic-graph-python 4.0.0 REQUIRED)
 ADD_PROJECT_DEPENDENCY(pinocchio REQUIRED)
 ADD_PROJECT_DEPENDENCY(Boost REQUIRED COMPONENTS regex program_options)
 IF(BUILD_TESTING)
-  ADD_PROJECT_DEPENDENCY(example-robot-data 3.8.0)
+  ADD_PROJECT_DEPENDENCY(example-robot-data REQUIRED)
+  if(${example-robot-data_VERSION} VERSION_LESS 3.8.0)
+    message(FATAL_ERROR
+      "example-robot-data version (${example-robot-data_VERSION}) is too old. Please update to 3.8.0 or newer")
+  endif()
   FIND_PACKAGE(Boost REQUIRED COMPONENTS unit_test_framework)
 ENDIF()
 
