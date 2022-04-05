@@ -1,0 +1,38 @@
+# format (Guilhem Saurel, 2022-04-05)
+a64c9f4b82a0a5296ca08a5fa2c3266aa42d4798
+
+# fix format (MaximilienNaveau, 2021-12-01)
+1d3e25da9e4c49ffd400386c6c392bd8ead539b9
+
+# [format][gepetto-linters] (MaximilienNaveau, 2021-11-29)
+677662e85eeb9004c6bc895b6cd7bb55525ddce6
+
+# yapf (Guilhem Saurel, 2021-02-09)
+cf574bd33e0bb0cb5a54b83f8f434efe8951cd0e
+
+# format (Guilhem Saurel, 2020-11-13)
+5921e17ab3a8db2a98ae94d228283db924d2e140
+
+# [format] Makes yapf happy. (Olivier Stasse, 2020-08-28)
+af3c171204555f9e4f065085477f3a9644777486
+
+# clang-format (Olivier Stasse, 2020-08-28)
+2ea1fba7f262c07652dc060361c98af856d4d935
+
+# [format] Apply clang (Olivier Stasse, 2020-08-26)
+d59a58ec2de3a192da13c59ebce92e704f9d00c4
+
+# [python-linker] flake8 + yapf (Olivier Stasse, 2020-05-02)
+e801f6b41cefd88c6804893341483cf87142491c
+
+# [clang-format] Fix format (Olivier Stasse, 2020-05-01)
+06d182959ac0b94cbbd15249380d81453e12d30b
+
+# [80 cols] Reinforce the 80 cols policy Display also more information with display() for device. (Olivier Stasse, 2019-05-10)
+b3f59bb51e7823ade6098f50c5b1b59422021a3d
+
+# [80 cols] Reinforce the 80 cols policy Display also more information with display() for device. (Olivier Stasse, 2019-05-10)
+7bc2ca888e77c39981d0739a8c2614b6ca5266f2
+
+# Fix the formatting using GNU code style (andreadelprete, 2014-11-28)
+1cbd53b4958d2b47704144807cdf714de3d6cecb
