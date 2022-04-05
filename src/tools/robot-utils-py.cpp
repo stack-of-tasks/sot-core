@@ -5,10 +5,11 @@
  * See license file.
  */
 
+#include <pinocchio/fwd.hpp>
+// include pinocchio before boost
 #include <boost/property_tree/ptree.hpp>
 #include <boost/python.hpp>
 #include <boost/python/suite/indexing/map_indexing_suite.hpp>
-#include <pinocchio/fwd.hpp>
 #include <sot/core/robot-utils.hh>
 
 using namespace boost::python;

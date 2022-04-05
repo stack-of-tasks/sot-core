@@ -12,6 +12,8 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+#include <pinocchio/fwd.hpp>
+// include pinocchio before boost
 #include <dynamic-graph/linear-algebra.h>
 #include <dynamic-graph/logger.h>
 #include <dynamic-graph/signal-helper.h>
@@ -19,7 +21,6 @@
 #include <boost/assign.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <map>
-#include <pinocchio/fwd.hpp>
 #include <sot/core/matrix-geometry.hh>
 
 namespace dynamicgraph {
