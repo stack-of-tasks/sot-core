@@ -19,9 +19,9 @@
 #define SOT_CORE_DISABLE_WARNING(warningName) \
   SOT_CORE_DO_PRAGMA(GCC diagnostic ignored #warningName)
 #define SOT_CORE_DISABLE_WARNING_DEPRECATED \
-  SOT_CORE_DISABLE_WARNING(-Wdeprecated - declarations)
+  SOT_CORE_DISABLE_WARNING("-Wdeprecated-declarations")
 #define SOT_CORE_DISABLE_WARNING_FALLTHROUGH \
-  SOT_CORE_DISABLE_WARNING(-Wimplicit - fallthrough)
+  SOT_CORE_DISABLE_WARNING("-Wimplicit-fallthrough")
 
 #else
 
