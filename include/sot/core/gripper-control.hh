@@ -20,6 +20,7 @@
 /* SOT */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/flags.hh>
 
 /* STD */
@@ -53,13 +54,13 @@ kept
  *
  */
 class SOTGRIPPERCONTROL_EXPORT GripperControl {
-protected:
+ protected:
   double offset;
   static const double OFFSET_DEFAULT;
   //! \brief The multiplication
   dynamicgraph::Vector factor;
 
-public:
+ public:
   GripperControl(void);
 
   //! \brief Computes the
@@ -70,12 +71,12 @@ public:
                         const dynamicgraph::Vector &currentNormVel);
 
   //! \brief
-  dynamicgraph::Vector &
-  computeDesiredPosition(const dynamicgraph::Vector &currentPos,
-                         const dynamicgraph::Vector &desiredPos,
-                         const dynamicgraph::Vector &torques,
-                         const dynamicgraph::Vector &torqueLimits,
-                         dynamicgraph::Vector &referencePos);
+  dynamicgraph::Vector &computeDesiredPosition(
+      const dynamicgraph::Vector &currentPos,
+      const dynamicgraph::Vector &desiredPos,
+      const dynamicgraph::Vector &torques,
+      const dynamicgraph::Vector &torqueLimits,
+      dynamicgraph::Vector &referencePos);
 
   /*! \brief select only some of the values of the vector fullsize,
    *   based on the Flags vector.
@@ -95,17 +96,17 @@ class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
       public GripperControl {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
-public:
+ public:
   bool calibrationStarted;
 
-public: /* --- CONSTRUCTION --- */
+ public: /* --- CONSTRUCTION --- */
   GripperControlPlugin(const std::string &name);
   virtual ~GripperControlPlugin(void);
 
   /* --- DOCUMENTATION --- */
   virtual std::string getDocString() const;
 
-public: /* --- SIGNAL --- */
+ public: /* --- SIGNAL --- */
   /* --- INPUTS --- */
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> positionSIN;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> positionDesSIN;
@@ -127,7 +128,7 @@ public: /* --- SIGNAL --- */
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int>
       desiredPositionSOUT;
 
-public: /* --- COMMANDLINE --- */
+ public: /* --- COMMANDLINE --- */
   void initCommands();
 
   void setOffset(const double &value);
@@ -136,4 +137,4 @@ public: /* --- COMMANDLINE --- */
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_SOTGRIPPERCONTROL_H__
+#endif  // #ifndef __SOT_SOTGRIPPERCONTROL_H__

@@ -19,10 +19,11 @@
 #include <dynamic-graph/linear-algebra.h>
 
 /* SOT */
-#include "sot/core/api.hh"
-#include "sot/core/device.hh"
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
+#include "sot/core/api.hh"
+#include "sot/core/device.hh"
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -46,12 +47,12 @@ namespace sot {
 /* --------------------------------------------------------------------- */
 
 class SOT_ROBOT_SIMU_EXPORT RobotSimu : public Device {
-public:
+ public:
   RobotSimu(const std::string &inName);
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 };
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 #endif /* #ifndef DYNAMICGRAPH_SOT_ROBOT_SIMU_HH */

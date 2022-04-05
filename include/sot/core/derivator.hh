@@ -20,6 +20,7 @@
 /* SOT */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/flags.hh>
 #include <sot/core/matrix-geometry.hh>
 #include <sot/core/pool.hh>
@@ -34,20 +35,23 @@ namespace sot {
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-template <class T> class Derivator : public dynamicgraph::Entity {
+template <class T>
+class Derivator : public dynamicgraph::Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
-protected:
+ protected:
   T memory;
   bool initialized;
   double timestep;
-  static const double TIMESTEP_DEFAULT; //= 1.;
+  static const double TIMESTEP_DEFAULT;  //= 1.;
 
-public: /* --- CONSTRUCTION --- */
+ public: /* --- CONSTRUCTION --- */
   static std::string getTypeName(void) { return "Unknown"; }
 
   Derivator(const std::string &name)
-      : dynamicgraph::Entity(name), memory(), initialized(false),
+      : dynamicgraph::Entity(name),
+        memory(),
+        initialized(false),
         timestep(TIMESTEP_DEFAULT),
         SIN(NULL, "sotDerivator<" + getTypeName() + ">(" + name + ")::input(" +
                       getTypeName() + ")::sin"),
@@ -63,20 +67,19 @@ public: /* --- CONSTRUCTION --- */
 
   virtual ~Derivator(void){};
 
-public: /* --- SIGNAL --- */
+ public: /* --- SIGNAL --- */
   dynamicgraph::SignalPtr<T, int> SIN;
   dynamicgraph::SignalTimeDependent<T, int> SOUT;
   dynamicgraph::Signal<double, int> timestepSIN;
 
-protected:
+ protected:
   T &computeDerivation(T &res, int time) {
     if (initialized) {
       res = memory;
       res *= -1;
       memory = SIN(time);
       res += memory;
-      if (timestep != 1.)
-        res *= (1. / timestep);
+      if (timestep != 1.) res *= (1. / timestep);
     } else {
       initialized = true;
       memory = SIN(time);
@@ -88,16 +91,14 @@ protected:
 };
 // TODO Derivation of unit quaternion?
 template <>
-VectorQuaternion &
-Derivator<VectorQuaternion>::computeDerivation(VectorQuaternion &res,
-                                               int time) {
+VectorQuaternion &Derivator<VectorQuaternion>::computeDerivation(
+    VectorQuaternion &res, int time) {
   if (initialized) {
     res = memory;
     res.coeffs() *= -1;
     memory = SIN(time);
     res.coeffs() += memory.coeffs();
-    if (timestep != 1.)
-      res.coeffs() *= (1. / timestep);
+    if (timestep != 1.) res.coeffs() *= (1. / timestep);
   } else {
     initialized = true;
     memory = SIN(time);
@@ -110,4 +111,4 @@ Derivator<VectorQuaternion>::computeDerivation(VectorQuaternion &res,
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_DERIVATOR_H__
+#endif  // #ifndef __SOT_DERIVATOR_H__

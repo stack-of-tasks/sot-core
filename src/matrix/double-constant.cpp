@@ -6,9 +6,9 @@
  *
  */
 
-#include <sot/core/double-constant.hh>
-
 #include <dynamic-graph/command-setter.h>
+
+#include <sot/core/double-constant.hh>
 #include <sot/core/factory.hh>
 
 namespace dynamicgraph {
@@ -24,12 +24,13 @@ DoubleConstant::DoubleConstant(const std::string &name)
   // Commands
 
   // set
-  std::string docstring = "    \n"
-                          "    Set value of output signal\n"
-                          "    \n"
-                          "      input:\n"
-                          "        - a double\n"
-                          "    \n";
+  std::string docstring =
+      "    \n"
+      "    Set value of output signal\n"
+      "    \n"
+      "      input:\n"
+      "        - a double\n"
+      "    \n";
   addCommand("set", new ::dynamicgraph::command::Setter<DoubleConstant, double>(
                         *this, &DoubleConstant::setValue, docstring));
 }
@@ -38,5 +39,5 @@ void DoubleConstant::setValue(const double &inValue) {
   SOUT.setConstant(inValue);
 }
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph

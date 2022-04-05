@@ -1,7 +1,8 @@
 /// Copyright CNRS 2019
 /// author: O. Stasse
-#include "../../src/matrix/operator.cpp"
 #include <iostream>
+
+#include "../../src/matrix/operator.cpp"
 
 namespace dg = ::dynamicgraph;
 using namespace dynamicgraph::sot;
@@ -26,12 +27,12 @@ BOOST_AUTO_TEST_CASE(test_vector_selecter) {
   BOOST_CHECK(output.is_equal("Vector"));
 
   output << aSelec_of_vector.getDocString();
-  BOOST_CHECK(output.is_equal("Undocumented unary operator\n"
-                              "  - input  Vector\n"
-                              "  - output Vector\n"));
+  BOOST_CHECK(
+      output.is_equal("Undocumented unary operator\n"
+                      "  - input  Vector\n"
+                      "  - output Vector\n"));
   dg::Vector vIn(10), vOut(10);
-  for (unsigned int i = 0; i < 10; i++)
-    vIn(i) = i;
+  for (unsigned int i = 0; i < 10; i++) vIn(i) = i;
 
   aSelec_of_vector.setBounds(3, 5);
   aSelec_of_vector.addBounds(7, 10);
@@ -56,9 +57,10 @@ BOOST_AUTO_TEST_CASE(test_vector_selecter) {
   BOOST_CHECK(output.is_equal("Selec_of_vector"));
 
   output << aVectorSelecter->getDocString();
-  BOOST_CHECK(output.is_equal("Undocumented unary operator\n"
-                              "  - input  Vector\n"
-                              "  - output Vector\n"));
+  BOOST_CHECK(
+      output.is_equal("Undocumented unary operator\n"
+                      "  - input  Vector\n"
+                      "  - output Vector\n"));
 }
 
 BOOST_AUTO_TEST_CASE(test_vector_component) {
@@ -69,17 +71,17 @@ BOOST_AUTO_TEST_CASE(test_vector_component) {
 
   aComponent_of_vector.setIndex(1);
   dg::Vector vIn(3);
-  for (unsigned int i = 0; i < 3; i++)
-    vIn(i) = i;
+  for (unsigned int i = 0; i < 3; i++) vIn(i) = i;
 
   double res;
   aComponent_of_vector(vIn, res);
   BOOST_CHECK(res == 1.0);
 
   output << aComponent_of_vector.getDocString();
-  BOOST_CHECK(output.is_equal("Select a component of a vector\n"
-                              "  - input  vector\n"
-                              "  - output double"));
+  BOOST_CHECK(
+      output.is_equal("Select a component of a vector\n"
+                      "  - input  vector\n"
+                      "  - output double"));
 
   output << aComponent_of_vector.nameTypeIn();
   BOOST_CHECK(output.is_equal("Vector"));
@@ -100,9 +102,10 @@ BOOST_AUTO_TEST_CASE(test_vector_component) {
   BOOST_CHECK(output.is_equal("Component_of_vector"));
 
   output << aVectorSelecter->getDocString();
-  BOOST_CHECK(output.is_equal("Select a component of a vector\n"
-                              "  - input  vector\n"
-                              "  - output double"));
+  BOOST_CHECK(
+      output.is_equal("Select a component of a vector\n"
+                      "  - input  vector\n"
+                      "  - output double"));
 }
 
 BOOST_AUTO_TEST_CASE(test_matrix_selector) {
@@ -114,8 +117,7 @@ BOOST_AUTO_TEST_CASE(test_matrix_selector) {
 
   dg::Matrix aMatrix(5, 5);
   for (unsigned int i = 0; i < 5; i++)
-    for (unsigned int j = 0; j < 5; j++)
-      aMatrix(i, j) = i * 5 + j;
+    for (unsigned int j = 0; j < 5; j++) aMatrix(i, j) = i * 5 + j;
 
   dg::Matrix resMatrix(2, 2);
   aSelec_of_matrix(aMatrix, resMatrix);
@@ -144,24 +146,30 @@ BOOST_AUTO_TEST_CASE(test_matrix_selector) {
 
 BOOST_AUTO_TEST_SUITE(test_rotation_conversions)
 
-template <typename type> type random();
-template <> VectorRollPitchYaw random<VectorRollPitchYaw>() {
+template <typename type>
+type random();
+template <>
+VectorRollPitchYaw random<VectorRollPitchYaw>() {
   return VectorRollPitchYaw::Random();
 }
-template <> VectorQuaternion random<VectorQuaternion>() {
+template <>
+VectorQuaternion random<VectorQuaternion>() {
   return VectorQuaternion(Eigen::Vector4d::Random().normalized());
 }
-template <> MatrixRotation random<MatrixRotation>() {
+template <>
+MatrixRotation random<MatrixRotation>() {
   return MatrixRotation(random<VectorQuaternion>());
 }
-template <> MatrixHomogeneous random<MatrixHomogeneous>() {
+template <>
+MatrixHomogeneous random<MatrixHomogeneous>() {
   MatrixHomogeneous matrix_homo;
   matrix_homo.translation() = Eigen::Vector3d::Random();
   matrix_homo.linear() = random<MatrixRotation>();
   return matrix_homo;
 }
 
-template <typename type> bool compare(const type &a, const type &b) {
+template <typename type>
+bool compare(const type &a, const type &b) {
   return a.isApprox(b);
 }
 template <>
@@ -170,7 +178,8 @@ bool compare<VectorQuaternion>(const VectorQuaternion &a,
   return a.isApprox(b) || a.coeffs().isApprox(-b.coeffs());
 }
 
-template <typename AtoB, typename BtoA> void test_impl() {
+template <typename AtoB, typename BtoA>
+void test_impl() {
   typedef typename AtoB::Tin A;
   typedef typename AtoB::Tout B;
 

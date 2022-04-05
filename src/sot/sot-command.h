@@ -9,11 +9,11 @@
 #ifndef SOT_COMMAND_H
 #define SOT_COMMAND_H
 
-#include <boost/assign/list_of.hpp>
-
 #include <dynamic-graph/command-getter.h>
 #include <dynamic-graph/command-setter.h>
 #include <dynamic-graph/command.h>
+
+#include <boost/assign/list_of.hpp>
 
 namespace dynamicgraph {
 namespace sot {
@@ -24,7 +24,7 @@ using ::dynamicgraph::command::Value;
 
 // Command Push
 class Push : public Command {
-public:
+ public:
   virtual ~Push() {}
   /// Create command and store it in Entity
   /// \param entity instance of Entity owning this command
@@ -41,11 +41,11 @@ public:
     // return void
     return Value();
   }
-}; // class Push
+};  // class Push
 
 // Command Remove
 class Remove : public Command {
-public:
+ public:
   virtual ~Remove() {}
   /// Create command and store it in Entity
   /// \param entity instance of Entity owning this command
@@ -62,11 +62,11 @@ public:
     // return void
     return Value();
   }
-}; // class Remove
+};  // class Remove
 
 // Command Up
 class Up : public Command {
-public:
+ public:
   virtual ~Up() {}
   /// Create command and store it in Entity
   /// \param entity instance of Entity owning this command
@@ -83,11 +83,11 @@ public:
     // return void
     return Value();
   }
-}; // class Remove
+};  // class Remove
 
 // Command Down
 class Down : public Command {
-public:
+ public:
   virtual ~Down() {}
   /// Create command and store it in Entity
   /// \param entity instance of Entity owning this command
@@ -104,11 +104,11 @@ public:
     // return void
     return Value();
   }
-}; // class Down
+};  // class Down
 
 // Command Display
 class Display : public Command {
-public:
+ public:
   virtual ~Display() {}
   /// Create command and store it in Entity
   /// \param entity instance of Entity owning this command
@@ -123,11 +123,11 @@ public:
     // return the stack
     return Value(returnString.str());
   }
-}; // class Display
+};  // class Display
 
 // Command List
 class List : public Command {
-public:
+ public:
   virtual ~List() {}
   /// Create command and store it in Entity
   /// \param entity instance of Entity owning this command
@@ -150,11 +150,11 @@ public:
     // return the stack
     return Value(returnString.str());
   }
-}; // class List
+};  // class List
 
 // Command Clear
 class Clear : public Command {
-public:
+ public:
   virtual ~Clear() {}
   /// Clear the stack
   /// \param docstring documentation of the command
@@ -167,11 +167,11 @@ public:
     // return the stack
     return Value();
   }
-}; // class Clear
+};  // class Clear
 
-} // namespace classSot
-} // namespace command
+}  // namespace classSot
+}  // namespace command
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // SOT_COMMAND_H
+#endif  // SOT_COMMAND_H

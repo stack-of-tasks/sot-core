@@ -46,16 +46,15 @@ namespace sot {
 class SOTFEATUREVISUALPOINT_EXPORT FeatureVisualPoint
     : public FeatureAbstract,
       public FeatureReferenceHelper<FeatureVisualPoint> {
-
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   dynamicgraph::Matrix L;
 
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
+ public:
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> xySIN;
   /** FeatureVisualPoint depth (required to compute the interaction matrix)
    * default Z = 1m. */
@@ -68,7 +67,7 @@ public:
 
   DECLARE_REFERENCE_FUNCTIONS(FeatureVisualPoint);
 
-public:
+ public:
   FeatureVisualPoint(const std::string &name);
   virtual ~FeatureVisualPoint(void) {}
 
@@ -89,7 +88,7 @@ public:
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_FEATURE_VISUALPOINT_HH__
+#endif  // #ifndef __SOT_FEATURE_VISUALPOINT_HH__
 
 /*
  * Local variables:

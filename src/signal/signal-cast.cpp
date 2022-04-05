@@ -7,18 +7,17 @@
  *
  */
 
-#include <Eigen/Core>
 #include <dynamic-graph/eigen-io.h>
-#include <dynamic-graph/signal-caster.h>
-#include <iomanip>
-#include <sot/core/matrix-geometry.hh>
-#include <sot/core/pool.hh>
-
 #include <dynamic-graph/signal-cast-helper.h>
 #include <dynamic-graph/signal-caster.h>
+
+#include <Eigen/Core>
+#include <iomanip>
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/flags.hh>
+#include <sot/core/matrix-geometry.hh>
 #include <sot/core/multi-bound.hh>
+#include <sot/core/pool.hh>
 #include <sot/core/trajectory.hh>
 
 #ifdef WIN32
@@ -176,4 +175,4 @@ void SignalCast<VectorMultiBound>::trace(const VectorMultiBound &t,
 DG_ADD_CASTER(sot::VectorMultiBound, sotVMB);
 */
 
-} // namespace dynamicgraph
+}  // namespace dynamicgraph

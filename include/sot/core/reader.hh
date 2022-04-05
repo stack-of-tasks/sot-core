@@ -30,6 +30,7 @@
 #include <dynamic-graph/signal-base.h>
 #include <dynamic-graph/signal-ptr.h>
 #include <dynamic-graph/signal-time-dependent.h>
+
 #include <sot/core/flags.hh>
 
 /* --------------------------------------------------------------------- */
@@ -58,12 +59,12 @@ using dynamicgraph::sot::Flags;
 class SOTREADER_EXPORT sotReader : public Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
-public:
+ public:
   SignalPtr<Flags, int> selectionSIN;
   SignalTimeDependent<dynamicgraph::Vector, int> vectorSOUT;
   SignalTimeDependent<dynamicgraph::Matrix, int> matrixSOUT;
 
-public:
+ public:
   sotReader(const std::string n);
   virtual ~sotReader(void) {}
 
@@ -71,7 +72,7 @@ public:
   void clear(void);
   void rewind(void);
 
-protected:
+ protected:
   typedef std::list<std::vector<double> > DataType;
   DataType dataSet;
   DataType::const_iterator currentData;
@@ -85,7 +86,7 @@ protected:
                                       const unsigned int time);
   void resize(const int &nbRow, const int &nbCol);
 
-public:
+ public:
   /* --- PARAMS --- */
   void display(std::ostream &os) const;
   virtual void initCommands();

@@ -22,22 +22,25 @@ class SOT_CORE_DLLAPI Event : public dynamicgraph::Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
   Event(const std::string &name)
-      : Entity(name), checkSOUT("Event(" + name + ")::output(bool)::check"),
+      : Entity(name),
+        checkSOUT("Event(" + name + ")::output(bool)::check"),
         conditionSIN(NULL, "Event(" + name + ")::input(bool)::condition"),
-        lastVal_(2) // lastVal_ should be different true and false.
+        lastVal_(2)  // lastVal_ should be different true and false.
   {
     checkSOUT.setFunction(boost::bind(&Event::check, this, _1, _2));
     signalRegistration(conditionSIN);
     signalRegistration(checkSOUT);
 
     using command::makeCommandVoid1;
-    std::string docstring = "\n"
-                            "    Add a signal\n";
+    std::string docstring =
+        "\n"
+        "    Add a signal\n";
     addCommand("addSignal",
                makeCommandVoid1(*this, &Event::addSignal, docstring));
 
-    docstring = "\n"
-                "    Get list of signals\n";
+    docstring =
+        "\n"
+        "    Get list of signals\n";
     addCommand("list", new command::Getter<Event, std::string>(
                            *this, &Event::getSignalsByName, docstring));
 
@@ -75,7 +78,7 @@ class SOT_CORE_DLLAPI Event : public dynamicgraph::Entity {
 
   void setOnlyUp(const bool &up) { onlyUp_ = up; }
 
-private:
+ private:
   typedef SignalBase<int> *Trigger_t;
   typedef std::vector<Trigger_t> Triggers_t;
 
@@ -88,6 +91,6 @@ private:
 
   bool lastVal_, onlyUp_;
 };
-} // namespace sot
-} // namespace dynamicgraph
-#endif // __SOT_EVENT_H__
+}  // namespace sot
+}  // namespace dynamicgraph
+#endif  // __SOT_EVENT_H__

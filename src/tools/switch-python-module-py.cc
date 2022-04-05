@@ -1,11 +1,13 @@
-#include "dynamic-graph/python/module.hh"
 #include <sot/core/switch.hh>
+
+#include "dynamic-graph/python/module.hh"
 
 namespace dg = dynamicgraph;
 typedef bp::return_value_policy<bp::reference_existing_object>
     reference_existing_object;
 
-template <typename T, typename Time> void exposeSwitch() {
+template <typename T, typename Time>
+void exposeSwitch() {
   typedef dg::sot::Switch<T, Time> E_t;
   typedef typename E_t::Base B_t;
   dg::python::exposeEntity<E_t, bp::bases<dg::Entity>,

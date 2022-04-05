@@ -10,9 +10,10 @@
 #ifndef __SOT_MEMORY_TASK_HH
 #define __SOT_MEMORY_TASK_HH
 
-#include "sot/core/api.hh"
 #include <sot/core/matrix-svd.hh>
 #include <sot/core/task-abstract.hh>
+
+#include "sot/core/api.hh"
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -22,7 +23,7 @@ namespace dynamicgraph {
 namespace sot {
 
 class SOT_CORE_EXPORT MemoryTaskSOT : public TaskAbstract::MemoryTaskAbstract {
-public: //   protected:
+ public:  //   protected:
   typedef Eigen::Map<Matrix, Eigen::internal::traits<Matrix>::Alignment>
       Kernel_t;
   typedef Eigen::Map<const Matrix, Eigen::internal::traits<Matrix>::Alignment>
@@ -30,17 +31,16 @@ public: //   protected:
 
   /* Internal memory to reduce the dynamic allocation at task resolution. */
   dynamicgraph::Vector err, tmpTask, tmpVar, tmpControl;
-  dynamicgraph::Matrix Jt; //( nJ,mJ );
+  dynamicgraph::Matrix Jt;  //( nJ,mJ );
 
-  dynamicgraph::Matrix JK; //(nJ,mJ);
+  dynamicgraph::Matrix JK;  //(nJ,mJ);
 
   SVD_t svd;
   Kernel_t kernel;
 
   void resizeKernel(const Matrix::Index r, const Matrix::Index c) {
     if (kernel.rows() != r || kernel.cols() != c) {
-      if (kernelMem.size() < r * c)
-        kernelMem.resize(r, c);
+      if (kernelMem.size() < r * c) kernelMem.resize(r, c);
       new (&kernel) Kernel_t(kernelMem.data(), r, c);
     }
   }
@@ -50,7 +50,7 @@ public: //   protected:
     return kernel;
   }
 
-public:
+ public:
   /**
    * \param mJ is the number of joints
    * \param nJ the number of feature in the task
@@ -59,7 +59,7 @@ public:
 
   void display(std::ostream &os) const;
 
-private:
+ private:
   void initMemory(const Matrix::Index nJ, const Matrix::Index mJ);
 
   Matrix kernelMem;
@@ -68,4 +68,4 @@ private:
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // __SOT_MEMORY_TASK_HH
+#endif  // __SOT_MEMORY_TASK_HH

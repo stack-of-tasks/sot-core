@@ -29,11 +29,10 @@ void MemoryTaskSOT::initMemory(const Matrix::Index nJ, const Matrix::Index mJ) {
 
   svd = SVD_t(nJ, mJ, Eigen::ComputeThinU | Eigen::ComputeFullV);
   // If the constraint is well conditioned, the kernel can be pre-allocated.
-  if (mJ > nJ)
-    kernelMem.resize(mJ - nJ, mJ);
+  if (mJ > nJ) kernelMem.resize(mJ - nJ, mJ);
 
   JK.setZero();
   Jt.setZero();
 }
 
-void MemoryTaskSOT::display(std::ostream & /*os*/) const {} // TODO
+void MemoryTaskSOT::display(std::ostream& /*os*/) const {}  // TODO

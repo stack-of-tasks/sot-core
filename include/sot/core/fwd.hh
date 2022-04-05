@@ -17,7 +17,7 @@ namespace sot {
 class Device;
 class AbstractSotExternalInterface;
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // SOT_CORE_FWD_HH
+#endif  // SOT_CORE_FWD_HH

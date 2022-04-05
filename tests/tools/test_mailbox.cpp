@@ -18,6 +18,7 @@ using namespace std;
 
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/factory.h>
+
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/mailbox-vector.hh>
 #include <sstream>
@@ -34,8 +35,7 @@ void f(void) {
   Vector vect2(25);
   for (int i = 0; i < 250; ++i) {
     std::cout << " iter  " << i << std::endl;
-    for (int j = 0; j < 25; ++j)
-      vect(j) = j + i * 10;
+    for (int j = 0; j < 25; ++j) vect(j) = j + i * 10;
     mailbox->post(vect);
     Vector V = mailbox->getObject(vect2, 1);
     std::cout << vect2 << std::endl;

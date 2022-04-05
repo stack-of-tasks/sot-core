@@ -9,10 +9,11 @@
 #define __SOT_MATRIX_GEOMETRY_H__
 
 /* --- Matrix --- */
-#include <Eigen/Core>
-#include <Eigen/Geometry>
 #include <dynamic-graph/eigen-io.h>
 #include <dynamic-graph/linear-algebra.h>
+
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 #include <sot/core/api.hh>
 
 #define MRAWDATA(x) x.data()
@@ -24,29 +25,29 @@
 namespace dynamicgraph {
 namespace sot {
 
-#define EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, Size, SizeSuffix)                \
-  /** \ingroup matrixtypedefs */                                               \
-  typedef Eigen::Matrix<Type, Size, Size> Matrix##SizeSuffix##TypeSuffix;      \
-  /** \ingroup matrixtypedefs */                                               \
-  typedef Eigen::Matrix<Type, Size, 1> Vector##SizeSuffix##TypeSuffix;         \
-  /** \ingroup matrixtypedefs */                                               \
+#define EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, Size, SizeSuffix)           \
+  /** \ingroup matrixtypedefs */                                          \
+  typedef Eigen::Matrix<Type, Size, Size> Matrix##SizeSuffix##TypeSuffix; \
+  /** \ingroup matrixtypedefs */                                          \
+  typedef Eigen::Matrix<Type, Size, 1> Vector##SizeSuffix##TypeSuffix;    \
+  /** \ingroup matrixtypedefs */                                          \
   typedef Eigen::Matrix<Type, 1, Size> RowVector##SizeSuffix##TypeSuffix;
 
-#define EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, Size)                      \
-  /** \ingroup matrixtypedefs */                                               \
-  typedef Eigen::Matrix<Type, Size, Eigen::Dynamic>                            \
-      Matrix##Size##X##TypeSuffix;                                             \
-  /** \ingroup matrixtypedefs */                                               \
+#define EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, Size) \
+  /** \ingroup matrixtypedefs */                          \
+  typedef Eigen::Matrix<Type, Size, Eigen::Dynamic>       \
+      Matrix##Size##X##TypeSuffix;                        \
+  /** \ingroup matrixtypedefs */                          \
   typedef Eigen::Matrix<Type, Eigen::Dynamic, Size> Matrix##X##Size##TypeSuffix;
 
-#define EIGEN_MAKE_TYPEDEFS_ALL_SIZES(Type, TypeSuffix)                        \
-  EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 1, 1)                                  \
-  EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 5, 5)                                  \
-  EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 6, 6)                                  \
-  EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 7, 7)                                  \
-  EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 1)                               \
-  EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 5)                               \
-  EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 6)                               \
+#define EIGEN_MAKE_TYPEDEFS_ALL_SIZES(Type, TypeSuffix) \
+  EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 1, 1)           \
+  EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 5, 5)           \
+  EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 6, 6)           \
+  EIGEN_MAKE_TYPEDEFS(Type, TypeSuffix, 7, 7)           \
+  EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 1)        \
+  EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 5)        \
+  EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 6)        \
   EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 7)
 
 EIGEN_MAKE_TYPEDEFS_ALL_SIZES(int, i)
@@ -85,7 +86,6 @@ typedef Eigen::Quaternion<double> SOT_CORE_EXPORT Quaternion;
 typedef Eigen::Map<Quaternion> SOT_CORE_EXPORT QuaternionMap;
 
 inline void buildFrom(const MatrixHomogeneous &MH, MatrixTwist &MT) {
-
   Eigen::Vector3d _t = MH.translation();
   MatrixRotation R(MH.linear());
   Eigen::Matrix3d Tx;
@@ -99,7 +99,7 @@ inline void buildFrom(const MatrixHomogeneous &MH, MatrixTwist &MT) {
   MT.block<3, 3>(3, 3) = R;
 }
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 #endif /* #ifndef __SOT_MATRIX_GEOMETRY_H__ */

@@ -60,7 +60,7 @@ class ThreadInterruptibleLoop(threading.Thread):
                     self.pause()
             time.sleep(self.sleepTime)
         self.isRunning = False
-        print('Thread loop will now end.')
+        print("Thread loop will now end.")
 
     def start(self):
         self.setPlay(True)
@@ -88,7 +88,8 @@ def loopInThread(funLoop):
     class ThreadViewer(ThreadInterruptibleLoop):
         def __init__(self):
             ThreadInterruptibleLoop.__init__(self)
-#            self.start()
+
+        #            self.start()
 
         def loop(self):
             funLoop()

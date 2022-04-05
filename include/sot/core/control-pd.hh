@@ -44,28 +44,27 @@ namespace sot {
 /* --------------------------------------------------------------------- */
 
 class ControlPD_EXPORT ControlPD : public Entity {
-
-public: /* --- CONSTRUCTOR ---- */
+ public: /* --- CONSTRUCTOR ---- */
   ControlPD(const std::string &name);
 
-public: /* --- INIT --- */
+ public: /* --- INIT --- */
   void init(const double &step);
 
-public: /* --- CONSTANTS --- */
+ public: /* --- CONSTANTS --- */
   /* Default values. */
-  static const double TIME_STEP_DEFAULT; // = 0.001
+  static const double TIME_STEP_DEFAULT;  // = 0.001
 
-public: /* --- ENTITY INHERITANCE --- */
+ public: /* --- ENTITY INHERITANCE --- */
   static const std::string CLASS_NAME;
   virtual void display(std::ostream &os) const;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   /* Parameters of the torque-control function:
    * tau = kp * (qd-q) + kd* (dqd-dq) */
   double TimeStep;
 
-public: /* --- SIGNALS --- */
+ public: /* --- SIGNALS --- */
   SignalPtr<dynamicgraph::Vector, int> KpSIN;
   SignalPtr<dynamicgraph::Vector, int> KdSIN;
   SignalPtr<dynamicgraph::Vector, int> positionSIN;
@@ -76,7 +75,7 @@ public: /* --- SIGNALS --- */
   SignalTimeDependent<dynamicgraph::Vector, int> positionErrorSOUT;
   SignalTimeDependent<dynamicgraph::Vector, int> velocityErrorSOUT;
 
-protected:
+ protected:
   dynamicgraph::Vector &computeControl(dynamicgraph::Vector &tau, int t);
   dynamicgraph::Vector position_error_;
   dynamicgraph::Vector velocity_error_;
@@ -86,7 +85,7 @@ protected:
                                          int t);
 };
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // #ifndef __SOT_Control_PD_HH__
+#endif  // #ifndef __SOT_Control_PD_HH__

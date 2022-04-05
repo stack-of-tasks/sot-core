@@ -12,12 +12,12 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
+#include <dynamic-graph/all-commands.h>
+#include <dynamic-graph/pool.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/exception-feature.hh>
 #include <sot/core/feature-point6d-relative.hh>
-
-#include <dynamic-graph/all-commands.h>
-#include <dynamic-graph/pool.h>
 #include <sot/core/macros.hh>
 #include <sot/core/matrix-geometry.hh>
 
@@ -101,8 +101,7 @@ Matrix &FeaturePoint6dRelative::computeJacobian(Matrix &Jres, int time) {
   unsigned int rJ = 0;
   for (unsigned int r = 0; r < 6; ++r)
     if (fl(r)) {
-      for (unsigned int c = 0; c < cJ; ++c)
-        Jres(rJ, c) = J(r, c);
+      for (unsigned int c = 0; c < cJ; ++c) Jres(rJ, c) = J(r, c);
       rJ++;
     }
 
@@ -166,12 +165,10 @@ Vector &FeaturePoint6dRelative::computeError(Vector &error, int time) {
   error.resize(dimensionSOUT(time));
   unsigned int cursor = 0;
   for (unsigned int i = 0; i < 3; ++i) {
-    if (fl(i))
-      error(cursor++) = Merr(i, 3);
+    if (fl(i)) error(cursor++) = Merr(i, 3);
   }
   for (unsigned int i = 0; i < 3; ++i) {
-    if (fl(i + 3))
-      error(cursor++) = rerr.angle() * rerr.axis()(i);
+    if (fl(i + 3)) error(cursor++) = rerr.angle() * rerr.axis()(i);
   }
 
   sotDEBUGOUT(15);
@@ -246,12 +243,10 @@ Vector &FeaturePoint6dRelative::computeErrorDot(Vector &errordot, int time) {
   errordot.resize(dimensionSOUT(time));
   unsigned int cursor = 0;
   for (unsigned int i = 0; i < 3; ++i) {
-    if (fl(i))
-      errordot(cursor++) = dtrerr(i);
+    if (fl(i)) errordot(cursor++) = dtrerr(i);
   }
   for (unsigned int i = 0; i < 3; ++i) {
-    if (fl(i + 3))
-      errordot(cursor++) = rerr.angle() * rerr.axis()(i);
+    if (fl(i + 3)) errordot(cursor++) = rerr.angle() * rerr.axis()(i);
   }
 
   sotDEBUGOUT(15);

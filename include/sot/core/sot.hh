@@ -22,6 +22,7 @@
 
 /* SOT */
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/flags.hh>
 #include <sot/core/task-abstract.hh>
 
@@ -54,18 +55,18 @@ namespace sot {
   through the shell.
 */
 class SOTSOT_CORE_EXPORT Sot : public Entity {
-public:
+ public:
   /*! \brief Specify the name of the class entity. */
   static const std::string CLASS_NAME;
 
-public:
+ public:
   /*! \brief Returns the name of this class. */
   virtual const std::string &getClassName() const { return CLASS_NAME; }
 
   /*! \brief Defines a type for a list of tasks */
   typedef std::list<TaskAbstract *> StackType;
 
-protected:
+ protected:
   /*! \brief This field is a list of controllers
     managed by the stack of tasks. */
   StackType stack;
@@ -86,9 +87,9 @@ protected:
     */
   double maxControlIncrementSquaredNorm;
 
-public:
+ public:
   /*! \brief Threshold to compute the dumped pseudo inverse. */
-  static const double INVERSION_THRESHOLD_DEFAULT; // = 1e-4;
+  static const double INVERSION_THRESHOLD_DEFAULT;  // = 1e-4;
 
   /*   static const double DIRECTIONAL_THRESHOLD_DEFAULT = 1e-2; */
   /*   static const bool USE_CONTI_INVERSE_DEFAULT = false; */
@@ -97,7 +98,7 @@ public:
   static void taskVectorToMlVector(const VectorMultiBound &taskVector,
                                    Vector &err);
 
-public:
+ public:
   /*! \brief Default constructor */
   Sot(const std::string &name);
   ~Sot(void) { /* TODO!! */
@@ -151,7 +152,7 @@ public:
   virtual const unsigned int &getNbDof() const { return nbJoints; }
 
   /*! @} */
-public: /* --- CONTROL --- */
+ public: /* --- CONTROL --- */
   /*! \name Methods to compute the control law following the
     recursive definition of the stack of tasks.
     @{
@@ -163,7 +164,7 @@ public: /* --- CONTROL --- */
 
   /*! @} */
 
-public: /* --- DISPLAY --- */
+ public: /* --- DISPLAY --- */
   /*! \name Methods to display the stack of tasks.
     @{
   */
@@ -173,7 +174,7 @@ public: /* --- DISPLAY --- */
   SOTSOT_CORE_EXPORT friend std::ostream &operator<<(std::ostream &os,
                                                      const Sot &sot);
   /*! @} */
-public: /* --- SIGNALS --- */
+ public: /* --- SIGNALS --- */
   /*! \name Methods to handle signals
     @{
   */
@@ -199,7 +200,7 @@ public: /* --- SIGNALS --- */
    * os. */
   virtual std::ostream &writeGraph(std::ostream &os) const;
 };
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 #endif /* #ifndef __SOT_SOT_HH */

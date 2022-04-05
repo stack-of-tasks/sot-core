@@ -10,11 +10,12 @@
 #ifndef SOT_CORE_FEATURE_POSTURE_HH
 #define SOT_CORE_FEATURE_POSTURE_HH
 
-#include "sot/core/api.hh"
-#include "sot/core/feature-abstract.hh"
 #include <dynamic-graph/signal-ptr.h>
 #include <dynamic-graph/signal-time-dependent.h>
 #include <dynamic-graph/value.h>
+
+#include "sot/core/api.hh"
+#include "sot/core/feature-abstract.hh"
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -51,7 +52,7 @@ class SOTFEATUREPOSTURE_EXPORT FeaturePosture : public FeatureAbstract {
 
   DYNAMIC_GRAPH_ENTITY_DECL();
 
-public:
+ public:
   typedef dynamicgraph::SignalPtr<dynamicgraph::Vector, int> signalIn_t;
   typedef dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int>
       signalOut_t;
@@ -63,7 +64,7 @@ public:
   virtual unsigned int &getDimension(unsigned int &res, int);
   void selectDof(unsigned dofId, bool control);
 
-protected:
+ protected:
   virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res, int);
   virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res, int);
   virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res,
@@ -74,11 +75,11 @@ protected:
   signalIn_t postureDot_;
   signalOut_t error_;
 
-private:
+ private:
   std::vector<bool> activeDofs_;
   std::size_t nbActiveDofs_;
-}; // class FeaturePosture
-} // namespace sot
-} // namespace dynamicgraph
+};  // class FeaturePosture
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // SOT_CORE_FEATURE_POSTURE_HH
+#endif  // SOT_CORE_FEATURE_POSTURE_HH

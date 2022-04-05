@@ -13,6 +13,7 @@
 
 #include <dynamic-graph/linear-algebra.h>
 #include <dynamic-graph/signal.h>
+
 #include <iostream>
 #include <sot/core/gain-adaptive.hh>
 using namespace std;
@@ -20,7 +21,7 @@ using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
 class DummyClass {
-public:
+ public:
   dynamicgraph::Vector err;
 
   dynamicgraph::Vector &getError(dynamicgraph::Vector &res, int t) {

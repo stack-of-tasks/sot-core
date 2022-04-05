@@ -30,13 +30,14 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(TaskUnilateral, "TaskUnilateral");
 /* --------------------------------------------------------------------- */
 
 TaskUnilateral::TaskUnilateral(const std::string &n)
-    : Task(n), featureList(),
+    : Task(n),
+      featureList(),
       positionSIN(NULL,
                   "sotTaskUnilateral(" + n + ")::input(vector)::position"),
-      referenceInfSIN(NULL, "sotTaskUnilateral(" + n +
-                                ")::input(vector)::referenceInf"),
-      referenceSupSIN(NULL, "sotTaskUnilateral(" + n +
-                                ")::input(vector)::referenceSup"),
+      referenceInfSIN(
+          NULL, "sotTaskUnilateral(" + n + ")::input(vector)::referenceInf"),
+      referenceSupSIN(
+          NULL, "sotTaskUnilateral(" + n + ")::input(vector)::referenceSup"),
       dtSIN(NULL, "sotTaskUnilateral(" + n + ")::input(double)::dt") {
   taskSOUT.setFunction(
       boost::bind(&TaskUnilateral::computeTaskUnilateral, this, _1, _2));

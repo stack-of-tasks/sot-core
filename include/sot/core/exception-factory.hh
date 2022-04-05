@@ -14,8 +14,9 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#include "sot/core/api.hh"
 #include <sot/core/exception-abstract.hh>
+
+#include "sot/core/api.hh"
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -28,7 +29,7 @@ namespace sot {
 class SOT_CORE_EXPORT ExceptionFactory : public ExceptionAbstract
 
 {
-public:
+ public:
   enum ErrorCodeEnum {
     GENERIC = ExceptionAbstract::FACTORY,
     UNREFERED_OBJECT,
@@ -38,8 +39,8 @@ public:
     SIGNAL_CONFLICT,
     FUNCTION_CONFLICT,
     OBJECT_CONFLICT,
-    SYNTAX_ERROR // j' aime bien FATAL_ERROR aussi faut que je la case qq
-                 // part...
+    SYNTAX_ERROR  // j' aime bien FATAL_ERROR aussi faut que je la case qq
+                  // part...
     ,
     READ_FILE
   };

@@ -10,9 +10,9 @@
 /* -------------------------------------------------------------------------- */
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
-#include <iostream>
-
 #include <dynamic-graph/linear-algebra.h>
+
+#include <iostream>
 #include <sot/core/debug.hh>
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/feature-point6d.hh>
@@ -24,7 +24,7 @@ using namespace std;
 using namespace dynamicgraph::sot;
 
 class TestPoint6d {
-public:
+ public:
   SOT_CORE_DISABLE_WARNING_PUSH
   SOT_CORE_DISABLE_WARNING_DEPRECATED
   FeaturePoint6d feature_, featureDes_;
@@ -35,8 +35,10 @@ public:
   dynamicgraph::Vector manual_;
 
   TestPoint6d(unsigned dim, std::string &name)
-      : feature_("feature" + name), featureDes_("featureDes" + name),
-        task_("task" + name), time_(0)
+      : feature_("feature" + name),
+        featureDes_("featureDes" + name),
+        task_("task" + name),
+        time_(0)
 
   {
     feature_.computationFrame("desired");
@@ -87,7 +89,6 @@ public:
   }
 
   int recompute() {
-
     feature_.errorSOUT.recompute(time_);
     feature_.errordotSOUT.recompute(time_);
     task_.taskSOUT.recompute(time_);
@@ -117,16 +118,14 @@ public:
     aM(2, 0) = -vd(4);
     aM(2, 1) = vd(3);
     aM(2, 2) = 0.0;
-    for (unsigned int i = 0; i < 3; i++)
-      aV(i) = sd(i, 3) - s(i, 3);
+    for (unsigned int i = 0; i < 3; i++) aV(i) = sd(i, 3) - s(i, 3);
 
     aV = aM * aV;
 
     /// Recompute error_th.
     for (unsigned int i = 0; i < 3; i++) {
       manual_[i] = -gain * (s(i, 3) - sd(i, 3)) - (aV(i) - vd(i));
-      if (manual_[i] != taskTaskSOUT[i].getSingleBound())
-        return -1;
+      if (manual_[i] != taskTaskSOUT[i].getSingleBound()) return -1;
     }
     return 0;
   }

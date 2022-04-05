@@ -25,10 +25,11 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(OpPointModifier, "OpPointModifier");
 /* --------------------------------------------------------------------- */
 
 OpPointModifier::OpPointModifier(const std::string &name)
-    : Entity(name), jacobianSIN(NULL, "OpPointModifior(" + name +
-                                          ")::input(matrix)::jacobianIN"),
-      positionSIN(NULL, "OpPointModifior(" + name +
-                            ")::input(matrixhomo)::positionIN"),
+    : Entity(name),
+      jacobianSIN(NULL,
+                  "OpPointModifior(" + name + ")::input(matrix)::jacobianIN"),
+      positionSIN(
+          NULL, "OpPointModifior(" + name + ")::input(matrixhomo)::positionIN"),
       jacobianSOUT(
           boost::bind(&OpPointModifier::jacobianSOUT_function, this, _1, _2),
           jacobianSIN,
@@ -37,13 +38,13 @@ OpPointModifier::OpPointModifier(const std::string &name)
           boost::bind(&OpPointModifier::positionSOUT_function, this, _1, _2),
           positionSIN,
           "OpPointModifior(" + name + ")::output(matrixhomo)::position"),
-      transformation(), isEndEffector(true) {
+      transformation(),
+      isEndEffector(true) {
   sotDEBUGIN(15);
 
   signalRegistration(jacobianSIN << positionSIN << jacobianSOUT
                                  << positionSOUT);
   {
-
     using namespace dynamicgraph::command;
     addCommand(
         "getTransformation",
@@ -64,16 +65,15 @@ OpPointModifier::OpPointModifier(const std::string &name)
   sotDEBUGOUT(15);
 }
 
-dynamicgraph::Matrix &
-OpPointModifier::jacobianSOUT_function(dynamicgraph::Matrix &res,
-                                       const int &iter) {
+dynamicgraph::Matrix &OpPointModifier::jacobianSOUT_function(
+    dynamicgraph::Matrix &res, const int &iter) {
   if (isEndEffector) {
     const dynamicgraph::Matrix &aJa = jacobianSIN(iter);
     const MatrixHomogeneous &aMb = transformation;
 
     MatrixTwist bVa;
     buildFrom(aMb.inverse(), bVa);
-    res = bVa * aJa; // res := bJb
+    res = bVa * aJa;  // res := bJb
     return res;
   } else {
     /* Consider that the jacobian of point A in frame A is given: J  = aJa
@@ -106,13 +106,12 @@ OpPointModifier::jacobianSOUT_function(dynamicgraph::Matrix &res,
         res(i + 3, j) = oJa(i + 3, j);
       }
     }
-    return res; // res := 0Jb
+    return res;  // res := 0Jb
   }
 }
 
-MatrixHomogeneous &
-OpPointModifier::positionSOUT_function(MatrixHomogeneous &res,
-                                       const int &iter) {
+MatrixHomogeneous &OpPointModifier::positionSOUT_function(
+    MatrixHomogeneous &res, const int &iter) {
   sotDEBUGIN(15);
   sotDEBUGIN(15) << iter << " " << positionSIN.getTime()
                  << positionSOUT.getTime() << endl;

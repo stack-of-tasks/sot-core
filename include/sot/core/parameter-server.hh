@@ -35,11 +35,13 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#include "boost/assign.hpp"
 #include <dynamic-graph/signal-helper.h>
+
 #include <map>
 #include <sot/core/matrix-geometry.hh>
 #include <sot/core/robot-utils.hh>
+
+#include "boost/assign.hpp"
 
 namespace dynamicgraph {
 namespace sot {
@@ -56,7 +58,7 @@ class SOTParameterServer_EXPORT ParameterServer
   typedef ParameterServer EntityClassName;
   DYNAMIC_GRAPH_ENTITY_DECL();
 
-public:
+ public:
   /* --- CONSTRUCTOR ---- */
   ParameterServer(const std::string &name);
 
@@ -113,8 +115,8 @@ public:
     m_robot_util->set_parameter<Type>(ParameterName, ParameterValue);
   }
 
-  template <typename Type> Type getParameter(const std::string &ParameterName) {
-
+  template <typename Type>
+  Type getParameter(const std::string &ParameterName) {
     if (!m_initSucceeded) {
       DYNAMIC_GRAPH_ENTITY_WARNING(*this)
           << "Cannot get parameter " << ParameterName
@@ -131,25 +133,26 @@ public:
   /* --- ENTITY INHERITANCE --- */
   virtual void display(std::ostream &os) const;
 
-protected:
+ protected:
   RobotUtilShrPtr m_robot_util;
-  bool m_initSucceeded; /// true if the entity has been successfully initialized
+  bool
+      m_initSucceeded;  /// true if the entity has been successfully initialized
   double m_dt;          /// control loop time period
-  bool m_emergency_stop_triggered; /// true if an emergency condition as been
-                                   /// triggered either by an other entity, or
-                                   /// by control limit violation
-  bool m_is_first_iter; /// true at the first iteration, false otherwise
+  bool m_emergency_stop_triggered;  /// true if an emergency condition as been
+                                    /// triggered either by an other entity, or
+                                    /// by control limit violation
+  bool m_is_first_iter;  /// true at the first iteration, false otherwise
   int m_iter;
-  double m_sleep_time; /// time to sleep at every iteration (to slow down
-                       /// simulation)
+  double m_sleep_time;  /// time to sleep at every iteration (to slow down
+                        /// simulation)
 
   bool convertJointNameToJointId(const std::string &name, unsigned int &id);
   bool isJointInRange(unsigned int id, double q);
   void updateJointCtrlModesOutputSignal();
 
-}; // class ParameterServer
+};  // class ParameterServer
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // #ifndef __sot_torque_control_control_manager_H__
+#endif  // #ifndef __sot_torque_control_control_manager_H__

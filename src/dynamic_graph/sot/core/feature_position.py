@@ -28,35 +28,37 @@ class FeaturePosition(Entity):
 
     signalMap = dict()
 
-    def __init__(self, name, signalPosition=None, signalJacobian=None, referencePosition=None):
+    def __init__(
+        self, name, signalPosition=None, signalJacobian=None, referencePosition=None
+    ):
         self._feature = FeaturePoint6d(name)
         self.obj = self._feature.obj
-        self._reference = FeaturePoint6d(name + '_ref')
+        self._reference = FeaturePoint6d(name + "_ref")
         if referencePosition:
-            self._reference.signal('position').value = tuple(referencePosition)
+            self._reference.signal("position").value = tuple(referencePosition)
         if signalPosition:
-            plug(signalPosition, self._feature.signal('position'))
+            plug(signalPosition, self._feature.signal("position"))
         if signalJacobian:
-            plug(signalJacobian, self._feature.signal('Jq'))
+            plug(signalJacobian, self._feature.signal("Jq"))
         self._feature.setReference(self._reference.name)
-        self._feature.signal('selec').value = Flags('111111')
-        self._feature.frame('current')
+        self._feature.signal("selec").value = Flags("111111")
+        self._feature.frame("current")
 
         # Signals stored in members
-        self.position = self._feature.signal('position')
-        self.reference = self._reference.signal('position')
-        self.velocity = self._reference.signal('velocity')
-        self.Jq = self._feature.signal('Jq')
-        self.error = self._feature.signal('error')
-        self.errordot = self._feature.signal('errordot')
-        self.selec = self._feature.signal('selec')
+        self.position = self._feature.signal("position")
+        self.reference = self._reference.signal("position")
+        self.velocity = self._reference.signal("velocity")
+        self.Jq = self._feature.signal("Jq")
+        self.error = self._feature.signal("error")
+        self.errordot = self._feature.signal("errordot")
+        self.selec = self._feature.signal("selec")
 
         self.signalMap = {
-            'position': self.position,
-            'reference': self.reference,
-            'Jq': self.Jq,
-            'error': self.error,
-            'selec': self.selec
+            "position": self.position,
+            "reference": self.reference,
+            "Jq": self.Jq,
+            "error": self.error,
+            "selec": self.selec,
         }
 
     @property
@@ -70,7 +72,7 @@ class FeaturePosition(Entity):
         if name in self.signalMap.keys():
             return self.signalMap[name]
         else:
-            raise RuntimeError('No signal with this name')
+            raise RuntimeError("No signal with this name")
 
     def signals(self):
         """
@@ -82,7 +84,7 @@ class FeaturePosition(Entity):
         """
         Return the list of commands.
         """
-        return ('frame', 'getFrame', 'keep')
+        return ("frame", "getFrame", "keep")
 
     def frame(self, f):
         return self._feature.frame(f)

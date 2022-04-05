@@ -13,6 +13,7 @@
 
 /* SOT */
 #include <dynamic-graph/all-commands.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/task-pd.hh>
 
@@ -29,7 +30,9 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(TaskPD, "TaskPD");
 /* --------------------------------------------------------------------- */
 
 TaskPD::TaskPD(const std::string &n)
-    : Task(n), previousError(), beta(1),
+    : Task(n),
+      previousError(),
+      beta(1),
       errorDotSOUT(boost::bind(&TaskPD::computeErrorDot, this, _1, _2),
                    errorSOUT,
                    "sotTaskPD(" + n + ")::output(vector)::errorDotOUT"),

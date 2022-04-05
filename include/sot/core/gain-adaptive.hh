@@ -51,32 +51,31 @@ namespace sot {
  * - \f$ c = 0.1 \f$.
  */
 class SOTGAINADAPTATIVE_EXPORT GainAdaptive : public dynamicgraph::Entity {
-
-public: /* --- CONSTANTS --- */
+ public: /* --- CONSTANTS --- */
   /* Default values. */
-  static const double ZERO_DEFAULT;  // = 0.1
-  static const double INFTY_DEFAULT; // = 0.1
-  static const double TAN_DEFAULT;   // = 1.
+  static const double ZERO_DEFAULT;   // = 0.1
+  static const double INFTY_DEFAULT;  // = 0.1
+  static const double TAN_DEFAULT;    // = 1.
 
-public: /* --- ENTITY INHERITANCE --- */
+ public: /* --- ENTITY INHERITANCE --- */
   static const std::string CLASS_NAME;
   virtual void display(std::ostream &os) const;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   /* Parameters of the adaptative-gain function:
    * lambda (x) = a * exp (-b*x) + c. */
   double coeff_a;
   double coeff_b;
   double coeff_c;
 
-public: /* --- CONSTRUCTORS ---- */
+ public: /* --- CONSTRUCTORS ---- */
   GainAdaptive(const std::string &name);
   GainAdaptive(const std::string &name, const double &lambda);
   GainAdaptive(const std::string &name, const double &valueAt0,
                const double &valueAtInfty, const double &tanAt0);
 
-public: /* --- INIT --- */
+ public: /* --- INIT --- */
   inline void init(void) { init(ZERO_DEFAULT, INFTY_DEFAULT, TAN_DEFAULT); }
   inline void init(const double &lambda) { init(lambda, lambda, 1.); }
   void init(const double &valueAt0, const double &valueAtInfty,
@@ -116,18 +115,18 @@ public: /* --- INIT --- */
                             const double &percentage);
   void forceConstant(void);
 
-public: /* --- SIGNALS --- */
+ public: /* --- SIGNALS --- */
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> errorSIN;
   dynamicgraph::SignalTimeDependent<double, int> gainSOUT;
 
-protected:
+ protected:
   double &computeGain(double &res, int t);
 
-private:
+ private:
   void addCommands();
 };
 
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_GAIN_ADAPTATIVE_HH__
+#endif  // #ifndef __SOT_GAIN_ADAPTATIVE_HH__

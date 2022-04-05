@@ -6,9 +6,8 @@
  *
  */
 
-#include <pinocchio/multibody/liegroup/special-euclidean.hpp>
-
 #include <iostream>
+#include <pinocchio/multibody/liegroup/special-euclidean.hpp>
 #include <sot/core/debug.hh>
 
 #ifndef WIN32
@@ -17,9 +16,10 @@
 
 using namespace std;
 
-#include <boost/test/unit_test.hpp>
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/factory.h>
+
+#include <boost/test/unit_test.hpp>
 #include <sot/core/device.hh>
 #include <sstream>
 
@@ -28,7 +28,7 @@ using namespace dynamicgraph::sot;
 namespace dg = dynamicgraph;
 
 class TestDevice : public dg::sot::Device {
-public:
+ public:
   TestDevice(const std::string &RobotName) : Device(RobotName) {
     timestep_ = 0.001;
   }
@@ -36,7 +36,6 @@ public:
 };
 
 BOOST_AUTO_TEST_CASE(test_device) {
-
   TestDevice aDevice(std::string("simple_humanoid"));
 
   /// Fix constant vector for the control entry in position
@@ -62,7 +61,7 @@ BOOST_AUTO_TEST_CASE(test_device) {
     aControlVector(i) = 0.1;
   }
 
-  dg::Vector expected = aStateVector; // backup initial state vector
+  dg::Vector expected = aStateVector;  // backup initial state vector
 
   /// Specify state size
   aDevice.setStateSize(38);
@@ -75,7 +74,7 @@ BOOST_AUTO_TEST_CASE(test_device) {
   /// Specify velocity bounds
   aDevice.setVelocityBounds(aLowerVelBound, anUpperVelBound);
   /// Specify current state value
-  aDevice.setState(aStateVector); // entry signal in position
+  aDevice.setState(aStateVector);  // entry signal in position
   /// Specify constant control value
   aDevice.controlSIN.setConstant(aControlVector);
 
@@ -118,8 +117,7 @@ BOOST_AUTO_TEST_CASE(test_device) {
                                .toRotationMatrix()
                                .eulerAngles(2, 1, 0)
                                .reverse();
-  for (int i = 6; i < expected.size(); i++)
-    expected[i] = 0.3;
+  for (int i = 6; i < expected.size(); i++) expected[i] = 0.3;
 
   std::cout << expected.transpose() << std::endl;
   std::cout << aDevice.stateSOUT(N).transpose() << std::endl;

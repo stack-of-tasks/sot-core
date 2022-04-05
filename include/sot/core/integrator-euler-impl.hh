@@ -32,24 +32,24 @@
 #endif
 
 #ifdef WIN32
-#define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType)              \
-  class INTEGRATOR_EULER_EXPORT className                                      \
-      : public IntegratorEuler<sotSigType, sotCoefType> {                      \
-  public:                                                                      \
-    std::string getTypeName(void);                                             \
-    className(const std::string &name);                                        \
+#define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType) \
+  class INTEGRATOR_EULER_EXPORT className                         \
+      : public IntegratorEuler<sotSigType, sotCoefType> {         \
+   public:                                                        \
+    std::string getTypeName(void);                                \
+    className(const std::string &name);                           \
   };
 #else
-#define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType)              \
+#define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType) \
   typedef IntegratorEuler<sotSigType, sotCoefType> className;
-#endif // WIN32
+#endif  // WIN32
 
 namespace dynamicgraph {
 namespace sot {
 DECLARE_SPECIFICATION(IntegratorEulerDoubleDouble, double, double)
 DECLARE_SPECIFICATION(IntegratorEulerVectorDouble, Vector, double)
 DECLARE_SPECIFICATION(IntegratorEulerVectorMatrix, Vector, Matrix)
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 #endif

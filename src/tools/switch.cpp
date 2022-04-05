@@ -1,9 +1,9 @@
 // Copyright (c) 2017, Joseph Mirabel
 // Authors: Joseph Mirabel (joseph.mirabel@laas.fr)
 
-#include <sot/core/switch.hh>
-
 #include <dynamic-graph/factory.h>
+
+#include <sot/core/switch.hh>
 
 #include "type-name-helper.hh"
 
@@ -21,12 +21,14 @@ std::string VariadicAbstract<Tin, Tout, Time>::getTypeOutName(void) {
 template class VariadicAbstract<Vector, Vector, int>;
 
 typedef Switch<Vector, int> SwitchVector;
-template <> DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SwitchVector, "SwitchVector");
+template <>
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SwitchVector, "SwitchVector");
 
 template class VariadicAbstract<bool, bool, int>;
 
 typedef Switch<bool, int> SwitchBool;
-template <> DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SwitchBool, "SwitchBoolean");
+template <>
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SwitchBool, "SwitchBoolean");
 
 template class VariadicAbstract<MatrixHomogeneous, MatrixHomogeneous, int>;
 
@@ -34,5 +36,5 @@ typedef Switch<MatrixHomogeneous, int> SwitchMatrixHomogeneous;
 template <>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SwitchMatrixHomogeneous,
                                    "SwitchMatrixHomogeneous");
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph

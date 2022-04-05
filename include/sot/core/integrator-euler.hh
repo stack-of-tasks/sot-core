@@ -17,6 +17,7 @@
 /* SOT */
 #include <dynamic-graph/command-getter.h>
 #include <dynamic-graph/command-setter.h>
+
 #include <sot/core/integrator-abstract.hh>
 
 /* --------------------------------------------------------------------- */
@@ -27,14 +28,15 @@ namespace dynamicgraph {
 namespace sot {
 
 namespace internal {
-template <class coefT> bool integratorEulerCoeffIsIdentity(const coefT c) {
+template <class coefT>
+bool integratorEulerCoeffIsIdentity(const coefT c) {
   return c == 1;
 }
 
 bool integratorEulerCoeffIsIdentity(const Vector c) { return c.isOnes(); }
 
 bool integratorEulerCoeffIsIdentity(const Matrix c) { return c.isIdentity(); }
-} // namespace internal
+}  // namespace internal
 
 /*!
  * \class IntegratorEuler
@@ -47,19 +49,18 @@ bool integratorEulerCoeffIsIdentity(const Matrix c) { return c.isIdentity(); }
  */
 template <class sigT, class coefT>
 class IntegratorEuler : public IntegratorAbstract<sigT, coefT> {
-
-public:
+ public:
   virtual const std::string &getClassName(void) const;
   static std::string getTypeName(void) { return "Unknown"; }
   static const std::string CLASS_NAME;
 
-public:
+ public:
   using IntegratorAbstract<sigT, coefT>::SIN;
   using IntegratorAbstract<sigT, coefT>::SOUT;
   using IntegratorAbstract<sigT, coefT>::numerator;
   using IntegratorAbstract<sigT, coefT>::denominator;
 
-public:
+ public:
   IntegratorEuler(const std::string &name)
       : IntegratorAbstract<sigT, coefT>(name),
         derivativeSOUT(boost::bind(&IntegratorEuler<sigT, coefT>::derivative,
@@ -92,7 +93,7 @@ public:
 
   virtual ~IntegratorEuler(void) {}
 
-protected:
+ protected:
   std::vector<sigT> inputMemory;
   std::vector<sigT> outputMemory;
 
@@ -101,7 +102,7 @@ protected:
   double dt;
   double invdt;
 
-public:
+ public:
   sigT &integrate(sigT &res, int time) {
     sotDEBUG(15) << "# In {" << std::endl;
 

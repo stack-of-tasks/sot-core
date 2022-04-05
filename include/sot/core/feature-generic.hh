@@ -56,18 +56,17 @@ namespace sot {
 class SOTFEATUREGENERIC_EXPORT FeatureGeneric
     : public FeatureAbstract,
       FeatureReferenceHelper<FeatureGeneric> {
-
-public:
+ public:
   /*! Field storing the class name. */
   static const std::string CLASS_NAME;
   /*! Returns the name of the class. */
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   dynamicgraph::Vector::Index dimensionDefault;
 
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
+ public:
   /*! \name dynamicgraph::Signals
     @{
   */
@@ -93,7 +92,7 @@ public:
       feature. */
   using FeatureAbstract::errorSOUT;
 
-public:
+ public:
   /*! \brief Default constructor */
   FeatureGeneric(const std::string &name);
 
@@ -131,7 +130,7 @@ public:
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_FEATURE_GENERIC_HH__
+#endif  // #ifndef __SOT_FEATURE_GENERIC_HH__
 
 /*
  * Local variables:

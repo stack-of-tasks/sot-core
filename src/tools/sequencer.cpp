@@ -9,6 +9,7 @@
 
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/pool.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/exception-tools.hh>
 #include <sot/core/sequencer.hh>
@@ -20,7 +21,10 @@ using namespace dynamicgraph;
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Sequencer, "Sequencer");
 
 Sequencer::Sequencer(const std::string &name)
-    : Entity(name), timeInit(-1), playMode(false), outputStreamPtr(NULL),
+    : Entity(name),
+      timeInit(-1),
+      playMode(false),
+      outputStreamPtr(NULL),
       noOutput(false),
       triggerSOUT(boost::bind(&Sequencer::trigger, this, _1, _2), sotNOSIGNAL,
                   "Sequencer(" + name + ")::output(dummy)::trigger") {
@@ -44,11 +48,11 @@ Sequencer::~Sequencer(void) {
 /* --- SPECIFIC EVENT ------------------------------------------------------- */
 
 class sotEventTaskBased : public Sequencer::sotEventAbstract {
-protected:
+ protected:
   TaskAbstract *taskPtr;
   const std::string defaultTaskName;
 
-public:
+ public:
   sotEventTaskBased(const std::string name = "", TaskAbstract *task = NULL)
       : sotEventAbstract(name), taskPtr(task), defaultTaskName("NULL") {}
 
@@ -77,7 +81,7 @@ public:
 };
 
 class sotEventAddATask : public sotEventTaskBased {
-public:
+ public:
   sotEventAddATask(const std::string name = "", TaskAbstract *task = NULL)
       : sotEventTaskBased(name, task) {
     eventType = EVENT_ADD;
@@ -87,8 +91,7 @@ public:
     sotDEBUGIN(15);
     sotDEBUG(45) << "Sot = " << sotptr << ". Task = " << taskPtr << "."
                  << std::endl;
-    if ((NULL != sotptr) && (NULL != taskPtr))
-      sotptr->push(*taskPtr);
+    if ((NULL != sotptr) && (NULL != taskPtr)) sotptr->push(*taskPtr);
     sotDEBUGOUT(15);
   }
 
@@ -100,7 +103,7 @@ public:
 };
 
 class sotEventRemoveATask : public sotEventTaskBased {
-public:
+ public:
   sotEventRemoveATask(const std::string name = "", TaskAbstract *task = NULL)
       : sotEventTaskBased(name, task) {
     eventType = EVENT_RM;
@@ -110,8 +113,7 @@ public:
     sotDEBUGIN(15);
     sotDEBUG(45) << "Sot = " << sotptr << ". Task = " << taskPtr << "."
                  << std::endl;
-    if ((NULL != sotptr) && (NULL != taskPtr))
-      sotptr->remove(*taskPtr);
+    if ((NULL != sotptr) && (NULL != taskPtr)) sotptr->remove(*taskPtr);
     sotDEBUGOUT(15);
   }
 
@@ -123,10 +125,10 @@ public:
 };
 
 class sotEventCmd : public Sequencer::sotEventAbstract {
-protected:
+ protected:
   std::string cmd;
 
-public:
+ public:
   sotEventCmd(const std::string cmdLine = "")
       : sotEventAbstract(cmdLine + "<cmd>"), cmd(cmdLine) {
     eventType = EVENT_CMD;
@@ -177,7 +179,7 @@ void Sequencer::addTask(sotEventAbstract *task, const unsigned int timeSpec) {
 void Sequencer::rmTask(int eventType, const std::string &name,
                        const unsigned int time) {
   TaskMap::iterator listKey = taskMap.find(time);
-  if (taskMap.end() != listKey) // the time exist
+  if (taskMap.end() != listKey)  // the time exist
   {
     TaskList &tl = listKey->second;
     for (TaskList::iterator itL = tl.begin(); itL != tl.end(); ++itL) {
@@ -188,8 +190,7 @@ void Sequencer::rmTask(int eventType, const std::string &name,
     }
 
     // remove the list if empty
-    if (tl.empty())
-      taskMap.erase(listKey);
+    if (tl.empty()) taskMap.erase(listKey);
   }
 }
 
@@ -213,10 +214,8 @@ void Sequencer::clearAll() {
 int &Sequencer::trigger(int &dummy, const int &timeSpec) {
   sotDEBUGIN(15);
 
-  if (!playMode)
-    return dummy;
-  if (-1 == timeInit)
-    timeInit = timeSpec;
+  if (!playMode) return dummy;
+  if (-1 == timeInit) timeInit = timeSpec;
 
   sotDEBUG(15) << "Ref time: " << (timeSpec - timeInit) << std::endl;
   TaskMap::iterator listKey = taskMap.find(timeSpec - timeInit);
@@ -245,8 +244,7 @@ int &Sequencer::trigger(int &dummy, const int &timeSpec) {
 /* --- PARAMS --------------------------------------------------------------- */
 
 void Sequencer::display(std::ostream &os) const {
-  if (noOutput)
-    return;
+  if (noOutput) return;
 
   os << "Sequencer " << getName() << "(t0=" << timeInit
      << ",mode=" << ((playMode) ? "play" : "pause") << "): " << std::endl;

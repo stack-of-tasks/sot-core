@@ -33,20 +33,22 @@ namespace sot {
 
 namespace dg = dynamicgraph;
 
-template <class Object> struct MailboxTimestampedObject {
+template <class Object>
+struct MailboxTimestampedObject {
   Object obj;
   struct timeval timestamp;
 };
 
-template <class Object> class Mailbox : public dg::Entity {
-public:
+template <class Object>
+class Mailbox : public dg::Entity {
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-public:
+ public:
   typedef MailboxTimestampedObject<Object> sotTimestampedObject;
 
-public:
+ public:
   Mailbox(const std::string &name);
   ~Mailbox(void);
 
@@ -58,13 +60,13 @@ public:
 
   bool hasBeenUpdated(void);
 
-protected:
+ protected:
   boost::timed_mutex mainObjectMutex;
   Object mainObject;
   struct timeval mainTimeStamp;
   bool update;
 
-public: /* --- SIGNALS --- */
+ public: /* --- SIGNALS --- */
   dynamicgraph::SignalTimeDependent<sotTimestampedObject, int> SOUT;
   dynamicgraph::SignalTimeDependent<Object, int> objSOUT;
   dynamicgraph::SignalTimeDependent<struct timeval, int> timeSOUT;
@@ -76,7 +78,8 @@ template <class Object>
 struct signal_io<sot::MailboxTimestampedObject<Object> >
     : signal_io_unimplemented<sot::MailboxTimestampedObject<Object> > {};
 
-template <> struct signal_io<timeval> : signal_io_unimplemented<timeval> {};
+template <>
+struct signal_io<timeval> : signal_io_unimplemented<timeval> {};
 } /* namespace dynamicgraph */
 
-#endif // #ifndef  __SOT_MAILBOX_HH
+#endif  // #ifndef  __SOT_MAILBOX_HH

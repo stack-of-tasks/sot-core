@@ -12,13 +12,14 @@
 /* -------------------------------------------------------------------------- */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/linear-algebra.h>
+
 #include <iostream>
 using namespace std;
 using namespace dynamicgraph;
 
-template <class Res = double> class DummyClass {
-
-public:
+template <class Res = double>
+class DummyClass {
+ public:
   DummyClass(void) : res(), appel(0), timedata(0) {}
 
   Res &fun(Res &res, int t) {
@@ -57,9 +58,13 @@ public:
   int timedata;
 };
 
-template <class Res> Res DummyClass<Res>::operator()(void) { return this->res; }
+template <class Res>
+Res DummyClass<Res>::operator()(void) {
+  return this->res;
+}
 
-template <> double DummyClass<double>::operator()(void) {
+template <>
+double DummyClass<double>::operator()(void) {
   res = appel * timedata;
   return res;
 }

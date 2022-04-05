@@ -9,10 +9,10 @@
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
+#include "dummy-sot-external-interface.hh"
+
 #include <iostream>
 #include <sot/core/debug.hh>
-
-#include "dummy-sot-external-interface.hh"
 
 using namespace std;
 using namespace dynamicgraph::sot;

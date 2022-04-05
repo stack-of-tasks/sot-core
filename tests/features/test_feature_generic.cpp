@@ -11,23 +11,21 @@
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 #include <iostream>
-
 #include <pinocchio/algorithm/frames.hpp>
 #include <pinocchio/algorithm/jacobian.hpp>
 #include <pinocchio/algorithm/joint-configuration.hpp>
 #include <pinocchio/algorithm/kinematics.hpp>
 #include <pinocchio/multibody/data.hpp>
+#include <pinocchio/multibody/liegroup/liegroup.hpp>
 #include <pinocchio/multibody/model.hpp>
 #include <pinocchio/parsers/sample-models.hpp>
 
-#include <pinocchio/multibody/liegroup/liegroup.hpp>
-
 #define BOOST_TEST_MODULE features
-#include <boost/test/unit_test.hpp>
-
-#include <Eigen/SVD>
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/linear-algebra.h>
+
+#include <Eigen/SVD>
+#include <boost/test/unit_test.hpp>
 #include <sot/core/debug.hh>
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/feature-generic.hh>
@@ -47,33 +45,36 @@ typedef pinocchio::CartesianProductOperation<
 typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3_t;
 
 namespace internal {
-template <Representation_t representation> struct LG_t {
+template <Representation_t representation>
+struct LG_t {
   typedef typename boost::mpl::if_c<representation == SE3Representation, SE3_t,
                                     R3xSO3_t>::type type;
 };
-} // namespace internal
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace internal
+}  // namespace sot
+}  // namespace dynamicgraph
 
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
-#define EIGEN_VECTOR_IS_APPROX(Va, Vb, precision)                              \
-  BOOST_CHECK_MESSAGE((Va).isApprox(Vb, precision),                            \
-                      "check " #Va ".isApprox(" #Vb ") failed "                \
-                      "[\n"                                                    \
-                          << (Va).transpose() << "\n!=\n"                      \
+#define EIGEN_VECTOR_IS_APPROX(Va, Vb, precision)         \
+  BOOST_CHECK_MESSAGE((Va).isApprox(Vb, precision),       \
+                      "check " #Va ".isApprox(" #Vb       \
+                      ") failed "                         \
+                      "[\n"                               \
+                          << (Va).transpose() << "\n!=\n" \
                           << (Vb).transpose() << "\n]")
-#define EIGEN_MATRIX_IS_APPROX(Va, Vb, precision)                              \
-  BOOST_CHECK_MESSAGE((Va).isApprox(Vb, precision),                            \
-                      "check " #Va ".isApprox(" #Vb ") failed "                \
-                      "[\n"                                                    \
-                          << (Va) << "\n!=\n"                                  \
-                          << (Vb) << "\n]")
+#define EIGEN_MATRIX_IS_APPROX(Va, Vb, precision)                           \
+  BOOST_CHECK_MESSAGE((Va).isApprox(Vb, precision), "check " #Va            \
+                                                    ".isApprox(" #Vb        \
+                                                    ") failed "             \
+                                                    "[\n"                   \
+                                                        << (Va) << "\n!=\n" \
+                                                        << (Vb) << "\n]")
 
 class FeatureTestBase {
-public:
+ public:
   Task task_;
   int time_;
   dynamicgraph::Vector expectedTaskOutput_;
@@ -161,13 +162,15 @@ public:
 };
 
 class TestFeatureGeneric : public FeatureTestBase {
-public:
+ public:
   FeatureGeneric feature_, featureDes_;
   int dim_;
 
   TestFeatureGeneric(unsigned dim, const std::string &name)
-      : FeatureTestBase(dim, name), feature_("feature" + name),
-        featureDes_("featureDes" + name), dim_(dim) {
+      : FeatureTestBase(dim, name),
+        feature_("feature" + name),
+        featureDes_("featureDes" + name),
+        dim_(dim) {
     feature_.setReference(&featureDes_);
     feature_.selectionSIN = Flags(true);
 
@@ -185,32 +188,32 @@ public:
     double gain;
 
     switch (time_) {
-    case 0:
-      BOOST_TEST_MESSAGE(" ----- Test Velocity -----");
-      s.setZero();
-      sd.setZero();
-      vd.setZero();
-      gain = 0.0;
-      break;
-    case 1:
-      BOOST_TEST_MESSAGE(" ----- Test Position -----");
-      s.setZero();
-      sd.setConstant(2.);
-      vd.setZero();
-      gain = 1.0;
-      break;
-    case 2:
-      BOOST_TEST_MESSAGE(" ----- Test both -----");
-      s.setZero();
-      sd.setConstant(2.);
-      vd.setConstant(1.);
-      gain = 3.0;
-      break;
-    default:
-      s.setRandom();
-      sd.setRandom();
-      vd.setRandom();
-      gain = 1.0;
+      case 0:
+        BOOST_TEST_MESSAGE(" ----- Test Velocity -----");
+        s.setZero();
+        sd.setZero();
+        vd.setZero();
+        gain = 0.0;
+        break;
+      case 1:
+        BOOST_TEST_MESSAGE(" ----- Test Position -----");
+        s.setZero();
+        sd.setConstant(2.);
+        vd.setZero();
+        gain = 1.0;
+        break;
+      case 2:
+        BOOST_TEST_MESSAGE(" ----- Test both -----");
+        s.setZero();
+        sd.setConstant(2.);
+        vd.setConstant(1.);
+        gain = 3.0;
+        break;
+      default:
+        s.setRandom();
+        sd.setRandom();
+        vd.setRandom();
+        gain = 1.0;
     }
 
     feature_.errorSIN = s;
@@ -275,11 +278,10 @@ BOOST_AUTO_TEST_CASE(check_value) {
 
   TestFeatureGeneric testFeatureGeneric(dim, srobot);
 
-  for (int i = 0; i < 10; ++i)
-    testFeatureGeneric.checkValue();
+  for (int i = 0; i < 10; ++i) testFeatureGeneric.checkValue();
 }
 
-BOOST_AUTO_TEST_SUITE_END() // feature_generic
+BOOST_AUTO_TEST_SUITE_END()  // feature_generic
 
 MatrixHomogeneous randomM() {
   MatrixHomogeneous M;
@@ -300,14 +302,13 @@ Vector7 toVector(const pinocchio::SE3 &M) {
 
 Vector toVector(const std::vector<MultiBound> &in) {
   Vector out(in.size());
-  for (int i = 0; i < (int)in.size(); ++i)
-    out[i] = in[i].getSingleBound();
+  for (int i = 0; i < (int)in.size(); ++i) out[i] = in[i].getSingleBound();
   return out;
 }
 
 template <Representation_t representation>
 class TestFeaturePose : public FeatureTestBase {
-public:
+ public:
   typedef typename dg::sot::internal::LG_t<representation>::type LieGroup_t;
   FeaturePose<representation> feature_;
   bool relative_;
@@ -317,9 +318,11 @@ public:
   pinocchio::FrameIndex fa_, fb_;
 
   TestFeaturePose(bool relative, const std::string &name)
-      : FeatureTestBase(6, name), feature_("feature" + name),
-        relative_(relative), data_(model_) {
-    pinocchio::buildModels::humanoid(model_, true); // use freeflyer
+      : FeatureTestBase(6, name),
+        feature_("feature" + name),
+        relative_(relative),
+        data_(model_) {
+    pinocchio::buildModels::humanoid(model_, true);  // use freeflyer
     model_.lowerPositionLimit.head<3>().setConstant(-1.);
     model_.upperPositionLimit.head<3>().setConstant(1.);
     jb_ = model_.getJointId("rarm_wrist2_joint");
@@ -399,8 +402,7 @@ public:
     double gain = 0;
     // if (time_ % 5 != 0)
     // gain = 2 * (double)rand() / RAND_MAX;
-    if (time_ % 2 != 0)
-      gain = 1;
+    if (time_ % 2 != 0) gain = 1;
     setGain(gain);
   }
 
@@ -600,12 +602,9 @@ template <typename TestClass>
 void runTest(TestClass &runner, int N = 2)
 // int N = 10)
 {
-  for (int i = 0; i < N; ++i)
-    runner.checkValue();
-  for (int i = 0; i < N; ++i)
-    runner.checkJacobian();
-  for (int i = 0; i < N; ++i)
-    runner.checkFeedForward();
+  for (int i = 0; i < N; ++i) runner.checkValue();
+  for (int i = 0; i < N; ++i) runner.checkJacobian();
+  for (int i = 0; i < N; ++i) runner.checkFeedForward();
 }
 
 BOOST_AUTO_TEST_SUITE(feature_pose)
@@ -631,7 +630,7 @@ BOOST_AUTO_TEST_CASE(se3) {
   feature_pose_absolute_tpl<SE3Representation>("SE3");
 }
 
-BOOST_AUTO_TEST_SUITE_END() // absolute
+BOOST_AUTO_TEST_SUITE_END()  // absolute
 
 template <Representation_t representation>
 void feature_pose_relative_tpl(const std::string &repr) {
@@ -653,6 +652,6 @@ BOOST_AUTO_TEST_CASE(se3) {
   feature_pose_relative_tpl<SE3Representation>("SE3");
 }
 
-BOOST_AUTO_TEST_SUITE_END() // relative
+BOOST_AUTO_TEST_SUITE_END()  // relative
 
-BOOST_AUTO_TEST_SUITE_END() // feature_pose
+BOOST_AUTO_TEST_SUITE_END()  // feature_pose

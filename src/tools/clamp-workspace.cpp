@@ -8,7 +8,6 @@
  */
 
 #include <cmath>
-
 #include <sot/core/clamp-workspace.hh>
 
 using namespace std;
@@ -21,8 +20,9 @@ using namespace dynamicgraph;
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(ClampWorkspace, "ClampWorkspace");
 
 ClampWorkspace::ClampWorkspace(const string &fName)
-    : Entity(fName), positionrefSIN(NULL, "ClampWorkspace(" + name +
-                                              ")::input(double)::positionref"),
+    : Entity(fName),
+      positionrefSIN(
+          NULL, "ClampWorkspace(" + name + ")::input(double)::positionref"),
       positionSIN(NULL, "ClampWorkspace(" + name + ")::input(double)::position")
 
       ,
@@ -44,15 +44,23 @@ ClampWorkspace::ClampWorkspace(const string &fName)
       timeUpdate(0)
 
       ,
-      alpha(6, 6), alphabar(6, 6)
+      alpha(6, 6),
+      alphabar(6, 6)
 
       ,
       pd(3)
 
       ,
-      beta(1), scale(0), dm_min(0.019), dm_max(0.025), dm_min_yaw(0.019),
-      dm_max_yaw(0.119), theta_min(-30. * 3.14159 / 180.),
-      theta_max(5. * 3.14159 / 180.), mode(1), frame(FRAME_POINT)
+      beta(1),
+      scale(0),
+      dm_min(0.019),
+      dm_max(0.025),
+      dm_min_yaw(0.019),
+      dm_max_yaw(0.119),
+      theta_min(-30. * 3.14159 / 180.),
+      theta_max(5. * 3.14159 / 180.),
+      mode(1),
+      frame(FRAME_POINT)
 
 {
   alpha.setZero();
@@ -94,18 +102,18 @@ void ClampWorkspace::update(int time) {
     }
 
     switch (mode) {
-    case 0:
-      alpha(i, i) = 0;
-      alphabar(i, i) = 1;
-      break;
-    case 1:
-      alpha(i, i) = 1;
-      alphabar(i, i) = 0;
-      break;
-    case 2:
-    default:
-      alpha(i, i) = 0.5 * (1 + tanh(1 / Y - 1 / (1 - Y)));
-      alphabar(i, i) = 1 - alpha(i);
+      case 0:
+        alpha(i, i) = 0;
+        alphabar(i, i) = 1;
+        break;
+      case 1:
+        alpha(i, i) = 1;
+        alphabar(i, i) = 0;
+        break;
+      case 2:
+      default:
+        alpha(i, i) = 0.5 * (1 + tanh(1 / Y - 1 / (1 - Y)));
+        alphabar(i, i) = 1 - alpha(i);
     }
 
     if (i == 2) {

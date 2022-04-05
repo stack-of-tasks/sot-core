@@ -51,19 +51,18 @@ namespace sot {
  * - \f$ d = 0   \f$.
  */
 class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic : public dynamicgraph::Entity {
-
-public: /* --- CONSTANTS --- */
+ public: /* --- CONSTANTS --- */
   /* Default values. */
-  static const double ZERO_DEFAULT;  // = 0.1
-  static const double INFTY_DEFAULT; // = 0.1
-  static const double TAN_DEFAULT;   // = 1.
+  static const double ZERO_DEFAULT;   // = 0.1
+  static const double INFTY_DEFAULT;  // = 0.1
+  static const double TAN_DEFAULT;    // = 1.
 
-public: /* --- ENTITY INHERITANCE --- */
+ public: /* --- ENTITY INHERITANCE --- */
   static const std::string CLASS_NAME;
   virtual void display(std::ostream &os) const;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   /* Parameters of the hyperbolic-gain function:
    * lambda (x) = a * exp (-b*x) + c. */
   double coeff_a;
@@ -71,14 +70,14 @@ protected:
   double coeff_c;
   double coeff_d;
 
-public: /* --- CONSTRUCTORS ---- */
+ public: /* --- CONSTRUCTORS ---- */
   GainHyperbolic(const std::string &name);
   GainHyperbolic(const std::string &name, const double &lambda);
   GainHyperbolic(const std::string &name, const double &valueAt0,
                  const double &valueAtInfty, const double &tanAt0,
                  const double &decal0);
 
-public: /* --- INIT --- */
+ public: /* --- INIT --- */
   inline void init(void) { init(ZERO_DEFAULT, INFTY_DEFAULT, TAN_DEFAULT, 0); }
   inline void init(const double &lambda) { init(lambda, lambda, 1., 0); }
   /** Set the coefficients.
@@ -91,15 +90,15 @@ public: /* --- INIT --- */
             const double &tanAt0, const double &decal0);
   void forceConstant(void);
 
-public: /* --- SIGNALS --- */
+ public: /* --- SIGNALS --- */
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> errorSIN;
   dynamicgraph::SignalTimeDependent<double, int> gainSOUT;
 
-protected:
+ protected:
   double &computeGain(double &res, int t);
 };
 
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_GAIN_HYPERBOLIC_HH__
+#endif  // #ifndef __SOT_GAIN_HYPERBOLIC_HH__

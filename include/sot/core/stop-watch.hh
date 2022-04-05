@@ -39,15 +39,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 // Generic stopwatch exception class
 struct StopwatchException {
-public:
+ public:
   StopwatchException(std::string error) : error(error) {}
   std::string error;
 };
 
 enum StopwatchMode {
-  NONE = 0,     // Clock is not initialized
-  CPU_TIME = 1, // Clock calculates time ranges using ctime and CLOCKS_PER_SEC
-  REAL_TIME = 2 // Clock calculates time by asking the operating system how
+  NONE = 0,      // Clock is not initialized
+  CPU_TIME = 1,  // Clock calculates time ranges using ctime and CLOCKS_PER_SEC
+  REAL_TIME = 2  // Clock calculates time by asking the operating system how
   // much real time passed
 };
 
@@ -145,7 +145,7 @@ enum StopwatchMode {
 
 */
 class Stopwatch {
-public:
+ public:
   /** Constructor */
   Stopwatch(StopwatchMode _mode = NONE);
 
@@ -209,13 +209,17 @@ public:
   /** Take time, depends on mode */
   long double take_time();
 
-protected:
+ protected:
   /** Struct to hold the performance data */
   struct PerformanceData {
-
     PerformanceData()
-        : clock_start(0), total_time(0), min_time(0), max_time(0), last_time(0),
-          paused(false), stops(0) {}
+        : clock_start(0),
+          total_time(0),
+          min_time(0),
+          max_time(0),
+          last_time(0),
+          paused(false),
+          stops(0) {}
 
     /** Start time */
     long double clock_start;

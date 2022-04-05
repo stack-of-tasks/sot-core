@@ -17,6 +17,7 @@ using namespace std;
 
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/factory.h>
+
 #include <sot/core/madgwickahrs.hh>
 #include <sstream>
 
@@ -54,20 +55,21 @@ BOOST_AUTO_TEST_CASE(test_filter_differentiator) {
   aFilter->m_imu_quatSOUT.get(output);
   aFilter->m_imu_quatSOUT.get(anoss);
   std::cout << "anoss:" << anoss << std::endl;
-  BOOST_CHECK(output.is_equal("82.5614\n"
-                              "86.5403\n"
-                              "78.5826\n"
-                              "17.9049\n"
-                              "96.4874\n"
-                              "39.7886\n"
-                              "91.5139\n"
-                              "98.4769\n"
-                              "56.6988\n"
-                              "29.8415\n"
-                              "71.6195\n"
-                              "37.7992\n"
-                              "101.461\n"
-                              "71.6195\n"
-                              "76.5931\n"
-                              "40.7834\n"));
+  BOOST_CHECK(
+      output.is_equal("82.5614\n"
+                      "86.5403\n"
+                      "78.5826\n"
+                      "17.9049\n"
+                      "96.4874\n"
+                      "39.7886\n"
+                      "91.5139\n"
+                      "98.4769\n"
+                      "56.6988\n"
+                      "29.8415\n"
+                      "71.6195\n"
+                      "37.7992\n"
+                      "101.461\n"
+                      "71.6195\n"
+                      "76.5931\n"
+                      "40.7834\n"));
 }

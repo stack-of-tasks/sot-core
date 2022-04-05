@@ -21,11 +21,10 @@
 #include <string>
 
 /* SOT */
+#include <sot/core/exception-task.hh>
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/flags.hh>
 #include <sot/core/task.hh>
-
-#include <sot/core/exception-task.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -49,21 +48,21 @@ namespace dynamicgraph {
 namespace sot {
 
 class SOTTASKUNILATERAL_EXPORT TaskUnilateral : public Task {
-protected:
+ protected:
   std::list<FeatureAbstract *> featureList;
 
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-public:
+ public:
   TaskUnilateral(const std::string &n);
 
   /* --- COMPUTATION --- */
   VectorMultiBound &computeTaskUnilateral(VectorMultiBound &res, int time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
+ public:
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> positionSIN;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> referenceInfSIN;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> referenceSupSIN;

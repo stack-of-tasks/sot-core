@@ -7,10 +7,11 @@
  *
  */
 
+#include <stdarg.h>
+
 #include <cstdio>
 #include <sot/core/debug.hh>
 #include <sot/core/exception-factory.hh>
-#include <stdarg.h>
 
 using namespace dynamicgraph::sot;
 

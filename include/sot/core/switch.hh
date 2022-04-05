@@ -22,7 +22,7 @@ template <typename Value, typename Time = int>
 class SOT_CORE_DLLAPI Switch : public VariadicAbstract<Value, Value, Time> {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
-public:
+ public:
   typedef VariadicAbstract<Value, Value, Time> Base;
 
   Switch(const std::string &name)
@@ -36,14 +36,16 @@ public:
     this->SOUT.addDependency(boolSelectionSIN);
 
     using command::makeCommandVoid1;
-    std::string docstring = "\n"
-                            "    Set number of input signals\n";
+    std::string docstring =
+        "\n"
+        "    Set number of input signals\n";
     this->addCommand(
         "setSignalNumber",
         makeCommandVoid1(*(Base *)this, &Base::setSignalNumber, docstring));
 
-    docstring = "\n"
-                "    Get number of input signals\n";
+    docstring =
+        "\n"
+        "    Get number of input signals\n";
     this->addCommand("getSignalNumber",
                      new command::Getter<Base, int>(
                          *this, &Base::getSignalNumber, docstring));
@@ -59,7 +61,7 @@ public:
   SignalPtr<int, Time> selectionSIN;
   SignalPtr<bool, Time> boolSelectionSIN;
 
-private:
+ private:
   Value &signal(Value &ret, const Time &time) {
     int sel;
     if (selectionSIN.isPlugged()) {
@@ -75,6 +77,6 @@ private:
     return ret;
   }
 };
-} // namespace sot
-} // namespace dynamicgraph
-#endif // __SOT_SWITCH_H__
+}  // namespace sot
+}  // namespace dynamicgraph
+#endif  // __SOT_SWITCH_H__

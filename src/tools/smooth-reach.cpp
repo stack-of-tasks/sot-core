@@ -9,6 +9,7 @@
 
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/factory.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/smooth-reach.hh>
 
@@ -21,11 +22,16 @@ SmoothReach::SmoothReach(const std::string &name)
     : Entity(name)
 
       ,
-      start(0u), goal(0u), startTime(-1), lengthTime(-1), isStarted(false),
+      start(0u),
+      goal(0u),
+      startTime(-1),
+      lengthTime(-1),
+      isStarted(false),
       isParam(true)
 
       ,
-      smoothMode(2), smoothParam(1.2)
+      smoothMode(2),
+      smoothParam(1.2)
 
       ,
       startSIN(NULL, "SmoothReach(" + name + ")::input(vector)::start"),
@@ -54,19 +60,18 @@ void SmoothReach::initCommands(void) {
 }
 
 double SmoothReach::smoothFunction(double x) {
-
   switch (smoothMode) {
-  case 0:
-    return x;
+    case 0:
+      return x;
 
-  case 1: {
-    // const double smoothParam = 0.45;
-    return tanh(-smoothParam / x + smoothParam / (1 - x)) / 2 + 0.5;
-  }
-  case 2: {
-    // const double smoothParam = 1.5;
-    return atan(-smoothParam / x + smoothParam / (1 - x)) / M_PI + 0.5;
-  }
+    case 1: {
+      // const double smoothParam = 0.45;
+      return tanh(-smoothParam / x + smoothParam / (1 - x)) / 2 + 0.5;
+    }
+    case 2: {
+      // const double smoothParam = 1.5;
+      return atan(-smoothParam / x + smoothParam / (1 - x)) / M_PI + 0.5;
+    }
   }
   return 0;
 }
@@ -89,8 +94,7 @@ dynamicgraph::Vector &SmoothReach::goalSOUT_function(dynamicgraph::Vector &res,
 
   if (isStarted) {
     double x = double(time - startTime) / lengthTime;
-    if (x > 1)
-      x = 1;
+    if (x > 1) x = 1;
     double x1 = smoothFunction(x);
     double x0 = 1 - x1;
     res = start * x0 + goal * x1;

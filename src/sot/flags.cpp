@@ -12,8 +12,9 @@
 /* --------------------------------------------------------------------- */
 
 /*! System framework */
-#include <list>
 #include <stdlib.h>
+
+#include <list>
 
 /*! Local Framework */
 #include <sot/core/debug.hh>
@@ -32,17 +33,17 @@ Flags::Flags(const char *_flags)
     : flags(strlen(_flags)), outOfRangeFlag(false) {
   for (unsigned int i = 0; i < flags.size(); ++i) {
     switch (_flags[i]) {
-    case '0':
-      flags[i] = false;
-      break;
-    case '1':
-      flags[i] = true;
-      break;
-    case ' ':
-      break;
-    default:
-      throw std::invalid_argument("Could not parse input string " +
-                                  std::string(_flags) + ". Expected 0 or 1.");
+      case '0':
+        flags[i] = false;
+        break;
+      case '1':
+        flags[i] = true;
+        break;
+      case ' ':
+        break;
+      default:
+        throw std::invalid_argument("Could not parse input string " +
+                                    std::string(_flags) + ". Expected 0 or 1.");
     }
   }
 }
@@ -51,19 +52,16 @@ Flags::Flags(const std::vector<bool> &_flags)
     : flags(_flags), outOfRangeFlag(false) {}
 
 Flags::operator bool(void) const {
-  if (outOfRangeFlag)
-    return true;
+  if (outOfRangeFlag) return true;
   for (unsigned int i = 0; i < flags.size(); ++i)
-    if (flags[i])
-      return true;
+    if (flags[i]) return true;
   return false;
 }
 
 /* --------------------------------------------------------------------- */
 
 bool Flags::operator()(const int &i) const {
-  if (i < (int)flags.size())
-    return flags[i];
+  if (i < (int)flags.size()) return flags[i];
   return outOfRangeFlag;
 }
 
@@ -72,13 +70,11 @@ void Flags::add(const bool &b) { flags.push_back(b); }
 
 /* --------------------------------------------------------------------- */
 void Flags::set(const unsigned int &idx) {
-  if (idx < flags.size())
-    flags[idx] = true;
+  if (idx < flags.size()) flags[idx] = true;
 }
 
 void Flags::unset(const unsigned int &idx) {
-  if (idx < flags.size())
-    flags[idx] = false;
+  if (idx < flags.size()) flags[idx] = false;
 }
 
 namespace dynamicgraph {
@@ -128,8 +124,7 @@ Flags &Flags::operator|=(const Flags &f2) {
 
 /* --------------------------------------------------------------------- */
 std::ostream &operator<<(std::ostream &os, const Flags &fl) {
-  for (auto f : fl.flags)
-    os << (f ? '1' : '0');
+  for (auto f : fl.flags) os << (f ? '1' : '0');
   return os;
 }
 
@@ -138,17 +133,17 @@ std::istream &operator>>(std::istream &is, Flags &fl) {
   fl.flags.clear();
   while (is.get(c).good()) {
     switch (c) {
-    case '0':
-      fl.flags.push_back(false);
-      break;
-    case '1':
-      fl.flags.push_back(true);
-      break;
-    case ' ':
-      break;
-    default:
-      throw std::invalid_argument("Could not parse input character " +
-                                  std::string(1, c) + ". Expected 0 or 1.");
+      case '0':
+        fl.flags.push_back(false);
+        break;
+      case '1':
+        fl.flags.push_back(true);
+        break;
+      case ' ':
+        break;
+      default:
+        throw std::invalid_argument("Could not parse input character " +
+                                    std::string(1, c) + ". Expected 0 or 1.");
     }
   }
   return is;

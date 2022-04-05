@@ -72,7 +72,7 @@ dynamicgraph::Vector &JointLimitator::computeControl(dynamicgraph::Vector &uOUT,
 
   for (unsigned int i = 0; i < controlSize; ++i) {
     double qnext = q(i + offset) + uIN(i) * 0.005;
-    if ((i + offset < 6) || // do not take into account of freeflyer
+    if ((i + offset < 6) ||  // do not take into account of freeflyer
         ((qnext < UJL(i + offset)) && (qnext > LJL(i + offset)))) {
       uOUT(i) = uIN(i);
     }
@@ -85,6 +85,5 @@ dynamicgraph::Vector &JointLimitator::computeControl(dynamicgraph::Vector &uOUT,
 }
 
 void JointLimitator::display(std::ostream &os) const {
-
   os << "JointLimitator <" << name << "> ... TODO";
 }

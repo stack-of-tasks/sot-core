@@ -20,7 +20,8 @@ using namespace dynamicgraph::sot;
 const std::string ExceptionAbstract::EXCEPTION_NAME = "Abstract";
 
 ExceptionAbstract::ExceptionAbstract(const int &_code, const string &_msg)
-    : code(_code), message(_msg)
+    : code(_code),
+      message(_msg)
 
 {
   return;
@@ -65,7 +66,7 @@ ExceptionAbstract::Param::Param(const int &_line, const char *_function,
     : functionPTR(_function), line(_line), filePTR(_file), pointersSet(true) {
   sotDEBUGINOUT(25);
 }
-#endif //#ifdef SOT_EXCEPTION_PASSING_PARAM
+#endif  //#ifdef SOT_EXCEPTION_PASSING_PARAM
 
 /* ------------------------------------------------------------------------- */
 /* --- OP << --------------------------------------------------------------- */
@@ -81,11 +82,11 @@ ostream &operator<<(ostream &os, const ExceptionAbstract &error) {
   if (error.p.set)
     os << "Thrown from " << error.p.file << ": " << error.p.function << " (#"
        << error.p.line << ")" << endl;
-#endif //#ifdef SOT_EXCEPTION_PASSING_PARAM
+#endif  //#ifdef SOT_EXCEPTION_PASSING_PARAM
   return os;
 }
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 /** \file $Source$
  */

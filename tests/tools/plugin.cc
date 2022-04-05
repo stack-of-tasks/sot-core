@@ -14,19 +14,19 @@
 // POSIX.1-2001
 #include <dlfcn.h>
 
-#include "plugin.hh"
 #include <sot/core/abstract-sot-external-interface.hh>
 #include <sot/core/debug.hh>
+
+#include "plugin.hh"
 
 using namespace std;
 using namespace dynamicgraph::sot;
 
 class Plugin : public PluginAbstract {
-
-protected:
+ protected:
   AbstractSotExternalInterface *sotController_;
 
-public:
+ public:
   Plugin(){};
   ~Plugin(){};
 

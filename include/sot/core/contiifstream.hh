@@ -33,7 +33,7 @@ namespace sot {
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 class SOT_CORE_EXPORT Contiifstream {
-protected:
+ protected:
   std::string filename;
   std::streamoff cursor;
   static const unsigned int BUFFER_SIZE = 256;
@@ -41,7 +41,7 @@ protected:
   std::list<std::string> reader;
   bool first;
 
-public: /* --- Constructor --- */
+ public: /* --- Constructor --- */
   Contiifstream(const std::string &n = "");
   ~Contiifstream(void);
   void open(const std::string &n) {
@@ -49,10 +49,10 @@ public: /* --- Constructor --- */
     cursor = 0;
   }
 
-public: /* --- READ FILE --- */
+ public: /* --- READ FILE --- */
   bool loop(void);
 
-public: /* --- READ LIST --- */
+ public: /* --- READ LIST --- */
   inline bool ready(void) { return 0 < reader.size(); }
   std::string next(void);
 };

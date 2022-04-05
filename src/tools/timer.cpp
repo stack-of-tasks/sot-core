@@ -13,6 +13,7 @@
 
 /* SOT */
 #include <dynamic-graph/linear-algebra.h>
+
 #include <sot/core/factory.hh>
 #include <sot/core/matrix-geometry.hh>
 #include <sot/core/timer.hh>
@@ -25,17 +26,20 @@ using namespace dynamicgraph;
 /* --------------------------------------------------------------------- */
 
 typedef Timer<dynamicgraph::Vector> timevect;
-template <> DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timevect, "TimerVector");
+template <>
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timevect, "TimerVector");
 
 typedef Timer<dynamicgraph::Matrix> timematrix;
-template <> DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timematrix, "TimerMatrix");
+template <>
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timematrix, "TimerMatrix");
 
 typedef Timer<MatrixHomogeneous> timematrixhomo;
 template <>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timematrixhomo, "TimerMatrixHomo");
 
 typedef Timer<double> timedouble;
-template <> DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timedouble, "TimerDouble");
+template <>
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timedouble, "TimerDouble");
 
 /* --------------------------------------------------------------------- */
 void cmdChrono(const std::string &cmdLine, std::istringstream &cmdArg,

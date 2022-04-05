@@ -16,7 +16,7 @@
 
 class DummySotExternalInterface
     : public dynamicgraph::sot::AbstractSotExternalInterface {
-public:
+ public:
   DummySotExternalInterface(){};
 
   virtual ~DummySotExternalInterface(){};
@@ -35,7 +35,7 @@ public:
   virtual void setSecondOrderIntegration(void);
   virtual void setNoIntegration(void);
 
-public:
+ public:
   bool second_integration_;
 };
 

@@ -1,12 +1,15 @@
+from numpy import identity, matrix, zeros
+
 from dynamic_graph import plug
 from dynamic_graph.sot.core import Flags
 from dynamic_graph.sot.core.feature_generic import FeatureGeneric
 from dynamic_graph.sot.core.gain_adaptive import GainAdaptive
 from dynamic_graph.sot.core.matrix_util import matrixToTuple, vectorToTuple
-from dynamic_graph.sot.core.meta_task_6d import toFlags  # noqa kept for backward compatibility
 from dynamic_graph.sot.core.meta_tasks import setGain
 from dynamic_graph.sot.core.task import Task
-from numpy import identity, matrix, zeros
+
+# kept for backward compatibility
+from dynamic_graph.sot.core.meta_task_6d import toFlags  # noqa
 
 
 class MetaTaskPosture(object):
@@ -37,9 +40,9 @@ class MetaTaskPosture(object):
     def __init__(self, dyn, name="posture"):
         self.dyn = dyn
         self.name = name
-        self.feature = FeatureGeneric('feature' + name)
-        self.featureDes = FeatureGeneric('featureDes' + name)
-        self.gain = GainAdaptive('gain' + name)
+        self.feature = FeatureGeneric("feature" + name)
+        self.featureDes = FeatureGeneric("featureDes" + name)
+        self.gain = GainAdaptive("gain" + name)
         plug(dyn.position, self.feature.errorIN)
         robotDim = len(dyn.position.value)
         self.feature.jacobianIN.value = matrixToTuple(identity(robotDim))
@@ -89,5 +92,5 @@ class MetaTaskPosture(object):
 class MetaTaskKinePosture(MetaTaskPosture):
     def __init__(self, dyn, name="posture"):
         MetaTaskPosture.__init__(self, dyn, name)
-        self.task = Task('task' + name)
+        self.task = Task("task" + name)
         self.plugTask()

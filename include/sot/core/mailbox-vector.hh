@@ -11,9 +11,9 @@
 #define __SOT_MAILBOX_VECTOR_HH
 
 /* --- SOT PLUGIN  --- */
-#include <sot/core/mailbox.hh>
-
 #include <dynamic-graph/linear-algebra.h>
+
+#include <sot/core/mailbox.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -38,13 +38,13 @@ namespace sot {
 #ifdef WIN32
 class MAILBOX_VECTOR_EXPORT MailboxVector
     : public Mailbox<dynamicgraph::Vector> {
-public:
+ public:
   MailboxVector(const std::string &name);
 };
 #else
 typedef Mailbox<dynamicgraph::Vector> MailboxVector;
 #endif
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // #ifndef  __SOT_MAILBOX_HH
+#endif  // #ifndef  __SOT_MAILBOX_HH

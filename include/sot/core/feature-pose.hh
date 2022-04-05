@@ -60,12 +60,11 @@ enum Representation_t { SE3Representation, R3xSO3Representation };
 */
 template <Representation_t representation = R3xSO3Representation>
 class SOT_CORE_DLLAPI FeaturePose : public FeatureAbstract {
-
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-public:
+ public:
   /*! \name Input signals
     @{
   */
@@ -113,7 +112,7 @@ public:
   DECLARE_NO_REFERENCE();
   /*! @} */
 
-public:
+ public:
   FeaturePose(const std::string &name);
   virtual ~FeaturePose(void);
 
@@ -141,10 +140,10 @@ public:
 
   virtual void display(std::ostream &os) const;
 
-public:
+ public:
   void servoCurrentPosition(const int &time);
 
-private:
+ private:
   MatrixHomogeneous &computefaMfb(MatrixHomogeneous &res, int time);
   Vector7 &computeQfaMfb(Vector7 &res, int time);
   Vector7 &computeQfaMfbDes(Vector7 &res, int time);
@@ -157,8 +156,10 @@ Vector6d convertVelocity(const MatrixHomogeneous &M,
                          const MatrixHomogeneous &Mdes,
                          const Vector &faNufafbDes);
 
-template <> const std::string FeaturePose<SE3Representation>::CLASS_NAME;
-template <> const std::string FeaturePose<R3xSO3Representation>::CLASS_NAME;
+template <>
+const std::string FeaturePose<SE3Representation>::CLASS_NAME;
+template <>
+const std::string FeaturePose<R3xSO3Representation>::CLASS_NAME;
 
 #if __cplusplus >= 201103L
 extern template class FeaturePose<SE3Representation>;
@@ -171,7 +172,7 @@ typedef FeaturePose<SE3Representation> FeaturePoseSE3_t;
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_FEATURE_POSE_HH__
+#endif  // #ifndef __SOT_FEATURE_POSE_HH__
 
 /*
  * Local variables:

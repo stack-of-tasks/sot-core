@@ -13,7 +13,8 @@
 
 namespace dynamicgraph {
 namespace sot {
-template <typename TypeRef> struct TypeNameHelper {
+template <typename TypeRef>
+struct TypeNameHelper {
   static inline std::string typeName();
 };
 template <typename TypeRef>
@@ -21,9 +22,10 @@ inline std::string TypeNameHelper<TypeRef>::typeName() {
   return "unspecified";
 }
 
-#define ADD_KNOWN_TYPE(typeid)                                                 \
-  template <> inline std::string TypeNameHelper<typeid>::typeName() {          \
-    return #typeid;                                                            \
+#define ADD_KNOWN_TYPE(typeid)                            \
+  template <>                                             \
+  inline std::string TypeNameHelper<typeid>::typeName() { \
+    return #typeid;                                       \
   }
 
 ADD_KNOWN_TYPE(bool)

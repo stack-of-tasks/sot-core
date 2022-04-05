@@ -6,11 +6,10 @@
  *
  */
 
-#include <boost/function.hpp>
-
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/factory.h>
 
+#include <boost/function.hpp>
 #include <sot/core/exp-moving-avg.hh>
 #include <sot/core/factory.hh>
 
@@ -36,16 +35,18 @@ ExpMovingAvg::ExpMovingAvg(const std::string &n)
       averageSOUT(boost::bind(&ExpMovingAvg::update, this, _1, _2),
                   updateSIN << refresherSINTERN,
                   "ExpMovingAvg(" + n + ")::output(vector)::average"),
-      alpha(0.), init(false) {
+      alpha(0.),
+      init(false) {
   // Register signals into the entity.
   signalRegistration(updateSIN << averageSOUT);
   refresherSINTERN.setDependencyType(TimeDependency<int>::ALWAYS_READY);
 
   std::string docstring;
   // setAlpha
-  docstring = "\n"
-              "    Set the alpha used to update the current value."
-              "\n";
+  docstring =
+      "\n"
+      "    Set the alpha used to update the current value."
+      "\n";
   addCommand(std::string("setAlpha"),
              new ::dynamicgraph::command::Setter<ExpMovingAvg, double>(
                  *this, &ExpMovingAvg::setAlpha, docstring));

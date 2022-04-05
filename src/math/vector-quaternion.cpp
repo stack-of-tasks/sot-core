@@ -96,7 +96,7 @@ MatrixRotation &VectorQuaternion::toMatrix(MatrixRotation &rot) const {
   double z2 = _z * _z;
   double r2 = _r * _r;
 
-  rotmat(0, 0) = r2 + x2 - y2 - z2; // fill diagonal terms
+  rotmat(0, 0) = r2 + x2 - y2 - z2;  // fill diagonal terms
   rotmat(1, 1) = r2 - x2 + y2 - z2;
   rotmat(2, 2) = r2 - x2 - y2 + z2;
 
@@ -107,7 +107,7 @@ MatrixRotation &VectorQuaternion::toMatrix(MatrixRotation &rot) const {
   double ry = _r * _y;
   double rz = _r * _z;
 
-  rotmat(0, 1) = 2 * (xy - rz); // fill off diagonal terms
+  rotmat(0, 1) = 2 * (xy - rz);  // fill off diagonal terms
   rotmat(0, 2) = 2 * (zx + ry);
   rotmat(1, 0) = 2 * (xy + rz);
   rotmat(1, 2) = 2 * (yz - rx);

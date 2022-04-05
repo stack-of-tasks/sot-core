@@ -11,5 +11,5 @@
 namespace dynamicgraph {
 namespace sot {
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Latch, "Latch");
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph

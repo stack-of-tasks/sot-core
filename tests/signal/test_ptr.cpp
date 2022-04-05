@@ -12,6 +12,7 @@
 /* -------------------------------------------------------------------------- */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/linear-algebra.h>
+
 #include <iostream>
 #include <sot/core/debug.hh>
 #include <sot/core/exception-abstract.hh>
@@ -21,9 +22,9 @@ using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
-template <class Res = double> class DummyClass {
-
-public:
+template <class Res = double>
+class DummyClass {
+ public:
   DummyClass(void) : res(), appel(0), timedata(0) {}
 
   Res &fun(Res &res, int t) {
@@ -62,9 +63,13 @@ public:
   int timedata;
 };
 
-template <class Res> Res DummyClass<Res>::operator()(void) { return this->res; }
+template <class Res>
+Res DummyClass<Res>::operator()(void) {
+  return this->res;
+}
 
-template <> double DummyClass<double>::operator()(void) {
+template <>
+double DummyClass<double>::operator()(void) {
   res = appel * timedata;
   return res;
 }
@@ -74,7 +79,8 @@ dynamicgraph::Vector DummyClass<dynamicgraph::Vector>::operator()(void) {
   res.fill(appel * timedata);
   return res;
 }
-template <> VectorUTheta DummyClass<VectorUTheta>::operator()(void) {
+template <>
+VectorUTheta DummyClass<VectorUTheta>::operator()(void) {
   res.angle() = 0.26;
   res.axis() = Eigen::Vector3d::UnitX();
   return res;

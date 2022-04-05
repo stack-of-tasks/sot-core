@@ -9,6 +9,7 @@
 
 /* --- SOT PLUGIN  --- */
 #include <dynamic-graph/linear-algebra.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/factory.hh>
 #include <sot/core/mailbox-vector.hh>

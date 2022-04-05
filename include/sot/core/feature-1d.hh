@@ -47,16 +47,15 @@ namespace sot {
 */
 class SOTFEATURE1D_EXPORT Feature1D : public FeatureAbstract,
                                       FeatureReferenceHelper<Feature1D> {
-
-public:
+ public:
   /*! Field storing the class name. */
   static const std::string CLASS_NAME;
   /*! Returns the name of the class. */
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
+ public:
   /*! \name Signals
     @{
   */
@@ -82,7 +81,7 @@ public:
    * feature. */
   using FeatureAbstract::errorSOUT;
 
-public:
+ public:
   /*! \brief Default constructor */
   Feature1D(const std::string &name);
 
@@ -120,7 +119,7 @@ public:
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_FEATURE_1D_HH__
+#endif  // #ifndef __SOT_FEATURE_1D_HH__
 
 /*
  * Local variables:

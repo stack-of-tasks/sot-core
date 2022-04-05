@@ -14,22 +14,36 @@
 using namespace dynamicgraph::sot;
 
 MultiBound::MultiBound(const double x)
-    : mode(MODE_SINGLE), boundSingle(x), boundSup(0), boundInf(0),
-      boundSupSetup(false), boundInfSetup(false) {}
+    : mode(MODE_SINGLE),
+      boundSingle(x),
+      boundSup(0),
+      boundInf(0),
+      boundSupSetup(false),
+      boundInfSetup(false) {}
 
 MultiBound::MultiBound(const double xi, const double xs)
-    : mode(MODE_DOUBLE), boundSingle(0), boundSup(xs), boundInf(xi),
-      boundSupSetup(true), boundInfSetup(true) {}
+    : mode(MODE_DOUBLE),
+      boundSingle(0),
+      boundSup(xs),
+      boundInf(xi),
+      boundSupSetup(true),
+      boundInfSetup(true) {}
 
 MultiBound::MultiBound(const double x, const MultiBound::SupInfType bound)
-    : mode(MODE_DOUBLE), boundSingle(0), boundSup((bound == BOUND_SUP) ? x : 0),
-      boundInf((bound == BOUND_INF) ? x : 0), boundSupSetup(bound == BOUND_SUP),
+    : mode(MODE_DOUBLE),
+      boundSingle(0),
+      boundSup((bound == BOUND_SUP) ? x : 0),
+      boundInf((bound == BOUND_INF) ? x : 0),
+      boundSupSetup(bound == BOUND_SUP),
       boundInfSetup(bound == BOUND_INF) {}
 
 MultiBound::MultiBound(const MultiBound &clone)
-    : mode(clone.mode), boundSingle(clone.boundSingle),
-      boundSup(clone.boundSup), boundInf(clone.boundInf),
-      boundSupSetup(clone.boundSupSetup), boundInfSetup(clone.boundInfSetup) {}
+    : mode(clone.mode),
+      boundSingle(clone.boundSingle),
+      boundSup(clone.boundSup),
+      boundInf(clone.boundInf),
+      boundSupSetup(clone.boundSupSetup),
+      boundInfSetup(clone.boundInfSetup) {}
 
 MultiBound::MultiBoundModeType MultiBound::getMode(void) const { return mode; }
 double MultiBound::getSingleBound(void) const {
@@ -45,20 +59,20 @@ double MultiBound::getDoubleBound(const MultiBound::SupInfType bound) const {
                             "Accessing double bound of a non-double type.");
   }
   switch (bound) {
-  case BOUND_SUP: {
-    if (!boundSupSetup) {
-      SOT_THROW ExceptionTask(ExceptionTask::BOUND_TYPE,
-                              "Accessing un-setup sup bound.");
+    case BOUND_SUP: {
+      if (!boundSupSetup) {
+        SOT_THROW ExceptionTask(ExceptionTask::BOUND_TYPE,
+                                "Accessing un-setup sup bound.");
+      }
+      return boundSup;
     }
-    return boundSup;
-  }
-  case BOUND_INF: {
-    if (!boundInfSetup) {
-      SOT_THROW ExceptionTask(ExceptionTask::BOUND_TYPE,
-                              "Accessing un-setup inf bound");
+    case BOUND_INF: {
+      if (!boundInfSetup) {
+        SOT_THROW ExceptionTask(ExceptionTask::BOUND_TYPE,
+                                "Accessing un-setup inf bound");
+      }
+      return boundInf;
     }
-    return boundInf;
-  }
   }
   return 0;
 }
@@ -68,10 +82,10 @@ bool MultiBound::getDoubleBoundSetup(const MultiBound::SupInfType bound) const {
                             "Accessing double bound of a non-double type.");
   }
   switch (bound) {
-  case BOUND_SUP:
-    return boundSupSetup;
-  case BOUND_INF:
-    return boundInfSetup;
+    case BOUND_SUP:
+      return boundSupSetup;
+    case BOUND_INF:
+      return boundInfSetup;
   }
   return false;
 }
@@ -82,14 +96,14 @@ void MultiBound::setDoubleBound(SupInfType boundType, double boundValue) {
     boundInfSetup = false;
   }
   switch (boundType) {
-  case BOUND_INF:
-    boundInfSetup = true;
-    boundInf = boundValue;
-    break;
-  case BOUND_SUP:
-    boundSupSetup = true;
-    boundSup = boundValue;
-    break;
+    case BOUND_INF:
+      boundInfSetup = true;
+      boundInf = boundValue;
+      break;
+    case BOUND_SUP:
+      boundSupSetup = true;
+      boundSup = boundValue;
+      break;
   }
 }
 void MultiBound::unsetDoubleBound(SupInfType boundType) {
@@ -99,12 +113,12 @@ void MultiBound::unsetDoubleBound(SupInfType boundType) {
     boundInfSetup = false;
   } else {
     switch (boundType) {
-    case BOUND_INF:
-      boundInfSetup = false;
-      break;
-    case BOUND_SUP:
-      boundSupSetup = false;
-      break;
+      case BOUND_INF:
+        boundInfSetup = false;
+        break;
+      case BOUND_SUP:
+        boundSupSetup = false;
+        break;
     }
   }
 }
@@ -131,24 +145,24 @@ namespace sot {
 
 std::ostream &operator<<(std::ostream &os, const MultiBound &m) {
   switch (m.mode) {
-  case MultiBound::MODE_SINGLE: {
-    os << m.boundSingle;
-    break;
-  }
-  case MultiBound::MODE_DOUBLE: {
-    os << "(";
-    if (m.boundInfSetup)
-      os << m.boundInf;
-    else
-      os << "--";
-    os << ",";
-    if (m.boundSupSetup)
-      os << m.boundSup;
-    else
-      os << "--";
-    os << ")";
-    break;
-  }
+    case MultiBound::MODE_SINGLE: {
+      os << m.boundSingle;
+      break;
+    }
+    case MultiBound::MODE_DOUBLE: {
+      os << "(";
+      if (m.boundInfSetup)
+        os << m.boundInf;
+      else
+        os << "--";
+      os << ",";
+      if (m.boundSupSetup)
+        os << m.boundSup;
+      else
+        os << "--";
+      os << ")";
+      break;
+    }
   }
   return os;
 }
@@ -215,8 +229,7 @@ std::ostream &operator<<(std::ostream &os, const VectorMultiBound &v) {
   os << "[" << v.size() << "](";
   for (VectorMultiBound::const_iterator iter = v.begin(); iter != v.end();
        ++iter) {
-    if (iter != v.begin())
-      os << ",";
+    if (iter != v.begin()) os << ",";
     os << (*iter);
   }
   return os << ")";

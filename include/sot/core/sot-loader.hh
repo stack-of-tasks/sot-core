@@ -45,7 +45,7 @@ namespace sot {
  * And then use the oneIteration to execute the graph.
  */
 class SotLoader {
-protected:
+ protected:
   /// \brief Check if the dynamic graph is running or not.
   bool dynamic_graph_stopped_;
 
@@ -72,7 +72,7 @@ protected:
   /// is not responsible for it's life time.
   std::string device_name_;
 
-public:
+ public:
   /// \brief Default constructor.
   SotLoader();
   /// \brief Default destructor.

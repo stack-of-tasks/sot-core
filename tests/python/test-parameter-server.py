@@ -12,7 +12,7 @@ param_server.init(0.001, "talos.urdf", "talos")
 
 # Control time interval
 dt = 0.001
-robot_name = 'robot'
+robot_name = "robot"
 
 urdfPath = param_server_conf.urdfFileName
 urdfDir = param_server_conf.model_path
@@ -21,10 +21,10 @@ urdfDir = param_server_conf.model_path
 class TestParameterServer(unittest.TestCase):
     def test_set_parameter(self):
         # Read talos model
-        path = join(dirname(dirname(abspath(__file__))), 'models', 'others', 'python')
+        path = join(dirname(dirname(abspath(__file__))), "models", "others", "python")
         sys.path.append(path)
 
-        _, _, urdf_file_name, _ = load_full('talos')
+        _, _, urdf_file_name, _ = load_full("talos")
         with open(urdf_file_name) as fs:
             urdf_rrbot_model_string = fs.read()
 
@@ -39,5 +39,5 @@ class TestParameterServer(unittest.TestCase):
         self.assertEqual(aValue, a2Value)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -12,9 +12,9 @@
 
 #ifdef WIN32
 
-#include "sot/core/api.hh"
-
 #include < time.h >
+
+#include "sot/core/api.hh"
 #define NOMINMAX
 #include <Winsock2.h>
 
