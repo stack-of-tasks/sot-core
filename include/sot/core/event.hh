@@ -18,6 +18,27 @@
 namespace dynamicgraph {
 namespace sot {
 /// Event
+///
+/// This entity detects changes in value of an input boolean signal
+///
+/// Input signal is
+///   - condition (boolean),
+/// Output signal is
+///   - check
+/// output value is true if value of input signal changes with respect to the
+/// evaluation.
+///
+/// Method addSignal stores signals that are recomputed each time the output
+/// signal is recomputed and the value is true. One typical use case of this
+/// feature consists in plugging the output signal to a ROS topic using
+/// dynamicgraph::RosPublish entity (see dynamic_graph_bridge) and to call
+/// addSignal with the trigger signal of the RosPublish entity as the input.
+/// Thus each time the output signal changes value, the new value is published
+/// to the ROS topic.
+///
+/// If command setOnlyUp is called with true as input, signals are recomputed
+/// only if the output value switches from false to true.
+
 class SOT_CORE_DLLAPI Event : public dynamicgraph::Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
