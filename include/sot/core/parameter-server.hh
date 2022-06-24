@@ -96,7 +96,7 @@ class SOTParameterServer_EXPORT ParameterServer
   void setRightFootSoleXYZ(const dynamicgraph::Vector &);
   void setRightFootForceSensorXYZ(const dynamicgraph::Vector &);
   void setFootFrameName(const std::string &, const std::string &);
-  void setHandFrameName(const std::string&, const std::string&);
+  void setHandFrameName(const std::string &, const std::string &);
   void setImuJointName(const std::string &);
   void displayRobotUtil();
   /// @}

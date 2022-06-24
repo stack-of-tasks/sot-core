@@ -351,7 +351,8 @@ void ParameterServer::setFootFrameName(const std::string &FootName,
     SEND_WARNING_STREAM_MSG("Did not understand the foot name !" + FootName);
 }
 
-void ParameterServer::setHandFrameName(const std::string& HandName, const std::string& FrameName) {
+void ParameterServer::setHandFrameName(const std::string &HandName,
+                                       const std::string &FrameName) {
   if (!m_initSucceeded) {
     SEND_WARNING_STREAM_MSG("Cannot set hand frame name!");
     return;
@@ -361,7 +362,9 @@ void ParameterServer::setHandFrameName(const std::string& HandName, const std::s
   else if (HandName == "Right")
     m_robot_util->m_hand_util.m_Right_Hand_Frame_Name = FrameName;
   else
-    SEND_WARNING_STREAM_MSG("Available hand names are 'Left' and 'Right', not '" + HandName + "' !");
+    SEND_WARNING_STREAM_MSG(
+        "Available hand names are 'Left' and 'Right', not '" + HandName +
+        "' !");
 }
 
 void ParameterServer::setImuJointName(const std::string &JointName) {
