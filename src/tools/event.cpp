@@ -11,14 +11,23 @@ namespace sot {
 bool &Event::check(bool &ret, const int &time) {
   const bool &val = conditionSIN(time);
   ret = (val != lastVal_);
-  bool trigger = onlyUp_ ? (!lastVal_ && val) : ret;
+  bool up = (!lastVal_ && val);
+  if (up) {
+    timeSinceUp_ = 0;
+  } else if (val) {
+    ++timeSinceUp_;
+  }
+  // If repetition is activated, trigger again after given number of iterations
+  bool trigger = up || (repeatAfterNIterations_ > 0 &&
+                        timeSinceUp_ >= repeatAfterNIterations_);
   if (ret) {
     lastVal_ = val;
-    if (trigger) {
-      for (Triggers_t::const_iterator _s = triggers.begin();
-           _s != triggers.end(); ++_s)
-        (*_s)->recompute(time);
-    }
+  }
+  if (trigger) {
+    for (Triggers_t::const_iterator _s = triggers.begin();
+         _s != triggers.end(); ++_s)
+      (*_s)->recompute(time);
+    timeSinceUp_ = 0;
   }
   return ret;
 }
