@@ -139,5 +139,10 @@ class Calendar:
 
 attime = Calendar()
 
-sigset = lambda s, v: s.__class__.value.__set__(s, v)
-refset = lambda mt, v: mt.__class__.ref.__set__(mt, v)
+
+def sigset(s, v):
+    return s.__class__.value.__set__(s, v)
+
+
+def refset(mt, v):
+    return mt.__class__.ref.__set__(mt, v)
