@@ -166,9 +166,7 @@ IF(BUILD_PYTHON_INTERFACE)
   # Robot_utils_sot_py PYTHON module *
   # **********************************
   ADD_LIBRARY(robot_utils_sot_py SHARED tools/robot-utils-py.cpp)
-  TARGET_INCLUDE_DIRECTORIES(robot_utils_sot_py SYSTEM PUBLIC ${PYTHON_INCLUDE_DIR})
-  TARGET_LINK_LIBRARIES(robot_utils_sot_py PUBLIC
-    ${PYTHON_LIBRARIES} ${PROJECT_NAME})
+  TARGET_LINK_LIBRARIES(robot_utils_sot_py PUBLIC ${PROJECT_NAME})
   TARGET_LINK_BOOST_PYTHON(robot_utils_sot_py PRIVATE)
   SET_TARGET_PROPERTIES(robot_utils_sot_py PROPERTIES PREFIX "")
   INSTALL(TARGETS robot_utils_sot_py DESTINATION "${PYTHON_SITELIB}/dynamic_graph/${PYTHON_DIR}")
