@@ -12,6 +12,7 @@
 
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/matrix-geometry.hh>
 
@@ -46,18 +47,18 @@ namespace sot {
 /// transformation.
 ///
 class SOTOPPOINTMODIFIER_EXPORT OpPointModifier : public dynamicgraph::Entity {
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-public:
+ public:
   dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> jacobianSIN;
   dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionSIN;
 
   dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, int> jacobianSOUT;
   dynamicgraph::SignalTimeDependent<MatrixHomogeneous, int> positionSOUT;
 
-public:
+ public:
   OpPointModifier(const std::string &name);
   virtual ~OpPointModifier(void) {}
 
@@ -69,7 +70,7 @@ public:
   void setTransformationBySignalName(std::istringstream &cmdArgs);
   const Eigen::Matrix4d &getTransformation(void);
 
-private:
+ private:
   MatrixHomogeneous transformation;
 
   /* This bool tunes the effect of the modifier for end-effector Jacobian (ie
@@ -82,4 +83,4 @@ private:
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif //  __SOT_OP_POINT_MODIFIOR_H__
+#endif  //  __SOT_OP_POINT_MODIFIOR_H__

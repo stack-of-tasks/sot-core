@@ -21,11 +21,10 @@
 #include <string>
 
 /* SOT */
+#include <sot/core/exception-task.hh>
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/flags.hh>
 #include <sot/core/task-abstract.hh>
-
-#include <sot/core/exception-task.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -71,16 +70,16 @@ namespace dynamicgraph {
 namespace sot {
 
 class SOTTASK_EXPORT Task : public TaskAbstract {
-public:
+ public:
   typedef std::list<FeatureAbstract *> FeatureList_t;
 
-protected:
+ protected:
   FeatureList_t featureList;
   bool withDerivative;
 
   DYNAMIC_GRAPH_ENTITY_DECL();
 
-public:
+ public:
   Task(const std::string &n);
   void initCommands(void);
 
@@ -105,7 +104,7 @@ public:
                                                    int time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
+ public:
   dynamicgraph::SignalPtr<double, int> controlGainSIN;
   dynamicgraph::SignalPtr<double, int> dampingGainSINOUT;
   dynamicgraph::SignalPtr<Flags, int> controlSelectionSIN;

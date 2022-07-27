@@ -15,22 +15,21 @@
 #include <dlfcn.h>
 
 #include <boost/program_options.hpp>
+#include <sot/core/debug.hh>
 
 #include "plugin.hh"
-#include <sot/core/debug.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;
 namespace po = boost::program_options;
 
 class PluginLoader {
-
-protected:
+ protected:
   PluginAbstract *sotController_;
   po::variables_map vm_;
   std::string dynamicLibraryName_;
 
-public:
+ public:
   PluginLoader(){};
   ~PluginLoader(){};
 
@@ -57,7 +56,6 @@ public:
   }
 
   void Initialization() {
-
     // Load the SotRobotBipedController library.
     void *SotRobotControllerLibrary =
         dlopen("libpluginabstract.so", RTLD_LAZY | RTLD_LOCAL);

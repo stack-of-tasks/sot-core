@@ -16,9 +16,8 @@
 //#define VP_DEBUG_MODE 45
 #include <sot/core/debug.hh>
 #include <sot/core/exception-feature.hh>
-#include <sot/core/feature-vector3.hh>
-
 #include <sot/core/factory.hh>
+#include <sot/core/feature-vector3.hh>
 #include <sot/core/matrix-geometry.hh>
 
 using namespace dynamicgraph::sot;
@@ -35,12 +34,12 @@ FeatureVector3::FeatureVector3(const string &pointName)
     : FeatureAbstract(pointName),
       vectorSIN(NULL,
                 "sotFeatureVector3(" + name + ")::input(vector3)::vector"),
-      positionSIN(NULL, "sotFeaturePoint6d(" + name +
-                            ")::input(matrixHomo)::position"),
-      articularJacobianSIN(NULL, "sotFeatureVector3(" + name +
-                                     ")::input(matrix)::Jq"),
-      positionRefSIN(NULL, "sotFeatureVector3(" + name +
-                               ")::input(vector)::positionRef") {
+      positionSIN(
+          NULL, "sotFeaturePoint6d(" + name + ")::input(matrixHomo)::position"),
+      articularJacobianSIN(
+          NULL, "sotFeatureVector3(" + name + ")::input(matrix)::Jq"),
+      positionRefSIN(
+          NULL, "sotFeatureVector3(" + name + ")::input(vector)::positionRef") {
   jacobianSOUT.addDependency(positionSIN);
   jacobianSOUT.addDependency(articularJacobianSIN);
 

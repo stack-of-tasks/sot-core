@@ -11,11 +11,11 @@
 #include <sot/core/matrix-geometry.hh>
 #ifdef VP_DEBUG
 class sotJTE__INIT {
-public:
+ public:
   sotJTE__INIT(void) { dynamicgraph::sot::DebugTrace::openFile(); }
 };
 sotJTE__INIT sotJTE_initiator;
-#endif //#ifdef VP_DEBUG
+#endif  //#ifdef VP_DEBUG
 
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/command-bind.h>
@@ -34,8 +34,9 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SotJointTrajectoryEntity,
                                    "SotJointTrajectoryEntity");
 
 SotJointTrajectoryEntity::SotJointTrajectoryEntity(const std::string &n)
-    : Entity(n), refresherSINTERN("SotJointTrajectoryEntity(" + n +
-                                  ")::intern(dummy)::refresher"),
+    : Entity(n),
+      refresherSINTERN("SotJointTrajectoryEntity(" + n +
+                       ")::intern(dummy)::refresher"),
       OneStepOfUpdateS(
           boost::bind(&SotJointTrajectoryEntity::OneStepOfUpdate, this, _1, _2),
           refresherSINTERN << trajectorySIN,
@@ -59,7 +60,10 @@ SotJointTrajectoryEntity::SotJointTrajectoryEntity(const std::string &n)
                 "SotJointTrajectory(" + n + ")::output(uint)::seqid"),
       trajectorySIN(NULL, "SotJointTrajectory(" + n +
                               ")::input(trajectory)::trajectoryIN"),
-      index_(0), traj_timestamp_(0, 0), seqid_(0), deque_traj_(0) {
+      index_(0),
+      traj_timestamp_(0, 0),
+      seqid_(0),
+      deque_traj_(0) {
   using namespace command;
   sotDEBUGIN(5);
 
@@ -69,12 +73,13 @@ SotJointTrajectoryEntity::SotJointTrajectoryEntity(const std::string &n)
   refresherSINTERN.setReady(true);
 
   std::string docstring;
-  docstring = "    \n"
-              "    initialize the first trajectory.\n"
-              "    \n"
-              "      Input:\n"
-              "        = a string : .\n"
-              "    \n";
+  docstring =
+      "    \n"
+      "    initialize the first trajectory.\n"
+      "    \n"
+      "      Input:\n"
+      "        = a string : .\n"
+      "    \n";
   addCommand("initTraj",
              makeCommandVoid1(*this, &SotJointTrajectoryEntity::setInitTraj,
                               docCommandVoid1("Set initial trajectory",
@@ -83,12 +88,10 @@ SotJointTrajectoryEntity::SotJointTrajectoryEntity(const std::string &n)
 }
 
 void SotJointTrajectoryEntity::UpdatePoint(const JointTrajectoryPoint &aJTP) {
-
   sotDEBUGIN(5);
   // Posture
   std::vector<JointTrajectoryPoint>::size_type possize = aJTP.positions_.size();
-  if (possize == 0)
-    return;
+  if (possize == 0) return;
 
   pose_.resize(aJTP.positions_.size());
   for (std::vector<JointTrajectoryPoint>::size_type i = 0; i < possize - 5;
@@ -169,7 +172,6 @@ void SotJointTrajectoryEntity::UpdateTrajectory(const Trajectory &aTrajectory) {
 
   // Strategy at the end of the trajectory.
   if (index_ >= deque_traj_.front().points_.size()) {
-
     if (deque_traj_.size() > 1) {
       deque_traj_.pop_front();
       index_ = 0;
@@ -237,9 +239,8 @@ sot::MatrixHomogeneous SotJointTrajectoryEntity::XYZThetaToMatrixHomogeneous(
   return res;
 }
 
-dynamicgraph::Vector &
-SotJointTrajectoryEntity::getNextPosition(dynamicgraph::Vector &pos,
-                                          const int &time) {
+dynamicgraph::Vector &SotJointTrajectoryEntity::getNextPosition(
+    dynamicgraph::Vector &pos, const int &time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   pos = pose_;
@@ -248,9 +249,8 @@ SotJointTrajectoryEntity::getNextPosition(dynamicgraph::Vector &pos,
   return pos;
 }
 
-dynamicgraph::Vector &
-SotJointTrajectoryEntity::getNextCoM(dynamicgraph::Vector &com,
-                                     const int &time) {
+dynamicgraph::Vector &SotJointTrajectoryEntity::getNextCoM(
+    dynamicgraph::Vector &com, const int &time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   com = com_;
@@ -258,9 +258,8 @@ SotJointTrajectoryEntity::getNextCoM(dynamicgraph::Vector &com,
   return com;
 }
 
-dynamicgraph::Vector &
-SotJointTrajectoryEntity::getNextCoP(dynamicgraph::Vector &cop,
-                                     const int &time) {
+dynamicgraph::Vector &SotJointTrajectoryEntity::getNextCoP(
+    dynamicgraph::Vector &cop, const int &time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   cop = cop_;
@@ -268,9 +267,8 @@ SotJointTrajectoryEntity::getNextCoP(dynamicgraph::Vector &cop,
   return cop;
 }
 
-sot::MatrixHomogeneous &
-SotJointTrajectoryEntity::getNextWaist(sot::MatrixHomogeneous &waist,
-                                       const int &time) {
+sot::MatrixHomogeneous &SotJointTrajectoryEntity::getNextWaist(
+    sot::MatrixHomogeneous &waist, const int &time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   waist = waist_;

@@ -12,10 +12,11 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <algorithm>
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/exception-factory.h>
 #include <dynamic-graph/pool.h>
+
+#include <algorithm>
 #include <sot/core/debug.hh>
 #include <sot/core/exception-tools.hh>
 #include <sot/core/periodic-call.hh>

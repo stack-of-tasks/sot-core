@@ -12,6 +12,7 @@
 
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/matrix-geometry.hh>
 
 /* Matrix */
@@ -40,14 +41,15 @@
 namespace dynamicgraph {
 namespace sot {
 
-class[[deprecated("use RPYToMatrix")]] SOTVECTORTOROTATION_EXPORT
-    VectorToRotation : public dynamicgraph::Entity {
+class [[deprecated(
+    "use RPYToMatrix")]] SOTVECTORTOROTATION_EXPORT VectorToRotation
+    : public dynamicgraph::Entity {
   enum sotAxis { AXIS_X, AXIS_Y, AXIS_Z };
 
   unsigned int size;
   std::vector<sotAxis> axes;
 
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
@@ -65,4 +67,4 @@ public:
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOTVECTORTOMATRIX_HH
+#endif  // #ifndef __SOTVECTORTOMATRIX_HH

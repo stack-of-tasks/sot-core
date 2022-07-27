@@ -9,7 +9,7 @@ It is recommended to create a specific directory to install this package.
 mkdir build
 cd build
 cmake [Options] ..
-make 
+make
 make install
 
 Options:

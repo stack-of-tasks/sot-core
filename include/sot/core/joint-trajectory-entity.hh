@@ -9,9 +9,8 @@
 #ifndef SOT_JOINT_TRAJECTORY_ENTITY_HH
 #define SOT_JOINT_TRAJECTORY_ENTITY_HH
 
-#include <list>
-
 #include <deque>
+#include <list>
 
 // Maal
 #include <dynamic-graph/linear-algebra.h>
@@ -19,9 +18,9 @@
 // SOT
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/matrix-geometry.hh>
 #include <sot/core/trajectory.hh>
-
 #include <sstream>
 // API
 
@@ -47,7 +46,7 @@ namespace sot {
 
 class SOTJOINT_TRAJECTORY_ENTITY_EXPORT SotJointTrajectoryEntity
     : public dynamicgraph::Entity {
-public:
+ public:
   DYNAMIC_GRAPH_ENTITY_DECL();
 
   /// \brief Constructor
@@ -74,8 +73,8 @@ public:
   unsigned int &getSeqId(unsigned int &seqid, const int &time);
 
   /// \brief Convert a xyztheta vector into an homogeneous matrix
-  sot::MatrixHomogeneous
-  XYZThetaToMatrixHomogeneous(const dynamicgraph::Vector &xyztheta);
+  sot::MatrixHomogeneous XYZThetaToMatrixHomogeneous(
+      const dynamicgraph::Vector &xyztheta);
 
   /// \brief Perform one update of the signals.
   int &OneStepOfUpdate(int &dummy, const int &time);
@@ -91,7 +90,7 @@ public:
   }
   /// @}
 
-public:
+ public:
   typedef int Dummy;
 
   /// @name Signals
@@ -121,7 +120,7 @@ public:
   dynamicgraph::SignalPtr<Trajectory, int> trajectorySIN;
   ///@}
 
-protected:
+ protected:
   /// \brief Index on the point along the trajectory.
   std::deque<sot::Trajectory>::size_type index_;
 
@@ -162,4 +161,4 @@ protected:
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // SOT_JOINT_TRAJECTORY_ENTITY_HH
+#endif  // SOT_JOINT_TRAJECTORY_ENTITY_HH

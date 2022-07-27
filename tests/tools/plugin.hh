@@ -2,7 +2,7 @@
 #define _PLUGIN_HH_
 
 class PluginAbstract {
-public:
+ public:
   PluginAbstract(){};
   virtual ~PluginAbstract(){};
   virtual void Initialization(std::string &astr) = 0;

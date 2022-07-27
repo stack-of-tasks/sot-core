@@ -8,9 +8,8 @@
  */
 
 #ifdef WIN32
-#include <sot/core/utils-windows.hh>
-
 #include < Windows.h >
+#include <sot/core/utils-windows.hh>
 #if defined(_MSC_VER) || defined(_MSC_EXTENSIONS)
 #define DELTA_EPOCH_IN_MICROSECS 11644473600000000Ui64
 #else

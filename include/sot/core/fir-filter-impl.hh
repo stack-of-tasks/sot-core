@@ -27,16 +27,16 @@
 #endif
 
 #ifdef WIN32
-#define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType)              \
-  class FIL_FILTER_EXPORT className                                            \
-      : public FIRFilter<sotSigType, sotCoefType> {                            \
-  public:                                                                      \
-    className(const std::string &name);                                        \
+#define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType) \
+  class FIL_FILTER_EXPORT className                               \
+      : public FIRFilter<sotSigType, sotCoefType> {               \
+   public:                                                        \
+    className(const std::string &name);                           \
   };
 #else
-#define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType)              \
+#define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType) \
   typedef FIRFilter<sotSigType, sotCoefType> className;
-#endif // WIN32
+#endif  // WIN32
 
 namespace dynamicgraph {
 namespace sot {
@@ -45,6 +45,6 @@ DECLARE_SPECIFICATION(FIRFilterDoubleDouble, double, double)
 DECLARE_SPECIFICATION(FIRFilterVectorDouble, Vector, double)
 DECLARE_SPECIFICATION(FIRFilterVectorMatrix, Vector, Matrix)
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 #endif

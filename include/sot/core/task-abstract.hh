@@ -15,17 +15,20 @@
 /* --------------------------------------------------------------------- */
 
 /* Matrix */
-#include <Eigen/SVD>
 #include <dynamic-graph/linear-algebra.h>
+
+#include <Eigen/SVD>
 
 /* STD */
 #include <string>
 
 /* SOT */
-#include "sot/core/api.hh"
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/multi-bound.hh>
+
+#include "sot/core/api.hh"
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -46,17 +49,17 @@ namespace sot {
 /// features that are stored in the task.
 
 class SOT_CORE_EXPORT TaskAbstract : public dynamicgraph::Entity {
-public:
+ public:
   /* Use a derivative of this class to store computational memory. */
   class MemoryTaskAbstract {
-  public:
+   public:
     int timeLastChange;
 
-  public:
+   public:
     MemoryTaskAbstract(void) : timeLastChange(0){};
     virtual ~MemoryTaskAbstract(void){};
 
-  public:
+   public:
     virtual void display(std::ostream &os) const = 0;
     friend std::ostream &operator<<(std::ostream &os,
                                     const MemoryTaskAbstract &tcm) {
@@ -65,16 +68,16 @@ public:
     }
   };
 
-public:
+ public:
   MemoryTaskAbstract *memoryInternal;
 
-protected:
+ protected:
   void taskRegistration(void);
 
-public:
+ public:
   TaskAbstract(const std::string &n);
 
-public: /* --- SIGNALS --- */
+ public: /* --- SIGNALS --- */
   dynamicgraph::SignalTimeDependent<VectorMultiBound, int> taskSOUT;
   dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, int> jacobianSOUT;
 };

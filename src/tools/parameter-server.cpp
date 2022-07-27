@@ -15,14 +15,13 @@
  */
 
 #include <iostream>
-
 #include <pinocchio/fwd.hpp>
 // keep pinocchio before boost
 
-#include <boost/property_tree/ptree.hpp>
-
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/factory.h>
+
+#include <boost/property_tree/ptree.hpp>
 #include <sot/core/debug.hh>
 #include <sot/core/exception-tools.hh>
 #include <sot/core/parameter-server.hh>
@@ -35,9 +34,9 @@ using namespace dynamicgraph::command;
 using namespace std;
 
 // Size to be aligned "-------------------------------------------------------"
-#define PROFILE_PWM_DESIRED_COMPUTATION                                        \
+#define PROFILE_PWM_DESIRED_COMPUTATION \
   "Control manager                                        "
-#define PROFILE_DYNAMIC_GRAPH_PERIOD                                           \
+#define PROFILE_DYNAMIC_GRAPH_PERIOD \
   "Control period                                         "
 
 #define INPUT_SIGNALS
@@ -54,10 +53,13 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(ParameterServer, "ParameterServer");
 /* --- CONSTRUCTION -------------------------------------------------- */
 /* ------------------------------------------------------------------- */
 ParameterServer::ParameterServer(const std::string &name)
-    : Entity(name), m_robot_util(RefVoidRobotUtil()), m_initSucceeded(false),
-      m_emergency_stop_triggered(false), m_is_first_iter(true), m_iter(0),
+    : Entity(name),
+      m_robot_util(RefVoidRobotUtil()),
+      m_initSucceeded(false),
+      m_emergency_stop_triggered(false),
+      m_is_first_iter(true),
+      m_iter(0),
       m_sleep_time(0.0) {
-
   //~ Entity::signalRegistration( INPUT_SIGNALS << OUTPUT_SIGNALS);
 
   /* Commands. */
@@ -74,10 +76,10 @@ ParameterServer::ParameterServer(const std::string &name)
                                        "Time period in seconds (double)")));
 
   addCommand("setNameToId",
-             makeCommandVoid2(*this, &ParameterServer::setNameToId,
-                              docCommandVoid2("Set map for a name to an Id",
-                                              "(string) joint name",
-                                              "(double) joint id")));
+             makeCommandVoid2(
+                 *this, &ParameterServer::setNameToId,
+                 docCommandVoid2("Set map for a name to an Id",
+                                 "(string) joint name", "(double) joint id")));
 
   addCommand(
       "setForceNameToForceId",
@@ -203,9 +205,7 @@ ParameterServer::ParameterServer(const std::string &name)
 }
 
 void ParameterServer::init_simple(const double &dt) {
-
-  if (dt <= 0.0)
-    return SEND_MSG("Timestep must be positive", MSG_TYPE_ERROR);
+  if (dt <= 0.0) return SEND_MSG("Timestep must be positive", MSG_TYPE_ERROR);
 
   m_dt = dt;
 
@@ -241,8 +241,7 @@ void ParameterServer::init_simple(const double &dt) {
 
 void ParameterServer::init(const double &dt, const std::string &urdfFile,
                            const std::string &robotRef) {
-  if (dt <= 0.0)
-    return SEND_MSG("Timestep must be positive", MSG_TYPE_ERROR);
+  if (dt <= 0.0) return SEND_MSG("Timestep must be positive", MSG_TYPE_ERROR);
   m_dt = dt;
   m_emergency_stop_triggered = false;
   m_initSucceeded = true;
@@ -299,8 +298,9 @@ void ParameterServer::setForceLimitsFromId(const double &jointId,
 void ParameterServer::setForceNameToForceId(const std::string &forceName,
                                             const double &forceId) {
   if (!m_initSucceeded) {
-    SEND_WARNING_STREAM_MSG("Cannot set force sensor name from force sensor id "
-                            " before initialization!");
+    SEND_WARNING_STREAM_MSG(
+        "Cannot set force sensor name from force sensor id "
+        " before initialization!");
     return;
   }
 
@@ -351,7 +351,8 @@ void ParameterServer::setFootFrameName(const std::string &FootName,
     SEND_WARNING_STREAM_MSG("Did not understand the foot name !" + FootName);
 }
 
-void ParameterServer::setHandFrameName(const std::string& HandName, const std::string& FrameName) {
+void ParameterServer::setHandFrameName(const std::string &HandName,
+                                       const std::string &FrameName) {
   if (!m_initSucceeded) {
     SEND_WARNING_STREAM_MSG("Cannot set hand frame name!");
     return;
@@ -361,7 +362,9 @@ void ParameterServer::setHandFrameName(const std::string& HandName, const std::s
   else if (HandName == "Right")
     m_robot_util->m_hand_util.m_Right_Hand_Frame_Name = FrameName;
   else
-    SEND_WARNING_STREAM_MSG("Available hand names are 'Left' and 'Right', not '" + HandName + "' !");
+    SEND_WARNING_STREAM_MSG(
+        "Available hand names are 'Left' and 'Right', not '" + HandName +
+        "' !");
 }
 
 void ParameterServer::setImuJointName(const std::string &JointName) {
@@ -421,5 +424,5 @@ bool ParameterServer::isJointInRange(unsigned int id, double q) {
 void ParameterServer::display(std::ostream &os) const {
   os << "ParameterServer " << getName();
 }
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph

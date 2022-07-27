@@ -11,5 +11,5 @@ class SmoothReachTest(unittest.TestCase):
         self.assertIn("output(vector)::goal (Type Fun)", str(sr.goal))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

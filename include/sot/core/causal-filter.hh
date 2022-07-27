@@ -43,7 +43,7 @@ namespace dynamicgraph {
 namespace sot {
 
 class CausalFilter {
-public:
+ public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /** --- CONSTRUCTOR ----
@@ -64,7 +64,7 @@ public:
   void switch_filter(const Eigen::VectorXd &filter_numerator,
                      const Eigen::VectorXd &filter_denominator);
 
-private:
+ private:
   /// sampling timestep of the input signal
   double m_dt;
   /// Size
@@ -84,7 +84,7 @@ private:
   int m_pt_denominator;
   Eigen::MatrixXd m_input_buffer;
   Eigen::MatrixXd m_output_buffer;
-}; // class CausalFilter
-} // namespace sot
-} // namespace dynamicgraph
+};  // class CausalFilter
+}  // namespace sot
+}  // namespace dynamicgraph
 #endif /* _SOT_CORE_CAUSAL_FILTER_H_ */

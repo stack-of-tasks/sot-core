@@ -7,16 +7,14 @@
  *
  */
 
-#include <iostream>
-#include <sot/core/debug.hh>
-
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
+#include <iostream>
+#include <sot/core/debug.hh>
 
 using namespace std;
 
 int main() {
-
   boost::filesystem::create_directory("foobar");
   ofstream file("foobar/cheeze");
   file << "tastes good!\n";

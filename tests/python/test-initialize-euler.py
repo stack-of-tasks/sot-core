@@ -10,8 +10,10 @@ class OpPointModifierTest(unittest.TestCase):
         ent = ie.IntegratorEulerVectorDouble("ie")
         with self.assertRaises(RuntimeError) as cm:
             ent.initialize()
-        self.assertEqual(str(cm.exception), 'The numerator or the denominator is empty.')
+        self.assertEqual(
+            str(cm.exception), "The numerator or the denominator is empty."
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

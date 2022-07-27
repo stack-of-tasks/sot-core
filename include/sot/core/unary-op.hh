@@ -25,13 +25,14 @@
 namespace dynamicgraph {
 namespace sot {
 
-template <typename Operator> class UnaryOp : public Entity {
+template <typename Operator>
+class UnaryOp : public Entity {
   Operator op;
   typedef typename Operator::Tin Tin;
   typedef typename Operator::Tout Tout;
   typedef UnaryOp<Operator> Self;
 
-public: /* --- CONSTRUCTION --- */
+ public: /* --- CONSTRUCTION --- */
   static std::string getTypeInName(void) { return Operator::nameTypeIn(); }
   static std::string getTypeOutName(void) { return Operator::nameTypeOut(); }
   static const std::string CLASS_NAME;
@@ -41,8 +42,9 @@ public: /* --- CONSTRUCTION --- */
   std::string getDocString() const { return op.getDocString(); }
 
   UnaryOp(const std::string &name)
-      : Entity(name), SIN(NULL, Self::CLASS_NAME + "(" + name + ")::input(" +
-                                    Self::getTypeInName() + ")::sin"),
+      : Entity(name),
+        SIN(NULL, Self::CLASS_NAME + "(" + name + ")::input(" +
+                      Self::getTypeInName() + ")::sin"),
         SOUT(boost::bind(&Self::computeOperation, this, _1, _2), SIN,
              Self::CLASS_NAME + "(" + name + ")::output(" +
                  Self::getTypeOutName() + ")::sout") {
@@ -52,20 +54,20 @@ public: /* --- CONSTRUCTION --- */
 
   virtual ~UnaryOp(void){};
 
-public: /* --- SIGNAL --- */
+ public: /* --- SIGNAL --- */
   SignalPtr<Tin, int> SIN;
   SignalTimeDependent<Tout, int> SOUT;
 
-protected:
+ protected:
   Tout &computeOperation(Tout &res, int time) {
     const Tin &x1 = SIN(time);
     op(x1, res);
     return res;
   }
 
-public: /* --- PARAMS --- */
+ public: /* --- PARAMS --- */
 };
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef SOT_CORE_UNARYOP_HH
+#endif  // #ifndef SOT_CORE_UNARYOP_HH

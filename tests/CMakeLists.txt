@@ -120,7 +120,7 @@ FOREACH(path ${tests})
   TARGET_LINK_LIBRARIES(${test} PRIVATE ${PROJECT_NAME}
     Boost::unit_test_framework
     ${TEST_${test}_LIBS} ${TEST_${test}_EXT_LIBS})
-  
+
   # add some preprocessor variable
   TARGET_COMPILE_DEFINITIONS(
     ${test}

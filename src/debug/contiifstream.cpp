@@ -31,11 +31,10 @@ bool Contiifstream::loop(void) {
     if (file.gcount()) {
       res = true;
       std::string line(buffer);
-      if (!first)
-        reader.push_back(line);
+      if (!first) reader.push_back(line);
       cursor = file.tellg();
       cursor++;
-      file.get(*buffer); // get the last char ( = '\n')
+      file.get(*buffer);  // get the last char ( = '\n')
       sotDEBUG(15) << "line: " << line << std::endl;
     } else {
       break;

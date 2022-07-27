@@ -17,6 +17,7 @@ using namespace std;
 
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/factory.h>
+
 #include <sot/core/control-pd.hh>
 #include <sstream>
 

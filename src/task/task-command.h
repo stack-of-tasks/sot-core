@@ -9,11 +9,11 @@
 #ifndef TASK_COMMAND_H
 #define TASK_COMMAND_H
 
-#include <boost/assign/list_of.hpp>
-
 #include <dynamic-graph/command-getter.h>
 #include <dynamic-graph/command-setter.h>
 #include <dynamic-graph/command.h>
+
+#include <boost/assign/list_of.hpp>
 
 namespace dynamicgraph {
 namespace sot {
@@ -24,7 +24,7 @@ using ::dynamicgraph::command::Value;
 
 // Command ListFeatures
 class ListFeatures : public Command {
-public:
+ public:
   virtual ~ListFeatures() {}
   /// Create command and store it in Entity
   /// \param entity instance of Entity owning this command
@@ -42,10 +42,10 @@ public:
     result += "]";
     return Value(result);
   }
-}; // class ListFeatures
-} // namespace task
-} // namespace command
+};  // class ListFeatures
+}  // namespace task
+}  // namespace command
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // TASK_COMMAND_H
+#endif  // TASK_COMMAND_H

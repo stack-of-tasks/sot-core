@@ -10,6 +10,7 @@
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 #include <dynamic-graph/factory.h>
+
 #include <iostream>
 #include <sot/core/debug.hh>
 #include <sot/core/robot-utils.hh>

@@ -27,7 +27,8 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureGeneric, "FeatureGeneric");
 /* --------------------------------------------------------------------- */
 
 FeatureGeneric::FeatureGeneric(const string &pointName)
-    : FeatureAbstract(pointName), dimensionDefault(0),
+    : FeatureAbstract(pointName),
+      dimensionDefault(0),
       errorSIN(NULL, "sotFeatureGeneric(" + name + ")::input(vector)::errorIN"),
       jacobianSIN(NULL,
                   "sotFeatureGeneric(" + name + ")::input(matrix)::jacobianIN")
@@ -64,13 +65,11 @@ unsigned int &FeatureGeneric::getDimension(unsigned int &dim, int time) {
 
   const Flags &fl = selectionSIN.access(time);
 
-  if (dimensionDefault == 0)
-    dimensionDefault = errorSIN.access(time).size();
+  if (dimensionDefault == 0) dimensionDefault = errorSIN.access(time).size();
 
   dim = 0;
   for (unsigned int i = 0; i < dimensionDefault; ++i)
-    if (fl(i))
-      dim++;
+    if (fl(i)) dim++;
 
   sotDEBUG(25) << "# Out }" << endl;
   return dim;
@@ -107,12 +106,10 @@ Vector &FeatureGeneric::computeError(Vector &res, int time) {
 
     for (int i = 0; i < err.size(); ++i)
       if (fl(i))
-        if (fl(i))
-          res(curr++) = err(i) - errDes(i);
+        if (fl(i)) res(curr++) = err(i) - errDes(i);
   } else {
     for (int i = 0; i < err.size(); ++i)
-      if (fl(i))
-        res(curr++) = err(i);
+      if (fl(i)) res(curr++) = err(i);
   }
 
   return res;
@@ -130,8 +127,7 @@ Matrix &FeatureGeneric::computeJacobian(Matrix &res, int time) {
 
   for (unsigned int i = 0; curr < dim; ++i)
     if (fl(i)) {
-      for (int j = 0; j < Jac.cols(); ++j)
-        res(curr, j) = Jac(i, j);
+      for (int j = 0; j < Jac.cols(); ++j) res(curr, j) = Jac(i, j);
       curr++;
     }
 

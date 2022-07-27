@@ -104,18 +104,21 @@ bool SotLoader::initialization() {
   // python interpreter.
   runPythonCommand("import sys, os", result, out, err);
   runPythonCommand("print(\"python version:\", sys.version)", result, out, err);
-  runPythonCommand("pythonpath = os.environ.get('PYTHONPATH', '')", result, out, err);
+  runPythonCommand("pythonpath = os.environ.get('PYTHONPATH', '')", result, out,
+                   err);
   runPythonCommand("path = []", result, out, err);
-  runPythonCommand("for p in pythonpath.split(':'):\n"
-                   "  if p not in sys.path:\n"
-                   "    path.append(p)",
-                   result, out, err);
+  runPythonCommand(
+      "for p in pythonpath.split(':'):\n"
+      "  if p not in sys.path:\n"
+      "    path.append(p)",
+      result, out, err);
   runPythonCommand("path.extend(sys.path)", result, out, err);
   runPythonCommand("sys.path = path", result, out, err);
   // used to be able to invoke rospy
-  runPythonCommand("if not hasattr(sys, \'argv\'):\n"
-                   "    sys.argv  = ['sot']",
-                   result, out, err);
+  runPythonCommand(
+      "if not hasattr(sys, \'argv\'):\n"
+      "    sys.argv  = ['sot']",
+      result, out, err);
   // help setting signals
   runPythonCommand("import numpy as np", result, out, err);
   // Debug print.

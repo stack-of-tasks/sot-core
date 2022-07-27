@@ -7,13 +7,14 @@
  *
  */
 
+#include <dynamic-graph/all-commands.h>
+
 #include <iostream>
+#include <sot/core/feature-abstract.hh>
+#include <sot/core/pool.hh>
 
 #include "sot/core/debug.hh"
 #include "sot/core/exception-feature.hh"
-#include <dynamic-graph/all-commands.h>
-#include <sot/core/feature-abstract.hh>
-#include <sot/core/pool.hh>
 
 using namespace dynamicgraph::sot;
 using dynamicgraph::sot::ExceptionFeature;
@@ -21,10 +22,11 @@ using dynamicgraph::sot::ExceptionFeature;
 const std::string FeatureAbstract::CLASS_NAME = "FeatureAbstract";
 
 FeatureAbstract::FeatureAbstract(const std::string &name)
-    : Entity(name), selectionSIN(NULL, "sotFeatureAbstract(" + name +
-                                           ")::input(flag)::selec"),
-      errordotSIN(NULL, "sotFeatureAbstract(" + name +
-                            ")::input(vector)::errordotIN"),
+    : Entity(name),
+      selectionSIN(NULL,
+                   "sotFeatureAbstract(" + name + ")::input(flag)::selec"),
+      errordotSIN(
+          NULL, "sotFeatureAbstract(" + name + ")::input(vector)::errordotIN"),
       errorSOUT(boost::bind(&FeatureAbstract::computeError, this, _1, _2),
                 selectionSIN,
                 "sotFeatureAbstract(" + name + ")::output(vector)::error"),
@@ -33,10 +35,10 @@ FeatureAbstract::FeatureAbstract(const std::string &name)
                    "sotFeatureAbstract(" + name + ")::output(vector)::errordot")
 
       ,
-      jacobianSOUT(boost::bind(&FeatureAbstract::computeJacobian, this, _1, _2),
-                   selectionSIN,
-                   "sotFeatureAbstract(" + name +
-                       ")::output(matrix)::jacobian"),
+      jacobianSOUT(
+          boost::bind(&FeatureAbstract::computeJacobian, this, _1, _2),
+          selectionSIN,
+          "sotFeatureAbstract(" + name + ")::output(matrix)::jacobian"),
       dimensionSOUT(boost::bind(&FeatureAbstract::getDimension, this, _1, _2),
                     selectionSIN,
                     "sotFeatureAbstract(" + name + ")::output(uint)::dim") {
@@ -90,8 +92,8 @@ std::string FeatureAbstract::getReferenceByName() const {
     return "none";
 }
 
-dynamicgraph::Vector &
-FeatureAbstract::computeErrorDot(dynamicgraph::Vector &res, int time) {
+dynamicgraph::Vector &FeatureAbstract::computeErrorDot(
+    dynamicgraph::Vector &res, int time) {
   const Flags &fl = selectionSIN.access(time);
   const int &dim = dimensionSOUT(time);
 
@@ -113,8 +115,7 @@ FeatureAbstract::computeErrorDot(dynamicgraph::Vector &res, int time) {
     }
 
     for (int i = 0; i < errdotDes.size(); ++i)
-      if (fl(i))
-        res(curr++) = -errdotDes(i);
+      if (fl(i)) res(curr++) = -errdotDes(i);
   } else
     res.setZero();
 

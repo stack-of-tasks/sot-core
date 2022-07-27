@@ -10,16 +10,17 @@
 /* -------------------------------------------------------------------------- */
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
-#include <iostream>
-#include <string>
-
-#include "../test-paths.h"
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/linear-algebra.h>
+
+#include <iostream>
 #include <sot/core/debug.hh>
 #include <sot/core/exception-feature.hh>
 #include <sot/core/factory.hh>
 #include <sot/core/feature-visual-point.hh>
+#include <string>
+
+#include "../test-paths.h"
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dg;
@@ -37,7 +38,7 @@ typedef void *sotPluginKey;
 #endif
 
 class TestFeature : public FeatureAbstract {
-public:
+ public:
   TestFeature(void) : FeatureAbstract("") {}
   virtual ~TestFeature(void) {}
   virtual unsigned int &getDimension(unsigned int &res, int /*time*/) {
@@ -56,7 +57,6 @@ public:
 };
 
 int main() {
-
   sotDEBUG(0) << "# In {" << endl;
   //   Entity test("");
   //   ExceptionFeature t2(ExceptionFeature::BAD_INIT);

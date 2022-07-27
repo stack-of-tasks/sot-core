@@ -17,6 +17,7 @@
 /* SOT */
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/signal-base.h>
+
 #include <sot/core/api.hh>
 /* STD */
 #include <list>
@@ -34,7 +35,7 @@ namespace sot {
   \class PeriodicCall
 */
 class SOT_CORE_EXPORT PeriodicCall {
-protected:
+ protected:
   struct SignalToCall {
     dynamicgraph::SignalBase<int> *signal;
     unsigned int downsamplingFactor;
@@ -57,7 +58,7 @@ protected:
 
   /* --- FUNCTIONS ------------------------------------------------------------
    */
-public:
+ public:
   PeriodicCall(void);
   virtual ~PeriodicCall(void) {}
 
@@ -79,10 +80,10 @@ public:
   void display(std::ostream &os) const;
 };
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // #ifndef __SOT_PERIODICCALL_HH__
+#endif  // #ifndef __SOT_PERIODICCALL_HH__
 
 /*
  * Local variables:

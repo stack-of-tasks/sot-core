@@ -14,8 +14,9 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#include "sot/core/api.hh"
 #include <sot/core/exception-abstract.hh>
+
+#include "sot/core/api.hh"
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -28,7 +29,7 @@ namespace sot {
 class SOT_CORE_EXPORT ExceptionDynamic : public ExceptionAbstract
 
 {
-public:
+ public:
   enum ErrorCodeEnum {
     GENERIC = ExceptionAbstract::DYNAMIC
 
@@ -45,7 +46,7 @@ public:
     return EXCEPTION_NAME;
   }
 
-public:
+ public:
   ExceptionDynamic(const ExceptionDynamic::ErrorCodeEnum &errcode,
                    const std::string &msg = "");
   ExceptionDynamic(const ExceptionDynamic::ErrorCodeEnum &errcode,

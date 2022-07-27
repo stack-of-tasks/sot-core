@@ -17,6 +17,7 @@
 /* SOT */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/exception-task.hh>
 
 /* --------------------------------------------------------------------- */
@@ -37,16 +38,16 @@ namespace dynamicgraph {
 namespace sot {
 
 class SOTBINARYINTTOUINT_EXPORT BinaryIntToUint : public dynamicgraph::Entity {
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
+ public:
   dynamicgraph::SignalPtr<int, int> binaryIntSIN;
   dynamicgraph::SignalTimeDependent<unsigned, int> binaryUintSOUT;
 
-public:
+ public:
   BinaryIntToUint(const std::string &name);
   virtual ~BinaryIntToUint() {}
 

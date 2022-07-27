@@ -11,13 +11,12 @@
 
 // Matrix
 #include <dynamic-graph/linear-algebra.h>
-#include <sot/core/api.hh>
+#include <dynamic-graph/signal-caster.h>
 
 #include <boost/array.hpp>
 #include <boost/assign/list_of.hpp>
 #include <boost/regex.hpp>
-
-#include <dynamic-graph/signal-caster.h>
+#include <sot/core/api.hh>
 
 namespace dg = dynamicgraph;
 namespace ba = boost::assign;
@@ -28,10 +27,10 @@ namespace sot {
 class Trajectory;
 
 class RulesJointTrajectory {
-protected:
+ protected:
   Trajectory &TrajectoryToFill_;
 
-public:
+ public:
   unsigned int dbg_level;
 
   /// \brief Strings specifying the grammar of the structure.
@@ -51,13 +50,13 @@ public:
   /// \brief parse_string will fill TrajectoryToFill with string atext.
   void parse_string(std::string &atext);
 
-protected:
+ protected:
   /// \brief General parsing method of text with regexp e. The results are given
   /// in what. The remaining text is left in sub_text.
-  bool
-  search_exp_sub_string(std::string &text,
-                        boost::match_results<std::string::const_iterator> &what,
-                        boost::regex &e, std::string &sub_text);
+  bool search_exp_sub_string(
+      std::string &text,
+      boost::match_results<std::string::const_iterator> &what, boost::regex &e,
+      std::string &sub_text);
   /// \brief Find and store the header.
   /// This method is looking for:
   /// unsigned int seq.
@@ -83,7 +82,7 @@ protected:
 };
 
 class SOT_CORE_EXPORT timestamp {
-public:
+ public:
   unsigned long int secs_;
   unsigned long int nsecs_;
   timestamp() : secs_(0), nsecs_(0) {}
@@ -96,8 +95,7 @@ public:
     nsecs_ = lnsecs;
   }
   bool operator==(const timestamp &other) const {
-    if ((secs_ != other.secs_) || (nsecs_ != other.nsecs_))
-      return false;
+    if ((secs_ != other.secs_) || (nsecs_ != other.nsecs_)) return false;
     return true;
   }
   friend std::ostream &operator<<(std::ostream &stream, const timestamp &ats) {
@@ -107,7 +105,7 @@ public:
 };
 
 class SOT_CORE_EXPORT Header {
-public:
+ public:
   unsigned int seq_;
   timestamp stamp_;
   std::string frame_id_;
@@ -115,8 +113,7 @@ public:
 };
 
 class SOT_CORE_EXPORT JointTrajectoryPoint {
-
-public:
+ public:
   std::vector<double> positions_;
   std::vector<double> velocities_;
   std::vector<double> accelerations_;
@@ -132,20 +129,20 @@ public:
 
     for (std::size_t arrayId = 0; arrayId < names.size(); ++arrayId) {
       switch (arrayId) {
-      case (0):
-        points = &positions_;
-        break;
-      case (1):
-        points = &velocities_;
-        break;
-      case (2):
-        points = &accelerations_;
-        break;
-      case (3):
-        points = &efforts_;
-        break;
-      default:
-        assert(0);
+        case (0):
+          points = &positions_;
+          break;
+        case (1):
+          points = &velocities_;
+          break;
+        case (2):
+          points = &accelerations_;
+          break;
+        case (3):
+          points = &efforts_;
+          break;
+        default:
+          assert(0);
       }
 
       std::vector<double>::const_iterator it_db;
@@ -158,27 +155,26 @@ public:
 
   void transfer(const std::vector<double> &src, unsigned int vecId) {
     switch (vecId) {
-    case (0):
-      positions_ = src;
-      break;
-    case (1):
-      velocities_ = src;
-      break;
-    case (2):
-      accelerations_ = src;
-      break;
-    case (3):
-      efforts_ = src;
-      break;
-    default:
-      assert(0);
+      case (0):
+        positions_ = src;
+        break;
+      case (1):
+        velocities_ = src;
+        break;
+      case (2):
+        accelerations_ = src;
+        break;
+      case (3):
+        efforts_ = src;
+        break;
+      default:
+        assert(0);
     }
   }
 };
 
 class SOT_CORE_EXPORT Trajectory {
-
-public:
+ public:
   Trajectory();
   Trajectory(const Trajectory &copy);
   virtual ~Trajectory();
@@ -193,11 +189,11 @@ public:
   int deserialize(std::istringstream &is);
   void display(std::ostream &) const;
 };
-} // namespace sot
+}  // namespace sot
 
 template <>
 struct signal_io<sot::Trajectory> : signal_io_unimplemented<sot::Trajectory> {};
 
-} // namespace dynamicgraph
+}  // namespace dynamicgraph
 
 #endif /* #ifndef SOT_TRAJECTORY_H__ */

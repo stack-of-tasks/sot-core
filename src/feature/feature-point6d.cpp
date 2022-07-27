@@ -22,7 +22,6 @@
 #include <dynamic-graph/command.h>
 
 #include <Eigen/LU>
-
 #include <sot/core/debug.hh>
 #include <sot/core/exception-feature.hh>
 #include <sot/core/feature-point6d.hh>
@@ -46,14 +45,21 @@ const FeaturePoint6d::ComputationFrameType
     FeaturePoint6d::COMPUTATION_FRAME_DEFAULT = FRAME_DESIRED;
 
 FeaturePoint6d::FeaturePoint6d(const string &pointName)
-    : FeatureAbstract(pointName), computationFrame_(COMPUTATION_FRAME_DEFAULT),
-      positionSIN(NULL, "sotFeaturePoint6d(" + name +
-                            ")::input(matrixHomo)::position"),
+    : FeatureAbstract(pointName),
+      computationFrame_(COMPUTATION_FRAME_DEFAULT),
+      positionSIN(
+          NULL, "sotFeaturePoint6d(" + name + ")::input(matrixHomo)::position"),
       velocitySIN(NULL,
                   "sotFeaturePoint6d(" + name + ")::input(vector)::velocity"),
-      articularJacobianSIN(NULL, "sotFeaturePoint6d(" + name +
-                                     ")::input(matrix)::Jq"),
-      error_th_(), R_(), Rref_(), Rt_(), Rreft_(), P_(3, 3), Pinv_(3, 3),
+      articularJacobianSIN(
+          NULL, "sotFeaturePoint6d(" + name + ")::input(matrix)::Jq"),
+      error_th_(),
+      R_(),
+      Rref_(),
+      Rt_(),
+      Rreft_(),
+      P_(3, 3),
+      Pinv_(3, 3),
       accuracy_(1e-8) {
   jacobianSOUT.addDependency(positionSIN);
   jacobianSOUT.addDependency(articularJacobianSIN);
@@ -74,24 +80,26 @@ FeaturePoint6d::FeaturePoint6d(const string &pointName)
     using namespace dynamicgraph::command;
     std::string docstring;
     // Set computation frame
-    docstring = "Set computation frame\n"
-                "\n"
-                "  Input:\n"
-                "    a string: 'current' or 'desired'.\n"
-                "      If 'current', the error is defined as the rotation "
-                "vector (VectorUTheta)\n"
-                "      corresponding to the position of the reference in the "
-                "current frame:\n"
-                "                         -1 *\n"
-                "        error = utheta (M  M )\n"
-                "      If 'desired',      *-1\n"
-                "        error = utheta (M   M)\n";
+    docstring =
+        "Set computation frame\n"
+        "\n"
+        "  Input:\n"
+        "    a string: 'current' or 'desired'.\n"
+        "      If 'current', the error is defined as the rotation "
+        "vector (VectorUTheta)\n"
+        "      corresponding to the position of the reference in the "
+        "current frame:\n"
+        "                         -1 *\n"
+        "        error = utheta (M  M )\n"
+        "      If 'desired',      *-1\n"
+        "        error = utheta (M   M)\n";
     addCommand("frame",
                new dynamicgraph::command::Setter<FeaturePoint6d, std::string>(
                    *this, &FeaturePoint6d::computationFrame, docstring));
-    docstring = "Get frame of computation of the error\n"
-                "\n"
-                "  See command 'frame' for definition.\n";
+    docstring =
+        "Get frame of computation of the error\n"
+        "\n"
+        "  See command 'frame' for definition.\n";
     addCommand("getFrame",
                new dynamicgraph::command::Getter<FeaturePoint6d, std::string>(
                    *this, &FeaturePoint6d::computationFrame, docstring));
@@ -135,10 +143,10 @@ void FeaturePoint6d::computationFrame(const std::string &inFrame) {
 /// \brief Get computation frame
 std::string FeaturePoint6d::computationFrame() const {
   switch (computationFrame_) {
-  case FRAME_CURRENT:
-    return "current";
-  case FRAME_DESIRED:
-    return "desired";
+    case FRAME_CURRENT:
+      return "current";
+    case FRAME_DESIRED:
+      return "desired";
   }
   assert(false && "Case not handled");
   return "Case not handled";
@@ -154,8 +162,7 @@ unsigned int &FeaturePoint6d::getDimension(unsigned int &dim, int time) {
 
   dim = 0;
   for (int i = 0; i < 6; ++i)
-    if (fl(i))
-      dim++;
+    if (fl(i)) dim++;
 
   sotDEBUG(25) << "# Out }" << endl;
   return dim;
@@ -197,12 +204,10 @@ Matrix &FeaturePoint6d::computeJacobian(Matrix &J, int time) {
     if (isReferenceSet()) {
       const MatrixHomogeneous &wMhd = getReference()->positionSIN(time);
       wRhd = wMhd.linear();
-      for (unsigned int i = 0; i < 3; ++i)
-        hdth(i) = wMhd(i, 3) - wMh(i, 3);
+      for (unsigned int i = 0; i < 3; ++i) hdth(i) = wMhd(i, 3) - wMh(i, 3);
     } else {
       wRhd.setIdentity();
-      for (unsigned int i = 0; i < 3; ++i)
-        hdth(i) = -wMh(i, 3);
+      for (unsigned int i = 0; i < 3; ++i) hdth(i) = -wMh(i, 3);
     }
     Rhdth = (wRh.inverse()) * hdth;
     MatrixRotation hdRh;
@@ -264,8 +269,7 @@ Matrix &FeaturePoint6d::computeJacobian(Matrix &J, int time) {
   unsigned int rJ = 0;
   for (unsigned int r = 0; r < 6; ++r)
     if (fl(r)) {
-      for (unsigned int c = 0; c < cJ; ++c)
-        J(rJ, c) = LJq(r, c);
+      for (unsigned int c = 0; c < cJ; ++c) J(rJ, c) = LJq(r, c);
       rJ++;
     }
 
@@ -273,13 +277,13 @@ Matrix &FeaturePoint6d::computeJacobian(Matrix &J, int time) {
   return J;
 }
 
-#define SOT_COMPUTE_H1MH2(wMh, wMhd, hMhd)                                     \
-  {                                                                            \
-    MatrixHomogeneous hMw;                                                     \
-    hMw = wMh.inverse(Eigen::Affine);                                          \
-    sotDEBUG(15) << "hMw = " << hMw << endl;                                   \
-    hMhd = hMw * wMhd;                                                         \
-    sotDEBUG(15) << "hMhd = " << hMhd << endl;                                 \
+#define SOT_COMPUTE_H1MH2(wMh, wMhd, hMhd)     \
+  {                                            \
+    MatrixHomogeneous hMw;                     \
+    hMw = wMh.inverse(Eigen::Affine);          \
+    sotDEBUG(15) << "hMw = " << hMw << endl;   \
+    hMhd = hMw * wMhd;                         \
+    sotDEBUG(15) << "hMhd = " << hMhd << endl; \
   }
 
 /** Compute the error between two visual features from a subset
@@ -303,21 +307,21 @@ Vector &FeaturePoint6d::computeError(Vector &error, int time) {
     const MatrixHomogeneous &wMhd = getReference()->positionSIN(time);
     sotDEBUG(15) << "wMhd = " << wMhd << endl;
     switch (computationFrame_) {
-    case FRAME_CURRENT:
-      SOT_COMPUTE_H1MH2(wMh, wMhd, hMhd);
-      break;
-    case FRAME_DESIRED:
-      SOT_COMPUTE_H1MH2(wMhd, wMh, hMhd);
-      break; // Compute hdMh indeed.
+      case FRAME_CURRENT:
+        SOT_COMPUTE_H1MH2(wMh, wMhd, hMhd);
+        break;
+      case FRAME_DESIRED:
+        SOT_COMPUTE_H1MH2(wMhd, wMh, hMhd);
+        break;  // Compute hdMh indeed.
     };
   } else {
     switch (computationFrame_) {
-    case FRAME_CURRENT:
-      hMhd = wMh.inverse();
-      break;
-    case FRAME_DESIRED:
-      hMhd = wMh;
-      break; // Compute hdMh indeed.
+      case FRAME_CURRENT:
+        hMhd = wMh.inverse();
+        break;
+      case FRAME_DESIRED:
+        hMhd = wMh;
+        break;  // Compute hdMh indeed.
     };
   }
 
@@ -331,8 +335,7 @@ Vector &FeaturePoint6d::computeError(Vector &error, int time) {
   error.resize(dimensionSOUT(time));
   unsigned int cursor = 0;
   for (unsigned int i = 0; i < 3; ++i) {
-    if (fl(i))
-      error(cursor++) = hMhd(i, 3);
+    if (fl(i)) error(cursor++) = hMhd(i, 3);
   }
 
   if (fl(3) || fl(4) || fl(5)) {
@@ -340,8 +343,7 @@ Vector &FeaturePoint6d::computeError(Vector &error, int time) {
     hRhd = hMhd.linear();
     error_th_.fromRotationMatrix(hRhd);
     for (unsigned int i = 0; i < 3; ++i) {
-      if (fl(i + 3))
-        error(cursor++) = error_th_.angle() * error_th_.axis()(i);
+      if (fl(i + 3)) error(cursor++) = error_th_.angle() * error_th_.axis()(i);
     }
   }
 
@@ -436,17 +438,17 @@ Vector &FeaturePoint6d::computeErrordot(Vector &errordot, int time) {
     errorSOUT.recompute(time);
     inverseJacobianRodrigues();
     switch (computationFrame_) {
-    case FRAME_CURRENT:
-      // \dot{e}_{t} = R^{T} v
-      errordot_t_ = Rt_ * v_;
-      // \dot{e}_{\theta} = P^{-1}(e_{theta})R^{*T}\omega
-      Rreftomega_ = Rreft_ * omega_;
-      errordot_th_ = Pinv_ * Rreftomega_;
-      break;
-    case FRAME_DESIRED:
-      errordot_t_ = Rreft_ * (omega_.cross(tref_ - t_) - v_);
-      errordot_th_ = -Pinv_ * (Rt_ * omega_);
-      break;
+      case FRAME_CURRENT:
+        // \dot{e}_{t} = R^{T} v
+        errordot_t_ = Rt_ * v_;
+        // \dot{e}_{\theta} = P^{-1}(e_{theta})R^{*T}\omega
+        Rreftomega_ = Rreft_ * omega_;
+        errordot_th_ = Pinv_ * Rreftomega_;
+        break;
+      case FRAME_DESIRED:
+        errordot_t_ = Rreft_ * (omega_.cross(tref_ - t_) - v_);
+        errordot_th_ = -Pinv_ * (Rt_ * omega_);
+        break;
     }
   } else {
     errordot_t_.setZero();

@@ -39,6 +39,7 @@
 
 /* HELPER */
 #include <dynamic-graph/signal-helper.h>
+
 #include <sot/core/causal-filter.hh>
 #include <sot/core/stop-watch.hh>
 
@@ -58,8 +59,8 @@ class SOTFILTERDIFFERENTIATOR_EXPORT FilterDifferentiator
     : public ::dynamicgraph::Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
-public: /* --- SIGNALS --- */
-        /// Input signals
+ public: /* --- SIGNALS --- */
+         /// Input signals
   DECLARE_SIGNAL_IN(x, dynamicgraph::Vector);
   /// Output signal x_filtered
   DECLARE_SIGNAL_OUT(x_filtered, dynamicgraph::Vector);
@@ -81,14 +82,14 @@ public: /* --- SIGNALS --- */
   /// accelerations.
   DECLARE_SIGNAL_INNER(x_dx_ddx, dynamicgraph::Vector);
 
-protected:
-  double m_dt; /// sampling timestep of the input signal
+ protected:
+  double m_dt;  /// sampling timestep of the input signal
   int m_x_size;
 
   /// polynomial-fitting filters
   CausalFilter *m_filter;
 
-public:
+ public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /** --- CONSTRUCTOR ---- */
@@ -112,13 +113,13 @@ public:
   void switch_filter(const Eigen::VectorXd &filter_numerator,
                      const Eigen::VectorXd &filter_denominator);
 
-protected:
-public: /* --- ENTITY INHERITANCE --- */
+ protected:
+ public: /* --- ENTITY INHERITANCE --- */
   virtual void display(std::ostream &os) const;
 
-}; // class FilterDifferentiator
+};  // class FilterDifferentiator
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // #ifndef __sot_torque_control_FilterDifferentiator_H__
+#endif  // #ifndef __sot_torque_control_FilterDifferentiator_H__

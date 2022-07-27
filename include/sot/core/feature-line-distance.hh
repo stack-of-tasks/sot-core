@@ -45,14 +45,13 @@ namespace sot {
 */
 class SOTFEATURELINEDISTANCE_EXPORT FeatureLineDistance
     : public FeatureAbstract {
-
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
+ public:
   dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionSIN;
   dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> articularJacobianSIN;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> positionRefSIN;
@@ -69,7 +68,7 @@ public:
   DECLARE_NO_REFERENCE;
   /*! @} */
 
-public:
+ public:
   FeatureLineDistance(const std::string &name);
   virtual ~FeatureLineDistance(void) {}
 
@@ -88,7 +87,7 @@ public:
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_FEATURE_LINEDISTANCE_HH__
+#endif  // #ifndef __SOT_FEATURE_LINEDISTANCE_HH__
 
 /*
  * Local variables:

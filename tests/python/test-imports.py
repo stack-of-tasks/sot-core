@@ -95,5 +95,5 @@ class PythonImportTest(unittest.TestCase):
             self.fail(str(ie))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -11,6 +11,7 @@
 #include <sys/time.h>
 #endif
 #include <dynamic-graph/linear-algebra.h>
+
 #include <iostream>
 #include <sot/core/debug.hh>
 #include <sot/core/matrix-geometry.hh>
@@ -27,12 +28,12 @@
 using namespace dynamicgraph::sot;
 using namespace std;
 
-#define INIT_CHRONO(name)                                                      \
-  struct timeval t0##_##name, t1##_##name;                                     \
+#define INIT_CHRONO(name)                  \
+  struct timeval t0##_##name, t1##_##name; \
   double dt##_##name
-#define START_CHRONO(name)                                                     \
-  gettimeofday(&t0##_##name, NULL);                                            \
-  sotDEBUG(25) << "t0 " << #name << ": " << t0##_##name.tv_sec << " - "        \
+#define START_CHRONO(name)                                              \
+  gettimeofday(&t0##_##name, NULL);                                     \
+  sotDEBUG(25) << "t0 " << #name << ": " << t0##_##name.tv_sec << " - " \
                << t0##_##name.tv_usec << std::endl
 #define STOP_CHRONO(name, commentaire)                                         \
   gettimeofday(&t1##_##name, NULL);                                            \
@@ -124,17 +125,14 @@ double timerCounter;
 /* ----------------------------------------------------------------------- */
 
 int main(int argc, char **argv) {
-  if (sotDEBUG_ENABLE(1))
-    DebugTrace::openFile();
+  if (sotDEBUG_ENABLE(1)) DebugTrace::openFile();
 
   //   const unsigned int r=1;
   //   const unsigned int c=30;
   unsigned int r = 1;
-  if (argc > 1)
-    r = atoi(argv[1]);
+  if (argc > 1) r = atoi(argv[1]);
   unsigned int c = 30;
-  if (argc > 2)
-    c = atoi(argv[2]);
+  if (argc > 2) c = atoi(argv[2]);
   static const int BENCH = 100;
 
   dynamicgraph::Matrix M(r, c);
@@ -146,8 +144,7 @@ int main(int argc, char **argv) {
   unsigned int nbzeros = 0;
   for (unsigned int j = 0; j < c; ++j) {
     if ((rand() + 1.) / RAND_MAX > .8) {
-      for (unsigned int i = 0; i < r; ++i)
-        M(i, j) = 0.;
+      for (unsigned int i = 0; i < r; ++i) M(i, j) = 0.;
       nbzeros++;
     } else
       for (unsigned int i = 0; i < r; ++i)
@@ -155,7 +152,7 @@ int main(int argc, char **argv) {
   }
   for (unsigned int i = 0; i < r; ++i)
     for (unsigned int j = 0; j < c; ++j)
-      M1(i, j) = M(i, j); //+ ((rand()+1.) / RAND_MAX*2-1) * 1e-28 ;
+      M1(i, j) = M(i, j);  //+ ((rand()+1.) / RAND_MAX*2-1) * 1e-28 ;
 
   // sotDEBUG(15) << dynamicgraph::MATLAB <<"M = "<< M <<endl;
   sotDEBUG(15) << "M1 = " << M1 << endl;
@@ -164,14 +161,12 @@ int main(int argc, char **argv) {
   INIT_CHRONO(inv);
 
   START_CHRONO(inv);
-  for (int i = 0; i < BENCH; ++i)
-    dynamicgraph::pseudoInverse(M, Minv);
+  for (int i = 0; i < BENCH; ++i) dynamicgraph::pseudoInverse(M, Minv);
   STOP_CHRONO(inv, "init");
   sotDEBUG(15) << "Minv = " << Minv << endl;
 
   START_CHRONO(inv);
-  for (int i = 0; i < BENCH; ++i)
-    dynamicgraph::pseudoInverse(M, Minv);
+  for (int i = 0; i < BENCH; ++i) dynamicgraph::pseudoInverse(M, Minv);
   STOP_CHRONO(inv, "M+standard");
   cout << dt_inv << endl;
 
@@ -201,15 +196,13 @@ int main(int argc, char **argv) {
   dynamicgraph::Matrix Mcreuse;
   dynamicgraph::Matrix Mcreuseinv;
   for (int ib = 0; ib < BENCH; ++ib) {
-
     double sumsq;
     unsigned int parc = 0;
     if (!ib) {
       nonzeros.clear();
       for (unsigned int j = 0; j < c; ++j) {
         sumsq = 0.;
-        for (unsigned int i = 0; i < r; ++i)
-          sumsq += M(i, j) * M(i, j);
+        for (unsigned int i = 0; i < r; ++i) sumsq += M(i, j) * M(i, j);
         if (sumsq > 1e-6) {
           nonzeros.push_back(j);
           parc++;
@@ -237,8 +230,7 @@ int main(int argc, char **argv) {
     Minv.fill(0.);
     for (std::list<unsigned int>::iterator iter = nonzeros.begin();
          iter != nonzeros.end(); ++iter) {
-      for (unsigned int i = 0; i < r; ++i)
-        Minv(*iter, i) = Mcreuseinv(parc, i);
+      for (unsigned int i = 0; i < r; ++i) Minv(*iter, i) = Mcreuseinv(parc, i);
       parc++;
     }
 
@@ -254,14 +246,12 @@ int main(int argc, char **argv) {
   // sotDEBUG(15) << dynamicgraph::MATLAB <<"Minv = "<< Minv <<endl;
 
   {
-
     double sumsq;
     nonzeros.clear();
     unsigned int parc = 0;
     for (unsigned int j = 0; j < c; ++j) {
       sumsq = 0.;
-      for (unsigned int i = 0; i < r; ++i)
-        sumsq += M(i, j) * M(i, j);
+      for (unsigned int i = 0; i < r; ++i) sumsq += M(i, j) * M(i, j);
       if (sumsq > 1e-6) {
         nonzeros.push_back(j);
         parc++;
@@ -289,8 +279,7 @@ int main(int argc, char **argv) {
     Minv.fill(0.);
     for (std::list<unsigned int>::iterator iter = nonzeros.begin();
          iter != nonzeros.end(); ++iter) {
-      for (unsigned int i = 0; i < r; ++i)
-        Minv(*iter, i) = Mcreuseinv(parc, i);
+      for (unsigned int i = 0; i < r; ++i) Minv(*iter, i) = Mcreuseinv(parc, i);
       parc++;
     }
 

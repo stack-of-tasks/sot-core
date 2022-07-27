@@ -17,6 +17,7 @@ using namespace std;
 
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/factory.h>
+
 #include <sot/core/filter-differentiator.hh>
 #include <sstream>
 
@@ -58,8 +59,7 @@ BOOST_AUTO_TEST_CASE(test_filter_differentiator) {
 
   srand(0);
   dynamicgraph::Vector aVec(16);
-  for (unsigned int i = 0; i < 16; i++)
-    aVec(i) = (double)(i + rand() % 100);
+  for (unsigned int i = 0; i < 16; i++) aVec(i) = (double)(i + rand() % 100);
   aFilterDiff->m_xSIN = aVec;
   aFilterDiff->m_x_filteredSOUT.recompute(0);
   output_test_stream output;
@@ -67,20 +67,21 @@ BOOST_AUTO_TEST_CASE(test_filter_differentiator) {
   dynamicgraph::Vector outVec;
   aFilterDiff->m_x_filteredSOUT.get(output);
 
-  BOOST_CHECK(output.is_equal("82.5614 "
-                              "86.5403 "
-                              "78.5826 "
-                              "17.9049 "
-                              "96.4874 "
-                              "39.7886 "
-                              "91.5139 "
-                              "98.4769 "
-                              "56.6988 "
-                              "29.8415 "
-                              "71.6195 "
-                              "37.7992 "
-                              "101.461 "
-                              "71.6195 "
-                              "76.5931 "
-                              "40.7834"));
+  BOOST_CHECK(
+      output.is_equal("82.5614 "
+                      "86.5403 "
+                      "78.5826 "
+                      "17.9049 "
+                      "96.4874 "
+                      "39.7886 "
+                      "91.5139 "
+                      "98.4769 "
+                      "56.6988 "
+                      "29.8415 "
+                      "71.6195 "
+                      "37.7992 "
+                      "101.461 "
+                      "71.6195 "
+                      "76.5931 "
+                      "40.7834"));
 }

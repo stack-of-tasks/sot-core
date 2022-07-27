@@ -7,13 +7,13 @@
  *
  */
 
-#include <iostream>
-
 #include <dynamic-graph/linear-algebra.h>
 #include <dynamic-graph/signal-base.h>
 #include <dynamic-graph/signal-time-dependent.h>
 #include <dynamic-graph/signal.h>
 #include <dynamic-graph/tracer.h>
+
+#include <iostream>
 #include <sot/core/debug.hh>
 
 using namespace std;

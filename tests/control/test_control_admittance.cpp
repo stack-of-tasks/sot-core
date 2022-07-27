@@ -16,6 +16,7 @@ using namespace std;
 
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/factory.h>
+
 #include <sot/core/admittance-control-op-point.hh>
 #include <sstream>
 

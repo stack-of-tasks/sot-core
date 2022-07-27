@@ -42,16 +42,15 @@ namespace sot {
 class SOTVISUALPOINTPROJECTER_EXPORT VisualPointProjecter
     : public ::dynamicgraph::Entity,
       public ::dynamicgraph::EntityHelper<VisualPointProjecter> {
-
-public: /* --- CONSTRUCTOR ---- */
+ public: /* --- CONSTRUCTOR ---- */
   VisualPointProjecter(const std::string &name);
 
-public: /* --- ENTITY INHERITANCE --- */
+ public: /* --- ENTITY INHERITANCE --- */
   static const std::string CLASS_NAME;
   virtual void display(std::ostream &os) const;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-public: /* --- SIGNALS --- */
+ public: /* --- SIGNALS --- */
   DECLARE_SIGNAL_IN(point3D, dynamicgraph::Vector);
   DECLARE_SIGNAL_IN(transfo, MatrixHomogeneous);
 
@@ -59,9 +58,9 @@ public: /* --- SIGNALS --- */
   DECLARE_SIGNAL_OUT(depth, double);
   DECLARE_SIGNAL_OUT(point2D, dynamicgraph::Vector);
 
-}; // class VisualPointProjecter
+};  // class VisualPointProjecter
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // #ifndef __sot_core_VisualPointProjecter_H__
+#endif  // #ifndef __sot_core_VisualPointProjecter_H__

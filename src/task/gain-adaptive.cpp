@@ -13,13 +13,11 @@
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
+#include <dynamic-graph/command-bind.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/exception-signal.hh>
 #include <sot/core/factory.hh>
-
-#include <sot/core/debug.hh>
-
-#include <dynamic-graph/command-bind.h>
 
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
@@ -34,11 +32,11 @@ const double GainAdaptive::TAN_DEFAULT = 1;
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#define __SOT_GAIN_ADAPTATIVE_INIT                                             \
-  Entity(name), coeff_a(0), coeff_b(0), coeff_c(0),                            \
-      errorSIN(NULL, "sotGainAdaptive(" + name + ")::input(vector)::error"),   \
-      gainSOUT(boost::bind(&GainAdaptive::computeGain, this, _1, _2),          \
-               errorSIN,                                                       \
+#define __SOT_GAIN_ADAPTATIVE_INIT                                           \
+  Entity(name), coeff_a(0), coeff_b(0), coeff_c(0),                          \
+      errorSIN(NULL, "sotGainAdaptive(" + name + ")::input(vector)::error"), \
+      gainSOUT(boost::bind(&GainAdaptive::computeGain, this, _1, _2),        \
+               errorSIN,                                                     \
                "sotGainAdaptive(" + name + ")::output(double)::gain")
 
 void GainAdaptive::addCommands() {
@@ -56,22 +54,24 @@ void GainAdaptive::addCommands() {
              makeCommandVoid1(*this, &GainAdaptive::init, docstring));
 
   // Command Set
-  docstring = "    \n"
-              "    set\n"
-              "      Input:\n"
-              "        floating point value: value at 0,\n"
-              "        floating point value: value at infinity,\n"
-              "        floating point value: value at slope,\n"
-              "    \n";
+  docstring =
+      "    \n"
+      "    set\n"
+      "      Input:\n"
+      "        floating point value: value at 0,\n"
+      "        floating point value: value at infinity,\n"
+      "        floating point value: value at slope,\n"
+      "    \n";
   addCommand("set", makeCommandVoid3(*this, &GainAdaptive::init, docstring));
-  docstring = "    \n"
-              "    set from value at 0 and infinity, with a passing point\n"
-              "      Input:\n"
-              "        floating point value: value at 0,\n"
-              "        floating point value: value at infinity,\n"
-              "        floating point value: reference point,\n"
-              "        floating point value: percentage at ref point.\n"
-              "    \n";
+  docstring =
+      "    \n"
+      "    set from value at 0 and infinity, with a passing point\n"
+      "      Input:\n"
+      "        floating point value: value at 0,\n"
+      "        floating point value: value at infinity,\n"
+      "        floating point value: reference point,\n"
+      "        floating point value: percentage at ref point.\n"
+      "    \n";
   addCommand(
       "setByPoint",
       makeCommandVoid4(*this, &GainAdaptive::initFromPassingPoint, docstring));
@@ -133,7 +133,7 @@ void GainAdaptive::init(const double &valueAt0, const double &valueAtInfty,
 void GainAdaptive::initFromPassingPoint(const double &valueAt0,
                                         const double &valueAtInfty,
                                         const double &xref,
-                                        const double &p) // gref )
+                                        const double &p)  // gref )
 {
   coeff_c = valueAtInfty;
   coeff_a = valueAt0 - valueAtInfty;

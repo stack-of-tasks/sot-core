@@ -15,7 +15,6 @@
 #include <sot/core/debug.hh>
 #include <sot/core/exception-feature.hh>
 #include <sot/core/feature-line-distance.hh>
-
 #include <sot/core/matrix-geometry.hh>
 
 using namespace std;
@@ -34,8 +33,8 @@ FeatureLineDistance::FeatureLineDistance(const string &pointName)
     : FeatureAbstract(pointName),
       positionSIN(NULL, "sotFeatureLineDistance(" + name +
                             ")::input(matrixHomo)::position"),
-      articularJacobianSIN(NULL, "sotFeatureLineDistance(" + name +
-                                     ")::input(matrix)::Jq"),
+      articularJacobianSIN(
+          NULL, "sotFeatureLineDistance(" + name + ")::input(matrix)::Jq"),
       positionRefSIN(NULL, "sotFeatureLineDistance(" + name +
                                ")::input(vector)::positionRef"),
       vectorSIN(NULL,
@@ -104,7 +103,7 @@ Matrix &FeatureLineDistance::computeJacobian(Matrix &J, int time) {
     const Vector &vect = vectorSIN(time);
     const MatrixHomogeneous &M = positionSIN(time);
     MatrixRotation R;
-    R = M.linear(); // wRh
+    R = M.linear();  // wRh
 
     Matrix Skew(3, 3);
     Skew(0, 0) = 0;

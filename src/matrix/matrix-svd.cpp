@@ -55,4 +55,4 @@ void dampedInverse(const Matrix &_inputMatrix, Matrix &_inverseMatrix,
   dampedInverse(svd, _inverseMatrix, threshold);
 }
 
-} // namespace dynamicgraph
+}  // namespace dynamicgraph

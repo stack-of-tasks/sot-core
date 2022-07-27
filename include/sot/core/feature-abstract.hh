@@ -18,11 +18,13 @@
 #include <dynamic-graph/linear-algebra.h>
 
 /* SOT */
-#include "sot/core/api.hh"
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/flags.hh>
 #include <sot/core/pool.hh>
+
+#include "sot/core/api.hh"
 
 /* STD */
 #include <string>
@@ -72,7 +74,7 @@ namespace sot {
 
 */
 class SOT_CORE_EXPORT FeatureAbstract : public Entity {
-public:
+ public:
   /*! \brief Store the name of the class. */
   static const std::string CLASS_NAME;
 
@@ -84,7 +86,7 @@ public:
 
   void initCommands(void);
 
-public:
+ public:
   /*! \brief Default constructor: the name of the class should be given. */
   FeatureAbstract(const std::string &name);
   /*! \brief Default destructor */
@@ -156,7 +158,7 @@ public:
   /*! @} */
 
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
+ public:
   /*! \name Signals
     @{
   */
@@ -204,7 +206,7 @@ public:
   /*! @} */
 
   /* --- REFERENCE VALUE S* ------------------------------------------------- */
-public:
+ public:
   /*! \name Reference
     @{
   */
@@ -223,11 +225,12 @@ public:
   /*! @} */
 };
 
-template <class FeatureSpecialized> class FeatureReferenceHelper {
+template <class FeatureSpecialized>
+class FeatureReferenceHelper {
   FeatureSpecialized *ptr;
   FeatureAbstract *ptrA;
 
-public:
+ public:
   FeatureReferenceHelper(void) : ptr(NULL) {}
 
   void setReference(FeatureAbstract *sdes);
@@ -245,44 +248,42 @@ void FeatureReferenceHelper<FeatureSpecialized>::setReference(
   ptrA = ptr;
 }
 
-#define DECLARE_REFERENCE_FUNCTIONS(FeatureSpecialized)                        \
-  typedef FeatureReferenceHelper<FeatureSpecialized> SP;                       \
-  virtual void setReference(FeatureAbstract *sdes) {                           \
-    if (sdes == NULL) {                                                        \
-      /* UNSET */                                                              \
-      if (SP::isReferenceSet())                                                \
-        removeDependenciesFromReference();                                     \
-      SP::unsetReference();                                                    \
-    } else {                                                                   \
-      /* SET */                                                                \
-      SP::setReference(sdes);                                                  \
-      if (SP::isReferenceSet())                                                \
-        addDependenciesFromReference();                                        \
-    }                                                                          \
-  }                                                                            \
-  virtual const FeatureAbstract *getReferenceAbstract(void) const {            \
-    return SP::getReference();                                                 \
-  }                                                                            \
-  virtual FeatureAbstract *getReferenceAbstract(void) {                        \
-    return (FeatureAbstract *)SP::getReference();                              \
-  }                                                                            \
-  bool isReferenceSet(void) const { return SP::isReferenceSet(); }             \
-  virtual void addDependenciesFromReference(void);                             \
+#define DECLARE_REFERENCE_FUNCTIONS(FeatureSpecialized)             \
+  typedef FeatureReferenceHelper<FeatureSpecialized> SP;            \
+  virtual void setReference(FeatureAbstract *sdes) {                \
+    if (sdes == NULL) {                                             \
+      /* UNSET */                                                   \
+      if (SP::isReferenceSet()) removeDependenciesFromReference();  \
+      SP::unsetReference();                                         \
+    } else {                                                        \
+      /* SET */                                                     \
+      SP::setReference(sdes);                                       \
+      if (SP::isReferenceSet()) addDependenciesFromReference();     \
+    }                                                               \
+  }                                                                 \
+  virtual const FeatureAbstract *getReferenceAbstract(void) const { \
+    return SP::getReference();                                      \
+  }                                                                 \
+  virtual FeatureAbstract *getReferenceAbstract(void) {             \
+    return (FeatureAbstract *)SP::getReference();                   \
+  }                                                                 \
+  bool isReferenceSet(void) const { return SP::isReferenceSet(); }  \
+  virtual void addDependenciesFromReference(void);                  \
   virtual void removeDependenciesFromReference(void)
 /* END OF define DECLARE_REFERENCE_FUNCTIONS */
 
-#define DECLARE_NO_REFERENCE                                                   \
-  virtual void setReference(FeatureAbstract *) {}                              \
-  virtual const FeatureAbstract *getReferenceAbstract(void) const {            \
-    return NULL;                                                               \
-  }                                                                            \
-  virtual FeatureAbstract *getReferenceAbstract(void) { return NULL; }         \
-  virtual void addDependenciesFromReference(void) {}                           \
-  virtual void removeDependenciesFromReference(void) {}                        \
+#define DECLARE_NO_REFERENCE                                           \
+  virtual void setReference(FeatureAbstract *) {}                      \
+  virtual const FeatureAbstract *getReferenceAbstract(void) const {    \
+    return NULL;                                                       \
+  }                                                                    \
+  virtual FeatureAbstract *getReferenceAbstract(void) { return NULL; } \
+  virtual void addDependenciesFromReference(void) {}                   \
+  virtual void removeDependenciesFromReference(void) {}                \
   /* To force a ; */ bool NO_REFERENCE
 /* END OF define DECLARE_REFERENCE_FUNCTIONS */
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // #ifndef __SOT_FEATURE_ABSTRACT_H__
+#endif  // #ifndef __SOT_FEATURE_ABSTRACT_H__

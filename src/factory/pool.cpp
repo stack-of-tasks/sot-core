@@ -17,6 +17,7 @@
 
 /* --- SOT --- */
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/pool.hh>
@@ -38,7 +39,7 @@ PoolStorage::~PoolStorage(void) {
 /* --------------------------------------------------------------------- */
 void PoolStorage::registerTask(const std::string &entname, TaskAbstract *ent) {
   Tasks::iterator entkey = task.find(entname);
-  if (entkey != task.end()) // key does exist
+  if (entkey != task.end())  // key does exist
   {
     throw ExceptionFactory(ExceptionFactory::OBJECT_CONFLICT,
                            "Another task already defined with the "
@@ -65,7 +66,7 @@ TaskAbstract &PoolStorage::getTask(const std::string &name) {
 void PoolStorage::registerFeature(const std::string &entname,
                                   FeatureAbstract *ent) {
   Features::iterator entkey = feature.find(entname);
-  if (entkey != feature.end()) // key does exist
+  if (entkey != feature.end())  // key does exist
   {
     throw ExceptionFactory(ExceptionFactory::OBJECT_CONFLICT,
                            "Another feature already defined with the"
@@ -157,5 +158,5 @@ void PoolStorage::destroy() {
 PoolStorage::PoolStorage() {}
 
 PoolStorage *PoolStorage::instance_ = 0;
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph

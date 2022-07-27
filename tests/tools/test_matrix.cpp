@@ -12,10 +12,10 @@
 /* -------------------------------------------------------------------------- */
 
 #include <dynamic-graph/linear-algebra.h>
-#include <sot/core/debug.hh>
-#include <sot/core/feature-abstract.hh>
 
 #include <iostream>
+#include <sot/core/debug.hh>
+#include <sot/core/feature-abstract.hh>
 using namespace std;
 
 #include <sot/core/sot.hh>
@@ -26,10 +26,10 @@ using namespace std;
 #include <sot/core/utils-windows.hh>
 #endif /*WIN32*/
 
-#define sotCHRONO1                                                             \
-  gettimeofday(&t1, NULL);                                                     \
-  dt = ((t1.tv_sec - t0.tv_sec) * 1000. +                                      \
-        (t1.tv_usec - t0.tv_usec + 0.) / 1000.);                               \
+#define sotCHRONO1                               \
+  gettimeofday(&t1, NULL);                       \
+  dt = ((t1.tv_sec - t0.tv_sec) * 1000. +        \
+        (t1.tv_usec - t0.tv_usec + 0.) / 1000.); \
   cout << "dt: " << dt
 
 int main(int, char **) {
@@ -42,11 +42,9 @@ int main(int, char **) {
   dynamicgraph::Matrix J(6, 40);
   dynamicgraph::Matrix JK(6, 40);
   for (int i = 0; i < 40; ++i)
-    for (int j = 0; j < 40; ++j)
-      P(i, j) = (rand() + 1.) / RAND_MAX;
+    for (int j = 0; j < 40; ++j) P(i, j) = (rand() + 1.) / RAND_MAX;
   for (int i = 0; i < J.rows(); ++i)
-    for (int j = 0; j < J.cols(); ++j)
-      J(i, j) = (rand() + 1.) / RAND_MAX;
+    for (int j = 0; j < J.cols(); ++j) J(i, j) = (rand() + 1.) / RAND_MAX;
 
   int nbIter = 100000;
   dt = 0;

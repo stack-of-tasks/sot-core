@@ -44,40 +44,39 @@ namespace sot {
 /* --------------------------------------------------------------------- */
 
 class ControlGR_EXPORT ControlGR : public Entity {
-
-public: /* --- CONSTRUCTOR ---- */
+ public: /* --- CONSTRUCTOR ---- */
   ControlGR(const std::string &name);
 
-public: /* --- INIT --- */
+ public: /* --- INIT --- */
   void init(const double &step);
 
-public: /* --- CONSTANTS --- */
+ public: /* --- CONSTANTS --- */
   /* Default values. */
-  static const double TIME_STEP_DEFAULT; // = 0.001
+  static const double TIME_STEP_DEFAULT;  // = 0.001
 
-public: /* --- ENTITY INHERITANCE --- */
+ public: /* --- ENTITY INHERITANCE --- */
   static const std::string CLASS_NAME;
   virtual void display(std::ostream &os) const;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   /* Parameters of the torque-control function:
    * tau = - A*qddot = g */
   double TimeStep;
   double _dimension;
 
-public: /* --- SIGNALS --- */
+ public: /* --- SIGNALS --- */
   SignalPtr<dynamicgraph::Matrix, int> matrixASIN;
   SignalPtr<dynamicgraph::Vector, int> accelerationSIN;
   SignalPtr<dynamicgraph::Vector, int> gravitySIN;
   SignalTimeDependent<dynamicgraph::Vector, int> controlSOUT;
 
-protected:
+ protected:
   double &setsize(int dimension);
   dynamicgraph::Vector &computeControl(dynamicgraph::Vector &tau, int t);
 };
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // #ifndef __SOT_Control_GR_HH__
+#endif  // #ifndef __SOT_Control_GR_HH__

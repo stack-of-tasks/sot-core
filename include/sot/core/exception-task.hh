@@ -14,8 +14,9 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#include "sot/core/api.hh"
 #include <sot/core/exception-abstract.hh>
+
+#include "sot/core/api.hh"
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -28,7 +29,7 @@ namespace sot {
 class SOT_CORE_EXPORT ExceptionTask : public ExceptionAbstract
 
 {
-public:
+ public:
   enum ErrorCodeEnum {
     GENERIC = ExceptionAbstract::TASK,
     EMPTY_LIST,

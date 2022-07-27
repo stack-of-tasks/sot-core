@@ -11,8 +11,9 @@
 #define __SOT_MATRIX_SVD_H__
 
 /* --- Matrix --- */
-#include <Eigen/SVD>
 #include <dynamic-graph/linear-algebra.h>
+
+#include <Eigen/SVD>
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -34,6 +35,6 @@ void dampedInverse(const Matrix &_inputMatrix, Matrix &_inverseMatrix,
 void dampedInverse(const Matrix &_inputMatrix, Matrix &_inverseMatrix,
                    const double threshold = 1e-6);
 
-} // namespace dynamicgraph
+}  // namespace dynamicgraph
 
 #endif /* #ifndef __SOT_MATRIX_SVD_H__ */

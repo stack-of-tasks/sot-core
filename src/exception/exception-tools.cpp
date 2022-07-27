@@ -7,9 +7,10 @@
  *
  */
 
+#include <stdarg.h>
+
 #include <cstdio>
 #include <sot/core/exception-tools.hh>
-#include <stdarg.h>
 
 using namespace dynamicgraph::sot;
 

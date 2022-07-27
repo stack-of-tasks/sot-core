@@ -41,19 +41,18 @@ namespace dynamicgraph {
 namespace sot {
 
 class SOTFEATURETASK_EXPORT FeatureTask : public FeatureGeneric {
-
-public:
+ public:
   /*! Field storing the class name. */
   static const std::string CLASS_NAME;
   /*! Returns the name of the class. */
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   TaskAbstract *taskPtr;
 
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
-public:
+ public:
+ public:
   /*! \brief Default constructor */
   FeatureTask(const std::string &name);
 
@@ -67,7 +66,7 @@ public:
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_FEATURE_TASK_HH__
+#endif  // #ifndef __SOT_FEATURE_TASK_HH__
 
 /*
  * Local variables:

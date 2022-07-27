@@ -19,11 +19,13 @@
 #include <dynamic-graph/linear-algebra.h>
 
 /* SOT */
-#include "sot/core/api.hh"
-#include "sot/core/periodic-call.hh"
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/matrix-geometry.hh>
+
+#include "sot/core/api.hh"
+#include "sot/core/periodic-call.hh"
 
 namespace dynamicgraph {
 namespace sot {
@@ -43,7 +45,7 @@ const std::string ControlInput_s[] = {"noInteg", "oneInteg", "twoInteg"};
 /* --------------------------------------------------------------------- */
 
 class SOT_CORE_EXPORT Device : public Entity {
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
@@ -54,7 +56,7 @@ public:
     FORCE_SIGNAL_LARM
   };
 
-protected:
+ protected:
   dynamicgraph::Vector state_;
   dynamicgraph::Vector velocity_;
   bool sanityCheck_;
@@ -74,7 +76,7 @@ protected:
   Vector lowerVelocity_;
   Vector lowerTorque_;
   /// \}
-public:
+ public:
   /* --- CONSTRUCTION --- */
   Device(const std::string &name);
   /* --- DESTRUCTION --- */
@@ -100,7 +102,7 @@ public:
   PeriodicCall &periodicCallBefore() { return periodicCallBefore_; }
   PeriodicCall &periodicCallAfter() { return periodicCallAfter_; }
 
-public: /* --- DISPLAY --- */
+ public: /* --- DISPLAY --- */
   virtual void display(std::ostream &os) const;
   virtual void cmdDisplay();
   SOT_CORE_EXPORT friend std::ostream &operator<<(std::ostream &os,
@@ -109,7 +111,7 @@ public: /* --- DISPLAY --- */
     return os;
   }
 
-public: /* --- SIGNALS --- */
+ public: /* --- SIGNALS --- */
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> controlSIN;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> attitudeSIN;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> zmpSIN;
@@ -142,7 +144,7 @@ public: /* --- SIGNALS --- */
   dynamicgraph::Signal<dynamicgraph::Vector, int> pseudoTorqueSOUT;
   /// \}
 
-protected:
+ protected:
   /// Compute roll pitch yaw angles of freeflyer joint.
   void integrateRollPitchYaw(dynamicgraph::Vector &state,
                              const dynamicgraph::Vector &control, double dt);
@@ -162,20 +164,20 @@ protected:
   ///                 the joint torques for the given acceleration.
   virtual void integrate(const double &dt);
 
-protected:
+ protected:
   /// Get freeflyer pose
   const MatrixHomogeneous &freeFlyerPose() const;
 
-public:
+ public:
   virtual void setRoot(const dynamicgraph::Matrix &root);
 
   virtual void setRoot(const MatrixHomogeneous &worldMwaist);
 
-private:
+ private:
   // Intermediate variable to avoid dynamic allocation
   dynamicgraph::Vector forceZero6;
 };
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 #endif /* #ifndef SOT_DEVICE_HH */

@@ -17,12 +17,12 @@ namespace dg = ::dynamicgraph;
 /* ------- GENERIC HELPERS -------------------------------------------------- */
 /* ---------------------------------------------------------------------------*/
 
-#define REGISTER_UNARY_OP(OpType, name)                                        \
-  template <>                                                                  \
-  const std::string UnaryOp<OpType>::CLASS_NAME = std::string(#name);          \
-  Entity *regFunction_##name(const std::string &objname) {                     \
-    return new UnaryOp<OpType>(objname);                                       \
-  }                                                                            \
+#define REGISTER_UNARY_OP(OpType, name)                               \
+  template <>                                                         \
+  const std::string UnaryOp<OpType>::CLASS_NAME = std::string(#name); \
+  Entity *regFunction_##name(const std::string &objname) {            \
+    return new UnaryOp<OpType>(objname);                              \
+  }                                                                   \
   EntityRegisterer regObj_##name(std::string(#name), &regFunction_##name)
 
 /* ---------------------------------------------------------------------------*/
@@ -85,12 +85,12 @@ REGISTER_UNARY_OP(UThetaToQuaternion, UThetaToQuaternion);
 /* ---------------------------------------------------------------------------*/
 /* ---------------------------------------------------------------------------*/
 
-#define REGISTER_BINARY_OP(OpType, name)                                       \
-  template <>                                                                  \
-  const std::string BinaryOp<OpType>::CLASS_NAME = std::string(#name);         \
-  Entity *regFunction_##name(const std::string &objname) {                     \
-    return new BinaryOp<OpType>(objname);                                      \
-  }                                                                            \
+#define REGISTER_BINARY_OP(OpType, name)                               \
+  template <>                                                          \
+  const std::string BinaryOp<OpType>::CLASS_NAME = std::string(#name); \
+  Entity *regFunction_##name(const std::string &objname) {             \
+    return new BinaryOp<OpType>(objname);                              \
+  }                                                                    \
   EntityRegisterer regObj_##name(std::string(#name), &regFunction_##name)
 
 /* --- MULTIPLICATION --------------------------------------------------- */
@@ -123,12 +123,12 @@ REGISTER_BINARY_OP(WeightedAdder<dynamicgraph::Matrix>, WeightAdd_of_matrix);
 REGISTER_BINARY_OP(WeightedAdder<dynamicgraph::Vector>, WeightAdd_of_vector);
 REGISTER_BINARY_OP(WeightedAdder<double>, WeightAdd_of_double);
 
-#define REGISTER_VARIADIC_OP(OpType, name)                                     \
-  template <>                                                                  \
-  const std::string VariadicOp<OpType>::CLASS_NAME = std::string(#name);       \
-  Entity *regFunction_##name(const std::string &objname) {                     \
-    return new VariadicOp<OpType>(objname);                                    \
-  }                                                                            \
+#define REGISTER_VARIADIC_OP(OpType, name)                               \
+  template <>                                                            \
+  const std::string VariadicOp<OpType>::CLASS_NAME = std::string(#name); \
+  Entity *regFunction_##name(const std::string &objname) {               \
+    return new VariadicOp<OpType>(objname);                              \
+  }                                                                      \
   EntityRegisterer regObj_##name(std::string(#name), &regFunction_##name)
 
 /* --- VectorMix ------------------------------------------------------------ */
@@ -152,8 +152,8 @@ REGISTER_VARIADIC_OP(Multiplier<double>, Multiply_of_double);
 REGISTER_VARIADIC_OP(BoolOp<0>, And);
 REGISTER_VARIADIC_OP(BoolOp<1>, Or);
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 /* --- TODO ------------------------------------------------------------------*/
 // The following commented lines are sot-v1 entities that are still waiting

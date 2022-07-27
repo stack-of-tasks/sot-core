@@ -13,6 +13,7 @@
 
 /* --- SOT --- */
 #include <dynamic-graph/pool.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/exception-feature.hh>
 #include <sot/core/feature-task.hh>
@@ -40,7 +41,6 @@ FeatureTask::FeatureTask(const string &pointName) : FeatureGeneric(pointName) {}
 
 void FeatureTask::display(std::ostream &os) const {
   os << "Feature from task <" << getName();
-  if (taskPtr)
-    os << ": from task " << taskPtr->getName();
+  if (taskPtr) os << ": from task " << taskPtr->getName();
   os << std::endl;
 }

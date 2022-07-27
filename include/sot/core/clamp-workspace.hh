@@ -19,6 +19,7 @@
 /* SOT */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/exception-task.hh>
 #include <sot/core/matrix-geometry.hh>
 
@@ -44,19 +45,19 @@ namespace sot {
 /* --------------------------------------------------------------------- */
 
 class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace : public dynamicgraph::Entity {
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
+ public:
   dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionrefSIN;
   dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionSIN;
   dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, int> alphaSOUT;
   dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, int> alphabarSOUT;
   dynamicgraph::SignalTimeDependent<MatrixHomogeneous, int> handrefSOUT;
 
-public:
+ public:
   ClampWorkspace(const std::string &name);
   virtual ~ClampWorkspace(void) {}
 
@@ -70,7 +71,7 @@ public:
 
   virtual void display(std::ostream &) const;
 
-private:
+ private:
   int timeUpdate;
 
   dynamicgraph::Matrix alpha;

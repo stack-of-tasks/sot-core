@@ -32,14 +32,14 @@
 /* --------------------------------------------------------------------- */
 
 #ifdef WIN32
-#define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType)              \
-  class INTEGRATOR_ABSTRACT_EXPORT className                                   \
-      : public IntegratorAbstract<sotSigType, sotCoefType> {                   \
-  public:                                                                      \
-    className(const std::string &name);                                        \
+#define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType) \
+  class INTEGRATOR_ABSTRACT_EXPORT className                      \
+      : public IntegratorAbstract<sotSigType, sotCoefType> {      \
+   public:                                                        \
+    className(const std::string &name);                           \
   };
 #else
-#define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType)              \
+#define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType) \
   typedef IntegratorAbstract<sotSigType, sotCoefType> className;
 #endif
 
@@ -48,6 +48,6 @@ namespace sot {
 DECLARE_SPECIFICATION(IntegratorAbstractDouble, double, double)
 DECLARE_SPECIFICATION(IntegratorAbstractVector, dynamicgraph::Vector,
                       dynamicgraph::Matrix)
-} // namespace sot
-} // namespace dynamicgraph
-#endif // #ifndef  __SOT_MAILBOX_HH
+}  // namespace sot
+}  // namespace dynamicgraph
+#endif  // #ifndef  __SOT_MAILBOX_HH

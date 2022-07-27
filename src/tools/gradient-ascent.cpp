@@ -6,11 +6,10 @@
  *
  */
 
-#include <boost/function.hpp>
-
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/factory.h>
 
+#include <boost/function.hpp>
 #include <sot/core/factory.hh>
 #include <sot/core/gradient-ascent.hh>
 

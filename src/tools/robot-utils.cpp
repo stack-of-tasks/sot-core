@@ -24,6 +24,7 @@
 #endif
 
 #include <dynamic-graph/factory.h>
+
 #include <iostream>
 #include <sot/core/debug.hh>
 #include <sot/core/robot-utils.hh>
@@ -68,10 +69,8 @@ void ExtractJointMimics::go_through(pt::ptree &pt, int level, int stage) {
   if (pt.empty()) {
     /// and this is a name of a joint (stage == 3) update the
     /// curret_joint_name_ variable.
-    if (stage == 3)
-      current_joint_name_ = pt.data();
+    if (stage == 3) current_joint_name_ = pt.data();
   } else {
-
     /// This is not a leaf
     for (auto pos : pt) {
       int new_stage = stage;
@@ -83,14 +82,12 @@ void ExtractJointMimics::go_through(pt::ptree &pt, int level, int stage) {
       else if (pos.first == "<xmlattr>") {
         /// we are exploring the xml attributes of a joint
         /// -> continue the exploration
-        if (stage == 1)
-          new_stage = 2;
+        if (stage == 1) new_stage = 2;
       }
       /// The xml attribute of the joint is the name
       /// next leaf is the name we are possibly looking for
       else if (pos.first == "name") {
-        if (stage == 2)
-          new_stage = 3;
+        if (stage == 2) new_stage = 3;
       }
       /// The exploration of the tree tracback on the joint
       /// and find that this is a mimic joint.
@@ -157,8 +154,7 @@ void ForceUtil::set_force_id_to_limits(const Index &force_id,
 Index ForceUtil::get_id_from_name(const std::string &name) {
   std::map<std::string, Index>::const_iterator it;
   it = m_name_to_force_id.find(name);
-  if (it != m_name_to_force_id.end())
-    return it->second;
+  if (it != m_name_to_force_id.end()) return it->second;
   return -1;
 }
 
@@ -168,8 +164,7 @@ std::string joint_default_rtn("Joint name not found");
 const std::string &ForceUtil::get_name_from_id(Index idx) {
   std::map<Index, std::string>::const_iterator it;
   it = m_force_id_to_name.find(idx);
-  if (it != m_force_id_to_name.end())
-    return it->second;
+  if (it != m_force_id_to_name.end()) return it->second;
   return force_default_rtn;
 }
 
@@ -187,7 +182,7 @@ const ForceLimits &ForceUtil::get_limits_from_id(Index force_id) {
   std::map<Index, ForceLimits>::const_iterator iter =
       m_force_id_to_limits.find(force_id);
   if (iter == m_force_id_to_limits.end())
-    return VoidForceLimits; // Returns void instance
+    return VoidForceLimits;  // Returns void instance
   return iter->second;
 }
 
@@ -195,7 +190,7 @@ ForceLimits ForceUtil::cp_get_limits_from_id(Index force_id) {
   std::map<Index, ForceLimits>::const_iterator iter =
       m_force_id_to_limits.find(force_id);
   if (iter == m_force_id_to_limits.end())
-    return VoidForceLimits; // Returns void instance
+    return VoidForceLimits;  // Returns void instance
   return iter->second;
 }
 
@@ -240,8 +235,7 @@ void RobotUtil::set_joint_limits_for_id(const Index &idx, const double &lq,
 
 const JointLimits &RobotUtil::get_joint_limits_from_id(Index id) {
   std::map<Index, JointLimits>::const_iterator iter = m_limits_map.find(id);
-  if (iter == m_limits_map.end())
-    return VoidJointLimits;
+  if (iter == m_limits_map.end()) return VoidJointLimits;
   return iter->second;
 }
 JointLimits RobotUtil::cp_get_joint_limits_from_id(Index id) {
@@ -263,15 +257,13 @@ void RobotUtil::create_id_to_name_map() {
 
 const Index &RobotUtil::get_id_from_name(const std::string &name) {
   std::map<std::string, Index>::const_iterator it = m_name_to_id.find(name);
-  if (it == m_name_to_id.end())
-    return VoidIndex;
+  if (it == m_name_to_id.end()) return VoidIndex;
   return it->second;
 }
 
 const std::string &RobotUtil::get_name_from_id(Index id) {
   std::map<Index, std::string>::const_iterator iter = m_id_to_name.find(id);
-  if (iter == m_id_to_name.end())
-    return joint_default_rtn;
+  if (iter == m_id_to_name.end()) return joint_default_rtn;
   return iter->second;
 }
 
@@ -386,7 +378,7 @@ bool RobotUtil::base_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf) {
   const Eigen::AngleAxisd yawAngle(y, Eigen::Vector3d::UnitZ());
   const Eigen::Quaternion<double> quat = yawAngle * pitchAngle * rollAngle;
 
-  q_urdf[0] = q_sot[0]; // BASE
+  q_urdf[0] = q_sot[0];  // BASE
   q_urdf[1] = q_sot[1];
   q_urdf[2] = q_sot[2];
   q_urdf[3] = quat.x();
@@ -499,7 +491,7 @@ bool base_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf) {
   const Eigen::AngleAxisd yawAngle(y, Eigen::Vector3d::UnitZ());
   const Eigen::Quaternion<double> quat = yawAngle * pitchAngle * rollAngle;
 
-  q_urdf[0] = q_sot[0]; // BASE
+  q_urdf[0] = q_sot[0];  // BASE
   q_urdf[1] = q_sot[1];
   q_urdf[2] = q_sot[2];
   q_urdf[3] = quat.x();
@@ -529,21 +521,18 @@ std::shared_ptr<std::vector<std::string> > getListOfRobots() {
 RobotUtilShrPtr getRobotUtil(std::string &robotName) {
   std::map<std::string, RobotUtilShrPtr>::iterator it =
       sgl_map_name_to_robot_util.find(robotName);
-  if (it != sgl_map_name_to_robot_util.end())
-    return it->second;
+  if (it != sgl_map_name_to_robot_util.end()) return it->second;
   return RefVoidRobotUtil();
 }
 
 bool isNameInRobotUtil(std::string &robotName) {
   std::map<std::string, RobotUtilShrPtr>::iterator it =
       sgl_map_name_to_robot_util.find(robotName);
-  if (it != sgl_map_name_to_robot_util.end())
-    return true;
+  if (it != sgl_map_name_to_robot_util.end()) return true;
   return false;
 }
 
 RobotUtilShrPtr createRobotUtil(std::string &robotName) {
-
   std::map<std::string, RobotUtilShrPtr>::iterator it =
       sgl_map_name_to_robot_util.find(robotName);
   if (it == sgl_map_name_to_robot_util.end()) {
@@ -553,5 +542,5 @@ RobotUtilShrPtr createRobotUtil(std::string &robotName) {
   }
   return RefVoidRobotUtil();
 }
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph

@@ -8,14 +8,13 @@
  */
 
 #define BOOST_TEST_MODULE test_sot_loader
-#include <boost/test/included/unit_test.hpp>
-
-#include <fstream>
-#include <iostream>
-
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/pool.h>
+
+#include <boost/test/included/unit_test.hpp>
+#include <fstream>
+#include <iostream>
 
 #include "sot/core/debug.hh"
 #include "sot/core/device.hh"
@@ -26,7 +25,7 @@ using namespace dynamicgraph::sot;
 namespace dg = dynamicgraph;
 
 class TestDevice : public dg::sot::Device {
-public:
+ public:
   TestDevice(const std::string &RobotName) : Device(RobotName) {
     timestep_ = 0.001;
   }
@@ -162,9 +161,10 @@ BOOST_FIXTURE_TEST_CASE(test_run_python_command_error, TestFixture) {
   std::cout << std::quoted(err) << std::endl;
   BOOST_CHECK_EQUAL(res, "");
   BOOST_CHECK_EQUAL(out, "");
-  BOOST_CHECK_EQUAL(err, "Traceback (most recent call last):\n"
-                         "  File \"<string>\", line 1, in <module>\n"
-                         "NameError: name 'a' is not defined\n");
+  BOOST_CHECK_EQUAL(err,
+                    "Traceback (most recent call last):\n"
+                    "  File \"<string>\", line 1, in <module>\n"
+                    "NameError: name 'a' is not defined\n");
 }
 
 BOOST_FIXTURE_TEST_CASE(test_run_python_scripts, TestFixture) {
@@ -182,12 +182,13 @@ BOOST_FIXTURE_TEST_CASE(test_run_python_scripts_failure, TestFixture) {
   sot_loader.initialization();
   std::string err;
   sot_loader.runPythonFile(bad_python_script_, err);
-  BOOST_CHECK_EQUAL(err, "Traceback (most recent call last):\n"
-                         "  File \"" +
-                             bad_python_script_ +
-                             "\", line 2, in <module>\n"
-                             "    print(b)\n"
-                             "NameError: name 'b' is not defined\n");
+  BOOST_CHECK_EQUAL(err,
+                    "Traceback (most recent call last):\n"
+                    "  File \"" +
+                        bad_python_script_ +
+                        "\", line 2, in <module>\n"
+                        "    print(b)\n"
+                        "NameError: name 'b' is not defined\n");
 }
 
 BOOST_FIXTURE_TEST_CASE(test_load_device_in_python, TestFixture) {

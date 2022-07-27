@@ -40,9 +40,21 @@ class MatrixUtilTest(unittest.TestCase):
 
         def test_rotate(self):
             for axis, angle, mat in [
-                ('x', np.pi, ((1, 0, 0, 0), (0, -1, 0, 0), (0, 0, -1, 0), (0, 0, 0, 1))),
-                ('y', np.pi, ((-1, 0, 0, 0), (0, 1, 0, 0), (0, 0, -1, 0), (0, 0, 0, 1))),
-                ('z', np.pi, ((-1, 0, 0, 0), (0, -1, 0, 0), (0, 0, 1, 0), (0, 0, 0, 1))),
+                (
+                    "x",
+                    np.pi,
+                    ((1, 0, 0, 0), (0, -1, 0, 0), (0, 0, -1, 0), (0, 0, 0, 1)),
+                ),
+                (
+                    "y",
+                    np.pi,
+                    ((-1, 0, 0, 0), (0, 1, 0, 0), (0, 0, -1, 0), (0, 0, 0, 1)),
+                ),
+                (
+                    "z",
+                    np.pi,
+                    ((-1, 0, 0, 0), (0, -1, 0, 0), (0, 0, 1, 0), (0, 0, 0, 1)),
+                ),
             ]:
                 self.assertEqual(mat, mod.rotate(axis, angle))
 
@@ -55,5 +67,5 @@ class MatrixUtilTest(unittest.TestCase):
                 self.assertEqual(mat, mod.quaternionToMatrix(quat))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

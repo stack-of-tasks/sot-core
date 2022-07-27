@@ -12,12 +12,12 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
-#include <sot/core/debug.hh>
-#include <sot/core/reader.hh>
-
-#include <boost/bind.hpp>
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/factory.h>
+
+#include <boost/bind.hpp>
+#include <sot/core/debug.hh>
+#include <sot/core/reader.hh>
 #include <sstream>
 
 using namespace dynamicgraph;
@@ -31,12 +31,17 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(sotReader, "Reader");
 /* --------------------------------------------------------------------- */
 
 sotReader::sotReader(const std::string n)
-    : Entity(n), selectionSIN(NULL, "Reader(" + n + ")::input(flag)::selec"),
+    : Entity(n),
+      selectionSIN(NULL, "Reader(" + n + ")::input(flag)::selec"),
       vectorSOUT(boost::bind(&sotReader::getNextData, this, _1, _2),
                  sotNOSIGNAL, "Reader(" + n + ")::vector"),
       matrixSOUT(boost::bind(&sotReader::getNextMatrix, this, _1, _2),
                  vectorSOUT, "Reader(" + n + ")::matrix"),
-      dataSet(), currentData(), iteratorSet(false), rows(0), cols(0) {
+      dataSet(),
+      currentData(),
+      iteratorSet(false),
+      rows(0),
+      cols(0) {
   signalRegistration(selectionSIN << vectorSOUT << matrixSOUT);
   selectionSIN = true;
   vectorSOUT.setNeedUpdateFromAllChildren(true);
@@ -72,8 +77,7 @@ void sotReader::load(const string &filename) {
         break;
       sotDEBUG(45) << "New data = " << x << std::endl;
     }
-    if (newline.size() > 0)
-      dataSet.push_back(newline);
+    if (newline.size() > 0) dataSet.push_back(newline);
   }
 
   sotDEBUGOUT(15);
@@ -116,14 +120,12 @@ dynamicgraph::Vector &sotReader::getNextData(dynamicgraph::Vector &res,
 
   unsigned int dim = 0;
   for (unsigned int i = 0; i < curr.size(); ++i)
-    if (selection(i))
-      dim++;
+    if (selection(i)) dim++;
 
   res.resize(dim);
   int cursor = 0;
   for (unsigned int i = 0; i < curr.size(); ++i)
-    if (selection(i))
-      res(cursor++) = curr[i];
+    if (selection(i)) res(cursor++) = curr[i];
 
   sotDEBUGOUT(15);
   return res;
@@ -133,13 +135,11 @@ dynamicgraph::Matrix &sotReader::getNextMatrix(dynamicgraph::Matrix &res,
                                                const unsigned int time) {
   sotDEBUGIN(15);
   const dynamicgraph::Vector &vect = vectorSOUT(time);
-  if (vect.size() < rows * cols)
-    return res;
+  if (vect.size() < rows * cols) return res;
 
   res.resize(rows, cols);
   for (int i = 0; i < rows; ++i)
-    for (int j = 0; j < cols; ++j)
-      res(i, j) = vect(i * cols + j);
+    for (int j = 0; j < cols; ++j) res(i, j) = vect(i * cols + j);
 
   sotDEBUGOUT(15);
   return res;

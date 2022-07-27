@@ -14,6 +14,7 @@
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/command-bind.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/pool.hh>
 
 /* STD */
@@ -30,14 +31,13 @@ using dynamicgraph::command::docCommandVoid0;
 using dynamicgraph::command::makeCommandVoid0;
 
 class Latch : public Entity {
-
-public: /* --- SIGNAL --- */
+ public: /* --- SIGNAL --- */
   DYNAMIC_GRAPH_ENTITY_DECL();
   Signal<bool, int> outSOUT;
   Signal<bool, int> turnOnSOUT;
   Signal<bool, int> turnOffSOUT;
 
-protected:
+ protected:
   bool signalOutput;
   void turnOn() { signalOutput = true; }
   bool &turnOnLatch(bool &res, int) {
@@ -56,9 +56,10 @@ protected:
     return res;
   }
 
-public:
+ public:
   Latch(const std::string &name)
-      : Entity(name), outSOUT("Latch(" + name + ")::output(bool)::out"),
+      : Entity(name),
+        outSOUT("Latch(" + name + ")::output(bool)::out"),
         turnOnSOUT("Latch(" + name + ")::output(bool)::turnOnSout"),
         turnOffSOUT("Latch(" + name + ")::output(bool)::turnOffSout") {
     outSOUT.setFunction(boost::bind(&Latch::latchOutput, this, _1, _2));
@@ -79,4 +80,4 @@ public:
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_LATCH_H__
+#endif  // #ifndef __SOT_LATCH_H__

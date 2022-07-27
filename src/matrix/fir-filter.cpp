@@ -65,15 +65,15 @@ void FIRFilter<Vector, Matrix>::reset_signal(Vector &res,
   res.fill(0);
 }
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 #include <sot/core/fir-filter-impl.hh>
 
 #ifdef WIN32
-#define DEFINE_SPECIFICATION(sotClassType, sotSigType, sotCoefType)            \
-  sotClassType##sotSigType##sotCoefType::                                      \
-      sotClassType##sotSigType##sotCoefType(const std::string &name)           \
+#define DEFINE_SPECIFICATION(sotClassType, sotSigType, sotCoefType)  \
+  sotClassType##sotSigType##sotCoefType::                            \
+      sotClassType##sotSigType##sotCoefType(const std::string &name) \
       : sotClassType<sotSigType, sotCoefType>(name){};
 
 namespace dynamicgraph {
@@ -83,6 +83,6 @@ typedef Value dynamicgraph::command::Value;
 DEFINE_SPECIFICATION(FIRFilter, Double, Double)
 DEFINE_SPECIFICATION(FIRFilter, Vector, Double)
 DEFINE_SPECIFICATION(FIRFilter, Vector, Matrix)
-} // namespace sot
-} // namespace dynamicgraph
-#endif // WIN32
+}  // namespace sot
+}  // namespace dynamicgraph
+#endif  // WIN32
