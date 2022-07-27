@@ -15,6 +15,7 @@
 #include <map>
 
 #include <pinocchio/fwd.hpp>
+// keep pinocchio before boost
 
 #include <boost/assign.hpp>
 #include <boost/property_tree/ptree.hpp>

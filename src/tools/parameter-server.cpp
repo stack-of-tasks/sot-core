@@ -17,6 +17,7 @@
 #include <iostream>
 
 #include <pinocchio/fwd.hpp>
+// keep pinocchio before boost
 
 #include <boost/property_tree/ptree.hpp>
 
