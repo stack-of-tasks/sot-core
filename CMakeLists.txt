@@ -52,6 +52,7 @@ ENDIF()
 IF(BUILD_PYTHON_INTERFACE)
   STRING(REGEX REPLACE "-" "_" PYTHON_DIR ${CUSTOM_HEADER_DIR})
   ADD_PROJECT_DEPENDENCY(eigenpy REQUIRED)
+  include(cmake/python.cmake) # TODO: overwriting eigenpy/python.cmake
 ENDIF(BUILD_PYTHON_INTERFACE)
 
 # Verbosity level
