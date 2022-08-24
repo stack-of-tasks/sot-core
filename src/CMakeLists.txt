@@ -118,7 +118,7 @@ FOREACH(plugin ${plugins})
         ${LIBRARY_NAME} ${PROJECT_NAME}-${PYTHON_LIBRARY_NAME}-wrap
         MODULE_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/${plugin}-python.h")
     endif()
-    target_link_libraries(${PROJECT_NAME}-${PYTHON_LIBRARY_NAME}-wrap eigenpy::eigenpy)
+    target_link_libraries(${PROJECT_NAME}-${PYTHON_LIBRARY_NAME}-wrap PUBLIC eigenpy::eigenpy)
   ENDIF(BUILD_PYTHON_INTERFACE)
 ENDFOREACH(plugin)
 
