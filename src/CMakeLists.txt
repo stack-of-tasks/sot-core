@@ -115,7 +115,7 @@ foreach(plugin ${plugins})
       "${CMAKE_CURRENT_SOURCE_DIR}/${plugin}-python.h")
   endif()
   target_link_libraries(${PROJECT_NAME}-${PYTHON_LIBRARY_NAME}-wrap
-                        eigenpy::eigenpy)
+                        PUBLIC eigenpy::eigenpy)
 endforeach(plugin)
 
 dynamic_graph_python_module(
