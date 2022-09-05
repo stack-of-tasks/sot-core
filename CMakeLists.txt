@@ -30,12 +30,9 @@ PROJECT(${PROJECT_NAME} ${PROJECT_ARGS})
 CHECK_MINIMAL_CXX_STANDARD(14 ENFORCE)
 
 # Project dependencies
-ADD_PROJECT_DEPENDENCY(dynamic-graph REQUIRED)
 ADD_PROJECT_DEPENDENCY(dynamic-graph-python 4.0.6 REQUIRED)
 ADD_PROJECT_DEPENDENCY(pinocchio REQUIRED)
 ADD_PROJECT_DEPENDENCY(Boost REQUIRED COMPONENTS regex program_options)
-ADD_PROJECT_DEPENDENCY(eigenpy REQUIRED)
-include(cmake/python.cmake) # TODO: overwriting eigenpy/python.cmake
 IF(BUILD_TESTING)
   ADD_PROJECT_DEPENDENCY(example-robot-data 3.8.0)
   FIND_PACKAGE(Boost REQUIRED COMPONENTS unit_test_framework)
@@ -175,7 +172,7 @@ ADD_LIBRARY(${PROJECT_NAME} SHARED
   ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_HEADERS})
 TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PUBLIC $<INSTALL_INTERFACE:include>)
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} PUBLIC Boost::regex Boost::program_options
-  dynamic-graph::dynamic-graph dynamic-graph-python::dynamic-graph-python pinocchio::pinocchio)
+  dynamic-graph-python::dynamic-graph-python pinocchio::pinocchio)
 
 IF(SUFFIX_SO_VERSION)
   SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION})
