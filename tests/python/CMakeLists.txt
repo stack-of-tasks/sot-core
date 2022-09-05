@@ -1,11 +1,5 @@
-SET(${PROJECT_NAME}_PYTHON_TESTS
-  initialize-euler
-  matrix-util
-  op-point-modifier
-  parameter-server
-  smooth-reach
-  imports
-  )
-FOREACH(TEST ${${PROJECT_NAME}_PYTHON_TESTS})
-  ADD_PYTHON_UNIT_TEST("py-${TEST}" "tests/python/test-${TEST}.py")
-ENDFOREACH(TEST ${${PROJECT_NAME}_PYTHON_TESTS})
+set(${PROJECT_NAME}_PYTHON_TESTS initialize-euler matrix-util op-point-modifier
+                                 parameter-server smooth-reach imports)
+foreach(TEST ${${PROJECT_NAME}_PYTHON_TESTS})
+  add_python_unit_test("py-${TEST}" "tests/python/test-${TEST}.py")
+endforeach(TEST ${${PROJECT_NAME}_PYTHON_TESTS})
