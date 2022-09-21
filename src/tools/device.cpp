@@ -478,8 +478,8 @@ void Device::increment(const double &dt) {
 // Return positive difference between input value and bounds if it saturates,
 // 0 if it does not saturate
 inline double saturateBounds(double &val, const double &lower,
-			     const double &upper) {
-  double res=0;
+                             const double &upper) {
+  double res = 0;
   assert(lower <= upper);
   if (val < lower) {
     res = lower - val;
@@ -494,15 +494,15 @@ inline double saturateBounds(double &val, const double &lower,
   return res;
 }
 
-#define CHECK_BOUNDS(val, lower, upper, what, eps)                             \
-  for (int i = 0; i < val.size(); ++i) {                                       \
-    double old = val(i);                                                       \
-    if (saturateBounds(val(i), lower(i), upper(i)) > eps) {                    \
-      std::ostringstream oss;                                                  \
-      oss << "Robot " what " bound violation at DoF " << i << ": requested "   \
-          << old << " but set " << val(i) << '\n';                             \
-      SEND_ERROR_STREAM_MSG(oss.str());                                        \
-    }                                                                          \
+#define CHECK_BOUNDS(val, lower, upper, what, eps)                           \
+  for (int i = 0; i < val.size(); ++i) {                                     \
+    double old = val(i);                                                     \
+    if (saturateBounds(val(i), lower(i), upper(i)) > eps) {                  \
+      std::ostringstream oss;                                                \
+      oss << "Robot " what " bound violation at DoF " << i << ": requested " \
+          << old << " but set " << val(i) << '\n';                           \
+      SEND_ERROR_STREAM_MSG(oss.str());                                      \
+    }                                                                        \
   }
 
 void Device::integrate(const double &dt) {
