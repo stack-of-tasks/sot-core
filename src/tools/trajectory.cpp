@@ -30,7 +30,8 @@ namespace dynamicgraph {
 namespace sot {
 
 RulesJointTrajectory::RulesJointTrajectory(Trajectory &aTrajectoryToFill)
-    : TrajectoryToFill_(aTrajectoryToFill), dbg_level(0),
+    : TrajectoryToFill_(aTrajectoryToFill),
+      dbg_level(0),
       float_str_re("[-0-9]+\\.[0-9]*"),
 
       // Header Regular Expression
@@ -46,16 +47,21 @@ RulesJointTrajectory::RulesJointTrajectory(Trajectory &aTrajectoryToFill)
 
       // Point
       point_value_str_re("(" + float_str_re + "+)|(?:)"),
-      list_of_pv_str_re(point_value_str_re + "(\\,|\\))"), bg_pt_str_re("\\("),
-      end_pt_str_re("\\)"), comma_pt_str_re("\\,\\("),
+      list_of_pv_str_re(point_value_str_re + "(\\,|\\))"),
+      bg_pt_str_re("\\("),
+      end_pt_str_re("\\)"),
+      comma_pt_str_re("\\,\\("),
 
       // Liste of points
       bg_liste_of_pts_str_re("\\,\\("),
 
       // Reg Exps
-      header_re(header_str_re), list_of_jn_re(list_of_jn_str_re),
-      list_of_pv_re(list_of_pv_str_re), bg_pt_re(bg_pt_str_re),
-      end_pt_re(end_pt_str_re), comma_pt_re(comma_pt_str_re),
+      header_re(header_str_re),
+      list_of_jn_re(list_of_jn_str_re),
+      list_of_pv_re(list_of_pv_str_re),
+      bg_pt_re(bg_pt_str_re),
+      end_pt_re(end_pt_str_re),
+      comma_pt_re(comma_pt_str_re),
       bg_liste_of_pts_re(bg_liste_of_pts_str_re) {}
 
 bool RulesJointTrajectory::search_exp_sub_string(
@@ -65,7 +71,6 @@ bool RulesJointTrajectory::search_exp_sub_string(
 
   boost::match_flag_type flags = boost::match_extra;
   if (boost::regex_search(text, what, e, flags)) {
-
     if (dbg_level > 5) {
       std::cout << "** Match found **\n   Sub-Expressions:" << what.size()
                 << std::endl;
@@ -83,12 +88,10 @@ bool RulesJointTrajectory::search_exp_sub_string(
       return true;
     }
   } else {
-    if (dbg_level > 5)
-      std::cout << "** No Match found **\n";
+    if (dbg_level > 5) std::cout << "** No Match found **\n";
     sub_text = text;
     nb_failures++;
-    if (nb_failures > 100)
-      return false;
+    if (nb_failures > 100) return false;
   }
   return false;
 }
@@ -136,8 +139,7 @@ void RulesJointTrajectory::parse_joint_names(
       std::string sep_char;
       sep_char = what[2];
 
-      if (sep_char == ")")
-        joint_names_loop = false;
+      if (sep_char == ")") joint_names_loop = false;
       if (dbg_level > 5) {
         std::cout << "joint_name:" << joint_name << " " << sep_char
                   << std::endl;
@@ -181,8 +183,7 @@ bool RulesJointTrajectory::parse_seq(std::string &trajectory,
       } else if (what.size() == 1)
         sep_char = what[0];
 
-      if (sep_char == ")")
-        joint_seq_loop = false;
+      if (sep_char == ")") joint_seq_loop = false;
 
     } else {
       return true;
@@ -203,31 +204,27 @@ bool RulesJointTrajectory::parse_point(std::string &trajectory,
     return false;
   sub_text2 = sub_text1;
 
-  if (!parse_seq(sub_text2, sub_text1, aJTP.positions_))
-    return false;
+  if (!parse_seq(sub_text2, sub_text1, aJTP.positions_)) return false;
   sub_text2 = sub_text1;
 
   if (!search_exp_sub_string(sub_text2, what, comma_pt_re, sub_text1))
     return false;
   sub_text2 = sub_text1;
 
-  if (!parse_seq(sub_text2, sub_text1, aJTP.velocities_))
-    return false;
+  if (!parse_seq(sub_text2, sub_text1, aJTP.velocities_)) return false;
   sub_text2 = sub_text1;
 
   if (!search_exp_sub_string(sub_text2, what, comma_pt_re, sub_text1))
     return false;
   sub_text2 = sub_text1;
 
-  if (!parse_seq(sub_text2, sub_text1, aJTP.accelerations_))
-    return false;
+  if (!parse_seq(sub_text2, sub_text1, aJTP.accelerations_)) return false;
   sub_text2 = sub_text1;
 
   if (!search_exp_sub_string(sub_text2, what, comma_pt_re, sub_text1))
     return false;
   sub_text2 = sub_text1;
-  if (!parse_seq(sub_text2, sub_text1, aJTP.efforts_))
-    return false;
+  if (!parse_seq(sub_text2, sub_text1, aJTP.efforts_)) return false;
 
   TrajectoryToFill_.points_.push_back(aJTP);
   return true;
@@ -248,8 +245,7 @@ bool RulesJointTrajectory::parse_points(std::string &trajectory,
       return false;
     sub_text2 = sub_text1;
 
-    if (!parse_point(sub_text2, sub_text1))
-      return false;
+    if (!parse_point(sub_text2, sub_text1)) return false;
     sub_text2 = sub_text1;
 
     if (!search_exp_sub_string(sub_text2, what, end_pt_re, sub_text1))
@@ -262,8 +258,7 @@ bool RulesJointTrajectory::parse_points(std::string &trajectory,
     std::string sep_char;
     sep_char = what[1];
 
-    if (sep_char == ")")
-      joint_points_loop = false;
+    if (sep_char == ")") joint_points_loop = false;
 
   } while (joint_points_loop);
 
@@ -320,5 +315,5 @@ void Trajectory::display(std::ostream &os) const {
   }
 }
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph

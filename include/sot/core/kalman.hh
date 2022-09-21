@@ -16,10 +16,11 @@
 /* --- INCLUDE -------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
-#include <Eigen/LU>
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/linear-algebra.h>
+
+#include <Eigen/LU>
 
 /* -------------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------------ */
@@ -43,31 +44,31 @@ namespace dynamicgraph {
 namespace sot {
 
 class SOT_KALMAN_EXPORT Kalman : public Entity {
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   unsigned int size_state;
   unsigned int size_measure;
   double dt;
 
-public:
-  SignalPtr<Vector, int> measureSIN;         // y
-  SignalPtr<Matrix, int> modelTransitionSIN; // F
-  SignalPtr<Matrix, int> modelMeasureSIN;    // H
-  SignalPtr<Matrix, int> noiseTransitionSIN; // Q
-  SignalPtr<Matrix, int> noiseMeasureSIN;    // R
+ public:
+  SignalPtr<Vector, int> measureSIN;          // y
+  SignalPtr<Matrix, int> modelTransitionSIN;  // F
+  SignalPtr<Matrix, int> modelMeasureSIN;     // H
+  SignalPtr<Matrix, int> noiseTransitionSIN;  // Q
+  SignalPtr<Matrix, int> noiseMeasureSIN;     // R
 
-  SignalPtr<Vector, int> statePredictedSIN;            // x_{k|k-1}
-  SignalPtr<Vector, int> observationPredictedSIN;      // y_pred = h (x_{k|k-1})
-  SignalTimeDependent<Matrix, int> varianceUpdateSOUT; // P
-  SignalTimeDependent<Vector, int> stateUpdateSOUT;    // X_est
+  SignalPtr<Vector, int> statePredictedSIN;        // x_{k|k-1}
+  SignalPtr<Vector, int> observationPredictedSIN;  // y_pred = h (x_{k|k-1})
+  SignalTimeDependent<Matrix, int> varianceUpdateSOUT;  // P
+  SignalTimeDependent<Vector, int> stateUpdateSOUT;     // X_est
 
-  SignalTimeDependent<Matrix, int> gainSINTERN;       // K
-  SignalTimeDependent<Matrix, int> innovationSINTERN; // S
+  SignalTimeDependent<Matrix, int> gainSINTERN;        // K
+  SignalTimeDependent<Matrix, int> innovationSINTERN;  // S
 
-public:
+ public:
   virtual std::string getDocString() const {
     return "Implementation of extended Kalman filter     \n"
            "\n"
@@ -138,7 +139,7 @@ public:
            "                                                k|k\n";
   }
 
-protected:
+ protected:
   Matrix &computeVarianceUpdate(Matrix &P_k_k, const int &time);
   Vector &computeStateUpdate(Vector &x_est, const int &time);
 
@@ -181,14 +182,14 @@ protected:
   // Kalman Gain
   Matrix K_;
 
-public:
+ public:
   Kalman(const std::string &name);
   /* --- Entity --- */
   void display(std::ostream &os) const;
 };
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 /*!
   \file Kalman.h

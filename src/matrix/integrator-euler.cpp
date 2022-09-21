@@ -7,11 +7,10 @@
  *
  */
 
+#include <sot/core/integrator-euler-impl.hh>
 #include <sot/core/integrator-euler.hh>
 
 #include "integrator-euler.t.cpp"
-
-#include <sot/core/integrator-euler-impl.hh>
 
 #ifdef WIN32
 IntegratorEulerVectorMatrix::IntegratorEulerVectorMatrix(
@@ -27,4 +26,4 @@ IntegratorEulerVectorDouble::IntegratorEulerVectorDouble(
 std::string IntegratorEulerVectorDouble::getTypeName(void) {
   return "IntegratorEulerVectorDouble";
 }
-#endif // WIN32
+#endif  // WIN32

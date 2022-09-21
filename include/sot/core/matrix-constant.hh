@@ -23,12 +23,12 @@ namespace command {
 namespace matrixConstant {
 class Resize;
 }
-} // namespace command
+}  // namespace command
 
 class MatrixConstant : public Entity {
   friend class command::matrixConstant::Resize;
 
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
@@ -37,7 +37,7 @@ public:
 
   void setValue(const dynamicgraph::Matrix &inValue);
 
-public:
+ public:
   MatrixConstant(const std::string &name);
 
   virtual ~MatrixConstant(void) {}
@@ -45,5 +45,5 @@ public:
   SignalTimeDependent<dynamicgraph::Matrix, int> SOUT;
 };
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph

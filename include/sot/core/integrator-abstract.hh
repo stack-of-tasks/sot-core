@@ -22,6 +22,7 @@
 #include <dynamic-graph/command-bind.h>
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/pool.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/flags.hh>
 
@@ -43,7 +44,7 @@ namespace sot {
  */
 template <class sigT, class coefT>
 class IntegratorAbstract : public dynamicgraph::Entity {
-public:
+ public:
   IntegratorAbstract(const std::string &name)
       : dynamicgraph::Entity(name),
         SIN(NULL, "sotIntegratorAbstract(" + name + ")::input(vector)::sin"),
@@ -82,7 +83,7 @@ public:
 
   virtual sigT &integrate(sigT &res, int time) = 0;
 
-public:
+ public:
   void pushNumCoef(const coefT &numCoef) { numerator.push_back(numCoef); }
   void pushDenomCoef(const coefT &denomCoef) {
     denominator.push_back(denomCoef);
@@ -96,7 +97,7 @@ public:
   const std::vector<coefT> &denomCoeffs() const { return denominator; }
   void denomCoeffs(const std::vector<coefT> &coeffs) { denominator = coeffs; }
 
-public:
+ public:
   dynamicgraph::SignalPtr<sigT, int> SIN;
 
   dynamicgraph::SignalTimeDependent<sigT, int> SOUT;
@@ -115,7 +116,7 @@ public:
       os << " + " << denominator[i] << " s^" << i;
   }
 
-protected:
+ protected:
   std::vector<coefT> numerator;
   std::vector<coefT> denominator;
 };

@@ -1,6 +1,6 @@
-'''
+"""
 Tiny matrix functions, taken from Oscar source code.
-'''
+"""
 
 from math import atan2
 from random import random
@@ -29,7 +29,7 @@ def vectorToTuple(M):
 
 # Convert from Roll, Pitch, Yaw to transformation Matrix
 def rpy2tr(r, p, y):
-    mat = matrix(rotate('z', y)) * matrix(rotate('y', p)) * matrix(rotate('x', r))
+    mat = matrix(rotate("z", y)) * matrix(rotate("y", p)) * matrix(rotate("x", r))
     return matrixToTuple(mat)
 
 
@@ -63,13 +63,17 @@ def generateOrthonormalM(v1):
     e1 = e1.tolist()
     e2 = e2.tolist()
     e3 = e3.tolist()
-    M = ((e1[0][0], e2[0][0], e3[0][0]), (e1[0][1], e2[0][1], e3[0][1]), (e1[0][2], e2[0][2], e3[0][2]))
+    M = (
+        (e1[0][0], e2[0][0], e3[0][0]),
+        (e1[0][1], e2[0][1], e3[0][1]),
+        (e1[0][2], e2[0][2], e3[0][2]),
+    )
     return M
 
 
 # Convert from Transformation Matrix to Roll,Pitch,Yaw
 def tr2rpy(M):
-    m = sqrt(M[2][1]**2 + M[2][2]**2)
+    m = sqrt(M[2][1] ** 2 + M[2][2] ** 2)
     p = atan2(-M[2][0], m)
 
     if abs(p - pi / 2) < 0.001:
@@ -86,17 +90,17 @@ def tr2rpy(M):
 
 
 def matrixToRPY(M):
-    '''
+    """
     Convert a 4x4 homogeneous matrix to a 6x1 rpy pose vector.
-    '''
+    """
     rot = tr2rpy(M)
     return [M[0][3], M[1][3], M[2][3], rot[2], rot[1], rot[0]]
 
 
 def RPYToMatrix(pr):
-    '''
+    """
     Convert a 6x1 rpy pose vector to a 4x4 homogeneous matrix.
-    '''
+    """
     M = array(rpy2tr(pr[3], pr[4], pr[5]))
     M[0:3, 3] = pr[0:3]
     return M
@@ -104,24 +108,37 @@ def RPYToMatrix(pr):
 
 # Transformation Matrix corresponding to a rotation about x,y or z
 def rotate(axis, ang):
-    ''' eg. T=rot('x',pi/4): rotate pi/4 rad about x axis
-    '''
+    """eg. T=rot('x',pi/4): rotate pi/4 rad about x axis"""
     ca = cos(ang)
     sa = sin(ang)
-    if axis == 'x':
+    if axis == "x":
         mat = ((1, 0, 0, 0), (0, ca, -sa, 0), (0, sa, ca, 0), (0, 0, 0, 1))
-    elif axis == 'y':
+    elif axis == "y":
         mat = ((ca, 0, sa, 0), (0, 1, 0, 0), (-sa, 0, ca, 0), (0, 0, 0, 1))
-    elif axis == 'z':
+    elif axis == "z":
         mat = ((ca, -sa, 0, 0), (sa, ca, 0, 0), (0, 0, 1, 0), (0, 0, 0, 1))
     else:
-        print('Axis should be: x,y or z only')
+        print("Axis should be: x,y or z only")
     return mat
 
 
 def quaternionToMatrix(q):
     [qx, qy, qz, qw] = q
-    R = [[1 - 2 * qy**2 - 2 * qz**2, 2 * qx * qy - 2 * qz * qw, 2 * qx * qz + 2 * qy * qw],
-         [2 * qx * qy + 2 * qz * qw, 1 - 2 * qx**2 - 2 * qz**2, 2 * qy * qz - 2 * qx * qw],
-         [2 * qx * qz - 2 * qy * qw, 2 * qy * qz + 2 * qx * qw, 1 - 2 * qx**2 - 2 * qy**2]]
+    R = [
+        [
+            1 - 2 * qy**2 - 2 * qz**2,
+            2 * qx * qy - 2 * qz * qw,
+            2 * qx * qz + 2 * qy * qw,
+        ],
+        [
+            2 * qx * qy + 2 * qz * qw,
+            1 - 2 * qx**2 - 2 * qz**2,
+            2 * qy * qz - 2 * qx * qw,
+        ],
+        [
+            2 * qx * qz - 2 * qy * qw,
+            2 * qy * qz + 2 * qx * qw,
+            1 - 2 * qx**2 - 2 * qy**2,
+        ],
+    ]
     return R

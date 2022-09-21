@@ -79,8 +79,7 @@ void parseTest(const std::string filename) {
     ee.resize(me);
     if (me > 0)
       for (int i = 0; i < me; ++i) {
-        for (int j = 0; j < nJ; ++j)
-          off >> Je(i, j);
+        for (int j = 0; j < nJ; ++j) off >> Je(i, j);
         off >> ee(i);
       }
 
@@ -97,8 +96,7 @@ void parseTest(const std::string filename) {
     eiBoundSide.resize(mi);
     if (mi > 0)
       for (int i = 0; i < mi; ++i) {
-        for (int j = 0; j < nJ; ++j)
-          off >> Ji(i, j);
+        for (int j = 0; j < nJ; ++j) off >> Ji(i, j);
         std::string number;
         eiBoundSide[i] = ConstraintMem::BOUND_VOID;
         off >> number;
@@ -257,17 +255,14 @@ void deparse(std::vector<bubMatrix> Jes, std::vector<bubVector> ees,
          << "equalities " << ee.size() << endl;
     if (ee.size() > 0)
       for (unsigned int i = 0; i < ee.size(); ++i) {
-        for (unsigned int j = 0; j < Je.size2(); ++j)
-          cout << Je(i, j) << " ";
+        for (unsigned int j = 0; j < Je.size2(); ++j) cout << Je(i, j) << " ";
         cout << "\t" << ee(i) << endl;
       }
 
     unsigned int nbIneq = 0;
     for (unsigned int i = 0; i < boundSide.size(); ++i) {
-      if (boundSide[i] & ConstraintMem::BOUND_INF)
-        nbIneq++;
-      if (boundSide[i] & ConstraintMem::BOUND_SUP)
-        nbIneq++;
+      if (boundSide[i] & ConstraintMem::BOUND_INF) nbIneq++;
+      if (boundSide[i] & ConstraintMem::BOUND_SUP) nbIneq++;
     }
 
     cout << endl << "inequalities " << nbIneq << endl;
@@ -280,8 +275,7 @@ void deparse(std::vector<bubMatrix> Jes, std::vector<bubVector> ees,
                << " X " << -eiInf(i) << endl;
         }
         if (boundSide[i] & ConstraintMem::BOUND_SUP) {
-          for (unsigned int j = 0; j < Ji.size2(); ++j)
-            cout << Ji(i, j) << " ";
+          for (unsigned int j = 0; j < Ji.size2(); ++j) cout << Ji(i, j) << " ";
           cout << "\t"
                << " X " << eiSup(i) << endl;
         }
@@ -339,8 +333,7 @@ void convertDoubleToSingle(const std::string filename) {
     ee.resize(me);
     if (me > 0)
       for (int i = 0; i < me; ++i) {
-        for (int j = 0; j < nJ; ++j)
-          off >> Je(i, j);
+        for (int j = 0; j < nJ; ++j) off >> Je(i, j);
         off >> ee(i);
       }
 
@@ -356,11 +349,10 @@ void convertDoubleToSingle(const std::string filename) {
     eiBoundSide.resize(mi);
     if (mi > 0)
       for (int i = 0; i < mi; ++i) {
-        for (int j = 0; j < nJ; ++j)
-          off >> Ji(i, j);
+        for (int j = 0; j < nJ; ++j) off >> Ji(i, j);
         std::string number;
         eiBoundSide[i] = ConstraintMem::BOUND_VOID;
-        off >> number; // std::cout << "toto '" << number << "'" << std::endl;
+        off >> number;  // std::cout << "toto '" << number << "'" << std::endl;
         if (number != "X") {
           eiBoundSide[i] = (ConstraintMem::BoundSideType)(
               eiBoundSide[i] | ConstraintMem::BOUND_INF);
@@ -426,7 +418,7 @@ void randTest(const unsigned int nJ, const bool enableSolve[]) {
   sotDEBUG(15) << "eiSup1 = " << (MATLAB)eiSup1 << std::endl;
   randBound(bound1, 3);
   randMatrix(Je1, 3,
-             nJ); // sotDEBUG(15) << "Je1 = " << (MATLAB)Je1 << std::endl;
+             nJ);  // sotDEBUG(15) << "Je1 = " << (MATLAB)Je1 << std::endl;
   randMatrix(Ji1, 3, nJ);
   sotDEBUG(15) << "Ji1 = " << (MATLAB)Ji1 << std::endl;
   bubMatrix xhi;
@@ -536,40 +528,35 @@ void randTest(const unsigned int nJ, const bool enableSolve[]) {
 
   /* ---------------------------------------------------------- */
 
-  if (enableSolve[0])
-    solver.solve(Je0, ee0, Ji0, eiInf0, eiSup0, bound0);
+  if (enableSolve[0]) solver.solve(Je0, ee0, Ji0, eiInf0, eiSup0, bound0);
   sotDEBUG(15) << "/* ----------------------------------------------------- */"
                << std::endl;
   sotDEBUG(15) << "/* ----------------------------------------------------- */"
                << std::endl;
   sotDEBUG(15) << "/* ----------------------------------------------------- */"
                << std::endl;
-  if (enableSolve[1])
-    solver.solve(Je1, ee1, Ji1, eiInf1, eiSup1, bound1);
+  if (enableSolve[1]) solver.solve(Je1, ee1, Ji1, eiInf1, eiSup1, bound1);
   sotDEBUG(15) << "/* ----------------------------------------------------- */"
                << std::endl;
   sotDEBUG(15) << "/* ----------------------------------------------------- */"
                << std::endl;
   sotDEBUG(15) << "/* ----------------------------------------------------- */"
                << std::endl;
-  if (enableSolve[2])
-    solver.solve(Je2, ee2, Ji2, eiInf2, eiSup2, bound2);
+  if (enableSolve[2]) solver.solve(Je2, ee2, Ji2, eiInf2, eiSup2, bound2);
   sotDEBUG(15) << "/* ----------------------------------------------------- */"
                << std::endl;
   sotDEBUG(15) << "/* ----------------------------------------------------- */"
                << std::endl;
   sotDEBUG(15) << "/* ----------------------------------------------------- */"
                << std::endl;
-  if (enableSolve[3])
-    solver.solve(Je3, ee3, Ji3, eiInf3, eiSup3, bound3);
+  if (enableSolve[3]) solver.solve(Je3, ee3, Ji3, eiInf3, eiSup3, bound3);
   sotDEBUG(15) << "/* ----------------------------------------------------- */"
                << std::endl;
   sotDEBUG(15) << "/* ----------------------------------------------------- */"
                << std::endl;
   sotDEBUG(15) << "/* ----------------------------------------------------- */"
                << std::endl;
-  if (enableSolve[4])
-    solver.solve(Je4, ee4, Ji4, eiInf4, eiSup4, bound4);
+  if (enableSolve[4]) solver.solve(Je4, ee4, Ji4, eiInf4, eiSup4, bound4);
 
   /* ---------------------------------------------------------- */
 
@@ -580,7 +567,6 @@ void randTest(const unsigned int nJ, const bool enableSolve[]) {
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
 int main(void) {
-
   //  convertDoubleToSingle("/home/nmansard/src/StackOfTasks/tests/tools/testFR.txt");
   //  exit(0);
 

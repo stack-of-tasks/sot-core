@@ -10,9 +10,8 @@
 #ifndef DYNAMICGRAPH_SOT_VECTOR_CONSTANT_H
 #define DYNAMICGRAPH_SOT_VECTOR_CONSTANT_H
 
-#include <dynamic-graph/entity.h>
-
 #include <dynamic-graph/all-signals.h>
+#include <dynamic-graph/entity.h>
 
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
@@ -27,13 +26,13 @@ namespace command {
 namespace vectorConstant {
 class Resize;
 }
-} // namespace command
+}  // namespace command
 
 class VectorConstant : public Entity {
   friend class command::vectorConstant::Resize;
   int rows;
 
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
@@ -47,7 +46,7 @@ public:
   void setValue(const dynamicgraph::Vector &inValue);
 };
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // DYNAMICGRAPH_SOT_VECTOR_CONSTANT_H
+#endif  // DYNAMICGRAPH_SOT_VECTOR_CONSTANT_H

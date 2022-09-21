@@ -1,8 +1,8 @@
-#include "dynamic-graph/python/module.hh"
-#include "dynamic-graph/python/signal.hh"
-
 #include <sot/core/device.hh>
 #include <sot/core/flags.hh>
+
+#include "dynamic-graph/python/module.hh"
+#include "dynamic-graph/python/signal.hh"
 
 namespace dg = dynamicgraph;
 namespace dgs = dynamicgraph::sot;
@@ -46,11 +46,12 @@ BOOST_PYTHON_MODULE(wrap) {
            "Remove the signal to the refresh list", bp::arg("name"))
       .def("clear", &PeriodicCall::clear,
            "Clear all signals and commands from the refresh list.")
-      .def("__str__", +[](const PeriodicCall &e) {
-        std::ostringstream os;
-        e.display(os);
-        return os.str();
-      });
+      .def(
+          "__str__", +[](const PeriodicCall &e) {
+            std::ostringstream os;
+            e.display(os);
+            return os.str();
+          });
 
   dynamicgraph::python::exposeEntity<dgs::Device>()
       .add_property("after", bp::make_function(&dgs::Device::periodicCallAfter,
@@ -87,16 +88,18 @@ BOOST_PYTHON_MODULE(wrap) {
       .def("__bool__", &Flags::operator bool)
       .def("reversed", &Flags::operator!)
 
-      .def("set",
-           +[](Flags &f, const std::string &s) {
-             std::istringstream is(s);
-             is >> f;
-           })
-      .def("__str__", +[](const Flags &f) {
-        std::ostringstream os;
-        os << f;
-        return os.str();
-      });
+      .def(
+          "set",
+          +[](Flags &f, const std::string &s) {
+            std::istringstream is(s);
+            is >> f;
+          })
+      .def(
+          "__str__", +[](const Flags &f) {
+            std::ostringstream os;
+            os << f;
+            return os.str();
+          });
 
   dg::python::exposeSignalsOfType<Flags, int>("Flags");
 }

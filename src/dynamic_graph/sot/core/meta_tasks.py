@@ -5,7 +5,7 @@ from dynamic_graph.sot.core import Flags
 from dynamic_graph.sot.core.feature_generic import FeatureGeneric
 from dynamic_graph.sot.core.gain_adaptive import GainAdaptive
 from dynamic_graph.sot.core.matrix_util import rpy2tr
-from dynamic_graph.sot.core.meta_task_6d import toFlags  # noqa kept for backward compatibility
+from dynamic_graph.sot.core.meta_task_6d import toFlags  # noqa
 
 
 class MetaTaskCom(object):
@@ -14,9 +14,9 @@ class MetaTaskCom(object):
         self.name = name
         # dyn.setProperty('ComputeCoM','true')
 
-        self.feature = FeatureGeneric('feature' + name)
-        self.featureDes = FeatureGeneric('featureDes' + name)
-        self.gain = GainAdaptive('gain' + name)
+        self.feature = FeatureGeneric("feature" + name)
+        self.featureDes = FeatureGeneric("featureDes" + name)
+        self.gain = GainAdaptive("gain" + name)
 
         plug(dyn.com, self.feature.errorIN)
         plug(dyn.Jcom, self.feature.jacobianIN)
@@ -57,7 +57,9 @@ def generic6dReference(p):
         M[0:3, 3] = p
     elif isinstance(p, (matrix, ndarray)) and p.shape == (4, 4):
         M = p
-    elif isinstance(p, (matrix, tuple)) and len(p) == 4 == len(p[0]) == len(p[1]) == len(p[2]) == len(p[3]):
+    elif isinstance(p, (matrix, tuple)) and len(p) == 4 == len(p[0]) == len(
+        p[1]
+    ) == len(p[2]) == len(p[3]):
         M = matrix(p)
     elif isinstance(p, (matrix, ndarray, tuple)) and len(p) == 6:
         M = array(rpy2tr(*p[3:7]))
@@ -72,7 +74,10 @@ def goto6d(task, position, gain=None, resetJacobian=True):
     task.featureDes.position.value = array(M)
     task.feature.selec.value = Flags("111111")
     setGain(task.gain, gain)
-    if 'resetJacobianDerivative' in task.task.__class__.__dict__.keys() and resetJacobian:
+    if (
+        "resetJacobianDerivative" in task.task.__class__.__dict__.keys()
+        and resetJacobian
+    ):
         task.task.resetJacobianDerivative()
 
 
@@ -84,5 +89,8 @@ def gotoNd(task, position, selec=None, gain=None, resetJacobian=True):
         task.feature.selec.value = selec
     task.featureDes.position.value = array(M)
     setGain(task.gain, gain)
-    if 'resetJacobianDerivative' in task.task.__class__.__dict__.keys() and resetJacobian:
+    if (
+        "resetJacobianDerivative" in task.task.__class__.__dict__.keys()
+        and resetJacobian
+    ):
         task.task.resetJacobianDerivative()

@@ -13,15 +13,15 @@
 /* --------------------------------------------------------------------- */
 
 #include <map>
-
 #include <pinocchio/fwd.hpp>
-
-#include <boost/assign.hpp>
-#include <boost/property_tree/ptree.hpp>
+// keep pinocchio before boost
 
 #include <dynamic-graph/linear-algebra.h>
 #include <dynamic-graph/logger.h>
 #include <dynamic-graph/signal-helper.h>
+
+#include <boost/assign.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <sot/core/matrix-geometry.hh>
 
 namespace dynamicgraph {
@@ -39,15 +39,14 @@ struct SOT_CORE_EXPORT JointLimits {
 typedef Eigen::VectorXd::Index Index;
 
 class SOT_CORE_EXPORT ExtractJointMimics {
-
-public:
+ public:
   /// Constructor
   ExtractJointMimics(std::string &robot_model);
 
   /// Get mimic joints.
   const std::vector<std::string> &get_mimic_joints();
 
-private:
+ private:
   void go_through(boost::property_tree::ptree &pt, int level, int stage);
 
   // Create empty property tree object
@@ -111,7 +110,7 @@ struct SOT_CORE_EXPORT ForceUtil {
 
   void display(std::ostream &out) const;
 
-}; // struct ForceUtil
+};  // struct ForceUtil
 
 struct SOT_CORE_EXPORT FootUtil {
   /// Position of the foot soles w.r.t. the frame of the foot
@@ -132,7 +131,7 @@ struct SOT_CORE_EXPORT HandUtil {
 };
 
 struct SOT_CORE_EXPORT RobotUtil {
-public:
+ public:
   RobotUtil();
 
   /// Forces data
@@ -286,7 +285,7 @@ public:
   /** Access to property tree directly */
   boost::property_tree::ptree &get_property_tree();
 
-protected:
+ protected:
   Logger logger_;
 
   /** \brief Map of the parameters: map of strings. */
@@ -294,7 +293,7 @@ protected:
 
   /** \brief Property tree */
   boost::property_tree::ptree property_tree_;
-}; // struct RobotUtil
+};  // struct RobotUtil
 
 /// Accessors - This should be changed to RobotUtilPtrShared
 typedef std::shared_ptr<RobotUtil> RobotUtilShrPtr;
@@ -307,7 +306,7 @@ std::shared_ptr<std::vector<std::string> > getListOfRobots();
 
 bool base_se3_to_sot(ConstRefVector pos, ConstRefMatrix R, RefVector q_sot);
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // sot_torque_control_common_h_
+#endif  // sot_torque_control_common_h_

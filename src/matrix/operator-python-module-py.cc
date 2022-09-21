@@ -1,5 +1,4 @@
 #include "dynamic-graph/python/module.hh"
-
 #include "operator.hh"
 
 namespace dg = dynamicgraph;
@@ -9,7 +8,8 @@ namespace bp = boost::python;
 typedef bp::return_value_policy<bp::reference_existing_object>
     reference_existing_object;
 
-template <typename Operator> void exposeUnaryOp() {
+template <typename Operator>
+void exposeUnaryOp() {
   typedef dgs::UnaryOp<Operator> O_t;
   dg::python::exposeEntity<O_t, bp::bases<dg::Entity>,
                            dg::python::AddCommands>()
@@ -17,7 +17,8 @@ template <typename Operator> void exposeUnaryOp() {
       .def_readonly("sout", &O_t::SOUT);
 }
 
-template <typename Operator> void exposeBinaryOp() {
+template <typename Operator>
+void exposeBinaryOp() {
   typedef dgs::BinaryOp<Operator> O_t;
   dg::python::exposeEntity<O_t, bp::bases<dg::Entity>,
                            dg::python::AddCommands>()
@@ -26,7 +27,8 @@ template <typename Operator> void exposeBinaryOp() {
       .def_readonly("sout", &O_t::SOUT);
 }
 
-template <typename Operator> auto exposeVariadicOpBase() {
+template <typename Operator>
+auto exposeVariadicOpBase() {
   typedef dgs::VariadicOp<Operator> O_t;
   typedef typename O_t::Base B_t;
   return dg::python::exposeEntity<O_t, bp::bases<dg::Entity>,
@@ -42,11 +44,13 @@ template <typename Operator> auto exposeVariadicOpBase() {
            "get the number of input signal.", bp::arg("size"));
 }
 
-template <typename Operator> struct exposeVariadicOpImpl {
+template <typename Operator>
+struct exposeVariadicOpImpl {
   static void run() { exposeVariadicOpBase<Operator>(); }
 };
 
-template <typename T> struct exposeVariadicOpImpl<dgs::AdderVariadic<T> > {
+template <typename T>
+struct exposeVariadicOpImpl<dgs::AdderVariadic<T> > {
   static void run() {
     typedef dgs::VariadicOp<dgs::AdderVariadic<T> > E_t;
     exposeVariadicOpBase<dgs::AdderVariadic<T> >().add_property(
@@ -56,7 +60,8 @@ template <typename T> struct exposeVariadicOpImpl<dgs::AdderVariadic<T> > {
   }
 };
 
-template <typename Operator> void exposeVariadicOp() {
+template <typename Operator>
+void exposeVariadicOp() {
   exposeVariadicOpImpl<Operator>::run();
 }
 

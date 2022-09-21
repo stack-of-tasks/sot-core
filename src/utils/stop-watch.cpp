@@ -28,11 +28,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <sys/time.h>
 #else
 #include <Windows.h>
+
 #include <iomanip>
 #endif
 
+#include <iomanip>  // std::setprecision
+
 #include "sot/core/stop-watch.hh"
-#include <iomanip> // std::setprecision
 
 using std::map;
 using std::ostringstream;
@@ -42,7 +44,7 @@ using std::string;
 //#define STOP_PROFILER(name) getProfiler().stop(name)
 
 Stopwatch &getProfiler() {
-  static Stopwatch s(REAL_TIME); // alternatives are CPU_TIME and REAL_TIME
+  static Stopwatch s(REAL_TIME);  // alternatives are CPU_TIME and REAL_TIME
   return s;
 }
 
@@ -60,12 +62,10 @@ bool Stopwatch::performance_exists(string perf_name) {
 
 long double Stopwatch::take_time() {
   if (mode == CPU_TIME) {
-
     // Use ctime
     return clock();
 
   } else if (mode == REAL_TIME) {
-
     // Query operating system
 
 #ifdef WIN32
@@ -80,8 +80,8 @@ long double Stopwatch::take_time() {
     intervals.HighPart = ft.dwHighDateTime;
 
     long double measure = intervals.QuadPart;
-    measure -= 116444736000000000.0; // Convert to UNIX epoch time
-    measure /= 10000000.0;           // Convert to seconds
+    measure -= 116444736000000000.0;  // Convert to UNIX epoch time
+    measure /= 10000000.0;            // Convert to seconds
 
     return measure;
 #else
@@ -90,8 +90,8 @@ long double Stopwatch::take_time() {
     gettimeofday(&tv, NULL);
 
     long double measure = tv.tv_usec;
-    measure /= 1000000.0; // Convert to seconds
-    measure += tv.tv_sec; // Add seconds part
+    measure /= 1000000.0;  // Convert to seconds
+    measure += tv.tv_sec;  // Add seconds part
 
     return measure;
 #endif
@@ -103,8 +103,7 @@ long double Stopwatch::take_time() {
 }
 
 void Stopwatch::start(string perf_name) {
-  if (!active)
-    return;
+  if (!active) return;
 
   // Just works if not already present
   records_of->insert(make_pair(perf_name, PerformanceData()));
@@ -122,8 +121,7 @@ void Stopwatch::start(string perf_name) {
 }
 
 void Stopwatch::stop(string perf_name) {
-  if (!active)
-    return;
+  if (!active) return;
 
   long double clock_end = take_time();
 
@@ -134,21 +132,18 @@ void Stopwatch::stop(string perf_name) {
   PerformanceData &perf_info = records_of->find(perf_name)->second;
 
   // check whether the performance has been reset
-  if (perf_info.clock_start == 0)
-    return;
+  if (perf_info.clock_start == 0) return;
 
   perf_info.stops++;
   long double lapse = clock_end - perf_info.clock_start;
 
-  if (mode == CPU_TIME)
-    lapse /= (double)CLOCKS_PER_SEC;
+  if (mode == CPU_TIME) lapse /= (double)CLOCKS_PER_SEC;
 
   // Update last time
   perf_info.last_time = lapse;
 
   // Update min/max time
-  if (lapse >= perf_info.max_time)
-    perf_info.max_time = lapse;
+  if (lapse >= perf_info.max_time) perf_info.max_time = lapse;
   if (lapse <= perf_info.min_time || perf_info.min_time == 0)
     perf_info.min_time = lapse;
 
@@ -157,8 +152,7 @@ void Stopwatch::stop(string perf_name) {
 }
 
 void Stopwatch::pause(string perf_name) {
-  if (!active)
-    return;
+  if (!active) return;
 
   long double clock_end = clock();
 
@@ -169,8 +163,7 @@ void Stopwatch::pause(string perf_name) {
   PerformanceData &perf_info = records_of->find(perf_name)->second;
 
   // check whether the performance has been reset
-  if (perf_info.clock_start == 0)
-    return;
+  if (perf_info.clock_start == 0) return;
 
   long double lapse = clock_end - perf_info.clock_start;
 
@@ -180,8 +173,7 @@ void Stopwatch::pause(string perf_name) {
 }
 
 void Stopwatch::reset_all() {
-  if (!active)
-    return;
+  if (!active) return;
 
   map<string, PerformanceData>::iterator it;
 
@@ -191,8 +183,7 @@ void Stopwatch::reset_all() {
 }
 
 void Stopwatch::report_all(int precision, std::ostream &output) {
-  if (!active)
-    return;
+  if (!active) return;
 
   output << "\n*** PROFILING RESULTS [ms] (min - avg - max - lastTime - "
             "nSamples - totalTime) ***\n";
@@ -203,8 +194,7 @@ void Stopwatch::report_all(int precision, std::ostream &output) {
 }
 
 void Stopwatch::reset(string perf_name) {
-  if (!active)
-    return;
+  if (!active) return;
 
   // Try to recover performance data
   if (!performance_exists(perf_name))
@@ -232,8 +222,7 @@ void Stopwatch::turn_off() {
 }
 
 void Stopwatch::report(string perf_name, int precision, std::ostream &output) {
-  if (!active)
-    return;
+  if (!active) return;
 
   // Try to recover performance data
   if (!performance_exists(perf_name))
@@ -268,8 +257,7 @@ long double Stopwatch::get_time_so_far(string perf_name) {
   long double lapse =
       (take_time() - (records_of->find(perf_name)->second).clock_start);
 
-  if (mode == CPU_TIME)
-    lapse /= (double)CLOCKS_PER_SEC;
+  if (mode == CPU_TIME) lapse /= (double)CLOCKS_PER_SEC;
 
   return lapse;
 }

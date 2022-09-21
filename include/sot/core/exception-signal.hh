@@ -14,8 +14,9 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#include "sot/core/api.hh"
 #include <sot/core/exception-abstract.hh>
+
+#include "sot/core/api.hh"
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -28,7 +29,7 @@ namespace sot {
 class SOT_CORE_EXPORT ExceptionSignal : public ExceptionAbstract
 
 {
-public:
+ public:
   enum ErrorCodeEnum {
     GENERIC = ExceptionAbstract::SIGNAL
 
@@ -46,7 +47,7 @@ public:
     return EXCEPTION_NAME;
   }
 
-public:
+ public:
   ExceptionSignal(const ExceptionSignal::ErrorCodeEnum &errcode,
                   const std::string &msg = "");
   ExceptionSignal(const ExceptionSignal::ErrorCodeEnum &errcode,

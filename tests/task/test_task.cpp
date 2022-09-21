@@ -10,9 +10,9 @@
 /* -------------------------------------------------------------------------- */
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
-#include <iostream>
-
 #include <dynamic-graph/linear-algebra.h>
+
+#include <iostream>
 #include <sot/core/debug.hh>
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/feature-visual-point.hh>
@@ -25,8 +25,7 @@ using namespace dynamicgraph::sot;
 double drand(void) { return 2 * ((double)rand()) / RAND_MAX - 1; }
 dynamicgraph::Matrix &mrand(dynamicgraph::Matrix &J) {
   for (int i = 0; i < J.rows(); ++i)
-    for (int j = 0; j < J.cols(); ++j)
-      J(i, j) = drand();
+    for (int j = 0; j < J.cols(); ++j) J(i, j) = drand();
   return J;
 }
 

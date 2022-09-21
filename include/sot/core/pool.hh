@@ -20,10 +20,12 @@
 #include <string>
 
 /* --- SOT --- */
-#include "sot/core/api.hh"
 #include <dynamic-graph/pool.h>
 #include <dynamic-graph/signal-base.h>
+
 #include <sot/core/exception-factory.hh>
+
+#include "sot/core/api.hh"
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -59,7 +61,7 @@ class TaskAbstract;
   It also returns references to signals from their fully-qualified names.
  */
 class SOT_CORE_EXPORT PoolStorage {
-public:
+ public:
   /*! \name Define types to simplify the writing
     @{
    */
@@ -70,7 +72,7 @@ public:
   typedef std::map<std::string, FeatureAbstract *> Features;
   /*! @} */
 
-protected:
+ protected:
   /*! \name Fields of the class to manage the three entities.
     Also the name is singular, those are true sets.
     @{
@@ -83,7 +85,7 @@ protected:
   Features feature;
   /*! @} */
 
-public:
+ public:
   /*! \brief Default destructor */
   ~PoolStorage(void);
 
@@ -117,7 +119,7 @@ public:
   void writeGraph(const std::string &aFileName);
   void writeCompletionList(std::ostream &os);
 
-private:
+ private:
   PoolStorage();
   static PoolStorage *instance_;
 };

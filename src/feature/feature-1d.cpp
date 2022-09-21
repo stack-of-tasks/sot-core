@@ -77,8 +77,7 @@ dynamicgraph::Matrix &Feature1D::computeJacobian(dynamicgraph::Matrix &res,
   res.resize(1, Jac.cols());
   res.fill(0);
   for (int j = 0; j < Jac.cols(); ++j)
-    for (int i = 0; i < Jac.rows(); ++i)
-      res(0, j) += err(i) * Jac(i, j);
+    for (int i = 0; i < Jac.rows(); ++i) res(0, j) += err(i) * Jac(i, j);
 
   sotDEBUGOUT(15);
   return res;

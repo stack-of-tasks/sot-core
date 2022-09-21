@@ -28,8 +28,8 @@ using namespace dynamicgraph;
     return CLASS_NAME;                                                         \
   }                                                                            \
   extern "C" {                                                                 \
-  Entity *                                                                     \
-      regFunction##_##sotSigType##_##sotCoefType(const std::string &objname) { \
+  Entity *regFunction##_##sotSigType##_##sotCoefType(                          \
+      const std::string &objname) {                                            \
     return new sotClassType<sotSigType, sotCoefType>(objname);                 \
   }                                                                            \
   EntityRegisterer regObj##_##sotSigType##_##sotCoefType(                      \
@@ -50,5 +50,5 @@ SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_EULER(IntegratorEuler, Vector, double,
 template class IntegratorEuler<double, double>;
 template class IntegratorEuler<Vector, double>;
 template class IntegratorEuler<Vector, Matrix>;
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph

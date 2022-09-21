@@ -20,6 +20,7 @@
 /* SOT */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/task-abstract.hh>
 
 /* STD */
@@ -53,17 +54,17 @@ class Sot;
 class SOTSEQUENCER_EXPORT Sequencer : public dynamicgraph::Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
-public:
+ public:
   class sotEventAbstract {
-  public:
+   public:
     enum sotEventType { EVENT_ADD, EVENT_RM, EVENT_CMD };
 
-  protected:
+   protected:
     std::string name;
     void setName(const std::string &name_) { name = name_; }
     int eventType;
 
-  public:
+   public:
     sotEventAbstract(const std::string &name) : name(name){};
     virtual ~sotEventAbstract(void) {}
     virtual const std::string &getName() const { return name; }
@@ -72,7 +73,7 @@ public:
     virtual void display(std::ostream &os) const { os << name; }
   };
 
-protected:
+ protected:
   Sot *sotPtr;
   typedef std::list<sotEventAbstract *> TaskList;
   typedef std::map<unsigned int, TaskList> TaskMap;
@@ -85,26 +86,26 @@ protected:
   std::ostream *outputStreamPtr;
   bool noOutput; /*! if true, display nothing standard output on except errors*/
 
-public: /* --- CONSTRUCTION --- */
+ public: /* --- CONSTRUCTION --- */
   Sequencer(const std::string &name);
   virtual ~Sequencer(void);
 
-public: /* --- TASK MANIP --- */
+ public: /* --- TASK MANIP --- */
   void setSotRef(Sot *sot) { sotPtr = sot; }
   void addTask(sotEventAbstract *task, const unsigned int time);
   void rmTask(int eventType, const std::string &name, const unsigned int time);
   void clearAll();
 
-public: /* --- SIGNAL --- */
+ public: /* --- SIGNAL --- */
   dynamicgraph::SignalTimeDependent<int, int> triggerSOUT;
 
-public: /* --- FUNCTIONS --- */
+ public: /* --- FUNCTIONS --- */
   int &trigger(int &dummy, const int &time);
 
-public: /* --- PARAMS --- */
+ public: /* --- PARAMS --- */
   virtual void display(std::ostream &os) const;
 };
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // #ifndef __SOT_SOTSEQUENCER_H__
+#endif  // #ifndef __SOT_SOTSEQUENCER_H__

@@ -15,10 +15,11 @@
 /* --------------------------------------------------------------------- */
 
 /* Classes standards. */
-#include "sot/core/api.hh"
 #include <exception>
 #include <ostream> /* Classe ostream.    */
 #include <string>  /* Classe string.     */
+
+#include "sot/core/api.hh"
 
 // Uncomment this macros to have lines parameter on the throw display
 // #define SOT_EXCEPTION_PASSING_PARAM
@@ -33,8 +34,7 @@ namespace sot {
 /* \class ExceptionAbstract
  */
 class SOT_CORE_EXPORT ExceptionAbstract : public std::exception {
-
-public:
+ public:
   enum ExceptionEnum {
     ABSTRACT = 0,
     SIGNAL = 100,
@@ -52,7 +52,7 @@ public:
     return EXCEPTION_NAME;
   }
 
-protected:
+ protected:
   /** Error code.
    * \sa ErrorCodeEnum */
   int code;
@@ -60,11 +60,11 @@ protected:
   /**  Error message (can be empty). */
   std::string message;
 
-private:
+ private:
   /**  forbid the empty constructor (private). */
   ExceptionAbstract(void);
 
-public:
+ public:
   ExceptionAbstract(const int &code, const std::string &msg = "");
   virtual ~ExceptionAbstract(void) throw() {}
 
@@ -85,9 +85,9 @@ public:
                                                   const ExceptionAbstract &err);
 
 #ifdef SOT_EXCEPTION_PASSING_PARAM
-public:
+ public:
   class Param {
-  public:
+   public:
     static const int BUFFER_SIZE = 80;
 
     const char *functionPTR;
@@ -97,13 +97,13 @@ public:
     char file[BUFFER_SIZE];
     bool pointersSet, set;
 
-  public:
+   public:
     Param(const int &_line, const char *_function, const char *_file);
     Param(void) : pointersSet(false), set(false) {}
     Param &initCopy(const Param &p);
   };
 
-protected:
+ protected:
   mutable Param p;
 
   template <class Exc>
@@ -116,18 +116,18 @@ protected:
     e.p.initCopy(p);
     return e;
   }
-#endif //#ifdef SOT_EXCEPTION_PASSING_PARAM
+#endif  //#ifdef SOT_EXCEPTION_PASSING_PARAM
 };
 
-#define SOT_RETHROW                                                            \
+#define SOT_RETHROW \
   (const ExceptionAbstract &err) { throw err; }
 
 #ifdef SOT_EXCEPTION_PASSING_PARAM
-#define SOT_THROW                                                              \
+#define SOT_THROW \
   throw ExceptionAbstract::Param(__LINE__, __FUNCTION__, __FILE__) +
-#else //#ifdef SOT_EXCEPTION_PASSING_PARAM
+#else  //#ifdef SOT_EXCEPTION_PASSING_PARAM
 #define SOT_THROW throw
-#endif //#ifdef SOT_EXCEPTION_PASSING_PARAM
+#endif  //#ifdef SOT_EXCEPTION_PASSING_PARAM
 
 } /* namespace sot */
 } /* namespace dynamicgraph */

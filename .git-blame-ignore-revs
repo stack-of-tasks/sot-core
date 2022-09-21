@@ -1,0 +1,17 @@
+# # pre-commit run -a (Guilhem Saurel, 2022-09-05)
+f3f2efc3fee4179e170e76e5f983baf004d7e109
+
+# pre-commit run -a (Guilhem Saurel, 2022-07-27)
+2a9fbd70d4fc47ed41e0ad25fb90e241865a341b
+
+# yapf (Guilhem Saurel, 2021-02-09)
+cf574bd33e0bb0cb5a54b83f8f434efe8951cd0e
+
+# format (Guilhem Saurel, 2020-11-13)
+5921e17ab3a8db2a98ae94d228283db924d2e140
+
+# clang-format (Olivier Stasse, 2020-08-28)
+2ea1fba7f262c07652dc060361c98af856d4d935
+
+# [format] Apply clang (Olivier Stasse, 2020-08-26)
+d59a58ec2de3a192da13c59ebce92e704f9d00c4

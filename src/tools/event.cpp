@@ -1,9 +1,9 @@
 // Copyright (c) 2017, Joseph Mirabel
 // Authors: Joseph Mirabel (joseph.mirabel@laas.fr)
 
-#include <sot/core/event.hh>
-
 #include <dynamic-graph/factory.h>
+
+#include <sot/core/event.hh>
 
 namespace dynamicgraph {
 namespace sot {
@@ -24,8 +24,8 @@ bool &Event::check(bool &ret, const int &time) {
     lastVal_ = val;
   }
   if (trigger) {
-    for (Triggers_t::const_iterator _s = triggers.begin();
-         _s != triggers.end(); ++_s)
+    for (Triggers_t::const_iterator _s = triggers.begin(); _s != triggers.end();
+         ++_s)
       (*_s)->recompute(time);
     timeSinceUp_ = 0;
   }
@@ -33,5 +33,5 @@ bool &Event::check(bool &ret, const int &time) {
 }
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Event, "Event");
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph

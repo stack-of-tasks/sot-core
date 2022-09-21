@@ -10,13 +10,13 @@
  */
 
 /* --- SOT --- */
+#include <dynamic-graph/command-setter.h>
 #include <dynamic-graph/factory.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/exception-tools.hh>
 #include <sot/core/factory.hh>
 #include <sot/core/kalman.hh> /* Header of the class implemented here.   */
-
-#include <dynamic-graph/command-setter.h>
 
 namespace dynamicgraph {
 using command::Setter;
@@ -25,7 +25,8 @@ namespace sot {
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Kalman, "Kalman");
 
 Kalman::Kalman(const std::string &name)
-    : Entity(name), measureSIN(NULL, "Kalman(" + name + ")::input(vector)::y"),
+    : Entity(name),
+      measureSIN(NULL, "Kalman(" + name + ")::input(vector)::y"),
       modelTransitionSIN(NULL, "Kalman(" + name + ")::input(matrix)::F"),
       modelMeasureSIN(NULL, "Kalman(" + name + ")::input(matrix)::H"),
       noiseTransitionSIN(NULL, "Kalman(" + name + ")::input(matrix)::Q"),
@@ -36,7 +37,8 @@ Kalman::Kalman(const std::string &name)
       observationPredictedSIN(0, "Kalman(" + name + ")::input(vector)::y_pred"),
       varianceUpdateSOUT("Kalman(" + name + ")::output(vector)::P"),
       stateUpdateSOUT("Kalman(" + name + ")::output(vector)::x_est"),
-      stateEstimation_(), stateVariance_() {
+      stateEstimation_(),
+      stateVariance_() {
   sotDEBUGIN(15);
   varianceUpdateSOUT.setFunction(
       boost::bind(&Kalman::computeVarianceUpdate, this, _1, _2));
@@ -48,18 +50,20 @@ Kalman::Kalman(const std::string &name)
                                 << noiseMeasureSIN << statePredictedSIN
                                 << stateUpdateSOUT << varianceUpdateSOUT);
 
-  std::string docstring = "  Set initial state estimation\n"
-                          "\n"
-                          "  input:\n"
-                          "    - a vector: initial state\n";
+  std::string docstring =
+      "  Set initial state estimation\n"
+      "\n"
+      "  input:\n"
+      "    - a vector: initial state\n";
   addCommand("setInitialState",
              new Setter<Kalman, Vector>(*this, &Kalman::setStateEstimation,
                                         docstring));
 
-  docstring = "  Set variance of initial state estimation\n"
-              "\n"
-              "  input:\n"
-              "    - a matrix: variance covariance matrix\n";
+  docstring =
+      "  Set variance of initial state estimation\n"
+      "\n"
+      "  input:\n"
+      "    - a matrix: variance covariance matrix\n";
   addCommand(
       "setInitialVariance",
       new Setter<Kalman, Matrix>(*this, &Kalman::setStateVariance, docstring));
@@ -75,7 +79,6 @@ Matrix &Kalman::computeVarianceUpdate(Matrix &Pk_k, const int &time) {
     varianceUpdateSOUT.addDependency(noiseTransitionSIN);
     varianceUpdateSOUT.addDependency(modelTransitionSIN);
   } else {
-
     const Matrix &Q = noiseTransitionSIN(time);
     const Matrix &R = noiseMeasureSIN(time);
     const Matrix &F = modelTransitionSIN(time);
@@ -175,8 +178,8 @@ Vector &Kalman::computeStateUpdate(Vector &x_est, const int &time) {
 
 void Kalman::display(std::ostream &) const {}
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 /*!
   \file Kalman.cpp

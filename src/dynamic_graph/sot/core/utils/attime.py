@@ -32,14 +32,14 @@ class Calendar:
         # self.periodic=list()
 
     def __repr__(self):
-        res = ''
+        res = ""
         for iter, funpairs in sorted(self.events.iteritems()):
             res += str(iter) + ": \n"
             for funpair in funpairs:
-                if funpair[1] == '':
-                    res += funpair[0] + '\n'
+                if funpair[1] == "":
+                    res += funpair[0] + "\n"
                 else:
-                    res += str(funpair[1]) + '\n'
+                    res += str(funpair[1]) + "\n"
         return res
 
     def stop(self, *args):
@@ -57,10 +57,10 @@ class Calendar:
         self.events[iter].append(pairfundoc)
 
     def registerEvents(self, iter, *funs):
-        '''
+        """
         3 entry types are possible: 1. only the functor. 2. a pair
         (functor,doc). 3. a list of pairs (functor,doc).
-        '''
+        """
         if len(funs) == 2 and callable(funs[0]) and isinstance(funs[1], str):
             self.registerEvent(iter, (funs[0], funs[1]))
         else:
@@ -68,7 +68,7 @@ class Calendar:
                 if isinstance(fun, tuple):
                     self.registerEvent(iter, fun)
                 else:  # assert iscallable(fun)
-                    if 'functor' in fun.__dict__:
+                    if "functor" in fun.__dict__:
                         self.registerEvent(iter, (fun.functor, fun.functor.__doc__))
                     else:
                         self.registerEvent(iter, (fun, fun.__doc__))
@@ -108,6 +108,7 @@ class Calendar:
         This next calling pattern is a little bit strange. Use it to decorate
         a function definition: @attime(30) def run30(): ...
         """
+
         class calendarDeco:
             iterRef = iterarg
             calendarRef = self
@@ -118,9 +119,13 @@ class Calendar:
                     functer.__doc__ = "No doc fun"
                 if len(functer.__doc__) > 0:
                     selfdeco.__doc__ = functer.__doc__
-                    selfdeco.__doc__ += " (will be run at time " + str(selfdeco.iterRef) + ")"
+                    selfdeco.__doc__ += (
+                        " (will be run at time " + str(selfdeco.iterRef) + ")"
+                    )
                 selfdeco.fun = functer
-                selfdeco.calendarRef.registerEvents(selfdeco.iterRef, functer, functer.__doc__)
+                selfdeco.calendarRef.registerEvents(
+                    selfdeco.iterRef, functer, functer.__doc__
+                )
 
             def __call__(selfdeco, *args):
                 selfdeco.fun(*args)
@@ -134,5 +139,10 @@ class Calendar:
 
 attime = Calendar()
 
-sigset = (lambda s, v: s.__class__.value.__set__(s, v))
-refset = (lambda mt, v: mt.__class__.ref.__set__(mt, v))
+
+def sigset(s, v):
+    return s.__class__.value.__set__(s, v)
+
+
+def refset(mt, v):
+    return mt.__class__.ref.__set__(mt, v)

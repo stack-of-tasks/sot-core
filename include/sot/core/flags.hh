@@ -19,8 +19,9 @@
 #include <vector>
 
 /* SOT */
-#include "sot/core/api.hh"
 #include <dynamic-graph/signal-caster.h>
+
+#include "sot/core/api.hh"
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -30,11 +31,11 @@ namespace dynamicgraph {
 namespace sot {
 
 class SOT_CORE_EXPORT Flags {
-protected:
+ protected:
   std::vector<bool> flags;
   bool outOfRangeFlag;
 
-public:
+ public:
   Flags(const bool &b = false);
   Flags(const char *flags);
   Flags(const std::vector<bool> &flags);
@@ -58,10 +59,10 @@ public:
   void set(const unsigned int &i);
 };
 
-} // namespace sot
+}  // namespace sot
 
 template <>
 struct signal_io<sot::Flags> : signal_io_unimplemented<sot::Flags> {};
-} // namespace dynamicgraph
+}  // namespace dynamicgraph
 
 #endif /* #ifndef __SOT_FLAGS_H */

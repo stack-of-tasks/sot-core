@@ -8,11 +8,13 @@
  */
 
 /* SOT */
-#include "sot/core/api.hh"
 #include <dynamic-graph/pool.h>
 #include <dynamic-graph/signal-base.h>
+
 #include <sot/core/exception-factory.hh>
 #include <sot/core/pool.hh>
+
+#include "sot/core/api.hh"
 
 /* --- STD --- */
 #include <map>
@@ -31,7 +33,7 @@ namespace sot {
   to allow creation of tasks and features as well as entities.
  */
 class AdditionalFunctions {
-public:
+ public:
   AdditionalFunctions();
   ~AdditionalFunctions();
   static void cmdFlagSet(const std::string &cmd, std::istringstream &args,

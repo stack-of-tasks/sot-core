@@ -13,6 +13,7 @@
 
 /* SOT */
 #include <dynamic-graph/factory.h>
+
 #include <sot/core/macros-signal.hh>
 #include <sot/core/matrix-geometry.hh>
 #include <sot/core/time-stamp.hh>
@@ -28,7 +29,9 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(TimeStamp, "TimeStamp");
 
 /* --- CONSTRUCTION ---------------------------------------------------- */
 TimeStamp::TimeStamp(const std::string &name)
-    : Entity(name), offsetValue(0), offsetSet(false),
+    : Entity(name),
+      offsetValue(0),
+      offsetSet(false),
       timeSOUT("TimeStamp(" + name + ")::output(vector2)::time"),
       timeDoubleSOUT("TimeStamp(" + name + ")::output(double)::timeDouble"),
       timeOnceSOUT(boost::bind(&TimeStamp::getTimeStamp, this, _1, _2),
@@ -68,8 +71,7 @@ dynamicgraph::Vector &TimeStamp::getTimeStamp(dynamicgraph::Vector &res,
                                               const int & /*time*/) {
   sotDEBUGIN(15);
   gettimeofday(&val, NULL);
-  if (res.size() != 2)
-    res.resize(2);
+  if (res.size() != 2) res.resize(2);
 
   res(0) = static_cast<double>(val.tv_sec);
   res(1) = static_cast<double>(val.tv_usec);

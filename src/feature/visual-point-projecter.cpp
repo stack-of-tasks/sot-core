@@ -4,6 +4,7 @@
  */
 
 #include <dynamic-graph/factory.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/visual-point-projecter.hh>
 
@@ -44,9 +45,8 @@ VisualPointProjecter::VisualPointProjecter(const std::string &name)
 /* --- SIGNALS ---------------------------------------------------------- */
 /* --- SIGNALS ---------------------------------------------------------- */
 
-dynamicgraph::Vector &
-VisualPointProjecter::point3DgazeSOUT_function(dynamicgraph::Vector &p3g,
-                                               int iter) {
+dynamicgraph::Vector &VisualPointProjecter::point3DgazeSOUT_function(
+    dynamicgraph::Vector &p3g, int iter) {
   const dynamicgraph::Vector &p3 = m_point3DSIN(iter);
   const MatrixHomogeneous &M = m_transfoSIN(iter);
   MatrixHomogeneous Mi;
@@ -55,8 +55,8 @@ VisualPointProjecter::point3DgazeSOUT_function(dynamicgraph::Vector &p3g,
   return p3g;
 }
 
-dynamicgraph::Vector &
-VisualPointProjecter::point2DSOUT_function(dynamicgraph::Vector &p2, int iter) {
+dynamicgraph::Vector &VisualPointProjecter::point2DSOUT_function(
+    dynamicgraph::Vector &p2, int iter) {
   sotDEBUGIN(15);
 
   const dynamicgraph::Vector &p3 = m_point3DgazeSOUT(iter);
@@ -86,5 +86,5 @@ void VisualPointProjecter::display(std::ostream &os) const {
   os << "VisualPointProjecter " << getName();
 }
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph

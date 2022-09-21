@@ -15,7 +15,6 @@
  */
 
 #include <iostream>
-
 #include <sot/core/causal-filter.hh>
 
 using namespace dynamicgraph::sot;
@@ -38,12 +37,15 @@ CausalFilter::CausalFilter(const double &timestep, const int &xSize,
                            const Eigen::VectorXd &filter_numerator,
                            const Eigen::VectorXd &filter_denominator)
 
-    : m_dt(timestep), m_x_size(xSize),
+    : m_dt(timestep),
+      m_x_size(xSize),
       m_filter_order_m(filter_numerator.size()),
       m_filter_order_n(filter_denominator.size()),
       m_filter_numerator(filter_numerator),
-      m_filter_denominator(filter_denominator), m_first_sample(true),
-      m_pt_numerator(0), m_pt_denominator(0),
+      m_filter_denominator(filter_denominator),
+      m_first_sample(true),
+      m_pt_numerator(0),
+      m_pt_denominator(0),
       m_input_buffer(Eigen::MatrixXd::Zero(xSize, filter_numerator.size())),
       m_output_buffer(
           Eigen::MatrixXd::Zero(xSize, filter_denominator.size() - 1)) {
@@ -56,8 +58,7 @@ void CausalFilter::get_x_dx_ddx(const Eigen::VectorXd &base_x,
                                 Eigen::VectorXd &x_output_dx_ddx) {
   // const dynamicgraph::Vector &base_x = m_xSIN(iter);
   if (m_first_sample) {
-    for (int i = 0; i < m_filter_order_m; i++)
-      m_input_buffer.col(i) = base_x;
+    for (int i = 0; i < m_filter_order_m; i++) m_input_buffer.col(i) = base_x;
     for (int i = 0; i < m_filter_order_n - 1; i++)
       m_output_buffer.col(i) =
           base_x * m_filter_numerator.sum() / m_filter_denominator.sum();
@@ -112,8 +113,7 @@ void CausalFilter::switch_filter(const Eigen::VectorXd &filter_numerator,
   m_input_buffer.resize(Eigen::NoChange, filter_order_m);
   m_output_buffer.resize(Eigen::NoChange, filter_order_n - 1);
 
-  for (int i = 0; i < filter_order_m; i++)
-    m_input_buffer.col(i) = current_x;
+  for (int i = 0; i < filter_order_m; i++) m_input_buffer.col(i) = current_x;
 
   for (int i = 0; i < filter_order_n - 1; i++)
     m_output_buffer.col(i) =

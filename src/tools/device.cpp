@@ -14,19 +14,20 @@
 #define ENABLE_RT_LOG
 
 #include "sot/core/device.hh"
+
 #include <iostream>
 #include <sot/core/debug.hh>
 #include <sot/core/macros.hh>
 using namespace std;
 
-#include <Eigen/Geometry>
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/factory.h>
 #include <dynamic-graph/linear-algebra.h>
 #include <dynamic-graph/real-time-logger.h>
-#include <sot/core/matrix-geometry.hh>
 
+#include <Eigen/Geometry>
 #include <pinocchio/multibody/liegroup/special-euclidean.hpp>
+#include <sot/core/matrix-geometry.hh>
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
 
@@ -70,7 +71,9 @@ Device::~Device() {
 }
 
 Device::Device(const std::string &n)
-    : Entity(n), state_(6), sanityCheck_(true),
+    : Entity(n),
+      state_(6),
+      sanityCheck_(true),
       controlInputType_(CONTROL_INPUT_ONE_INTEGRATION),
       controlSIN(NULL, "Device(" + n + ")::input(double)::control"),
       attitudeSIN(NULL, "Device(" + n + ")::input(vector3)::attitudeIN"),
@@ -89,7 +92,8 @@ Device::Device(const std::string &n)
       pseudoTorqueSOUT("Device(" + n + ")::output(vector)::ptorque")
 
       ,
-      ffPose_(), forceZero6(6) {
+      ffPose_(),
+      forceZero6(6) {
   forceZero6.fill(0);
   /* --- SIGNALS --- */
   for (int i = 0; i < 4; ++i) {
@@ -121,20 +125,23 @@ Device::Device(const std::string &n)
   {
     std::string docstring;
     /* Command setStateSize. */
-    docstring = "\n"
-                "    Set size of state vector\n"
-                "\n";
+    docstring =
+        "\n"
+        "    Set size of state vector\n"
+        "\n";
     addCommand("resize", new command::Setter<Device, unsigned int>(
                              *this, &Device::setStateSize, docstring));
-    docstring = "\n"
-                "    Set state vector value\n"
-                "\n";
+    docstring =
+        "\n"
+        "    Set state vector value\n"
+        "\n";
     addCommand("set", new command::Setter<Device, Vector>(
                           *this, &Device::setState, docstring));
 
-    docstring = "\n"
-                "    Set velocity vector value\n"
-                "\n";
+    docstring =
+        "\n"
+        "    Set velocity vector value\n"
+        "\n";
     addCommand("setVelocity", new command::Setter<Device, Vector>(
                                   *this, &Device::setVelocity, docstring));
 
@@ -145,35 +152,39 @@ Device::Device(const std::string &n)
                command::makeCommandVoid1(*this, setRootPtr, docstring));
 
     /* Second Order Integration set. */
-    docstring = "\n"
-                "    Set the position calculous starting from  \n"
-                "    acceleration measure instead of velocity \n"
-                "\n";
+    docstring =
+        "\n"
+        "    Set the position calculous starting from  \n"
+        "    acceleration measure instead of velocity \n"
+        "\n";
 
     addCommand("setSecondOrderIntegration",
                command::makeCommandVoid0(
                    *this, &Device::setSecondOrderIntegration, docstring));
 
     /* Display information */
-    docstring = "\n"
-                "    Display information on device  \n"
-                "\n";
+    docstring =
+        "\n"
+        "    Display information on device  \n"
+        "\n";
     addCommand("display", command::makeCommandVoid0(*this, &Device::cmdDisplay,
                                                     docstring));
 
     /* SET of control input type. */
-    docstring = "\n"
-                "    Set the type of control input which can be  \n"
-                "    acceleration, velocity, or position\n"
-                "\n";
+    docstring =
+        "\n"
+        "    Set the type of control input which can be  \n"
+        "    acceleration, velocity, or position\n"
+        "\n";
 
     addCommand("setControlInputType",
                new command::Setter<Device, string>(
                    *this, &Device::setControlInputType, docstring));
 
-    docstring = "\n"
-                "    Enable/Disable sanity checks\n"
-                "\n";
+    docstring =
+        "\n"
+        "    Enable/Disable sanity checks\n"
+        "\n";
     addCommand("setSanityCheck",
                new command::Setter<Device, bool>(*this, &Device::setSanityCheck,
                                                  docstring));
@@ -233,36 +244,38 @@ void Device::setState(const Vector &st) {
     SOT_CORE_DISABLE_WARNING_PUSH
     SOT_CORE_DISABLE_WARNING_FALLTHROUGH
     switch (controlInputType_) {
-    case CONTROL_INPUT_TWO_INTEGRATION:
-      dgRTLOG()
-          << "Sanity check for this control is not well supported. "
-             "In order to make it work, use pinocchio and the contact forces "
-             "to estimate the joint torques for the given acceleration.\n";
-      if (s != lowerTorque_.size() || s != upperTorque_.size()) {
-        std::ostringstream os;
-        os << "dynamicgraph::sot::Device::setState: upper and/or lower torque"
-              "bounds do not match state size. Input State size = "
-           << st.size() << ", lowerTorque_.size() = " << lowerTorque_.size()
-           << ", upperTorque_.size() = " << upperTorque_.size()
-           << ". Set them first with setTorqueBounds.";
-        throw std::invalid_argument(os.str().c_str());
+      case CONTROL_INPUT_TWO_INTEGRATION:
+        dgRTLOG()
+            << "Sanity check for this control is not well supported. "
+               "In order to make it work, use pinocchio and the contact forces "
+               "to estimate the joint torques for the given acceleration.\n";
+        if (s != lowerTorque_.size() || s != upperTorque_.size()) {
+          std::ostringstream os;
+          os << "dynamicgraph::sot::Device::setState: upper and/or lower torque"
+                "bounds do not match state size. Input State size = "
+             << st.size() << ", lowerTorque_.size() = " << lowerTorque_.size()
+             << ", upperTorque_.size() = " << upperTorque_.size()
+             << ". Set them first with setTorqueBounds.";
+          throw std::invalid_argument(os.str().c_str());
+          // fall through
+        }
+      case CONTROL_INPUT_ONE_INTEGRATION:
+        if (s != lowerVelocity_.size() || s != upperVelocity_.size()) {
+          std::ostringstream os;
+          os << "dynamicgraph::sot::Device::setState: upper and/or lower "
+                "velocity"
+                " bounds do not match state size. Input State size = "
+             << st.size()
+             << ", lowerVelocity_.size() = " << lowerVelocity_.size()
+             << ", upperVelocity_.size() = " << upperVelocity_.size()
+             << ". Set them first with setVelocityBounds.";
+          throw std::invalid_argument(os.str().c_str());
+        }
         // fall through
-      }
-    case CONTROL_INPUT_ONE_INTEGRATION:
-      if (s != lowerVelocity_.size() || s != upperVelocity_.size()) {
-        std::ostringstream os;
-        os << "dynamicgraph::sot::Device::setState: upper and/or lower velocity"
-              " bounds do not match state size. Input State size = "
-           << st.size() << ", lowerVelocity_.size() = " << lowerVelocity_.size()
-           << ", upperVelocity_.size() = " << upperVelocity_.size()
-           << ". Set them first with setVelocityBounds.";
-        throw std::invalid_argument(os.str().c_str());
-      }
-      // fall through
-    case CONTROL_INPUT_NO_INTEGRATION:
-      break;
-    default:
-      throw std::invalid_argument("Invalid control mode type.");
+      case CONTROL_INPUT_NO_INTEGRATION:
+        break;
+      default:
+        throw std::invalid_argument("Invalid control mode type.");
     }
     SOT_CORE_DISABLE_WARNING_POP
   }
@@ -285,9 +298,8 @@ void Device::setRoot(const Matrix &root) {
 void Device::setRoot(const MatrixHomogeneous &worldMwaist) {
   VectorRollPitchYaw r = (worldMwaist.linear().eulerAngles(2, 1, 0)).reverse();
   Vector q = state_;
-  q = worldMwaist.translation(); // abusive ... but working.
-  for (unsigned int i = 0; i < 3; ++i)
-    q(i + 3) = r(i);
+  q = worldMwaist.translation();  // abusive ... but working.
+  for (unsigned int i = 0; i < 3; ++i) q(i + 3) = r(i);
 }
 
 void Device::setSecondOrderIntegration() {
@@ -320,30 +332,30 @@ void Device::setSanityCheck(const bool &enableCheck) {
     SOT_CORE_DISABLE_WARNING_PUSH
     SOT_CORE_DISABLE_WARNING_FALLTHROUGH
     switch (controlInputType_) {
-    case CONTROL_INPUT_TWO_INTEGRATION:
-      dgRTLOG()
-          << "Sanity check for this control is not well supported. "
-             "In order to make it work, use pinocchio and the contact forces "
-             "to estimate the joint torques for the given acceleration.\n";
-      if (s != lowerTorque_.size() || s != upperTorque_.size())
-        throw std::invalid_argument(
-            "Upper and/or lower torque bounds "
-            "do not match state size. Set them first with setTorqueBounds");
-      // fall through
-    case CONTROL_INPUT_ONE_INTEGRATION:
-      if (s != lowerVelocity_.size() || s != upperVelocity_.size())
-        throw std::invalid_argument(
-            "Upper and/or lower velocity bounds "
-            "do not match state size. Set them first with setVelocityBounds");
-      // fall through
-    case CONTROL_INPUT_NO_INTEGRATION:
-      if (s != lowerPosition_.size() || s != upperPosition_.size())
-        throw std::invalid_argument(
-            "Upper and/or lower position bounds "
-            "do not match state size. Set them first with setPositionBounds");
-      break;
-    default:
-      throw std::invalid_argument("Invalid control mode type.");
+      case CONTROL_INPUT_TWO_INTEGRATION:
+        dgRTLOG()
+            << "Sanity check for this control is not well supported. "
+               "In order to make it work, use pinocchio and the contact forces "
+               "to estimate the joint torques for the given acceleration.\n";
+        if (s != lowerTorque_.size() || s != upperTorque_.size())
+          throw std::invalid_argument(
+              "Upper and/or lower torque bounds "
+              "do not match state size. Set them first with setTorqueBounds");
+        // fall through
+      case CONTROL_INPUT_ONE_INTEGRATION:
+        if (s != lowerVelocity_.size() || s != upperVelocity_.size())
+          throw std::invalid_argument(
+              "Upper and/or lower velocity bounds "
+              "do not match state size. Set them first with setVelocityBounds");
+        // fall through
+      case CONTROL_INPUT_NO_INTEGRATION:
+        if (s != lowerPosition_.size() || s != upperPosition_.size())
+          throw std::invalid_argument(
+              "Upper and/or lower position bounds "
+              "do not match state size. Set them first with setPositionBounds");
+        break;
+      default:
+        throw std::invalid_argument("Invalid control mode type.");
     }
     SOT_CORE_DISABLE_WARNING_POP
   }
@@ -438,8 +450,7 @@ void Device::increment(const double &dt) {
     velocitySOUT.setTime(time + 1);
   }
   for (int i = 0; i < 4; ++i) {
-    if (!withForceSignals[i])
-      forcesSOUT[i]->setConstant(forceZero6);
+    if (!withForceSignals[i]) forcesSOUT[i]->setConstant(forceZero6);
   }
   Vector zmp(3);
   zmp.fill(.0);
@@ -508,8 +519,7 @@ void Device::integrate(const double &dt) {
     return;
   }
 
-  if (vel_control_.size() == 0)
-    vel_control_ = Vector::Zero(controlIN.size());
+  if (vel_control_.size() == 0) vel_control_ = Vector::Zero(controlIN.size());
 
   // If control size is state size - 6, integrate joint angles,
   // if control and state are of same size, integrate 6 first degrees of

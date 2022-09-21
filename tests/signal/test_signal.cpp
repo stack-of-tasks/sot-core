@@ -12,13 +12,13 @@
 /* -------------------------------------------------------------------------- */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/linear-algebra.h>
+
 #include <iostream>
 using namespace std;
 using namespace dynamicgraph;
 
 class DummyClass {
-
-public:
+ public:
   dynamicgraph::Vector &fun(dynamicgraph::Vector &res, double j) {
     res.resize(3);
     res.fill(j);

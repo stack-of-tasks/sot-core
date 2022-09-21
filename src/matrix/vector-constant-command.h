@@ -9,11 +9,11 @@
 #ifndef VECTOR_CONSTANT_COMMAND_H
 #define VECTOR_CONSTANT_COMMAND_H
 
-#include <boost/assign/list_of.hpp>
-
 #include <dynamic-graph/command-getter.h>
 #include <dynamic-graph/command-setter.h>
 #include <dynamic-graph/command.h>
+
+#include <boost/assign/list_of.hpp>
 
 namespace dynamicgraph {
 namespace sot {
@@ -24,7 +24,7 @@ using ::dynamicgraph::command::Value;
 
 // Command Resize
 class Resize : public Command {
-public:
+ public:
   virtual ~Resize() {}
   /// Create command and store it in Entity
   /// \param entity instance of Entity owning this command
@@ -41,10 +41,10 @@ public:
     // return void
     return Value();
   }
-}; // class Resize
-} // namespace vectorConstant
-} // namespace command
+};  // class Resize
+}  // namespace vectorConstant
+}  // namespace command
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // VECTOR_CONSTANT_COMMAND_H
+#endif  // VECTOR_CONSTANT_COMMAND_H

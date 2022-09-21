@@ -27,11 +27,12 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureVisualPoint, "FeatureVisualPoint");
 /* --------------------------------------------------------------------- */
 
 FeatureVisualPoint::FeatureVisualPoint(const string &pointName)
-    : FeatureAbstract(pointName), L(),
+    : FeatureAbstract(pointName),
+      L(),
       xySIN(NULL, "sotFeatureVisualPoint(" + name + ")::input(vector)::xy"),
       ZSIN(NULL, "sotFeatureVisualPoint(" + name + ")::input(double)::Z"),
-      articularJacobianSIN(NULL, "sotFeatureVisualPoint(" + name +
-                                     ")::input(matrix)::Jq") {
+      articularJacobianSIN(
+          NULL, "sotFeatureVisualPoint(" + name + ")::input(matrix)::Jq") {
   ZSIN = 1.;
 
   jacobianSOUT.addDependency(xySIN);
@@ -64,10 +65,8 @@ unsigned int &FeatureVisualPoint::getDimension(unsigned int &dim, int time) {
   const Flags &fl = selectionSIN.access(time);
 
   dim = 0;
-  if (fl(0))
-    dim++;
-  if (fl(1))
-    dim++;
+  if (fl(0)) dim++;
+  if (fl(1)) dim++;
 
   sotDEBUG(25) << "# Out }" << endl;
   return dim;
@@ -166,10 +165,8 @@ void FeatureVisualPoint::display(std::ostream &os) const {
   try {
     const Vector &xy = xySIN.accessCopy();
     const Flags &fl = selectionSIN.accessCopy();
-    if (fl(0))
-      os << " x=" << xy(0);
-    if (fl(1))
-      os << " y=" << xy(1);
+    if (fl(0)) os << " x=" << xy(0);
+    if (fl(1)) os << " y=" << xy(1);
   } catch (ExceptionAbstract e) {
     os << " XY or select not set.";
   }

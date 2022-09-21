@@ -48,12 +48,14 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-#include "boost/assign.hpp"
 #include <dynamic-graph/signal-helper.h>
+
 #include <map>
 #include <sot/core/matrix-geometry.hh>
 
-#define betaDef 0.01 // 2 * proportional g
+#include "boost/assign.hpp"
+
+#define betaDef 0.01  // 2 * proportional g
 
 namespace dynamicgraph {
 namespace sot {
@@ -84,7 +86,7 @@ class SOTMADGWICKAHRS_EXPORT MadgwickAHRS : public ::dynamicgraph::Entity {
   typedef MadgwickAHRS EntityClassName;
   DYNAMIC_GRAPH_ENTITY_DECL();
 
-public:
+ public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /* --- CONSTRUCTOR ---- */
@@ -104,7 +106,7 @@ public:
   /// Estimated orientation of IMU as a quaternion
   DECLARE_SIGNAL_OUT(imu_quat, dynamicgraph::Vector);
 
-protected:
+ protected:
   /* --- COMMANDS --- */
   /* --- ENTITY INHERITANCE --- */
   virtual void display(std::ostream &os) const;
@@ -114,7 +116,7 @@ protected:
   void madgwickAHRSupdateIMU(double gx, double gy, double gz, double ax,
                              double ay, double az);
 
-protected:
+ protected:
   /// true if the entity has been successfully initialized
   bool m_initSucceeded;
   /// 2 * proportional gain (Kp)
@@ -124,8 +126,8 @@ protected:
   /// sample frequency in Hz
   double m_sampleFreq;
 
-}; // class MadgwickAHRS
-} // namespace sot
-} // namespace dynamicgraph
+};  // class MadgwickAHRS
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // #ifndef __sot_torque_control_madgwickahrs_H__
+#endif  // #ifndef __sot_torque_control_madgwickahrs_H__

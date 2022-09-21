@@ -12,12 +12,12 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
+#include <dynamic-graph/linear-algebra.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/exception-feature.hh>
 #include <sot/core/factory.hh>
 #include <sot/core/motion-period.hh>
-
-#include <dynamic-graph/linear-algebra.h>
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
@@ -29,7 +29,8 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MotionPeriod, "MotionPeriod");
 /* --------------------------------------------------------------------- */
 
 MotionPeriod::MotionPeriod(const string &fName)
-    : Entity(fName), motionParams(0),
+    : Entity(fName),
+      motionParams(0),
       motionSOUT(boost::bind(&MotionPeriod::computeMotion, this, _1, _2),
                  sotNOSIGNAL,
                  "MotionPeriod(" + name + ")::output(vector)::motion") {
@@ -52,19 +53,19 @@ dynamicgraph::Vector &MotionPeriod::computeMotion(dynamicgraph::Vector &res,
     double x = ((((time - p.initPeriod) % p.period) + 0.0) / (p.period + 0.0));
     res(i) = p.initAmplitude;
     switch (p.motionType) {
-    case MOTION_CONSTANT: {
-      res(i) += p.amplitude;
-      break;
-    }
-    case MOTION_SIN: {
-      res(i) += p.amplitude * sin(M_PI * 2 * x);
-      break;
-    }
-    case MOTION_COS: {
-      res(i) += p.amplitude * cos(M_PI * 2 * x);
-      break;
-    }
-      // case MOTION_: {res(i)+= p.amplitude; break}
+      case MOTION_CONSTANT: {
+        res(i) += p.amplitude;
+        break;
+      }
+      case MOTION_SIN: {
+        res(i) += p.amplitude * sin(M_PI * 2 * x);
+        break;
+      }
+      case MOTION_COS: {
+        res(i) += p.amplitude * cos(M_PI * 2 * x);
+        break;
+      }
+        // case MOTION_: {res(i)+= p.amplitude; break}
     }
   }
 
@@ -88,19 +89,19 @@ void MotionPeriod::display(std::ostream &os) const {
   os << "MotionPeriod <" << name << "> ... TODO";
 }
 
-#define SOT_PARAMS_CONFIG(ARGname, ARGtype)                                    \
-  else if (cmdLine == #ARGname) {                                              \
-    unsigned int rank;                                                         \
-    ARGtype period;                                                            \
-    cmdArgs >> rank >> std::ws;                                                \
-    if (rank >= this->size) {                                                  \
-      os << "!! Error: size size too large." << std::endl;                     \
-    }                                                                          \
-    if (cmdArgs.good()) {                                                      \
-      cmdArgs >> period;                                                       \
-      motionParams[rank].ARGname = period;                                     \
-    } else {                                                                   \
-      os << #ARGname << "[" << rank << "] = " << motionParams[rank].ARGname    \
-         << std::endl;                                                         \
-    }                                                                          \
+#define SOT_PARAMS_CONFIG(ARGname, ARGtype)                                 \
+  else if (cmdLine == #ARGname) {                                           \
+    unsigned int rank;                                                      \
+    ARGtype period;                                                         \
+    cmdArgs >> rank >> std::ws;                                             \
+    if (rank >= this->size) {                                               \
+      os << "!! Error: size size too large." << std::endl;                  \
+    }                                                                       \
+    if (cmdArgs.good()) {                                                   \
+      cmdArgs >> period;                                                    \
+      motionParams[rank].ARGname = period;                                  \
+    } else {                                                                \
+      os << #ARGname << "[" << rank << "] = " << motionParams[rank].ARGname \
+         << std::endl;                                                      \
+    }                                                                       \
   }

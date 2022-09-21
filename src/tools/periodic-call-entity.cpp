@@ -13,6 +13,7 @@
 
 /* --- SOT --- */
 #include <dynamic-graph/pool.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/factory.hh>
 #include <sot/core/periodic-call-entity.hh>
@@ -27,7 +28,9 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(PeriodicCallEntity, "PeriodicCallEntity");
 /* --------------------------------------------------------------------- */
 
 PeriodicCallEntity::PeriodicCallEntity(const string &fName)
-    : Entity(fName), PeriodicCall(), triger("Tracer(" + fName + ")::triger"),
+    : Entity(fName),
+      PeriodicCall(),
+      triger("Tracer(" + fName + ")::triger"),
       trigerOnce("Tracer(" + fName + ")::trigerOnce") {
   signalRegistration(triger << trigerOnce);
 

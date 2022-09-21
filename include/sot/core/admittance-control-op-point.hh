@@ -31,11 +31,11 @@
 
 #include <dynamic-graph/signal-helper.h>
 
+#include <sot/core/matrix-geometry.hh>
+
 #include "pinocchio/spatial/force.hpp"
 #include "pinocchio/spatial/motion.hpp"
 #include "pinocchio/spatial/se3.hpp"
-
-#include <sot/core/matrix-geometry.hh>
 
 namespace dynamicgraph {
 namespace sot {
@@ -60,7 +60,7 @@ class ADMITTANCECONTROLOPPOINT_EXPORT AdmittanceControlOpPoint
     : public ::dynamicgraph::Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
-public:
+ public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /* --- CONSTRUCTOR ---- */
@@ -106,7 +106,7 @@ public:
   /* --- ENTITY INHERITANCE --- */
   virtual void display(std::ostream &os) const;
 
-protected:
+ protected:
   /// Dimension of the force signals and of the output
   int m_n;
   /// True if the entity has been successfully initialized
@@ -118,10 +118,10 @@ protected:
   // Weight of the end-effector
   double m_mass;
 
-}; // class AdmittanceControlOpPoint
+};  // class AdmittanceControlOpPoint
 
-} // namespace core
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace core
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // #ifndef __sot_core_admittance_control_op_point_H__
+#endif  // #ifndef __sot_core_admittance_control_op_point_H__

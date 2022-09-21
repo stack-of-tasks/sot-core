@@ -10,16 +10,15 @@
 #ifndef __SOT_FIRFILTER_HH__
 #define __SOT_FIRFILTER_HH__
 
-#include <cassert>
-
-#include <algorithm>
-#include <iterator>
-#include <vector>
-
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/command-getter.h>
 #include <dynamic-graph/command-setter.h>
 #include <dynamic-graph/entity.h>
+
+#include <algorithm>
+#include <cassert>
+#include <iterator>
+#include <vector>
 
 namespace dynamicgraph {
 namespace sot {
@@ -29,8 +28,9 @@ namespace detail {
 // As a workaround, only the part of circular_buffer's interface used
 // here is implemented.
 // Ugly, fatty piece of code.
-template <class T> class circular_buffer {
-public:
+template <class T>
+class circular_buffer {
+ public:
   circular_buffer() : buf(1), start(0), numel(0) {}
   void push_front(const T &data) {
     if (start) {
@@ -61,37 +61,41 @@ public:
   }
   size_t size() const { return numel; }
 
-private:
+ private:
   std::vector<T> buf;
   size_t start;
   size_t numel;
-}; // class circular_buffer
-} // namespace detail
+};  // class circular_buffer
+}  // namespace detail
 
-template <class sigT, class coefT> class FIRFilter;
+template <class sigT, class coefT>
+class FIRFilter;
 
 namespace command {
 using ::dynamicgraph::command::Command;
 using ::dynamicgraph::command::Value;
 
-template <class sigT, class coefT> class SetElement : public Command {
-public:
+template <class sigT, class coefT>
+class SetElement : public Command {
+ public:
   SetElement(FIRFilter<sigT, coefT> &entity, const std::string &docstring);
   Value doExecute();
-}; // class SetElement
+};  // class SetElement
 
-template <class sigT, class coefT> class GetElement : public Command {
-public:
+template <class sigT, class coefT>
+class GetElement : public Command {
+ public:
   GetElement(FIRFilter<sigT, coefT> &entity, const std::string &docstring);
   Value doExecute();
-}; // class SetElement
-} // namespace command
+};  // class SetElement
+}  // namespace command
 
 using ::dynamicgraph::command::Getter;
 using ::dynamicgraph::command::Setter;
 
-template <class sigT, class coefT> class FIRFilter : public Entity {
-public:
+template <class sigT, class coefT>
+class FIRFilter : public Entity {
+ public:
   virtual const std::string &getClassName() const {
     return Entity::getClassName();
   }
@@ -114,38 +118,43 @@ public:
            "    -  s is the input signal.\n";
   }
 
-public:
+ public:
   FIRFilter(const std::string &name)
-      : Entity(name), SIN(NULL, "sotFIRFilter(" + name + ")::input(T)::sin"),
+      : Entity(name),
+        SIN(NULL, "sotFIRFilter(" + name + ")::input(T)::sin"),
         SOUT(boost::bind(&FIRFilter::compute, this, _1, _2), SIN,
              "sotFIRFilter(" + name + ")::output(T)::sout") {
     signalRegistration(SIN << SOUT);
-    std::string docstring = "  Set element at rank in array of coefficients\n"
-                            "\n"
-                            "    Input:\n"
-                            "      - positive int: rank\n"
-                            "      - element\n";
+    std::string docstring =
+        "  Set element at rank in array of coefficients\n"
+        "\n"
+        "    Input:\n"
+        "      - positive int: rank\n"
+        "      - element\n";
     addCommand("setElement",
                new command::SetElement<sigT, coefT>(*this, docstring));
-    docstring = "  Get element at rank in array of coefficients\n"
-                "\n"
-                "    Input:\n"
-                "      - positive int: rank\n"
-                "    Return:\n"
-                "      - element\n";
+    docstring =
+        "  Get element at rank in array of coefficients\n"
+        "\n"
+        "    Input:\n"
+        "      - positive int: rank\n"
+        "    Return:\n"
+        "      - element\n";
     addCommand("getElement",
                new command::GetElement<sigT, coefT>(*this, docstring));
-    docstring = "  Set number of coefficients\n"
-                "\n"
-                "    Input:\n"
-                "      - positive int: size\n";
+    docstring =
+        "  Set number of coefficients\n"
+        "\n"
+        "    Input:\n"
+        "      - positive int: size\n";
     addCommand("setSize", new Setter<FIRFilter, unsigned>(
                               *this, &FIRFilter::resizeBuffer, docstring));
 
-    docstring = "  Get Number of coefficients\n"
-                "\n"
-                "    Return:\n"
-                "      - positive int: size\n";
+    docstring =
+        "  Get Number of coefficients\n"
+        "\n"
+        "    Return:\n"
+        "      - positive int: size\n";
     addCommand("getSize", new Getter<FIRFilter, unsigned>(
                               *this, &FIRFilter::getBufferSize, docstring));
   }
@@ -183,14 +192,14 @@ public:
 
   static void reset_signal(sigT & /*res*/, const sigT & /*sample*/) {}
 
-public:
+ public:
   SignalPtr<sigT, int> SIN;
   SignalTimeDependent<sigT, int> SOUT;
 
-private:
+ private:
   std::vector<coefT> coefs;
   detail::circular_buffer<sigT> data;
-}; // class FIRFilter
+};  // class FIRFilter
 
 namespace command {
 using ::dynamicgraph::command::Command;
@@ -205,7 +214,8 @@ SetElement<sigT, coefT>::SetElement(FIRFilter<sigT, coefT> &entity,
           boost::assign::list_of(Value::UNSIGNED)(ValueHelper<coefT>::TypeID),
           docstring) {}
 
-template <class sigT, class coefT> Value SetElement<sigT, coefT>::doExecute() {
+template <class sigT, class coefT>
+Value SetElement<sigT, coefT>::doExecute() {
   FIRFilter<sigT, coefT> &entity =
       static_cast<FIRFilter<sigT, coefT> &>(owner());
   std::vector<Value> values = getParameterValues();
@@ -220,16 +230,17 @@ GetElement<sigT, coefT>::GetElement(FIRFilter<sigT, coefT> &entity,
                                     const std::string &docstring)
     : Command(entity, boost::assign::list_of(Value::UNSIGNED), docstring) {}
 
-template <class sigT, class coefT> Value GetElement<sigT, coefT>::doExecute() {
+template <class sigT, class coefT>
+Value GetElement<sigT, coefT>::doExecute() {
   FIRFilter<sigT, coefT> &entity =
       static_cast<FIRFilter<sigT, coefT> &>(owner());
   std::vector<Value> values = getParameterValues();
   unsigned int rank = values[0].value();
   return Value(entity.getElement(rank));
 }
-} // namespace command
+}  // namespace command
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 #endif

@@ -11,7 +11,7 @@
 
 #include <sot/core/debug.hh>
 class ControlGR__INIT {
-public:
+ public:
   ControlGR__INIT(void) { dynamicgraph::sot::DebugTrace::openFile(); }
 };
 ControlGR__INIT ControlGR_initiator;
@@ -19,6 +19,7 @@ ControlGR__INIT ControlGR_initiator;
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 #include <dynamic-graph/factory.h>
+
 #include <sot/core/binary-op.hh>
 #include <sot/core/control-gr.hh>
 
@@ -36,7 +37,8 @@ const double ControlGR::TIME_STEP_DEFAULT = .001;
 #define __SOT_ControlGR_INIT
 
 ControlGR::ControlGR(const std::string &name)
-    : Entity(name), TimeStep(0),
+    : Entity(name),
+      TimeStep(0),
       matrixASIN(NULL, "ControlGR(" + name + ")::input(matrix)::matrixA"),
       accelerationSIN(NULL,
                       "ControlGR(" + name + ")::input(vector)::acceleration"),

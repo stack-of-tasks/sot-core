@@ -45,31 +45,34 @@ class SOT_CORE_DLLAPI Event : public dynamicgraph::Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
   Event(const std::string &name)
-      : Entity(name), checkSOUT("Event(" + name + ")::output(bool)::check"),
+      : Entity(name),
+        checkSOUT("Event(" + name + ")::output(bool)::check"),
         conditionSIN(NULL, "Event(" + name + ")::input(bool)::condition"),
-        lastVal_(2), // lastVal_ should be different true and false.
-    timeSinceUp_(0), repeatAfterNIterations_(0)
-  {
+        lastVal_(2),  // lastVal_ should be different true and false.
+        timeSinceUp_(0),
+        repeatAfterNIterations_(0) {
     checkSOUT.setFunction(boost::bind(&Event::check, this, _1, _2));
     signalRegistration(conditionSIN);
     signalRegistration(checkSOUT);
 
     using command::makeCommandVoid1;
-    std::string docstring = "\n"
-                            "    Add a signal\n";
+    std::string docstring =
+        "\n"
+        "    Add a signal\n";
     addCommand("addSignal",
                makeCommandVoid1(*this, &Event::addSignal, docstring));
 
-    docstring = "\n"
-                "    Get list of signals\n";
+    docstring =
+        "\n"
+        "    Get list of signals\n";
     addCommand("list", new command::Getter<Event, std::string>(
                            *this, &Event::getSignalsByName, docstring));
 
     docstring =
-      "\n"
-      "    Repease event if input signal remains True for a while\n"
-      "      Input: number of iterations before repeating output\n."
-      "        0 for no repetition";
+        "\n"
+        "    Repease event if input signal remains True for a while\n"
+        "      Input: number of iterations before repeating output\n."
+        "        0 for no repetition";
     addCommand("repeat", new command::Setter<Event, int>(*this, &Event::repeat,
                                                          docstring));
   }
@@ -99,11 +102,11 @@ class SOT_CORE_DLLAPI Event : public dynamicgraph::Entity {
     return oss.str();
   }
 
-  void repeat(const int& nbIterations)
-  {
+  void repeat(const int &nbIterations) {
     repeatAfterNIterations_ = nbIterations;
   }
-private:
+
+ private:
   typedef SignalBase<int> *Trigger_t;
   typedef std::vector<Trigger_t> Triggers_t;
 
@@ -117,6 +120,6 @@ private:
   bool lastVal_;
   int timeSinceUp_, repeatAfterNIterations_;
 };
-} // namespace sot
-} // namespace dynamicgraph
-#endif // __SOT_EVENT_H__
+}  // namespace sot
+}  // namespace dynamicgraph
+#endif  // __SOT_EVENT_H__

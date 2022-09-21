@@ -7,24 +7,23 @@
 #include <boost/test/floating_point_comparison.hpp>
 #include <boost/test/output_test_stream.hpp>
 #include <boost/test/unit_test.hpp>
-
 #include <sot/core/matrix-geometry.hh>
 
 using boost::test_tools::output_test_stream;
 
-#define MATRIX_BOOST_REQUIRE_CLOSE(N, M, LEFT, RIGHT, TOLERANCE)               \
-  for (unsigned i = 0; i < N; ++i)                                             \
-    for (unsigned j = 0; j < M; ++j)                                           \
+#define MATRIX_BOOST_REQUIRE_CLOSE(N, M, LEFT, RIGHT, TOLERANCE) \
+  for (unsigned i = 0; i < N; ++i)                               \
+    for (unsigned j = 0; j < M; ++j)                             \
   BOOST_REQUIRE_CLOSE(LEFT(i, j), RIGHT(i, j), TOLERANCE)
 
-#define MATRIX_6x6_BOOST_REQUIRE_CLOSE(LEFT, RIGHT, TOLERANCE)                 \
+#define MATRIX_6x6_BOOST_REQUIRE_CLOSE(LEFT, RIGHT, TOLERANCE) \
   MATRIX_BOOST_REQUIRE_CLOSE(6, 6, LEFT, RIGHT, TOLERANCE)
 
-#define MATRIX_4x4_INIT(M, A00, A01, A02, A03, A10, A11, A12, A13, A20, A21,   \
-                        A22, A23, A30, A31, A32, A33)                          \
-  M(0, 0) = A00, M(0, 1) = A01, M(0, 2) = A02, M(0, 3) = A03;                  \
-  M(1, 0) = A10, M(1, 1) = A11, M(1, 2) = A12, M(1, 3) = A13;                  \
-  M(2, 0) = A20, M(2, 1) = A21, M(2, 2) = A22, M(2, 3) = A23;                  \
+#define MATRIX_4x4_INIT(M, A00, A01, A02, A03, A10, A11, A12, A13, A20, A21, \
+                        A22, A23, A30, A31, A32, A33)                        \
+  M(0, 0) = A00, M(0, 1) = A01, M(0, 2) = A02, M(0, 3) = A03;                \
+  M(1, 0) = A10, M(1, 1) = A11, M(1, 2) = A12, M(1, 3) = A13;                \
+  M(2, 0) = A20, M(2, 1) = A21, M(2, 2) = A22, M(2, 3) = A23;                \
   M(3, 0) = A30, M(3, 1) = A31, M(3, 2) = A32, M(3, 3) = A33
 
 #define MATRIX_6x6_INIT(M, A00, A01, A02, A03, A04, A05, A10, A11, A12, A13,   \
@@ -67,8 +66,7 @@ BOOST_AUTO_TEST_CASE(constructor_trivial_identity) {
   dynamicgraph::Matrix twistRef(6, 6);
 
   for (unsigned i = 0; i < 6; ++i)
-    for (unsigned j = 0; j < 6; ++j)
-      twistRef(i, j) = (i == j) ? 1. : 0.;
+    for (unsigned j = 0; j < 6; ++j) twistRef(i, j) = (i == j) ? 1. : 0.;
 
   MATRIX_6x6_BOOST_REQUIRE_CLOSE(twist, twistRef, 0.001);
 }

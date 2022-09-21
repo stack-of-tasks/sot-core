@@ -20,6 +20,7 @@
 /* SOT */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/task-abstract.hh>
 
 /* STD */
@@ -49,11 +50,11 @@ namespace dynamicgraph {
 namespace sot {
 
 class NeckLimitation_EXPORT NeckLimitation : public dynamicgraph::Entity {
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   unsigned int panRank, tiltRank;
   static const unsigned int PAN_RANK_DEFAULT;
   static const unsigned int TILT_RANK_DEFAULT;
@@ -66,24 +67,23 @@ protected:
   static const double COEFF_AFFINE_DEFAULT;
   static const double SIGN_TILT_DEFAULT;
 
-public: /* --- CONSTRUCTION --- */
+ public: /* --- CONSTRUCTION --- */
   NeckLimitation(const std::string &name);
   virtual ~NeckLimitation(void);
 
-public: /* --- SIGNAL --- */
+ public: /* --- SIGNAL --- */
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> jointSIN;
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> jointSOUT;
 
-public: /* --- FUNCTIONS --- */
-  dynamicgraph::Vector &
-  computeJointLimitation(dynamicgraph::Vector &jointLimited,
-                         const int &timeSpec);
+ public: /* --- FUNCTIONS --- */
+  dynamicgraph::Vector &computeJointLimitation(
+      dynamicgraph::Vector &jointLimited, const int &timeSpec);
 
-public: /* --- PARAMS --- */
+ public: /* --- PARAMS --- */
   virtual void display(std::ostream &os) const;
 };
 
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_NeckLimitation_H__
+#endif  // #ifndef __SOT_NeckLimitation_H__

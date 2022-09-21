@@ -18,6 +18,7 @@
 using namespace std;
 
 #include <../src/feature/feature-joint-limits-command.h>
+
 #include <sot/core/factory.hh>
 
 /* --------------------------------------------------------------------- */
@@ -31,7 +32,8 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureJointLimits, "FeatureJointLimits");
 const double FeatureJointLimits::THRESHOLD_DEFAULT = .9;
 
 FeatureJointLimits::FeatureJointLimits(const string &fName)
-    : FeatureAbstract(fName), threshold(THRESHOLD_DEFAULT)
+    : FeatureAbstract(fName),
+      threshold(THRESHOLD_DEFAULT)
 
       ,
       jointSIN(NULL,
@@ -54,9 +56,10 @@ FeatureJointLimits::FeatureJointLimits(const string &fName)
   //
   std::string docstring;
   // Actuate
-  docstring = "    \n"
-              "    Actuate\n"
-              "    \n";
+  docstring =
+      "    \n"
+      "    Actuate\n"
+      "    \n";
   addCommand("actuate",
              new command::featureJointLimits::Actuate(*this, docstring));
 }
@@ -78,8 +81,7 @@ unsigned int &FeatureJointLimits::getDimension(unsigned int &dim, int time) {
 
   dim = 0;
   for (Matrix::Index i = 0; i < NBJL; ++i)
-    if (fl(static_cast<int>(i)))
-      dim++;
+    if (fl(static_cast<int>(i))) dim++;
 
   sotDEBUG(25) << "# Out }" << endl;
   return dim;

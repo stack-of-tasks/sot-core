@@ -9,13 +9,13 @@
 
 #define ENABLE_RT_LOG
 
+#include <dynamic-graph/all-commands.h>
+#include <dynamic-graph/real-time-logger.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/factory.hh>
 #include <sot/core/gripper-control.hh>
 #include <sot/core/macros-signal.hh>
-
-#include <dynamic-graph/all-commands.h>
-#include <dynamic-graph/real-time-logger.h>
 
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
@@ -26,15 +26,15 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(GripperControlPlugin, "GripperControl");
 /* --- PLUGIN --------------------------------------------------------------- */
 /* --- PLUGIN --------------------------------------------------------------- */
 
-#define SOT_FULL_TO_REDUCED(sotName)                                           \
-  sotName##FullSizeSIN(NULL, "GripperControl(" + name +                        \
-                                 ")::input(vector)::" + #sotName + "FullIN"),  \
-      sotName##ReduceSOUT(SOT_INIT_SIGNAL_2(GripperControlPlugin::selector,    \
-                                            sotName##FullSizeSIN,              \
-                                            dynamicgraph::Vector,              \
-                                            selectionSIN, Flags),              \
-                          "GripperControl(" + name +                           \
-                              ")::input(vector)::" + #sotName + "ReducedOUT")
+#define SOT_FULL_TO_REDUCED(sotName)                                          \
+  sotName##FullSizeSIN(NULL, "GripperControl(" + name +                       \
+                                 ")::input(vector)::" + #sotName + "FullIN"), \
+      sotName##ReduceSOUT(                                                    \
+          SOT_INIT_SIGNAL_2(GripperControlPlugin::selector,                   \
+                            sotName##FullSizeSIN, dynamicgraph::Vector,       \
+                            selectionSIN, Flags),                             \
+          "GripperControl(" + name + ")::input(vector)::" + #sotName +        \
+              "ReducedOUT")
 
 const double GripperControl::OFFSET_DEFAULT = 0.9;
 
@@ -45,18 +45,20 @@ GripperControl::GripperControl(void)
     : offset(GripperControl::OFFSET_DEFAULT), factor() {}
 
 GripperControlPlugin::GripperControlPlugin(const std::string &name)
-    : Entity(name), calibrationStarted(false),
+    : Entity(name),
+      calibrationStarted(false),
       positionSIN(NULL,
                   "GripperControl(" + name + ")::input(vector)::position"),
-      positionDesSIN(NULL, "GripperControl(" + name +
-                               ")::input(vector)::positionDes"),
+      positionDesSIN(
+          NULL, "GripperControl(" + name + ")::input(vector)::positionDes"),
       torqueSIN(NULL, "GripperControl(" + name + ")::input(vector)::torque"),
-      torqueLimitSIN(NULL, "GripperControl(" + name +
-                               ")::input(vector)::torqueLimit"),
+      torqueLimitSIN(
+          NULL, "GripperControl(" + name + ")::input(vector)::torqueLimit"),
       selectionSIN(NULL, "GripperControl(" + name + ")::input(vector)::selec")
 
       ,
-      SOT_FULL_TO_REDUCED(position), SOT_FULL_TO_REDUCED(torque),
+      SOT_FULL_TO_REDUCED(position),
+      SOT_FULL_TO_REDUCED(torque),
       SOT_FULL_TO_REDUCED(torqueLimit),
       desiredPositionSOUT(
           SOT_MEMBER_SIGNAL_4(GripperControl::computeDesiredPosition,
@@ -127,12 +129,11 @@ void GripperControl::computeIncrement(
   }
 }
 
-dynamicgraph::Vector &
-GripperControl::computeDesiredPosition(const dynamicgraph::Vector &currentPos,
-                                       const dynamicgraph::Vector &desiredPos,
-                                       const dynamicgraph::Vector &torques,
-                                       const dynamicgraph::Vector &torqueLimits,
-                                       dynamicgraph::Vector &referencePos) {
+dynamicgraph::Vector &GripperControl::computeDesiredPosition(
+    const dynamicgraph::Vector &currentPos,
+    const dynamicgraph::Vector &desiredPos, const dynamicgraph::Vector &torques,
+    const dynamicgraph::Vector &torqueLimits,
+    dynamicgraph::Vector &referencePos) {
   const dynamicgraph::Vector::Index SIZE = currentPos.size();
   //  if( (SIZE==torques.size()) )
   //    { /* ERROR ... */ }
@@ -156,20 +157,18 @@ GripperControl::computeDesiredPosition(const dynamicgraph::Vector &currentPos,
   return referencePos;
 }
 
-dynamicgraph::Vector &
-GripperControl::selector(const dynamicgraph::Vector &fullsize,
-                         const Flags &selec, dynamicgraph::Vector &desPos) {
+dynamicgraph::Vector &GripperControl::selector(
+    const dynamicgraph::Vector &fullsize, const Flags &selec,
+    dynamicgraph::Vector &desPos) {
   int size = 0;
   for (int i = 0; i < fullsize.size(); ++i) {
-    if (selec(i))
-      size++;
+    if (selec(i)) size++;
   }
 
   int curs = 0;
   desPos.resize(size);
   for (int i = 0; i < fullsize.size(); ++i) {
-    if (selec(i))
-      desPos(curs++) = fullsize(i);
+    if (selec(i)) desPos(curs++) = fullsize(i);
   }
 
   return desPos;

@@ -20,6 +20,7 @@
 /* SOT */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/exception-task.hh>
 
 /* --------------------------------------------------------------------- */
@@ -47,12 +48,11 @@ namespace dynamicgraph {
 namespace sot {
 
 class SOTMOTIONPERIOD_EXPORT MotionPeriod : public dynamicgraph::Entity {
-
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   enum MotionPeriodType { MOTION_CONSTANT, MOTION_SIN, MOTION_COS };
 
   struct sotMotionParam {
@@ -69,10 +69,10 @@ protected:
   void resize(const unsigned int &size);
 
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
+ public:
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> motionSOUT;
 
-public:
+ public:
   MotionPeriod(const std::string &name);
   virtual ~MotionPeriod(void) {}
 
@@ -85,7 +85,7 @@ public:
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_JOINTLIMITS_HH__
+#endif  // #ifndef __SOT_JOINTLIMITS_HH__
 
 /*
  * Local variables:

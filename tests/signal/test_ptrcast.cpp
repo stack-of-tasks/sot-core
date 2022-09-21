@@ -12,6 +12,7 @@
 /* -------------------------------------------------------------------------- */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/linear-algebra.h>
+
 #include <iostream>
 #include <sot/core/matrix-geometry.hh>
 using namespace std;

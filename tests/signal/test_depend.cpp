@@ -12,20 +12,21 @@
 /* -------------------------------------------------------------------------- */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/linear-algebra.h>
+
 #include <iostream>
 #include <sot/core/debug.hh>
 
 using namespace std;
 using namespace dynamicgraph;
 
-template <class Res = double> class DummyClass {
-
-public:
+template <class Res = double>
+class DummyClass {
+ public:
   std::string proname;
   list<SignalTimeDependent<double, int> *> inputsig;
   list<SignalTimeDependent<dynamicgraph::Vector, int> *> inputsigV;
 
-public:
+ public:
   DummyClass(const std::string &n) : proname(n), res(), appel(0), timedata(0) {}
 
   Res &fun(Res &res, int t) {
@@ -61,9 +62,13 @@ public:
   int timedata;
 };
 
-template <class Res> Res DummyClass<Res>::operator()(void) { return this->res; }
+template <class Res>
+Res DummyClass<Res>::operator()(void) {
+  return this->res;
+}
 
-template <> double DummyClass<double>::operator()(void) {
+template <>
+double DummyClass<double>::operator()(void) {
   res = appel * timedata;
   return res;
 }

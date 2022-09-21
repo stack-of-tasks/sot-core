@@ -68,8 +68,7 @@ int main(void) {
 
   cout << "f1 byte per byte:";
   for (int i = 0; i < 16; ++i) {
-    if (!(i % 8))
-      cout << " ";
+    if (!(i % 8)) cout << " ";
     cout << f1(i);
   }
   cout << endl;

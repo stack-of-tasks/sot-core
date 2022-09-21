@@ -27,6 +27,7 @@
 /* SOT */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/debug.hh>
 
 /* --------------------------------------------------------------------- */
@@ -51,23 +52,23 @@ namespace dynamicgraph {
 namespace sot {
 
 class TimeStamp_EXPORT TimeStamp : public dynamicgraph::Entity {
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   struct timeval val;
   unsigned int offsetValue;
   bool offsetSet;
 
-public:
+ public:
   /* --- CONSTRUCTION --- */
   TimeStamp(const std::string &name);
 
-public: /* --- DISPLAY --- */
+ public: /* --- DISPLAY --- */
   virtual void display(std::ostream &os) const;
 
-public: /* --- SIGNALS --- */
+ public: /* --- SIGNALS --- */
   /* These signals can be called several time per period, given
    * each time a different results. Useful for chronos. */
   dynamicgraph::Signal<dynamicgraph::Vector, int> timeSOUT;
@@ -78,7 +79,7 @@ public: /* --- SIGNALS --- */
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> timeOnceSOUT;
   dynamicgraph::SignalTimeDependent<double, int> timeOnceDoubleSOUT;
 
-protected: /* --- SIGNAL FUNCTIONS --- */
+ protected: /* --- SIGNAL FUNCTIONS --- */
   dynamicgraph::Vector &getTimeStamp(dynamicgraph::Vector &res,
                                      const int &time);
   double &getTimeStampDouble(const dynamicgraph::Vector &vect, double &res);

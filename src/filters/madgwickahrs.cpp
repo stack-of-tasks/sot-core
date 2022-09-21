@@ -10,11 +10,11 @@
 //
 //=========================================================================
 
+#include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/factory.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/madgwickahrs.hh>
-
-#include <dynamic-graph/all-commands.h>
 #include <sot/core/stop-watch.hh>
 
 namespace dynamicgraph {
@@ -42,12 +42,18 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MadgwickAHRS, "MadgwickAHRS");
 /* --- CONSTRUCTION -------------------------------------------------- */
 /* ------------------------------------------------------------------- */
 MadgwickAHRS::MadgwickAHRS(const std::string &name)
-    : Entity(name), CONSTRUCT_SIGNAL_IN(accelerometer, dynamicgraph::Vector),
+    : Entity(name),
+      CONSTRUCT_SIGNAL_IN(accelerometer, dynamicgraph::Vector),
       CONSTRUCT_SIGNAL_IN(gyroscope, dynamicgraph::Vector),
       CONSTRUCT_SIGNAL_OUT(imu_quat, dynamicgraph::Vector,
                            m_gyroscopeSIN << m_accelerometerSIN),
-      m_initSucceeded(false), m_beta(betaDef), m_q0(1.0), m_q1(0.0), m_q2(0.0),
-      m_q3(0.0), m_sampleFreq(512.0) {
+      m_initSucceeded(false),
+      m_beta(betaDef),
+      m_q0(1.0),
+      m_q1(0.0),
+      m_q2(0.0),
+      m_q3(0.0),
+      m_sampleFreq(512.0) {
   Entity::signalRegistration(INPUT_SIGNALS << OUTPUT_SIGNALS);
 
   /* Commands. */
@@ -69,8 +75,7 @@ MadgwickAHRS::MadgwickAHRS(const std::string &name)
 }
 
 void MadgwickAHRS::init(const double &dt) {
-  if (dt <= 0.0)
-    return SEND_MSG("Timestep must be positive", MSG_TYPE_ERROR);
+  if (dt <= 0.0) return SEND_MSG("Timestep must be positive", MSG_TYPE_ERROR);
   m_sampleFreq = 1.0 / dt;
   m_initSucceeded = true;
 }
@@ -107,8 +112,7 @@ DEFINE_SIGNAL_OUT_FUNCTION(imu_quat, dynamicgraph::Vector) {
     // Update state with new measurment
     madgwickAHRSupdateIMU(gyroscope(0), gyroscope(1), gyroscope(2),
                           accelerometer(0), accelerometer(1), accelerometer(2));
-    if (s.size() != 4)
-      s.resize(4);
+    if (s.size() != 4) s.resize(4);
     s(0) = m_q0;
     s(1) = m_q1;
     s(2) = m_q2;
@@ -136,7 +140,7 @@ double MadgwickAHRS::invSqrt(double x) {
     y = *(float*)&i;
     y = y * (1.5f - (halfx * y * y));
     return y;*/
-  return (1.0 / sqrt(x)); // we're not in the 70's
+  return (1.0 / sqrt(x));  // we're not in the 70's
 }
 
 // IMU algorithm update
@@ -226,5 +230,5 @@ void MadgwickAHRS::display(std::ostream &os) const {
   } catch (ExceptionSignal e) {
   }
 }
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph

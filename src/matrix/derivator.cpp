@@ -33,22 +33,24 @@ using namespace dynamicgraph;
 //     &regFunctiondoubleDerivator );
 // }
 
-#define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotClassType, sotType, className)   \
-  template <> const double Derivator<sotType>::TIMESTEP_DEFAULT = 1.;          \
-  template <> std::string sotClassType<sotType>::getTypeName(void) {           \
-    return #sotType;                                                           \
-  }                                                                            \
-  template <>                                                                  \
-  const std::string sotClassType<sotType>::CLASS_NAME =                        \
-      std::string(className) + "_of_" + #sotType;                              \
-  extern "C" {                                                                 \
-  Entity *                                                                     \
-      regFunction##_##sotType##_##sotClassType(const std::string &objname) {   \
-    return new sotClassType<sotType>(objname);                                 \
-  }                                                                            \
-  EntityRegisterer regObj##_##sotType##_##sotClassType(                        \
-      std::string(className) + "_of_" + #sotType,                              \
-      &regFunction##_##sotType##_##sotClassType);                              \
+#define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(sotClassType, sotType, className) \
+  template <>                                                                \
+  const double Derivator<sotType>::TIMESTEP_DEFAULT = 1.;                    \
+  template <>                                                                \
+  std::string sotClassType<sotType>::getTypeName(void) {                     \
+    return #sotType;                                                         \
+  }                                                                          \
+  template <>                                                                \
+  const std::string sotClassType<sotType>::CLASS_NAME =                      \
+      std::string(className) + "_of_" + #sotType;                            \
+  extern "C" {                                                               \
+  Entity *regFunction##_##sotType##_##sotClassType(                          \
+      const std::string &objname) {                                          \
+    return new sotClassType<sotType>(objname);                               \
+  }                                                                          \
+  EntityRegisterer regObj##_##sotType##_##sotClassType(                      \
+      std::string(className) + "_of_" + #sotType,                            \
+      &regFunction##_##sotType##_##sotClassType);                            \
   }
 
 namespace dynamicgraph {
@@ -57,15 +59,15 @@ SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator, double, "Derivator")
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator, Vector, "Derivator")
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator, Matrix, "Derivator")
 SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(Derivator, VectorQuaternion, "Derivator")
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 #include <sot/core/derivator-impl.hh>
 
 #ifdef WIN32
-#define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_WIN32(sotClassType, sotType,        \
-                                                 className)                    \
-  sotClassType##sotType## ::sotClassType##sotType##(const std::string &name)   \
+#define SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN_WIN32(sotClassType, sotType,      \
+                                                 className)                  \
+  sotClassType##sotType## ::sotClassType##sotType##(const std::string &name) \
       : sotClassType<sotType>(name){};
 
 typedef double Double;

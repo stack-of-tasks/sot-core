@@ -9,22 +9,19 @@
  *
  */
 
-#include <boost/function.hpp>
-
-#include <sot/core/binary-op.hh>
-#include <sot/core/unary-op.hh>
-#include <sot/core/variadic-op.hh>
-
-#include <sot/core/matrix-geometry.hh>
-
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/factory.h>
+#include <dynamic-graph/linear-algebra.h>
 
+#include <boost/function.hpp>
 #include <boost/numeric/conversion/cast.hpp>
 #include <deque>
-#include <dynamic-graph/linear-algebra.h>
+#include <sot/core/binary-op.hh>
 #include <sot/core/debug.hh>
 #include <sot/core/factory.hh>
+#include <sot/core/matrix-geometry.hh>
+#include <sot/core/unary-op.hh>
+#include <sot/core/variadic-op.hh>
 
 #include "../tools/type-name-helper.hh"
 
@@ -38,7 +35,8 @@ namespace dg = ::dynamicgraph;
 
 namespace dynamicgraph {
 namespace sot {
-template <typename TypeIn, typename TypeOut> struct UnaryOpHeader {
+template <typename TypeIn, typename TypeOut>
+struct UnaryOpHeader {
   typedef TypeIn Tin;
   typedef TypeOut Tout;
   static inline std::string nameTypeIn(void) {
@@ -49,11 +47,13 @@ template <typename TypeIn, typename TypeOut> struct UnaryOpHeader {
   }
   inline void addSpecificCommands(Entity &, Entity::CommandMap_t &) {}
   inline std::string getDocString() const {
-    return std::string("Undocumented unary operator\n"
-                       "  - input  ") +
+    return std::string(
+               "Undocumented unary operator\n"
+               "  - input  ") +
            nameTypeIn() +
-           std::string("\n"
-                       "  - output ") +
+           std::string(
+               "\n"
+               "  - output ") +
            nameTypeOut() + std::string("\n");
   }
 };
@@ -129,9 +129,10 @@ struct VectorComponent : public UnaryOpHeader<dg::Vector, double> {
     ADD_COMMAND("setIndex", command::makeCommandVoid1(ent, callback, doc));
   }
   inline std::string getDocString() const {
-    std::string docString("Select a component of a vector\n"
-                          "  - input  vector\n"
-                          "  - output double");
+    std::string docString(
+        "Select a component of a vector\n"
+        "  - input  vector\n"
+        "  - output double");
     return docString;
   }
 };
@@ -143,11 +144,10 @@ struct MatrixSelector : public UnaryOpHeader<dg::Matrix, dg::Matrix> {
     assert((jmin <= jmax) && (jmax <= m.cols()));
     res.resize(imax - imin, jmax - jmin);
     for (int i = imin; i < imax; ++i)
-      for (int j = jmin; j < jmax; ++j)
-        res(i - imin, j - jmin) = m(i, j);
+      for (int j = jmin; j < jmax; ++j) res(i - imin, j - jmin) = m(i, j);
   }
 
-public:
+ public:
   int imin, imax;
   int jmin, jmax;
 
@@ -181,14 +181,13 @@ public:
 
 /* ---------------------------------------------------------------------- */
 struct MatrixColumnSelector : public UnaryOpHeader<dg::Matrix, dg::Vector> {
-public:
+ public:
   inline void operator()(const Tin &m, Tout &res) const {
     assert((imin <= imax) && (imax <= m.rows()));
     assert(jcol < m.cols());
 
     res.resize(imax - imin);
-    for (int i = imin; i < imax; ++i)
-      res(i - imin) = m(i, jcol);
+    for (int i = imin; i < imax; ++i) res(i - imin) = m(i, jcol);
   }
 
   int imin, imax;
@@ -228,7 +227,7 @@ struct Diagonalizer : public UnaryOpHeader<Vector, Matrix> {
     res = r.asDiagonal();
   }
 
-public:
+ public:
   Diagonalizer(void) : nbr(0), nbc(0) {}
   unsigned int nbr, nbc;
   inline void resize(const int &r, const int &c) {
@@ -265,9 +264,10 @@ struct Normalize : public UnaryOpHeader<dg::Vector, double> {
   }
 
   inline std::string getDocString() const {
-    std::string docString("Computes the norm of a vector\n"
-                          "  - input  vector\n"
-                          "  - output double");
+    std::string docString(
+        "Computes the norm of a vector\n"
+        "  - input  vector\n"
+        "  - output double");
     return docString;
   }
 };
@@ -363,28 +363,23 @@ struct MatrixHomoToPoseRollPitchYaw
     dg::Vector t(3);
     t = M.translation();
     res.resize(6);
-    for (unsigned int i = 0; i < 3; ++i)
-      res(i) = t(i);
-    for (unsigned int i = 0; i < 3; ++i)
-      res(i + 3) = r(i);
+    for (unsigned int i = 0; i < 3; ++i) res(i) = t(i);
+    for (unsigned int i = 0; i < 3; ++i) res(i + 3) = r(i);
   }
 };
 
 struct PoseRollPitchYawToMatrixHomo
     : public UnaryOpHeader<Vector, MatrixHomogeneous> {
   inline void operator()(const dg::Vector &vect, MatrixHomogeneous &Mres) {
-
     VectorRollPitchYaw r;
-    for (unsigned int i = 0; i < 3; ++i)
-      r(i) = vect(i + 3);
+    for (unsigned int i = 0; i < 3; ++i) r(i) = vect(i + 3);
     MatrixRotation R = (Eigen::AngleAxisd(r(2), Eigen::Vector3d::UnitZ()) *
                         Eigen::AngleAxisd(r(1), Eigen::Vector3d::UnitY()) *
                         Eigen::AngleAxisd(r(0), Eigen::Vector3d::UnitX()))
                            .toRotationMatrix();
 
     dg::Vector t(3);
-    for (unsigned int i = 0; i < 3; ++i)
-      t(i) = vect(i);
+    for (unsigned int i = 0; i < 3; ++i) t(i) = vect(i);
 
     // buildFrom(R,t);
     Mres = Eigen::Translation3d(t) * R;
@@ -394,8 +389,7 @@ struct PoseRollPitchYawToMatrixHomo
 struct PoseRollPitchYawToPoseUTheta : public UnaryOpHeader<Vector, Vector> {
   inline void operator()(const dg::Vector &vect, dg::Vector &vectres) {
     VectorRollPitchYaw r;
-    for (unsigned int i = 0; i < 3; ++i)
-      r(i) = vect(i + 3);
+    for (unsigned int i = 0; i < 3; ++i) r(i) = vect(i + 3);
     MatrixRotation R = (Eigen::AngleAxisd(r(2), Eigen::Vector3d::UnitZ()) *
                         Eigen::AngleAxisd(r(1), Eigen::Vector3d::UnitY()) *
                         Eigen::AngleAxisd(r(0), Eigen::Vector3d::UnitX()))
@@ -529,14 +523,17 @@ struct BinaryOpHeader {
   }
   inline void addSpecificCommands(Entity &, Entity::CommandMap_t &) {}
   inline std::string getDocString() const {
-    return std::string("Undocumented binary operator\n"
-                       "  - input  ") +
+    return std::string(
+               "Undocumented binary operator\n"
+               "  - input  ") +
            nameTypeIn1() +
-           std::string("\n"
-                       "  -        ") +
+           std::string(
+               "\n"
+               "  -        ") +
            nameTypeIn2() +
-           std::string("\n"
-                       "  - output ") +
+           std::string(
+               "\n"
+               "  - output ") +
            nameTypeOut() + std::string("\n");
   }
 };
@@ -567,9 +564,9 @@ operator()(const dynamicgraph::sot::MatrixHomogeneous &f,
 }
 
 template <>
-inline void Multiplier_FxE__E<double, dynamicgraph::Vector>::
-operator()(const double &x, const dynamicgraph::Vector &v,
-           dynamicgraph::Vector &res) const {
+inline void Multiplier_FxE__E<double, dynamicgraph::Vector>::operator()(
+    const double &x, const dynamicgraph::Vector &v,
+    dynamicgraph::Vector &res) const {
   res = v;
   res *= x;
 }
@@ -584,7 +581,8 @@ typedef Multiplier_FxE__E<MatrixTwist, dynamicgraph::Vector>
     Multiplier_matrixTwist_vector;
 
 /* --- SUBSTRACTION ----------------------------------------------------- */
-template <typename T> struct Substraction : public BinaryOpHeader<T, T, T> {
+template <typename T>
+struct Substraction : public BinaryOpHeader<T, T, T> {
   inline void operator()(const T &v1, const T &v2, T &r) const {
     r = v1;
     r -= v2;
@@ -595,7 +593,7 @@ template <typename T> struct Substraction : public BinaryOpHeader<T, T, T> {
 struct VectorStack
     : public BinaryOpHeader<dynamicgraph::Vector, dynamicgraph::Vector,
                             dynamicgraph::Vector> {
-public:
+ public:
   int v1min, v1max;
   int v2min, v2max;
   inline void operator()(const dynamicgraph::Vector &v1,
@@ -670,8 +668,7 @@ struct ConvolutionTemporal
                           dynamicgraph::Vector &res) {
     const Vector::Index nconv = (Vector::Index)f1.size(), nsig = f2.rows();
     sotDEBUG(15) << "Size: " << nconv << "x" << nsig << std::endl;
-    if (nconv > f2.cols())
-      return; // TODO: error, this should not happen
+    if (nconv > f2.cols()) return;  // TODO: error, this should not happen
 
     res.resize(nsig);
     res.fill(0);
@@ -680,8 +677,7 @@ struct ConvolutionTemporal
          iter++) {
       const dynamicgraph::Vector &s_tau = *iter;
       sotDEBUG(45) << "Sig" << j << ": " << s_tau;
-      if (s_tau.size() != nsig)
-        return; // TODO: error throw;
+      if (s_tau.size() != nsig) return;  // TODO: error throw;
       for (int i = 0; i < nsig; ++i) {
         res(i) += f2(i, j) * s_tau(i);
       }
@@ -692,31 +688,35 @@ struct ConvolutionTemporal
                          const dynamicgraph::Matrix &m2,
                          dynamicgraph::Vector &res) {
     memory.push_front(v1);
-    while ((Vector::Index)memory.size() > m2.cols())
-      memory.pop_back();
+    while ((Vector::Index)memory.size() > m2.cols()) memory.pop_back();
     convolution(memory, m2, res);
   }
 };
 
 /* --- BOOLEAN REDUCTION ------------------------------------------------ */
 
-template <typename T> struct Comparison : public BinaryOpHeader<T, T, bool> {
+template <typename T>
+struct Comparison : public BinaryOpHeader<T, T, bool> {
   inline void operator()(const T &a, const T &b, bool &res) const {
     res = (a < b);
   }
   inline std::string getDocString() const {
     typedef BinaryOpHeader<T, T, bool> Base;
-    return std::string("Comparison of inputs:\n"
-                       "  - input  ") +
+    return std::string(
+               "Comparison of inputs:\n"
+               "  - input  ") +
            Base::nameTypeIn1() +
-           std::string("\n"
-                       "  -        ") +
+           std::string(
+               "\n"
+               "  -        ") +
            Base::nameTypeIn2() +
-           std::string("\n"
-                       "  - output ") +
+           std::string(
+               "\n"
+               "  - output ") +
            Base::nameTypeOut() +
-           std::string("\n"
-                       "  sout = ( sin1 < sin2 )\n");
+           std::string(
+               "\n"
+               "  sout = ( sin1 < sin2 )\n");
   }
 };
 
@@ -735,20 +735,25 @@ struct MatrixComparison : public BinaryOpHeader<T1, T2, bool> {
   }
   inline std::string getDocString() const {
     typedef BinaryOpHeader<T1, T2, bool> Base;
-    return std::string("Comparison of inputs:\n"
-                       "  - input  ") +
+    return std::string(
+               "Comparison of inputs:\n"
+               "  - input  ") +
            Base::nameTypeIn1() +
-           std::string("\n"
-                       "  -        ") +
+           std::string(
+               "\n"
+               "  -        ") +
            Base::nameTypeIn2() +
-           std::string("\n"
-                       "  - output ") +
+           std::string(
+               "\n"
+               "  - output ") +
            Base::nameTypeOut() +
-           std::string("\n"
-                       "  sout = ( sin1 < sin2 ).op()\n") +
-           std::string("\n"
-                       "  where op is either any (default) or all. The "
-                       "comparison can be made <=.\n");
+           std::string(
+               "\n"
+               "  sout = ( sin1 < sin2 ).op()\n") +
+           std::string(
+               "\n"
+               "  where op is either any (default) or all. The "
+               "comparison can be made <=.\n");
   }
   MatrixComparison() : any(true), equal(false) {}
   inline void addSpecificCommands(Entity &ent,
@@ -774,8 +779,9 @@ struct MatrixComparison : public BinaryOpHeader<T1, T2, bool> {
 namespace dynamicgraph {
 namespace sot {
 
-template <typename T> struct WeightedAdder : public BinaryOpHeader<T, T, T> {
-public:
+template <typename T>
+struct WeightedAdder : public BinaryOpHeader<T, T, T> {
+ public:
   double gain1, gain2;
   inline void operator()(const T &v1, const T &v2, T &res) const {
     res = v1;
@@ -807,8 +813,8 @@ public:
   }
 };
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 namespace dynamicgraph {
 namespace sot {
@@ -821,7 +827,8 @@ std::string VariadicAbstract<Tin, Tout, Time>::getTypeOutName(void) {
   return TypeNameHelper<Tout>::typeName();
 }
 
-template <typename TypeIn, typename TypeOut> struct VariadicOpHeader {
+template <typename TypeIn, typename TypeOut>
+struct VariadicOpHeader {
   typedef TypeIn Tin;
   typedef TypeOut Tout;
   inline static std::string nameTypeIn(void) {
@@ -834,18 +841,19 @@ template <typename TypeIn, typename TypeOut> struct VariadicOpHeader {
   inline void initialize(VariadicOp<Op> *, Entity::CommandMap_t &) {}
   inline void updateSignalNumber(const int &) {}
   inline std::string getDocString() const {
-    return std::string("Undocumented variadic operator\n"
-                       "  - input  " +
-                       nameTypeIn() +
-                       "\n"
-                       "  - output " +
-                       nameTypeOut() + "\n");
+    return std::string(
+        "Undocumented variadic operator\n"
+        "  - input  " +
+        nameTypeIn() +
+        "\n"
+        "  - output " +
+        nameTypeOut() + "\n");
   }
 };
 
 /* --- VectorMix ------------------------------------------------------------ */
 struct VectorMix : public VariadicOpHeader<Vector, Vector> {
-public:
+ public:
   typedef VariadicOp<VectorMix> Base;
   struct segment_t {
     Vector::Index index, size, input;
@@ -890,7 +898,8 @@ public:
 };
 
 /* --- ADDITION --------------------------------------------------------- */
-template <typename T> struct AdderVariadic : public VariadicOpHeader<T, T> {
+template <typename T>
+struct AdderVariadic : public VariadicOpHeader<T, T> {
   typedef VariadicOp<AdderVariadic> Base;
 
   Base *entity;
@@ -899,11 +908,9 @@ template <typename T> struct AdderVariadic : public VariadicOpHeader<T, T> {
   AdderVariadic() : coeffs() {}
   inline void operator()(const std::vector<const T *> &vs, T &res) const {
     assert(vs.size() == (std::size_t)coeffs.size());
-    if (vs.size() == 0)
-      return;
+    if (vs.size() == 0) return;
     res = coeffs[0] * (*vs[0]);
-    for (std::size_t i = 1; i < vs.size(); ++i)
-      res += coeffs[i] * (*vs[i]);
+    for (std::size_t i = 1; i < vs.size(); ++i) res += coeffs[i] * (*vs[i]);
   }
 
   inline void setCoeffs(const Vector &c) {
@@ -932,7 +939,8 @@ template <typename T> struct AdderVariadic : public VariadicOpHeader<T, T> {
 };
 
 /* --- MULTIPLICATION --------------------------------------------------- */
-template <typename T> struct Multiplier : public VariadicOpHeader<T, T> {
+template <typename T>
+struct Multiplier : public VariadicOpHeader<T, T> {
   typedef VariadicOp<Multiplier> Base;
 
   inline void operator()(const std::vector<const T *> &vs, T &res) const {
@@ -940,8 +948,7 @@ template <typename T> struct Multiplier : public VariadicOpHeader<T, T> {
       setIdentity(res);
     else {
       res = *vs[0];
-      for (std::size_t i = 1; i < vs.size(); ++i)
-        res *= *vs[i];
+      for (std::size_t i = 1; i < vs.size(); ++i) res *= *vs[i];
     }
   }
 
@@ -951,62 +958,58 @@ template <typename T> struct Multiplier : public VariadicOpHeader<T, T> {
     ent->setSignalNumber(2);
   }
 };
-template <> inline void Multiplier<double>::setIdentity(double &res) const {
+template <>
+inline void Multiplier<double>::setIdentity(double &res) const {
   res = 1;
 }
 template <>
-inline void Multiplier<MatrixHomogeneous>::
-operator()(const std::vector<const MatrixHomogeneous *> &vs,
-           MatrixHomogeneous &res) const {
+inline void Multiplier<MatrixHomogeneous>::operator()(
+    const std::vector<const MatrixHomogeneous *> &vs,
+    MatrixHomogeneous &res) const {
   if (vs.size() == 0)
     setIdentity(res);
   else {
     res = *vs[0];
-    for (std::size_t i = 1; i < vs.size(); ++i)
-      res = res * *vs[i];
+    for (std::size_t i = 1; i < vs.size(); ++i) res = res * *vs[i];
   }
 }
 template <>
-inline void Multiplier<Vector>::
-operator()(const std::vector<const Vector *> &vs, Vector &res) const {
+inline void Multiplier<Vector>::operator()(
+    const std::vector<const Vector *> &vs, Vector &res) const {
   if (vs.size() == 0)
     res.resize(0);
   else {
     res = *vs[0];
-    for (std::size_t i = 1; i < vs.size(); ++i)
-      res.array() *= vs[i]->array();
+    for (std::size_t i = 1; i < vs.size(); ++i) res.array() *= vs[i]->array();
   }
 }
 
 /* --- BOOLEAN --------------------------------------------------------- */
-template <int operation> struct BoolOp : public VariadicOpHeader<bool, bool> {
+template <int operation>
+struct BoolOp : public VariadicOpHeader<bool, bool> {
   typedef VariadicOp<BoolOp> Base;
 
   inline void operator()(const std::vector<const bool *> &vs, bool &res) const {
     // TODO computation could be optimized with lazy evaluation of the
     // signals. When the output result is know, the remaining signals are
     // not computed.
-    if (vs.size() == 0)
-      return;
+    if (vs.size() == 0) return;
     res = *vs[0];
-    for (std::size_t i = 1; i < vs.size(); ++i)
-      switch (operation) {
-      case 0:
-        if (!res)
-          return;
-        res = *vs[i];
-        break;
-      case 1:
-        if (res)
-          return;
-        res = *vs[i];
-        break;
+    for (std::size_t i = 1; i < vs.size(); ++i) switch (operation) {
+        case 0:
+          if (!res) return;
+          res = *vs[i];
+          break;
+        case 1:
+          if (res) return;
+          res = *vs[i];
+          break;
       }
   }
 };
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 /* --- TODO ------------------------------------------------------------------*/
 // The following commented lines are sot-v1 entities that are still waiting

@@ -23,7 +23,8 @@ using namespace dynamicgraph;
 /* --------------------------------------------------------------------- */
 
 TaskAbstract::TaskAbstract(const std::string &n)
-    : Entity(n), memoryInternal(NULL),
+    : Entity(n),
+      memoryInternal(NULL),
       taskSOUT("sotTaskAbstract(" + n + ")::output(vector)::task"),
       jacobianSOUT("sotTaskAbstract(" + n + ")::output(matrix)::jacobian") {
   taskRegistration();

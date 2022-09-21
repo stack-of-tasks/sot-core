@@ -19,14 +19,14 @@
 /* SOT */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/flags.hh>
 #include <sot/core/matrix-geometry.hh>
 #include <sot/core/pool.hh>
 
 /* STD */
-#include <string>
-
 #include <boost/function.hpp>
+#include <string>
 
 namespace dynamicgraph {
 namespace sot {
@@ -37,13 +37,14 @@ namespace sot {
 
 template <typename Tin, typename Tout, typename Time>
 class VariadicAbstract : public Entity {
-public: /* --- CONSTRUCTION --- */
+ public: /* --- CONSTRUCTION --- */
   static std::string getTypeInName(void);
   static std::string getTypeOutName(void);
 
   VariadicAbstract(const std::string &name, const std::string &className)
-      : Entity(name), SOUT(className + "(" + name + ")::output(" +
-                           getTypeOutName() + ")::sout"),
+      : Entity(name),
+        SOUT(className + "(" + name + ")::output(" + getTypeOutName() +
+             ")::sout"),
         baseSigname(className + "(" + name + ")::input(" + getTypeInName() +
                     ")::") {
     signalRegistration(SOUT);
@@ -55,7 +56,7 @@ public: /* --- CONSTRUCTION --- */
     }
   };
 
-public: /* --- SIGNAL --- */
+ public: /* --- SIGNAL --- */
   typedef SignalPtr<Tin, int> signal_t;
   SignalTimeDependent<Tout, int> SOUT;
 
@@ -88,8 +89,7 @@ public: /* --- SIGNAL --- */
   void setSignalNumber(const int &n) {
     assert(n >= 0);
     const std::size_t oldSize = signalsIN.size();
-    for (std::size_t i = n; i < oldSize; ++i)
-      _removeSignal(i);
+    for (std::size_t i = n; i < oldSize; ++i) _removeSignal(i);
     signalsIN.resize(n, NULL);
     // names.resize(n);
 
@@ -114,14 +114,14 @@ public: /* --- SIGNAL --- */
     return signalsIN[i];
   }
 
-protected:
+ protected:
   std::vector<signal_t *> signalsIN;
   // Use signal->shortName instead
   // std::vector< std::string > names;
 
   virtual void updateSignalNumber(int n) { (void)n; };
 
-private:
+ private:
   void _removeSignal(const std::size_t i) {
     // signalDeregistration(names[i]);
     signalDeregistration(signalsIN[i]->shortName());
@@ -142,7 +142,7 @@ class VariadicOp : public VariadicAbstract<typename Operator::Tin,
   typedef typename Operator::Tout Tout;
   typedef VariadicOp<Operator> Self;
 
-public: /* --- CONSTRUCTION --- */
+ public: /* --- CONSTRUCTION --- */
   Operator op;
 
   typedef VariadicAbstract<Tin, Tout, int> Base;
@@ -161,7 +161,7 @@ public: /* --- CONSTRUCTION --- */
 
   virtual ~VariadicOp(void){};
 
-protected:
+ protected:
   Tout &computeOperation(Tout &res, int time) {
     std::vector<const Tin *> in(this->signalsIN.size());
     for (std::size_t i = 0; i < this->signalsIN.size(); ++i) {
@@ -174,7 +174,7 @@ protected:
 
   inline void updateSignalNumber(int n) { op.updateSignalNumber(n); }
 };
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // #ifndef SOT_CORE_VARIADICOP_HH
+#endif  // #ifndef SOT_CORE_VARIADICOP_HH

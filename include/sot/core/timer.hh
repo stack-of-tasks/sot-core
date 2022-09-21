@@ -22,12 +22,14 @@
 // When including Winsock2.h, the MAL must be included first
 #include <Winsock2.h>
 #include <dynamic-graph/linear-algebra.h>
+
 #include <sot/core/utils-windows.hh>
 #endif /*WIN32*/
 
 /* SOT */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/debug.hh>
 
 /* --------------------------------------------------------------------- */
@@ -48,21 +50,22 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-template <class T> class Timer_EXPORT Timer : public dynamicgraph::Entity {
-public:
+template <class T>
+class Timer_EXPORT Timer : public dynamicgraph::Entity {
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   struct timeval t0, t1;
   clock_t c0, c1;
   double dt;
 
-public:
+ public:
   /* --- CONSTRUCTION --- */
   Timer(const std::string &name);
 
-public: /* --- DISPLAY --- */
+ public: /* --- DISPLAY --- */
   virtual void display(std::ostream &os) const;
   Timer_EXPORT friend std::ostream &operator<<(std::ostream &os,
                                                const Timer<T> &timer) {
@@ -70,19 +73,20 @@ public: /* --- DISPLAY --- */
     return os;
   }
 
-public: /* --- SIGNALS --- */
+ public: /* --- SIGNALS --- */
   dynamicgraph::SignalPtr<T, int> sigSIN;
   dynamicgraph::SignalTimeDependent<T, int> sigSOUT;
   dynamicgraph::SignalTimeDependent<T, int> sigClockSOUT;
   dynamicgraph::Signal<double, int> timerSOUT;
 
-protected: /* --- SIGNAL FUNCTIONS --- */
+ protected: /* --- SIGNAL FUNCTIONS --- */
   void plug(dynamicgraph::Signal<T, int> &sig) {
     sigSIN = &sig;
     dt = 0.;
   }
 
-  template <bool UseClock> T &compute(T &t, const int &time) {
+  template <bool UseClock>
+  T &compute(T &t, const int &time) {
     sotDEBUGIN(15);
     if (UseClock) {
       c0 = clock();
@@ -131,7 +135,9 @@ void cmdChrono(const std::string &cmd, std::istringstream &args,
 /* --- CONSTRUCTION ---------------------------------------------------- */
 template <class T>
 Timer<T>::Timer(const std::string &name)
-    : Entity(name), dt(0.), sigSIN(NULL, "Timer(" + name + ")::input(T)::sin"),
+    : Entity(name),
+      dt(0.),
+      sigSIN(NULL, "Timer(" + name + ")::input(T)::sin"),
       sigSOUT(boost::bind(&Timer::compute<false>, this, _1, _2), sigSIN,
               "Timer(" + name + ")::output(T)::sout"),
       sigClockSOUT(boost::bind(&Timer::compute<true>, this, _1, _2), sigSIN,
@@ -145,7 +151,8 @@ Timer<T>::Timer(const std::string &name)
 }
 
 /* --- DISPLAY --------------------------------------------------------- */
-template <class T> void Timer<T>::display(std::ostream &os) const {
+template <class T>
+void Timer<T>::display(std::ostream &os) const {
   os << "Timer <" << sigSIN << "> : " << dt << "ms." << std::endl;
 }
 

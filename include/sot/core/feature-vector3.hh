@@ -45,16 +45,15 @@ namespace sot {
   \brief Class that defines point-3d control feature
 */
 class SOTFEATUREVECTOR3_EXPORT FeatureVector3 : public FeatureAbstract {
-
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
   DECLARE_NO_REFERENCE;
 
-protected:
+ protected:
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
+ public:
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> vectorSIN;
   dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionSIN;
   dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> articularJacobianSIN;
@@ -64,7 +63,7 @@ public:
   using FeatureAbstract::jacobianSOUT;
   using FeatureAbstract::selectionSIN;
 
-public:
+ public:
   FeatureVector3(const std::string &name);
   virtual ~FeatureVector3(void) {}
 
@@ -81,7 +80,7 @@ public:
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_FEATURE_VECTOR3_HH__
+#endif  // #ifndef __SOT_FEATURE_VECTOR3_HH__
 
 /*
  * Local variables:

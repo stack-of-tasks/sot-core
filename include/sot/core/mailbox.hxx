@@ -20,7 +20,10 @@ namespace sot {
 /* -------------------------------------------------------------------------- */
 template <class Object>
 Mailbox<Object>::Mailbox(const std::string &name)
-    : Entity(name), mainObjectMutex(), mainObject(), update(false)
+    : Entity(name),
+      mainObjectMutex(),
+      mainObject(),
+      update(false)
 
       ,
       SOUT(boost::bind(&Mailbox::get, this, _1, _2), sotNOSIGNAL,
@@ -33,14 +36,16 @@ Mailbox<Object>::Mailbox(const std::string &name)
   SOUT.setDependencyType(TimeDependency<int>::BOOL_DEPENDENT);
 }
 
-template <class Object> Mailbox<Object>::~Mailbox(void) {
+template <class Object>
+Mailbox<Object>::~Mailbox(void) {
   boost::timed_mutex::scoped_lock lockMain(mainObjectMutex);
 }
 
 /* -------------------------------------------------------------------------- */
 /* --- ACCESS --------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
-template <class Object> bool Mailbox<Object>::hasBeenUpdated(void) {
+template <class Object>
+bool Mailbox<Object>::hasBeenUpdated(void) {
   boost::timed_mutex::scoped_try_lock lockMain(this->mainObjectMutex);
 
   if (lockMain.owns_lock()) {
@@ -52,9 +57,9 @@ template <class Object> bool Mailbox<Object>::hasBeenUpdated(void) {
 
 /* -------------------------------------------------------------------------- */
 template <class Object>
-typename Mailbox<Object>::sotTimestampedObject &
-Mailbox<Object>::get(typename Mailbox<Object>::sotTimestampedObject &res,
-                     const int & /*dummy*/) {
+typename Mailbox<Object>::sotTimestampedObject &Mailbox<Object>::get(
+    typename Mailbox<Object>::sotTimestampedObject &res,
+    const int & /*dummy*/) {
   boost::timed_mutex::scoped_try_lock lockMain(this->mainObjectMutex);
 
   if (lockMain.owns_lock()) {
@@ -69,7 +74,8 @@ Mailbox<Object>::get(typename Mailbox<Object>::sotTimestampedObject &res,
 }
 
 /* -------------------------------------------------------------------------- */
-template <class Object> void Mailbox<Object>::post(const Object &value) {
+template <class Object>
+void Mailbox<Object>::post(const Object &value) {
   boost::timed_mutex::scoped_lock lockMain(this->mainObjectMutex);
   mainObject = value;
   gettimeofday(&this->mainTimeStamp, NULL);
@@ -98,19 +104,19 @@ timeval &Mailbox<Object>::getTimestamp(struct timeval &res, const int &time) {
 } /* namespace dynamicgraph */
 /* Macro for template specialization */
 #ifndef WIN32
-#define MAILBOX_TEMPLATE_SPE(S)                                                \
-  namespace dynamicgraph {                                                     \
-  namespace sot {                                                              \
-  template void Mailbox<S>::post(const S &obj);                                \
-  template dynamicgraph::Vector &Mailbox<S>::getObject(S &res,                 \
-                                                       const int &time);       \
-  template bool Mailbox<S>::hasBeenUpdated(void);                              \
-  template Mailbox<S>::~Mailbox();                                             \
-  template Mailbox<S>::sotTimestampedObject &                                  \
-  Mailbox<S>::get(Mailbox<S>::sotTimestampedObject &res, const int &dummy);    \
-  template Mailbox<S>::Mailbox(const std::string &name);                       \
-  }                                                                            \
-  }    // namespace sot namespace dynamicgraph
-#endif // WIN32
+#define MAILBOX_TEMPLATE_SPE(S)                                          \
+  namespace dynamicgraph {                                               \
+  namespace sot {                                                        \
+  template void Mailbox<S>::post(const S &obj);                          \
+  template dynamicgraph::Vector &Mailbox<S>::getObject(S &res,           \
+                                                       const int &time); \
+  template bool Mailbox<S>::hasBeenUpdated(void);                        \
+  template Mailbox<S>::~Mailbox();                                       \
+  template Mailbox<S>::sotTimestampedObject &Mailbox<S>::get(            \
+      Mailbox<S>::sotTimestampedObject &res, const int &dummy);          \
+  template Mailbox<S>::Mailbox(const std::string &name);                 \
+  }                                                                      \
+  }     // namespace sot namespace dynamicgraph
+#endif  // WIN32
 
-#endif // #ifdef __SOT_MAILBOX_T_CPP
+#endif  // #ifdef __SOT_MAILBOX_T_CPP

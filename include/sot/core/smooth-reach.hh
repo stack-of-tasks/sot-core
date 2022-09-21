@@ -43,11 +43,11 @@ namespace sot {
 /* --------------------------------------------------------------------- */
 
 class SOTSMOOTHREACH_EXPORT SmoothReach : public dynamicgraph::Entity {
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName() const { return CLASS_NAME; }
 
-private:
+ private:
   dynamicgraph::Vector start, goal;
   int startTime, lengthTime;
   bool isStarted, isParam;
@@ -56,15 +56,15 @@ private:
 
   double smoothFunction(double x);
 
-public: /* --- CONSTRUCTION --- */
+ public: /* --- CONSTRUCTION --- */
   SmoothReach(const std::string &name);
   virtual ~SmoothReach(void){};
 
-public: /* --- SIGNAL --- */
+ public: /* --- SIGNAL --- */
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> startSIN;
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> goalSOUT;
 
-public: /* --- FUNCTION --- */
+ public: /* --- FUNCTION --- */
   dynamicgraph::Vector &goalSOUT_function(dynamicgraph::Vector &goal,
                                           const int &time);
 
@@ -75,7 +75,7 @@ public: /* --- FUNCTION --- */
 
   void setSmoothing(const int &mode, const double &param);
 
-public: /* --- PARAMS --- */
+ public: /* --- PARAMS --- */
   virtual void display(std::ostream &os) const;
   void initCommands(void);
 };

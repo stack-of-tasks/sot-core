@@ -43,29 +43,29 @@ namespace sot {
 /* --------------------------------------------------------------------- */
 
 class SOTCOMFREEZER_EXPORT CoMFreezer : public dynamicgraph::Entity {
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName() const { return CLASS_NAME; }
 
-private:
+ private:
   dynamicgraph::Vector m_lastCoM;
   bool m_previousPGInProcess;
   int m_lastStopTime;
 
-public: /* --- CONSTRUCTION --- */
+ public: /* --- CONSTRUCTION --- */
   CoMFreezer(const std::string &name);
   virtual ~CoMFreezer(void);
 
-public: /* --- SIGNAL --- */
+ public: /* --- SIGNAL --- */
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> CoMRefSIN;
   dynamicgraph::SignalPtr<unsigned, int> PGInProcessSIN;
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> freezedCoMSOUT;
 
-public: /* --- FUNCTION --- */
+ public: /* --- FUNCTION --- */
   dynamicgraph::Vector &computeFreezedCoM(dynamicgraph::Vector &freezedCoM,
                                           const int &time);
 
-public: /* --- PARAMS --- */
+ public: /* --- PARAMS --- */
   virtual void display(std::ostream &os) const;
 };
 

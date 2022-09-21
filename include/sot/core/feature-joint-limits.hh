@@ -46,21 +46,20 @@ namespace sot {
 class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
     : public FeatureAbstract,
       FeatureReferenceHelper<FeatureJointLimits> {
-
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-protected:
+ protected:
   double threshold;
-  const static double THRESHOLD_DEFAULT; // = .9;
+  const static double THRESHOLD_DEFAULT;  // = .9;
 
   /*   unsigned int freeFloatingIndex,freeFloatingSize; */
   /*   static const unsigned int FREE_FLOATING_INDEX = 0; */
   /*   static const unsigned int FREE_FLOATING_SIZE = 5; */
 
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
+ public:
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> jointSIN;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> upperJlSIN;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> lowerJlSIN;
@@ -77,7 +76,7 @@ public:
   DECLARE_REFERENCE_FUNCTIONS(FeatureJointLimits);
   /*! @} */
 
-public:
+ public:
   FeatureJointLimits(const std::string &name);
   virtual ~FeatureJointLimits(void) {}
 
@@ -99,7 +98,7 @@ public:
 } /* namespace sot */
 } /* namespace dynamicgraph */
 
-#endif // #ifndef __SOT_FEATURE_JOINTLIMITS_HH__
+#endif  // #ifndef __SOT_FEATURE_JOINTLIMITS_HH__
 
 /*
  * Local variables:

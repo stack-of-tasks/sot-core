@@ -15,6 +15,7 @@
 // SOT
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/exception-task.hh>
 
 #if defined(WIN32)
@@ -37,7 +38,7 @@ namespace sot {
 class SOTJOINTLIMITATOR_EXPORT JointLimitator : public dynamicgraph::Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
-public:
+ public:
   JointLimitator(const std::string &name);
   virtual ~JointLimitator() {}
 
@@ -58,7 +59,7 @@ public:
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> widthJlSINTERN;
   /// \}
 };
-} // end of namespace sot.
-} // namespace dynamicgraph
+}  // end of namespace sot.
+}  // namespace dynamicgraph
 
-#endif //! SOT_FEATURE_JOINTLIMITS_HH
+#endif  //! SOT_FEATURE_JOINTLIMITS_HH

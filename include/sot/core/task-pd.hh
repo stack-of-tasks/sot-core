@@ -39,14 +39,14 @@ namespace dynamicgraph {
 namespace sot {
 
 class SOTTASKPD_EXPORT TaskPD : public Task {
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
   dynamicgraph::Vector previousError;
   double beta;
 
-public:
+ public:
   TaskPD(const std::string &n);
 
   /* --- COMPUTATION --- */
@@ -54,7 +54,7 @@ public:
   VectorMultiBound &computeTaskModif(VectorMultiBound &error, int time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
+ public:
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> errorDotSOUT;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> errorDotSIN;
 

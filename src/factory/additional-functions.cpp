@@ -8,6 +8,7 @@
  */
 
 #include <dynamic-graph/signal.h>
+
 #include <sot/core/additional-functions.hh>
 #include <sot/core/debug.hh>
 #include <sot/core/factory.hh>

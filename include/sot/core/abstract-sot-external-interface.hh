@@ -18,12 +18,11 @@ namespace dynamicgraph {
 namespace sot {
 
 class SOT_CORE_EXPORT NamedVector {
-
-private:
+ private:
   std::string name_;
   std::vector<double> values_;
 
-public:
+ public:
   NamedVector() {}
   ~NamedVector() {}
 
@@ -39,30 +38,30 @@ typedef NamedVector SensorValues;
 typedef NamedVector ControlValues;
 
 class SOT_CORE_EXPORT AbstractSotExternalInterface {
-public:
+ public:
   AbstractSotExternalInterface() {}
 
   virtual ~AbstractSotExternalInterface() {}
 
-  virtual void
-  setupSetSensors(std::map<std::string, SensorValues> &sensorsIn) = 0;
+  virtual void setupSetSensors(
+      std::map<std::string, SensorValues> &sensorsIn) = 0;
 
-  virtual void
-  nominalSetSensors(std::map<std::string, SensorValues> &sensorsIn) = 0;
+  virtual void nominalSetSensors(
+      std::map<std::string, SensorValues> &sensorsIn) = 0;
 
-  virtual void
-  cleanupSetSensors(std::map<std::string, SensorValues> &sensorsIn) = 0;
+  virtual void cleanupSetSensors(
+      std::map<std::string, SensorValues> &sensorsIn) = 0;
 
   virtual void getControl(std::map<std::string, ControlValues> &) = 0;
   virtual void setSecondOrderIntegration(void) = 0;
   virtual void setNoIntegration(void) = 0;
 };
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
 typedef dynamicgraph::sot::AbstractSotExternalInterface *
 createSotExternalInterface_t();
 typedef void destroySotExternalInterface_t(
     dynamicgraph::sot::AbstractSotExternalInterface *);
 
-#endif // ABSTRACT_SOT_EXTERNAL_INTERFACE_HH
+#endif  // ABSTRACT_SOT_EXTERNAL_INTERFACE_HH

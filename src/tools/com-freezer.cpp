@@ -8,6 +8,7 @@
  */
 
 #include <dynamic-graph/factory.h>
+
 #include <sot/core/com-freezer.hh>
 #include <sot/core/debug.hh>
 
@@ -17,7 +18,9 @@ using namespace dynamicgraph::sot;
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(CoMFreezer, "CoMFreezer");
 
 CoMFreezer::CoMFreezer(const std::string &name)
-    : Entity(name), m_lastCoM(3), m_previousPGInProcess(false),
+    : Entity(name),
+      m_lastCoM(3),
+      m_previousPGInProcess(false),
       m_lastStopTime(-1)
 
       ,
@@ -40,9 +43,8 @@ CoMFreezer::~CoMFreezer(void) {
   return;
 }
 
-dynamicgraph::Vector &
-CoMFreezer::computeFreezedCoM(dynamicgraph::Vector &freezedCoM,
-                              const int &time) {
+dynamicgraph::Vector &CoMFreezer::computeFreezedCoM(
+    dynamicgraph::Vector &freezedCoM, const int &time) {
   sotDEBUGIN(15);
 
   unsigned PGInProcess = PGInProcessSIN(time);

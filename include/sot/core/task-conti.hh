@@ -21,11 +21,10 @@
 #include <string>
 
 /* SOT */
+#include <sot/core/exception-task.hh>
 #include <sot/core/feature-abstract.hh>
 #include <sot/core/flags.hh>
 #include <sot/core/task.hh>
-
-#include <sot/core/exception-task.hh>
 
 /* --------------------------------------------------------------------- */
 /* --- API ------------------------------------------------------------- */
@@ -49,18 +48,18 @@ namespace dynamicgraph {
 namespace sot {
 
 class SOTTASKCONTI_EXPORT TaskConti : public Task {
-protected:
+ protected:
   enum TimeRefValues { TIME_REF_UNSIGNIFICANT = -1, TIME_REF_TO_BE_SET = -2 };
 
   int timeRef;
   double mu;
   dynamicgraph::Vector q0;
 
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-public:
+ public:
   TaskConti(const std::string &n);
 
   void referenceTime(const unsigned int &t) { timeRef = t; }
@@ -71,7 +70,7 @@ public:
                                                 const int &time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
-public:
+ public:
   dynamicgraph::SignalPtr<dynamicgraph::Vector, int> controlPrevSIN;
 
   /* --- DISPLAY ------------------------------------------------------------ */

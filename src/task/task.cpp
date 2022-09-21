@@ -12,12 +12,13 @@
 /* --------------------------------------------------------------------- */
 
 /* SOT */
+#include <dynamic-graph/all-commands.h>
+
 #include <sot/core/debug.hh>
+#include <sot/core/pool.hh>
 #include <sot/core/task.hh>
 
 #include "../src/task/task-command.h"
-#include <dynamic-graph/all-commands.h>
-#include <sot/core/pool.hh>
 
 using namespace std;
 using namespace dynamicgraph::sot;
@@ -31,7 +32,9 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Task, "Task");
 /* --------------------------------------------------------------------- */
 
 Task::Task(const std::string &n)
-    : TaskAbstract(n), featureList(), withDerivative(false),
+    : TaskAbstract(n),
+      featureList(),
+      withDerivative(false),
       controlGainSIN(NULL, "sotTask(" + n + ")::input(double)::controlGain"),
       dampingGainSINOUT(NULL, "sotTask(" + n + ")::in/output(double)::damping")
       // TODO As far as I understand, this is not used in this class.
@@ -69,12 +72,13 @@ void Task::initCommands(void) {
   //
   std::string docstring;
   // AddFeature
-  docstring = "    \n"
-              "    Add a feature to the task\n"
-              "    \n"
-              "      Input:\n"
-              "        - name of the feature\n"
-              "    \n";
+  docstring =
+      "    \n"
+      "    Add a feature to the task\n"
+      "    \n"
+      "      Input:\n"
+      "        - name of the feature\n"
+      "    \n";
   addCommand("add",
              makeCommandVoid1(*this, &Task::addFeatureFromName, docstring));
 
@@ -85,16 +89,18 @@ void Task::initCommands(void) {
              makeDirectGetter(*this, &withDerivative,
                               docDirectGetter("withDerivative", "bool")));
   // ClearFeatureList
-  docstring = "    \n"
-              "    Clear the list of features of the task\n"
-              "    \n";
+  docstring =
+      "    \n"
+      "    Clear the list of features of the task\n"
+      "    \n";
 
   addCommand("clear",
              makeCommandVoid0(*this, &Task::clearFeatureList, docstring));
   // List features
-  docstring = "    \n"
-              "    Returns the list of features of the task\n"
-              "    \n";
+  docstring =
+      "    \n"
+      "    Returns the list of features of the task\n"
+      "    \n";
 
   addCommand("list", new command::task::ListFeatures(*this, docstring));
 }
@@ -113,7 +119,6 @@ void Task::addFeatureFromName(const std::string &featureName) {
 }
 
 void Task::clearFeatureList(void) {
-
   for (FeatureList_t::iterator iter = featureList.begin();
        iter != featureList.end(); ++iter) {
     FeatureAbstract &s = **iter;
@@ -183,7 +188,7 @@ dynamicgraph::Vector &Task::computeError(dynamicgraph::Vector &error,
       const dynamicgraph::Vector &partialError = feature.errorSOUT(time);
 
       const dynamicgraph::Vector::Index dim = partialError.size();
-      while (cursorError + dim > dimError) // DEBUG It was >=
+      while (cursorError + dim > dimError)  // DEBUG It was >=
       {
         dimError *= 2;
         error.resize(dimError);
@@ -206,8 +211,8 @@ dynamicgraph::Vector &Task::computeError(dynamicgraph::Vector &error,
   return error;
 }
 
-dynamicgraph::Vector &
-Task::computeErrorTimeDerivative(dynamicgraph::Vector &res, int time) {
+dynamicgraph::Vector &Task::computeErrorTimeDerivative(
+    dynamicgraph::Vector &res, int time) {
   res.resize(errorSOUT(time).size());
   dynamicgraph::Vector::Index cursor = 0;
 
@@ -224,8 +229,8 @@ Task::computeErrorTimeDerivative(dynamicgraph::Vector &res, int time) {
   return res;
 }
 
-VectorMultiBound &
-Task::computeTaskExponentialDecrease(VectorMultiBound &errorRef, int time) {
+VectorMultiBound &Task::computeTaskExponentialDecrease(
+    VectorMultiBound &errorRef, int time) {
   sotDEBUG(15) << "# In {" << endl;
   const dynamicgraph::Vector &errSingleBound = errorSOUT(time);
   const double &gain = controlGainSIN(time);

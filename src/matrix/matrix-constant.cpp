@@ -23,7 +23,9 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MatrixConstant, "MatrixConstant");
 /* --------------------------------------------------------------------- */
 
 MatrixConstant::MatrixConstant(const std::string &name)
-    : Entity(name), rows(0), cols(0),
+    : Entity(name),
+      rows(0),
+      cols(0),
       SOUT("sotMatrixConstant(" + name + ")::output(matrix)::sout") {
   SOUT.setDependencyType(TimeDependency<int>::BOOL_DEPENDENT);
   signalRegistration(SOUT);
@@ -32,20 +34,22 @@ MatrixConstant::MatrixConstant(const std::string &name)
 
   // Resize
   std::string docstring;
-  docstring = "    \n"
-              "    Resize the matrix and set it to zero.\n"
-              "      Input\n"
-              "        - unsigned int: number of lines.\n"
-              "        - unsigned int: number of columns.\n"
-              "\n";
+  docstring =
+      "    \n"
+      "    Resize the matrix and set it to zero.\n"
+      "      Input\n"
+      "        - unsigned int: number of lines.\n"
+      "        - unsigned int: number of columns.\n"
+      "\n";
   addCommand("resize", new command::matrixConstant::Resize(*this, docstring));
   // set
-  docstring = "    \n"
-              "    Set value of output signal\n"
-              "    \n"
-              "      input:\n"
-              "        - a matrix\n"
-              "    \n";
+  docstring =
+      "    \n"
+      "    Set value of output signal\n"
+      "    \n"
+      "      input:\n"
+      "        - a matrix\n"
+      "    \n";
   addCommand(
       "set",
       new ::dynamicgraph::command::Setter<MatrixConstant, dynamicgraph::Matrix>(

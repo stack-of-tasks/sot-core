@@ -8,6 +8,7 @@
  */
 
 #include <dynamic-graph/pool.h>
+
 #include <sot/core/debug.hh>
 #include <sot/core/exception-tools.hh>
 #include <sot/core/factory.hh>
@@ -20,15 +21,18 @@ using namespace dynamicgraph;
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(NeckLimitation, "NeckLimitation");
 
 const double NeckLimitation::COEFF_LINEAR_DEFAULT = -25.0 / 42.0;
-const double NeckLimitation::COEFF_AFFINE_DEFAULT = 0.6981; // 40DG
+const double NeckLimitation::COEFF_AFFINE_DEFAULT = 0.6981;  // 40DG
 const double NeckLimitation::SIGN_TILT_DEFAULT = 1;
 const unsigned int NeckLimitation::PAN_RANK_DEFAULT = 14;
 const unsigned int NeckLimitation::TILT_RANK_DEFAULT = 15;
 
 NeckLimitation::NeckLimitation(const std::string &name)
-    : Entity(name), panRank(PAN_RANK_DEFAULT), tiltRank(TILT_RANK_DEFAULT),
+    : Entity(name),
+      panRank(PAN_RANK_DEFAULT),
+      tiltRank(TILT_RANK_DEFAULT),
       coeffLinearPan(COEFF_LINEAR_DEFAULT),
-      coeffAffinePan(COEFF_AFFINE_DEFAULT), signTilt(SIGN_TILT_DEFAULT)
+      coeffAffinePan(COEFF_AFFINE_DEFAULT),
+      signTilt(SIGN_TILT_DEFAULT)
 
       ,
       jointSIN(NULL, "NeckLimitation(" + name + ")::input(vector)::joint"),
@@ -54,9 +58,8 @@ NeckLimitation::~NeckLimitation(void) {
 /* --- SIGNALS -------------------------------------------------------------- */
 /* --- SIGNALS -------------------------------------------------------------- */
 
-dynamicgraph::Vector &
-NeckLimitation::computeJointLimitation(dynamicgraph::Vector &jointLimited,
-                                       const int &timeSpec) {
+dynamicgraph::Vector &NeckLimitation::computeJointLimitation(
+    dynamicgraph::Vector &jointLimited, const int &timeSpec) {
   sotDEBUGIN(15);
 
   const dynamicgraph::Vector &joint = jointSIN(timeSpec);
@@ -67,7 +70,7 @@ NeckLimitation::computeJointLimitation(dynamicgraph::Vector &jointLimited,
   double &panLimited = jointLimited(panRank);
   double &tiltLimited = jointLimited(tiltRank);
 
-  if (fabs(pan) < 1e-3) // pan == 0
+  if (fabs(pan) < 1e-3)  // pan == 0
   {
     sotDEBUG(15) << "Pan = 0" << std::endl;
     if (tilt * signTilt > coeffAffinePan) {
@@ -98,13 +101,12 @@ NeckLimitation::computeJointLimitation(dynamicgraph::Vector &jointLimited,
       tiltLimited = tilt;
       panLimited = pan;
     }
-  } else // pan<0
+  } else  // pan<0
   {
     sotDEBUG(15) << "Pan < 0" << std::endl;
     sotDEBUG(15) << tilt - coeffAffinePan << "<?" << (-1 * pan * coeffLinearPan)
                  << std::endl;
     if (tilt * signTilt > (-pan * coeffLinearPan + coeffAffinePan)) {
-
       // 	  sotDEBUG(15) << "Below" << std::endl;
       // 	  if( (tilt-coeffAffinePan)*coeffLinearPan<pan )
       // 	    {

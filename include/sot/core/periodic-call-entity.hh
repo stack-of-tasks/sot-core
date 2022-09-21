@@ -17,6 +17,7 @@
 /* SOT */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/periodic-call-entity.hh>
 #include <sot/core/periodic-call.hh>
 /* STD */
@@ -55,8 +56,7 @@ namespace sot {
 class PeriodicCallEntity_EXPORT PeriodicCallEntity
     : public Entity,
       protected sot::PeriodicCall {
-
-public:
+ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
@@ -68,17 +68,17 @@ public:
 
   /* --- FUNCTIONS ------------------------------------------------------------
    */
-public:
+ public:
   PeriodicCallEntity(const std::string &name);
   virtual ~PeriodicCallEntity(void) {}
 
   virtual void display(std::ostream &os) const;
 };
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // #ifndef __SOT_PERIODICCALL_ENTITY_HH__
+#endif  // #ifndef __SOT_PERIODICCALL_ENTITY_HH__
 
 /*
  * Local variables:

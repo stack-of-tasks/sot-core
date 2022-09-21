@@ -20,14 +20,14 @@
 /* SOT */
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
+
 #include <sot/core/flags.hh>
 #include <sot/core/matrix-geometry.hh>
 #include <sot/core/pool.hh>
 
 /* STD */
-#include <string>
-
 #include <boost/function.hpp>
+#include <string>
 
 namespace dynamicgraph {
 namespace sot {
@@ -36,14 +36,15 @@ namespace sot {
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-template <typename Operator> class BinaryOp : public Entity {
+template <typename Operator>
+class BinaryOp : public Entity {
   Operator op;
   typedef typename Operator::Tin1 Tin1;
   typedef typename Operator::Tin2 Tin2;
   typedef typename Operator::Tout Tout;
   typedef BinaryOp<Operator> Self;
 
-public: /* --- CONSTRUCTION --- */
+ public: /* --- CONSTRUCTION --- */
   static std::string getTypeIn1Name(void) { return Operator::nameTypeIn1(); }
   static std::string getTypeIn2Name(void) { return Operator::nameTypeIn2(); }
   static std::string getTypeOutName(void) { return Operator::nameTypeOut(); }
@@ -66,12 +67,12 @@ public: /* --- CONSTRUCTION --- */
 
   virtual ~BinaryOp(void){};
 
-public: /* --- SIGNAL --- */
+ public: /* --- SIGNAL --- */
   SignalPtr<Tin1, int> SIN1;
   SignalPtr<Tin2, int> SIN2;
   SignalTimeDependent<Tout, int> SOUT;
 
-protected:
+ protected:
   Tout &computeOperation(Tout &res, int time) {
     const Tin1 &x1 = SIN1(time);
     const Tin2 &x2 = SIN2(time);
@@ -79,7 +80,7 @@ protected:
     return res;
   }
 };
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
 
-#endif // #ifndef SOT_CORE_BINARYOP_HH
+#endif  // #ifndef SOT_CORE_BINARYOP_HH

@@ -11,18 +11,15 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-#include <boost/mpl/if.hpp>
-#include <boost/type_traits/is_same.hpp>
-
 #include <dynamic-graph/command-bind.h>
 #include <dynamic-graph/command-getter.h>
 #include <dynamic-graph/command-setter.h>
 #include <dynamic-graph/command.h>
 
-#include <pinocchio/multibody/liegroup/liegroup.hpp>
-
 #include <Eigen/LU>
-
+#include <boost/mpl/if.hpp>
+#include <boost/type_traits/is_same.hpp>
+#include <pinocchio/multibody/liegroup/liegroup.hpp>
 #include <sot/core/debug.hh>
 #include <sot/core/factory.hh>
 #include <sot/core/feature-pose.hh>
@@ -37,11 +34,12 @@ typedef pinocchio::CartesianProductOperation<
 typedef pinocchio::SpecialEuclideanOperationTpl<3, double> SE3_t;
 
 namespace internal {
-template <Representation_t representation> struct LG_t {
+template <Representation_t representation>
+struct LG_t {
   typedef typename boost::mpl::if_c<representation == SE3Representation, SE3_t,
                                     R3xSO3_t>::type type;
 };
-} // namespace internal
+}  // namespace internal
 
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
@@ -130,8 +128,7 @@ unsigned int &FeaturePose<representation>::getDimension(unsigned int &dim,
 
   dim = 0;
   for (int i = 0; i < 6; ++i)
-    if (fl(i))
-      dim++;
+    if (fl(i)) dim++;
 
   sotDEBUG(25) << "# Out }" << std::endl;
   return dim;
@@ -184,8 +181,7 @@ Matrix &FeaturePose<representation>::computeJacobian(Matrix &J, int time) {
   // J = Jminus * X * jbJjb;
   unsigned int rJ = 0;
   for (unsigned int r = 0; r < 6; ++r)
-    if (fl((int)r))
-      J.row(rJ++) = (Jminus * X).row(r) * _jbJjb;
+    if (fl((int)r)) J.row(rJ++) = (Jminus * X).row(r) * _jbJjb;
 
   if (jaJja.isPlugged()) {
     const Matrix &_jaJja = jaJja(time);
@@ -200,16 +196,15 @@ Matrix &FeaturePose<representation>::computeJacobian(Matrix &J, int time) {
     // J -= (Jminus * X) * jaJja(time);
     rJ = 0;
     for (unsigned int r = 0; r < 6; ++r)
-      if (fl((int)r))
-        J.row(rJ++).noalias() -= (Jminus * X).row(r) * _jaJja;
+      if (fl((int)r)) J.row(rJ++).noalias() -= (Jminus * X).row(r) * _jaJja;
   }
 
   return J;
 }
 
 template <Representation_t representation>
-MatrixHomogeneous &
-FeaturePose<representation>::computefaMfb(MatrixHomogeneous &res, int time) {
+MatrixHomogeneous &FeaturePose<representation>::computefaMfb(
+    MatrixHomogeneous &res, int time) {
   check(*this);
 
   res = (oMja(time) * jaMfa(time)).inverse(Eigen::Affine) * oMjb(time) *
@@ -246,8 +241,7 @@ Vector &FeaturePose<representation>::computeError(Vector &error, int time) {
   error.resize(dimensionSOUT(time));
   unsigned int cursor = 0;
   for (unsigned int i = 0; i < 6; ++i)
-    if (fl((int)i))
-      error(cursor++) = v(i);
+    if (fl((int)i)) error(cursor++) = v(i);
 
   return error;
 }
@@ -302,8 +296,7 @@ Vector &FeaturePose<representation>::computeErrorDot(Vector &errordot,
                                             faNufafbDes.accessCopy());
   unsigned int cursor = 0;
   for (unsigned int i = 0; i < 6; ++i)
-    if (fl((int)i))
-      errordot(cursor++) = Jminus.row(i) * nu;
+    if (fl((int)i)) errordot(cursor++) = Jminus.row(i) * nu;
 
   return errordot;
 }
@@ -347,5 +340,5 @@ void FeaturePose<representation>::display(std::ostream &os) const {
   }
 }
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph
