@@ -21,12 +21,14 @@ namespace sot {
 ///
 /// This entity detects changes in value of an input boolean signal
 ///
-/// Input signal is
-///   - condition (boolean),
-/// Output signal is
-///   - check
-/// output value is true if value of input signal changes with respect to the
-/// evaluation.
+/// The input signal is
+///   - condition of type boolean.
+///
+/// The output signal is
+///   - check of type Boolean.
+///
+/// Output value is true if value of input signal changes with respect to the
+/// previous evaluation.
 ///
 /// Method addSignal stores signals that are recomputed each time the output
 /// signal is recomputed and the value is true. One typical use case of this

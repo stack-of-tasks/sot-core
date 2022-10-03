@@ -475,25 +475,29 @@ void Device::increment(const double &dt) {
   motorcontrolSOUT.setConstant(state_);
 }
 
-// Return true if it saturates.
-inline bool saturateBounds(double &val, const double &lower,
-                           const double &upper) {
+// Return positive difference between input value and bounds if it saturates,
+// 0 if it does not saturate
+inline double saturateBounds(double &val, const double &lower,
+                             const double &upper) {
+  double res = 0;
   assert(lower <= upper);
   if (val < lower) {
+    res = lower - val;
     val = lower;
-    return true;
+    return res;
   }
   if (upper < val) {
+    res = val - upper;
     val = upper;
-    return true;
+    return res;
   }
-  return false;
+  return res;
 }
 
-#define CHECK_BOUNDS(val, lower, upper, what)                                \
+#define CHECK_BOUNDS(val, lower, upper, what, eps)                           \
   for (int i = 0; i < val.size(); ++i) {                                     \
     double old = val(i);                                                     \
-    if (saturateBounds(val(i), lower(i), upper(i))) {                        \
+    if (saturateBounds(val(i), lower(i), upper(i)) > eps) {                  \
       std::ostringstream oss;                                                \
       oss << "Robot " what " bound violation at DoF " << i << ": requested " \
           << old << " but set " << val(i) << '\n';                           \
@@ -533,7 +537,7 @@ void Device::integrate(const double &dt) {
 
   // Velocity bounds check
   if (sanityCheck_) {
-    CHECK_BOUNDS(velocity_, lowerVelocity_, upperVelocity_, "velocity");
+    CHECK_BOUNDS(velocity_, lowerVelocity_, upperVelocity_, "velocity", 1e-6);
   }
 
   if (vel_control_.size() == state_.size()) {
@@ -548,7 +552,7 @@ void Device::integrate(const double &dt) {
 
   // Position bounds check
   if (sanityCheck_) {
-    CHECK_BOUNDS(state_, lowerPosition_, upperPosition_, "position");
+    CHECK_BOUNDS(state_, lowerPosition_, upperPosition_, "position", 1e-6);
   }
 }
 
