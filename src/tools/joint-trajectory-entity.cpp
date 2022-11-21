@@ -5,8 +5,8 @@
  * CNRS, LAAS
  *
  */
-//#define VP_DEBUG
-//#define VP_DEBUG_MODE 10
+// #define VP_DEBUG
+// #define VP_DEBUG_MODE 10
 #include <sot/core/debug.hh>
 #include <sot/core/matrix-geometry.hh>
 #ifdef VP_DEBUG
@@ -15,7 +15,7 @@ class sotJTE__INIT {
   sotJTE__INIT(void) { dynamicgraph::sot::DebugTrace::openFile(); }
 };
 sotJTE__INIT sotJTE_initiator;
-#endif  //#ifdef VP_DEBUG
+#endif  // #ifdef VP_DEBUG
 
 #include <dynamic-graph/all-commands.h>
 #include <dynamic-graph/command-bind.h>

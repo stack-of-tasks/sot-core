@@ -11,7 +11,7 @@
 /* --- INCLUDES ------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 #include <iostream>
-//#include <sot/core/sot-h.hh>
+// #include <sot/core/sot-h.hh>
 #include <dynamic-graph/linear-algebra.h>
 
 #include <sot/core/debug.hh>

@@ -116,7 +116,7 @@ class SOT_CORE_EXPORT ExceptionAbstract : public std::exception {
     e.p.initCopy(p);
     return e;
   }
-#endif  //#ifdef SOT_EXCEPTION_PASSING_PARAM
+#endif  // #ifdef SOT_EXCEPTION_PASSING_PARAM
 };
 
 #define SOT_RETHROW \
@@ -125,9 +125,9 @@ class SOT_CORE_EXPORT ExceptionAbstract : public std::exception {
 #ifdef SOT_EXCEPTION_PASSING_PARAM
 #define SOT_THROW \
   throw ExceptionAbstract::Param(__LINE__, __FUNCTION__, __FILE__) +
-#else  //#ifdef SOT_EXCEPTION_PASSING_PARAM
+#else  // #ifdef SOT_EXCEPTION_PASSING_PARAM
 #define SOT_THROW throw
-#endif  //#ifdef SOT_EXCEPTION_PASSING_PARAM
+#endif  // #ifdef SOT_EXCEPTION_PASSING_PARAM
 
 } /* namespace sot */
 } /* namespace dynamicgraph */

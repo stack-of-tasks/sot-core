@@ -29,7 +29,7 @@
 
 #include <sot/core/debug.hh>
 #include <sot/core/filter-differentiator.hh>
-//#include <sot/torque_control/motor-model.hh>
+// #include <sot/torque_control/motor-model.hh>
 #include <Eigen/Dense>
 
 namespace dynamicgraph {

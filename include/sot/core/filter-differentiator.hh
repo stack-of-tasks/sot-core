@@ -30,8 +30,8 @@
 #define SOTFILTERDIFFERENTIATOR_EXPORT
 #endif
 
-//#define VP_DEBUG 1        /// enable debug output
-//#define VP_DEBUG_MODE 20
+// #define VP_DEBUG 1        /// enable debug output
+// #define VP_DEBUG_MODE 20
 
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */

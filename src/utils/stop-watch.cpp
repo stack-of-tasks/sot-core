@@ -40,8 +40,8 @@ using std::map;
 using std::ostringstream;
 using std::string;
 
-//#define START_PROFILER(name) getProfiler().start(name)
-//#define STOP_PROFILER(name) getProfiler().stop(name)
+// #define START_PROFILER(name) getProfiler().start(name)
+// #define STOP_PROFILER(name) getProfiler().stop(name)
 
 Stopwatch &getProfiler() {
   static Stopwatch s(REAL_TIME);  // alternatives are CPU_TIME and REAL_TIME

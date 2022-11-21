@@ -11,8 +11,8 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-//#define VP_DEBUG
-//#define VP_DEBUG_MODE 15
+// #define VP_DEBUG
+// #define VP_DEBUG_MODE 15
 
 /* SOT */
 #include <sot/core/debug.hh>

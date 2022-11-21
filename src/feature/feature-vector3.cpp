@@ -12,8 +12,8 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-//#define VP_DEBUG
-//#define VP_DEBUG_MODE 45
+// #define VP_DEBUG
+// #define VP_DEBUG_MODE 45
 #include <sot/core/debug.hh>
 #include <sot/core/exception-feature.hh>
 #include <sot/core/factory.hh>

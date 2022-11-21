@@ -11,8 +11,8 @@
 /* --------------------------------------------------------------------- */
 
 /* --- SOT --- */
-//#define VP_DEBUG
-//#define VP_DEBUG_MODE 45
+// #define VP_DEBUG
+// #define VP_DEBUG_MODE 45
 #include <dynamic-graph/command-bind.h>
 #include <dynamic-graph/command-getter.h>
 #include <dynamic-graph/command-setter.h>
