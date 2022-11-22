@@ -11,8 +11,8 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-//#define VP_DEBUG
-//#define VP_DEBUG_MODE 45
+// #define VP_DEBUG
+// #define VP_DEBUG_MODE 45
 #include <sot/core/debug.hh>
 
 /* SOT */
@@ -22,7 +22,7 @@ class sotSOT__INIT {
   sotSOT__INIT(void) { dynamicgraph::sot::DebugTrace::openFile(); }
 };
 sotSOT__INIT sotSOT_initiator;
-#endif  //#ifdef VP_DEBUG
+#endif  // #ifdef VP_DEBUG
 
 #include <dynamic-graph/command-direct-getter.h>
 #include <dynamic-graph/command-direct-setter.h>
@@ -411,7 +411,7 @@ MemoryTaskSOT *getMemory(TaskAbstract &t, const Matrix::Index &tDim,
 /* --- CONTROL --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-//#define WITH_CHRONO
+// #define WITH_CHRONO
 
 #ifdef WITH_CHRONO
 #ifndef WIN32

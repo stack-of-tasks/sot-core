@@ -8,7 +8,7 @@
  */
 
 #include <sot/core/multi-bound.hh>
-//#define VP_DEBUG_MODE 25
+// #define VP_DEBUG_MODE 25
 #include <sot/core/debug.hh>
 
 using namespace dynamicgraph::sot;

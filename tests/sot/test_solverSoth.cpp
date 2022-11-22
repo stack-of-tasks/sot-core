@@ -17,7 +17,7 @@
 #else /*WIN32*/
 #include <sot/core/utils-windows.hh>
 #endif /*WIN32*/
-//#define WITH_CHRONO
+// #define WITH_CHRONO
 
 using namespace dynamicgraph::sot;
 
