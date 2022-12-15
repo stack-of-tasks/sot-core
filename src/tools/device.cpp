@@ -260,11 +260,11 @@ void Device::setState(const Vector &st) {
           // fall through
         }
       case CONTROL_INPUT_ONE_INTEGRATION:
-        if (s != lowerVelocity_.size() || s != upperVelocity_.size()) {
+        if (s > lowerVelocity_.size() || s > upperVelocity_.size()) {
           std::ostringstream os;
           os << "dynamicgraph::sot::Device::setState: upper and/or lower "
                 "velocity"
-                " bounds do not match state size. Input State size = "
+                " bounds should be less than state size. Input State size = "
              << st.size()
              << ", lowerVelocity_.size() = " << lowerVelocity_.size()
              << ", upperVelocity_.size() = " << upperVelocity_.size()
