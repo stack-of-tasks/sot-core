@@ -85,7 +85,7 @@ class FeaturePositionRelative(Entity):
             otherReference = I4
 
         # If input positions are signals, plug them, otherwise set values
-        for (sout, sin) in (
+        for sout, sin in (
             (basePosition, self._feature.signal("positionRef")),
             (otherPosition, self._feature.signal("position")),
             (baseReference, self._reference.signal("positionRef")),
