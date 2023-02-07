@@ -8,7 +8,6 @@ from dynamic_graph.sot.core.op_point_modifier import OpPointModifier
 
 
 class MetaTaskKine6dRel(MetaTask6d):
-
     opPointBase = ""
 
     def createOpPointBase(self, opPointBase, opPointRefBase="left-wrist"):

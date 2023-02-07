@@ -47,7 +47,6 @@ def distVector(M2, M1):
 
 
 def generateOrthonormalM(v1):
-
     v2 = matrix([random(), random(), random()])
     v3 = matrix([random(), random(), random()])
 
