@@ -117,8 +117,10 @@ class SotLoader {
 
   /// \brief Compute one iteration of control.
   /// Basically executes fillSensors, the SoT and the readControl.
+  /// \param period time since last call
   void oneIteration(std::map<std::string, SensorValues> &sensors_in,
-                    std::map<std::string, ControlValues> &control_values);
+                    std::map<std::string, ControlValues> &control_values,
+                    const double& period);
 
   /// \brief Load the Device entity in the python global scope.
   void loadDeviceInPython(const std::string &device_name);

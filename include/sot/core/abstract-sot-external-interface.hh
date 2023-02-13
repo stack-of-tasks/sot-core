@@ -52,7 +52,12 @@ class SOT_CORE_EXPORT AbstractSotExternalInterface {
   virtual void cleanupSetSensors(
       std::map<std::string, SensorValues> &sensorsIn) = 0;
 
-  virtual void getControl(std::map<std::string, ControlValues> &) = 0;
+  // Get control vector
+  // \param map map string to vector of doubles. This method is expected to
+  //        fill in entry "control"
+  // \param period time since last call.
+  virtual void getControl(std::map<std::string, ControlValues> &,
+                          const double&) = 0;
   virtual void setSecondOrderIntegration(void) = 0;
   virtual void setNoIntegration(void) = 0;
 };

@@ -115,12 +115,12 @@ BOOST_FIXTURE_TEST_CASE(test_sot_loader_one_iteration, TestFixture) {
   sot_loader.setDynamicLibraryName(asotei_lib_file_);
   sot_loader.initialization();
   // Without running the graph:
-  sot_loader.oneIteration(sensors, controls);
+  sot_loader.oneIteration(sensors, controls, 1e-3);
   BOOST_CHECK(controls.find("ctrl_map_name") == controls.end());
   // With the graph running:
   sot_loader.startDG();
   std::cout << "running the graph" << std::endl;
-  sot_loader.oneIteration(sensors, controls);
+  sot_loader.oneIteration(sensors, controls, 1e-3);
   std::cout << "running the graph ... done" << std::endl;
   controls_values = controls["ctrl_map_name"].getValues();
   BOOST_CHECK_EQUAL(controls_values.size(), 5);
