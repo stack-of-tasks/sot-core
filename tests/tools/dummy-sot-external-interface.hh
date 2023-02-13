@@ -31,7 +31,8 @@ class DummySotExternalInterface
       std::map<std::string, dynamicgraph::sot::SensorValues> &sensorsIn);
 
   virtual void getControl(
-      std::map<std::string, dynamicgraph::sot::ControlValues> &controlOut);
+      std::map<std::string, dynamicgraph::sot::ControlValues> &controlOut,
+      const double&);
   virtual void setSecondOrderIntegration(void);
   virtual void setNoIntegration(void);
 

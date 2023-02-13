@@ -35,7 +35,8 @@ void DummySotExternalInterface::cleanupSetSensors(
 }
 
 void DummySotExternalInterface::getControl(
-    std::map<std::string, dynamicgraph::sot::ControlValues> &controlOut) {
+    std::map<std::string, dynamicgraph::sot::ControlValues> &controlOut,
+    const double &) {
   controlOut["ctrl_map_name"] = dynamicgraph::sot::ControlValues();
   controlOut["ctrl_map_name"].setName("ctrl_value_name");
   controlOut["ctrl_map_name"].setValues(std::vector<double>(5, 3.1415));

@@ -170,11 +170,12 @@ void SotLoader::runPythonCommand(const std::string &command,
 
 void SotLoader::oneIteration(
     std::map<std::string, SensorValues> &sensors_in,
-    std::map<std::string, ControlValues> &control_values) {
+    std::map<std::string, ControlValues> &control_values,
+    const double& period) {
   if (!dynamic_graph_stopped_) {
     try {
       sot_external_interface_->nominalSetSensors(sensors_in);
-      sot_external_interface_->getControl(control_values);
+      sot_external_interface_->getControl(control_values, period);
     } catch (std::exception &e) {
       std::cout << "Exception while running the graph:\n"
                 << e.what() << std::endl;
