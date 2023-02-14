@@ -32,7 +32,7 @@ class DummySotExternalInterface
 
   virtual void getControl(
       std::map<std::string, dynamicgraph::sot::ControlValues> &controlOut,
-      const double&);
+      const double &);
   virtual void setSecondOrderIntegration(void);
   virtual void setNoIntegration(void);
 
