@@ -57,7 +57,7 @@ class SOT_CORE_EXPORT AbstractSotExternalInterface {
   //        fill in entry "control"
   // \param period time since last call.
   virtual void getControl(std::map<std::string, ControlValues> &,
-                          const double&) = 0;
+                          const double &) = 0;
   virtual void setSecondOrderIntegration(void) = 0;
   virtual void setNoIntegration(void) = 0;
 };
