@@ -7,6 +7,7 @@ set(BUILD_WITH_INSTALL_RPATH TRUE)
 set(plugins
     sot/sot
     math/op-point-modifier
+    math/segment
     matrix/operator
     matrix/derivator
     matrix/double-constant
