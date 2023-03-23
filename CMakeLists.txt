@@ -120,6 +120,7 @@ set(${PROJECT_NAME}_HEADERS
     include/${CUSTOM_HEADER_DIR}/reader.hh
     include/${CUSTOM_HEADER_DIR}/robot-simu.hh
     include/${CUSTOM_HEADER_DIR}/robot-utils.hh
+    include/${CUSTOM_HEADER_DIR}/segment.hh
     include/${CUSTOM_HEADER_DIR}/sot-loader.hh
     include/${CUSTOM_HEADER_DIR}/sot.hh
     include/${CUSTOM_HEADER_DIR}/stop-watch.hh
