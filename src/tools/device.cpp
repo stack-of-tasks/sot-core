@@ -18,6 +18,8 @@
 #include <iostream>
 #include <sot/core/debug.hh>
 #include <sot/core/macros.hh>
+#include <sot/core/integrator.hh>
+
 using namespace std;
 
 #include <dynamic-graph/all-commands.h>
@@ -92,7 +94,7 @@ Device::Device(const std::string &n)
       pseudoTorqueSOUT("Device(" + n + ")::output(vector)::ptorque")
 
       ,
-      ffPose_(),
+      ffPose_(), lastTimeControlWasRead_(0), controlSize_(0),
       forceZero6(6) {
   forceZero6.fill(0);
   /* --- SIGNALS --- */
@@ -217,6 +219,23 @@ Device::Device(const std::string &n)
   }
 }
 
+void Device::getControl(map<string,ControlValues> &controlOut,
+                        const double& period)
+{
+  sotDEBUGIN(25) ;
+  std::vector<double> control;
+  lastTimeControlWasRead_ += (int)floor(period/Integrator::dt);
+
+  const Vector& dgControl (controlSIN(lastTimeControlWasRead_));
+  // Specify the joint values for the controller.
+  control.resize(dgControl.size());
+
+  for(unsigned int i=0; i < dgControl.size();++i)
+    control[i] = dgControl[i];
+  controlOut["control"].setValues(control);
+  sotDEBUGOUT(25) ;
+}
+
 void Device::setStateSize(const unsigned int &size) {
   state_.resize(size);
   state_.fill(.0);
@@ -230,6 +249,15 @@ void Device::setStateSize(const unsigned int &size) {
   Vector zmp(3);
   zmp.fill(.0);
   ZMPPreviousControllerSOUT.setConstant(zmp);
+}
+
+void Device::setControlSize(const int &size) {
+  controlSize_ = size;
+}
+
+int Device::getControlSize() const
+{
+  return controlSize_;
 }
 
 void Device::setVelocitySize(const unsigned int &size) {
