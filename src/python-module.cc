@@ -59,7 +59,9 @@ BOOST_PYTHON_MODULE(wrap) {
                                                reference_existing_object()))
       .add_property("before",
                     bp::make_function(&dgs::Device::periodicCallBefore,
-                                      reference_existing_object()));
+                                      reference_existing_object()))
+      .def("getControlSize", &dgs::Device::getControlSize,
+           "Get number of joints controlled by the device.");
 
   using dgs::Flags;
   bp::class_<Flags>("Flags", bp::init<>())

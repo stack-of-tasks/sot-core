@@ -22,6 +22,7 @@
 #include <dynamic-graph/all-signals.h>
 #include <dynamic-graph/entity.h>
 
+#include <sot/core/abstract-sot-external-interface.hh>
 #include <sot/core/matrix-geometry.hh>
 
 #include "sot/core/api.hh"
@@ -83,12 +84,19 @@ class SOT_CORE_EXPORT Device : public Entity {
   virtual ~Device();
 
   virtual void setStateSize(const unsigned int &size);
+  // Set number of joints that are controlled by the device.
+  void setControlSize(const int &size);
+  // Get the number of joints that are controlled by the device.
+  int getControlSize() const;
   virtual void setState(const dynamicgraph::Vector &st);
   void setVelocitySize(const unsigned int &size);
   virtual void setVelocity(const dynamicgraph::Vector &vel);
   virtual void setSecondOrderIntegration();
   virtual void setNoIntegration();
   virtual void setControlInputType(const std::string &cit);
+  void getControl(std::map<std::string, ControlValues> &anglesOut,
+                  const double& period);
+
   virtual void increment(const double &dt = 5e-2);
 
   /// \name Sanity check parameterization
@@ -174,6 +182,8 @@ class SOT_CORE_EXPORT Device : public Entity {
   virtual void setRoot(const MatrixHomogeneous &worldMwaist);
 
  private:
+  int lastTimeControlWasRead_;
+  int controlSize_;
   // Intermediate variable to avoid dynamic allocation
   dynamicgraph::Vector forceZero6;
 };
