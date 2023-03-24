@@ -60,6 +60,8 @@ class SOT_CORE_EXPORT AbstractSotExternalInterface {
                           const double &period = 0) = 0;
   virtual void setSecondOrderIntegration(void) = 0;
   virtual void setNoIntegration(void) = 0;
+  // Set the number of joints that are controlled
+  virtual void setControlSize(const int&) = 0;
 };
 }  // namespace sot
 }  // namespace dynamicgraph
