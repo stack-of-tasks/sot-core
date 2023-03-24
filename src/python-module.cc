@@ -1,5 +1,6 @@
 #include <sot/core/device.hh>
 #include <sot/core/flags.hh>
+#include <sot/core/integrator.hh>
 
 #include "dynamic-graph/python/module.hh"
 #include "dynamic-graph/python/signal.hh"
@@ -102,4 +103,16 @@ BOOST_PYTHON_MODULE(wrap) {
           });
 
   dg::python::exposeSignalsOfType<Flags, int>("Flags");
+  dg::python::exposeEntity<dgs::Integrator, bp::bases<dg::Entity>,
+                           dg::python::AddCommands>()
+      .add_property("after", bp::make_function(
+           &dgs::Integrator::periodicCallAfter, reference_existing_object()))
+      .add_property("before", bp::make_function(
+           &dgs::Integrator::periodicCallBefore, reference_existing_object()))
+      .add_property("model",
+                    bp::make_function(&dgs::Integrator::getModel,
+                                      reference_existing_object()),
+                    bp::make_function(&dgs::Integrator::setModel))
+      .def("setModel", &dgs::Integrator::setModel)
+      .def("setInitialConfig", &dgs::Integrator::setInitialConfig);
 }

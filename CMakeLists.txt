@@ -94,6 +94,7 @@ set(${PROJECT_NAME}_HEADERS
     include/${CUSTOM_HEADER_DIR}/gain-adaptive.hh
     include/${CUSTOM_HEADER_DIR}/gain-hyperbolic.hh
     include/${CUSTOM_HEADER_DIR}/gripper-control.hh
+    include/${CUSTOM_HEADER_DIR}/integrator.hh
     include/${CUSTOM_HEADER_DIR}/integrator-abstract.hh
     include/${CUSTOM_HEADER_DIR}/integrator-euler.hh
     include/${CUSTOM_HEADER_DIR}/joint-limitator.hh
@@ -158,6 +159,7 @@ set(${PROJECT_NAME}_SOURCES
     src/tools/utils-windows.cpp
     src/tools/periodic-call.cpp
     src/tools/device.cpp
+    src/tools/integrator.cpp
     src/tools/sot-loader.cpp
     src/tools/trajectory.cpp
     src/tools/robot-utils.cpp
