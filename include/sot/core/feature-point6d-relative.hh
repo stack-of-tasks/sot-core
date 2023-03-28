@@ -80,14 +80,14 @@ class [[deprecated("replaced by FeaturePose")]] SOTFEATUREPOINT6DRELATIVE_EXPORT
   FeaturePoint6dRelative(const std::string &name);
   virtual ~FeaturePoint6dRelative(void) {}
 
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector & res,
+  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
                                              int time);
-  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector & res,
+  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res,
                                                 int time);
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix & res,
+  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
                                                 int time);
 
-  virtual void display(std::ostream & os) const;
+  virtual void display(std::ostream &os) const;
 
   void initCommands(void);
   void initSdes(const std::string &featureDesiredName);
