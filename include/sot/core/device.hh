@@ -26,7 +26,6 @@
 #include <sot/core/matrix-geometry.hh>
 
 #include "sot/core/api.hh"
-#include "sot/core/periodic-call.hh"
 
 namespace dynamicgraph {
 namespace sot {
@@ -64,8 +63,6 @@ class SOT_CORE_EXPORT Device : public Entity {
   dynamicgraph::Vector vel_control_;
   ControlInput controlInputType_;
   bool withForceSignals[4];
-  PeriodicCall periodicCallBefore_;
-  PeriodicCall periodicCallAfter_;
   double timestep_;
 
   /// \name Robot bounds used for sanity checks
@@ -97,8 +94,6 @@ class SOT_CORE_EXPORT Device : public Entity {
   void getControl(std::map<std::string, ControlValues> &anglesOut,
                   const double& period);
 
-  virtual void increment(const double &dt = 5e-2);
-
   /// \name Sanity check parameterization
   /// \{
   void setSanityCheck(const bool &enableCheck);
@@ -106,9 +101,6 @@ class SOT_CORE_EXPORT Device : public Entity {
   void setVelocityBounds(const Vector &lower, const Vector &upper);
   void setTorqueBounds(const Vector &lower, const Vector &upper);
   /// \}
-
-  PeriodicCall &periodicCallBefore() { return periodicCallBefore_; }
-  PeriodicCall &periodicCallAfter() { return periodicCallAfter_; }
 
  public: /* --- DISPLAY --- */
   virtual void display(std::ostream &os) const;

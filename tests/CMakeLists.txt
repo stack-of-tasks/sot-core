@@ -33,8 +33,6 @@ set(TEST_test_control_admittance_LIBS admittance-control-op-point)
 
 set(TEST_test_feature_generic_EXT_LIBS pinocchio::pinocchio)
 
-set(TEST_test_device_EXT_LIBS pinocchio::pinocchio)
-
 set(TEST_test_filter_differentiator_LIBS filter-differentiator)
 
 set(TEST_test_madgwick_ahrs_LIBS madgwickahrs)
@@ -60,7 +58,6 @@ set(tests
     task/test_multi_bound
     task/test_task
     tools/test_boost
-    tools/test_device
     tools/test_sot_loader
     tools/test_mailbox
     tools/test_matrix
