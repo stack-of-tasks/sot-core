@@ -18,16 +18,6 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(RobotSimu, "RobotSimu");
 RobotSimu::RobotSimu(const std::string &inName) : Device(inName) {
   using namespace dynamicgraph::command;
   std::string docstring;
-  /* Command increment. */
-  docstring =
-      "\n"
-      "    Integrate dynamics for time step provided as input\n"
-      "\n"
-      "      take one floating point number as input\n"
-      "\n";
-  addCommand("increment", command::makeCommandVoid1(
-                              (Device &)*this, &Device::increment, docstring));
-
   /* Set Time step. */
   docstring =
       "\n"

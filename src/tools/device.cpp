@@ -226,7 +226,7 @@ void Device::getControl(map<string,ControlValues> &controlOut,
   std::vector<double> control;
   lastTimeControlWasRead_ += (int)floor(period/Integrator::dt);
 
-  const Vector& dgControl (controlSIN(lastTimeControlWasRead_));
+  const Vector& dgControl(controlSIN(lastTimeControlWasRead_));
   // Specify the joint values for the controller.
   control.resize(dgControl.size());
 
@@ -439,69 +439,6 @@ void Device::setTorqueBounds(const Vector &lower, const Vector &upper) {
   upperTorque_ = upper;
 }
 
-void Device::increment(const double &dt) {
-  int time = stateSOUT.getTime();
-  sotDEBUG(25) << "Time : " << time << std::endl;
-
-  // Run Synchronous commands and evaluate signals outside the main
-  // connected component of the graph.
-  try {
-    periodicCallBefore_.run(time + 1);
-  } catch (std::exception &e) {
-    dgRTLOG() << "exception caught while running periodical commands (before): "
-              << e.what() << std::endl;
-  } catch (const char *str) {
-    dgRTLOG() << "exception caught while running periodical commands (before): "
-              << str << std::endl;
-  } catch (...) {
-    dgRTLOG() << "unknown exception caught while"
-              << " running periodical commands (before)" << std::endl;
-  }
-
-  /* Force the recomputation of the control. */
-  controlSIN(time);
-  sotDEBUG(25) << "u" << time << " = " << controlSIN.accessCopy() << endl;
-
-  /* Integration of numerical values. This function is virtual. */
-  integrate(dt);
-  sotDEBUG(25) << "q" << time << " = " << state_ << endl;
-
-  /* Position the signals corresponding to sensors. */
-  stateSOUT.setConstant(state_);
-  stateSOUT.setTime(time + 1);
-  // computation of the velocity signal
-  if (controlInputType_ == CONTROL_INPUT_TWO_INTEGRATION) {
-    velocitySOUT.setConstant(velocity_);
-    velocitySOUT.setTime(time + 1);
-  } else if (controlInputType_ == CONTROL_INPUT_ONE_INTEGRATION) {
-    velocitySOUT.setConstant(controlSIN.accessCopy());
-    velocitySOUT.setTime(time + 1);
-  }
-  for (int i = 0; i < 4; ++i) {
-    if (!withForceSignals[i]) forcesSOUT[i]->setConstant(forceZero6);
-  }
-  Vector zmp(3);
-  zmp.fill(.0);
-  ZMPPreviousControllerSOUT.setConstant(zmp);
-
-  // Run Synchronous commands and evaluate signals outside the main
-  // connected component of the graph.
-  try {
-    periodicCallAfter_.run(time + 1);
-  } catch (std::exception &e) {
-    dgRTLOG() << "exception caught while running periodical commands (after): "
-              << e.what() << std::endl;
-  } catch (const char *str) {
-    dgRTLOG() << "exception caught while running periodical commands (after): "
-              << str << std::endl;
-  } catch (...) {
-    dgRTLOG() << "unknown exception caught while"
-              << " running periodical commands (after)" << std::endl;
-  }
-
-  // Others signals.
-  motorcontrolSOUT.setConstant(state_);
-}
 
 // Return positive difference between input value and bounds if it saturates,
 // 0 if it does not saturate
