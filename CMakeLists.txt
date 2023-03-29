@@ -80,8 +80,6 @@ set(${PROJECT_NAME}_HEADERS
     include/${CUSTOM_HEADER_DIR}/feature-generic.hh
     include/${CUSTOM_HEADER_DIR}/feature-joint-limits.hh
     include/${CUSTOM_HEADER_DIR}/feature-line-distance.hh
-    include/${CUSTOM_HEADER_DIR}/feature-point6d-relative.hh
-    include/${CUSTOM_HEADER_DIR}/feature-point6d.hh
     include/${CUSTOM_HEADER_DIR}/feature-pose.hh
     include/${CUSTOM_HEADER_DIR}/feature-posture.hh
     include/${CUSTOM_HEADER_DIR}/feature-task.hh

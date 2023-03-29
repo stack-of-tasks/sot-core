@@ -20,8 +20,6 @@ set(TEST_test_gain_LIBS gain-adaptive feature-visual-point)
 
 set(TEST_test_task_LIBS gain-adaptive feature-visual-point task)
 
-set(TEST_test_feature_point6d_LIBS gain-adaptive feature-point6d task)
-
 set(TEST_test_feature_generic_LIBS gain-adaptive feature-generic task
                                    feature-pose)
 
@@ -41,7 +39,6 @@ set(tests
     dummy
     control/test_control_pd
     control/test_control_admittance
-    features/test_feature_point6d
     features/test_feature_generic
     filters/test_filter_differentiator
     filters/test_madgwick_ahrs

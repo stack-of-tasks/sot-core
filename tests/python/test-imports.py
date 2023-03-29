@@ -10,27 +10,9 @@ class PythonImportTest(unittest.TestCase):
         except ImportError as ie:
             self.fail(str(ie))
 
-    def test_feature_position_relative(self):
-        try:
-            import dynamic_graph.sot.core.feature_position_relative  # noqa
-        except ImportError as ie:
-            self.fail(str(ie))
-
-    def test_feature_position(self):
-        try:
-            import dynamic_graph.sot.core.feature_position  # noqa
-        except ImportError as ie:
-            self.fail(str(ie))
-
     def test_matrix_util(self):
         try:
             import dynamic_graph.sot.core.matrix_util  # noqa
-        except ImportError as ie:
-            self.fail(str(ie))
-
-    def test_meta_task_6d(self):
-        try:
-            import dynamic_graph.sot.core.meta_task_6d  # noqa
         except ImportError as ie:
             self.fail(str(ie))
 
@@ -43,12 +25,6 @@ class PythonImportTest(unittest.TestCase):
     def test_meta_task_visual_point(self):
         try:
             import dynamic_graph.sot.core.meta_task_visual_point  # noqa
-        except ImportError as ie:
-            self.fail(str(ie))
-
-    def test_meta_tasks_kine_relative(self):
-        try:
-            import dynamic_graph.sot.core.meta_tasks_kine_relative  # noqa
         except ImportError as ie:
             self.fail(str(ie))
 
