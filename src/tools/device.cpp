@@ -35,6 +35,36 @@ using namespace dynamicgraph;
 
 const std::string Device::CLASS_NAME = "Device";
 
+// Return positive difference between input value and bounds if it saturates,
+// 0 if it does not saturate
+inline double saturateBounds(double &val, const double &lower,
+                             const double &upper) {
+  double res = 0;
+  assert(lower <= upper);
+  if (val < lower) {
+    res = lower - val;
+    val = lower;
+    return res;
+  }
+  if (upper < val) {
+    res = val - upper;
+    val = upper;
+    return res;
+  }
+  return res;
+}
+
+#define CHECK_BOUNDS(val, lower, upper, what, eps)                           \
+  for (int i = 0; i < val.size(); ++i) {                                     \
+    double old = val(i);                                                     \
+    if (saturateBounds(val(i), lower(i), upper(i)) > eps) {                  \
+      std::ostringstream oss;                                                \
+      oss << "Robot " what " bound violation at DoF " << i << ": requested " \
+          << old << " but set " << val(i) << '\n';                           \
+      SEND_ERROR_STREAM_MSG(oss.str());                                      \
+    }                                                                        \
+  }
+
 /* --------------------------------------------------------------------- */
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -76,7 +106,7 @@ Device::Device(const std::string &n)
     : Entity(n),
       state_(6),
       sanityCheck_(true),
-      controlInputType_(CONTROL_INPUT_ONE_INTEGRATION),
+      controlInputType_(POSITION_CONTROL),
       controlSIN(NULL, "Device(" + n + ")::input(double)::control"),
       attitudeSIN(NULL, "Device(" + n + ")::input(vector3)::attitudeIN"),
       zmpSIN(NULL, "Device(" + n + ")::input(vector3)::zmp"),
@@ -226,10 +256,13 @@ void Device::getControl(map<string,ControlValues> &controlOut,
   std::vector<double> control;
   lastTimeControlWasRead_ += (int)floor(period/Integrator::dt);
 
-  const Vector& dgControl(controlSIN(lastTimeControlWasRead_));
+  Vector dgControl(controlSIN(lastTimeControlWasRead_));
   // Specify the joint values for the controller.
   control.resize(dgControl.size());
 
+  if (controlInputType_ == POSITION_CONTROL){
+    CHECK_BOUNDS(dgControl, lowerPosition_, upperPosition_, "position", 1e-6);
+  }
   for(unsigned int i=0; i < dgControl.size();++i)
     control[i] = dgControl[i];
   controlOut["control"].setValues(control);
@@ -267,49 +300,6 @@ void Device::setVelocitySize(const unsigned int &size) {
 }
 
 void Device::setState(const Vector &st) {
-  if (sanityCheck_) {
-    const Vector::Index &s = st.size();
-    SOT_CORE_DISABLE_WARNING_PUSH
-    SOT_CORE_DISABLE_WARNING_FALLTHROUGH
-    switch (controlInputType_) {
-      case CONTROL_INPUT_TWO_INTEGRATION:
-        dgRTLOG()
-            << "Sanity check for this control is not well supported. "
-               "In order to make it work, use pinocchio and the contact forces "
-               "to estimate the joint torques for the given acceleration.\n";
-        if (s != lowerTorque_.size() || s != upperTorque_.size()) {
-          std::ostringstream os;
-          os << "dynamicgraph::sot::Device::setState: upper and/or lower torque"
-                "bounds do not match state size. Input State size = "
-             << st.size() << ", lowerTorque_.size() = " << lowerTorque_.size()
-             << ", upperTorque_.size() = " << upperTorque_.size()
-             << ". Set them first with setTorqueBounds.";
-          throw std::invalid_argument(os.str().c_str());
-          // fall through
-        }
-      case CONTROL_INPUT_ONE_INTEGRATION:
-        if (s > lowerVelocity_.size() || s > upperVelocity_.size()) {
-          std::ostringstream os;
-          os << "dynamicgraph::sot::Device::setState: upper and/or lower "
-                "velocity"
-                " bounds should be less than state size. Input State size = "
-             << st.size()
-             << ", lowerVelocity_.size() = " << lowerVelocity_.size()
-             << ", upperVelocity_.size() = " << upperVelocity_.size()
-             << ". Set them first with setVelocityBounds.";
-          throw std::invalid_argument(os.str().c_str());
-        }
-        // fall through
-      case CONTROL_INPUT_NO_INTEGRATION:
-        break;
-      default:
-        throw std::invalid_argument("Invalid control mode type.");
-    }
-    SOT_CORE_DISABLE_WARNING_POP
-  }
-  state_ = st;
-  stateSOUT.setConstant(state_);
-  motorcontrolSOUT.setConstant(state_);
 }
 
 void Device::setVelocity(const Vector &vel) {
@@ -331,74 +321,26 @@ void Device::setRoot(const MatrixHomogeneous &worldMwaist) {
 }
 
 void Device::setSecondOrderIntegration() {
-  controlInputType_ = CONTROL_INPUT_TWO_INTEGRATION;
-  velocity_.resize(state_.size());
-  velocity_.setZero();
-  velocitySOUT.setConstant(velocity_);
 }
 
 void Device::setNoIntegration() {
-  controlInputType_ = CONTROL_INPUT_NO_INTEGRATION;
-  velocity_.resize(state_.size());
-  velocity_.setZero();
-  velocitySOUT.setConstant(velocity_);
 }
 
 void Device::setControlInputType(const std::string &cit) {
-  for (int i = 0; i < CONTROL_INPUT_SIZE; i++)
-    if (cit == ControlInput_s[i]) {
-      controlInputType_ = (ControlInput)i;
-      sotDEBUG(25) << "Control input type: " << ControlInput_s[i] << endl;
-      return;
-    }
-  sotDEBUG(25) << "Unrecognized control input type: " << cit << endl;
 }
 
 void Device::setSanityCheck(const bool &enableCheck) {
-  if (enableCheck) {
-    const Vector::Index &s = state_.size();
-    SOT_CORE_DISABLE_WARNING_PUSH
-    SOT_CORE_DISABLE_WARNING_FALLTHROUGH
-    switch (controlInputType_) {
-      case CONTROL_INPUT_TWO_INTEGRATION:
-        dgRTLOG()
-            << "Sanity check for this control is not well supported. "
-               "In order to make it work, use pinocchio and the contact forces "
-               "to estimate the joint torques for the given acceleration.\n";
-        if (s != lowerTorque_.size() || s != upperTorque_.size())
-          throw std::invalid_argument(
-              "Upper and/or lower torque bounds "
-              "do not match state size. Set them first with setTorqueBounds");
-        // fall through
-      case CONTROL_INPUT_ONE_INTEGRATION:
-        if (s != lowerVelocity_.size() || s != upperVelocity_.size())
-          throw std::invalid_argument(
-              "Upper and/or lower velocity bounds "
-              "do not match state size. Set them first with setVelocityBounds");
-        // fall through
-      case CONTROL_INPUT_NO_INTEGRATION:
-        if (s != lowerPosition_.size() || s != upperPosition_.size())
-          throw std::invalid_argument(
-              "Upper and/or lower position bounds "
-              "do not match state size. Set them first with setPositionBounds");
-        break;
-      default:
-        throw std::invalid_argument("Invalid control mode type.");
-    }
-    SOT_CORE_DISABLE_WARNING_POP
-  }
-  sanityCheck_ = enableCheck;
 }
 
 void Device::setPositionBounds(const Vector &lower, const Vector &upper) {
   std::ostringstream oss;
-  if (lower.size() != state_.size()) {
-    oss << "Lower bound size should be " << state_.size() << ", got "
+  if (lower.size() != controlSize_) {
+    oss << "Lower bound size should be " << controlSize_ << ", got "
         << lower.size();
     throw std::invalid_argument(oss.str());
   }
-  if (upper.size() != state_.size()) {
-    oss << "Upper bound size should be " << state_.size() << ", got "
+  if (upper.size() != controlSize_) {
+    oss << "Upper bound size should be " << controlSize_ << ", got "
         << upper.size();
     throw std::invalid_argument(oss.str());
   }
@@ -408,13 +350,13 @@ void Device::setPositionBounds(const Vector &lower, const Vector &upper) {
 
 void Device::setVelocityBounds(const Vector &lower, const Vector &upper) {
   std::ostringstream oss;
-  if (lower.size() != velocity_.size()) {
-    oss << "Lower bound size should be " << velocity_.size() << ", got "
+  if (lower.size() != controlSize_) {
+    oss << "Lower bound size should be " << controlSize_ << ", got "
         << lower.size();
     throw std::invalid_argument(oss.str());
   }
-  if (upper.size() != velocity_.size()) {
-    oss << "Upper bound size should be " << velocity_.size() << ", got "
+  if (upper.size() != controlSize_) {
+    oss << "Upper bound size should be " << controlSize_ << ", got "
         << upper.size();
     throw std::invalid_argument(oss.str());
   }
@@ -423,15 +365,15 @@ void Device::setVelocityBounds(const Vector &lower, const Vector &upper) {
 }
 
 void Device::setTorqueBounds(const Vector &lower, const Vector &upper) {
-  // TODO I think the torque bounds size are state_.size()-6...
+  // TODO I think the torque bounds size are controlSize_-6...
   std::ostringstream oss;
-  if (lower.size() != state_.size()) {
-    oss << "Lower bound size should be " << state_.size() << ", got "
+  if (lower.size() != controlSize_) {
+    oss << "Lower bound size should be " << controlSize_ << ", got "
         << lower.size();
     throw std::invalid_argument(oss.str());
   }
-  if (upper.size() != state_.size()) {
-    oss << "Lower bound size should be " << state_.size() << ", got "
+  if (upper.size() != controlSize_) {
+    oss << "Lower bound size should be " << controlSize_ << ", got "
         << upper.size();
     throw std::invalid_argument(oss.str());
   }
@@ -440,85 +382,7 @@ void Device::setTorqueBounds(const Vector &lower, const Vector &upper) {
 }
 
 
-// Return positive difference between input value and bounds if it saturates,
-// 0 if it does not saturate
-inline double saturateBounds(double &val, const double &lower,
-                             const double &upper) {
-  double res = 0;
-  assert(lower <= upper);
-  if (val < lower) {
-    res = lower - val;
-    val = lower;
-    return res;
-  }
-  if (upper < val) {
-    res = val - upper;
-    val = upper;
-    return res;
-  }
-  return res;
-}
-
-#define CHECK_BOUNDS(val, lower, upper, what, eps)                           \
-  for (int i = 0; i < val.size(); ++i) {                                     \
-    double old = val(i);                                                     \
-    if (saturateBounds(val(i), lower(i), upper(i)) > eps) {                  \
-      std::ostringstream oss;                                                \
-      oss << "Robot " what " bound violation at DoF " << i << ": requested " \
-          << old << " but set " << val(i) << '\n';                           \
-      SEND_ERROR_STREAM_MSG(oss.str());                                      \
-    }                                                                        \
-  }
-
 void Device::integrate(const double &dt) {
-  const Vector &controlIN = controlSIN.accessCopy();
-
-  if (sanityCheck_ && controlIN.hasNaN()) {
-    dgRTLOG() << "Device::integrate: Control has NaN values: " << '\n'
-              << controlIN.transpose() << '\n';
-    return;
-  }
-
-  if (controlInputType_ == CONTROL_INPUT_NO_INTEGRATION) {
-    state_.tail(controlIN.size()) = controlIN;
-    return;
-  }
-
-  if (vel_control_.size() == 0) vel_control_ = Vector::Zero(controlIN.size());
-
-  // If control size is state size - 6, integrate joint angles,
-  // if control and state are of same size, integrate 6 first degrees of
-  // freedom as a translation and roll pitch yaw.
-
-  if (controlInputType_ == CONTROL_INPUT_TWO_INTEGRATION) {
-    // TODO check acceleration
-    // Position increment
-    vel_control_ = velocity_.tail(controlIN.size()) + (0.5 * dt) * controlIN;
-    // Velocity integration.
-    velocity_.tail(controlIN.size()) += controlIN * dt;
-  } else {
-    vel_control_ = controlIN;
-  }
-
-  // Velocity bounds check
-  if (sanityCheck_) {
-    CHECK_BOUNDS(velocity_, lowerVelocity_, upperVelocity_, "velocity", 1e-6);
-  }
-
-  if (vel_control_.size() == state_.size()) {
-    // Freeflyer integration
-    integrateRollPitchYaw(state_, vel_control_, dt);
-    // Joints integration
-    state_.tail(state_.size() - 6) += vel_control_.tail(state_.size() - 6) * dt;
-  } else {
-    // Position integration
-    state_.tail(controlIN.size()) += vel_control_ * dt;
-  }
-
-  // Position bounds check
-  if (sanityCheck_) {
-    CHECK_BOUNDS(state_, lowerPosition_, upperPosition_, "position", 1e-6);
-  }
 }
 
 /* --- DISPLAY ------------------------------------------------------------ */
