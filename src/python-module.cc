@@ -112,4 +112,15 @@ BOOST_PYTHON_MODULE(wrap) {
                     bp::make_function(&dgs::Integrator::setModel))
       .def("setModel", &dgs::Integrator::setModel)
       .def("setInitialConfig", &dgs::Integrator::setInitialConfig);
+
+  typedef dgs::internal::Signal S_t;
+  bp::class_<S_t, bp::bases<dg::Signal<dg::Vector, int> >, boost::noncopyable> obj(
+      "SignalIntegratorVector", bp::init<std::string>());
+  obj.add_property(
+      "value",
+      bp::make_function(&S_t::accessCopy,
+                        bp::return_value_policy<bp::copy_const_reference>()),
+      &S_t::setConstant,  // TODO check the setter
+      "the signal value.\n"
+      "warning: for Eigen objects, sig.value[0] = 1. may not work).");
 }
