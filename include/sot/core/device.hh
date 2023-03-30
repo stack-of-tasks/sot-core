@@ -32,10 +32,10 @@ namespace sot {
 
 /// Define the type of input expected by the robot
 enum ControlInput {
-  CONTROL_INPUT_NO_INTEGRATION = 0,
-  CONTROL_INPUT_ONE_INTEGRATION = 1,
-  CONTROL_INPUT_TWO_INTEGRATION = 2,
-  CONTROL_INPUT_SIZE = 3
+  POSITION_CONTROL = 0,
+  VELOCITY_CONTROL = 1,
+  TORQUE_CONTROL = 2,
+  CONTROL_SIZE = 3
 };
 
 const std::string ControlInput_s[] = {"noInteg", "oneInteg", "twoInteg"};
