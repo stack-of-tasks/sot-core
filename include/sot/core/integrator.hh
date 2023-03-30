@@ -34,12 +34,76 @@
 #include <pinocchio/algorithm/joint-configuration.hpp>
 #include <sot/core/config.hh>
 #include <dynamic-graph/entity.h>
-#include <dynamic-graph/signal-ptr.t.cpp>
-#include <dynamic-graph/signal-time-dependent.h>
+#include <dynamic-graph/signal.h>
+#include <dynamic-graph/signal-ptr.h>
+#include "sot/core/periodic-call.hh"
 
 namespace dynamicgraph {
 namespace sot{
+namespace internal{
+class Signal : public ::dynamicgraph::Signal<Vector, int> {
+ protected:
+  enum SignalType { CONSTANT, REFERENCE, REFERENCE_NON_CONST, FUNCTION };
+  static const SignalType SIGNAL_TYPE_DEFAULT = CONSTANT;
 
+  const Vector *Treference;
+  Vector *TreferenceNonConst;
+  boost::function2<Vector &, Vector &, int> Tfunction;
+
+  bool keepReference;
+  const static bool KEEP_REFERENCE_DEFAULT = false;
+
+ public:
+#ifdef HAVE_LIBBOOST_THREAD
+  typedef boost::try_mutex Mutex;
+  typedef boost::lock_error MutexError;
+#else
+  typedef int *Mutex;
+  typedef int *MutexError;
+#endif
+
+ protected:
+  Mutex *providerMutex;
+  using SignalBase<int>::signalTime;
+
+ public:
+  using SignalBase<int>::setReady;
+
+ public:
+  /* --- Constructor/destrusctor --- */
+  Signal(std::string name);
+  virtual ~Signal() {}
+
+  /* --- Generic In/Out function --- */
+  virtual void get(std::ostream &value) const;
+  virtual void set(std::istringstream &value);
+  virtual void trace(std::ostream &os) const;
+
+  /* --- Generic Set function --- */
+  virtual void setConstant(const Vector &t);
+  virtual void setReference(const Vector *t, Mutex *mutexref = NULL);
+  virtual void setReferenceNonConstant(Vector *t, Mutex *mutexref = NULL);
+  virtual void setFunction(boost::function2<Vector &, Vector &, int> t,
+                           Mutex *mutexref = NULL);
+
+  /* --- Signal computation --- */
+  virtual const Vector &access(const int &t);
+  virtual inline void recompute(const int &t) { access(t); }
+  virtual const Vector &accessCopy() const;
+
+  virtual std::ostream &display(std::ostream &os) const;
+
+  /* --- Operators --- */
+  virtual inline const Vector &operator()(const int &t) { return access(t); }
+  virtual Signal &operator=(const Vector &t);
+  inline operator const Vector &() const { return accessCopy(); }
+  virtual void getClassName(std::string &aClassName) const {
+    aClassName = typeid(this).name();
+  }
+
+};
+
+} // namespace internal
 // Integrates a constant velocity for a given timestep
 //
 // Initial and final configurations as well as velocity follow pinocchio
@@ -54,23 +118,30 @@ public:
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
   Integrator(const std::string& name);
-      
+
   // Get pointer to the model
   ::pinocchio::Model* getModel();
   // Set pointer to the model
   void setModel(::pinocchio::Model* model);
   // Set Initial configuration
   void setInitialConfig(const Vector& initConfig);
-  
+
+  PeriodicCall &periodicCallBefore() { return periodicCallBefore_; }
+  PeriodicCall &periodicCallAfter() { return periodicCallAfter_; }
+
 private:
+  PeriodicCall periodicCallBefore_;
+  PeriodicCall periodicCallAfter_;
+
   Vector& integrate(Vector& configuration, int time);
   // Signals
   SignalPtr<Vector, int> velocitySIN_;
-  SignalTimeDependent<Vector, int> configurationSOUT_;
+  internal::Signal configurationSOUT_;
   // Pointer to pinocchio model
   ::pinocchio::Model* model_;
   Vector configuration_;
   int lastComputationTime_;
+  int recursivityLevel_;
 }; // class Integrator
 
 } // namespace sot
