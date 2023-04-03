@@ -144,14 +144,6 @@ class SOT_CORE_EXPORT Device : public Entity {
   dynamicgraph::Signal<dynamicgraph::Vector, int> pseudoTorqueSOUT;
   /// \}
 
- protected:
-  /// Store Position of free flyer joint
-  MatrixHomogeneous ffPose_;
-
- protected:
-  /// Get freeflyer pose
-  const MatrixHomogeneous &freeFlyerPose() const;
-
  public:
   virtual void setRoot(const dynamicgraph::Matrix &root);
 
