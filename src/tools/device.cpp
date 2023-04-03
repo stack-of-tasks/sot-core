@@ -69,8 +69,6 @@ inline double saturateBounds(double &val, const double &lower,
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-const MatrixHomogeneous &Device::freeFlyerPose() const { return ffPose_; }
-
 Device::~Device() {
   for (unsigned int i = 0; i < 4; ++i) {
     delete forcesSOUT[i];
@@ -99,7 +97,7 @@ Device::Device(const std::string &n)
       pseudoTorqueSOUT("Device(" + n + ")::output(vector)::ptorque")
 
       ,
-      ffPose_(), lastTimeControlWasRead_(0), controlSize_(0),
+      lastTimeControlWasRead_(0), controlSize_(0),
       forceZero6(6) {
   forceZero6.fill(0);
   /* --- SIGNALS --- */
