@@ -145,24 +145,8 @@ class SOT_CORE_EXPORT Device : public Entity {
   /// \}
 
  protected:
-  /// Compute roll pitch yaw angles of freeflyer joint.
-  void integrateRollPitchYaw(dynamicgraph::Vector &state,
-                             const dynamicgraph::Vector &control, double dt);
   /// Store Position of free flyer joint
   MatrixHomogeneous ffPose_;
-  /// Compute the new position, from the current control.
-  ///
-  /// When sanity checks are enabled, this checks that the control is within
-  /// bounds. There are three cases, depending on what the control is:
-  /// - position: checks that the position is within bounds,
-  /// - velocity: checks that the velocity and the future position are
-  ///             within bounds,
-  /// - acceleration: checks that the acceleration, the future velocity and
-  ///                 position are within bounds.
-  ///                 \todo in order to check the acceleration, we need
-  ///                 pinocchio and the contact forces in order to estimate
-  ///                 the joint torques for the given acceleration.
-  virtual void integrate(const double &dt);
 
  protected:
   /// Get freeflyer pose
