@@ -35,26 +35,20 @@
 #include <dynamic-graph/signal.h>
 
 namespace dynamicgraph {
-namespace sot{
+namespace sot {
 namespace internal {
 
-Signal::Signal(std::string name) :
-  ::dynamicgraph::Signal<Vector, int>(name)
-{
-}
+Signal::Signal(std::string name) : ::dynamicgraph::Signal<Vector, int>(name) {}
 
 /* ------------------------------------------------------------------------ */
-
 
 void Signal::set(std::istringstream &stringValue) {
   (*this) = signal_io<Vector>::cast(stringValue);
 }
 
-
 void Signal::get(std::ostream &os) const {
   signal_io<Vector>::disp(this->accessCopy(), os);
 }
-
 
 void Signal::trace(std::ostream &os) const {
   try {
@@ -71,19 +65,16 @@ void Signal::setConstant(const Vector &) {
   throw std::runtime_error("Not implemented.");
 }
 
-
 void Signal::setReference(const Vector *, Mutex *) {
   throw std::runtime_error("Not implemented.");
 }
-
 
 void Signal::setReferenceNonConstant(Vector *, Mutex *) {
   throw std::runtime_error("Not implemented.");
 }
 
-
 void Signal::setFunction(boost::function2<Vector &, Vector &, int> t,
-                                  Mutex *mutexref) {
+                         Mutex *mutexref) {
   signalType = ::dynamicgraph::Signal<Vector, int>::FUNCTION;
   Tfunction = t;
   providerMutex = mutexref;
@@ -91,11 +82,7 @@ void Signal::setFunction(boost::function2<Vector &, Vector &, int> t,
   setReady();
 }
 
-
-const Vector &Signal::accessCopy() const {
-  return Tcopy1;
-}
-
+const Vector &Signal::accessCopy() const { return Tcopy1; }
 
 const Vector &Signal::access(const int &t) {
   if (NULL == providerMutex) {
@@ -116,12 +103,10 @@ const Vector &Signal::access(const int &t) {
   }
 }
 
-
 Signal &Signal::operator=(const Vector &t) {
   throw std::runtime_error("Output signal cannot be assigned a value.");
   return *this;
 }
-
 
 std::ostream &Signal::display(std::ostream &os) const {
   os << "Sig:" << this->name << " (Type ";
@@ -142,44 +127,41 @@ std::ostream &Signal::display(std::ostream &os) const {
   return os << ")";
 }
 
-} // namespace internal
+}  // namespace internal
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Integrator, "Integrator");
 
 const double Integrator::dt = 1e-6;
 
-Integrator::Integrator(const std::string& name) :
-  Entity(name),
-  velocitySIN_(0x0, "Integrator(" + name + ")::input(vector)::velocity"),
-  configurationSOUT_("Integrator(" + name + ")::output(vector)::configuration"),
-  model_(0x0), configuration_(), lastComputationTime_(-1), recursivityLevel_(0)
-{
-  configurationSOUT_.setFunction(boost::bind(&Integrator::integrate, this, _1,
-                                             _2));
+Integrator::Integrator(const std::string &name)
+    : Entity(name),
+      velocitySIN_(0x0, "Integrator(" + name + ")::input(vector)::velocity"),
+      configurationSOUT_("Integrator(" + name +
+                         ")::output(vector)::configuration"),
+      model_(0x0),
+      configuration_(),
+      lastComputationTime_(-1),
+      recursivityLevel_(0) {
+  configurationSOUT_.setFunction(
+      boost::bind(&Integrator::integrate, this, _1, _2));
   signalRegistration(velocitySIN_);
   signalRegistration(configurationSOUT_);
 }
 
-::pinocchio::Model* Integrator::getModel()
-{
-  return model_;
-}
+::pinocchio::Model *Integrator::getModel() { return model_; }
 
-void Integrator::setModel(::pinocchio::Model* model)
-{
+void Integrator::setModel(::pinocchio::Model *model) {
   model_ = model;
   configuration_.resize(model->nq);
   ::pinocchio::neutral(*model_, configuration_);
 }
 
-void Integrator::setInitialConfig(const Vector& initConfig)
-{
+void Integrator::setInitialConfig(const Vector &initConfig) {
   configuration_ = initConfig;
 }
 
-Vector& Integrator::integrate(Vector& configuration, int time)
-{
+Vector &Integrator::integrate(Vector &configuration, int time) {
   ++recursivityLevel_;
-  if (recursivityLevel_ == 2){
+  if (recursivityLevel_ == 2) {
     configuration = configuration_;
     --recursivityLevel_;
     return configuration;
@@ -199,10 +181,11 @@ Vector& Integrator::integrate(Vector& configuration, int time)
     recursivityLevel_ = 0;
     std::ostringstream os;
     os << "Integrator entity expects zero velocity input for the first "
-      "computation. Got instead " << velocity.transpose() << ".";
+          "computation. Got instead "
+       << velocity.transpose() << ".";
     throw std::runtime_error(os.str().c_str());
   }
-  double delta_t = dt*(time - lastComputationTime_);
+  double delta_t = dt * (time - lastComputationTime_);
   ::pinocchio::integrate(*model_, configuration_, delta_t * velocity,
                          configuration);
   configuration_ = configuration;
@@ -217,5 +200,5 @@ Vector& Integrator::integrate(Vector& configuration, int time)
   return configuration;
 }
 
-} // namespace sot
-} // namespace dynamicgraph
+}  // namespace sot
+}  // namespace dynamicgraph

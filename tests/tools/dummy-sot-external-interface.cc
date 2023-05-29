@@ -43,9 +43,7 @@ void DummySotExternalInterface::getControl(
   return;
 }
 
-void DummySotExternalInterface::setControlSize(const int &)
-{
-}
+void DummySotExternalInterface::setControlSize(const int &) {}
 
 void DummySotExternalInterface::setSecondOrderIntegration(void) {
   second_integration_ = true;

@@ -36,30 +36,28 @@
 namespace dynamicgraph {
 namespace sot {
 
-  DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Segment, "Segment");
+DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Segment, "Segment");
 
-  Segment::Segment(const std::string& name) :
-    Entity(name),
-    inputSIN_(0x0, "Segment(" + name + ")::input(vector)::in"),
-    outputSOUT_(boost::bind(&Segment::compute, this, _1, _2), inputSIN_,
-                "Segment(" + name + ")::out"),
-    range_(std::make_pair(0, 0))
-  {
-    using dynamicgraph::command::makeCommandVoid2;
-    signalRegistration(inputSIN_);
-    signalRegistration(outputSOUT_);
-    std::string docstring(
-        "Set range of input vector to be provided as output\n"
-        "  - input: first index, length\n");
-    addCommand("setRange", makeCommandVoid2(*this, &Segment::setRange,
-                                            docstring));
-  }
+Segment::Segment(const std::string& name)
+    : Entity(name),
+      inputSIN_(0x0, "Segment(" + name + ")::input(vector)::in"),
+      outputSOUT_(boost::bind(&Segment::compute, this, _1, _2), inputSIN_,
+                  "Segment(" + name + ")::out"),
+      range_(std::make_pair(0, 0)) {
+  using dynamicgraph::command::makeCommandVoid2;
+  signalRegistration(inputSIN_);
+  signalRegistration(outputSOUT_);
+  std::string docstring(
+      "Set range of input vector to be provided as output\n"
+      "  - input: first index, length\n");
+  addCommand("setRange",
+             makeCommandVoid2(*this, &Segment::setRange, docstring));
+}
 
-  Vector& Segment::compute(Vector& output, int time)
-  {
-    const Vector& input(inputSIN_(time));
-    output = input.segment(std::get<0>(range_), std::get<1>(range_));
-    return output;
-  }
-} // namespace sot
-} // namespace dynamicgraph
+Vector& Segment::compute(Vector& output, int time) {
+  const Vector& input(inputSIN_(time));
+  output = input.segment(std::get<0>(range_), std::get<1>(range_));
+  return output;
+}
+}  // namespace sot
+}  // namespace dynamicgraph

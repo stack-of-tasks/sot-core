@@ -38,25 +38,24 @@
 
 namespace dynamicgraph {
 namespace sot {
-  class SOT_CORE_DLLAPI Segment : public Entity
-  {
-  public:
-    static const std::string CLASS_NAME;
-    virtual const std::string& getClassName() const { return CLASS_NAME; }
-    // Set the range of input vector that is provided as output.
-    void setRange(const int& i0, const int& length)
-    {
-      range_ = std::make_pair(i0, length);
-    }
+class SOT_CORE_DLLAPI Segment : public Entity {
+ public:
+  static const std::string CLASS_NAME;
+  virtual const std::string& getClassName() const { return CLASS_NAME; }
+  // Set the range of input vector that is provided as output.
+  void setRange(const int& i0, const int& length) {
+    range_ = std::make_pair(i0, length);
+  }
 
-    Segment(const std::string& name);
-  private:
-    Vector& compute(Vector& output, int time);
-    SignalPtr<Vector, int> inputSIN_;
-    SignalTimeDependent<Vector, int> outputSOUT_;
-    // Range of the input vector that is provided as output
-    std::pair<int,int> range_;
-  }; // class Segment
-} // namespace sot
-} // namespace dynamicgraph
-#endif //SOT_CORE_SEGMENT_HH
+  Segment(const std::string& name);
+
+ private:
+  Vector& compute(Vector& output, int time);
+  SignalPtr<Vector, int> inputSIN_;
+  SignalTimeDependent<Vector, int> outputSOUT_;
+  // Range of the input vector that is provided as output
+  std::pair<int, int> range_;
+};  // class Segment
+}  // namespace sot
+}  // namespace dynamicgraph
+#endif  // SOT_CORE_SEGMENT_HH

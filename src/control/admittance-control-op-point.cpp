@@ -200,7 +200,7 @@ void AdmittanceControlOpPoint::display(std::ostream &os) const {
   os << "AdmittanceControlOpPoint " << getName();
   try {
     getProfiler().report_all(3, os);
-  } catch (const ExceptionSignal& e) {
+  } catch (const ExceptionSignal &e) {
   }
 }
 }  // namespace core

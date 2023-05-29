@@ -92,7 +92,7 @@ class SOT_CORE_EXPORT Device : public Entity {
   virtual void setNoIntegration();
   virtual void setControlInputType(const std::string &cit);
   void getControl(std::map<std::string, ControlValues> &anglesOut,
-                  const double& period);
+                  const double &period);
 
   /// \name Sanity check parameterization
   /// \{
