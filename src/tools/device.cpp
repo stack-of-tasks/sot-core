@@ -97,7 +97,8 @@ Device::Device(const std::string &n)
       pseudoTorqueSOUT("Device(" + n + ")::output(vector)::ptorque")
 
       ,
-      lastTimeControlWasRead_(0), controlSize_(0),
+      lastTimeControlWasRead_(0),
+      controlSize_(0),
       forceZero6(6) {
   forceZero6.fill(0);
   /* --- SIGNALS --- */
@@ -222,24 +223,22 @@ Device::Device(const std::string &n)
   }
 }
 
-void Device::getControl(map<string,ControlValues> &controlOut,
-                        const double& period)
-{
-  sotDEBUGIN(25) ;
+void Device::getControl(map<string, ControlValues> &controlOut,
+                        const double &period) {
+  sotDEBUGIN(25);
   std::vector<double> control;
-  lastTimeControlWasRead_ += (int)floor(period/Integrator::dt);
+  lastTimeControlWasRead_ += (int)floor(period / Integrator::dt);
 
   Vector dgControl(controlSIN(lastTimeControlWasRead_));
   // Specify the joint values for the controller.
   control.resize(dgControl.size());
 
-  if (controlInputType_ == POSITION_CONTROL){
+  if (controlInputType_ == POSITION_CONTROL) {
     CHECK_BOUNDS(dgControl, lowerPosition_, upperPosition_, "position", 1e-6);
   }
-  for(unsigned int i=0; i < dgControl.size();++i)
-    control[i] = dgControl[i];
+  for (unsigned int i = 0; i < dgControl.size(); ++i) control[i] = dgControl[i];
   controlOut["control"].setValues(control);
-  sotDEBUGOUT(25) ;
+  sotDEBUGOUT(25);
 }
 
 void Device::setStateSize(const unsigned int &size) {
@@ -257,14 +256,9 @@ void Device::setStateSize(const unsigned int &size) {
   ZMPPreviousControllerSOUT.setConstant(zmp);
 }
 
-void Device::setControlSize(const int &size) {
-  controlSize_ = size;
-}
+void Device::setControlSize(const int &size) { controlSize_ = size; }
 
-int Device::getControlSize() const
-{
-  return controlSize_;
-}
+int Device::getControlSize() const { return controlSize_; }
 
 void Device::setVelocitySize(const unsigned int &size) {
   velocity_.resize(size);
@@ -272,8 +266,7 @@ void Device::setVelocitySize(const unsigned int &size) {
   velocitySOUT.setConstant(velocity_);
 }
 
-void Device::setState(const Vector &st) {
-}
+void Device::setState(const Vector &st) {}
 
 void Device::setVelocity(const Vector &vel) {
   velocity_ = vel;
@@ -293,17 +286,13 @@ void Device::setRoot(const MatrixHomogeneous &worldMwaist) {
   for (unsigned int i = 0; i < 3; ++i) q(i + 3) = r(i);
 }
 
-void Device::setSecondOrderIntegration() {
-}
+void Device::setSecondOrderIntegration() {}
 
-void Device::setNoIntegration() {
-}
+void Device::setNoIntegration() {}
 
-void Device::setControlInputType(const std::string &cit) {
-}
+void Device::setControlInputType(const std::string &cit) {}
 
-void Device::setSanityCheck(const bool &enableCheck) {
-}
+void Device::setSanityCheck(const bool &enableCheck) {}
 
 void Device::setPositionBounds(const Vector &lower, const Vector &upper) {
   std::ostringstream oss;
@@ -353,7 +342,6 @@ void Device::setTorqueBounds(const Vector &lower, const Vector &upper) {
   lowerTorque_ = lower;
   upperTorque_ = upper;
 }
-
 
 /* --- DISPLAY ------------------------------------------------------------ */
 

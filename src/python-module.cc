@@ -54,9 +54,9 @@ BOOST_PYTHON_MODULE(wrap) {
             return os.str();
           });
 
-  dynamicgraph::python::exposeEntity<dgs::Device>()
-      .def("getControlSize", &dgs::Device::getControlSize,
-           "Get number of joints controlled by the device.");
+  dynamicgraph::python::exposeEntity<dgs::Device>().def(
+      "getControlSize", &dgs::Device::getControlSize,
+      "Get number of joints controlled by the device.");
 
   using dgs::Flags;
   bp::class_<Flags>("Flags", bp::init<>())
@@ -102,10 +102,12 @@ BOOST_PYTHON_MODULE(wrap) {
   dg::python::exposeSignalsOfType<Flags, int>("Flags");
   dg::python::exposeEntity<dgs::Integrator, bp::bases<dg::Entity>,
                            dg::python::AddCommands>()
-      .add_property("after", bp::make_function(
-           &dgs::Integrator::periodicCallAfter, reference_existing_object()))
-      .add_property("before", bp::make_function(
-           &dgs::Integrator::periodicCallBefore, reference_existing_object()))
+      .add_property("after",
+                    bp::make_function(&dgs::Integrator::periodicCallAfter,
+                                      reference_existing_object()))
+      .add_property("before",
+                    bp::make_function(&dgs::Integrator::periodicCallBefore,
+                                      reference_existing_object()))
       .add_property("model",
                     bp::make_function(&dgs::Integrator::getModel,
                                       reference_existing_object()),
@@ -114,8 +116,8 @@ BOOST_PYTHON_MODULE(wrap) {
       .def("setInitialConfig", &dgs::Integrator::setInitialConfig);
 
   typedef dgs::internal::Signal S_t;
-  bp::class_<S_t, bp::bases<dg::Signal<dg::Vector, int> >, boost::noncopyable> obj(
-      "SignalIntegratorVector", bp::init<std::string>());
+  bp::class_<S_t, bp::bases<dg::Signal<dg::Vector, int> >, boost::noncopyable>
+      obj("SignalIntegratorVector", bp::init<std::string>());
   obj.add_property(
       "value",
       bp::make_function(&S_t::accessCopy,

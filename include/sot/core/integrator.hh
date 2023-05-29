@@ -39,8 +39,8 @@
 #include "sot/core/periodic-call.hh"
 
 namespace dynamicgraph {
-namespace sot{
-namespace internal{
+namespace sot {
+namespace internal {
 class Signal : public ::dynamicgraph::Signal<Vector, int> {
  protected:
   enum SignalType { CONSTANT, REFERENCE, REFERENCE_NON_CONST, FUNCTION };
@@ -100,50 +100,48 @@ class Signal : public ::dynamicgraph::Signal<Vector, int> {
   virtual void getClassName(std::string &aClassName) const {
     aClassName = typeid(this).name();
   }
-
 };
 
-} // namespace internal
+}  // namespace internal
 // Integrates a constant velocity for a given timestep
 //
 // Initial and final configurations as well as velocity follow pinocchio
 // standard
 // The timestep is the time elapsed since last computation of the output in
 // microseconds.
-class SOT_CORE_DLLEXPORT Integrator : public Entity
-{
-public:
+class SOT_CORE_DLLEXPORT Integrator : public Entity {
+ public:
   // Time corresponding to incrementing signal velocity by 1
   static const double dt;
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
-  Integrator(const std::string& name);
+  Integrator(const std::string &name);
 
   // Get pointer to the model
-  ::pinocchio::Model* getModel();
+  ::pinocchio::Model *getModel();
   // Set pointer to the model
-  void setModel(::pinocchio::Model* model);
+  void setModel(::pinocchio::Model *model);
   // Set Initial configuration
-  void setInitialConfig(const Vector& initConfig);
+  void setInitialConfig(const Vector &initConfig);
 
   PeriodicCall &periodicCallBefore() { return periodicCallBefore_; }
   PeriodicCall &periodicCallAfter() { return periodicCallAfter_; }
 
-private:
+ private:
   PeriodicCall periodicCallBefore_;
   PeriodicCall periodicCallAfter_;
 
-  Vector& integrate(Vector& configuration, int time);
+  Vector &integrate(Vector &configuration, int time);
   // Signals
   SignalPtr<Vector, int> velocitySIN_;
   internal::Signal configurationSOUT_;
   // Pointer to pinocchio model
-  ::pinocchio::Model* model_;
+  ::pinocchio::Model *model_;
   Vector configuration_;
   int lastComputationTime_;
   int recursivityLevel_;
-}; // class Integrator
+};  // class Integrator
 
-} // namespace sot
-} // namespace dynamicgraph
-#endif //SOT_DYNAMIC_PINOCCHIO_INTEGRATOR_HH
+}  // namespace sot
+}  // namespace dynamicgraph
+#endif  // SOT_DYNAMIC_PINOCCHIO_INTEGRATOR_HH
