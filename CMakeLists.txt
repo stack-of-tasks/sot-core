@@ -100,9 +100,6 @@ set(${PROJECT_NAME}_HEADERS
     include/${CUSTOM_HEADER_DIR}/latch.hh
     include/${CUSTOM_HEADER_DIR}/macros.hh
     include/${CUSTOM_HEADER_DIR}/macros-signal.hh
-    include/${CUSTOM_HEADER_DIR}/mailbox-vector.hh
-    include/${CUSTOM_HEADER_DIR}/mailbox.hh
-    include/${CUSTOM_HEADER_DIR}/mailbox.hxx
     include/${CUSTOM_HEADER_DIR}/matrix-constant.hh
     include/${CUSTOM_HEADER_DIR}/matrix-geometry.hh
     include/${CUSTOM_HEADER_DIR}/matrix-svd.hh
