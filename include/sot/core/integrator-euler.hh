@@ -103,7 +103,7 @@ class IntegratorEuler : public IntegratorAbstract<sigT, coefT> {
   double invdt;
 
  public:
-  sigT &integrate(sigT &res, int time) {
+  sigT &integrate(sigT &res, sigtime_t time) {
     sotDEBUG(15) << "# In {" << std::endl;
 
     sigT sum;
@@ -150,7 +150,7 @@ class IntegratorEuler : public IntegratorAbstract<sigT, coefT> {
     return res;
   }
 
-  sigT &derivative(sigT &res, int time) {
+  sigT &derivative(sigT &res, sigtime_t time) {
     if (outputMemory.size() < 2)
       throw dynamicgraph::ExceptionSignal(
           dynamicgraph::ExceptionSignal::GENERIC,

@@ -51,7 +51,7 @@ class SOTTASKCONTI_EXPORT TaskConti : public Task {
  protected:
   enum TimeRefValues { TIME_REF_UNSIGNIFICANT = -1, TIME_REF_TO_BE_SET = -2 };
 
-  int timeRef;
+  sigtime_t timeRef;
   double mu;
   dynamicgraph::Vector q0;
 
@@ -62,12 +62,12 @@ class SOTTASKCONTI_EXPORT TaskConti : public Task {
  public:
   TaskConti(const std::string &n);
 
-  void referenceTime(const unsigned int &t) { timeRef = t; }
-  const int &referenceTime(void) { return timeRef; }
+  void referenceTime(const sigtime_t &t) { timeRef = t; }
+  const sigtime_t &referenceTime(void) { return timeRef; }
 
   /* --- COMPUTATION --- */
   VectorMultiBound &computeContiDesiredVelocity(VectorMultiBound &task,
-                                                const int &time);
+                                                const sigtime_t &time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:

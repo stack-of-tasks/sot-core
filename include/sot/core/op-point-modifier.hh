@@ -63,9 +63,9 @@ class SOTOPPOINTMODIFIER_EXPORT OpPointModifier : public dynamicgraph::Entity {
   virtual ~OpPointModifier(void) {}
 
   dynamicgraph::Matrix &jacobianSOUT_function(dynamicgraph::Matrix &res,
-                                              const int &time);
+                                              const sigtime_t &time);
   MatrixHomogeneous &positionSOUT_function(MatrixHomogeneous &res,
-                                           const int &time);
+                                           const sigtime_t &time);
   void setTransformation(const Eigen::Matrix4d &tr);
   void setTransformationBySignalName(std::istringstream &cmdArgs);
   const Eigen::Matrix4d &getTransformation(void);

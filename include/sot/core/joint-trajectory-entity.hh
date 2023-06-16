@@ -57,27 +57,29 @@ class SOTJOINT_TRAJECTORY_ENTITY_EXPORT SotJointTrajectoryEntity
 
   /// \brief Return the next pose for the legs.
   dynamicgraph::Vector &getNextPosition(dynamicgraph::Vector &pos,
-                                        const int &time);
+                                        const sigtime_t &time);
 
   /// \brief Return the next com.
-  dynamicgraph::Vector &getNextCoM(dynamicgraph::Vector &com, const int &time);
+  dynamicgraph::Vector &getNextCoM(dynamicgraph::Vector &com,
+                                   const sigtime_t &time);
 
   /// \brief Return the next cop.
-  dynamicgraph::Vector &getNextCoP(dynamicgraph::Vector &cop, const int &time);
+  dynamicgraph::Vector &getNextCoP(dynamicgraph::Vector &cop,
+                                   const sigtime_t &time);
 
   /// \brief Return the next waist.
   sot::MatrixHomogeneous &getNextWaist(sot::MatrixHomogeneous &waist,
-                                       const int &time);
+                                       const sigtime_t &time);
 
   /// \brief Return the current seq identified of the current trajectory.
-  unsigned int &getSeqId(unsigned int &seqid, const int &time);
+  std::size_t &getSeqId(std::size_t &seqid, const sigtime_t &time);
 
   /// \brief Convert a xyztheta vector into an homogeneous matrix
   sot::MatrixHomogeneous XYZThetaToMatrixHomogeneous(
       const dynamicgraph::Vector &xyztheta);
 
   /// \brief Perform one update of the signals.
-  int &OneStepOfUpdate(int &dummy, const int &time);
+  size_type &OneStepOfUpdate(size_type &dummy, const sigtime_t &time);
 
   /// @name Display
   /// @{

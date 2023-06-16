@@ -59,7 +59,7 @@ NeckLimitation::~NeckLimitation(void) {
 /* --- SIGNALS -------------------------------------------------------------- */
 
 dynamicgraph::Vector &NeckLimitation::computeJointLimitation(
-    dynamicgraph::Vector &jointLimited, const int &timeSpec) {
+    dynamicgraph::Vector &jointLimited, const sigtime_t &timeSpec) {
   sotDEBUGIN(15);
 
   const dynamicgraph::Vector &joint = jointSIN(timeSpec);

@@ -162,7 +162,7 @@ class VariadicOp : public VariadicAbstract<typename Operator::Tin,
   virtual ~VariadicOp(void){};
 
  protected:
-  Tout &computeOperation(Tout &res, int time) {
+  Tout &computeOperation(Tout &res, sigtime_t time) {
     std::vector<const Tin *> in(this->signalsIN.size());
     for (std::size_t i = 0; i < this->signalsIN.size(); ++i) {
       const Tin &x = this->signalsIN[i]->access(time);

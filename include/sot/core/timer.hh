@@ -51,7 +51,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace dg = dynamicgraph;
-
+typedef dg::sigtime_t sigtime_t;
 template <class T>
 class Timer_EXPORT Timer : public dynamicgraph::Entity {
  public:
@@ -88,7 +88,7 @@ class Timer_EXPORT Timer : public dynamicgraph::Entity {
   }
 
   template <bool UseClock>
-  T &compute(T &t, const int &time) {
+  T &compute(T &t, const sigtime_t &time) {
     sotDEBUGIN(15);
     if (UseClock) {
       c0 = clock();
@@ -121,7 +121,7 @@ class Timer_EXPORT Timer : public dynamicgraph::Entity {
     return t;
   }
 
-  double &getDt(double &res, const int & /*time*/) {
+  double &getDt(double &res, const sigtime_t & /*time*/) {
     res = dt;
     return res;
   }

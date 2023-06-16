@@ -82,7 +82,7 @@ void ControlPD::display(std::ostream &os) const {
 /* --------------------------------------------------------------------- */
 
 dynamicgraph::Vector &ControlPD::computeControl(dynamicgraph::Vector &tau,
-                                                int t) {
+                                                sigtime_t t) {
   sotDEBUGIN(15);
   const dynamicgraph::Vector &Kp = KpSIN(t);
   const dynamicgraph::Vector &Kd = KdSIN(t);
@@ -107,7 +107,7 @@ dynamicgraph::Vector &ControlPD::computeControl(dynamicgraph::Vector &tau,
 }
 
 dynamicgraph::Vector &ControlPD::getPositionError(
-    dynamicgraph::Vector &position_error, int t) {
+    dynamicgraph::Vector &position_error, sigtime_t t) {
   // sotDEBUGOUT(15) ??
   controlSOUT(t);
   position_error = position_error_;
@@ -115,7 +115,7 @@ dynamicgraph::Vector &ControlPD::getPositionError(
 }
 
 dynamicgraph::Vector &ControlPD::getVelocityError(
-    dynamicgraph::Vector &velocity_error, int t) {
+    dynamicgraph::Vector &velocity_error, sigtime_t t) {
   controlSOUT(t);
   velocity_error = velocity_error_;
   return velocity_error;

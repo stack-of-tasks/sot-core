@@ -66,7 +66,7 @@ OpPointModifier::OpPointModifier(const std::string &name)
 }
 
 dynamicgraph::Matrix &OpPointModifier::jacobianSOUT_function(
-    dynamicgraph::Matrix &res, const int &iter) {
+    dynamicgraph::Matrix &res, const sigtime_t &iter) {
   if (isEndEffector) {
     const dynamicgraph::Matrix &aJa = jacobianSIN(iter);
     const MatrixHomogeneous &aMb = transformation;
@@ -111,7 +111,7 @@ dynamicgraph::Matrix &OpPointModifier::jacobianSOUT_function(
 }
 
 MatrixHomogeneous &OpPointModifier::positionSOUT_function(
-    MatrixHomogeneous &res, const int &iter) {
+    MatrixHomogeneous &res, const sigtime_t &iter) {
   sotDEBUGIN(15);
   sotDEBUGIN(15) << iter << " " << positionSIN.getTime()
                  << positionSOUT.getTime() << endl;

@@ -61,18 +61,18 @@ class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace : public dynamicgraph::Entity {
   ClampWorkspace(const std::string &name);
   virtual ~ClampWorkspace(void) {}
 
-  void update(int time);
+  void update(sigtime_t time);
 
   virtual dynamicgraph::Matrix &computeOutput(dynamicgraph::Matrix &res,
-                                              int time);
+                                              sigtime_t time);
   virtual dynamicgraph::Matrix &computeOutputBar(dynamicgraph::Matrix &res,
-                                                 int time);
-  virtual MatrixHomogeneous &computeRef(MatrixHomogeneous &res, int time);
+                                                 sigtime_t time);
+  virtual MatrixHomogeneous &computeRef(MatrixHomogeneous &res, sigtime_t time);
 
   virtual void display(std::ostream &) const;
 
  private:
-  int timeUpdate;
+  sigtime_t timeUpdate;
 
   dynamicgraph::Matrix alpha;
   dynamicgraph::Matrix alphabar;

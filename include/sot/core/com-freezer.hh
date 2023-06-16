@@ -50,7 +50,7 @@ class SOTCOMFREEZER_EXPORT CoMFreezer : public dynamicgraph::Entity {
  private:
   dynamicgraph::Vector m_lastCoM;
   bool m_previousPGInProcess;
-  int m_lastStopTime;
+  sigtime_t m_lastStopTime;
 
  public: /* --- CONSTRUCTION --- */
   CoMFreezer(const std::string &name);
@@ -63,7 +63,7 @@ class SOTCOMFREEZER_EXPORT CoMFreezer : public dynamicgraph::Entity {
 
  public: /* --- FUNCTION --- */
   dynamicgraph::Vector &computeFreezedCoM(dynamicgraph::Vector &freezedCoM,
-                                          const int &time);
+                                          const sigtime_t &time);
 
  public: /* --- PARAMS --- */
   virtual void display(std::ostream &os) const;

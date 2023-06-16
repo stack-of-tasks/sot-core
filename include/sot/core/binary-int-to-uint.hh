@@ -51,7 +51,7 @@ class SOTBINARYINTTOUINT_EXPORT BinaryIntToUint : public dynamicgraph::Entity {
   BinaryIntToUint(const std::string &name);
   virtual ~BinaryIntToUint() {}
 
-  virtual unsigned &computeOutput(unsigned &res, int time);
+  virtual unsigned int &computeOutput(unsigned int &res, sigtime_t time);
 
   virtual void display(std::ostream &os) const;
 };

@@ -95,7 +95,7 @@ class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic : public dynamicgraph::Entity {
   dynamicgraph::SignalTimeDependent<double, sigtime_t> gainSOUT;
 
  protected:
-  double &computeGain(double &res, int t);
+  double &computeGain(double &res, sigtime_t t);
 };
 
 } /* namespace sot */

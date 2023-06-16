@@ -39,7 +39,7 @@ TaskConti::TaskConti(const std::string &n)
 }
 
 VectorMultiBound &TaskConti::computeContiDesiredVelocity(
-    VectorMultiBound &desvel2b, const int &timecurr) {
+    VectorMultiBound &desvel2b, const sigtime_t &timecurr) {
   sotDEBUG(15) << "# In {" << endl;
 
   dynamicgraph::Vector desvel = errorSOUT(timecurr);

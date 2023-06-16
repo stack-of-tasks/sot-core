@@ -211,7 +211,7 @@ void Sequencer::clearAll() {
 /* --- SIGNALS -------------------------------------------------------------- */
 /* --- SIGNALS -------------------------------------------------------------- */
 
-int &Sequencer::trigger(int &dummy, const int &timeSpec) {
+int &Sequencer::trigger(int &dummy, const sigtime_t &timeSpec) {
   sotDEBUGIN(15);
 
   if (!playMode) return dummy;

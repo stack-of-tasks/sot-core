@@ -70,7 +70,7 @@ Kalman::Kalman(const std::string &name)
   sotDEBUGOUT(15);
 }
 
-Matrix &Kalman::computeVarianceUpdate(Matrix &Pk_k, const int &time) {
+Matrix &Kalman::computeVarianceUpdate(Matrix &Pk_k, const sigtime_t &time) {
   sotDEBUGIN(15);
   if (time == 0) {
     // First time return variance initial state
@@ -134,7 +134,7 @@ Matrix &Kalman::computeVarianceUpdate(Matrix &Pk_k, const int &time) {
 //   P   = (I - K  H ) P
 //    k|k        k  k   k|k-1
 
-Vector &Kalman::computeStateUpdate(Vector &x_est, const int &time) {
+Vector &Kalman::computeStateUpdate(Vector &x_est, const sigtime_t &time) {
   sotDEBUGIN(15);
   if (time == 0) {
     // First time return variance initial state

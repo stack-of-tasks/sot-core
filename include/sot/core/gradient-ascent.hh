@@ -44,7 +44,7 @@ class SOT_CORE_DLLAPI GradientAscent : public Entity {
   virtual ~GradientAscent(void);
 
  protected:
-  dynamicgraph::Vector &update(dynamicgraph::Vector &res, const int &inTime);
+  dynamicgraph::Vector &update(dynamicgraph::Vector &res, const sigtime_t &inTime);
 
   dynamicgraph::Vector value;
 

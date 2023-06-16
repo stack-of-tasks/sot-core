@@ -44,7 +44,7 @@ MotionPeriod::MotionPeriod(const string &fName)
 /* --------------------------------------------------------------------- */
 
 dynamicgraph::Vector &MotionPeriod::computeMotion(dynamicgraph::Vector &res,
-                                                  const int &time) {
+                                                  const sigtime_t &time) {
   sotDEBUGIN(15);
 
   res.resize(size);

@@ -140,8 +140,8 @@ class SOT_KALMAN_EXPORT Kalman : public Entity {
   }
 
  protected:
-  Matrix &computeVarianceUpdate(Matrix &P_k_k, const int &time);
-  Vector &computeStateUpdate(Vector &x_est, const int &time);
+  Matrix &computeVarianceUpdate(Matrix &P_k_k, const sigtime_t &time);
+  Vector &computeStateUpdate(Vector &x_est, const sigtime_t &time);
 
   void setStateEstimation(const Vector &x0) {
     stateEstimation_ = x0;
