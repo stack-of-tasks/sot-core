@@ -81,7 +81,7 @@ class TimeStamp_EXPORT TimeStamp : public dynamicgraph::Entity {
 
  protected: /* --- SIGNAL FUNCTIONS --- */
   dynamicgraph::Vector &getTimeStamp(dynamicgraph::Vector &res,
-                                     const int &time);
+                                     const sigtime_t &time);
   double &getTimeStampDouble(const dynamicgraph::Vector &vect, double &res);
 };
 

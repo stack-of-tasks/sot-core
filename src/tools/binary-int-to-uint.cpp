@@ -39,7 +39,7 @@ BinaryIntToUint::BinaryIntToUint(const string &fname)
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned &BinaryIntToUint::computeOutput(unsigned &res, int time) {
+unsigned &BinaryIntToUint::computeOutput(unsigned &res, sigtime_t time) {
   sotDEBUGIN(15);
 
   int in = binaryIntSIN.access(time);

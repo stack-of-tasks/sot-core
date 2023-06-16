@@ -50,7 +50,7 @@ class SOT_CORE_DLLAPI Segment : public Entity {
   Segment(const std::string& name);
 
  private:
-  Vector& compute(Vector& output, int time);
+  Vector& compute(Vector& output, sigtime_t time);
   SignalPtr<Vector, sigtime_t> inputSIN_;
   SignalTimeDependent<Vector, sigtime_t> outputSOUT_;
   // Range of the input vector that is provided as output

@@ -44,7 +44,7 @@ CoMFreezer::~CoMFreezer(void) {
 }
 
 dynamicgraph::Vector &CoMFreezer::computeFreezedCoM(
-    dynamicgraph::Vector &freezedCoM, const int &time) {
+    dynamicgraph::Vector &freezedCoM, const sigtime_t &time) {
   sotDEBUGIN(15);
 
   unsigned PGInProcess = PGInProcessSIN(time);

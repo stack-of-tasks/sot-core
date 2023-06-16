@@ -59,7 +59,7 @@ class UnaryOp : public Entity {
   SignalTimeDependent<Tout, sigtime_t> SOUT;
 
  protected:
-  Tout &computeOperation(Tout &res, int time) {
+  Tout &computeOperation(Tout &res, sigtime_t time) {
     const Tin &x1 = SIN(time);
     op(x1, res);
     return res;

@@ -73,7 +73,7 @@ ClampWorkspace::ClampWorkspace(const string &fName)
                                     << handrefSOUT);
 }
 
-void ClampWorkspace::update(int time) {
+void ClampWorkspace::update(sigtime_t time) {
   if (time <= timeUpdate) {
     return;
   }
@@ -174,20 +174,20 @@ void ClampWorkspace::update(int time) {
   timeUpdate = time;
 }
 
-Matrix &ClampWorkspace::computeOutput(Matrix &res, int time) {
+Matrix &ClampWorkspace::computeOutput(Matrix &res, sigtime_t time) {
   update(time);
   res = alpha;
   return res;
 }
 
-Matrix &ClampWorkspace::computeOutputBar(Matrix &res, int time) {
+Matrix &ClampWorkspace::computeOutputBar(Matrix &res, sigtime_t time) {
   update(time);
   res = alphabar;
   return res;
 }
 
 MatrixHomogeneous &ClampWorkspace::computeRef(MatrixHomogeneous &res,
-                                              int time) {
+                                              sigtime_t time) {
   update(time);
   res = handref;
   return res;

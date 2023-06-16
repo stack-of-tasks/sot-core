@@ -50,7 +50,7 @@ GradientAscent::~GradientAscent() {}
 /* --- COMPUTE ----------------------------------------------------------- */
 
 dynamicgraph::Vector &GradientAscent::update(dynamicgraph::Vector &res,
-                                             const int &inTime) {
+                                             const sigtime_t &inTime) {
   const dynamicgraph::Vector &gradient = gradientSIN(inTime);
   const double &learningRate = learningRateSIN(inTime);
 

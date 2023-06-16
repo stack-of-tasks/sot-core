@@ -38,7 +38,7 @@ JointLimitator::JointLimitator(const string &fName)
 }
 
 dynamicgraph::Vector &JointLimitator::computeWidthJl(dynamicgraph::Vector &res,
-                                                     const int &time) {
+                                                     const sigtime_t &time) {
   sotDEBUGIN(15);
 
   const dynamicgraph::Vector UJL = upperJlSIN.access(time);
@@ -55,7 +55,7 @@ dynamicgraph::Vector &JointLimitator::computeWidthJl(dynamicgraph::Vector &res,
 }
 
 dynamicgraph::Vector &JointLimitator::computeControl(dynamicgraph::Vector &uOUT,
-                                                     int time) {
+                                                     sigtime_t time) {
   sotDEBUGIN(15);
 
   const dynamicgraph::Vector &q = jointSIN.access(time);

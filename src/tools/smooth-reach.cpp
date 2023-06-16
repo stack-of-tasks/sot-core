@@ -82,7 +82,7 @@ void SmoothReach::setSmoothing(const int &mode, const double &param) {
 }
 
 dynamicgraph::Vector &SmoothReach::goalSOUT_function(dynamicgraph::Vector &res,
-                                                     const int &time) {
+                                                     const sigtime_t &time) {
   if (isParam) {
     start = startSIN(time);
     startTime = time;

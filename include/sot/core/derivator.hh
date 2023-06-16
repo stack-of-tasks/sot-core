@@ -73,7 +73,7 @@ class Derivator : public dynamicgraph::Entity {
   dynamicgraph::Signal<double, sigtime_t> timestepSIN;
 
  protected:
-  T &computeDerivation(T &res, int time) {
+  T &computeDerivation(T &res, sigtime_t time) {
     if (initialized) {
       res = memory;
       res *= -1;
@@ -92,7 +92,7 @@ class Derivator : public dynamicgraph::Entity {
 // TODO Derivation of unit quaternion?
 template <>
 VectorQuaternion &Derivator<VectorQuaternion>::computeDerivation(
-    VectorQuaternion &res, int time) {
+    VectorQuaternion &res, sigtime_t time) {
   if (initialized) {
     res = memory;
     res.coeffs() *= -1;

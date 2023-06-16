@@ -56,7 +56,7 @@ TaskUnilateral::TaskUnilateral(const std::string &n)
 /* --- COMPUTATION ---------------------------------------------------------- */
 
 VectorMultiBound &TaskUnilateral::computeTaskUnilateral(VectorMultiBound &res,
-                                                        int time) {
+                                                        sigtime_t time) {
   sotDEBUG(45) << "# In " << getName() << " {" << endl;
   const dynamicgraph::Vector &position = positionSIN(time);
   sotDEBUG(35) << "position = " << position << endl;

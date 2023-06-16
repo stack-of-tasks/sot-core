@@ -40,18 +40,18 @@ class Latch : public Entity {
  protected:
   bool signalOutput;
   void turnOn() { signalOutput = true; }
-  bool &turnOnLatch(bool &res, int) {
+  bool &turnOnLatch(bool &res, sigtime_t) {
     res = signalOutput = true;
     return res;
   }
 
   void turnOff() { signalOutput = false; }
-  bool &turnOffLatch(bool &res, int) {
+  bool &turnOffLatch(bool &res, sigtime_t) {
     res = signalOutput = false;
     return res;
   }
 
-  bool &latchOutput(bool &res, int) {
+  bool &latchOutput(bool &res, sigtime_t) {
     res = signalOutput;
     return res;
   }

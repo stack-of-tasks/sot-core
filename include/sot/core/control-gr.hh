@@ -73,7 +73,7 @@ class ControlGR_EXPORT ControlGR : public Entity {
 
  protected:
   double &setsize(int dimension);
-  dynamicgraph::Vector &computeControl(dynamicgraph::Vector &tau, int t);
+  dynamicgraph::Vector &computeControl(dynamicgraph::Vector &tau, sigtime_t t);
 };
 
 }  // namespace sot

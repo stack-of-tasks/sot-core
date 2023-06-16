@@ -77,7 +77,7 @@ class SOTMOTIONPERIOD_EXPORT MotionPeriod : public dynamicgraph::Entity {
   virtual ~MotionPeriod(void) {}
 
   dynamicgraph::Vector &computeMotion(dynamicgraph::Vector &res,
-                                      const int &time);
+                                      const sigtime_t &time);
 
   virtual void display(std::ostream &os) const;
 };

@@ -50,7 +50,7 @@ TaskPD::TaskPD(const std::string &n)
 /* --- COMPUTATION ---------------------------------------------------------- */
 
 dynamicgraph::Vector &TaskPD::computeErrorDot(dynamicgraph::Vector &errorDot,
-                                              int time) {
+                                              sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
   const dynamicgraph::Vector &errCur = errorSOUT(time);
@@ -67,7 +67,8 @@ dynamicgraph::Vector &TaskPD::computeErrorDot(dynamicgraph::Vector &errorDot,
   return errorDot;
 }
 
-VectorMultiBound &TaskPD::computeTaskModif(VectorMultiBound &task, int time) {
+VectorMultiBound &TaskPD::computeTaskModif(VectorMultiBound &task,
+                                           sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
   const dynamicgraph::Vector &errorDot = errorDotSIN(time);

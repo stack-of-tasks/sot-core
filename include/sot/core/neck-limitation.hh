@@ -77,7 +77,7 @@ class NeckLimitation_EXPORT NeckLimitation : public dynamicgraph::Entity {
 
  public: /* --- FUNCTIONS --- */
   dynamicgraph::Vector &computeJointLimitation(
-      dynamicgraph::Vector &jointLimited, const int &timeSpec);
+      dynamicgraph::Vector &jointLimited, const sigtime_t &timeSpec);
 
  public: /* --- PARAMS --- */
   virtual void display(std::ostream &os) const;

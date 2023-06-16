@@ -50,8 +50,9 @@ class SOTTASKPD_EXPORT TaskPD : public Task {
   TaskPD(const std::string &n);
 
   /* --- COMPUTATION --- */
-  dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &error, int time);
-  VectorMultiBound &computeTaskModif(VectorMultiBound &error, int time);
+  dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &error,
+                                        sigtime_t time);
+  VectorMultiBound &computeTaskModif(VectorMultiBound &error, sigtime_t time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:

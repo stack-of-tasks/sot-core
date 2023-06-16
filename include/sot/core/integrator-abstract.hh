@@ -81,7 +81,7 @@ class IntegratorAbstract : public dynamicgraph::Entity {
 
   virtual ~IntegratorAbstract() {}
 
-  virtual sigT &integrate(sigT &res, int time) = 0;
+  virtual sigT &integrate(sigT &res, sigtime_t time) = 0;
 
  public:
   void pushNumCoef(const coefT &numCoef) { numerator.push_back(numCoef); }

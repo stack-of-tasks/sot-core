@@ -86,7 +86,7 @@ double &ControlGR::setsize(int dimension)
 }
 
 dynamicgraph::Vector &ControlGR::computeControl(dynamicgraph::Vector &tau,
-                                                int t) {
+                                                sigtime_t t) {
   sotDEBUGIN(15);
 
   const dynamicgraph::Matrix &matrixA = matrixASIN(t);

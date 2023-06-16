@@ -155,13 +155,13 @@ class FIRFilter : public Entity {
         "\n"
         "    Return:\n"
         "      - positive int: size\n";
-    addCommand("getSize", new Getter<FIRFilter, unsigned>(
+    addCommand("getSize", new Getter<FIRFilter, std::size_t>(
                               *this, &FIRFilter::getBufferSize, docstring));
   }
 
   virtual ~FIRFilter() {}
 
-  virtual sigT &compute(sigT &res, int time) {
+  virtual sigT &compute(sigT &res, sigtime_t time) {
     const sigT &in = SIN.access(time);
     reset_signal(res, in);
     data.push_front(in);

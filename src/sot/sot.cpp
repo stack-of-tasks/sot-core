@@ -326,7 +326,7 @@ void Sot::defineNbDof(const unsigned int &nbDof) {
 /* --------------------------------------------------------------------- */
 
 const Matrix &computeJacobianActivated(TaskAbstract *Ta, Task *T, Matrix &Jmem,
-                                       const int &iterTime) {
+                                       const sigtime_t &iterTime) {
   if (T != NULL) {
     const Flags &controlSelec = T->controlSelectionSIN(iterTime);
     sotDEBUG(25) << "Control selection = " << controlSelec << endl;
@@ -385,7 +385,7 @@ bool updateControl(MemoryTaskSOT *mem, const Matrix::Index rankJ,
 }
 
 bool isFullPostureTask(Task *task, const Matrix::Index &nDof,
-                       const int &iterTime) {
+                       const sigtime_t &iterTime) {
   if (task == NULL || task->getFeatureList().size() != 1 ||
       !task->controlSelectionSIN(iterTime))
     return false;
@@ -467,7 +467,7 @@ void Sot::taskVectorToMlVector(const VectorMultiBound &taskVector,
 }
 
 dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
-                                             const int &iterTime) {
+                                             const sigtime_t &iterTime) {
   sotDEBUGIN(15);
 
   sotINIT_CHRONO1;

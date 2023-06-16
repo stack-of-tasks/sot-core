@@ -120,7 +120,7 @@ class SOTGAINADAPTATIVE_EXPORT GainAdaptive : public dynamicgraph::Entity {
   dynamicgraph::SignalTimeDependent<double, sigtime_t> gainSOUT;
 
  protected:
-  double &computeGain(double &res, int t);
+  double &computeGain(double &res, sigtime_t t);
 
  private:
   void addCommands();

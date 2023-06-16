@@ -73,7 +73,7 @@ class BinaryOp : public Entity {
   SignalTimeDependent<Tout, sigtime_t> SOUT;
 
  protected:
-  Tout &computeOperation(Tout &res, int time) {
+  Tout &computeOperation(Tout &res, sigtime_t time) {
     const Tin1 &x1 = SIN1(time);
     const Tin2 &x2 = SIN2(time);
     op(x1, x2, res);

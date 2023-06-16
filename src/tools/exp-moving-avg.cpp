@@ -64,7 +64,7 @@ void ExpMovingAvg::setAlpha(const double &alpha_) {
 }
 
 dynamicgraph::Vector &ExpMovingAvg::update(dynamicgraph::Vector &res,
-                                           const int &inTime) {
+                                           const sigtime_t &inTime) {
   const dynamicgraph::Vector &update = updateSIN(inTime);
 
   if (init == false) {

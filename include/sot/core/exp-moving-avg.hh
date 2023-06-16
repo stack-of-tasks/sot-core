@@ -45,7 +45,8 @@ class SOT_CORE_DLLAPI ExpMovingAvg : public Entity {
   void setAlpha(const double &alpha_);
 
  protected:
-  dynamicgraph::Vector &update(dynamicgraph::Vector &res, const int &inTime);
+  dynamicgraph::Vector &update(dynamicgraph::Vector &res,
+                               const sigtime_t &inTime);
 
   dynamicgraph::Vector average;
 

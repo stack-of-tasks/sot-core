@@ -203,7 +203,8 @@ void SotJointTrajectoryEntity::UpdateTrajectory(const Trajectory &aTrajectory) {
   sotDEBUGOUT(3);
 }
 
-int &SotJointTrajectoryEntity::OneStepOfUpdate(int &dummy, const int &time) {
+int &SotJointTrajectoryEntity::OneStepOfUpdate(int &dummy,
+                                                     const sigtime_t &time) {
   sotDEBUGIN(4);
   const Trajectory &atraj = trajectorySIN(time);
   if ((atraj.header_.stamp_.secs_ !=
@@ -240,7 +241,7 @@ sot::MatrixHomogeneous SotJointTrajectoryEntity::XYZThetaToMatrixHomogeneous(
 }
 
 dynamicgraph::Vector &SotJointTrajectoryEntity::getNextPosition(
-    dynamicgraph::Vector &pos, const int &time) {
+    dynamicgraph::Vector &pos, const sigtime_t &time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   pos = pose_;
@@ -250,7 +251,7 @@ dynamicgraph::Vector &SotJointTrajectoryEntity::getNextPosition(
 }
 
 dynamicgraph::Vector &SotJointTrajectoryEntity::getNextCoM(
-    dynamicgraph::Vector &com, const int &time) {
+    dynamicgraph::Vector &com, const sigtime_t &time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   com = com_;
@@ -259,7 +260,7 @@ dynamicgraph::Vector &SotJointTrajectoryEntity::getNextCoM(
 }
 
 dynamicgraph::Vector &SotJointTrajectoryEntity::getNextCoP(
-    dynamicgraph::Vector &cop, const int &time) {
+    dynamicgraph::Vector &cop, const sigtime_t &time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   cop = cop_;
@@ -268,7 +269,7 @@ dynamicgraph::Vector &SotJointTrajectoryEntity::getNextCoP(
 }
 
 sot::MatrixHomogeneous &SotJointTrajectoryEntity::getNextWaist(
-    sot::MatrixHomogeneous &waist, const int &time) {
+    sot::MatrixHomogeneous &waist, const sigtime_t &time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   waist = waist_;
@@ -276,8 +277,8 @@ sot::MatrixHomogeneous &SotJointTrajectoryEntity::getNextWaist(
   return waist_;
 }
 
-unsigned int &SotJointTrajectoryEntity::getSeqId(unsigned int &seqid,
-                                                 const int &time) {
+std::size_t &SotJointTrajectoryEntity::getSeqId(std::size_t &seqid,
+                                                 const sigtime_t &time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   seqid = seqid_;

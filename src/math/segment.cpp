@@ -54,7 +54,7 @@ Segment::Segment(const std::string& name)
              makeCommandVoid2(*this, &Segment::setRange, docstring));
 }
 
-Vector& Segment::compute(Vector& output, int time) {
+Vector& Segment::compute(Vector& output, sigtime_t time) {
   const Vector& input(inputSIN_(time));
   output = input.segment(std::get<0>(range_), std::get<1>(range_));
   return output;

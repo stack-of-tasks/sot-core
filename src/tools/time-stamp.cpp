@@ -68,7 +68,7 @@ void TimeStamp::display(std::ostream &os) const {
 /* --------------------------------------------------------------------- */
 
 dynamicgraph::Vector &TimeStamp::getTimeStamp(dynamicgraph::Vector &res,
-                                              const int & /*time*/) {
+                                              const sigtime_t & /*time*/) {
   sotDEBUGIN(15);
   gettimeofday(&val, NULL);
   if (res.size() != 2) res.resize(2);
