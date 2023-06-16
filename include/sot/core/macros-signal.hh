@@ -12,7 +12,7 @@
 /* --- GENERIC MACROS ------------------------------------------------------- */
 
 #define SOT_CALL_SIG(sotName, sotType) \
-  boost::bind(&Signal<sotType, int>::access, &sotName, _2)
+  boost::bind(&Signal<sotType, sigtime_t>::access, &sotName, _2)
 
 /* --- STATIC MACROS -------------------------------------------------------- */
 /* --- STATIC MACROS -------------------------------------------------------- */

@@ -26,22 +26,22 @@ double &f(double &res, const int & /*t*/) {
 }
 
 int main() {
-  Signal<Vector, int> sig1("sig1");
+  Signal<Vector, sigtime_t> sig1("sig1");
   Vector v1(2);
   v1.fill(1.1);
   sig1 = v1;
 
-  Signal<Vector, int> sig2("sig2");
+  Signal<Vector, sigtime_t> sig2("sig2");
   Vector v2(4);
   v2.fill(2.);
   sig2 = v2;
 
-  Signal<Vector, int> sig3("sig3");
+  Signal<Vector, sigtime_t> sig3("sig3");
   Vector v3(6);
   v3.fill(3.);
   sig3 = v3;
 
-  SignalTimeDependent<double, int> sigM(f, sotNOSIGNAL, "sigM");
+  SignalTimeDependent<double, sigtime_t> sigM(f, sotNOSIGNAL, "sigM");
   sigM.access(0);
 
   Tracer *tracer = new Tracer("trace");

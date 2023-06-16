@@ -54,10 +54,10 @@ class SOTFEATUREVECTOR3_EXPORT FeatureVector3 : public FeatureAbstract {
  protected:
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> vectorSIN;
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> articularJacobianSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> positionRefSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> vectorSIN;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, sigtime_t> positionSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Matrix, sigtime_t> articularJacobianSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> positionRefSIN;
 
   using FeatureAbstract::errorSOUT;
   using FeatureAbstract::jacobianSOUT;
@@ -67,12 +67,12 @@ class SOTFEATUREVECTOR3_EXPORT FeatureVector3 : public FeatureAbstract {
   FeatureVector3(const std::string &name);
   virtual ~FeatureVector3(void) {}
 
-  virtual unsigned int &getDimension(unsigned int &dim, int time);
+  virtual unsigned int &getDimension(unsigned int &dim, sigtime_t time);
 
   virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
-                                             int time);
+                                             sigtime_t time);
   virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
-                                                int time);
+                                                sigtime_t time);
 
   virtual void display(std::ostream &os) const;
 };

@@ -18,7 +18,7 @@
 namespace dynamicgraph {
 namespace sot {
 /// Switch
-template <typename Value, typename Time = int>
+template <typename Value, typename Time = sigtime_t>
 class SOT_CORE_DLLAPI Switch : public VariadicAbstract<Value, Value, Time> {
   DYNAMIC_GRAPH_ENTITY_DECL();
 

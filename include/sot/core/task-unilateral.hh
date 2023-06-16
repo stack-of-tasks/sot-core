@@ -63,10 +63,10 @@ class SOTTASKUNILATERAL_EXPORT TaskUnilateral : public Task {
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> positionSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> referenceInfSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> referenceSupSIN;
-  dynamicgraph::SignalPtr<double, int> dtSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> positionSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> referenceInfSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> referenceSupSIN;
+  dynamicgraph::SignalPtr<double, sigtime_t> dtSIN;
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display(std::ostream &os) const;

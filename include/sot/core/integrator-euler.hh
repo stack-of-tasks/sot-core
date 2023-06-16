@@ -97,7 +97,7 @@ class IntegratorEuler : public IntegratorAbstract<sigT, coefT> {
   std::vector<sigT> inputMemory;
   std::vector<sigT> outputMemory;
 
-  dynamicgraph::SignalTimeDependent<sigT, int> derivativeSOUT;
+  dynamicgraph::SignalTimeDependent<sigT, sigtime_t> derivativeSOUT;
 
   double dt;
   double invdt;

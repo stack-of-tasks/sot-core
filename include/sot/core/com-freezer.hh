@@ -57,9 +57,9 @@ class SOTCOMFREEZER_EXPORT CoMFreezer : public dynamicgraph::Entity {
   virtual ~CoMFreezer(void);
 
  public: /* --- SIGNAL --- */
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> CoMRefSIN;
-  dynamicgraph::SignalPtr<unsigned, int> PGInProcessSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> freezedCoMSOUT;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> CoMRefSIN;
+  dynamicgraph::SignalPtr<unsigned, sigtime_t> PGInProcessSIN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> freezedCoMSOUT;
 
  public: /* --- FUNCTION --- */
   dynamicgraph::Vector &computeFreezedCoM(dynamicgraph::Vector &freezedCoM,

@@ -160,7 +160,7 @@ class SOTSOT_CORE_EXPORT Sot : public Entity {
 
   /*! \brief Compute the control law. */
   virtual dynamicgraph::Vector &computeControlLaw(dynamicgraph::Vector &control,
-                                                  const int &time);
+                                                  const sigtime_t &time);
 
   /*! @} */
 
@@ -182,18 +182,18 @@ class SOTSOT_CORE_EXPORT Sot : public Entity {
    * the recurence of the SOT (e.g. velocity coming from the other
    * OpenHRP plugins).
    */
-  SignalPtr<dynamicgraph::Vector, int> q0SIN;
+  SignalPtr<dynamicgraph::Vector, sigtime_t> q0SIN;
   /*! \brief A matrix K whose columns are a base of the desired velocity.
    * In other words, \f$ \dot{q} = K * u \f$ where \f$ u \f$ is the free
    * parameter to be computed.
    * \note K should be an orthonormal matrix.
    */
-  SignalPtr<dynamicgraph::Matrix, int> proj0SIN;
+  SignalPtr<dynamicgraph::Matrix, sigtime_t> proj0SIN;
   /*! \brief This signal allow to change the threshold for the
     damped pseudo-inverse on-line */
-  SignalPtr<double, int> inversionThresholdSIN;
+  SignalPtr<double, sigtime_t> inversionThresholdSIN;
   /*! \brief Allow to get the result of the computed control law. */
-  SignalTimeDependent<dynamicgraph::Vector, int> controlSOUT;
+  SignalTimeDependent<dynamicgraph::Vector, sigtime_t> controlSOUT;
   /*! @} */
 
   /*! \brief This method write the priority between tasks in the output stream

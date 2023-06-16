@@ -49,7 +49,7 @@ void Feature1D::removeDependenciesFromReference(void) {}
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int &Feature1D::getDimension(unsigned int &dim, int /*time*/) {
+unsigned int &Feature1D::getDimension(unsigned int &dim, sigtime_t /*time*/) {
   sotDEBUG(25) << "# In {" << endl;
 
   dim = 1;
@@ -59,7 +59,7 @@ unsigned int &Feature1D::getDimension(unsigned int &dim, int /*time*/) {
 }
 
 dynamicgraph::Vector &Feature1D::computeError(dynamicgraph::Vector &res,
-                                              int time) {
+                                              sigtime_t time) {
   const dynamicgraph::Vector &err = errorSIN.access(time);
   res.resize(1);
   res(0) = err.dot(err) * .5;
@@ -68,7 +68,7 @@ dynamicgraph::Vector &Feature1D::computeError(dynamicgraph::Vector &res,
 }
 
 dynamicgraph::Matrix &Feature1D::computeJacobian(dynamicgraph::Matrix &res,
-                                                 int time) {
+                                                 sigtime_t time) {
   sotDEBUGIN(15);
 
   const dynamicgraph::Matrix &Jac = jacobianSIN.access(time);

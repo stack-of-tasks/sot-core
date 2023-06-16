@@ -55,7 +55,7 @@ FeatureVector3::FeatureVector3(const string &pointName)
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int &FeatureVector3::getDimension(unsigned int &dim, int /*time*/) {
+unsigned int &FeatureVector3::getDimension(unsigned int &dim, sigtime_t /*time*/) {
   sotDEBUG(25) << "# In {" << endl;
 
   return dim = 3;
@@ -65,7 +65,7 @@ unsigned int &FeatureVector3::getDimension(unsigned int &dim, int /*time*/) {
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-Matrix &FeatureVector3::computeJacobian(Matrix &J, int time) {
+Matrix &FeatureVector3::computeJacobian(Matrix &J, sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
   const Matrix &Jq = articularJacobianSIN(time);
@@ -104,7 +104,7 @@ Matrix &FeatureVector3::computeJacobian(Matrix &J, int time) {
 /** Compute the error between two visual features from a subset
  *a the possible features.
  */
-Vector &FeatureVector3::computeError(Vector &Mvect3, int time) {
+Vector &FeatureVector3::computeError(Vector &Mvect3, sigtime_t time) {
   sotDEBUGIN(15);
 
   const MatrixHomogeneous &M = positionSIN(time);

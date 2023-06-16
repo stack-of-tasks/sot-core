@@ -98,9 +98,9 @@ class IntegratorAbstract : public dynamicgraph::Entity {
   void denomCoeffs(const std::vector<coefT> &coeffs) { denominator = coeffs; }
 
  public:
-  dynamicgraph::SignalPtr<sigT, int> SIN;
+  dynamicgraph::SignalPtr<sigT, sigtime_t> SIN;
 
-  dynamicgraph::SignalTimeDependent<sigT, int> SOUT;
+  dynamicgraph::SignalTimeDependent<sigT, sigtime_t> SOUT;
 
   virtual void display(std::ostream &os) const {
     os << this->getClassName() << ": " << getName() << '\n' << "  ";

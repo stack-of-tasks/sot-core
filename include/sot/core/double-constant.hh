@@ -24,7 +24,7 @@ class DoubleConstant : public Entity {
 
   virtual ~DoubleConstant(void) {}
 
-  SignalTimeDependent<double, int> SOUT;
+  SignalTimeDependent<double, sigtime_t> SOUT;
 
   /// \brief Set value of vector (and therefore of output signal)
   void setValue(const double &inValue);

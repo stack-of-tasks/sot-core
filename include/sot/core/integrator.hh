@@ -41,14 +41,14 @@
 namespace dynamicgraph {
 namespace sot {
 namespace internal {
-class Signal : public ::dynamicgraph::Signal<Vector, int> {
+class Signal : public ::dynamicgraph::Signal<Vector, sigtime_t> {
  protected:
   enum SignalType { CONSTANT, REFERENCE, REFERENCE_NON_CONST, FUNCTION };
   static const SignalType SIGNAL_TYPE_DEFAULT = CONSTANT;
 
   const Vector *Treference;
   Vector *TreferenceNonConst;
-  boost::function2<Vector &, Vector &, int> Tfunction;
+  boost::function2<Vector &, Vector &, sigtime_t> Tfunction;
 
   bool keepReference;
   const static bool KEEP_REFERENCE_DEFAULT = false;
@@ -64,10 +64,10 @@ class Signal : public ::dynamicgraph::Signal<Vector, int> {
 
  protected:
   Mutex *providerMutex;
-  using SignalBase<int>::signalTime;
+  using SignalBase<sigtime_t>::signalTime;
 
  public:
-  using SignalBase<int>::setReady;
+  using SignalBase<sigtime_t>::setReady;
 
  public:
   /* --- Constructor/destrusctor --- */
@@ -83,18 +83,19 @@ class Signal : public ::dynamicgraph::Signal<Vector, int> {
   virtual void setConstant(const Vector &t);
   virtual void setReference(const Vector *t, Mutex *mutexref = NULL);
   virtual void setReferenceNonConstant(Vector *t, Mutex *mutexref = NULL);
-  virtual void setFunction(boost::function2<Vector &, Vector &, int> t,
+  virtual void setFunction(boost::function2<Vector &, Vector &, sigtime_t> t,
                            Mutex *mutexref = NULL);
 
   /* --- Signal computation --- */
-  virtual const Vector &access(const int &t);
-  virtual inline void recompute(const int &t) { access(t); }
+  virtual const Vector &access(const sigtime_t &t);
+  virtual inline void recompute(const sigtime_t &t) { access(t); }
   virtual const Vector &accessCopy() const;
 
   virtual std::ostream &display(std::ostream &os) const;
 
   /* --- Operators --- */
-  virtual inline const Vector &operator()(const int &t) { return access(t); }
+  virtual inline const Vector &operator()(const sigtime_t &t) {
+    return access(t); }
   virtual Signal &operator=(const Vector &t);
   inline operator const Vector &() const { return accessCopy(); }
   virtual void getClassName(std::string &aClassName) const {
@@ -131,15 +132,15 @@ class SOT_CORE_DLLEXPORT Integrator : public Entity {
   PeriodicCall periodicCallBefore_;
   PeriodicCall periodicCallAfter_;
 
-  Vector &integrate(Vector &configuration, int time);
+  Vector &integrate(Vector &configuration, sigtime_t time);
   // Signals
-  SignalPtr<Vector, int> velocitySIN_;
+  SignalPtr<Vector, sigtime_t> velocitySIN_;
   internal::Signal configurationSOUT_;
   // Pointer to pinocchio model
   ::pinocchio::Model *model_;
   Vector configuration_;
-  int lastComputationTime_;
-  int recursivityLevel_;
+  sigtime_t lastComputationTime_;
+  sigtime_t recursivityLevel_;
 };  // class Integrator
 
 }  // namespace sot

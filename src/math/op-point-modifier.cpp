@@ -137,8 +137,8 @@ const Eigen::Matrix4d &OpPointModifier::getTransformation(void) {
 #include <dynamic-graph/pool.h>
 [[deprecated("use setTransformation")]] void
 OpPointModifier::setTransformationBySignalName(std::istringstream &cmdArgs) {
-  Signal<Eigen::Matrix4d, int> &sig =
-      dynamic_cast<Signal<Eigen::Matrix4d, int> &>(
+  Signal<Eigen::Matrix4d, sigtime_t> &sig =
+      dynamic_cast<Signal<Eigen::Matrix4d, sigtime_t> &>(
           PoolStorage::getInstance()->getSignal(cmdArgs));
   setTransformation(sig.accessCopy());
 }

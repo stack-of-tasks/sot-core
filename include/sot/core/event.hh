@@ -73,8 +73,8 @@ class SOT_CORE_DLLAPI Event : public dynamicgraph::Entity {
         "    Repease event if input signal remains True for a while\n"
         "      Input: number of iterations before repeating output\n."
         "        0 for no repetition";
-    addCommand("repeat", new command::Setter<Event, int>(*this, &Event::repeat,
-                                                         docstring));
+    addCommand("repeat", new command::Setter<Event, sigtime_t>
+               (*this, &Event::repeat, docstring));
   }
 
   ~Event() {}
@@ -102,23 +102,23 @@ class SOT_CORE_DLLAPI Event : public dynamicgraph::Entity {
     return oss.str();
   }
 
-  void repeat(const int &nbIterations) {
+  void repeat(const sigtime_t &nbIterations) {
     repeatAfterNIterations_ = nbIterations;
   }
 
  private:
-  typedef SignalBase<int> *Trigger_t;
+  typedef SignalBase<sigtime_t> *Trigger_t;
   typedef std::vector<Trigger_t> Triggers_t;
 
-  bool &check(bool &ret, const int &time);
+  bool &check(bool &ret, const int64_t &time);
 
-  Signal<bool, int> checkSOUT;
+  Signal<bool, sigtime_t> checkSOUT;
 
   Triggers_t triggers;
-  SignalPtr<bool, int> conditionSIN;
+  SignalPtr<bool, sigtime_t> conditionSIN;
 
   bool lastVal_;
-  int timeSinceUp_, repeatAfterNIterations_;
+  sigtime_t timeSinceUp_, repeatAfterNIterations_;
 };
 }  // namespace sot
 }  // namespace dynamicgraph

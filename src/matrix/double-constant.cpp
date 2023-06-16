@@ -18,7 +18,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(DoubleConstant, "DoubleConstant");
 
 DoubleConstant::DoubleConstant(const std::string &name)
     : Entity(name), SOUT("DoubleConstant(" + name + ")::output(double)::sout") {
-  SOUT.setDependencyType(TimeDependency<int>::BOOL_DEPENDENT);
+  SOUT.setDependencyType(TimeDependency<sigtime_t>::BOOL_DEPENDENT);
   signalRegistration(SOUT);
   //
   // Commands

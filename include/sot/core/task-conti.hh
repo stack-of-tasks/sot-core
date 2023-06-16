@@ -71,7 +71,7 @@ class SOTTASKCONTI_EXPORT TaskConti : public Task {
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> controlPrevSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> controlPrevSIN;
 
   /* --- DISPLAY ------------------------------------------------------------ */
   void display(std::ostream &os) const;

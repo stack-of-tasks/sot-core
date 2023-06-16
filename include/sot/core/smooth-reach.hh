@@ -61,12 +61,12 @@ class SOTSMOOTHREACH_EXPORT SmoothReach : public dynamicgraph::Entity {
   virtual ~SmoothReach(void){};
 
  public: /* --- SIGNAL --- */
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> startSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> goalSOUT;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> startSIN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> goalSOUT;
 
  public: /* --- FUNCTION --- */
   dynamicgraph::Vector &goalSOUT_function(dynamicgraph::Vector &goal,
-                                          const int &time);
+                                          const sigtime_t &time);
 
   void set(const dynamicgraph::Vector &goal, const int &length);
   const dynamicgraph::Vector &getGoal(void);

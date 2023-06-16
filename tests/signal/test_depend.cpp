@@ -23,8 +23,8 @@ template <class Res = double>
 class DummyClass {
  public:
   std::string proname;
-  list<SignalTimeDependent<double, int> *> inputsig;
-  list<SignalTimeDependent<dynamicgraph::Vector, int> *> inputsigV;
+  list<SignalTimeDependent<double, sigtime_t> *> inputsig;
+  list<SignalTimeDependent<dynamicgraph::Vector, sigtime_t> *> inputsigV;
 
  public:
   DummyClass(const std::string &n) : proname(n), res(), appel(0), timedata(0) {}
@@ -34,13 +34,13 @@ class DummyClass {
     timedata = t;
 
     cout << "Inside " << proname << " -> " << this << endl;
-    for (list<SignalTimeDependent<double, int> *>::iterator it =
+    for (list<SignalTimeDependent<double, sigtime_t> *>::iterator it =
              inputsig.begin();
          it != inputsig.end(); ++it) {
       cout << *(*it) << endl;
       (*it)->access(timedata);
     }
-    for (list<SignalTimeDependent<dynamicgraph::Vector, int> *>::iterator it =
+    for (list<SignalTimeDependent<dynamicgraph::Vector, sigtime_t> *>::iterator it =
              inputsigV.begin();
          it != inputsigV.end(); ++it) {
       cout << *(*it) << endl;
@@ -50,8 +50,8 @@ class DummyClass {
     return res = (*this)();
   }
 
-  void add(SignalTimeDependent<double, int> &sig) { inputsig.push_back(&sig); }
-  void add(SignalTimeDependent<dynamicgraph::Vector, int> &sig) {
+  void add(SignalTimeDependent<double, sigtime_t> &sig) { inputsig.push_back(&sig); }
+  void add(SignalTimeDependent<dynamicgraph::Vector, sigtime_t> &sig) {
     inputsigV.push_back(&sig);
   }
 
@@ -83,22 +83,16 @@ int main(void) {
   DummyClass<double> pro1("pro1"), pro3("pro3"), pro5("pro5");
   DummyClass<dynamicgraph::Vector> pro2("pro2"), pro4("pro4"), pro6("pro6");
 
-  SignalTimeDependent<double, int> sig5("Sig5");
-  SignalTimeDependent<dynamicgraph::Vector, int> sig6("Sig6");
+  SignalTimeDependent<double, sigtime_t> sig5("Sig5");
+  SignalTimeDependent<dynamicgraph::Vector, sigtime_t> sig6("Sig6");
 
-  SignalTimeDependent<dynamicgraph::Vector, int> sig4(sig5, "Sig4");
-  SignalTimeDependent<dynamicgraph::Vector, int> sig2(
+  SignalTimeDependent<dynamicgraph::Vector, sigtime_t> sig4(sig5, "Sig4");
+  SignalTimeDependent<dynamicgraph::Vector, sigtime_t> sig2(
       sig4 << sig4 << sig4 << sig6, "Sig2");
-  SignalTimeDependent<double, int> sig3(sig2 << sig5 << sig6, "Sig3");
-  SignalTimeDependent<double, int> sig1(
+  SignalTimeDependent<double, sigtime_t> sig3(sig2 << sig5 << sig6, "Sig3");
+  SignalTimeDependent<double, sigtime_t> sig1(
       boost::bind(&DummyClass<double>::fun, &pro1, _1, _2), sig2 << sig3,
       "Sig1");
-
-  //    cout << "--- Test Array ------ "<<endl;
-  //    SignalArray<int> tarr(12);
-  //    tarr<<sig3<<sig2;//+sig2+sig3;
-  //    dispArray(sig4<<sig2<<sig3);
-  //    dispArray(tarr);
 
   sig2.setFunction(
       boost::bind(&DummyClass<dynamicgraph::Vector>::fun, &pro2, _1, _2));
@@ -120,8 +114,8 @@ int main(void) {
   pro3.add(sig5);
   pro3.add(sig6);
 
-  sig5.setDependencyType(TimeDependency<int>::ALWAYS_READY);
-  sig6.setDependencyType(TimeDependency<int>::BOOL_DEPENDENT);
+  sig5.setDependencyType(TimeDependency<sigtime_t>::ALWAYS_READY);
+  sig6.setDependencyType(TimeDependency<sigtime_t>::BOOL_DEPENDENT);
 
   sig6.setReady();
 

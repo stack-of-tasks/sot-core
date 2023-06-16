@@ -93,7 +93,7 @@ std::string FeatureAbstract::getReferenceByName() const {
 }
 
 dynamicgraph::Vector &FeatureAbstract::computeErrorDot(
-    dynamicgraph::Vector &res, int time) {
+    dynamicgraph::Vector &res, sigtime_t time) {
   const Flags &fl = selectionSIN.access(time);
   const int &dim = dimensionSOUT(time);
 

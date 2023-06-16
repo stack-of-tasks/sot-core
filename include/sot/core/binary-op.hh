@@ -68,9 +68,9 @@ class BinaryOp : public Entity {
   virtual ~BinaryOp(void){};
 
  public: /* --- SIGNAL --- */
-  SignalPtr<Tin1, int> SIN1;
-  SignalPtr<Tin2, int> SIN2;
-  SignalTimeDependent<Tout, int> SOUT;
+  SignalPtr<Tin1, sigtime_t> SIN1;
+  SignalPtr<Tin2, sigtime_t> SIN2;
+  SignalTimeDependent<Tout, sigtime_t> SOUT;
 
  protected:
   Tout &computeOperation(Tout &res, int time) {

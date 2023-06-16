@@ -46,7 +46,7 @@ VisualPointProjecter::VisualPointProjecter(const std::string &name)
 /* --- SIGNALS ---------------------------------------------------------- */
 
 dynamicgraph::Vector &VisualPointProjecter::point3DgazeSOUT_function(
-    dynamicgraph::Vector &p3g, int iter) {
+    dynamicgraph::Vector &p3g, sigtime_t iter) {
   const dynamicgraph::Vector &p3 = m_point3DSIN(iter);
   const MatrixHomogeneous &M = m_transfoSIN(iter);
   MatrixHomogeneous Mi;
@@ -56,7 +56,7 @@ dynamicgraph::Vector &VisualPointProjecter::point3DgazeSOUT_function(
 }
 
 dynamicgraph::Vector &VisualPointProjecter::point2DSOUT_function(
-    dynamicgraph::Vector &p2, int iter) {
+    dynamicgraph::Vector &p2, sigtime_t iter) {
   sotDEBUGIN(15);
 
   const dynamicgraph::Vector &p3 = m_point3DgazeSOUT(iter);
@@ -71,7 +71,7 @@ dynamicgraph::Vector &VisualPointProjecter::point2DSOUT_function(
   return p2;
 }
 
-double &VisualPointProjecter::depthSOUT_function(double &z, int iter) {
+double &VisualPointProjecter::depthSOUT_function(double &z, sigtime_t iter) {
   const dynamicgraph::Vector &p3 = m_point3DgazeSOUT(iter);
   assert(p3.size() == 3);
   z = p3(2);

@@ -57,8 +57,8 @@ class VariadicAbstract : public Entity {
   };
 
  public: /* --- SIGNAL --- */
-  typedef SignalPtr<Tin, int> signal_t;
-  SignalTimeDependent<Tout, int> SOUT;
+  typedef SignalPtr<Tin, sigtime_t> signal_t;
+  SignalTimeDependent<Tout, sigtime_t> SOUT;
 
   std::size_t addSignal() {
     std::ostringstream oss;
@@ -137,7 +137,7 @@ class VariadicAbstract : public Entity {
 
 template <typename Operator>
 class VariadicOp : public VariadicAbstract<typename Operator::Tin,
-                                           typename Operator::Tout, int> {
+                                           typename Operator::Tout, sigtime_t> {
   typedef typename Operator::Tin Tin;
   typedef typename Operator::Tout Tout;
   typedef VariadicOp<Operator> Self;
@@ -145,7 +145,7 @@ class VariadicOp : public VariadicAbstract<typename Operator::Tin,
  public: /* --- CONSTRUCTION --- */
   Operator op;
 
-  typedef VariadicAbstract<Tin, Tout, int> Base;
+  typedef VariadicAbstract<Tin, Tout, sigtime_t> Base;
 
   // static std::string getTypeInName ( void ) { return Operator::nameTypeIn ();
   // } static std::string getTypeOutName( void ) { return

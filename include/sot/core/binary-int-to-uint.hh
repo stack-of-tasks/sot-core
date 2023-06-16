@@ -44,8 +44,8 @@ class SOTBINARYINTTOUINT_EXPORT BinaryIntToUint : public dynamicgraph::Entity {
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dynamicgraph::SignalPtr<int, int> binaryIntSIN;
-  dynamicgraph::SignalTimeDependent<unsigned, int> binaryUintSOUT;
+  dynamicgraph::SignalPtr<int, sigtime_t> binaryIntSIN;
+  dynamicgraph::SignalTimeDependent<unsigned, sigtime_t> binaryUintSOUT;
 
  public:
   BinaryIntToUint(const std::string &name);

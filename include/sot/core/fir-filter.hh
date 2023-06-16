@@ -193,8 +193,8 @@ class FIRFilter : public Entity {
   static void reset_signal(sigT & /*res*/, const sigT & /*sample*/) {}
 
  public:
-  SignalPtr<sigT, int> SIN;
-  SignalTimeDependent<sigT, int> SOUT;
+  SignalPtr<sigT, sigtime_t> SIN;
+  SignalTimeDependent<sigT, sigtime_t> SOUT;
 
  private:
   std::vector<coefT> coefs;

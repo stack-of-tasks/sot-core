@@ -96,28 +96,28 @@ class SOTJOINT_TRAJECTORY_ENTITY_EXPORT SotJointTrajectoryEntity
   /// @name Signals
   /// @{
   /// \brief Internal signal for synchronisation.
-  dynamicgraph::SignalTimeDependent<int, int> refresherSINTERN;
+  dynamicgraph::SignalTimeDependent<int, sigtime_t> refresherSINTERN;
 
   /// \brief Internal signal to trigger one step of the algorithm.
-  SignalTimeDependent<Dummy, int> OneStepOfUpdateS;
+  SignalTimeDependent<Dummy, sigtime_t> OneStepOfUpdateS;
 
   /// \brief Publish pose for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> positionSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> positionSOUT;
 
   /// \brief Publish com for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> comSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> comSOUT;
 
   /// \brief Publish zmp for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> zmpSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> zmpSOUT;
 
   /// \brief Publish waist for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<sot::MatrixHomogeneous, int> waistSOUT;
+  dynamicgraph::SignalTimeDependent<sot::MatrixHomogeneous, sigtime_t> waistSOUT;
 
   /// \brief Publish ID of the trajectory currently realized.
-  dynamicgraph::SignalTimeDependent<unsigned int, int> seqIdSOUT;
+  dynamicgraph::SignalTimeDependent<unsigned int, sigtime_t> seqIdSOUT;
 
   /// \brief Read a trajectory.
-  dynamicgraph::SignalPtr<Trajectory, int> trajectorySIN;
+  dynamicgraph::SignalPtr<Trajectory, sigtime_t> trajectorySIN;
   ///@}
 
  protected:

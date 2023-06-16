@@ -52,11 +52,11 @@ class SOTFEATURELINEDISTANCE_EXPORT FeatureLineDistance
  protected:
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> articularJacobianSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> positionRefSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> vectorSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> lineSOUT;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, sigtime_t> positionSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Matrix, sigtime_t> articularJacobianSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> positionRefSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> vectorSIN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> lineSOUT;
 
   using FeatureAbstract::errorSOUT;
   using FeatureAbstract::jacobianSOUT;
@@ -72,14 +72,14 @@ class SOTFEATURELINEDISTANCE_EXPORT FeatureLineDistance
   FeatureLineDistance(const std::string &name);
   virtual ~FeatureLineDistance(void) {}
 
-  virtual unsigned int &getDimension(unsigned int &dim, int time);
+  virtual unsigned int &getDimension(unsigned int &dim, sigtime_t time);
 
   virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
-                                             int time);
+                                             sigtime_t time);
   virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
-                                                int time);
+                                                sigtime_t time);
   dynamicgraph::Vector &computeLineCoordinates(dynamicgraph::Vector &cood,
-                                               int time);
+                                               sigtime_t time);
 
   virtual void display(std::ostream &os) const;
 };

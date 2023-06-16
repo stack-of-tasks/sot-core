@@ -42,7 +42,7 @@ class MatrixConstant : public Entity {
 
   virtual ~MatrixConstant(void) {}
 
-  SignalTimeDependent<dynamicgraph::Matrix, int> SOUT;
+  SignalTimeDependent<dynamicgraph::Matrix, sigtime_t> SOUT;
 };
 
 }  // namespace sot

@@ -885,11 +885,11 @@ struct VectorMix : public VariadicOpHeader<Vector, Vector> {
 
     ent->addSignal("default");
 
-    boost::function<void(const int &, const int &, const int &)> selec =
+    boost::function<void(const int &, const int &, const sigtime_t &)> selec =
         boost::bind(&VectorMix::addSelec, this, _1, _2, _3);
 
     commandMap.insert(std::make_pair(
-        "addSelec", makeCommandVoid3<Base, int, int, int>(
+        "addSelec", makeCommandVoid3<Base, int, int, sigtime_t>(
                         *ent, selec,
                         docCommandVoid3("add selection from a vector.",
                                         "int (signal index >= 1)",

@@ -54,19 +54,19 @@ class SOT_KALMAN_EXPORT Kalman : public Entity {
   double dt;
 
  public:
-  SignalPtr<Vector, int> measureSIN;          // y
-  SignalPtr<Matrix, int> modelTransitionSIN;  // F
-  SignalPtr<Matrix, int> modelMeasureSIN;     // H
-  SignalPtr<Matrix, int> noiseTransitionSIN;  // Q
-  SignalPtr<Matrix, int> noiseMeasureSIN;     // R
+  SignalPtr<Vector, sigtime_t> measureSIN;          // y
+  SignalPtr<Matrix, sigtime_t> modelTransitionSIN;  // F
+  SignalPtr<Matrix, sigtime_t> modelMeasureSIN;     // H
+  SignalPtr<Matrix, sigtime_t> noiseTransitionSIN;  // Q
+  SignalPtr<Matrix, sigtime_t> noiseMeasureSIN;     // R
 
-  SignalPtr<Vector, int> statePredictedSIN;        // x_{k|k-1}
-  SignalPtr<Vector, int> observationPredictedSIN;  // y_pred = h (x_{k|k-1})
-  SignalTimeDependent<Matrix, int> varianceUpdateSOUT;  // P
-  SignalTimeDependent<Vector, int> stateUpdateSOUT;     // X_est
+  SignalPtr<Vector, sigtime_t> statePredictedSIN;        // x_{k|k-1}
+  SignalPtr<Vector, sigtime_t> observationPredictedSIN;  // y_pred = h (x_{k|k-1})
+  SignalTimeDependent<Matrix, sigtime_t> varianceUpdateSOUT;  // P
+  SignalTimeDependent<Vector, sigtime_t> stateUpdateSOUT;     // X_est
 
-  SignalTimeDependent<Matrix, int> gainSINTERN;        // K
-  SignalTimeDependent<Matrix, int> innovationSINTERN;  // S
+  SignalTimeDependent<Matrix, sigtime_t> gainSINTERN;        // K
+  SignalTimeDependent<Matrix, sigtime_t> innovationSINTERN;  // S
 
  public:
   virtual std::string getDocString() const {

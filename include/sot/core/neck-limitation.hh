@@ -72,8 +72,8 @@ class NeckLimitation_EXPORT NeckLimitation : public dynamicgraph::Entity {
   virtual ~NeckLimitation(void);
 
  public: /* --- SIGNAL --- */
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> jointSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> jointSOUT;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> jointSIN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> jointSOUT;
 
  public: /* --- FUNCTIONS --- */
   dynamicgraph::Vector &computeJointLimitation(

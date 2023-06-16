@@ -112,20 +112,20 @@ class SOT_CORE_EXPORT Device : public Entity {
   }
 
  public: /* --- SIGNALS --- */
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> controlSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> attitudeSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> zmpSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> controlSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> attitudeSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> zmpSIN;
 
   /// \name Device current state.
   /// \{
-  dynamicgraph::Signal<dynamicgraph::Vector, int> stateSOUT;
-  dynamicgraph::Signal<dynamicgraph::Vector, int> velocitySOUT;
-  dynamicgraph::Signal<MatrixRotation, int> attitudeSOUT;
+  dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> stateSOUT;
+  dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> velocitySOUT;
+  dynamicgraph::Signal<MatrixRotation, sigtime_t> attitudeSOUT;
   /*! \brief The current state of the robot from the command viewpoint. */
-  dynamicgraph::Signal<dynamicgraph::Vector, int> motorcontrolSOUT;
-  dynamicgraph::Signal<dynamicgraph::Vector, int> previousControlSOUT;
+  dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> motorcontrolSOUT;
+  dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> previousControlSOUT;
   /*! \brief The ZMP reference send by the previous controller. */
-  dynamicgraph::Signal<dynamicgraph::Vector, int> ZMPPreviousControllerSOUT;
+  dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> ZMPPreviousControllerSOUT;
   /// \}
 
   /// \name Real robot current state
@@ -134,14 +134,14 @@ class SOT_CORE_EXPORT Device : public Entity {
   /// does *not* match the state control input signal.
   /// \{
   /// Motor positions
-  dynamicgraph::Signal<dynamicgraph::Vector, int> robotState_;
+  dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> robotState_;
   /// Motor velocities
-  dynamicgraph::Signal<dynamicgraph::Vector, int> robotVelocity_;
+  dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> robotVelocity_;
   /// The force torque sensors
-  dynamicgraph::Signal<dynamicgraph::Vector, int> *forcesSOUT[4];
+  dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> *forcesSOUT[4];
   /// Motor torques
   /// \todo why pseudo ?
-  dynamicgraph::Signal<dynamicgraph::Vector, int> pseudoTorqueSOUT;
+  dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> pseudoTorqueSOUT;
   /// \}
 
  public:
@@ -150,7 +150,7 @@ class SOT_CORE_EXPORT Device : public Entity {
   virtual void setRoot(const MatrixHomogeneous &worldMwaist);
 
  private:
-  int lastTimeControlWasRead_;
+  sigtime_t lastTimeControlWasRead_;
   int controlSize_;
   // Intermediate variable to avoid dynamic allocation
   dynamicgraph::Vector forceZero6;

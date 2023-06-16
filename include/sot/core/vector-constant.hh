@@ -40,7 +40,7 @@ class VectorConstant : public Entity {
 
   virtual ~VectorConstant(void) {}
 
-  SignalTimeDependent<dynamicgraph::Vector, int> SOUT;
+  SignalTimeDependent<dynamicgraph::Vector, sigtime_t> SOUT;
 
   /// \brief Set value of vector (and therefore of output signal)
   void setValue(const dynamicgraph::Vector &inValue);

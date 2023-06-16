@@ -40,7 +40,7 @@ GradientAscent::GradientAscent(const std::string &n)
       init(false) {
   // Register signals into the entity.
   signalRegistration(gradientSIN << learningRateSIN << valueSOUT);
-  refresherSINTERN.setDependencyType(TimeDependency<int>::ALWAYS_READY);
+  refresherSINTERN.setDependencyType(TimeDependency<sigtime_t>::ALWAYS_READY);
 }
 
 GradientAscent::~GradientAscent() {}

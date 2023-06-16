@@ -65,12 +65,12 @@ FeaturePosture::FeaturePosture(const std::string &name)
 
 FeaturePosture::~FeaturePosture() {}
 
-unsigned int &FeaturePosture::getDimension(unsigned int &res, int) {
+unsigned int &FeaturePosture::getDimension(unsigned int &res, sigtime_t) {
   res = static_cast<unsigned int>(nbActiveDofs_);
   return res;
 }
 
-dg::Vector &FeaturePosture::computeError(dg::Vector &res, int t) {
+dg::Vector &FeaturePosture::computeError(dg::Vector &res, sigtime_t t) {
   const dg::Vector &state = state_.access(t);
   const dg::Vector &posture = posture_.access(t);
 
@@ -85,13 +85,13 @@ dg::Vector &FeaturePosture::computeError(dg::Vector &res, int t) {
   return res;
 }
 
-dg::Matrix &FeaturePosture::computeJacobian(dg::Matrix &, int) {
+dg::Matrix &FeaturePosture::computeJacobian(dg::Matrix &, sigtime_t) {
   throw std::runtime_error(
       "jacobian signal should be constant."
       " This function should never be called");
 }
 
-dg::Vector &FeaturePosture::computeErrorDot(dg::Vector &res, int t) {
+dg::Vector &FeaturePosture::computeErrorDot(dg::Vector &res, sigtime_t t) {
   const Vector &postureDot = postureDot_.access(t);
 
   res.resize(nbActiveDofs_);

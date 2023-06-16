@@ -50,6 +50,8 @@
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+namespace dg = dynamicgraph;
+
 template <class T>
 class Timer_EXPORT Timer : public dynamicgraph::Entity {
  public:
@@ -74,13 +76,13 @@ class Timer_EXPORT Timer : public dynamicgraph::Entity {
   }
 
  public: /* --- SIGNALS --- */
-  dynamicgraph::SignalPtr<T, int> sigSIN;
-  dynamicgraph::SignalTimeDependent<T, int> sigSOUT;
-  dynamicgraph::SignalTimeDependent<T, int> sigClockSOUT;
-  dynamicgraph::Signal<double, int> timerSOUT;
+  dynamicgraph::SignalPtr<T, dg::sigtime_t> sigSIN;
+  dynamicgraph::SignalTimeDependent<T, dg::sigtime_t> sigSOUT;
+  dynamicgraph::SignalTimeDependent<T, dg::sigtime_t> sigClockSOUT;
+  dynamicgraph::Signal<double, dg::sigtime_t> timerSOUT;
 
  protected: /* --- SIGNAL FUNCTIONS --- */
-  void plug(dynamicgraph::Signal<T, int> &sig) {
+  void plug(dynamicgraph::Signal<T, dg::sigtime_t> &sig) {
     sigSIN = &sig;
     dt = 0.;
   }

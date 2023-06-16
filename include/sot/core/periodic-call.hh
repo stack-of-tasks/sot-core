@@ -37,7 +37,7 @@ namespace sot {
 class SOT_CORE_EXPORT PeriodicCall {
  protected:
   struct SignalToCall {
-    dynamicgraph::SignalBase<int> *signal;
+    dynamicgraph::SignalBase<sigtime_t> *signal;
     unsigned int downsamplingFactor;
 
     SignalToCall() {
@@ -45,7 +45,7 @@ class SOT_CORE_EXPORT PeriodicCall {
       downsamplingFactor = 1;
     }
 
-    SignalToCall(dynamicgraph::SignalBase<int> *s, unsigned int df = 1) {
+    SignalToCall(dynamicgraph::SignalBase<sigtime_t> *s, unsigned int df = 1) {
       signal = s;
       downsamplingFactor = df;
     }
@@ -54,7 +54,7 @@ class SOT_CORE_EXPORT PeriodicCall {
   typedef std::map<std::string, SignalToCall> SignalMapType;
   SignalMapType signalMap;
 
-  int innerTime;
+  sigtime_t innerTime;
 
   /* --- FUNCTIONS ------------------------------------------------------------
    */
@@ -63,17 +63,17 @@ class SOT_CORE_EXPORT PeriodicCall {
   virtual ~PeriodicCall(void) {}
 
   void addDownsampledSignal(const std::string &name,
-                            dynamicgraph::SignalBase<int> &sig,
+                            dynamicgraph::SignalBase<sigtime_t> &sig,
                             const unsigned int &downsamplingFactor);
   void addDownsampledSignal(const std::string &sigpath,
                             const unsigned int &downsamplingFactor);
 
-  void addSignal(const std::string &name, dynamicgraph::SignalBase<int> &sig);
+  void addSignal(const std::string &name, dynamicgraph::SignalBase<sigtime_t> &sig);
   void addSignal(const std::string &args);
   void rmSignal(const std::string &name);
 
-  void runSignals(const int &t);
-  void run(const int &t);
+  void runSignals(const sigtime_t &t);
+  void run(const sigtime_t &t);
 
   void clear(void) { signalMap.clear(); }
 

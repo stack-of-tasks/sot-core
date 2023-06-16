@@ -60,7 +60,7 @@ void FeatureGeneric::removeDependenciesFromReference(void) {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int &FeatureGeneric::getDimension(unsigned int &dim, int time) {
+unsigned int &FeatureGeneric::getDimension(unsigned int &dim, sigtime_t time) {
   sotDEBUG(25) << "# In {" << endl;
 
   const Flags &fl = selectionSIN.access(time);
@@ -75,7 +75,7 @@ unsigned int &FeatureGeneric::getDimension(unsigned int &dim, int time) {
   return dim;
 }
 
-Vector &FeatureGeneric::computeError(Vector &res, int time) {
+Vector &FeatureGeneric::computeError(Vector &res, sigtime_t time) {
   const Vector &err = errorSIN.access(time);
   const Flags &fl = selectionSIN.access(time);
   const int &dim = dimensionSOUT(time);
@@ -115,7 +115,7 @@ Vector &FeatureGeneric::computeError(Vector &res, int time) {
   return res;
 }
 
-Matrix &FeatureGeneric::computeJacobian(Matrix &res, int time) {
+Matrix &FeatureGeneric::computeJacobian(Matrix &res, sigtime_t time) {
   sotDEBUGIN(15);
 
   const Matrix &Jac = jacobianSIN.access(time);

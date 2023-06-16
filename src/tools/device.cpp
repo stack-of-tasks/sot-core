@@ -106,13 +106,13 @@ Device::Device(const std::string &n)
     withForceSignals[i] = false;
   }
   forcesSOUT[0] =
-      new Signal<Vector, int>("Device(" + n + ")::output(vector6)::forceRLEG");
+      new Signal<Vector, sigtime_t>("Device(" + n + ")::output(vector6)::forceRLEG");
   forcesSOUT[1] =
-      new Signal<Vector, int>("Device(" + n + ")::output(vector6)::forceLLEG");
+      new Signal<Vector, sigtime_t>("Device(" + n + ")::output(vector6)::forceLLEG");
   forcesSOUT[2] =
-      new Signal<Vector, int>("Device(" + n + ")::output(vector6)::forceRARM");
+      new Signal<Vector, sigtime_t>("Device(" + n + ")::output(vector6)::forceRARM");
   forcesSOUT[3] =
-      new Signal<Vector, int>("Device(" + n + ")::output(vector6)::forceLARM");
+      new Signal<Vector, sigtime_t>("Device(" + n + ")::output(vector6)::forceLARM");
 
   signalRegistration(
       controlSIN << stateSOUT << robotState_ << robotVelocity_ << velocitySOUT
@@ -227,7 +227,7 @@ void Device::getControl(map<string, ControlValues> &controlOut,
                         const double &period) {
   sotDEBUGIN(25);
   std::vector<double> control;
-  lastTimeControlWasRead_ += (int)floor(period / Integrator::dt);
+  lastTimeControlWasRead_ += (sigtime_t)floor(period / Integrator::dt);
 
   Vector dgControl(controlSIN(lastTimeControlWasRead_));
   // Specify the joint values for the controller.
@@ -266,12 +266,8 @@ void Device::setVelocitySize(const unsigned int &size) {
   velocitySOUT.setConstant(velocity_);
 }
 
-<<<<<<< HEAD
-void Device::setState(const Vector &st) {}
-=======
 void Device::setState(const Vector &) {
 }
->>>>>>> Fix compilation warning.
 
 void Device::setVelocity(const Vector &vel) {
   velocity_ = vel;
@@ -298,7 +294,7 @@ void Device::setNoIntegration() {}
 void Device::setControlInputType(const std::string &) {
 }
 
-void Device::setSanityCheck(const bool &enableCheck) {}
+void Device::setSanityCheck(const bool &) {}
 
 void Device::setPositionBounds(const Vector &lower, const Vector &upper) {
   std::ostringstream oss;

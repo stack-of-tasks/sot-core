@@ -55,14 +55,15 @@ using dynamicgraph::Entity;
 using dynamicgraph::SignalPtr;
 using dynamicgraph::SignalTimeDependent;
 using dynamicgraph::sot::Flags;
+using dynamicgraph::sigtime_t;
 
 class SOTREADER_EXPORT sotReader : public Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
  public:
-  SignalPtr<Flags, int> selectionSIN;
-  SignalTimeDependent<dynamicgraph::Vector, int> vectorSOUT;
-  SignalTimeDependent<dynamicgraph::Matrix, int> matrixSOUT;
+  SignalPtr<Flags, sigtime_t> selectionSIN;
+  SignalTimeDependent<dynamicgraph::Vector, sigtime_t> vectorSOUT;
+  SignalTimeDependent<dynamicgraph::Matrix, sigtime_t> matrixSOUT;
 
  public:
   sotReader(const std::string n);

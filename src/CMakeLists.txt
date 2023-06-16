@@ -34,7 +34,6 @@ set(plugins
     feature/feature-posture
     feature/visual-point-projecter
     filters/filter-differentiator
-    filters/madgwickahrs
     traces/reader
     tools/event
     tools/time-stamp
@@ -67,7 +66,7 @@ if(WIN32)
     REMOVE_ITEM
     plugins
     matrix/binary-op
-    matrix/derivator
+    marix/derivator
     matrix/fir-filter
     matrix/integrator-abstract
     matrix/integrator-euler)

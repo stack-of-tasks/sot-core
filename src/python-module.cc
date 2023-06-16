@@ -18,7 +18,7 @@ BOOST_PYTHON_MODULE(wrap) {
   bp::class_<PeriodicCall, boost::noncopyable>("PeriodicCall", bp::no_init)
       .def("addSignal",
            static_cast<void (PeriodicCall::*)(const std::string &,
-                                              dg::SignalBase<int> &)>(
+                                              dg::SignalBase<dg::sigtime_t> &)>(
                &PeriodicCall::addSignal),
            "Add the signal to the refresh list", (bp::arg("name"), "signal"))
       .def("addSignal",
@@ -28,7 +28,7 @@ BOOST_PYTHON_MODULE(wrap) {
 
       .def("addDownsampledSignal",
            static_cast<void (PeriodicCall::*)(
-               const std::string &, dg::SignalBase<int> &,
+               const std::string &, dg::SignalBase<dg::sigtime_t> &,
                const unsigned int &)>(&PeriodicCall::addDownsampledSignal),
            "Add the signal to the refresh list\n"
            "The downsampling factor: 1 means every time, "
@@ -99,7 +99,7 @@ BOOST_PYTHON_MODULE(wrap) {
             return os.str();
           });
 
-  dg::python::exposeSignalsOfType<Flags, int>("Flags");
+  dg::python::exposeSignalsOfType<Flags, dg::sigtime_t>("Flags");
   dg::python::exposeEntity<dgs::Integrator, bp::bases<dg::Entity>,
                            dg::python::AddCommands>()
       .add_property("after",
@@ -116,7 +116,8 @@ BOOST_PYTHON_MODULE(wrap) {
       .def("setInitialConfig", &dgs::Integrator::setInitialConfig);
 
   typedef dgs::internal::Signal S_t;
-  bp::class_<S_t, bp::bases<dg::Signal<dg::Vector, int> >, boost::noncopyable>
+  bp::class_<S_t, bp::bases<dg::Signal<dg::Vector, dg::sigtime_t> >,
+             boost::noncopyable>
       obj("SignalIntegratorVector", bp::init<std::string>());
   obj.add_property(
       "value",
