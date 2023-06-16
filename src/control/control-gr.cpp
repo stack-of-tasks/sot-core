@@ -69,7 +69,7 @@ void ControlGR::display(std::ostream &os) const {
   os << "ControlGR " << getName();
   try {
     os << "control = " << controlSOUT;
-  } catch (ExceptionSignal e) {
+  } catch (const ExceptionSignal &e) {
   }
   os << " (" << TimeStep << ") ";
 }
