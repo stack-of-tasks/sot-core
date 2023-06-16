@@ -266,7 +266,12 @@ void Device::setVelocitySize(const unsigned int &size) {
   velocitySOUT.setConstant(velocity_);
 }
 
+<<<<<<< HEAD
 void Device::setState(const Vector &st) {}
+=======
+void Device::setState(const Vector &) {
+}
+>>>>>>> Fix compilation warning.
 
 void Device::setVelocity(const Vector &vel) {
   velocity_ = vel;
@@ -290,7 +295,8 @@ void Device::setSecondOrderIntegration() {}
 
 void Device::setNoIntegration() {}
 
-void Device::setControlInputType(const std::string &cit) {}
+void Device::setControlInputType(const std::string &) {
+}
 
 void Device::setSanityCheck(const bool &enableCheck) {}
 
