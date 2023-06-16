@@ -83,7 +83,7 @@ void GainHyperbolic::display(std::ostream &os) const {
   os << "Gain Hyperbolic " << getName();
   try {
     os << " = " << double(gainSOUT.accessCopy());
-  } catch (ExceptionSignal e) {
+  } catch (const ExceptionSignal &e) {
   }
   // os <<" ("<<coeff_a<<";"<<coeff_b<<";"<<coeff_c<<coeff_d<<") ";
   os << " (" << coeff_a << ".exp(-" << coeff_b << "(x-" << coeff_d << "))+"

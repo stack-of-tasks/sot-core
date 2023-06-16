@@ -167,14 +167,14 @@ void FeatureVisualPoint::display(std::ostream &os) const {
     const Flags &fl = selectionSIN.accessCopy();
     if (fl(0)) os << " x=" << xy(0);
     if (fl(1)) os << " y=" << xy(1);
-  } catch (ExceptionAbstract e) {
+  } catch (const ExceptionAbstract &e) {
     os << " XY or select not set.";
   }
 
   try {
     const double &z = ZSIN.accessCopy();
     os << " Z=" << z << " ";
-  } catch (ExceptionAbstract e) {
+  } catch (const ExceptionAbstract &e) {
     os << " Z not set.";
   }
 }
