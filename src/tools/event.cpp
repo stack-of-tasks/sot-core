@@ -8,7 +8,7 @@
 namespace dynamicgraph {
 namespace sot {
 
-bool &Event::check(bool &ret, const int &time) {
+bool &Event::check(bool &ret, const sigtime_t &time) {
   const bool &val = conditionSIN(time);
   ret = (val != lastVal_);
   bool up = (!lastVal_ && val);

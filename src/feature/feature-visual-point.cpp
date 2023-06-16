@@ -59,7 +59,7 @@ void FeatureVisualPoint::removeDependenciesFromReference(void) {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int &FeatureVisualPoint::getDimension(unsigned int &dim, int time) {
+unsigned int &FeatureVisualPoint::getDimension(unsigned int &dim, sigtime_t time) {
   sotDEBUG(25) << "# In {" << endl;
 
   const Flags &fl = selectionSIN.access(time);
@@ -75,7 +75,7 @@ unsigned int &FeatureVisualPoint::getDimension(unsigned int &dim, int time) {
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-Matrix &FeatureVisualPoint::computeJacobian(Matrix &J, int time) {
+Matrix &FeatureVisualPoint::computeJacobian(Matrix &J, sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
   sotDEBUG(15) << "Get selection flags." << endl;
@@ -137,7 +137,7 @@ Matrix &FeatureVisualPoint::computeJacobian(Matrix &J, int time) {
 /** Compute the error between two visual features from a subset
  * a the possible features.
  */
-Vector &FeatureVisualPoint::computeError(Vector &error, int time) {
+Vector &FeatureVisualPoint::computeError(Vector &error, sigtime_t time) {
   const Flags &fl = selectionSIN(time);
   sotDEBUGIN(15);
   error.resize(dimensionSOUT(time));

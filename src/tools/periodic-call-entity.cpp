@@ -40,11 +40,11 @@ PeriodicCallEntity::PeriodicCallEntity(const string &fName)
       boost::bind(&PeriodicCallEntity::trigerOnceCall, this, _1, _2));
 }
 
-int &PeriodicCallEntity::trigerCall(int &dummy, const int &time) {
+int &PeriodicCallEntity::trigerCall(int &dummy, const sigtime_t &time) {
   run(time);
   return dummy;
 }
-int &PeriodicCallEntity::trigerOnceCall(int &dummy, const int &time) {
+int &PeriodicCallEntity::trigerOnceCall(int &dummy, const sigtime_t &time) {
   run(time);
   clear();
   return dummy;

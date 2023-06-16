@@ -57,8 +57,8 @@ class [[deprecated(
 
   virtual ~VectorToRotation(void) {}
 
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> SIN;
-  dynamicgraph::SignalTimeDependent<MatrixRotation, int> SOUT;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> SIN;
+  dynamicgraph::SignalTimeDependent<MatrixRotation, sigtime_t> SOUT;
 
   MatrixRotation &computeRotation(const dynamicgraph::Vector &angles,
                                   MatrixRotation &res);

@@ -51,11 +51,11 @@ class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace : public dynamicgraph::Entity {
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionrefSIN;
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, int> alphaSOUT;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, int> alphabarSOUT;
-  dynamicgraph::SignalTimeDependent<MatrixHomogeneous, int> handrefSOUT;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, sigtime_t> positionrefSIN;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, sigtime_t> positionSIN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, sigtime_t> alphaSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, sigtime_t> alphabarSOUT;
+  dynamicgraph::SignalTimeDependent<MatrixHomogeneous, sigtime_t> handrefSOUT;
 
  public:
   ClampWorkspace(const std::string &name);

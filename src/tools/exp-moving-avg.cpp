@@ -39,7 +39,7 @@ ExpMovingAvg::ExpMovingAvg(const std::string &n)
       init(false) {
   // Register signals into the entity.
   signalRegistration(updateSIN << averageSOUT);
-  refresherSINTERN.setDependencyType(TimeDependency<int>::ALWAYS_READY);
+  refresherSINTERN.setDependencyType(TimeDependency<sigtime_t>::ALWAYS_READY);
 
   std::string docstring;
   // setAlpha

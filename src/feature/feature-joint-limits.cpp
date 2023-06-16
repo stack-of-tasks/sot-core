@@ -73,7 +73,7 @@ void FeatureJointLimits::removeDependenciesFromReference(void) {}
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int &FeatureJointLimits::getDimension(unsigned int &dim, int time) {
+unsigned int &FeatureJointLimits::getDimension(unsigned int &dim, sigtime_t time) {
   sotDEBUG(25) << "# In {" << endl;
 
   const Flags &fl = selectionSIN.access(time);
@@ -87,7 +87,7 @@ unsigned int &FeatureJointLimits::getDimension(unsigned int &dim, int time) {
   return dim;
 }
 
-Vector &FeatureJointLimits::computeWidthJl(Vector &res, const int &time) {
+Vector &FeatureJointLimits::computeWidthJl(Vector &res, const sigtime_t &time) {
   sotDEBUGIN(15);
 
   const Vector UJL = upperJlSIN.access(time);
@@ -106,7 +106,7 @@ Vector &FeatureJointLimits::computeWidthJl(Vector &res, const int &time) {
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-Matrix &FeatureJointLimits::computeJacobian(Matrix &J, int time) {
+Matrix &FeatureJointLimits::computeJacobian(Matrix &J, sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
   const unsigned int SIZE = dimensionSOUT.access(time);
@@ -148,7 +148,7 @@ Matrix &FeatureJointLimits::computeJacobian(Matrix &J, int time) {
 /** Compute the error between two visual features from a subset
  * a the possible features.
  */
-Vector &FeatureJointLimits::computeError(Vector &error, int time) {
+Vector &FeatureJointLimits::computeError(Vector &error, sigtime_t time) {
   sotDEBUGIN(15);
 
   const Flags &fl = selectionSIN(time);

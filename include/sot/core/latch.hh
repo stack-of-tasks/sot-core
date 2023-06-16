@@ -33,9 +33,9 @@ using dynamicgraph::command::makeCommandVoid0;
 class Latch : public Entity {
  public: /* --- SIGNAL --- */
   DYNAMIC_GRAPH_ENTITY_DECL();
-  Signal<bool, int> outSOUT;
-  Signal<bool, int> turnOnSOUT;
-  Signal<bool, int> turnOffSOUT;
+  Signal<bool, sigtime_t> outSOUT;
+  Signal<bool, sigtime_t> turnOnSOUT;
+  Signal<bool, sigtime_t> turnOffSOUT;
 
  protected:
   bool signalOutput;

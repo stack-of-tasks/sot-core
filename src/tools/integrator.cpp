@@ -38,7 +38,8 @@ namespace dynamicgraph {
 namespace sot {
 namespace internal {
 
-Signal::Signal(std::string name) : ::dynamicgraph::Signal<Vector, int>(name) {}
+Signal::Signal(std::string name) : ::dynamicgraph::Signal<Vector, sigtime_t>
+  (name) {}
 
 /* ------------------------------------------------------------------------ */
 
@@ -57,7 +58,7 @@ void Signal::trace(std::ostream &os) const {
     DG_THROW ExceptionSignal(ExceptionSignal::SET_IMPOSSIBLE,
                              "TRACE operation not possible with this signal. ",
                              "(bad cast while getting value from %s).",
-                             SignalBase<int>::getName().c_str());
+                             SignalBase<sigtime_t>::getName().c_str());
   }
 }
 
@@ -73,9 +74,10 @@ void Signal::setReferenceNonConstant(Vector *, Mutex *) {
   throw std::runtime_error("Not implemented.");
 }
 
-void Signal::setFunction(boost::function2<Vector &, Vector &, int> t,
-                         Mutex *mutexref) {
-  signalType = ::dynamicgraph::Signal<Vector, int>::FUNCTION;
+
+void Signal::setFunction(boost::function2<Vector &, Vector &, sigtime_t> t,
+                                  Mutex *mutexref) {
+  signalType = ::dynamicgraph::Signal<Vector, sigtime_t>::FUNCTION;
   Tfunction = t;
   providerMutex = mutexref;
   copyInit = false;
@@ -84,7 +86,7 @@ void Signal::setFunction(boost::function2<Vector &, Vector &, int> t,
 
 const Vector &Signal::accessCopy() const { return Tcopy1; }
 
-const Vector &Signal::access(const int &t) {
+const Vector &Signal::access(const sigtime_t &t) {
   if (NULL == providerMutex) {
     signalTime = t;
     Tfunction(Tcopy1, t);
@@ -103,7 +105,8 @@ const Vector &Signal::access(const int &t) {
   }
 }
 
-Signal &Signal::operator=(const Vector &t) {
+
+Signal &Signal::operator=(const Vector &) {
   throw std::runtime_error("Output signal cannot be assigned a value.");
   return *this;
 }
@@ -159,7 +162,7 @@ void Integrator::setInitialConfig(const Vector &initConfig) {
   configuration_ = initConfig;
 }
 
-Vector &Integrator::integrate(Vector &configuration, int time) {
+Vector &Integrator::integrate(Vector &configuration, sigtime_t time) {
   ++recursivityLevel_;
   if (recursivityLevel_ == 2) {
     configuration = configuration_;

@@ -55,8 +55,8 @@ class UnaryOp : public Entity {
   virtual ~UnaryOp(void){};
 
  public: /* --- SIGNAL --- */
-  SignalPtr<Tin, int> SIN;
-  SignalTimeDependent<Tout, int> SOUT;
+  SignalPtr<Tin, sigtime_t> SIN;
+  SignalTimeDependent<Tout, sigtime_t> SOUT;
 
  protected:
   Tout &computeOperation(Tout &res, int time) {

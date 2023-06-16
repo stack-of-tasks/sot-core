@@ -66,10 +66,10 @@ class ControlGR_EXPORT ControlGR : public Entity {
   double _dimension;
 
  public: /* --- SIGNALS --- */
-  SignalPtr<dynamicgraph::Matrix, int> matrixASIN;
-  SignalPtr<dynamicgraph::Vector, int> accelerationSIN;
-  SignalPtr<dynamicgraph::Vector, int> gravitySIN;
-  SignalTimeDependent<dynamicgraph::Vector, int> controlSOUT;
+  SignalPtr<dynamicgraph::Matrix, sigtime_t> matrixASIN;
+  SignalPtr<dynamicgraph::Vector, sigtime_t> accelerationSIN;
+  SignalPtr<dynamicgraph::Vector, sigtime_t> gravitySIN;
+  SignalTimeDependent<dynamicgraph::Vector, sigtime_t> controlSOUT;
 
  protected:
   double &setsize(int dimension);

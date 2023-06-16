@@ -68,9 +68,9 @@ class Derivator : public dynamicgraph::Entity {
   virtual ~Derivator(void){};
 
  public: /* --- SIGNAL --- */
-  dynamicgraph::SignalPtr<T, int> SIN;
-  dynamicgraph::SignalTimeDependent<T, int> SOUT;
-  dynamicgraph::Signal<double, int> timestepSIN;
+  dynamicgraph::SignalPtr<T, sigtime_t> SIN;
+  dynamicgraph::SignalTimeDependent<T, sigtime_t> SOUT;
+  dynamicgraph::Signal<double, sigtime_t> timestepSIN;
 
  protected:
   T &computeDerivation(T &res, int time) {

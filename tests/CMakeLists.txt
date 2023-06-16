@@ -23,8 +23,6 @@ set(TEST_test_task_LIBS gain-adaptive feature-visual-point task)
 set(TEST_test_feature_generic_LIBS gain-adaptive feature-generic task
                                    feature-pose)
 
-set(TEST_test_mailbox_LIBS mailbox-vector)
-
 set(TEST_test_control_pd_LIBS control-pd)
 
 set(TEST_test_control_admittance_LIBS admittance-control-op-point)
@@ -33,15 +31,12 @@ set(TEST_test_feature_generic_EXT_LIBS pinocchio::pinocchio)
 
 set(TEST_test_filter_differentiator_LIBS filter-differentiator)
 
-set(TEST_test_madgwick_ahrs_LIBS madgwickahrs)
-
 set(tests
     dummy
     control/test_control_pd
     control/test_control_admittance
     features/test_feature_generic
     filters/test_filter_differentiator
-    filters/test_madgwick_ahrs
     signal/test_signal
     signal/test_depend
     signal/test_ptr
@@ -56,7 +51,6 @@ set(tests
     task/test_task
     tools/test_boost
     tools/test_sot_loader
-    tools/test_mailbox
     tools/test_matrix
     tools/test_robot_utils
     math/matrix-twist
@@ -64,10 +58,6 @@ set(tests
     matrix/test_operator)
 
 # TODO
-if(WIN32)
-  list(REMOVE_ITEM tests tools/test_mailbox)
-endif(WIN32)
-
 if(UNIX)
   add_library(pluginabstract SHARED tools/plugin.cc)
 

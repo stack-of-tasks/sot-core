@@ -55,11 +55,11 @@ class SOTFEATUREVISUALPOINT_EXPORT FeatureVisualPoint
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> xySIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> xySIN;
   /** FeatureVisualPoint depth (required to compute the interaction matrix)
    * default Z = 1m. */
-  dynamicgraph::SignalPtr<double, int> ZSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> articularJacobianSIN;
+  dynamicgraph::SignalPtr<double, sigtime_t> ZSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Matrix, sigtime_t> articularJacobianSIN;
 
   using FeatureAbstract::errorSOUT;
   using FeatureAbstract::jacobianSOUT;
@@ -71,12 +71,12 @@ class SOTFEATUREVISUALPOINT_EXPORT FeatureVisualPoint
   FeatureVisualPoint(const std::string &name);
   virtual ~FeatureVisualPoint(void) {}
 
-  virtual unsigned int &getDimension(unsigned int &dim, int time);
+  virtual unsigned int &getDimension(unsigned int &dim, sigtime_t time);
 
   virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
-                                             int time);
+                                             sigtime_t time);
   virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
-                                                int time);
+                                                sigtime_t time);
 
   /** Static Feature selection. */
   inline static Flags selectX(void) { return Flags("10"); }

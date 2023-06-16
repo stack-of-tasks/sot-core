@@ -101,14 +101,14 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
     \return Dimension of the feature.
     \note Be careful with features changing their dimension according to time.
   */
-  virtual unsigned int &getDimension(unsigned int &res, int time) = 0;
+  virtual unsigned int &getDimension(unsigned int &res, sigtime_t time) = 0;
 
   /*! \brief Short method
     \par time: The time at which the feature should be considered.
     \return Dimension of the feature.
     \note Be careful with features changing their dimension according to time.
   */
-  inline unsigned int getDimension(int time) {
+  inline unsigned int getDimension(sigtime_t time) {
     unsigned int res;
     getDimension(res, time);
     return res;
@@ -138,7 +138,7 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
     \return The vector res with the appropriate value.
   */
   virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
-                                             int time) = 0;
+                                             sigtime_t time) = 0;
 
   /*! \brief Compute the Jacobian of the error according the robot state.
 
@@ -146,14 +146,14 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
     \return The matrix res with the appropriate values.
   */
   virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
-                                                int time) = 0;
+                                                sigtime_t time) = 0;
 
   /// Callback for signal errordotSOUT
   ///
   /// Copy components of the input signal errordotSIN defined by selection
   /// flag selectionSIN.
   virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res,
-                                                int time);
+                                                sigtime_t time);
 
   /*! @} */
 
@@ -170,10 +170,10 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
     only the Y-axis should be used for computing error, activation and Jacobian,
     then the vector to specify
     is \f$ [ 0 1 0] \f$.*/
-  SignalPtr<Flags, int> selectionSIN;
+  SignalPtr<Flags, sigtime_t> selectionSIN;
 
   /// Derivative of the reference value.
-  SignalPtr<dynamicgraph::Vector, int> errordotSIN;
+  SignalPtr<dynamicgraph::Vector, sigtime_t> errordotSIN;
 
   /*! @} */
 
@@ -182,24 +182,24 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
 
   /*! \brief This signal returns the error between the desired value and
     the current value : \f$ E(t) = {\bf s}(t) - {\bf s}^*(t)\f$ */
-  SignalTimeDependent<dynamicgraph::Vector, int> errorSOUT;
+  SignalTimeDependent<dynamicgraph::Vector, sigtime_t> errorSOUT;
 
   /*! \brief Derivative of the error with respect to time:
    * \f$ \frac{\partial e}{\partial t} = - \frac{d{\bf s}^*}{dt} \f$ */
-  SignalTimeDependent<dynamicgraph::Vector, int> errordotSOUT;
+  SignalTimeDependent<dynamicgraph::Vector, sigtime_t> errordotSOUT;
 
   /*! \brief Jacobian of the error wrt the robot state:
    * \f$ J = \frac{\partial {\bf s}}{\partial {\bf q}}\f$ */
-  SignalTimeDependent<dynamicgraph::Matrix, int> jacobianSOUT;
+  SignalTimeDependent<dynamicgraph::Matrix, sigtime_t> jacobianSOUT;
 
   /*! \brief Returns the dimension of the feature as an output signal. */
-  SignalTimeDependent<unsigned int, int> dimensionSOUT;
+  SignalTimeDependent<unsigned int, sigtime_t> dimensionSOUT;
 
   /*! \brief This method write a graph description on the file named
     FileName. */
   virtual std::ostream &writeGraph(std::ostream &os) const;
 
-  virtual SignalTimeDependent<dynamicgraph::Vector, int> &getErrorDot() {
+  virtual SignalTimeDependent<dynamicgraph::Vector, sigtime_t> &getErrorDot() {
     return errordotSOUT;
   }
 

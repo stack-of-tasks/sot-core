@@ -78,8 +78,8 @@ class SOT_CORE_EXPORT TaskAbstract : public dynamicgraph::Entity {
   TaskAbstract(const std::string &n);
 
  public: /* --- SIGNALS --- */
-  dynamicgraph::SignalTimeDependent<VectorMultiBound, int> taskSOUT;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, int> jacobianSOUT;
+  dynamicgraph::SignalTimeDependent<VectorMultiBound, sigtime_t> taskSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, sigtime_t> jacobianSOUT;
 };
 
 } /* namespace sot */

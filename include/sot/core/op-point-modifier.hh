@@ -52,11 +52,11 @@ class SOTOPPOINTMODIFIER_EXPORT OpPointModifier : public dynamicgraph::Entity {
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
  public:
-  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> jacobianSIN;
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> positionSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Matrix, sigtime_t> jacobianSIN;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, sigtime_t> positionSIN;
 
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, int> jacobianSOUT;
-  dynamicgraph::SignalTimeDependent<MatrixHomogeneous, int> positionSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, sigtime_t> jacobianSOUT;
+  dynamicgraph::SignalTimeDependent<MatrixHomogeneous, sigtime_t> positionSOUT;
 
  public:
   OpPointModifier(const std::string &name);

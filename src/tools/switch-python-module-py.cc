@@ -26,7 +26,7 @@ void exposeSwitch() {
 }
 
 BOOST_PYTHON_MODULE(wrap) {
-  exposeSwitch<bool, int>();
-  exposeSwitch<dg::Vector, int>();
-  exposeSwitch<dg::sot::MatrixHomogeneous, int>();
+  exposeSwitch<bool, dg::sigtime_t>();
+  exposeSwitch<dg::Vector, dg::sigtime_t>();
+  exposeSwitch<dg::sot::MatrixHomogeneous, dg::sigtime_t>();
 }

@@ -27,7 +27,7 @@ MatrixConstant::MatrixConstant(const std::string &name)
       rows(0),
       cols(0),
       SOUT("sotMatrixConstant(" + name + ")::output(matrix)::sout") {
-  SOUT.setDependencyType(TimeDependency<int>::BOOL_DEPENDENT);
+  SOUT.setDependencyType(TimeDependency<sigtime_t>::BOOL_DEPENDENT);
   signalRegistration(SOUT);
   //
   // Commands

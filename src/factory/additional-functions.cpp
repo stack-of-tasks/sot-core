@@ -33,7 +33,7 @@ void AdditionalFunctions::cmdFlagSet(const std::string &cmdLine,
   }
 
   try {
-    Signal<Flags, int> &sig1 = dynamic_cast<Signal<Flags, int> &>(
+    Signal<Flags, sigtime_t> &sig1 = dynamic_cast<Signal<Flags, sigtime_t> &>(
         PoolStorage::getInstance()->getSignal(cmdArg));
 
     dgDEBUG(25) << "set..." << endl;

@@ -69,7 +69,7 @@ SotJointTrajectoryEntity::SotJointTrajectoryEntity(const std::string &n)
 
   signalRegistration(positionSOUT << comSOUT << zmpSOUT << waistSOUT
                                   << seqIdSOUT << trajectorySIN);
-  refresherSINTERN.setDependencyType(TimeDependency<int>::ALWAYS_READY);
+  refresherSINTERN.setDependencyType(TimeDependency<sigtime_t>::ALWAYS_READY);
   refresherSINTERN.setReady(true);
 
   std::string docstring;

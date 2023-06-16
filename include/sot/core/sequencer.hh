@@ -97,10 +97,10 @@ class SOTSEQUENCER_EXPORT Sequencer : public dynamicgraph::Entity {
   void clearAll();
 
  public: /* --- SIGNAL --- */
-  dynamicgraph::SignalTimeDependent<int, int> triggerSOUT;
+  dynamicgraph::SignalTimeDependent<int, sigtime_t> triggerSOUT;
 
  public: /* --- FUNCTIONS --- */
-  int &trigger(int &dummy, const int &time);
+  int &trigger(int &dummy, const sigtime_t &time);
 
  public: /* --- PARAMS --- */
   virtual void display(std::ostream &os) const;

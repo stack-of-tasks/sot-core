@@ -42,14 +42,14 @@ int main(void) {
 
   GainAdaptive *gain = new GainAdaptive("gain", 4, 1, 5);
 
-  Signal<dynamicgraph::Vector, int> errSig("test");
+  Signal<dynamicgraph::Vector, sigtime_t> errSig("test");
   errSig.setFunction(boost::bind(&DummyClass::getError, dummy, _1, _2));
 
   gain->errorSIN.plug(&errSig);
   cout << "Appel of errSig and display of the result." << endl;
   cout << errSig(0) << endl;
 
-  Signal<double, int> &gainSig = gain->gainSOUT;
+  Signal<double, sigtime_t> &gainSig = gain->gainSOUT;
 
   cout << "Compute gain from Gain Signal and display." << endl;
   cout << gainSig(0) << endl;

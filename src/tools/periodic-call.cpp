@@ -34,21 +34,21 @@ PeriodicCall::PeriodicCall(void) : signalMap(), innerTime(0) {}
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-void PeriodicCall::addSignal(const std::string &name, SignalBase<int> &sig) {
+void PeriodicCall::addSignal(const std::string &name, SignalBase<sigtime_t> &sig) {
   signalMap[name] = SignalToCall(&sig);
   return;
 }
 
 void PeriodicCall::addSignal(const std::string &sigpath) {
   istringstream sigISS(sigpath);
-  SignalBase<int> &signal =
+  SignalBase<sigtime_t> &signal =
       ::dynamicgraph::PoolStorage::getInstance()->getSignal(sigISS);
   addSignal(sigpath, signal);
   return;
 }
 
 void PeriodicCall::addDownsampledSignal(
-    const std::string &name, SignalBase<int> &sig,
+    const std::string &name, SignalBase<sigtime_t> &sig,
     const unsigned int &downsamplingFactor) {
   signalMap[name] = SignalToCall(&sig, downsamplingFactor);
   return;
@@ -57,7 +57,7 @@ void PeriodicCall::addDownsampledSignal(
 void PeriodicCall::addDownsampledSignal(
     const std::string &sigpath, const unsigned int &downsamplingFactor) {
   istringstream sigISS(sigpath);
-  SignalBase<int> &signal =
+  SignalBase<sigtime_t> &signal =
       ::dynamicgraph::PoolStorage::getInstance()->getSignal(sigISS);
   addDownsampledSignal(sigpath, signal, downsamplingFactor);
   return;
@@ -71,7 +71,7 @@ void PeriodicCall::rmSignal(const std::string &name) {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-void PeriodicCall::runSignals(const int &t) {
+void PeriodicCall::runSignals(const sigtime_t &t) {
   for (SignalMapType::iterator iter = signalMap.begin();
        signalMap.end() != iter; ++iter) {
     if (t % iter->second.downsamplingFactor == 0)
@@ -80,7 +80,7 @@ void PeriodicCall::runSignals(const int &t) {
   return;
 }
 
-void PeriodicCall::run(const int &t) {
+void PeriodicCall::run(const sigtime_t &t) {
   runSignals(t);
   return;
 }

@@ -45,8 +45,8 @@ Task::Task(const std::string &n)
                 "sotTask(" + n + ")::output(vector)::error"),
       errorTimeDerivativeSOUT(
           boost::bind(&Task::computeErrorTimeDerivative, this, _1, _2),
-          errorSOUT,
-          "sotTask(" + n + ")::output(vector)::errorTimeDerivative") {
+          SignalArray<int64_t>(errorSOUT),
+          std::string("sotTask(" + n + ")::output(vector)::errorTimeDerivative")) {
   taskSOUT.setFunction(
       boost::bind(&Task::computeTaskExponentialDecrease, this, _1, _2));
   jacobianSOUT.setFunction(boost::bind(&Task::computeJacobian, this, _1, _2));
@@ -146,7 +146,7 @@ bool Task::getWithDerivative(void) { return withDerivative; }
 /* --- COMPUTATION ---------------------------------------------------------- */
 
 dynamicgraph::Vector &Task::computeError(dynamicgraph::Vector &error,
-                                         int time) {
+                                         sigtime_t time) {
   sotDEBUG(15) << "# In " << getName() << " {" << endl;
 
   if (featureList.empty()) {
@@ -212,7 +212,7 @@ dynamicgraph::Vector &Task::computeError(dynamicgraph::Vector &error,
 }
 
 dynamicgraph::Vector &Task::computeErrorTimeDerivative(
-    dynamicgraph::Vector &res, int time) {
+    dynamicgraph::Vector &res, sigtime_t time) {
   res.resize(errorSOUT(time).size());
   dynamicgraph::Vector::Index cursor = 0;
 
@@ -230,7 +230,7 @@ dynamicgraph::Vector &Task::computeErrorTimeDerivative(
 }
 
 VectorMultiBound &Task::computeTaskExponentialDecrease(
-    VectorMultiBound &errorRef, int time) {
+    VectorMultiBound &errorRef, sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
   const dynamicgraph::Vector &errSingleBound = errorSOUT(time);
   const double &gain = controlGainSIN(time);
@@ -249,7 +249,8 @@ VectorMultiBound &Task::computeTaskExponentialDecrease(
   return errorRef;
 }
 
-dynamicgraph::Matrix &Task::computeJacobian(dynamicgraph::Matrix &J, int time) {
+dynamicgraph::Matrix &Task::computeJacobian(dynamicgraph::Matrix &J,
+                                            sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
   if (featureList.empty()) {

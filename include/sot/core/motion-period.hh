@@ -57,8 +57,8 @@ class SOTMOTIONPERIOD_EXPORT MotionPeriod : public dynamicgraph::Entity {
 
   struct sotMotionParam {
     MotionPeriodType motionType;
-    unsigned int period;
-    unsigned int initPeriod;
+    sigtime_t period;
+    sigtime_t initPeriod;
     double amplitude;
     double initAmplitude;
   };
@@ -70,7 +70,7 @@ class SOTMOTIONPERIOD_EXPORT MotionPeriod : public dynamicgraph::Entity {
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> motionSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> motionSOUT;
 
  public:
   MotionPeriod(const std::string &name);

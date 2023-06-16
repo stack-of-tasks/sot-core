@@ -60,10 +60,10 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> jointSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> upperJlSIN;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> lowerJlSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> widthJlSINTERN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> jointSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> upperJlSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> lowerJlSIN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> widthJlSINTERN;
 
   using FeatureAbstract::selectionSIN;
 
@@ -80,14 +80,14 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
   FeatureJointLimits(const std::string &name);
   virtual ~FeatureJointLimits(void) {}
 
-  virtual unsigned int &getDimension(unsigned int &dim, int time);
+  virtual unsigned int &getDimension(unsigned int &dim, sigtime_t time);
 
   virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
-                                             int time);
+                                             sigtime_t time);
   virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
-                                                int time);
+                                                sigtime_t time);
   dynamicgraph::Vector &computeWidthJl(dynamicgraph::Vector &res,
-                                       const int &time);
+                                       const sigtime_t &time);
 
   /** Static Feature selection. */
   inline static Flags selectActuated(void);

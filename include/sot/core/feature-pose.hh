@@ -69,38 +69,38 @@ class SOT_CORE_DLLAPI FeaturePose : public FeatureAbstract {
     @{
   */
   /// Input pose of <em>Joint A</em> wrt to world frame.
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> oMja;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, sigtime_t> oMja;
   /// Input pose of <em>Frame A</em> wrt to <em>Joint A</em>.
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> jaMfa;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, sigtime_t> jaMfa;
   /// Input pose of <em>Joint B</em> wrt to world frame.
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> oMjb;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, sigtime_t> oMjb;
   /// Input pose of <em>Frame B</em> wrt to <em>Joint B</em>.
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> jbMfb;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, sigtime_t> jbMfb;
   /// Jacobian of the input <em>Joint A</em>, expressed in <em>Joint A</em>
-  dynamicgraph::SignalPtr<Matrix, int> jaJja;
+  dynamicgraph::SignalPtr<Matrix, sigtime_t> jaJja;
   /// Jacobian of the input <em>Joint B</em>, expressed in <em>Joint B</em>
-  dynamicgraph::SignalPtr<Matrix, int> jbJjb;
+  dynamicgraph::SignalPtr<Matrix, sigtime_t> jbJjb;
 
   /// The desired pose of <em>Frame B</em> wrt to <em>Frame A</em>.
-  dynamicgraph::SignalPtr<MatrixHomogeneous, int> faMfbDes;
+  dynamicgraph::SignalPtr<MatrixHomogeneous, sigtime_t> faMfbDes;
   /// The desired velocity of <em>Frame B</em> wrt to <em>Frame A</em>. The
   /// value is expressed in <em>Frame A</em>.
-  dynamicgraph::SignalPtr<Vector, int> faNufafbDes;
+  dynamicgraph::SignalPtr<Vector, sigtime_t> faNufafbDes;
   /*! @} */
 
   /*! \name Output signals
     @{
   */
   /// Pose of <em>Frame B</em> wrt to <em>Frame A</em>.
-  SignalTimeDependent<MatrixHomogeneous, int> faMfb;
+  SignalTimeDependent<MatrixHomogeneous, sigtime_t> faMfb;
 
   /// Pose of <em>Frame B</em> wrt to <em>Frame A</em>.
   /// It is expressed as a translation followed by a quaternion.
-  SignalTimeDependent<Vector7, int> q_faMfb;
+  SignalTimeDependent<Vector7, sigtime_t> q_faMfb;
 
   /// Desired pose of <em>Frame B</em> wrt to <em>Frame A</em>.
   /// It is expressed as a translation followed by a quaternion.
-  SignalTimeDependent<Vector7, int> q_faMfbDes;
+  SignalTimeDependent<Vector7, sigtime_t> q_faMfbDes;
   /*! @} */
 
   using FeatureAbstract::errorSOUT;
@@ -116,11 +116,11 @@ class SOT_CORE_DLLAPI FeaturePose : public FeatureAbstract {
   FeaturePose(const std::string &name);
   virtual ~FeaturePose(void);
 
-  virtual unsigned int &getDimension(unsigned int &dim, int time);
+  virtual unsigned int &getDimension(unsigned int &dim, sigtime_t time);
 
   /// Computes \f$ {}^oM^{-1}_{fa} {}^oM_{fb} \ominus {}^{fa}M^*_{fb} \f$
   virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
-                                             int time);
+                                             sigtime_t time);
   /// Computes \f$ \frac{\partial\ominus}{\partial b} X {}^{fa}\nu^*_{fafb} \f$.
   /// There are two different cases, depending on the representation:
   /// - R3xSO3Representation: \f$ X = \left( \begin{array}{cc} I_3 & [
@@ -128,7 +128,7 @@ class SOT_CORE_DLLAPI FeaturePose : public FeatureAbstract {
   /// - SE3Representation: \f$ X = {{}^{fa}X^*_{fb}}^{-1} \f$ (see
   /// pinocchio::SE3Base<Scalar,Options>::toActionMatrix)
   virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res,
-                                                int time);
+                                                sigtime_t time);
   /// Computes \f$ \frac{\partial\ominus}{\partial b} Y \left( {{}^{fb}X_{jb}}
   /// {}^{jb}J_{jb} - {{}^{fb}X_{ja}} {}^{ja}J_{ja} \right) \f$. There are two
   /// different cases, depending on the representation:
@@ -136,17 +136,17 @@ class SOT_CORE_DLLAPI FeaturePose : public FeatureAbstract {
   /// 0_3 \\ 0_3 & I_3 \end{array} \right) \f$
   /// - SE3Representation: \f$ Y = I_6 \f$
   virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
-                                                int time);
+                                                sigtime_t time);
 
   virtual void display(std::ostream &os) const;
 
  public:
-  void servoCurrentPosition(const int &time);
+  void servoCurrentPosition(const sigtime_t &time);
 
  private:
-  MatrixHomogeneous &computefaMfb(MatrixHomogeneous &res, int time);
-  Vector7 &computeQfaMfb(Vector7 &res, int time);
-  Vector7 &computeQfaMfbDes(Vector7 &res, int time);
+  MatrixHomogeneous &computefaMfb(MatrixHomogeneous &res, sigtime_t time);
+  Vector7 &computeQfaMfb(Vector7 &res, sigtime_t time);
+  Vector7 &computeQfaMfbDes(Vector7 &res, sigtime_t time);
 
   /// \todo Intermediate variables for internal computations
 };

@@ -96,20 +96,22 @@ class SOTTASK_EXPORT Task : public TaskAbstract {
   bool getWithDerivative(void);
 
   /* --- COMPUTATION --- */
-  dynamicgraph::Vector &computeError(dynamicgraph::Vector &error, int time);
+  dynamicgraph::Vector &computeError(dynamicgraph::Vector &error,
+                                     sigtime_t time);
   VectorMultiBound &computeTaskExponentialDecrease(VectorMultiBound &errorRef,
-                                                   int time);
-  dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &J, int time);
+                                                   sigtime_t time);
+  dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &J,
+                                        sigtime_t time);
   dynamicgraph::Vector &computeErrorTimeDerivative(dynamicgraph::Vector &res,
-                                                   int time);
+                                                   sigtime_t time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dynamicgraph::SignalPtr<double, int> controlGainSIN;
-  dynamicgraph::SignalPtr<double, int> dampingGainSINOUT;
-  dynamicgraph::SignalPtr<Flags, int> controlSelectionSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> errorSOUT;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int>
+  dynamicgraph::SignalPtr<double, sigtime_t> controlGainSIN;
+  dynamicgraph::SignalPtr<double, sigtime_t> dampingGainSINOUT;
+  dynamicgraph::SignalPtr<Flags, sigtime_t> controlSelectionSIN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> errorSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t>
       errorTimeDerivativeSOUT;
 
   /* --- DISPLAY ------------------------------------------------------------ */

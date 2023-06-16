@@ -19,11 +19,11 @@ using namespace std;
 using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
 
-Signal<dynamicgraph::Matrix, int> base("base");
-Signal<dynamicgraph::Matrix, int> sig("matrix");
-SignalPtr<dynamicgraph::Matrix, int> sigptr(&base);
+Signal<dynamicgraph::Matrix, sigtime_t> base("base");
+Signal<dynamicgraph::Matrix, sigtime_t> sig("matrix");
+SignalPtr<dynamicgraph::Matrix, sigtime_t> sigptr(&base);
 
-Signal<MatrixRotation, int> sigMR("matrixRot");
+Signal<MatrixRotation, sigtime_t> sigMR("matrixRot");
 
 int main(void) {
   sigptr.plug(&sig);

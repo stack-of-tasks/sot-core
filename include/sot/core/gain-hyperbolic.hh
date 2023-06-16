@@ -91,8 +91,8 @@ class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic : public dynamicgraph::Entity {
   void forceConstant(void);
 
  public: /* --- SIGNALS --- */
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> errorSIN;
-  dynamicgraph::SignalTimeDependent<double, int> gainSOUT;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> errorSIN;
+  dynamicgraph::SignalTimeDependent<double, sigtime_t> gainSOUT;
 
  protected:
   double &computeGain(double &res, int t);

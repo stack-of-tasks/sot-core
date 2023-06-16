@@ -65,15 +65,15 @@ class ControlPD_EXPORT ControlPD : public Entity {
   double TimeStep;
 
  public: /* --- SIGNALS --- */
-  SignalPtr<dynamicgraph::Vector, int> KpSIN;
-  SignalPtr<dynamicgraph::Vector, int> KdSIN;
-  SignalPtr<dynamicgraph::Vector, int> positionSIN;
-  SignalPtr<dynamicgraph::Vector, int> desiredpositionSIN;
-  SignalPtr<dynamicgraph::Vector, int> velocitySIN;
-  SignalPtr<dynamicgraph::Vector, int> desiredvelocitySIN;
-  SignalTimeDependent<dynamicgraph::Vector, int> controlSOUT;
-  SignalTimeDependent<dynamicgraph::Vector, int> positionErrorSOUT;
-  SignalTimeDependent<dynamicgraph::Vector, int> velocityErrorSOUT;
+  SignalPtr<dynamicgraph::Vector, sigtime_t> KpSIN;
+  SignalPtr<dynamicgraph::Vector, sigtime_t> KdSIN;
+  SignalPtr<dynamicgraph::Vector, sigtime_t> positionSIN;
+  SignalPtr<dynamicgraph::Vector, sigtime_t> desiredpositionSIN;
+  SignalPtr<dynamicgraph::Vector, sigtime_t> velocitySIN;
+  SignalPtr<dynamicgraph::Vector, sigtime_t> desiredvelocitySIN;
+  SignalTimeDependent<dynamicgraph::Vector, sigtime_t> controlSOUT;
+  SignalTimeDependent<dynamicgraph::Vector, sigtime_t> positionErrorSOUT;
+  SignalTimeDependent<dynamicgraph::Vector, sigtime_t> velocityErrorSOUT;
 
  protected:
   dynamicgraph::Vector &computeControl(dynamicgraph::Vector &tau, int t);

@@ -121,7 +121,7 @@ static inline void check(const FeaturePose<representation> &ft) {
 
 template <Representation_t representation>
 unsigned int &FeaturePose<representation>::getDimension(unsigned int &dim,
-                                                        int time) {
+                                                        sigtime_t time) {
   sotDEBUG(25) << "# In {" << std::endl;
 
   const Flags &fl = selectionSIN.access(time);
@@ -146,7 +146,8 @@ Vector7 toVector(const MatrixHomogeneous &M) {
 }
 
 template <Representation_t representation>
-Matrix &FeaturePose<representation>::computeJacobian(Matrix &J, int time) {
+Matrix &FeaturePose<representation>::computeJacobian(Matrix &J,
+                                                     sigtime_t time) {
   typedef typename internal::LG_t<representation>::type LieGroup_t;
 
   check(*this);
@@ -204,7 +205,7 @@ Matrix &FeaturePose<representation>::computeJacobian(Matrix &J, int time) {
 
 template <Representation_t representation>
 MatrixHomogeneous &FeaturePose<representation>::computefaMfb(
-    MatrixHomogeneous &res, int time) {
+    MatrixHomogeneous &res, sigtime_t time) {
   check(*this);
 
   res = (oMja(time) * jaMfa(time)).inverse(Eigen::Affine) * oMjb(time) *
@@ -213,7 +214,8 @@ MatrixHomogeneous &FeaturePose<representation>::computefaMfb(
 }
 
 template <Representation_t representation>
-Vector7 &FeaturePose<representation>::computeQfaMfb(Vector7 &res, int time) {
+Vector7 &FeaturePose<representation>::computeQfaMfb(Vector7 &res,
+                                                    sigtime_t time) {
   check(*this);
 
   toVector(faMfb(time), res);
@@ -221,7 +223,8 @@ Vector7 &FeaturePose<representation>::computeQfaMfb(Vector7 &res, int time) {
 }
 
 template <Representation_t representation>
-Vector7 &FeaturePose<representation>::computeQfaMfbDes(Vector7 &res, int time) {
+Vector7 &FeaturePose<representation>::computeQfaMfbDes(Vector7 &res,
+                                                       sigtime_t time) {
   check(*this);
 
   toVector(faMfbDes(time), res);
@@ -229,7 +232,8 @@ Vector7 &FeaturePose<representation>::computeQfaMfbDes(Vector7 &res, int time) {
 }
 
 template <Representation_t representation>
-Vector &FeaturePose<representation>::computeError(Vector &error, int time) {
+Vector &FeaturePose<representation>::computeError(Vector &error,
+                                                  sigtime_t time) {
   typedef typename internal::LG_t<representation>::type LieGroup_t;
   check(*this);
 
@@ -271,7 +275,7 @@ Vector6d convertVelocity<R3xSO3_t>(const MatrixHomogeneous &M,
 
 template <Representation_t representation>
 Vector &FeaturePose<representation>::computeErrorDot(Vector &errordot,
-                                                     int time) {
+                                                     sigtime_t time) {
   typedef typename internal::LG_t<representation>::type LieGroup_t;
   check(*this);
 
@@ -305,7 +309,7 @@ Vector &FeaturePose<representation>::computeErrorDot(Vector &errordot,
  * to the current position. The effect on the servo is to maintain the
  * current position and correct any drift. */
 template <Representation_t representation>
-void FeaturePose<representation>::servoCurrentPosition(const int &time) {
+void FeaturePose<representation>::servoCurrentPosition(const sigtime_t &time) {
   check(*this);
 
   const MatrixHomogeneous &_oMja = (oMja.isPlugged() ? oMja.access(time) : Id),

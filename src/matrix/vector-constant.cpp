@@ -25,7 +25,7 @@ VectorConstant::VectorConstant(const std::string &name)
     : Entity(name),
       rows(0),
       SOUT("sotVectorConstant(" + name + ")::output(vector)::sout") {
-  SOUT.setDependencyType(TimeDependency<int>::BOOL_DEPENDENT);
+  SOUT.setDependencyType(TimeDependency<sigtime_t>::BOOL_DEPENDENT);
   signalRegistration(SOUT);
 
   //

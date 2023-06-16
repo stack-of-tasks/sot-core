@@ -57,14 +57,14 @@ FeatureLineDistance::FeatureLineDistance(const string &pointName)
 /* --------------------------------------------------------------------- */
 
 unsigned int &FeatureLineDistance::getDimension(unsigned int &dim,
-                                                int /*time*/) {
+                                                sigtime_t /*time*/) {
   sotDEBUG(25) << "# In {" << endl;
 
   return dim = 1;
 }
 
 /* --------------------------------------------------------------------- */
-Vector &FeatureLineDistance::computeLineCoordinates(Vector &cood, int time) {
+Vector &FeatureLineDistance::computeLineCoordinates(Vector &cood, sigtime_t time) {
   sotDEBUGIN(15);
 
   cood.resize(6);
@@ -92,7 +92,7 @@ Vector &FeatureLineDistance::computeLineCoordinates(Vector &cood, int time) {
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-Matrix &FeatureLineDistance::computeJacobian(Matrix &J, int time) {
+Matrix &FeatureLineDistance::computeJacobian(Matrix &J, sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
   /* --- Compute the jacobian of the line coordinates --- */
@@ -239,7 +239,7 @@ Matrix &FeatureLineDistance::computeJacobian(Matrix &J, int time) {
 /** Compute the error between two visual features from a subset
  *a the possible features.
  */
-Vector &FeatureLineDistance::computeError(Vector &error, int time) {
+Vector &FeatureLineDistance::computeError(Vector &error, sigtime_t time) {
   sotDEBUGIN(15);
 
   /* Line coordinates */

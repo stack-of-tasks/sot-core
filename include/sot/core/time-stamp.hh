@@ -71,13 +71,13 @@ class TimeStamp_EXPORT TimeStamp : public dynamicgraph::Entity {
  public: /* --- SIGNALS --- */
   /* These signals can be called several time per period, given
    * each time a different results. Useful for chronos. */
-  dynamicgraph::Signal<dynamicgraph::Vector, int> timeSOUT;
-  dynamicgraph::Signal<double, int> timeDoubleSOUT;
+  dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> timeSOUT;
+  dynamicgraph::Signal<double, sigtime_t> timeDoubleSOUT;
 
   /* These signals can be called several time per period, but give
    * always the same results different results. Useful for synchro. */
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, int> timeOnceSOUT;
-  dynamicgraph::SignalTimeDependent<double, int> timeOnceDoubleSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> timeOnceSOUT;
+  dynamicgraph::SignalTimeDependent<double, sigtime_t> timeOnceDoubleSOUT;
 
  protected: /* --- SIGNAL FUNCTIONS --- */
   dynamicgraph::Vector &getTimeStamp(dynamicgraph::Vector &res,

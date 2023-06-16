@@ -74,10 +74,10 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
     @{
    */
   /*! \brief Input for the error. */
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, int> errorSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> errorSIN;
 
   /*! \brief Input for the Jacobian. */
-  dynamicgraph::SignalPtr<dynamicgraph::Matrix, int> jacobianSIN;
+  dynamicgraph::SignalPtr<dynamicgraph::Matrix, sigtime_t> jacobianSIN;
 
   /*! @} */
 
@@ -100,7 +100,7 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   virtual ~FeatureGeneric(void) {}
 
   /*! \brief Get the dimension of the feature. */
-  virtual unsigned int &getDimension(unsigned int &dim, int time);
+  virtual unsigned int &getDimension(unsigned int &dim, sigtime_t time);
 
   /*! \name Methods to trigger computation related to this feature.
     @{
@@ -109,11 +109,11 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   /*! \brief Compute the error between the desired value and the value itself.
    */
   virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
-                                             int time);
+                                             sigtime_t time);
 
   /*! \brief Compute the Jacobian of the value according to the robot state.. */
   virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
-                                                int time);
+                                                sigtime_t time);
 
   /*! @} */
 
