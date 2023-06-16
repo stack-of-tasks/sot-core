@@ -43,7 +43,6 @@ set(plugins
     tools/robot-simu
     tools/motion-period
     tools/neck-limitation
-    tools/mailbox-vector
     tools/kalman
     tools/joint-limitator
     tools/gripper-control
@@ -67,7 +66,6 @@ if(WIN32)
   list(
     REMOVE_ITEM
     plugins
-    tools/mailbox-vector
     matrix/binary-op
     matrix/derivator
     matrix/fir-filter
