@@ -335,7 +335,7 @@ void FeaturePose<representation>::display(std::ostream &os) const {
         os << featureNames[i];
       }
     os << ") ";
-  } catch (ExceptionAbstract e) {
+  } catch (const ExceptionAbstract& e) {
     os << " selectSIN not set.";
   }
 }

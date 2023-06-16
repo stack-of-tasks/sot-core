@@ -93,7 +93,7 @@ void Feature1D::display(std::ostream &os) const {
   try {
     os << "  error= " << errorSIN.accessCopy() << endl
        << "  J    = " << jacobianSIN.accessCopy() << endl;
-  } catch (ExceptionAbstract e) {
+  } catch (const ExceptionAbstract &e) {
     os << " All SIN not set.";
   }
 }
