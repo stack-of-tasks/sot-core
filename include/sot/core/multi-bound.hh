@@ -65,6 +65,7 @@ class SOT_CORE_EXPORT MultiBound {
                                                   const MultiBound &m);
   SOT_CORE_EXPORT friend std::istream &operator>>(std::istream &is,
                                                   MultiBound &m);
+  MultiBound& operator=(const MultiBound &other);
 };
 
 /* --------------------------------------------------------------------- */
