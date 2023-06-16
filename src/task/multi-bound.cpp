@@ -258,5 +258,14 @@ std::istream &operator>>(std::istream &is, VectorMultiBound &v) {
   return is;
 }
 
+MultiBound& MultiBound::operator=(const MultiBound &other) {
+  mode = other.mode;
+  boundSingle = other.boundSingle;
+  boundSup = other.boundSup;
+  boundInf = other.boundInf;
+  boundSupSetup = other.boundSupSetup;
+  boundInfSetup = other.boundInfSetup;
+  return *this;
+}
 } /* namespace sot */
 } /* namespace dynamicgraph */
