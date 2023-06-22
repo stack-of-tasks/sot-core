@@ -132,7 +132,6 @@ set(${PROJECT_NAME}_HEADERS
     include/${CUSTOM_HEADER_DIR}/utils-windows.hh
     include/${CUSTOM_HEADER_DIR}/variadic-op.hh
     include/${CUSTOM_HEADER_DIR}/vector-constant.hh
-    include/${CUSTOM_HEADER_DIR}/vector-to-rotation.hh
     include/${CUSTOM_HEADER_DIR}/visual-point-projecter.hh)
 
 set(${PROJECT_NAME}_SOURCES

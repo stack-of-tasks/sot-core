@@ -16,7 +16,6 @@ set(plugins
     matrix/integrator-euler
     matrix/matrix-constant
     matrix/vector-constant
-    matrix/vector-to-rotation
     task/gain-adaptive
     task/task-pd
     task/gain-hyperbolic
