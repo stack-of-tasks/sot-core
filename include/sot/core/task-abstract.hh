@@ -53,10 +53,7 @@ class SOT_CORE_EXPORT TaskAbstract : public dynamicgraph::Entity {
   /* Use a derivative of this class to store computational memory. */
   class MemoryTaskAbstract {
    public:
-    int timeLastChange;
-
-   public:
-    MemoryTaskAbstract(void) : timeLastChange(0){};
+    MemoryTaskAbstract(void) {};
     virtual ~MemoryTaskAbstract(void){};
 
    public:

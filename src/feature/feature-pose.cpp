@@ -29,15 +29,12 @@
 
 using namespace dynamicgraph::sot;
 
-SOT_CORE_DISABLE_WARNING_PUSH
-SOT_CORE_DISABLE_WARNING_DEPRECATED
 typedef FeaturePose<R3xSO3Representation> FeaturePose_t;
 typedef FeaturePose<SE3Representation> FeaturePoseSE3_t;
 template <>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePose_t, "FeaturePose");
 template <>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeaturePoseSE3_t, "FeaturePoseSE3");
-SOT_CORE_DISABLE_WARNING_POP
 
 namespace dynamicgraph {
 namespace sot {
