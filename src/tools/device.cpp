@@ -55,7 +55,7 @@ inline double saturateBounds(double &val, const double &lower,
 }
 
 #define CHECK_BOUNDS(val, lower, upper, what, eps)                           \
-  for (size_type i = 0; i < val.size(); ++i) {                                     \
+  for (size_type i = 0; i < val.size(); ++i) {                               \
     double old = val(i);                                                     \
     if (saturateBounds(val(i), lower(i), upper(i)) > eps) {                  \
       std::ostringstream oss;                                                \
@@ -105,14 +105,14 @@ Device::Device(const std::string &n)
   for (size_type i = 0; i < 4; ++i) {
     withForceSignals[i] = false;
   }
-  forcesSOUT[0] =
-      new Signal<Vector, sigtime_t>("Device(" + n + ")::output(vector6)::forceRLEG");
-  forcesSOUT[1] =
-      new Signal<Vector, sigtime_t>("Device(" + n + ")::output(vector6)::forceLLEG");
-  forcesSOUT[2] =
-      new Signal<Vector, sigtime_t>("Device(" + n + ")::output(vector6)::forceRARM");
-  forcesSOUT[3] =
-      new Signal<Vector, sigtime_t>("Device(" + n + ")::output(vector6)::forceLARM");
+  forcesSOUT[0] = new Signal<Vector, sigtime_t>(
+      "Device(" + n + ")::output(vector6)::forceRLEG");
+  forcesSOUT[1] = new Signal<Vector, sigtime_t>(
+      "Device(" + n + ")::output(vector6)::forceLLEG");
+  forcesSOUT[2] = new Signal<Vector, sigtime_t>(
+      "Device(" + n + ")::output(vector6)::forceRARM");
+  forcesSOUT[3] = new Signal<Vector, sigtime_t>(
+      "Device(" + n + ")::output(vector6)::forceLARM");
 
   signalRegistration(
       controlSIN << stateSOUT << robotState_ << robotVelocity_ << velocitySOUT
@@ -266,8 +266,7 @@ void Device::setVelocitySize(const size_type &size) {
   velocitySOUT.setConstant(velocity_);
 }
 
-void Device::setState(const Vector &) {
-}
+void Device::setState(const Vector &) {}
 
 void Device::setVelocity(const Vector &vel) {
   velocity_ = vel;
@@ -291,8 +290,7 @@ void Device::setSecondOrderIntegration() {}
 
 void Device::setNoIntegration() {}
 
-void Device::setControlInputType(const std::string &) {
-}
+void Device::setControlInputType(const std::string &) {}
 
 void Device::setSanityCheck(const bool &) {}
 

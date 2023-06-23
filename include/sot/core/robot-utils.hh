@@ -47,7 +47,8 @@ class SOT_CORE_EXPORT ExtractJointMimics {
   const std::vector<std::string> &get_mimic_joints();
 
  private:
-  void go_through(boost::property_tree::ptree &pt, size_type level, size_type stage);
+  void go_through(boost::property_tree::ptree &pt, size_type level,
+                  size_type stage);
 
   // Create empty property tree object
   boost::property_tree::ptree tree_;

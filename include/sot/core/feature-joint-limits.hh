@@ -63,7 +63,8 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
   dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> jointSIN;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> upperJlSIN;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> lowerJlSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> widthJlSINTERN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t>
+      widthJlSINTERN;
 
   using FeatureAbstract::selectionSIN;
 

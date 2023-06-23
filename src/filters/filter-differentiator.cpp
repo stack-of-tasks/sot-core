@@ -69,9 +69,9 @@ FilterDifferentiator::FilterDifferentiator(const std::string &name)
       "getTimestep",
       makeDirectGetter(*this, &m_dt,
                        docDirectGetter("Control timestep [s ]", "double")));
-  addCommand("getSize",
-             makeDirectGetter(*this, &m_x_size,
-                              docDirectGetter("Size of the x signal", "size_type")));
+  addCommand("getSize", makeDirectGetter(*this, &m_x_size,
+                                         docDirectGetter("Size of the x signal",
+                                                         "size_type")));
   addCommand("init",
              makeCommandVoid4(*this, &FilterDifferentiator::init,
                               docCommandVoid4("Initialize the filter.",

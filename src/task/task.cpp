@@ -46,7 +46,8 @@ Task::Task(const std::string &n)
       errorTimeDerivativeSOUT(
           boost::bind(&Task::computeErrorTimeDerivative, this, _1, _2),
           SignalArray<int64_t>(errorSOUT),
-          std::string("sotTask(" + n + ")::output(vector)::errorTimeDerivative")) {
+          std::string("sotTask(" + n +
+                      ")::output(vector)::errorTimeDerivative")) {
   taskSOUT.setFunction(
       boost::bind(&Task::computeTaskExponentialDecrease, this, _1, _2));
   jacobianSOUT.setFunction(boost::bind(&Task::computeJacobian, this, _1, _2));

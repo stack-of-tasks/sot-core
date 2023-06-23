@@ -119,8 +119,10 @@ class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t>
       positionReduceSOUT;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> torqueFullSizeSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> torqueReduceSOUT;
-  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> torqueLimitFullSizeSIN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t>
+      torqueReduceSOUT;
+  dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t>
+      torqueLimitFullSizeSIN;
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t>
       torqueLimitReduceSOUT;
 

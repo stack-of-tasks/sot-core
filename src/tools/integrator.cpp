@@ -38,8 +38,8 @@ namespace dynamicgraph {
 namespace sot {
 namespace internal {
 
-Signal::Signal(std::string name) : ::dynamicgraph::Signal<Vector, sigtime_t>
-  (name) {}
+Signal::Signal(std::string name)
+    : ::dynamicgraph::Signal<Vector, sigtime_t>(name) {}
 
 /* ------------------------------------------------------------------------ */
 
@@ -74,9 +74,8 @@ void Signal::setReferenceNonConstant(Vector *, Mutex *) {
   throw std::runtime_error("Not implemented.");
 }
 
-
 void Signal::setFunction(boost::function2<Vector &, Vector &, sigtime_t> t,
-                                  Mutex *mutexref) {
+                         Mutex *mutexref) {
   signalType = ::dynamicgraph::Signal<Vector, sigtime_t>::FUNCTION;
   Tfunction = t;
   providerMutex = mutexref;
@@ -104,7 +103,6 @@ const Vector &Signal::access(const sigtime_t &t) {
     }
   }
 }
-
 
 Signal &Signal::operator=(const Vector &) {
   throw std::runtime_error("Output signal cannot be assigned a value.");

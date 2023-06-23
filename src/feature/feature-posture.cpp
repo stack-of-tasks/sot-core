@@ -22,8 +22,9 @@ class FeaturePosture::SelectDof : public Command {
  public:
   virtual ~SelectDof() {}
   SelectDof(FeaturePosture &entity, const std::string &docstring)
-      : Command(entity, boost::assign::list_of(Value::UNSIGNEDLONGINT)
-                (Value::BOOL), docstring) {}
+      : Command(entity,
+                boost::assign::list_of(Value::UNSIGNEDLONGINT)(Value::BOOL),
+                docstring) {}
   virtual Value doExecute() {
     FeaturePosture &feature = static_cast<FeaturePosture &>(owner());
     std::vector<Value> values = getParameterValues();
@@ -102,7 +103,7 @@ dg::Vector &FeaturePosture::computeErrorDot(dg::Vector &res, sigtime_t t) {
   return res;
 }
 
-  void FeaturePosture::selectDof(std::size_t dofId, bool control) {
+void FeaturePosture::selectDof(std::size_t dofId, bool control) {
   const Vector &state = state_.accessCopy();
   const Vector &posture = posture_.accessCopy();
   std::size_t dim(state.size());

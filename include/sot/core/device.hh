@@ -125,7 +125,8 @@ class SOT_CORE_EXPORT Device : public Entity {
   dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> motorcontrolSOUT;
   dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> previousControlSOUT;
   /*! \brief The ZMP reference send by the previous controller. */
-  dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> ZMPPreviousControllerSOUT;
+  dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t>
+      ZMPPreviousControllerSOUT;
   /// \}
 
   /// \name Real robot current state

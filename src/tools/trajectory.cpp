@@ -83,7 +83,7 @@ bool RulesJointTrajectory::search_exp_sub_string(
       boost::match_results<std::string::const_iterator>::difference_type pos =
           what.position(all_text);
       boost::match_results<std::string::const_iterator>::difference_type len =
-        what.length((int)all_text);
+          what.length((int)all_text);
       sub_text = text.substr(pos + len);
       return true;
     }

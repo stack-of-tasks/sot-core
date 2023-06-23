@@ -148,13 +148,13 @@ ParameterServer::ParameterServer(const std::string &name)
           docCommandVoid2("Set a parameter named ParameterName to value "
                           "ParameterValue (string format).",
                           "(string) ParameterName", "(bool) ParameterValue")));
-  addCommand(
-      "setParameterInt",
-      makeCommandVoid2(
-          *this, &ParameterServer::setParameter<size_type>,
-          docCommandVoid2("Set a parameter named ParameterName to value "
-                          "ParameterValue (string format).",
-                          "(string) ParameterName", "(size_type) ParameterValue")));
+  addCommand("setParameterInt",
+             makeCommandVoid2(
+                 *this, &ParameterServer::setParameter<size_type>,
+                 docCommandVoid2("Set a parameter named ParameterName to value "
+                                 "ParameterValue (string format).",
+                                 "(string) ParameterName",
+                                 "(size_type) ParameterValue")));
   addCommand("setParameterDbl",
              makeCommandVoid2(
                  *this, &ParameterServer::setParameter<double>,
@@ -181,11 +181,11 @@ ParameterServer::ParameterServer(const std::string &name)
 
   addCommand(
       "getParameterInt",
-      makeCommandReturnType1(
-          *this, &ParameterServer::getParameter<size_type>,
-          docCommandReturnType1<size_type>("Return the parameter value for parameter"
-                                     " named ParameterName.",
-                                     "(size_type) ParameterName")));
+      makeCommandReturnType1(*this, &ParameterServer::getParameter<size_type>,
+                             docCommandReturnType1<size_type>(
+                                 "Return the parameter value for parameter"
+                                 " named ParameterName.",
+                                 "(size_type) ParameterName")));
 
   addCommand(
       "getParameterDbl",

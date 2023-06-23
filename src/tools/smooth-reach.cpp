@@ -53,10 +53,10 @@ void SmoothReach::initCommands(void) {
              makeCommandVoid2(*this, &SmoothReach::set,
                               docCommandVoid2("Set the curve.", "vector (goal)",
                                               "size_type (duration)")));
-  addCommand("param",
-             makeCommandVoid2(*this, &SmoothReach::setSmoothing,
-                              docCommandVoid2("Set the parameter.",
-                                              "size_type (mode)", "double (beta)")));
+  addCommand("param", makeCommandVoid2(*this, &SmoothReach::setSmoothing,
+                                       docCommandVoid2("Set the parameter.",
+                                                       "size_type (mode)",
+                                                       "double (beta)")));
 }
 
 double SmoothReach::smoothFunction(double x) {

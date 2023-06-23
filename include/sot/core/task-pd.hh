@@ -56,7 +56,8 @@ class SOTTASKPD_EXPORT TaskPD : public Task {
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> errorDotSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t>
+      errorDotSOUT;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> errorDotSIN;
 
   /* --- PARAMS --- */

@@ -121,7 +121,7 @@ static inline void check(const FeaturePose<representation> &ft) {
 
 template <Representation_t representation>
 size_type &FeaturePose<representation>::getDimension(size_type &dim,
-                                                       sigtime_t time) {
+                                                     sigtime_t time) {
   sotDEBUG(25) << "# In {" << std::endl;
 
   const Flags &fl = selectionSIN.access(time);
@@ -197,7 +197,8 @@ Matrix &FeaturePose<representation>::computeJacobian(Matrix &J,
     // J -= (Jminus * X) * jaJja(time);
     rJ = 0;
     for (std::size_t r = 0; r < 6; ++r)
-      if (fl((size_type)r)) J.row(rJ++).noalias() -= (Jminus * X).row(r) * _jaJja;
+      if (fl((size_type)r))
+        J.row(rJ++).noalias() -= (Jminus * X).row(r) * _jaJja;
   }
 
   return J;
@@ -339,7 +340,7 @@ void FeaturePose<representation>::display(std::ostream &os) const {
         os << featureNames[i];
       }
     os << ") ";
-  } catch (const ExceptionAbstract& e) {
+  } catch (const ExceptionAbstract &e) {
     os << " selectSIN not set.";
   }
 }

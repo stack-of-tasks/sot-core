@@ -60,16 +60,16 @@ set(tests
 # TODO
 if(UNIX)
   add_library(pluginabstract SHARED tools/plugin.cc)
-  target_link_libraries(pluginabstract PUBLIC  dynamic-graph::dynamic-graph)
+  target_link_libraries(pluginabstract PUBLIC dynamic-graph::dynamic-graph)
   add_executable(test_abstract_interface tools/test_abstract_interface.cpp)
   target_link_libraries(
     test_abstract_interface PRIVATE Boost::program_options pluginabstract
-    ${CMAKE_DL_LIBS})
+                                    ${CMAKE_DL_LIBS})
 
   add_library(dummy_sot_external_interface SHARED
-    tools/dummy-sot-external-interface.cc)
+              tools/dummy-sot-external-interface.cc)
   target_link_libraries(dummy_sot_external_interface
-    PUBLIC dynamic-graph::dynamic-graph)
+                        PUBLIC dynamic-graph::dynamic-graph)
 
 endif(UNIX)
 

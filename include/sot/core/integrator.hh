@@ -95,7 +95,8 @@ class Signal : public ::dynamicgraph::Signal<Vector, sigtime_t> {
 
   /* --- Operators --- */
   virtual inline const Vector &operator()(const sigtime_t &t) {
-    return access(t); }
+    return access(t);
+  }
   virtual Signal &operator=(const Vector &t);
   inline operator const Vector &() const { return accessCopy(); }
   virtual void getClassName(std::string &aClassName) const {

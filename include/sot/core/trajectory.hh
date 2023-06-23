@@ -98,12 +98,12 @@ class SOT_CORE_EXPORT timestamp {
     if ((secs_ != other.secs_) || (nsecs_ != other.nsecs_)) return false;
     return true;
   }
- timestamp &operator=(const timestamp &other) {
-   secs_ = other.secs_;
-   nsecs_ = other.nsecs_;
-   return *this;
- }
- friend std::ostream &operator<<(std::ostream &stream, const timestamp &ats) {
+  timestamp &operator=(const timestamp &other) {
+    secs_ = other.secs_;
+    nsecs_ = other.nsecs_;
+    return *this;
+  }
+  friend std::ostream &operator<<(std::ostream &stream, const timestamp &ats) {
     stream << ats.secs_ + 0.000001 * (long double)ats.nsecs_;
     return stream;
   }

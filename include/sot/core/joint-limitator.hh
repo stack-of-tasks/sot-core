@@ -55,8 +55,10 @@ class SOTJOINTLIMITATOR_EXPORT JointLimitator : public dynamicgraph::Entity {
   dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> upperJlSIN;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> lowerJlSIN;
   dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> controlSIN;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> controlSOUT;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> widthJlSINTERN;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t>
+      controlSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t>
+      widthJlSINTERN;
   /// \}
 };
 }  // end of namespace sot.

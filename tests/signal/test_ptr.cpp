@@ -38,8 +38,8 @@ class DummyClass {
       sotDEBUG(5) << *(*it) << endl;
       (*it)->access(timedata);
     }
-    for (list<SignalTimeDependent<dynamicgraph::Vector, sigtime_t> *>::iterator it =
-             inputsigV.begin();
+    for (list<SignalTimeDependent<dynamicgraph::Vector, sigtime_t> *>::iterator
+             it = inputsigV.begin();
          it != inputsigV.end(); ++it) {
       sotDEBUG(5) << *(*it) << endl;
       (*it)->access(timedata);
@@ -51,7 +51,9 @@ class DummyClass {
   list<SignalTimeDependent<double, sigtime_t> *> inputsig;
   list<SignalTimeDependent<dynamicgraph::Vector, sigtime_t> *> inputsigV;
 
-  void add(SignalTimeDependent<double, sigtime_t> &sig) { inputsig.push_back(&sig); }
+  void add(SignalTimeDependent<double, sigtime_t> &sig) {
+    inputsig.push_back(&sig);
+  }
   void add(SignalTimeDependent<dynamicgraph::Vector, sigtime_t> &sig) {
     inputsigV.push_back(&sig);
   }

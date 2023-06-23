@@ -73,8 +73,8 @@ class SOT_CORE_DLLAPI Event : public dynamicgraph::Entity {
         "    Repease event if input signal remains True for a while\n"
         "      Input: number of iterations before repeating output\n."
         "        0 for no repetition";
-    addCommand("repeat", new command::Setter<Event, sigtime_t>
-               (*this, &Event::repeat, docstring));
+    addCommand("repeat", new command::Setter<Event, sigtime_t>(
+                             *this, &Event::repeat, docstring));
   }
 
   ~Event() {}
