@@ -30,9 +30,8 @@ class Resize : public Command {
   /// \param entity instance of Entity owning this command
   /// \param docstring documentation of the command
   Resize(MatrixConstant &entity, const std::string &docstring)
-      : Command(entity,
-                boost::assign::list_of(Value::LONGINT)
-                (Value::LONGINT), docstring) {}
+      : Command(entity, boost::assign::list_of(Value::LONGINT)(Value::LONGINT),
+                docstring) {}
   virtual Value doExecute() {
     MatrixConstant &mc = static_cast<MatrixConstant &>(owner());
     std::vector<Value> values = getParameterValues();

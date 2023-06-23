@@ -53,7 +53,7 @@ class SOT_CORE_EXPORT TaskAbstract : public dynamicgraph::Entity {
   /* Use a derivative of this class to store computational memory. */
   class MemoryTaskAbstract {
    public:
-    MemoryTaskAbstract(void) {};
+    MemoryTaskAbstract(void){};
     virtual ~MemoryTaskAbstract(void){};
 
    public:
@@ -76,7 +76,8 @@ class SOT_CORE_EXPORT TaskAbstract : public dynamicgraph::Entity {
 
  public: /* --- SIGNALS --- */
   dynamicgraph::SignalTimeDependent<VectorMultiBound, sigtime_t> taskSOUT;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, sigtime_t> jacobianSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, sigtime_t>
+      jacobianSOUT;
 };
 
 } /* namespace sot */

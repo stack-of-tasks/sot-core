@@ -55,7 +55,8 @@ class SOTOPPOINTMODIFIER_EXPORT OpPointModifier : public dynamicgraph::Entity {
   dynamicgraph::SignalPtr<dynamicgraph::Matrix, sigtime_t> jacobianSIN;
   dynamicgraph::SignalPtr<MatrixHomogeneous, sigtime_t> positionSIN;
 
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, sigtime_t> jacobianSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, sigtime_t>
+      jacobianSOUT;
   dynamicgraph::SignalTimeDependent<MatrixHomogeneous, sigtime_t> positionSOUT;
 
  public:

@@ -68,7 +68,8 @@ class SOT_CORE_EXPORT PeriodicCall {
   void addDownsampledSignal(const std::string &sigpath,
                             const std::size_t &downsamplingFactor);
 
-  void addSignal(const std::string &name, dynamicgraph::SignalBase<sigtime_t> &sig);
+  void addSignal(const std::string &name,
+                 dynamicgraph::SignalBase<sigtime_t> &sig);
   void addSignal(const std::string &args);
   void rmSignal(const std::string &name);
 

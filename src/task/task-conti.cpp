@@ -90,7 +90,8 @@ VectorMultiBound &TaskConti::computeContiDesiredVelocity(
     const dynamicgraph::Vector &desvel = errorSOUT(timecurr);
     const double &gain = controlGainSIN(timecurr);
     desvel2b.resize(desvel.size());
-    for (size_type i = 0; i < desvel.size(); ++i) desvel2b[i] = -gain * desvel(i);
+    for (size_type i = 0; i < desvel.size(); ++i)
+      desvel2b[i] = -gain * desvel(i);
     return desvel2b;
   }
 }

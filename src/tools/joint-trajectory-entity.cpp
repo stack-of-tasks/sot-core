@@ -278,7 +278,7 @@ sot::MatrixHomogeneous &SotJointTrajectoryEntity::getNextWaist(
 }
 
 std::size_t &SotJointTrajectoryEntity::getSeqId(std::size_t &seqid,
-                                                 const sigtime_t &time) {
+                                                const sigtime_t &time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   seqid = seqid_;

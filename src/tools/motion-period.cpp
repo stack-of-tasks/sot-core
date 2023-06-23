@@ -50,7 +50,7 @@ dynamicgraph::Vector &MotionPeriod::computeMotion(dynamicgraph::Vector &res,
   res.resize(size);
   for (std::size_t i = 0; i < size; ++i) {
     const sotMotionParam &p = motionParams[i];
-    double x = (double)((time - p.initPeriod) % p.period)/(double)(p.period);
+    double x = (double)((time - p.initPeriod) % p.period) / (double)(p.period);
     res(i) = p.initAmplitude;
     switch (p.motionType) {
       case MOTION_CONSTANT: {
@@ -91,7 +91,7 @@ void MotionPeriod::display(std::ostream &os) const {
 
 #define SOT_PARAMS_CONFIG(ARGname, ARGtype)                                 \
   else if (cmdLine == #ARGname) {                                           \
-    std::size_t rank;                                                      \
+    std::size_t rank;                                                       \
     ARGtype period;                                                         \
     cmdArgs >> rank >> std::ws;                                             \
     if (rank >= this->size) {                                               \

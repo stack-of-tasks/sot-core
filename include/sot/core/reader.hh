@@ -52,7 +52,7 @@
 /* --------------------------------------------------------------------- */
 
 namespace dynamicgraph {
-namespace sot{
+namespace sot {
 
 class SOTREADER_EXPORT sotReader : public Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
@@ -89,6 +89,6 @@ class SOTREADER_EXPORT sotReader : public Entity {
   void display(std::ostream &os) const;
   virtual void initCommands();
 };
-}
-}
+}  // namespace sot
+}  // namespace dynamicgraph
 #endif /* #ifndef __SOT_TRACER_H__ */

@@ -54,7 +54,8 @@ class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace : public dynamicgraph::Entity {
   dynamicgraph::SignalPtr<MatrixHomogeneous, sigtime_t> positionrefSIN;
   dynamicgraph::SignalPtr<MatrixHomogeneous, sigtime_t> positionSIN;
   dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, sigtime_t> alphaSOUT;
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, sigtime_t> alphabarSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Matrix, sigtime_t>
+      alphabarSOUT;
   dynamicgraph::SignalTimeDependent<MatrixHomogeneous, sigtime_t> handrefSOUT;
 
  public:

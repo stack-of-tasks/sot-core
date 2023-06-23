@@ -96,13 +96,13 @@ struct VectorSelecter : public UnaryOpHeader<dg::Vector, dg::Vector> {
 
     boost::function<void(const size_type &, const size_type &)> setBound =
         boost::bind(&VectorSelecter::setBounds, this, _1, _2);
-    doc = docCommandVoid2("Set the bound of the selection [m,M[.", "size_type (min)",
-                          "size_type (max)");
+    doc = docCommandVoid2("Set the bound of the selection [m,M[.",
+                          "size_type (min)", "size_type (max)");
     ADD_COMMAND("selec", makeCommandVoid2(ent, setBound, doc));
     boost::function<void(const size_type &, const size_type &)> addBound =
         boost::bind(&VectorSelecter::addBounds, this, _1, _2);
-    doc = docCommandVoid2("Add a segment to be selected [m,M[.", "size_type (min)",
-                          "size_type (max)");
+    doc = docCommandVoid2("Add a segment to be selected [m,M[.",
+                          "size_type (min)", "size_type (max)");
     ADD_COMMAND("addSelec", makeCommandVoid2(ent, addBound, doc));
   }
   VectorSelecter() : size(0) {}
@@ -170,7 +170,8 @@ struct MatrixSelector : public UnaryOpHeader<dg::Matrix, dg::Matrix> {
     boost::function<void(const size_type &, const size_type &)> setBoundsCol =
         boost::bind(&MatrixSelector::setBoundsCol, this, _1, _2);
 
-    doc = docCommandVoid2("Set the bound on rows.", "size_type (min)", "size_type (max)");
+    doc = docCommandVoid2("Set the bound on rows.", "size_type (min)",
+                          "size_type (max)");
     ADD_COMMAND("selecRows", makeCommandVoid2(ent, setBoundsRow, doc));
 
     doc = docCommandVoid2("Set the bound on cols [m,M[.", "size_type (min)",
@@ -208,7 +209,8 @@ struct MatrixColumnSelector : public UnaryOpHeader<dg::Matrix, dg::Vector> {
     boost::function<void(const size_type &)> selectCol =
         boost::bind(&MatrixColumnSelector::selectCol, this, _1);
 
-    doc = docCommandVoid2("Set the bound on rows.", "size_type (min)", "size_type (max)");
+    doc = docCommandVoid2("Set the bound on rows.", "size_type (min)",
+                          "size_type (max)");
     ADD_COMMAND("selecRows", makeCommandVoid2(ent, setBoundsRow, doc));
 
     doc = docCommandVoid1("Select the col to copy.", "size_type (col index)");
@@ -242,7 +244,8 @@ struct Diagonalizer : public UnaryOpHeader<Vector, Matrix> {
     boost::function<void(const size_type &, const size_type &)> resize =
         boost::bind(&Diagonalizer::resize, this, _1, _2);
 
-    doc = docCommandVoid2("Set output size.", "size_type (row)", "size_type (col)");
+    doc = docCommandVoid2("Set output size.", "size_type (row)",
+                          "size_type (col)");
     ADD_COMMAND("resize", makeCommandVoid2(ent, resize, doc));
   }
 };
@@ -631,16 +634,16 @@ struct VectorStack
     boost::function<void(const size_type &, const size_type &)> selec2 =
         boost::bind(&VectorStack::selec2, this, _1, _2);
 
-    ADD_COMMAND(
-        "selec1",
-        makeCommandVoid2(ent, selec1,
-                         docCommandVoid2("set the min and max of selection.",
-                                         "size_type (imin)", "size_type (imax)")));
-    ADD_COMMAND(
-        "selec2",
-        makeCommandVoid2(ent, selec2,
-                         docCommandVoid2("set the min and max of selection.",
-                                         "size_type (imin)", "size_type (imax)")));
+    ADD_COMMAND("selec1",
+                makeCommandVoid2(
+                    ent, selec1,
+                    docCommandVoid2("set the min and max of selection.",
+                                    "size_type (imin)", "size_type (imax)")));
+    ADD_COMMAND("selec2",
+                makeCommandVoid2(
+                    ent, selec2,
+                    docCommandVoid2("set the min and max of selection.",
+                                    "size_type (imin)", "size_type (imax)")));
   }
 };
 
@@ -875,7 +878,8 @@ struct VectorMix : public VariadicOpHeader<Vector, Vector> {
     }
   }
 
-  inline void addSelec(const size_type &sigIdx, const size_type &i, const size_type &s) {
+  inline void addSelec(const size_type &sigIdx, const size_type &i,
+                       const size_type &s) {
     idxs.push_back(segment_t(i, s, sigIdx));
   }
 
@@ -885,15 +889,17 @@ struct VectorMix : public VariadicOpHeader<Vector, Vector> {
 
     ent->addSignal("default");
 
-    boost::function<void(const size_type &, const size_type &, const sigtime_t &)> selec =
-        boost::bind(&VectorMix::addSelec, this, _1, _2, _3);
+    boost::function<void(const size_type &, const size_type &,
+                         const sigtime_t &)>
+        selec = boost::bind(&VectorMix::addSelec, this, _1, _2, _3);
 
     commandMap.insert(std::make_pair(
-        "addSelec", makeCommandVoid3<Base, size_type, size_type, sigtime_t>(
-                        *ent, selec,
-                        docCommandVoid3("add selection from a vector.",
-                                        "size_type (signal index >= 1)",
-                                        "size_type (index)", "size_type (size)"))));
+        "addSelec",
+        makeCommandVoid3<Base, size_type, size_type, sigtime_t>(
+            *ent, selec,
+            docCommandVoid3("add selection from a vector.",
+                            "size_type (signal index >= 1)",
+                            "size_type (index)", "size_type (size)"))));
   }
 };
 
@@ -918,7 +924,9 @@ struct AdderVariadic : public VariadicOpHeader<T, T> {
       throw std::invalid_argument("Invalid coefficient size.");
     coeffs = c;
   }
-  inline void updateSignalNumber(const size_type &n) { coeffs = Vector::Ones(n); }
+  inline void updateSignalNumber(const size_type &n) {
+    coeffs = Vector::Ones(n);
+  }
 
   inline void initialize(Base *ent, Entity::CommandMap_t &) {
     entity = ent;

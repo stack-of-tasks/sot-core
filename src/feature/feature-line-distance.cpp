@@ -64,7 +64,8 @@ size_type &FeatureLineDistance::getDimension(size_type &dim,
 }
 
 /* --------------------------------------------------------------------- */
-Vector &FeatureLineDistance::computeLineCoordinates(Vector &cood, sigtime_t time) {
+Vector &FeatureLineDistance::computeLineCoordinates(Vector &cood,
+                                                    sigtime_t time) {
   sotDEBUGIN(15);
 
   cood.resize(6);

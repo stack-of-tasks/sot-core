@@ -40,8 +40,8 @@ class DummyClass {
       cout << *(*it) << endl;
       (*it)->access(timedata);
     }
-    for (list<SignalTimeDependent<dynamicgraph::Vector, sigtime_t> *>::iterator it =
-             inputsigV.begin();
+    for (list<SignalTimeDependent<dynamicgraph::Vector, sigtime_t> *>::iterator
+             it = inputsigV.begin();
          it != inputsigV.end(); ++it) {
       cout << *(*it) << endl;
       (*it)->access(timedata);
@@ -50,7 +50,9 @@ class DummyClass {
     return res = (*this)();
   }
 
-  void add(SignalTimeDependent<double, sigtime_t> &sig) { inputsig.push_back(&sig); }
+  void add(SignalTimeDependent<double, sigtime_t> &sig) {
+    inputsig.push_back(&sig);
+  }
   void add(SignalTimeDependent<dynamicgraph::Vector, sigtime_t> &sig) {
     inputsigV.push_back(&sig);
   }

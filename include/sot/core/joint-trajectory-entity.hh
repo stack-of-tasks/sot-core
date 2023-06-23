@@ -104,7 +104,8 @@ class SOTJOINT_TRAJECTORY_ENTITY_EXPORT SotJointTrajectoryEntity
   SignalTimeDependent<Dummy, sigtime_t> OneStepOfUpdateS;
 
   /// \brief Publish pose for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> positionSOUT;
+  dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t>
+      positionSOUT;
 
   /// \brief Publish com for each evaluation of the graph.
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> comSOUT;
@@ -113,7 +114,8 @@ class SOTJOINT_TRAJECTORY_ENTITY_EXPORT SotJointTrajectoryEntity
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> zmpSOUT;
 
   /// \brief Publish waist for each evaluation of the graph.
-  dynamicgraph::SignalTimeDependent<sot::MatrixHomogeneous, sigtime_t> waistSOUT;
+  dynamicgraph::SignalTimeDependent<sot::MatrixHomogeneous, sigtime_t>
+      waistSOUT;
 
   /// \brief Publish ID of the trajectory currently realized.
   dynamicgraph::SignalTimeDependent<std::size_t, sigtime_t> seqIdSOUT;

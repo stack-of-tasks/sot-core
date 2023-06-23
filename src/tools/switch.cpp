@@ -30,7 +30,8 @@ typedef Switch<bool, sigtime_t> SwitchBool;
 template <>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SwitchBool, "SwitchBoolean");
 
-template class VariadicAbstract<MatrixHomogeneous, MatrixHomogeneous, sigtime_t>;
+template class VariadicAbstract<MatrixHomogeneous, MatrixHomogeneous,
+                                sigtime_t>;
 
 typedef Switch<MatrixHomogeneous, sigtime_t> SwitchMatrixHomogeneous;
 template <>
