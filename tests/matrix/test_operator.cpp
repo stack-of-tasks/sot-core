@@ -9,7 +9,7 @@ using namespace dynamicgraph::sot;
 
 #define BOOST_TEST_MODULE test - operator
 
-#include <boost/test/output_test_stream.hpp>
+#include <boost/test/tools/output_test_stream.hpp>
 #include <boost/test/unit_test.hpp>
 
 using boost::test_tools::output_test_stream;
