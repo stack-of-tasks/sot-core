@@ -236,7 +236,7 @@ std::ostream &operator<<(std::ostream &os, const VectorMultiBound &v) {
 }
 
 std::istream &operator>>(std::istream &is, VectorMultiBound &v) {
-  unsigned int vali;
+  std::size_t vali;
 
   /* Read the vector size. */
   SOT_MULTI_BOUND_CHECK_C(is, '[', v);
@@ -246,7 +246,7 @@ std::istream &operator>>(std::istream &is, VectorMultiBound &v) {
 
   /* Loop for the vals. */
   SOT_MULTI_BOUND_CHECK_C(is, '(', v);
-  for (unsigned int i = 0; i < vali; ++i) {
+  for (std::size_t i = 0; i < vali; ++i) {
     is >> v[i];
     if (i != vali - 1) {
       SOT_MULTI_BOUND_CHECK_C(is, ',', v);

@@ -100,7 +100,7 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   virtual ~FeatureGeneric(void) {}
 
   /*! \brief Get the dimension of the feature. */
-  virtual unsigned int &getDimension(unsigned int &dim, sigtime_t time);
+  virtual size_type &getDimension(size_type &dim, sigtime_t time);
 
   /*! \name Methods to trigger computation related to this feature.
     @{

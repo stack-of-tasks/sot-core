@@ -203,7 +203,7 @@ void SotJointTrajectoryEntity::UpdateTrajectory(const Trajectory &aTrajectory) {
   sotDEBUGOUT(3);
 }
 
-int &SotJointTrajectoryEntity::OneStepOfUpdate(int &dummy,
+size_type &SotJointTrajectoryEntity::OneStepOfUpdate(size_type &dummy,
                                                      const sigtime_t &time) {
   sotDEBUGIN(4);
   const Trajectory &atraj = trajectorySIN(time);

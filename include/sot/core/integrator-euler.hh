@@ -118,8 +118,8 @@ class IntegratorEuler : public IntegratorAbstract<sigT, coefT> {
     // End of step 1. Here, sum is b_0 X
 
     // Step 2
-    int numsize = (int)num.size();
-    for (int i = 1; i < numsize; ++i) {
+    size_type numsize = (size_type)num.size();
+    for (size_type i = 1; i < numsize; ++i) {
       tmp2 = inputMemory[i - 1] - tmp1;
       tmp2 *= invdt;
       tmp1 = inputMemory[i];
@@ -129,8 +129,8 @@ class IntegratorEuler : public IntegratorAbstract<sigT, coefT> {
     // End of step 2. Here, sum is b_m * d(m)X / dt^m + ... + b_0 X
 
     // Step 3
-    int denomsize = (int)denom.size() - 1;
-    for (int i = 0; i < denomsize; ++i) {
+    size_type denomsize = (size_type)denom.size() - 1;
+    for (size_type i = 0; i < denomsize; ++i) {
       sum -= (denom[i] * outputMemory[i]);
     }
     // End of step 3. Here, sum is b_m * d(m)X / dt^m + ... + b_0 X
@@ -138,7 +138,7 @@ class IntegratorEuler : public IntegratorAbstract<sigT, coefT> {
 
     // Step 4
     outputMemory[denomsize] = sum;
-    for (int i = denomsize - 1; i >= 0; --i) {
+    for (size_type i = denomsize - 1; i >= 0; --i) {
       outputMemory[i] += (outputMemory[i + 1] * dt);
     }
     // End of step 4. The ODE is integrated

@@ -72,7 +72,7 @@ class ControlGR_EXPORT ControlGR : public Entity {
   SignalTimeDependent<dynamicgraph::Vector, sigtime_t> controlSOUT;
 
  protected:
-  double &setsize(int dimension);
+  double &setsize(size_type dimension);
   dynamicgraph::Vector &computeControl(dynamicgraph::Vector &tau, sigtime_t t);
 };
 

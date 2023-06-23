@@ -64,7 +64,7 @@ VectorMultiBound &TaskUnilateral::computeTaskUnilateral(VectorMultiBound &res,
   const dynamicgraph::Vector &refSup = referenceSupSIN(time);
   const double &dt = dtSIN(time);
   res.resize(position.size());
-  for (unsigned int i = 0; i < res.size(); ++i) {
+  for (std::size_t i = 0; i < res.size(); ++i) {
     MultiBound toto((refInf(i) - position(i)) / dt,
                     (refSup(i) - position(i)) / dt);
     res[i] = toto;

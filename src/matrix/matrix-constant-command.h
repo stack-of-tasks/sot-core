@@ -31,13 +31,13 @@ class Resize : public Command {
   /// \param docstring documentation of the command
   Resize(MatrixConstant &entity, const std::string &docstring)
       : Command(entity,
-                boost::assign::list_of(Value::UNSIGNED)(Value::UNSIGNED),
-                docstring) {}
+                boost::assign::list_of(Value::LONGINT)
+                (Value::LONGINT), docstring) {}
   virtual Value doExecute() {
     MatrixConstant &mc = static_cast<MatrixConstant &>(owner());
     std::vector<Value> values = getParameterValues();
-    unsigned rows = values[0].value();
-    unsigned cols = values[1].value();
+    size_type rows = values[0].value();
+    size_type cols = values[1].value();
     Matrix m(Matrix::Zero(rows, cols));
     mc.SOUT.setConstant(m);
 

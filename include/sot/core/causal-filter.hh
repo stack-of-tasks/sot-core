@@ -19,7 +19,7 @@
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-#include <Eigen/Core>
+#include <sot/core/fwd.hh>
 
 /** \addtogroup Filters
     \section subsec_causalfilter CausalFilter
@@ -54,7 +54,7 @@ class CausalFilter {
 
       xSize is
   */
-  CausalFilter(const double &timestep, const int &xSize,
+  CausalFilter(const double &timestep, const size_type &xSize,
                const Eigen::VectorXd &filter_numerator,
                const Eigen::VectorXd &filter_denominator);
 
@@ -68,7 +68,7 @@ class CausalFilter {
   /// sampling timestep of the input signal
   double m_dt;
   /// Size
-  int m_x_size;
+  size_type m_x_size;
   /// Size of the numerator \f$m\f$
   Eigen::VectorXd::Index m_filter_order_m;
   /// Size of the denominator \f$n\f$
@@ -80,8 +80,8 @@ class CausalFilter {
   Eigen::VectorXd m_filter_denominator;
   bool m_first_sample;
   ///
-  int m_pt_numerator;
-  int m_pt_denominator;
+  size_type m_pt_numerator;
+  size_type m_pt_denominator;
   Eigen::MatrixXd m_input_buffer;
   Eigen::MatrixXd m_output_buffer;
 };  // class CausalFilter

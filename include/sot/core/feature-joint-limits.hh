@@ -54,9 +54,9 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
   double threshold;
   const static double THRESHOLD_DEFAULT;  // = .9;
 
-  /*   unsigned int freeFloatingIndex,freeFloatingSize; */
-  /*   static const unsigned int FREE_FLOATING_INDEX = 0; */
-  /*   static const unsigned int FREE_FLOATING_SIZE = 5; */
+  /*   std::size_t freeFloatingIndex,freeFloatingSize; */
+  /*   static const std::size_t FREE_FLOATING_INDEX = 0; */
+  /*   static const std::size_t FREE_FLOATING_SIZE = 5; */
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
@@ -80,7 +80,7 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
   FeatureJointLimits(const std::string &name);
   virtual ~FeatureJointLimits(void) {}
 
-  virtual unsigned int &getDimension(unsigned int &dim, sigtime_t time);
+  virtual size_type &getDimension(size_type &dim, sigtime_t time);
 
   virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
                                              sigtime_t time);

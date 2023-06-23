@@ -30,7 +30,7 @@ class Resize;
 
 class VectorConstant : public Entity {
   friend class command::vectorConstant::Resize;
-  int rows;
+  size_type rows;
 
  public:
   static const std::string CLASS_NAME;

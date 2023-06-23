@@ -63,10 +63,10 @@ class SOTMOTIONPERIOD_EXPORT MotionPeriod : public dynamicgraph::Entity {
     double initAmplitude;
   };
 
-  unsigned int size;
+  std::size_t size;
   std::vector<sotMotionParam> motionParams;
 
-  void resize(const unsigned int &size);
+  void resize(const std::size_t &size);
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:

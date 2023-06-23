@@ -78,10 +78,10 @@ void ControlGR::display(std::ostream &os) const {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-double &ControlGR::setsize(int dimension)
+double &ControlGR::setsize(size_type dimension)
 
 {
-  _dimension = dimension;
+  _dimension = (double)dimension;
   return _dimension;
 }
 

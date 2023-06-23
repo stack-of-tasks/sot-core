@@ -73,7 +73,7 @@ void FeatureJointLimits::removeDependenciesFromReference(void) {}
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int &FeatureJointLimits::getDimension(unsigned int &dim, sigtime_t time) {
+size_type &FeatureJointLimits::getDimension(size_type &dim, sigtime_t time) {
   sotDEBUG(25) << "# In {" << endl;
 
   const Flags &fl = selectionSIN.access(time);
@@ -81,7 +81,7 @@ unsigned int &FeatureJointLimits::getDimension(unsigned int &dim, sigtime_t time
 
   dim = 0;
   for (Matrix::Index i = 0; i < NBJL; ++i)
-    if (fl(static_cast<int>(i))) dim++;
+    if (fl(static_cast<size_type>(i))) dim++;
 
   sotDEBUG(25) << "# Out }" << endl;
   return dim;
@@ -109,17 +109,17 @@ Vector &FeatureJointLimits::computeWidthJl(Vector &res, const sigtime_t &time) {
 Matrix &FeatureJointLimits::computeJacobian(Matrix &J, sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
-  const unsigned int SIZE = dimensionSOUT.access(time);
+  const std::size_t SIZE = dimensionSOUT.access(time);
   const Vector q = jointSIN.access(time);
   const Flags &fl = selectionSIN(time);
-  // const unsigned int SIZE_FF=SIZE+freeFloatingSize;
+  // const std::size_t SIZE_FF=SIZE+freeFloatingSize;
   const Vector::Index SIZE_TOTAL = q.size();
   const Vector WJL = widthJlSINTERN.access(time);
   J.resize(SIZE, SIZE_TOTAL);
   J.setZero();
 
-  unsigned int idx = 0;
-  for (unsigned int i = 0; i < SIZE_TOTAL; ++i) {
+  std::size_t idx = 0;
+  for (size_type i = 0; i < SIZE_TOTAL; ++i) {
     if (fl(i)) {
       if (fabs(WJL(i)) > 1e-3)
         J(idx, i) = 1 / WJL(i);
@@ -129,13 +129,13 @@ Matrix &FeatureJointLimits::computeJacobian(Matrix &J, sigtime_t time) {
     }
   }
   //   if( 0!=freeFloatingIndex )
-  //     for( unsigned int i=0;i<freeFloatingIndex;++i )
+  //     for( std::size_t i=0;i<freeFloatingIndex;++i )
   //       {
   // 	if( fabs(WJL(i))>1e-3 ) J(i,i)=1/WJL(i); else J(i,i)=1.;
   //       }
 
   //   if( SIZE!=freeFloatingIndex )
-  //     for( unsigned int i=freeFloatingIndex;i<SIZE;++i )
+  //     for( std::size_t i=freeFloatingIndex;i<SIZE;++i )
   //       {
   // 	if( fabs(WJL(i))>1e-3 ) J(i,i+freeFloatingSIZE)=1/WJL(i);
   // 	else J(i,i)=1.;
@@ -156,7 +156,7 @@ Vector &FeatureJointLimits::computeError(Vector &error, sigtime_t time) {
   const Vector UJL = upperJlSIN.access(time);
   const Vector LJL = lowerJlSIN.access(time);
   const Vector WJL = widthJlSINTERN.access(time);
-  const int SIZE = dimensionSOUT.access(time);
+  const size_type SIZE = dimensionSOUT.access(time);
   const Vector::Index SIZE_TOTAL = q.size();
 
   sotDEBUG(25) << "q = " << q << endl;
@@ -171,8 +171,8 @@ Vector &FeatureJointLimits::computeError(Vector &error, sigtime_t time) {
 
   error.resize(SIZE);
 
-  unsigned int parcerr = 0;
-  for (int i = 0; i < SIZE_TOTAL; ++i) {
+  std::size_t parcerr = 0;
+  for (size_type i = 0; i < SIZE_TOTAL; ++i) {
     if (fl(i)) {
       error(parcerr++) = (q(i) - LJL(i)) / WJL(i) * 2 - 1;
     }

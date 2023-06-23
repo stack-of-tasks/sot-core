@@ -108,7 +108,7 @@ class ADMITTANCECONTROLOPPOINT_EXPORT AdmittanceControlOpPoint
 
  protected:
   /// Dimension of the force signals and of the output
-  int m_n;
+  size_type m_n;
   /// True if the entity has been successfully initialized
   bool m_initSucceeded;
   /// Internal state

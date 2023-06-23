@@ -93,7 +93,7 @@ void GainHyperbolic::display(std::ostream &os) const {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-double &GainHyperbolic::computeGain(double &res, int t) {
+double &GainHyperbolic::computeGain(double &res, sigtime_t t) {
   sotDEBUGIN(15);
   const dynamicgraph::Vector &error = errorSIN(t);
   const double norm = error.norm();

@@ -10,6 +10,7 @@
 #define SOT_CORE_FWD_HH
 
 #include <dynamic-graph/fwd.hh>
+#include <dynamic-graph/linear-algebra.h>
 
 namespace dynamicgraph {
 namespace sot {

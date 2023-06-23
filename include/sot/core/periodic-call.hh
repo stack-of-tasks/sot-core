@@ -38,14 +38,14 @@ class SOT_CORE_EXPORT PeriodicCall {
  protected:
   struct SignalToCall {
     dynamicgraph::SignalBase<sigtime_t> *signal;
-    unsigned int downsamplingFactor;
+    std::size_t downsamplingFactor;
 
     SignalToCall() {
       signal = NULL;
       downsamplingFactor = 1;
     }
 
-    SignalToCall(dynamicgraph::SignalBase<sigtime_t> *s, unsigned int df = 1) {
+    SignalToCall(dynamicgraph::SignalBase<sigtime_t> *s, std::size_t df = 1) {
       signal = s;
       downsamplingFactor = df;
     }
@@ -64,9 +64,9 @@ class SOT_CORE_EXPORT PeriodicCall {
 
   void addDownsampledSignal(const std::string &name,
                             dynamicgraph::SignalBase<sigtime_t> &sig,
-                            const unsigned int &downsamplingFactor);
+                            const std::size_t &downsamplingFactor);
   void addDownsampledSignal(const std::string &sigpath,
-                            const unsigned int &downsamplingFactor);
+                            const std::size_t &downsamplingFactor);
 
   void addSignal(const std::string &name, dynamicgraph::SignalBase<sigtime_t> &sig);
   void addSignal(const std::string &args);

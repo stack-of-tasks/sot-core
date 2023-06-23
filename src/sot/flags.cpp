@@ -31,7 +31,7 @@ Flags::Flags(const bool &b) : flags(), outOfRangeFlag(b) {}
 
 Flags::Flags(const char *_flags)
     : flags(strlen(_flags)), outOfRangeFlag(false) {
-  for (unsigned int i = 0; i < flags.size(); ++i) {
+  for (std::size_t i = 0; i < flags.size(); ++i) {
     switch (_flags[i]) {
       case '0':
         flags[i] = false;
@@ -53,15 +53,15 @@ Flags::Flags(const std::vector<bool> &_flags)
 
 Flags::operator bool(void) const {
   if (outOfRangeFlag) return true;
-  for (unsigned int i = 0; i < flags.size(); ++i)
+  for (std::size_t i = 0; i < flags.size(); ++i)
     if (flags[i]) return true;
   return false;
 }
 
 /* --------------------------------------------------------------------- */
 
-bool Flags::operator()(const int &i) const {
-  if (i < (int)flags.size()) return flags[i];
+bool Flags::operator()(const size_type &i) const {
+  if (i < (size_type)flags.size()) return flags[i];
   return outOfRangeFlag;
 }
 
@@ -69,11 +69,11 @@ bool Flags::operator()(const int &i) const {
 void Flags::add(const bool &b) { flags.push_back(b); }
 
 /* --------------------------------------------------------------------- */
-void Flags::set(const unsigned int &idx) {
+void Flags::set(const std::size_t &idx) {
   if (idx < flags.size()) flags[idx] = true;
 }
 
-void Flags::unset(const unsigned int &idx) {
+void Flags::unset(const std::size_t &idx) {
   if (idx < flags.size()) flags[idx] = false;
 }
 
@@ -103,7 +103,7 @@ Flags operator|(const Flags &f1, const Flags &f2) {
 Flags &Flags::operator&=(const Flags &f2) {
   if (f2.flags.size() > flags.size())
     flags.resize(f2.flags.size(), outOfRangeFlag);
-  for (unsigned int i = 0; i < f2.flags.size(); ++i)
+  for (std::size_t i = 0; i < f2.flags.size(); ++i)
     flags[i] = flags[i] & f2.flags[i];
   for (auto i = f2.flags.size(); i < flags.size(); ++i)
     flags[i] = flags[i] & f2.outOfRangeFlag;
@@ -114,7 +114,7 @@ Flags &Flags::operator&=(const Flags &f2) {
 Flags &Flags::operator|=(const Flags &f2) {
   if (f2.flags.size() > flags.size())
     flags.resize(f2.flags.size(), outOfRangeFlag);
-  for (unsigned int i = 0; i < f2.flags.size(); ++i)
+  for (std::size_t i = 0; i < f2.flags.size(); ++i)
     flags[i] = flags[i] | f2.flags[i];
   for (auto i = f2.flags.size(); i < flags.size(); ++i)
     flags[i] = flags[i] | f2.outOfRangeFlag;

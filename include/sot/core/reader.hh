@@ -51,11 +51,8 @@
 /* --- TRACER ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-using dynamicgraph::Entity;
-using dynamicgraph::SignalPtr;
-using dynamicgraph::SignalTimeDependent;
-using dynamicgraph::sot::Flags;
-using dynamicgraph::sigtime_t;
+namespace dynamicgraph {
+namespace sot{
 
 class SOTREADER_EXPORT sotReader : public Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
@@ -79,18 +76,19 @@ class SOTREADER_EXPORT sotReader : public Entity {
   DataType::const_iterator currentData;
   bool iteratorSet;
 
-  int rows, cols;
+  size_type rows, cols;
 
   dynamicgraph::Vector &getNextData(dynamicgraph::Vector &res,
-                                    const unsigned int time);
+                                    const std::size_t time);
   dynamicgraph::Matrix &getNextMatrix(dynamicgraph::Matrix &res,
-                                      const unsigned int time);
-  void resize(const int &nbRow, const int &nbCol);
+                                      const std::size_t time);
+  void resize(const size_type &nbRow, const size_type &nbCol);
 
  public:
   /* --- PARAMS --- */
   void display(std::ostream &os) const;
   virtual void initCommands();
 };
-
+}
+}
 #endif /* #ifndef __SOT_TRACER_H__ */

@@ -64,7 +64,8 @@ void ExtractJointMimics::go_through_full() {
   go_through(tree_, 0, 0);
 }
 
-void ExtractJointMimics::go_through(pt::ptree &pt, int level, int stage) {
+void ExtractJointMimics::go_through(pt::ptree &pt, size_type level,
+                                    size_type stage) {
   /// If pt is empty (i.e. this is a leaf)
   if (pt.empty()) {
     /// and this is a name of a joint (stage == 3) update the
@@ -73,7 +74,7 @@ void ExtractJointMimics::go_through(pt::ptree &pt, int level, int stage) {
   } else {
     /// This is not a leaf
     for (auto pos : pt) {
-      int new_stage = stage;
+      size_type new_stage = stage;
 
       /// But this is joint
       if (pos.first == "joint")
@@ -281,8 +282,8 @@ void RobotUtil::set_urdf_to_sot(const std::vector<Index> &urdf_to_sot) {
 void RobotUtil::set_urdf_to_sot(const dg::Vector &urdf_to_sot) {
   m_nbJoints = urdf_to_sot.size();
   m_urdf_to_sot.resize(urdf_to_sot.size());
-  for (unsigned int idx = 0; idx < urdf_to_sot.size(); idx++) {
-    m_urdf_to_sot[idx] = (unsigned int)urdf_to_sot[idx];
+  for (std::size_t idx = 0; idx < (std::size_t)urdf_to_sot.size(); idx++) {
+    m_urdf_to_sot[idx] = (std::size_t)urdf_to_sot[idx];
   }
   m_dgv_urdf_to_sot = urdf_to_sot;
 }
@@ -295,7 +296,7 @@ bool RobotUtil::joints_urdf_to_sot(ConstRefVector q_urdf, RefVector q_sot) {
   assert(q_urdf.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints));
   assert(q_sot.size() == static_cast<Eigen::VectorXd::Index>(m_nbJoints));
 
-  for (unsigned int idx = 0; idx < m_nbJoints; idx++)
+  for (std::size_t idx = 0; idx < m_nbJoints; idx++)
     q_sot[m_urdf_to_sot[idx]] = q_urdf[idx];
   return true;
 }
@@ -309,7 +310,7 @@ bool RobotUtil::joints_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf) {
     return false;
   }
 
-  for (unsigned int idx = 0; idx < m_nbJoints; idx++)
+  for (std::size_t idx = 0; idx < m_nbJoints; idx++)
     q_urdf[idx] = q_sot[m_urdf_to_sot[idx]];
   return true;
 }
@@ -415,7 +416,7 @@ void RobotUtil::display(std::ostream &os) const {
 
   // Display m_urdf_to_sot
   os << "Map from urdf index to the Sot Index " << std::endl;
-  for (unsigned int i = 0; i < m_urdf_to_sot.size(); i++)
+  for (std::size_t i = 0; i < m_urdf_to_sot.size(); i++)
     os << "(" << i << " : " << m_urdf_to_sot[i] << ") ";
   os << std::endl;
 

@@ -31,7 +31,7 @@ ExceptionFeature::ExceptionFeature(
   va_list args;
   va_start(args, format);
 
-  const unsigned int SIZE = 256;
+  const std::size_t SIZE = 256;
   char buffer[SIZE];
   vsnprintf(buffer, SIZE, format, args);
 

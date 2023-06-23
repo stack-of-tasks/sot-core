@@ -84,7 +84,7 @@ double &TimeStamp::getTimeStampDouble(const dynamicgraph::Vector &vect,
   sotDEBUGIN(15);
 
   if (offsetSet)
-    res = (vect(0) - offsetValue) * 1000;
+    res = (vect(0) - (double)offsetValue) * 1000;
   else
     res = vect(0) * 1000;
   res += vect(1) / 1000;

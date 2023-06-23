@@ -97,12 +97,12 @@ dynamicgraph::Matrix &OpPointModifier::jacobianSOUT_function(
 
     const dynamicgraph::Matrix::Index nq = oJa.cols();
     res.resize(6, oJa.cols());
-    for (int j = 0; j < nq; ++j) {
+    for (size_type j = 0; j < nq; ++j) {
       /* This is a I*Jtrans + skew*Jrot product, unrolled by hand ... */
       res(0, j) = oJa(0, j) - oAB(1) * oJa(2 + 3, j) + oAB(2) * oJa(1 + 3, j);
       res(1, j) = oJa(1, j) - oAB(2) * oJa(0 + 3, j) + oAB(0) * oJa(2 + 3, j);
       res(2, j) = oJa(2, j) - oAB(0) * oJa(1 + 3, j) + oAB(1) * oJa(0 + 3, j);
-      for (int i = 0; i < 3; ++i) {
+      for (size_type i = 0; i < 3; ++i) {
         res(i + 3, j) = oJa(i + 3, j);
       }
     }

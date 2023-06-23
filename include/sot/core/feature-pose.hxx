@@ -120,14 +120,14 @@ static inline void check(const FeaturePose<representation> &ft) {
 }
 
 template <Representation_t representation>
-unsigned int &FeaturePose<representation>::getDimension(unsigned int &dim,
-                                                        sigtime_t time) {
+size_type &FeaturePose<representation>::getDimension(size_type &dim,
+                                                       sigtime_t time) {
   sotDEBUG(25) << "# In {" << std::endl;
 
   const Flags &fl = selectionSIN.access(time);
 
   dim = 0;
-  for (int i = 0; i < 6; ++i)
+  for (size_type i = 0; i < 6; ++i)
     if (fl(i)) dim++;
 
   sotDEBUG(25) << "# Out }" << std::endl;
@@ -155,7 +155,7 @@ Matrix &FeaturePose<representation>::computeJacobian(Matrix &J,
   q_faMfb.recompute(time);
   q_faMfbDes.recompute(time);
 
-  const unsigned int &dim = dimensionSOUT(time);
+  const std::size_t &dim = dimensionSOUT(time);
   const Flags &fl = selectionSIN(time);
 
   const Matrix &_jbJjb = jbJjb(time);
@@ -180,9 +180,9 @@ Matrix &FeaturePose<representation>::computeJacobian(Matrix &J,
 
   // Contribution of b:
   // J = Jminus * X * jbJjb;
-  unsigned int rJ = 0;
-  for (unsigned int r = 0; r < 6; ++r)
-    if (fl((int)r)) J.row(rJ++) = (Jminus * X).row(r) * _jbJjb;
+  std::size_t rJ = 0;
+  for (std::size_t r = 0; r < 6; ++r)
+    if (fl((size_type)r)) J.row(rJ++) = (Jminus * X).row(r) * _jbJjb;
 
   if (jaJja.isPlugged()) {
     const Matrix &_jaJja = jaJja(time);
@@ -196,8 +196,8 @@ Matrix &FeaturePose<representation>::computeJacobian(Matrix &J,
 
     // J -= (Jminus * X) * jaJja(time);
     rJ = 0;
-    for (unsigned int r = 0; r < 6; ++r)
-      if (fl((int)r)) J.row(rJ++).noalias() -= (Jminus * X).row(r) * _jaJja;
+    for (std::size_t r = 0; r < 6; ++r)
+      if (fl((size_type)r)) J.row(rJ++).noalias() -= (Jminus * X).row(r) * _jaJja;
   }
 
   return J;
@@ -243,9 +243,9 @@ Vector &FeaturePose<representation>::computeError(Vector &error,
   LieGroup_t().difference(q_faMfbDes(time), q_faMfb(time), v);
 
   error.resize(dimensionSOUT(time));
-  unsigned int cursor = 0;
-  for (unsigned int i = 0; i < 6; ++i)
-    if (fl((int)i)) error(cursor++) = v(i);
+  std::size_t cursor = 0;
+  for (std::size_t i = 0; i < 6; ++i)
+    if (fl((size_type)i)) error(cursor++) = v(i);
 
   return error;
 }
@@ -298,9 +298,9 @@ Vector &FeaturePose<representation>::computeErrorDot(Vector &errordot,
       q_faMfbDes.accessCopy(), q_faMfb.accessCopy(), Jminus);
   Vector6d nu = convertVelocity<LieGroup_t>(faMfb(time), _faMfbDes,
                                             faNufafbDes.accessCopy());
-  unsigned int cursor = 0;
-  for (unsigned int i = 0; i < 6; ++i)
-    if (fl((int)i)) errordot(cursor++) = Jminus.row(i) * nu;
+  std::size_t cursor = 0;
+  for (std::size_t i = 0; i < 6; ++i)
+    if (fl((size_type)i)) errordot(cursor++) = Jminus.row(i) * nu;
 
   return errordot;
 }
@@ -329,7 +329,7 @@ void FeaturePose<representation>::display(std::ostream &os) const {
   try {
     const Flags &fl = selectionSIN.accessCopy();
     bool first = true;
-    for (int i = 0; i < 6; ++i)
+    for (size_type i = 0; i < 6; ++i)
       if (fl(i)) {
         if (first) {
           first = false;

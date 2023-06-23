@@ -88,7 +88,7 @@ void ClampWorkspace::update(sigtime_t time) {
   prefMp = prefMw * pos;
   Vector x(prefMp.translation());
 
-  for (int i = 0; i < 3; ++i) {
+  for (size_type i = 0; i < 3; ++i) {
     double check_min = std::max(x(i) - bounds[i].first, 0.);
     double check_max = std::max(bounds[i].second - x(i), 0.);
     double dm = std::min(check_min, check_max);
@@ -134,7 +134,7 @@ void ClampWorkspace::update(sigtime_t time) {
   if (frame == FRAME_POINT) {
     MatrixHomogeneous prefMp_tmp = prefMp;
     MatrixHomogeneous pMpref = prefMp.inverse(Eigen::Affine);
-    for (int i = 0; i < 3; ++i) {
+    for (size_type i = 0; i < 3; ++i) {
       pMpref(i, 3) = 0;
       prefMp_tmp(i, 3) = 0;
     }
@@ -152,7 +152,7 @@ void ClampWorkspace::update(sigtime_t time) {
     alphabar = pTpref * tmp;
   }
 
-  for (int i = 0; i < 3; ++i) {
+  for (size_type i = 0; i < 3; ++i) {
     pd(i) = 0.5 * (bounds[i].first + bounds[i].second);
   }
 

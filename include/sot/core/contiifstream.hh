@@ -36,7 +36,7 @@ class SOT_CORE_EXPORT Contiifstream {
  protected:
   std::string filename;
   std::streamoff cursor;
-  static const unsigned int BUFFER_SIZE = 256;
+  static const std::size_t BUFFER_SIZE = 256;
   char buffer[BUFFER_SIZE];
   std::list<std::string> reader;
   bool first;

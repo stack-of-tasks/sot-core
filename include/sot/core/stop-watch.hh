@@ -31,6 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <iostream>
 #include <map>
 #include <sstream>
+#include <sot/core/fwd.hh>
 
 #ifndef WIN32
 /* The classes below are exported */

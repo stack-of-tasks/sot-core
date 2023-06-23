@@ -51,12 +51,12 @@ class SOT_CORE_EXPORT Flags {
   SOT_CORE_EXPORT friend std::ostream &operator<<(std::ostream &os,
                                                   const Flags &fl);
   SOT_CORE_EXPORT friend std::istream &operator>>(std::istream &is, Flags &fl);
-  bool operator()(const int &i) const;
+  bool operator()(const size_type &i) const;
 
   operator bool(void) const;
 
-  void unset(const unsigned int &i);
-  void set(const unsigned int &i);
+  void unset(const std::size_t &i);
+  void set(const std::size_t &i);
 };
 
 }  // namespace sot

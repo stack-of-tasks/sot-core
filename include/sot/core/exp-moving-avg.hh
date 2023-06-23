@@ -35,7 +35,7 @@ class SOT_CORE_DLLAPI ExpMovingAvg : public Entity {
 
  public:
   SignalPtr<dynamicgraph::Vector, sigtime_t> updateSIN;
-  SignalTimeDependent<int, sigtime_t> refresherSINTERN;
+  SignalTimeDependent<size_type, sigtime_t> refresherSINTERN;
   SignalTimeDependent<dynamicgraph::Vector, sigtime_t> averageSOUT;
 
  public:

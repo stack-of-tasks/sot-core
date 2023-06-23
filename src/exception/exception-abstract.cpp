@@ -12,6 +12,7 @@
 
 using namespace std;
 using namespace dynamicgraph::sot;
+typedef dynamicgraph::size_type size_type;
 
 /* ------------------------------------------------------------------------- */
 /* --- CONSTRUCTORS -------------------------------------------------------- */
@@ -19,7 +20,7 @@ using namespace dynamicgraph::sot;
 
 const std::string ExceptionAbstract::EXCEPTION_NAME = "Abstract";
 
-ExceptionAbstract::ExceptionAbstract(const int &_code, const string &_msg)
+ExceptionAbstract::ExceptionAbstract(const size_type &_code, const string &_msg)
     : code(_code),
       message(_msg)
 
@@ -39,7 +40,7 @@ const string &ExceptionAbstract::getStringMessage(void) {
   return this->message;
 }
 
-int ExceptionAbstract::getCode(void) { return this->code; }
+size_type ExceptionAbstract::getCode(void) { return this->code; }
 
 const char *ExceptionAbstract::what() const throw() { return message.c_str(); }
 
@@ -61,7 +62,7 @@ ExceptionAbstract::Param &ExceptionAbstract::Param::initCopy(const Param &p) {
   sotDEBUGOUT(25);
   return *this;
 }
-ExceptionAbstract::Param::Param(const int &_line, const char *_function,
+ExceptionAbstract::Param::Param(const size_type &_line, const char *_function,
                                 const char *_file)
     : functionPTR(_function), line(_line), filePTR(_file), pointersSet(true) {
   sotDEBUGINOUT(25);

@@ -155,7 +155,7 @@ void GainAdaptive::display(std::ostream &os) const {
   os << "Gain Adaptative " << getName();
   try {
     os << " = " << double(gainSOUT.accessCopy());
-  } catch (ExceptionSignal e) {
+  } catch (const ExceptionSignal &e) {
   }
   os << " (" << coeff_a << ";" << coeff_b << ";" << coeff_c << ") ";
 }
@@ -163,7 +163,7 @@ void GainAdaptive::display(std::ostream &os) const {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-double &GainAdaptive::computeGain(double &res, int t) {
+double &GainAdaptive::computeGain(double &res, sigtime_t t) {
   sotDEBUGIN(15);
   const dynamicgraph::Vector &error = errorSIN(t);
   const double norm = error.norm();

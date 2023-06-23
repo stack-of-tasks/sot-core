@@ -60,7 +60,7 @@ void FeatureGeneric::removeDependenciesFromReference(void) {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int &FeatureGeneric::getDimension(unsigned int &dim, sigtime_t time) {
+size_type &FeatureGeneric::getDimension(size_type &dim, sigtime_t time) {
   sotDEBUG(25) << "# In {" << endl;
 
   const Flags &fl = selectionSIN.access(time);
@@ -68,7 +68,7 @@ unsigned int &FeatureGeneric::getDimension(unsigned int &dim, sigtime_t time) {
   if (dimensionDefault == 0) dimensionDefault = errorSIN.access(time).size();
 
   dim = 0;
-  for (unsigned int i = 0; i < dimensionDefault; ++i)
+  for (size_type i = 0; i < dimensionDefault; ++i)
     if (fl(i)) dim++;
 
   sotDEBUG(25) << "# Out }" << endl;
@@ -78,9 +78,9 @@ unsigned int &FeatureGeneric::getDimension(unsigned int &dim, sigtime_t time) {
 Vector &FeatureGeneric::computeError(Vector &res, sigtime_t time) {
   const Vector &err = errorSIN.access(time);
   const Flags &fl = selectionSIN.access(time);
-  const int &dim = dimensionSOUT(time);
+  const size_type &dim = dimensionSOUT(time);
 
-  unsigned int curr = 0;
+  std::size_t curr = 0;
   res.resize(dim);
   if (err.size() < dim) {
     SOT_THROW ExceptionFeature(
@@ -104,11 +104,11 @@ Vector &FeatureGeneric::computeError(Vector &res, sigtime_t time) {
           getName().c_str());
     }
 
-    for (int i = 0; i < err.size(); ++i)
+    for (size_type i = 0; i < err.size(); ++i)
       if (fl(i))
         if (fl(i)) res(curr++) = err(i) - errDes(i);
   } else {
-    for (int i = 0; i < err.size(); ++i)
+    for (size_type i = 0; i < err.size(); ++i)
       if (fl(i)) res(curr++) = err(i);
   }
 
@@ -120,14 +120,14 @@ Matrix &FeatureGeneric::computeJacobian(Matrix &res, sigtime_t time) {
 
   const Matrix &Jac = jacobianSIN.access(time);
   const Flags &fl = selectionSIN.access(time);
-  const unsigned int &dim = dimensionSOUT(time);
+  const std::size_t &dim = dimensionSOUT(time);
 
-  unsigned int curr = 0;
+  std::size_t curr = 0;
   res.resize(dim, Jac.cols());
 
-  for (unsigned int i = 0; curr < dim; ++i)
+  for (std::size_t i = 0; curr < dim; ++i)
     if (fl(i)) {
-      for (int j = 0; j < Jac.cols(); ++j) res(curr, j) = Jac(i, j);
+      for (size_type j = 0; j < Jac.cols(); ++j) res(curr, j) = Jac(i, j);
       curr++;
     }
 

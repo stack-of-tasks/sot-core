@@ -88,7 +88,7 @@ Sot::Sot(const std::string &name)
       "        - a positive integer : number of degrees of freedom of "
       "the robot.\n"
       "    \n";
-  addCommand("setSize", new dynamicgraph::command::Setter<Sot, unsigned int>(
+  addCommand("setSize", new dynamicgraph::command::Setter<Sot, size_type>(
                             *this, &Sot::defineNbDof, docstring));
 
   docstring =
@@ -100,7 +100,7 @@ Sot::Sot(const std::string &name)
       "the robot.\n"
       "    \n";
   addCommand("getSize",
-             new dynamicgraph::command::Getter<Sot, const unsigned int &>(
+             new dynamicgraph::command::Getter<Sot, const size_type &>(
                  *this, &Sot::getNbDof, docstring));
 
   addCommand("enablePostureTaskAcceleration",
@@ -316,7 +316,7 @@ void Sot::clear(void) {
   controlSOUT.setReady();
 }
 
-void Sot::defineNbDof(const unsigned int &nbDof) {
+void Sot::defineNbDof(const size_type &nbDof) {
   nbJoints = nbDof;
   controlSOUT.setReady();
 }
@@ -333,7 +333,7 @@ const Matrix &computeJacobianActivated(TaskAbstract *Ta, Task *T, Matrix &Jmem,
     if (controlSelec) {
       if (!controlSelec) {
         Jmem = Ta->jacobianSOUT.accessCopy();
-        for (int i = 0; i < Jmem.cols(); ++i)
+        for (size_type i = 0; i < Jmem.cols(); ++i)
           if (!controlSelec(i)) Jmem.col(i).setZero();
         return Jmem;
       } else
@@ -458,7 +458,7 @@ MemoryTaskSOT *getMemory(TaskAbstract &t, const Matrix::Index &tDim,
 void Sot::taskVectorToMlVector(const VectorMultiBound &taskVector,
                                Vector &res) {
   res.resize(taskVector.size());
-  unsigned int i = 0;
+  std::size_t i = 0;
 
   for (VectorMultiBound::const_iterator iter = taskVector.begin();
        iter != taskVector.end(); ++iter, ++i) {
@@ -505,7 +505,7 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
   }
 
   sotDEBUGF(5, " --- Time %d -------------------", iterTime);
-  unsigned int iterTask = 0;
+  std::size_t iterTask = 0;
   KernelConst_t kernel(NULL, 0, 0);
   bool has_kernel = false;
   // Get initial projector if any.

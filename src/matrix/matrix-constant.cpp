@@ -38,8 +38,8 @@ MatrixConstant::MatrixConstant(const std::string &name)
       "    \n"
       "    Resize the matrix and set it to zero.\n"
       "      Input\n"
-      "        - unsigned int: number of lines.\n"
-      "        - unsigned int: number of columns.\n"
+      "        - std::size_t: number of lines.\n"
+      "        - std::size_t: number of columns.\n"
       "\n";
   addCommand("resize", new command::matrixConstant::Resize(*this, docstring));
   // set

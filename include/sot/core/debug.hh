@@ -15,6 +15,7 @@
 #include <sstream>
 
 #include "sot/core/api.hh"
+#include "sot/core/fwd.hh"
 
 #ifndef VP_DEBUG_MODE
 #define VP_DEBUG_MODE 0
@@ -37,17 +38,17 @@ namespace dynamicgraph {
 namespace sot {
 class SOT_CORE_EXPORT DebugTrace {
  public:
-  static const int SIZE = 512;
+  static const size_type SIZE = 512;
 
   std::stringstream tmpbuffer;
   std::ostream &outputbuffer;
   char charbuffer[SIZE + 1];
-  int traceLevel;
-  int traceLevelTemplate;
+  size_type traceLevel;
+  size_type traceLevelTemplate;
 
   DebugTrace(std::ostream &os) : outputbuffer(os) {}
 
-  inline void trace(const int level, const char *format, ...) {
+  inline void trace(const size_type level, const char *format, ...) {
     if (level <= traceLevel) SOT_COMMON_TRACES;
     tmpbuffer.str("");
   }
@@ -57,12 +58,12 @@ class SOT_CORE_EXPORT DebugTrace {
     tmpbuffer.str("");
   }
 
-  inline void trace(const int level = -1) {
+  inline void trace(const size_type level = -1) {
     if (level <= traceLevel) outputbuffer << tmpbuffer.str();
     tmpbuffer.str("");
   }
 
-  inline void traceTemplate(const int level, const char *format, ...) {
+  inline void traceTemplate(const size_type level, const char *format, ...) {
     if (level <= traceLevelTemplate) SOT_COMMON_TRACES;
     tmpbuffer.str("");
   }
@@ -74,7 +75,7 @@ class SOT_CORE_EXPORT DebugTrace {
 
   inline DebugTrace &pre(const std::ostream &) { return *this; }
 
-  inline DebugTrace &pre(const std::ostream &, int level) {
+  inline DebugTrace &pre(const std::ostream &, size_type level) {
     traceLevel = level;
     return *this;
   }
@@ -150,9 +151,11 @@ SOT_CORE_EXPORT extern DebugTrace sotERRORFLOW;
 
 namespace dynamicgraph {
 namespace sot {
-inline bool sotDEBUG_ENABLE(const int &level) { return level <= VP_DEBUG_MODE; }
+inline bool sotDEBUG_ENABLE(const size_type &level) {
+  return level <= VP_DEBUG_MODE;
+}
 
-inline bool sotTDEBUG_ENABLE(const int &level) {
+inline bool sotTDEBUG_ENABLE(const size_type &level) {
   return level <= VP_TEMPLATE_DEBUG_MODE;
 }
 }  // namespace sot
@@ -176,9 +179,9 @@ inline bool sotTDEBUG_ENABLE(const int &level) {
 
 namespace dynamicgraph {
 namespace sot {
-inline void sotDEBUGF(const int, const char *, ...) {}
+inline void sotDEBUGF(const size_type, const char *, ...) {}
 inline void sotDEBUGF(const char *, ...) {}
-inline void sotERRORF(const int, const char *, ...) {}
+inline void sotERRORF(const size_type, const char *, ...) {}
 inline void sotERRORF(const char *, ...) {}
 inline std::ostream &__null_stream() {
   // This function should never be called. With -O3,
@@ -198,7 +201,7 @@ inline std::ostream &__null_stream() {
 
 namespace dynamicgraph {
 namespace sot {
-inline void sotTDEBUGF(const int, const char *, ...) {}
+inline void sotTDEBUGF(const size_type, const char *, ...) {}
 inline void sotTDEBUGF(const char *, ...) {}
 }  // namespace sot
 }  // namespace dynamicgraph

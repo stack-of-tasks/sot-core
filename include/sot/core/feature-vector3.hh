@@ -67,7 +67,7 @@ class SOTFEATUREVECTOR3_EXPORT FeatureVector3 : public FeatureAbstract {
   FeatureVector3(const std::string &name);
   virtual ~FeatureVector3(void) {}
 
-  virtual unsigned int &getDimension(unsigned int &dim, sigtime_t time);
+  virtual size_type &getDimension(size_type &dim, sigtime_t time);
 
   virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
                                              sigtime_t time);

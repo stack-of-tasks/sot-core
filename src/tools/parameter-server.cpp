@@ -151,10 +151,10 @@ ParameterServer::ParameterServer(const std::string &name)
   addCommand(
       "setParameterInt",
       makeCommandVoid2(
-          *this, &ParameterServer::setParameter<int>,
+          *this, &ParameterServer::setParameter<size_type>,
           docCommandVoid2("Set a parameter named ParameterName to value "
                           "ParameterValue (string format).",
-                          "(string) ParameterName", "(int) ParameterValue")));
+                          "(string) ParameterName", "(size_type) ParameterValue")));
   addCommand("setParameterDbl",
              makeCommandVoid2(
                  *this, &ParameterServer::setParameter<double>,
@@ -182,10 +182,10 @@ ParameterServer::ParameterServer(const std::string &name)
   addCommand(
       "getParameterInt",
       makeCommandReturnType1(
-          *this, &ParameterServer::getParameter<int>,
-          docCommandReturnType1<int>("Return the parameter value for parameter"
+          *this, &ParameterServer::getParameter<size_type>,
+          docCommandReturnType1<size_type>("Return the parameter value for parameter"
                                      " named ParameterName.",
-                                     "(int) ParameterName")));
+                                     "(size_type) ParameterName")));
 
   addCommand(
       "getParameterDbl",
@@ -381,7 +381,7 @@ void ParameterServer::displayRobotUtil() { m_robot_util->display(std::cout); }
  * ---------------------------------------------------------- */
 
 bool ParameterServer::convertJointNameToJointId(const std::string &name,
-                                                unsigned int &id) {
+                                                std::size_t &id) {
   // Check if the joint name exists
   sot::Index jid = m_robot_util->get_id_from_name(name);
   if (jid < 0) {
@@ -393,11 +393,11 @@ bool ParameterServer::convertJointNameToJointId(const std::string &name,
     SEND_MSG("Possible joint names are: " + ss.str(), MSG_TYPE_INFO);
     return false;
   }
-  id = (unsigned int)jid;
+  id = (std::size_t)jid;
   return true;
 }
 
-bool ParameterServer::isJointInRange(unsigned int id, double q) {
+bool ParameterServer::isJointInRange(std::size_t id, double q) {
   const JointLimits &JL = m_robot_util->get_joint_limits_from_id((Index)id);
 
   double jl = JL.lower;

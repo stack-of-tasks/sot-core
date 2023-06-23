@@ -71,7 +71,7 @@ class SOTFEATUREVISUALPOINT_EXPORT FeatureVisualPoint
   FeatureVisualPoint(const std::string &name);
   virtual ~FeatureVisualPoint(void) {}
 
-  virtual unsigned int &getDimension(unsigned int &dim, sigtime_t time);
+  virtual size_type &getDimension(size_type &dim, sigtime_t time);
 
   virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
                                              sigtime_t time);

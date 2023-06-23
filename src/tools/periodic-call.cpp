@@ -49,13 +49,13 @@ void PeriodicCall::addSignal(const std::string &sigpath) {
 
 void PeriodicCall::addDownsampledSignal(
     const std::string &name, SignalBase<sigtime_t> &sig,
-    const unsigned int &downsamplingFactor) {
+    const std::size_t &downsamplingFactor) {
   signalMap[name] = SignalToCall(&sig, downsamplingFactor);
   return;
 }
 
 void PeriodicCall::addDownsampledSignal(
-    const std::string &sigpath, const unsigned int &downsamplingFactor) {
+    const std::string &sigpath, const std::size_t &downsamplingFactor) {
   istringstream sigISS(sigpath);
   SignalBase<sigtime_t> &signal =
       ::dynamicgraph::PoolStorage::getInstance()->getSignal(sigISS);

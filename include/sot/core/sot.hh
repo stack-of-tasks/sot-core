@@ -73,7 +73,7 @@ class SOTSOT_CORE_EXPORT Sot : public Entity {
 
   /*! \brief Store the number of joints to be used in the
     command computed by the stack of tasks. */
-  unsigned int nbJoints;
+  size_type nbJoints;
 
   /*! \brief Option to disable the computation of the SVD for the last task
     if this task is a Task with a single FeaturePosture */
@@ -148,8 +148,8 @@ class SOTSOT_CORE_EXPORT Sot : public Entity {
 
   /*! \brief This method defines the part of the state vector
     which correspond to the free flyer of the robot. */
-  virtual void defineNbDof(const unsigned int &nbDof);
-  virtual const unsigned int &getNbDof() const { return nbJoints; }
+  virtual void defineNbDof(const size_type &nbDof);
+  virtual const size_type &getNbDof() const { return nbJoints; }
 
   /*! @} */
  public: /* --- CONTROL --- */

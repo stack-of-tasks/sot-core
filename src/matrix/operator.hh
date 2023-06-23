@@ -80,11 +80,11 @@ struct VectorSelecter : public UnaryOpHeader<dg::Vector, dg::Vector> {
   segments_t idxs;
   Vector::Index size;
 
-  inline void setBounds(const int &m, const int &M) {
+  inline void setBounds(const size_type &m, const size_type &M) {
     idxs = segments_t(1, segment_t(m, M - m));
     size = M - m;
   }
-  inline void addBounds(const int &m, const int &M) {
+  inline void addBounds(const size_type &m, const size_type &M) {
     idxs.push_back(segment_t(m, M - m));
     size += M - m;
   }
@@ -94,15 +94,15 @@ struct VectorSelecter : public UnaryOpHeader<dg::Vector, dg::Vector> {
     using namespace dynamicgraph::command;
     std::string doc;
 
-    boost::function<void(const int &, const int &)> setBound =
+    boost::function<void(const size_type &, const size_type &)> setBound =
         boost::bind(&VectorSelecter::setBounds, this, _1, _2);
-    doc = docCommandVoid2("Set the bound of the selection [m,M[.", "int (min)",
-                          "int (max)");
+    doc = docCommandVoid2("Set the bound of the selection [m,M[.", "size_type (min)",
+                          "size_type (max)");
     ADD_COMMAND("selec", makeCommandVoid2(ent, setBound, doc));
-    boost::function<void(const int &, const int &)> addBound =
+    boost::function<void(const size_type &, const size_type &)> addBound =
         boost::bind(&VectorSelecter::addBounds, this, _1, _2);
-    doc = docCommandVoid2("Add a segment to be selected [m,M[.", "int (min)",
-                          "int (max)");
+    doc = docCommandVoid2("Add a segment to be selected [m,M[.", "size_type (min)",
+                          "size_type (max)");
     ADD_COMMAND("addSelec", makeCommandVoid2(ent, addBound, doc));
   }
   VectorSelecter() : size(0) {}
@@ -115,8 +115,8 @@ struct VectorComponent : public UnaryOpHeader<dg::Vector, double> {
     res = m(index);
   }
 
-  int index;
-  inline void setIndex(const int &m) { index = m; }
+  size_type index;
+  inline void setIndex(const size_type &m) { index = m; }
 
   inline void addSpecificCommands(Entity &ent,
                                   Entity::CommandMap_t &commandMap) {
@@ -125,7 +125,7 @@ struct VectorComponent : public UnaryOpHeader<dg::Vector, double> {
     boost::function<void(const int &)> callback =
         boost::bind(&VectorComponent::setIndex, this, _1);
     doc = command::docCommandVoid1("Set the index of the component.",
-                                   "int (index)");
+                                   "size_type (index)");
     ADD_COMMAND("setIndex", command::makeCommandVoid1(ent, callback, doc));
   }
   inline std::string getDocString() const {
@@ -143,19 +143,19 @@ struct MatrixSelector : public UnaryOpHeader<dg::Matrix, dg::Matrix> {
     assert((imin <= imax) && (imax <= m.rows()));
     assert((jmin <= jmax) && (jmax <= m.cols()));
     res.resize(imax - imin, jmax - jmin);
-    for (int i = imin; i < imax; ++i)
-      for (int j = jmin; j < jmax; ++j) res(i - imin, j - jmin) = m(i, j);
+    for (size_type i = imin; i < imax; ++i)
+      for (size_type j = jmin; j < jmax; ++j) res(i - imin, j - jmin) = m(i, j);
   }
 
  public:
-  int imin, imax;
-  int jmin, jmax;
+  size_type imin, imax;
+  size_type jmin, jmax;
 
-  inline void setBoundsRow(const int &m, const int &M) {
+  inline void setBoundsRow(const size_type &m, const size_type &M) {
     imin = m;
     imax = M;
   }
-  inline void setBoundsCol(const int &m, const int &M) {
+  inline void setBoundsCol(const size_type &m, const size_type &M) {
     jmin = m;
     jmax = M;
   }
@@ -165,16 +165,16 @@ struct MatrixSelector : public UnaryOpHeader<dg::Matrix, dg::Matrix> {
     using namespace dynamicgraph::command;
     std::string doc;
 
-    boost::function<void(const int &, const int &)> setBoundsRow =
+    boost::function<void(const size_type &, const size_type &)> setBoundsRow =
         boost::bind(&MatrixSelector::setBoundsRow, this, _1, _2);
-    boost::function<void(const int &, const int &)> setBoundsCol =
+    boost::function<void(const size_type &, const size_type &)> setBoundsCol =
         boost::bind(&MatrixSelector::setBoundsCol, this, _1, _2);
 
-    doc = docCommandVoid2("Set the bound on rows.", "int (min)", "int (max)");
+    doc = docCommandVoid2("Set the bound on rows.", "size_type (min)", "size_type (max)");
     ADD_COMMAND("selecRows", makeCommandVoid2(ent, setBoundsRow, doc));
 
-    doc = docCommandVoid2("Set the bound on cols [m,M[.", "int (min)",
-                          "int (max)");
+    doc = docCommandVoid2("Set the bound on cols [m,M[.", "size_type (min)",
+                          "size_type (max)");
     ADD_COMMAND("selecCols", makeCommandVoid2(ent, setBoundsCol, doc));
   }
 };
@@ -187,13 +187,13 @@ struct MatrixColumnSelector : public UnaryOpHeader<dg::Matrix, dg::Vector> {
     assert(jcol < m.cols());
 
     res.resize(imax - imin);
-    for (int i = imin; i < imax; ++i) res(i - imin) = m(i, jcol);
+    for (size_type i = imin; i < imax; ++i) res(i - imin) = m(i, jcol);
   }
 
-  int imin, imax;
-  int jcol;
-  inline void selectCol(const int &m) { jcol = m; }
-  inline void setBoundsRow(const int &m, const int &M) {
+  size_type imin, imax;
+  size_type jcol;
+  inline void selectCol(const size_type &m) { jcol = m; }
+  inline void setBoundsRow(const size_type &m, const size_type &M) {
     imin = m;
     imax = M;
   }
@@ -203,15 +203,15 @@ struct MatrixColumnSelector : public UnaryOpHeader<dg::Matrix, dg::Vector> {
     using namespace dynamicgraph::command;
     std::string doc;
 
-    boost::function<void(const int &, const int &)> setBoundsRow =
+    boost::function<void(const size_type &, const size_type &)> setBoundsRow =
         boost::bind(&MatrixColumnSelector::setBoundsRow, this, _1, _2);
-    boost::function<void(const int &)> selectCol =
+    boost::function<void(const size_type &)> selectCol =
         boost::bind(&MatrixColumnSelector::selectCol, this, _1);
 
-    doc = docCommandVoid2("Set the bound on rows.", "int (min)", "int (max)");
+    doc = docCommandVoid2("Set the bound on rows.", "size_type (min)", "size_type (max)");
     ADD_COMMAND("selecRows", makeCommandVoid2(ent, setBoundsRow, doc));
 
-    doc = docCommandVoid1("Select the col to copy.", "int (col index)");
+    doc = docCommandVoid1("Select the col to copy.", "size_type (col index)");
     ADD_COMMAND("selecCols", makeCommandVoid1(ent, selectCol, doc));
   }
 };
@@ -229,8 +229,8 @@ struct Diagonalizer : public UnaryOpHeader<Vector, Matrix> {
 
  public:
   Diagonalizer(void) : nbr(0), nbc(0) {}
-  unsigned int nbr, nbc;
-  inline void resize(const int &r, const int &c) {
+  std::size_t nbr, nbc;
+  inline void resize(const size_type &r, const size_type &c) {
     nbr = r;
     nbc = c;
   }
@@ -239,10 +239,10 @@ struct Diagonalizer : public UnaryOpHeader<Vector, Matrix> {
     using namespace dynamicgraph::command;
     std::string doc;
 
-    boost::function<void(const int &, const int &)> resize =
+    boost::function<void(const size_type &, const size_type &)> resize =
         boost::bind(&Diagonalizer::resize, this, _1, _2);
 
-    doc = docCommandVoid2("Set output size.", "int (row)", "int (col)");
+    doc = docCommandVoid2("Set output size.", "size_type (row)", "size_type (col)");
     ADD_COMMAND("resize", makeCommandVoid2(ent, resize, doc));
   }
 };
@@ -363,8 +363,8 @@ struct MatrixHomoToPoseRollPitchYaw
     dg::Vector t(3);
     t = M.translation();
     res.resize(6);
-    for (unsigned int i = 0; i < 3; ++i) res(i) = t(i);
-    for (unsigned int i = 0; i < 3; ++i) res(i + 3) = r(i);
+    for (std::size_t i = 0; i < 3; ++i) res(i) = t(i);
+    for (std::size_t i = 0; i < 3; ++i) res(i + 3) = r(i);
   }
 };
 
@@ -372,14 +372,14 @@ struct PoseRollPitchYawToMatrixHomo
     : public UnaryOpHeader<Vector, MatrixHomogeneous> {
   inline void operator()(const dg::Vector &vect, MatrixHomogeneous &Mres) {
     VectorRollPitchYaw r;
-    for (unsigned int i = 0; i < 3; ++i) r(i) = vect(i + 3);
+    for (std::size_t i = 0; i < 3; ++i) r(i) = vect(i + 3);
     MatrixRotation R = (Eigen::AngleAxisd(r(2), Eigen::Vector3d::UnitZ()) *
                         Eigen::AngleAxisd(r(1), Eigen::Vector3d::UnitY()) *
                         Eigen::AngleAxisd(r(0), Eigen::Vector3d::UnitX()))
                            .toRotationMatrix();
 
     dg::Vector t(3);
-    for (unsigned int i = 0; i < 3; ++i) t(i) = vect(i);
+    for (std::size_t i = 0; i < 3; ++i) t(i) = vect(i);
 
     // buildFrom(R,t);
     Mres = Eigen::Translation3d(t) * R;
@@ -389,7 +389,7 @@ struct PoseRollPitchYawToMatrixHomo
 struct PoseRollPitchYawToPoseUTheta : public UnaryOpHeader<Vector, Vector> {
   inline void operator()(const dg::Vector &vect, dg::Vector &vectres) {
     VectorRollPitchYaw r;
-    for (unsigned int i = 0; i < 3; ++i) r(i) = vect(i + 3);
+    for (std::size_t i = 0; i < 3; ++i) r(i) = vect(i + 3);
     MatrixRotation R = (Eigen::AngleAxisd(r(2), Eigen::Vector3d::UnitZ()) *
                         Eigen::AngleAxisd(r(1), Eigen::Vector3d::UnitY()) *
                         Eigen::AngleAxisd(r(0), Eigen::Vector3d::UnitX()))
@@ -398,7 +398,7 @@ struct PoseRollPitchYawToPoseUTheta : public UnaryOpHeader<Vector, Vector> {
     VectorUTheta rrot(R);
 
     vectres.resize(6);
-    for (unsigned int i = 0; i < 3; ++i) {
+    for (std::size_t i = 0; i < 3; ++i) {
       vectres(i) = vect(i);
       vectres(i + 3) = rrot.angle() * rrot.axis()(i);
     }
@@ -594,29 +594,29 @@ struct VectorStack
     : public BinaryOpHeader<dynamicgraph::Vector, dynamicgraph::Vector,
                             dynamicgraph::Vector> {
  public:
-  int v1min, v1max;
-  int v2min, v2max;
+  size_type v1min, v1max;
+  size_type v2min, v2max;
   inline void operator()(const dynamicgraph::Vector &v1,
                          const dynamicgraph::Vector &v2,
                          dynamicgraph::Vector &res) const {
     assert((v1max >= v1min) && (v1.size() >= v1max));
     assert((v2max >= v2min) && (v2.size() >= v2max));
 
-    const int v1size = v1max - v1min, v2size = v2max - v2min;
+    const size_type v1size = v1max - v1min, v2size = v2max - v2min;
     res.resize(v1size + v2size);
-    for (int i = 0; i < v1size; ++i) {
+    for (size_type i = 0; i < v1size; ++i) {
       res(i) = v1(i + v1min);
     }
-    for (int i = 0; i < v2size; ++i) {
+    for (size_type i = 0; i < v2size; ++i) {
       res(v1size + i) = v2(i + v2min);
     }
   }
 
-  inline void selec1(const int &m, const int M) {
+  inline void selec1(const size_type &m, const size_type M) {
     v1min = m;
     v1max = M;
   }
-  inline void selec2(const int &m, const int M) {
+  inline void selec2(const size_type &m, const size_type M) {
     v2min = m;
     v2max = M;
   }
@@ -626,21 +626,21 @@ struct VectorStack
     using namespace dynamicgraph::command;
     std::string doc;
 
-    boost::function<void(const int &, const int &)> selec1 =
+    boost::function<void(const size_type &, const size_type &)> selec1 =
         boost::bind(&VectorStack::selec1, this, _1, _2);
-    boost::function<void(const int &, const int &)> selec2 =
+    boost::function<void(const size_type &, const size_type &)> selec2 =
         boost::bind(&VectorStack::selec2, this, _1, _2);
 
     ADD_COMMAND(
         "selec1",
         makeCommandVoid2(ent, selec1,
                          docCommandVoid2("set the min and max of selection.",
-                                         "int (imin)", "int (imax)")));
+                                         "size_type (imin)", "size_type (imax)")));
     ADD_COMMAND(
         "selec2",
         makeCommandVoid2(ent, selec2,
                          docCommandVoid2("set the min and max of selection.",
-                                         "int (imin)", "int (imax)")));
+                                         "size_type (imin)", "size_type (imax)")));
   }
 };
 
@@ -672,13 +672,13 @@ struct ConvolutionTemporal
 
     res.resize(nsig);
     res.fill(0);
-    unsigned int j = 0;
+    std::size_t j = 0;
     for (MemoryType::const_iterator iter = f1.begin(); iter != f1.end();
          iter++) {
       const dynamicgraph::Vector &s_tau = *iter;
       sotDEBUG(45) << "Sig" << j << ": " << s_tau;
       if (s_tau.size() != nsig) return;  // TODO: error throw;
-      for (int i = 0; i < nsig; ++i) {
+      for (size_type i = 0; i < nsig; ++i) {
         res(i) += f2(i, j) * s_tau(i);
       }
       j++;
@@ -839,7 +839,7 @@ struct VariadicOpHeader {
   }
   template <typename Op>
   inline void initialize(VariadicOp<Op> *, Entity::CommandMap_t &) {}
-  inline void updateSignalNumber(const int &) {}
+  inline void updateSignalNumber(const size_type &) {}
   inline std::string getDocString() const {
     return std::string(
         "Undocumented variadic operator\n"
@@ -875,7 +875,7 @@ struct VectorMix : public VariadicOpHeader<Vector, Vector> {
     }
   }
 
-  inline void addSelec(const int &sigIdx, const int &i, const int &s) {
+  inline void addSelec(const size_type &sigIdx, const size_type &i, const size_type &s) {
     idxs.push_back(segment_t(i, s, sigIdx));
   }
 
@@ -885,15 +885,15 @@ struct VectorMix : public VariadicOpHeader<Vector, Vector> {
 
     ent->addSignal("default");
 
-    boost::function<void(const int &, const int &, const sigtime_t &)> selec =
+    boost::function<void(const size_type &, const size_type &, const sigtime_t &)> selec =
         boost::bind(&VectorMix::addSelec, this, _1, _2, _3);
 
     commandMap.insert(std::make_pair(
-        "addSelec", makeCommandVoid3<Base, int, int, sigtime_t>(
+        "addSelec", makeCommandVoid3<Base, size_type, size_type, sigtime_t>(
                         *ent, selec,
                         docCommandVoid3("add selection from a vector.",
-                                        "int (signal index >= 1)",
-                                        "int (index)", "int (size)"))));
+                                        "size_type (signal index >= 1)",
+                                        "size_type (index)", "size_type (size)"))));
   }
 };
 
@@ -918,7 +918,7 @@ struct AdderVariadic : public VariadicOpHeader<T, T> {
       throw std::invalid_argument("Invalid coefficient size.");
     coeffs = c;
   }
-  inline void updateSignalNumber(const int &n) { coeffs = Vector::Ones(n); }
+  inline void updateSignalNumber(const size_type &n) { coeffs = Vector::Ones(n); }
 
   inline void initialize(Base *ent, Entity::CommandMap_t &) {
     entity = ent;
@@ -985,7 +985,7 @@ inline void Multiplier<Vector>::operator()(
 }
 
 /* --- BOOLEAN --------------------------------------------------------- */
-template <int operation>
+template <size_type operation>
 struct BoolOp : public VariadicOpHeader<bool, bool> {
   typedef VariadicOp<BoolOp> Base;
 
@@ -1042,9 +1042,9 @@ struct BoolOp : public VariadicOpHeader<bool, bool> {
 //   void operator()( const dynamicgraph::Vector& v1,const dynamicgraph::Vector&
 //   v2,dynamicgraph::Vector& res ) const
 //   {
-//     const unsigned int s = std::max( v1.size(),v2.size() );
+//     const std::size_t s = std::max( v1.size(),v2.size() );
 //     res.resize(s);
-//     for( unsigned int i=0;i<s;++i )
+//     for( std::size_t i=0;i<s;++i )
 //       {
 // 	if( v1(i)>v2(i) ) res(i)=v1(i)-v2(i);
 // 	else 	if( v1(i)<-v2(i) ) res(i)=v1(i)+v2(i);

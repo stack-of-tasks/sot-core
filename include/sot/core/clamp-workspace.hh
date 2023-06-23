@@ -89,7 +89,7 @@ class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace : public dynamicgraph::Entity {
   double dm_max_yaw;
   double theta_min;
   double theta_max;
-  int mode;
+  size_type mode;
 
   enum { FRAME_POINT, FRAME_REF } frame;
 
