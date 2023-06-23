@@ -5,8 +5,8 @@
 #define BOOST_TEST_MODULE matrix_homogeneous
 
 #include <boost/math/constants/constants.hpp>
-#include <boost/test/floating_point_comparison.hpp>
-#include <boost/test/output_test_stream.hpp>
+#include <boost/test/tools/floating_point_comparison.hpp>
+#include <boost/test/tools/output_test_stream.hpp>
 #include <boost/test/unit_test.hpp>
 #include <sot/core/matrix-geometry.hh>
 

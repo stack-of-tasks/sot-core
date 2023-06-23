@@ -72,7 +72,7 @@ void ControlPD::display(std::ostream &os) const {
   os << "ControlPD " << getName();
   try {
     os << "control = " << controlSOUT;
-  } catch (ExceptionSignal e) {
+  } catch (const ExceptionSignal &e) {
   }
   os << " (" << TimeStep << ") ";
 }

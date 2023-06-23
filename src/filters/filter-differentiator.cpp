@@ -164,7 +164,7 @@ void FilterDifferentiator::display(std::ostream &os) const {
   os << "FilterDifferentiator " << getName() << ":\n";
   try {
     getProfiler().report_all(3, os);
-  } catch (ExceptionSignal e) {
+  } catch (const ExceptionSignal &e) {
   }
 }
 

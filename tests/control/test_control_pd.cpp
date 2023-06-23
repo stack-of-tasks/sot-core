@@ -26,7 +26,7 @@ using namespace dynamicgraph::sot;
 
 #define BOOST_TEST_MODULE debug - control - pd
 
-#include <boost/test/output_test_stream.hpp>
+#include <boost/test/tools/output_test_stream.hpp>
 #include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_CASE(control_pd) {
