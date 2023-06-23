@@ -49,8 +49,8 @@ class SOT_KALMAN_EXPORT Kalman : public Entity {
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
  protected:
-  unsigned int size_state;
-  unsigned int size_measure;
+  std::size_t size_state;
+  std::size_t size_measure;
   double dt;
 
  public:

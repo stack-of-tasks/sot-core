@@ -48,9 +48,9 @@ dynamicgraph::Vector &MotionPeriod::computeMotion(dynamicgraph::Vector &res,
   sotDEBUGIN(15);
 
   res.resize(size);
-  for (unsigned int i = 0; i < size; ++i) {
+  for (std::size_t i = 0; i < size; ++i) {
     const sotMotionParam &p = motionParams[i];
-    double x = ((((time - p.initPeriod) % p.period) + 0.0) / (p.period + 0.0));
+    double x = (double)((time - p.initPeriod) % p.period)/(double)(p.period);
     res(i) = p.initAmplitude;
     switch (p.motionType) {
       case MOTION_CONSTANT: {
@@ -73,10 +73,10 @@ dynamicgraph::Vector &MotionPeriod::computeMotion(dynamicgraph::Vector &res,
   return res;
 }
 
-void MotionPeriod::resize(const unsigned int &_size) {
+void MotionPeriod::resize(const std::size_t &_size) {
   size = _size;
   motionParams.resize(size);
-  for (unsigned int i = 0; i < size; ++i) {
+  for (std::size_t i = 0; i < size; ++i) {
     motionParams[i].motionType = MOTION_CONSTANT;
     motionParams[i].amplitude = 0;
     motionParams[i].initPeriod = 0;
@@ -91,7 +91,7 @@ void MotionPeriod::display(std::ostream &os) const {
 
 #define SOT_PARAMS_CONFIG(ARGname, ARGtype)                                 \
   else if (cmdLine == #ARGname) {                                           \
-    unsigned int rank;                                                      \
+    std::size_t rank;                                                      \
     ARGtype period;                                                         \
     cmdArgs >> rank >> std::ws;                                             \
     if (rank >= this->size) {                                               \

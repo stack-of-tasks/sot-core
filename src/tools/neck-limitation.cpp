@@ -23,8 +23,8 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(NeckLimitation, "NeckLimitation");
 const double NeckLimitation::COEFF_LINEAR_DEFAULT = -25.0 / 42.0;
 const double NeckLimitation::COEFF_AFFINE_DEFAULT = 0.6981;  // 40DG
 const double NeckLimitation::SIGN_TILT_DEFAULT = 1;
-const unsigned int NeckLimitation::PAN_RANK_DEFAULT = 14;
-const unsigned int NeckLimitation::TILT_RANK_DEFAULT = 15;
+const std::size_t NeckLimitation::PAN_RANK_DEFAULT = 14;
+const std::size_t NeckLimitation::TILT_RANK_DEFAULT = 15;
 
 NeckLimitation::NeckLimitation(const std::string &name)
     : Entity(name),

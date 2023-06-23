@@ -95,9 +95,9 @@ std::string FeatureAbstract::getReferenceByName() const {
 dynamicgraph::Vector &FeatureAbstract::computeErrorDot(
     dynamicgraph::Vector &res, sigtime_t time) {
   const Flags &fl = selectionSIN.access(time);
-  const int &dim = dimensionSOUT(time);
+  const size_type &dim = dimensionSOUT(time);
 
-  unsigned int curr = 0;
+  std::size_t curr = 0;
   res.resize(dim);
 
   sotDEBUG(25) << "Dim = " << dim << std::endl;
@@ -114,7 +114,7 @@ dynamicgraph::Vector &FeatureAbstract::computeErrorDot(
           getName().c_str());
     }
 
-    for (int i = 0; i < errdotDes.size(); ++i)
+    for (size_type i = 0; i < errdotDes.size(); ++i)
       if (fl(i)) res(curr++) = -errdotDes(i);
   } else
     res.setZero();

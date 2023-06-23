@@ -101,15 +101,15 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
     \return Dimension of the feature.
     \note Be careful with features changing their dimension according to time.
   */
-  virtual unsigned int &getDimension(unsigned int &res, sigtime_t time) = 0;
+  virtual size_type &getDimension(size_type &res, sigtime_t time) = 0;
 
   /*! \brief Short method
     \par time: The time at which the feature should be considered.
     \return Dimension of the feature.
     \note Be careful with features changing their dimension according to time.
   */
-  inline unsigned int getDimension(sigtime_t time) {
-    unsigned int res;
+  inline size_type getDimension(sigtime_t time) {
+    size_type res;
     getDimension(res, time);
     return res;
   }
@@ -118,7 +118,7 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
     \return Dimension of the feature.
     \note The feature is not changing its dimension according to time.
   */
-  inline unsigned int getDimension(void) const {
+  inline size_type getDimension(void) const {
     return dimensionSOUT.accessCopy();
   }
   /*! @} */
@@ -193,7 +193,7 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
   SignalTimeDependent<dynamicgraph::Matrix, sigtime_t> jacobianSOUT;
 
   /*! \brief Returns the dimension of the feature as an output signal. */
-  SignalTimeDependent<unsigned int, sigtime_t> dimensionSOUT;
+  SignalTimeDependent<size_type, sigtime_t> dimensionSOUT;
 
   /*! \brief This method write a graph description on the file named
     FileName. */

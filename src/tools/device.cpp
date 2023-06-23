@@ -55,7 +55,7 @@ inline double saturateBounds(double &val, const double &lower,
 }
 
 #define CHECK_BOUNDS(val, lower, upper, what, eps)                           \
-  for (int i = 0; i < val.size(); ++i) {                                     \
+  for (size_type i = 0; i < val.size(); ++i) {                                     \
     double old = val(i);                                                     \
     if (saturateBounds(val(i), lower(i), upper(i)) > eps) {                  \
       std::ostringstream oss;                                                \
@@ -70,7 +70,7 @@ inline double saturateBounds(double &val, const double &lower,
 /* --------------------------------------------------------------------- */
 
 Device::~Device() {
-  for (unsigned int i = 0; i < 4; ++i) {
+  for (std::size_t i = 0; i < 4; ++i) {
     delete forcesSOUT[i];
   }
 }
@@ -102,7 +102,7 @@ Device::Device(const std::string &n)
       forceZero6(6) {
   forceZero6.fill(0);
   /* --- SIGNALS --- */
-  for (int i = 0; i < 4; ++i) {
+  for (size_type i = 0; i < 4; ++i) {
     withForceSignals[i] = false;
   }
   forcesSOUT[0] =
@@ -135,7 +135,7 @@ Device::Device(const std::string &n)
         "\n"
         "    Set size of state vector\n"
         "\n";
-    addCommand("resize", new command::Setter<Device, unsigned int>(
+    addCommand("resize", new command::Setter<Device, size_type>(
                              *this, &Device::setStateSize, docstring));
     docstring =
         "\n"
@@ -236,12 +236,12 @@ void Device::getControl(map<string, ControlValues> &controlOut,
   if (controlInputType_ == POSITION_CONTROL) {
     CHECK_BOUNDS(dgControl, lowerPosition_, upperPosition_, "position", 1e-6);
   }
-  for (unsigned int i = 0; i < dgControl.size(); ++i) control[i] = dgControl[i];
+  for (size_type i = 0; i < dgControl.size(); ++i) control[i] = dgControl[i];
   controlOut["control"].setValues(control);
   sotDEBUGOUT(25);
 }
 
-void Device::setStateSize(const unsigned int &size) {
+void Device::setStateSize(const size_type &size) {
   state_.resize(size);
   state_.fill(.0);
   stateSOUT.setConstant(state_);
@@ -256,11 +256,11 @@ void Device::setStateSize(const unsigned int &size) {
   ZMPPreviousControllerSOUT.setConstant(zmp);
 }
 
-void Device::setControlSize(const int &size) { controlSize_ = size; }
+void Device::setControlSize(const size_type &size) { controlSize_ = size; }
 
-int Device::getControlSize() const { return controlSize_; }
+size_type Device::getControlSize() const { return controlSize_; }
 
-void Device::setVelocitySize(const unsigned int &size) {
+void Device::setVelocitySize(const size_type &size) {
   velocity_.resize(size);
   velocity_.fill(.0);
   velocitySOUT.setConstant(velocity_);
@@ -284,7 +284,7 @@ void Device::setRoot(const MatrixHomogeneous &worldMwaist) {
   VectorRollPitchYaw r = (worldMwaist.linear().eulerAngles(2, 1, 0)).reverse();
   Vector q = state_;
   q = worldMwaist.translation();  // abusive ... but working.
-  for (unsigned int i = 0; i < 3; ++i) q(i + 3) = r(i);
+  for (std::size_t i = 0; i < 3; ++i) q(i + 3) = r(i);
 }
 
 void Device::setSecondOrderIntegration() {}

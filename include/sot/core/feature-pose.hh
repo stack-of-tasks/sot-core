@@ -116,7 +116,7 @@ class SOT_CORE_DLLAPI FeaturePose : public FeatureAbstract {
   FeaturePose(const std::string &name);
   virtual ~FeaturePose(void);
 
-  virtual unsigned int &getDimension(unsigned int &dim, sigtime_t time);
+  virtual size_type &getDimension(size_type &dim, sigtime_t time);
 
   /// Computes \f$ {}^oM^{-1}_{fa} {}^oM_{fb} \ominus {}^{fa}M^*_{fb} \f$
   virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,

@@ -84,7 +84,7 @@ class SOTFILTERDIFFERENTIATOR_EXPORT FilterDifferentiator
 
  protected:
   double m_dt;  /// sampling timestep of the input signal
-  int m_x_size;
+  size_type m_x_size;
 
   /// polynomial-fitting filters
   CausalFilter *m_filter;
@@ -106,7 +106,7 @@ class SOTFILTERDIFFERENTIATOR_EXPORT FilterDifferentiator
    * polynomial fitting. The larger the delay,
    * the smoother the estimations.
    */
-  void init(const double &timestep, const int &xSize,
+  void init(const double &timestep, const size_type &xSize,
             const Eigen::VectorXd &filter_numerator,
             const Eigen::VectorXd &filter_denominator);
 

@@ -77,7 +77,7 @@ VectorMultiBound &TaskPD::computeTaskModif(VectorMultiBound &task,
   sotDEBUG(25) << " Task = " << task;
   sotDEBUG(25) << " edot = " << errorDot;
 
-  for (unsigned int i = 0; i < task.size(); ++i) {
+  for (std::size_t i = 0; i < task.size(); ++i) {
     task[i] = task[i].getSingleBound() - (beta * errorDot(i));
   }
 

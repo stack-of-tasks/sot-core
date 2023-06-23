@@ -58,7 +58,7 @@ class TimeStamp_EXPORT TimeStamp : public dynamicgraph::Entity {
 
  protected:
   struct timeval val;
-  unsigned int offsetValue;
+  std::size_t offsetValue;
   bool offsetSet;
 
  public:

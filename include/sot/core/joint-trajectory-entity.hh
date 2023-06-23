@@ -93,12 +93,12 @@ class SOTJOINT_TRAJECTORY_ENTITY_EXPORT SotJointTrajectoryEntity
   /// @}
 
  public:
-  typedef int Dummy;
+  typedef size_type Dummy;
 
   /// @name Signals
   /// @{
   /// \brief Internal signal for synchronisation.
-  dynamicgraph::SignalTimeDependent<int, sigtime_t> refresherSINTERN;
+  dynamicgraph::SignalTimeDependent<size_type, sigtime_t> refresherSINTERN;
 
   /// \brief Internal signal to trigger one step of the algorithm.
   SignalTimeDependent<Dummy, sigtime_t> OneStepOfUpdateS;
@@ -116,7 +116,7 @@ class SOTJOINT_TRAJECTORY_ENTITY_EXPORT SotJointTrajectoryEntity
   dynamicgraph::SignalTimeDependent<sot::MatrixHomogeneous, sigtime_t> waistSOUT;
 
   /// \brief Publish ID of the trajectory currently realized.
-  dynamicgraph::SignalTimeDependent<unsigned int, sigtime_t> seqIdSOUT;
+  dynamicgraph::SignalTimeDependent<std::size_t, sigtime_t> seqIdSOUT;
 
   /// \brief Read a trajectory.
   dynamicgraph::SignalPtr<Trajectory, sigtime_t> trajectorySIN;
@@ -142,7 +142,7 @@ class SOTJOINT_TRAJECTORY_ENTITY_EXPORT SotJointTrajectoryEntity
   sot::MatrixHomogeneous waist_;
 
   /// \brief Store the current seq identifier.
-  unsigned int seqid_;
+  std::size_t seqid_;
 
   /// \brief Initial state of the trajectory.
   sot::Trajectory init_traj_;

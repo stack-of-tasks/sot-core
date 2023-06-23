@@ -147,7 +147,7 @@ class FIRFilter : public Entity {
         "\n"
         "    Input:\n"
         "      - positive int: size\n";
-    addCommand("setSize", new Setter<FIRFilter, unsigned>(
+    addCommand("setSize", new Setter<FIRFilter, std::size_t>(
                               *this, &FIRFilter::resizeBuffer, docstring));
 
     docstring =
@@ -174,21 +174,21 @@ class FIRFilter : public Entity {
     return res;
   }
 
-  void resizeBuffer(const unsigned int &size) {
+  void resizeBuffer(const std::size_t &size) {
     size_t s = static_cast<size_t>(size);
     data.reset_capacity(s);
     coefs.resize(s);
   }
 
-  unsigned int getBufferSize() const {
-    return static_cast<unsigned int>(coefs.size());
+  std::size_t getBufferSize() const {
+    return static_cast<std::size_t>(coefs.size());
   }
 
-  void setElement(const unsigned int &rank, const coefT &coef) {
+  void setElement(const std::size_t &rank, const coefT &coef) {
     coefs[rank] = coef;
   }
 
-  coefT getElement(const unsigned int &rank) const { return coefs[rank]; }
+  coefT getElement(const std::size_t &rank) const { return coefs[rank]; }
 
   static void reset_signal(sigT & /*res*/, const sigT & /*sample*/) {}
 
@@ -219,7 +219,7 @@ Value SetElement<sigT, coefT>::doExecute() {
   FIRFilter<sigT, coefT> &entity =
       static_cast<FIRFilter<sigT, coefT> &>(owner());
   std::vector<Value> values = getParameterValues();
-  unsigned int rank = values[0].value();
+  std::size_t rank = values[0].value();
   coefT coef = values[1].value();
   entity.setElement(rank, coef);
   return Value();
@@ -235,7 +235,7 @@ Value GetElement<sigT, coefT>::doExecute() {
   FIRFilter<sigT, coefT> &entity =
       static_cast<FIRFilter<sigT, coefT> &>(owner());
   std::vector<Value> values = getParameterValues();
-  unsigned int rank = values[0].value();
+  std::size_t rank = values[0].value();
   return Value(entity.getElement(rank));
 }
 }  // namespace command

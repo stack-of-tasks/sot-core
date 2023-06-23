@@ -15,6 +15,7 @@
 using namespace std;
 using namespace dynamicgraph::sot;
 using namespace dynamicgraph;
+typedef dynamicgraph::size_type size_type;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(JointLimitator, "JointLimitator");
 
@@ -46,7 +47,7 @@ dynamicgraph::Vector &JointLimitator::computeWidthJl(dynamicgraph::Vector &res,
   const dynamicgraph::Vector::Index SIZE = UJL.size();
   res.resize(SIZE);
 
-  for (unsigned int i = 0; i < SIZE; ++i) {
+  for (size_type i = 0; i < SIZE; ++i) {
     res(i) = UJL(i) - LJL(i);
   }
 
@@ -70,7 +71,7 @@ dynamicgraph::Vector &JointLimitator::computeControl(dynamicgraph::Vector &uOUT,
   dynamicgraph::Vector::Index offset = q.size() - uIN.size();
   assert(offset >= 0);
 
-  for (unsigned int i = 0; i < controlSize; ++i) {
+  for (size_type i = 0; i < controlSize; ++i) {
     double qnext = q(i + offset) + uIN(i) * 0.005;
     if ((i + offset < 6) ||  // do not take into account of freeflyer
         ((qnext < UJL(i + offset)) && (qnext > LJL(i + offset)))) {

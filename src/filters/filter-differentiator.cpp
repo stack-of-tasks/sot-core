@@ -71,7 +71,7 @@ FilterDifferentiator::FilterDifferentiator(const std::string &name)
                        docDirectGetter("Control timestep [s ]", "double")));
   addCommand("getSize",
              makeDirectGetter(*this, &m_x_size,
-                              docDirectGetter("Size of the x signal", "int")));
+                              docDirectGetter("Size of the x signal", "size_type")));
   addCommand("init",
              makeCommandVoid4(*this, &FilterDifferentiator::init,
                               docCommandVoid4("Initialize the filter.",
@@ -89,7 +89,7 @@ FilterDifferentiator::FilterDifferentiator(const std::string &name)
 /* --- COMMANDS ------------------------------------------------------ */
 /* --- COMMANDS ------------------------------------------------------ */
 /* --- COMMANDS ------------------------------------------------------ */
-void FilterDifferentiator::init(const double &timestep, const int &xSize,
+void FilterDifferentiator::init(const double &timestep, const size_type &xSize,
                                 const Eigen::VectorXd &filter_numerator,
                                 const Eigen::VectorXd &filter_denominator) {
   m_x_size = xSize;

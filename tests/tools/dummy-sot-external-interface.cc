@@ -16,6 +16,7 @@
 
 using namespace std;
 using namespace dynamicgraph::sot;
+typedef dynamicgraph::size_type size_type;
 
 void DummySotExternalInterface::setupSetSensors(
     std::map<std::string, dynamicgraph::sot::SensorValues> &sensorsIn) {
@@ -43,7 +44,7 @@ void DummySotExternalInterface::getControl(
   return;
 }
 
-void DummySotExternalInterface::setControlSize(const int &) {}
+void DummySotExternalInterface::setControlSize(const size_type &) {}
 
 void DummySotExternalInterface::setSecondOrderIntegration(void) {
   second_integration_ = true;

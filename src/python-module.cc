@@ -29,14 +29,14 @@ BOOST_PYTHON_MODULE(wrap) {
       .def("addDownsampledSignal",
            static_cast<void (PeriodicCall::*)(
                const std::string &, dg::SignalBase<dg::sigtime_t> &,
-               const unsigned int &)>(&PeriodicCall::addDownsampledSignal),
+               const std::size_t &)>(&PeriodicCall::addDownsampledSignal),
            "Add the signal to the refresh list\n"
            "The downsampling factor: 1 means every time, "
            "2 means every other time, etc...",
            (bp::arg("name"), "signal", "factor"))
       .def("addDownsampledSignal",
            static_cast<void (PeriodicCall::*)(const std::string &,
-                                              const unsigned int &)>(
+                                              const std::size_t &)>(
                &PeriodicCall::addDownsampledSignal),
            "Add the signal to the refresh list\n"
            "The downsampling factor: 1 means every time, "

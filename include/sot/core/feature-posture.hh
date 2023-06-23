@@ -61,8 +61,8 @@ class SOTFEATUREPOSTURE_EXPORT FeaturePosture : public FeatureAbstract {
 
   explicit FeaturePosture(const std::string &name);
   virtual ~FeaturePosture();
-  virtual unsigned int &getDimension(unsigned int &res, sigtime_t);
-  void selectDof(unsigned dofId, bool control);
+  virtual size_type &getDimension(size_type &res, sigtime_t);
+  void selectDof(std::size_t dofId, bool control);
 
  protected:
   virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,

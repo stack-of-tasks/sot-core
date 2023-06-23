@@ -20,6 +20,7 @@
 #include <string>  /* Classe string.     */
 
 #include "sot/core/api.hh"
+#include <sot/core/fwd.hh>
 
 // Uncomment this macros to have lines parameter on the throw display
 // #define SOT_EXCEPTION_PASSING_PARAM
@@ -55,7 +56,7 @@ class SOT_CORE_EXPORT ExceptionAbstract : public std::exception {
  protected:
   /** Error code.
    * \sa ErrorCodeEnum */
-  int code;
+  size_type code;
 
   /**  Error message (can be empty). */
   std::string message;
@@ -65,11 +66,11 @@ class SOT_CORE_EXPORT ExceptionAbstract : public std::exception {
   ExceptionAbstract(void);
 
  public:
-  ExceptionAbstract(const int &code, const std::string &msg = "");
+  ExceptionAbstract(const size_type &code, const std::string &msg = "");
   virtual ~ExceptionAbstract(void) throw() {}
 
   /**  Access to the error code. */
-  int getCode(void);
+  size_type getCode(void);
 
   /** Reference access to the error message (can be empty). */
   const std::string &getStringMessage(void);
@@ -88,17 +89,17 @@ class SOT_CORE_EXPORT ExceptionAbstract : public std::exception {
  public:
   class Param {
    public:
-    static const int BUFFER_SIZE = 80;
+    static const size_type BUFFER_SIZE = 80;
 
     const char *functionPTR;
     char function[BUFFER_SIZE];
-    int line;
+    size_type line;
     const char *filePTR;
     char file[BUFFER_SIZE];
     bool pointersSet, set;
 
    public:
-    Param(const int &_line, const char *_function, const char *_file);
+    Param(const size_type &_line, const char *_function, const char *_file);
     Param(void) : pointersSet(false), set(false) {}
     Param &initCopy(const Param &p);
   };

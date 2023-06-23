@@ -11,6 +11,7 @@
 
 #include <map>
 #include <sot/core/api.hh>
+#include <sot/core/fwd.hh>
 #include <string>
 #include <vector>
 
@@ -61,7 +62,7 @@ class SOT_CORE_EXPORT AbstractSotExternalInterface {
   virtual void setSecondOrderIntegration(void) = 0;
   virtual void setNoIntegration(void) = 0;
   // Set the number of joints that are controlled
-  virtual void setControlSize(const int &) = 0;
+  virtual void setControlSize(const size_type &) = 0;
 };
 }  // namespace sot
 }  // namespace dynamicgraph

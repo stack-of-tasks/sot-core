@@ -52,9 +52,9 @@ VectorMultiBound &TaskConti::computeContiDesiredVelocity(
     sotDEBUG(15) << "q0 = " << q0 << std::endl;
     sotDEBUG(25) << "J = " << J << std::endl;
     if (q0.size() != (J.cols() - 6)) throw;  // TODO
-    for (int i = 0; i < J.rows(); ++i) {
+    for (size_type i = 0; i < J.rows(); ++i) {
       deref(i) = 0;
-      for (int j = 6; j < J.cols(); ++j) deref(i) += J(i, j) * q0(j - 6);
+      for (size_type j = 6; j < J.cols(); ++j) deref(i) += J(i, j) * q0(j - 6);
     }
 
     if (timeRef == TIME_REF_TO_BE_SET) {
@@ -65,7 +65,7 @@ VectorMultiBound &TaskConti::computeContiDesiredVelocity(
       throw 1;
     }
 
-    double dt = timeRef - timecurr;
+    double dt = (double)(timeRef - timecurr);
     dt *= mu / 200.0;
     double contiGain = exp(dt);
     double gain = (contiGain - 1) * lambda;
@@ -82,7 +82,7 @@ VectorMultiBound &TaskConti::computeContiDesiredVelocity(
     sotDEBUG(25) << "task: " << desvel << std::endl;
 
     desvel2b.resize(desvel.size());
-    for (int i = 0; i < desvel.size(); ++i) desvel2b[i] = desvel(i);
+    for (size_type i = 0; i < desvel.size(); ++i) desvel2b[i] = desvel(i);
 
     sotDEBUG(15) << "# Out }" << endl;
     return desvel2b;
@@ -90,7 +90,7 @@ VectorMultiBound &TaskConti::computeContiDesiredVelocity(
     const dynamicgraph::Vector &desvel = errorSOUT(timecurr);
     const double &gain = controlGainSIN(timecurr);
     desvel2b.resize(desvel.size());
-    for (int i = 0; i < desvel.size(); ++i) desvel2b[i] = -gain * desvel(i);
+    for (size_type i = 0; i < desvel.size(); ++i) desvel2b[i] = -gain * desvel(i);
     return desvel2b;
   }
 }

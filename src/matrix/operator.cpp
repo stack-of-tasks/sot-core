@@ -186,9 +186,9 @@ REGISTER_VARIADIC_OP(BoolOp<1>, Or);
 //   void operator()( const dynamicgraph::Vector& v1,const dynamicgraph::Vector&
 //   v2,dynamicgraph::Vector& res ) const
 //   {
-//     const unsigned int s = std::max( v1.size(),v2.size() );
+//     const std::size_t s = std::max( v1.size(),v2.size() );
 //     res.resize(s);
-//     for( unsigned int i=0;i<s;++i )
+//     for( std::size_t i=0;i<s;++i )
 //       {
 // 	if( v1(i)>v2(i) ) res(i)=v1(i)-v2(i);
 // 	else 	if( v1(i)<-v2(i) ) res(i)=v1(i)+v2(i);

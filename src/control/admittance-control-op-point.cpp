@@ -158,7 +158,7 @@ DEFINE_SIGNAL_INNER_FUNCTION(w_dq, dynamicgraph::Vector) {
   m_w_dq = m_w_dq + m_dt * (Kp.cwiseProduct(w_forceDes - w_force)) -
            Kd.cwiseProduct(m_w_dq);
 
-  for (int i = 0; i < m_n; i++) {
+  for (size_type i = 0; i < m_n; i++) {
     if (m_w_dq[i] > dqSaturation[i]) m_w_dq[i] = dqSaturation[i];
     if (m_w_dq[i] < -dqSaturation[i]) m_w_dq[i] = -dqSaturation[i];
   }

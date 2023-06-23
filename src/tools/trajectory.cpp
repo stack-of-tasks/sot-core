@@ -74,16 +74,16 @@ bool RulesJointTrajectory::search_exp_sub_string(
     if (dbg_level > 5) {
       std::cout << "** Match found **\n   Sub-Expressions:" << what.size()
                 << std::endl;
-      for (unsigned int i = 0; i < what.size(); ++i)
-        std::cout << "      $" << i << " = \"" << what[i] << "\" "
-                  << what.position(i) << " " << what.length(i) << "\n";
+      for (size_type i = 0; i < (size_type)what.size(); ++i)
+        std::cout << "      $" << i << " = \"" << what[(int)i] << "\" "
+                  << what.position(i) << " " << what.length((int)i) << "\n";
     }
     if (what.size() >= 1) {
-      unsigned int all_text = 0;
+      size_type all_text = 0;
       boost::match_results<std::string::const_iterator>::difference_type pos =
           what.position(all_text);
       boost::match_results<std::string::const_iterator>::difference_type len =
-          what.length(all_text);
+        what.length((int)all_text);
       sub_text = text.substr(pos + len);
       return true;
     }
@@ -291,7 +291,7 @@ Trajectory::Trajectory(const Trajectory &copy) {
 
 Trajectory::~Trajectory(void) {}
 
-int Trajectory::deserialize(std::istringstream &is) {
+size_type Trajectory::deserialize(std::istringstream &is) {
   std::string aStr = is.str();
   RulesJointTrajectory aRJT(*this);
   aRJT.parse_string(aStr);
@@ -300,7 +300,7 @@ int Trajectory::deserialize(std::istringstream &is) {
 }
 
 void Trajectory::display(std::ostream &os) const {
-  unsigned int index = 0;
+  std::size_t index = 0;
   os << "-- Trajectory --" << std::endl;
   for (std::vector<std::string>::const_iterator it_joint_name =
            joint_names_.begin();

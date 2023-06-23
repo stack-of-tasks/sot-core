@@ -58,8 +58,8 @@ class Signal : public ::dynamicgraph::Signal<Vector, sigtime_t> {
   typedef boost::try_mutex Mutex;
   typedef boost::lock_error MutexError;
 #else
-  typedef int *Mutex;
-  typedef int *MutexError;
+  typedef size_type *Mutex;
+  typedef size_type *MutexError;
 #endif
 
  protected:

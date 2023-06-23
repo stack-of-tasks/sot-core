@@ -60,11 +60,11 @@ class PeriodicCallEntity_EXPORT PeriodicCallEntity
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-  Signal<int, sigtime_t> triger;
-  Signal<int, sigtime_t> trigerOnce;
+  Signal<size_type, sigtime_t> triger;
+  Signal<size_type, sigtime_t> trigerOnce;
 
-  int &trigerCall(int &dummy, const sigtime_t &time);
-  int &trigerOnceCall(int &dummy, const sigtime_t &time);
+  size_type &trigerCall(size_type &dummy, const sigtime_t &time);
+  size_type &trigerOnceCall(size_type &dummy, const sigtime_t &time);
 
   /* --- FUNCTIONS ------------------------------------------------------------
    */

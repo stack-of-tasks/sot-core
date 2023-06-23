@@ -57,12 +57,12 @@ void sotReader::load(const string &filename) {
   sotDEBUGIN(15);
 
   std::ifstream datafile(filename.c_str());
-  const unsigned int SIZE = 1024;
+  const std::size_t SIZE = 1024;
   char buffer[SIZE];
   std::vector<double> newline;
   while (datafile.good()) {
     datafile.getline(buffer, SIZE);
-    const unsigned int gcount = (unsigned int)(datafile.gcount());
+    const std::size_t gcount = (std::size_t)(datafile.gcount());
     if (gcount >= SIZE) { /* TODO read error, line to long. */
     }
     std::istringstream iss(buffer);
@@ -99,7 +99,7 @@ void sotReader::rewind(void) {
 }
 
 dynamicgraph::Vector &sotReader::getNextData(dynamicgraph::Vector &res,
-                                             const unsigned int time) {
+                                             const std::size_t time) {
   sotDEBUGIN(15);
 
   if (!iteratorSet) {
@@ -118,13 +118,13 @@ dynamicgraph::Vector &sotReader::getNextData(dynamicgraph::Vector &res,
   const Flags &selection = selectionSIN(time);
   const std::vector<double> &curr = *currentData;
 
-  unsigned int dim = 0;
-  for (unsigned int i = 0; i < curr.size(); ++i)
+  std::size_t dim = 0;
+  for (std::size_t i = 0; i < curr.size(); ++i)
     if (selection(i)) dim++;
 
   res.resize(dim);
-  int cursor = 0;
-  for (unsigned int i = 0; i < curr.size(); ++i)
+  size_type cursor = 0;
+  for (std::size_t i = 0; i < curr.size(); ++i)
     if (selection(i)) res(cursor++) = curr[i];
 
   sotDEBUGOUT(15);
@@ -132,14 +132,14 @@ dynamicgraph::Vector &sotReader::getNextData(dynamicgraph::Vector &res,
 }
 
 dynamicgraph::Matrix &sotReader::getNextMatrix(dynamicgraph::Matrix &res,
-                                               const unsigned int time) {
+                                               const std::size_t time) {
   sotDEBUGIN(15);
   const dynamicgraph::Vector &vect = vectorSOUT(time);
   if (vect.size() < rows * cols) return res;
 
   res.resize(rows, cols);
-  for (int i = 0; i < rows; ++i)
-    for (int j = 0; j < cols; ++j) res(i, j) = vect(i * cols + j);
+  for (size_type i = 0; i < rows; ++i)
+    for (size_type j = 0; j < cols; ++j) res(i, j) = vect(i * cols + j);
 
   sotDEBUGOUT(15);
   return res;
@@ -172,7 +172,7 @@ void sotReader::initCommands() {
   addCommand("resize", dc::makeCommandVoid2(*this, &sotReader::resize, " "));
 }
 
-void sotReader::resize(const int &row, const int &col) {
+void sotReader::resize(const size_type &row, const size_type &col) {
   rows = row;
   cols = col;
 }

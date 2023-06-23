@@ -50,7 +50,7 @@ namespace sot {
   EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 6)        \
   EIGEN_MAKE_FIXED_TYPEDEFS(Type, TypeSuffix, 7)
 
-EIGEN_MAKE_TYPEDEFS_ALL_SIZES(int, i)
+EIGEN_MAKE_TYPEDEFS_ALL_SIZES(size_type, i)
 EIGEN_MAKE_TYPEDEFS_ALL_SIZES(float, f)
 EIGEN_MAKE_TYPEDEFS_ALL_SIZES(double, d)
 EIGEN_MAKE_TYPEDEFS_ALL_SIZES(std::complex<float>, cf)

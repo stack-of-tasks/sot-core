@@ -55,7 +55,7 @@ FeatureVector3::FeatureVector3(const string &pointName)
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int &FeatureVector3::getDimension(unsigned int &dim, sigtime_t /*time*/) {
+size_type &FeatureVector3::getDimension(size_type &dim, sigtime_t /*time*/) {
   sotDEBUG(25) << "# In {" << endl;
 
   return dim = 3;
@@ -89,10 +89,10 @@ Matrix &FeatureVector3::computeJacobian(Matrix &J, sigtime_t time) {
   RSk = R * Skew;
 
   J.resize(3, Jq.cols());
-  for (unsigned int i = 0; i < 3; ++i)
-    for (int j = 0; j < Jq.cols(); ++j) {
+  for (std::size_t i = 0; i < 3; ++i)
+    for (size_type j = 0; j < Jq.cols(); ++j) {
       J(i, j) = 0;
-      for (unsigned int k = 0; k < 3; ++k) {
+      for (std::size_t k = 0; k < 3; ++k) {
         J(i, j) -= RSk(i, k) * Jq(k + 3, j);
       }
     }

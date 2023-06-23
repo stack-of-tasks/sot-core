@@ -62,13 +62,13 @@ class SOTSEQUENCER_EXPORT Sequencer : public dynamicgraph::Entity {
    protected:
     std::string name;
     void setName(const std::string &name_) { name = name_; }
-    int eventType;
+    size_type eventType;
 
    public:
     sotEventAbstract(const std::string &name) : name(name){};
     virtual ~sotEventAbstract(void) {}
     virtual const std::string &getName() const { return name; }
-    int getEventType() const { return eventType; }
+    size_type getEventType() const { return eventType; }
     virtual void operator()(Sot *sotPtr) = 0;
     virtual void display(std::ostream &os) const { os << name; }
   };
@@ -76,12 +76,12 @@ class SOTSEQUENCER_EXPORT Sequencer : public dynamicgraph::Entity {
  protected:
   Sot *sotPtr;
   typedef std::list<sotEventAbstract *> TaskList;
-  typedef std::map<unsigned int, TaskList> TaskMap;
+  typedef std::map<std::size_t, TaskList> TaskMap;
 
   TaskMap taskMap;
   /* All the events are counting wrt to this t0. If t0 is -1, it
    * is set to the first time of trig.    */
-  int timeInit;
+  sigtime_t timeInit;
   bool playMode;
   std::ostream *outputStreamPtr;
   bool noOutput; /*! if true, display nothing standard output on except errors*/
@@ -92,15 +92,16 @@ class SOTSEQUENCER_EXPORT Sequencer : public dynamicgraph::Entity {
 
  public: /* --- TASK MANIP --- */
   void setSotRef(Sot *sot) { sotPtr = sot; }
-  void addTask(sotEventAbstract *task, const unsigned int time);
-  void rmTask(int eventType, const std::string &name, const unsigned int time);
+  void addTask(sotEventAbstract *task, const std::size_t time);
+  void rmTask(size_type eventType, const std::string &name,
+              const std::size_t time);
   void clearAll();
 
  public: /* --- SIGNAL --- */
-  dynamicgraph::SignalTimeDependent<int, sigtime_t> triggerSOUT;
+  dynamicgraph::SignalTimeDependent<size_type, sigtime_t> triggerSOUT;
 
  public: /* --- FUNCTIONS --- */
-  int &trigger(int &dummy, const sigtime_t &time);
+  size_type &trigger(size_type &dummy, const sigtime_t &time);
 
  public: /* --- PARAMS --- */
   virtual void display(std::ostream &os) const;

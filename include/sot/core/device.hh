@@ -80,13 +80,13 @@ class SOT_CORE_EXPORT Device : public Entity {
   /* --- DESTRUCTION --- */
   virtual ~Device();
 
-  virtual void setStateSize(const unsigned int &size);
+  virtual void setStateSize(const size_type &size);
   // Set number of joints that are controlled by the device.
-  void setControlSize(const int &size);
+  void setControlSize(const size_type &size);
   // Get the number of joints that are controlled by the device.
-  int getControlSize() const;
+  size_type getControlSize() const;
   virtual void setState(const dynamicgraph::Vector &st);
-  void setVelocitySize(const unsigned int &size);
+  void setVelocitySize(const size_type &size);
   virtual void setVelocity(const dynamicgraph::Vector &vel);
   virtual void setSecondOrderIntegration();
   virtual void setNoIntegration();
@@ -151,7 +151,7 @@ class SOT_CORE_EXPORT Device : public Entity {
 
  private:
   sigtime_t lastTimeControlWasRead_;
-  int controlSize_;
+  size_type controlSize_;
   // Intermediate variable to avoid dynamic allocation
   dynamicgraph::Vector forceZero6;
 };

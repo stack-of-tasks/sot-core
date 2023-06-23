@@ -52,11 +52,11 @@ void SmoothReach::initCommands(void) {
   addCommand("set",
              makeCommandVoid2(*this, &SmoothReach::set,
                               docCommandVoid2("Set the curve.", "vector (goal)",
-                                              "int (duration)")));
+                                              "size_type (duration)")));
   addCommand("param",
              makeCommandVoid2(*this, &SmoothReach::setSmoothing,
                               docCommandVoid2("Set the parameter.",
-                                              "int (mode)", "double (beta)")));
+                                              "size_type (mode)", "double (beta)")));
 }
 
 double SmoothReach::smoothFunction(double x) {
@@ -76,7 +76,7 @@ double SmoothReach::smoothFunction(double x) {
   return 0;
 }
 
-void SmoothReach::setSmoothing(const int &mode, const double &param) {
+void SmoothReach::setSmoothing(const size_type &mode, const double &param) {
   smoothMode = mode;
   smoothParam = param;
 }
@@ -93,7 +93,7 @@ dynamicgraph::Vector &SmoothReach::goalSOUT_function(dynamicgraph::Vector &res,
   }
 
   if (isStarted) {
-    double x = double(time - startTime) / lengthTime;
+    double x = double(time - startTime) / (double)lengthTime;
     if (x > 1) x = 1;
     double x1 = smoothFunction(x);
     double x0 = 1 - x1;
@@ -104,7 +104,7 @@ dynamicgraph::Vector &SmoothReach::goalSOUT_function(dynamicgraph::Vector &res,
 }
 
 void SmoothReach::set(const dynamicgraph::Vector &goalDes,
-                      const int &lengthDes) {
+                      const size_type &lengthDes) {
   goal = goalDes;
   lengthTime = lengthDes;
   isParam = true;
@@ -112,9 +112,9 @@ void SmoothReach::set(const dynamicgraph::Vector &goalDes,
 
 const dynamicgraph::Vector &SmoothReach::getGoal(void) { return goal; }
 
-const int &SmoothReach::getLength(void) { return lengthTime; }
+const size_type &SmoothReach::getLength(void) { return lengthTime; }
 
-const int &SmoothReach::getStart(void) { return startTime; }
+const size_type &SmoothReach::getStart(void) { return startTime; }
 
 void SmoothReach::display(std::ostream &os) const {
   os << "Status: " << isStarted << isParam << std::endl

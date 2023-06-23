@@ -59,7 +59,7 @@ void FeatureVisualPoint::removeDependenciesFromReference(void) {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int &FeatureVisualPoint::getDimension(unsigned int &dim, sigtime_t time) {
+size_type &FeatureVisualPoint::getDimension(size_type &dim, sigtime_t time) {
   sotDEBUG(25) << "# In {" << endl;
 
   const Flags &fl = selectionSIN.access(time);
@@ -81,9 +81,9 @@ Matrix &FeatureVisualPoint::computeJacobian(Matrix &J, sigtime_t time) {
   sotDEBUG(15) << "Get selection flags." << endl;
   const Flags &fl = selectionSIN(time);
 
-  const int dim = dimensionSOUT(time);
+  const size_type dim = dimensionSOUT(time);
   L.resize(dim, 6);
-  unsigned int cursorL = 0;
+  std::size_t cursorL = 0;
 
   sotDEBUG(5) << std::endl;
 
@@ -141,7 +141,7 @@ Vector &FeatureVisualPoint::computeError(Vector &error, sigtime_t time) {
   const Flags &fl = selectionSIN(time);
   sotDEBUGIN(15);
   error.resize(dimensionSOUT(time));
-  unsigned int cursorL = 0;
+  std::size_t cursorL = 0;
 
   if (!isReferenceSet()) {
     throw(ExceptionFeature(ExceptionFeature::BAD_INIT,

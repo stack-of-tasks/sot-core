@@ -188,7 +188,7 @@ Vector &Integrator::integrate(Vector &configuration, sigtime_t time) {
        << velocity.transpose() << ".";
     throw std::runtime_error(os.str().c_str());
   }
-  double delta_t = dt * (time - lastComputationTime_);
+  double delta_t = dt * (double)(time - lastComputationTime_);
   ::pinocchio::integrate(*model_, configuration_, delta_t * velocity,
                          configuration);
   configuration_ = configuration;

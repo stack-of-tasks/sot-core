@@ -27,7 +27,7 @@ class SOT_CORE_DLLAPI Switch : public VariadicAbstract<Value, Value, Time> {
 
   Switch(const std::string &name)
       : Base(name, CLASS_NAME),
-        selectionSIN(NULL, "Switch(" + name + ")::input(int)::selection"),
+        selectionSIN(NULL, "Switch(" + name + ")::input(size_type)::selection"),
         boolSelectionSIN(NULL,
                          "Switch(" + name + ")::input(bool)::boolSelection") {
     this->signalRegistration(selectionSIN << boolSelectionSIN);
@@ -47,7 +47,7 @@ class SOT_CORE_DLLAPI Switch : public VariadicAbstract<Value, Value, Time> {
         "\n"
         "    Get number of input signals\n";
     this->addCommand("getSignalNumber",
-                     new command::Getter<Base, int>(
+                     new command::Getter<Base, size_type>(
                          *this, &Base::getSignalNumber, docstring));
   }
 
@@ -58,19 +58,19 @@ class SOT_CORE_DLLAPI Switch : public VariadicAbstract<Value, Value, Time> {
     return "Dynamically select a given signal based on a input information.\n";
   }
 
-  SignalPtr<int, Time> selectionSIN;
+  SignalPtr<size_type, Time> selectionSIN;
   SignalPtr<bool, Time> boolSelectionSIN;
 
  private:
   Value &signal(Value &ret, const Time &time) {
-    int sel;
+    size_type sel;
     if (selectionSIN.isPlugged()) {
       sel = selectionSIN(time);
     } else {
       const bool &b = boolSelectionSIN(time);
       sel = b ? 1 : 0;
     }
-    if (sel < 0 || sel >= int(this->signalsIN.size()))
+    if (sel < 0 || sel >= size_type(this->signalsIN.size()))
       throw std::runtime_error("Signal selection is out of range.");
 
     ret = this->signalsIN[sel]->access(time);

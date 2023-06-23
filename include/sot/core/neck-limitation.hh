@@ -55,9 +55,9 @@ class NeckLimitation_EXPORT NeckLimitation : public dynamicgraph::Entity {
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
  protected:
-  unsigned int panRank, tiltRank;
-  static const unsigned int PAN_RANK_DEFAULT;
-  static const unsigned int TILT_RANK_DEFAULT;
+  std::size_t panRank, tiltRank;
+  static const std::size_t PAN_RANK_DEFAULT;
+  static const std::size_t TILT_RANK_DEFAULT;
 
   /* The limitation is: sgn.Tilt >= Pan.alpha + beta, with alpha the linear
    * coefficient and beta the affine one, and sgn is +1 or -1. */

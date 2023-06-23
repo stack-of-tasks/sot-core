@@ -43,7 +43,7 @@ class SOT_CORE_DLLAPI Segment : public Entity {
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName() const { return CLASS_NAME; }
   // Set the range of input vector that is provided as output.
-  void setRange(const int& i0, const int& length) {
+  void setRange(const size_type& i0, const size_type& length) {
     range_ = std::make_pair(i0, length);
   }
 
@@ -54,7 +54,7 @@ class SOT_CORE_DLLAPI Segment : public Entity {
   SignalPtr<Vector, sigtime_t> inputSIN_;
   SignalTimeDependent<Vector, sigtime_t> outputSOUT_;
   // Range of the input vector that is provided as output
-  std::pair<int, int> range_;
+  std::pair<size_type, size_type> range_;
 };  // class Segment
 }  // namespace sot
 }  // namespace dynamicgraph

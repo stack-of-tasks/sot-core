@@ -86,7 +86,7 @@ class VariadicAbstract : public Entity {
     signalsIN.pop_back();
   }
 
-  void setSignalNumber(const int &n) {
+  void setSignalNumber(const size_type &n) {
     assert(n >= 0);
     const std::size_t oldSize = signalsIN.size();
     for (std::size_t i = n; i < oldSize; ++i) _removeSignal(i);
@@ -106,10 +106,10 @@ class VariadicAbstract : public Entity {
     updateSignalNumber(n);
   }
 
-  int getSignalNumber() const { return (int)signalsIN.size(); }
+  size_type getSignalNumber() const { return (size_type)signalsIN.size(); }
 
-  signal_t *getSignalIn(int i) {
-    if (i < 0 || i >= (int)signalsIN.size())
+  signal_t *getSignalIn(size_type i) {
+    if (i < 0 || i >= (size_type)signalsIN.size())
       throw std::out_of_range("Wrong signal index");
     return signalsIN[i];
   }
@@ -119,7 +119,7 @@ class VariadicAbstract : public Entity {
   // Use signal->shortName instead
   // std::vector< std::string > names;
 
-  virtual void updateSignalNumber(int n) { (void)n; };
+  virtual void updateSignalNumber(size_type n) { (void)n; };
 
  private:
   void _removeSignal(const std::size_t i) {
@@ -172,7 +172,7 @@ class VariadicOp : public VariadicAbstract<typename Operator::Tin,
     return res;
   }
 
-  inline void updateSignalNumber(int n) { op.updateSignalNumber(n); }
+  inline void updateSignalNumber(size_type n) { op.updateSignalNumber(n); }
 };
 }  // namespace sot
 }  // namespace dynamicgraph

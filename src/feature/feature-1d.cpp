@@ -49,7 +49,7 @@ void Feature1D::removeDependenciesFromReference(void) {}
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int &Feature1D::getDimension(unsigned int &dim, sigtime_t /*time*/) {
+size_type &Feature1D::getDimension(size_type &dim, sigtime_t /*time*/) {
   sotDEBUG(25) << "# In {" << endl;
 
   dim = 1;
@@ -76,8 +76,8 @@ dynamicgraph::Matrix &Feature1D::computeJacobian(dynamicgraph::Matrix &res,
 
   res.resize(1, Jac.cols());
   res.fill(0);
-  for (int j = 0; j < Jac.cols(); ++j)
-    for (int i = 0; i < Jac.rows(); ++i) res(0, j) += err(i) * Jac(i, j);
+  for (size_type j = 0; j < Jac.cols(); ++j)
+    for (size_type i = 0; i < Jac.rows(); ++i) res(0, j) += err(i) * Jac(i, j);
 
   sotDEBUGOUT(15);
   return res;

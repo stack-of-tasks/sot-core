@@ -19,8 +19,8 @@
 #include <Winsock2.h>
 
 struct SOT_CORE_EXPORT timezone {
-  int tz_minuteswest; /* minutes W of Greenwich */
-  int tz_dsttime;     /* type of dst correction */
+  size_type tz_minuteswest; /* minutes W of Greenwich */
+  size_type tz_dsttime;     /* type of dst correction */
 };
 
 int SOT_CORE_EXPORT gettimeofday(struct timeval *tv, struct timezone *tz);

@@ -142,12 +142,12 @@ class SOTParameterServer_EXPORT ParameterServer
                                     /// triggered either by an other entity, or
                                     /// by control limit violation
   bool m_is_first_iter;  /// true at the first iteration, false otherwise
-  int m_iter;
+  size_type m_iter;
   double m_sleep_time;  /// time to sleep at every iteration (to slow down
                         /// simulation)
 
-  bool convertJointNameToJointId(const std::string &name, unsigned int &id);
-  bool isJointInRange(unsigned int id, double q);
+  bool convertJointNameToJointId(const std::string &name, std::size_t &id);
+  bool isJointInRange(std::size_t id, double q);
   void updateJointCtrlModesOutputSignal();
 
 };  // class ParameterServer

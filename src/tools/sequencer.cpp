@@ -138,7 +138,7 @@ class sotEventCmd : public Sequencer::sotEventAbstract {
   void init(std::istringstream &args) {
     sotDEBUGIN(15);
     std::stringbuf *pbuf = args.rdbuf();
-    const unsigned int size = (unsigned int)(pbuf->in_avail());
+    const std::size_t size = (std::size_t)(pbuf->in_avail());
     char *buffer = new char[size + 1];
     pbuf->sgetn(buffer, size);
 
@@ -164,7 +164,7 @@ class sotEventCmd : public Sequencer::sotEventAbstract {
 /* --- TASK MANIP ----------------------------------------------------------- */
 /* --- TASK MANIP ----------------------------------------------------------- */
 
-void Sequencer::addTask(sotEventAbstract *task, const unsigned int timeSpec) {
+void Sequencer::addTask(sotEventAbstract *task, const std::size_t timeSpec) {
   TaskMap::iterator listKey = taskMap.find(timeSpec);
   if (taskMap.end() == listKey) {
     sotDEBUG(15) << "New element at " << timeSpec << std::endl;
@@ -176,8 +176,8 @@ void Sequencer::addTask(sotEventAbstract *task, const unsigned int timeSpec) {
 }
 
 // rmTask
-void Sequencer::rmTask(int eventType, const std::string &name,
-                       const unsigned int time) {
+void Sequencer::rmTask(size_type eventType, const std::string &name,
+                       const std::size_t time) {
   TaskMap::iterator listKey = taskMap.find(time);
   if (taskMap.end() != listKey)  // the time exist
   {
@@ -211,7 +211,7 @@ void Sequencer::clearAll() {
 /* --- SIGNALS -------------------------------------------------------------- */
 /* --- SIGNALS -------------------------------------------------------------- */
 
-int &Sequencer::trigger(int &dummy, const sigtime_t &timeSpec) {
+size_type &Sequencer::trigger(size_type &dummy, const sigtime_t &timeSpec) {
   sotDEBUGIN(15);
 
   if (!playMode) return dummy;

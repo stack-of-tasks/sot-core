@@ -56,8 +56,8 @@ FeatureLineDistance::FeatureLineDistance(const string &pointName)
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned int &FeatureLineDistance::getDimension(unsigned int &dim,
-                                                sigtime_t /*time*/) {
+size_type &FeatureLineDistance::getDimension(size_type &dim,
+                                             sigtime_t /*time*/) {
   sotDEBUG(25) << "# In {" << endl;
 
   return dim = 1;
@@ -120,11 +120,11 @@ Matrix &FeatureLineDistance::computeJacobian(Matrix &J, sigtime_t time) {
     RSk = R * Skew;
 
     Jline.resize(6, Jq.cols());
-    for (unsigned int i = 0; i < 3; ++i)
-      for (int j = 0; j < Jq.cols(); ++j) {
+    for (std::size_t i = 0; i < 3; ++i)
+      for (size_type j = 0; j < Jq.cols(); ++j) {
         Jline(i, j) = 0;
         Jline(i + 3, j) = 0;
-        for (unsigned int k = 0; k < 3; ++k) {
+        for (std::size_t k = 0; k < 3; ++k) {
           Jline(i, j) += R(i, k) * Jq(k, j);
           Jline(i + 3, j) += -RSk(i, k) * Jq(k + 3, j);
         }

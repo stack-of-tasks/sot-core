@@ -36,7 +36,7 @@ class SOT_CORE_DLLAPI GradientAscent : public Entity {
  public:
   SignalPtr<dynamicgraph::Vector, sigtime_t> gradientSIN;
   SignalPtr<double, sigtime_t> learningRateSIN;
-  SignalTimeDependent<int, sigtime_t> refresherSINTERN;
+  SignalTimeDependent<size_type, sigtime_t> refresherSINTERN;
   SignalTimeDependent<dynamicgraph::Vector, sigtime_t> valueSOUT;
 
  public:

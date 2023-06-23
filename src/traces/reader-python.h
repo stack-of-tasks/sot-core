@@ -1,3 +1,3 @@
 #include <sot/core/reader.hh>
+typedef boost::mpl::vector<dynamicgraph::sot::sotReader> entities_t;
 
-typedef boost::mpl::vector<sotReader> entities_t;

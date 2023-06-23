@@ -20,6 +20,7 @@
 
 using namespace std;
 using namespace dynamicgraph::sot;
+typedef dynamicgraph::size_type size_type;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(PeriodicCallEntity, "PeriodicCallEntity");
 
@@ -40,11 +41,13 @@ PeriodicCallEntity::PeriodicCallEntity(const string &fName)
       boost::bind(&PeriodicCallEntity::trigerOnceCall, this, _1, _2));
 }
 
-int &PeriodicCallEntity::trigerCall(int &dummy, const sigtime_t &time) {
+size_type &PeriodicCallEntity::trigerCall(size_type &dummy,
+                                          const sigtime_t &time) {
   run(time);
   return dummy;
 }
-int &PeriodicCallEntity::trigerOnceCall(int &dummy, const sigtime_t &time) {
+size_type &PeriodicCallEntity::trigerOnceCall(size_type &dummy,
+                                              const sigtime_t &time) {
   run(time);
   clear();
   return dummy;

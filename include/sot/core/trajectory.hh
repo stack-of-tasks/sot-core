@@ -31,7 +31,7 @@ class RulesJointTrajectory {
   Trajectory &TrajectoryToFill_;
 
  public:
-  unsigned int dbg_level;
+  std::size_t dbg_level;
 
   /// \brief Strings specifying the grammar of the structure.
   std::string float_str_re, seq_str_re, timestamp_str_re, frame_id_str_re,
@@ -59,8 +59,8 @@ class RulesJointTrajectory {
       std::string &sub_text);
   /// \brief Find and store the header.
   /// This method is looking for:
-  /// unsigned int seq.
-  /// unsigned int sec, unsigned int nsec.
+  /// std::size_t seq.
+  /// std::size_t sec, std::size_t nsec.
   /// string format_id
   void parse_header(std::string &text, std::string &sub_text1);
 
@@ -111,7 +111,7 @@ class SOT_CORE_EXPORT timestamp {
 
 class SOT_CORE_EXPORT Header {
  public:
-  unsigned int seq_;
+  std::size_t seq_;
   timestamp stamp_;
   std::string frame_id_;
   Header() : seq_(0), stamp_(0, 0), frame_id_("initial_trajectory") {}
@@ -158,7 +158,7 @@ class SOT_CORE_EXPORT JointTrajectoryPoint {
     }
   }
 
-  void transfer(const std::vector<double> &src, unsigned int vecId) {
+  void transfer(const std::vector<double> &src, std::size_t vecId) {
     switch (vecId) {
       case (0):
         positions_ = src;
@@ -191,7 +191,7 @@ class SOT_CORE_EXPORT Trajectory {
 
   std::vector<JointTrajectoryPoint> points_;
 
-  int deserialize(std::istringstream &is);
+  size_type deserialize(std::istringstream &is);
   void display(std::ostream &) const;
 };
 }  // namespace sot

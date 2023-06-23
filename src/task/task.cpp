@@ -176,7 +176,7 @@ dynamicgraph::Vector &Task::computeError(dynamicgraph::Vector &error,
     }
 
     dynamicgraph::Vector vectTmp;
-    int cursorError = 0;
+    size_type cursorError = 0;
 
     /* For each cell of the list, recopy value of s, s_star and error. */
     for (FeatureList_t::iterator iter = featureList.begin();
@@ -195,7 +195,7 @@ dynamicgraph::Vector &Task::computeError(dynamicgraph::Vector &error,
         error.setZero();
       }
 
-      for (int k = 0; k < dim; ++k) {
+      for (size_type k = 0; k < dim; ++k) {
         error(cursorError++) = partialError(k);
       }
       sotDEBUG(35) << "feature: " << partialError << std::endl;
@@ -236,12 +236,12 @@ VectorMultiBound &Task::computeTaskExponentialDecrease(
   const double &gain = controlGainSIN(time);
   errorRef.resize(errSingleBound.size());
 
-  for (unsigned int i = 0; i < errorRef.size(); ++i)
+  for (std::size_t i = 0; i < errorRef.size(); ++i)
     errorRef[i] = -errSingleBound(i) * gain;
 
   if (withDerivative) {
     const dynamicgraph::Vector &de = errorTimeDerivativeSOUT(time);
-    for (unsigned int i = 0; i < errorRef.size(); ++i)
+    for (std::size_t i = 0; i < errorRef.size(); ++i)
       errorRef[i] = errorRef[i].getSingleBound() - de(i);
   }
 
@@ -294,13 +294,13 @@ dynamicgraph::Matrix &Task::computeJacobian(dynamicgraph::Matrix &J,
       // TODO If controlSelectionSIN is really to be removed,
       // then the following loop is equivalent to:
       // J.middleRows (cursorJ, nbr) = partialJacobian;
-      for (int kc = 0; kc < nbc; ++kc) {
+      for (size_type kc = 0; kc < nbc; ++kc) {
         // 	  if( selection(kc) )
-        for (unsigned int k = 0; k < nbr; ++k) {
+        for (size_type k = 0; k < nbr; ++k) {
           J(cursorJ + k, kc) = partialJacobian(k, kc);
         }
         // 	  else
-        // 	    for( unsigned int k=0;k<nbr;++k ) J(cursorJ+k,kc) = 0.;
+        // 	    for( std::size_t k=0;k<nbr;++k ) J(cursorJ+k,kc) = 0.;
       }
       cursorJ += nbr;
     }

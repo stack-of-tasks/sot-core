@@ -45,7 +45,7 @@ namespace dgsot = dynamicgraph::sot;
 DG_SIGNAL_CAST_DEFINITION_HPP(struct timeval);
 
 struct timeval SignalCast<struct timeval>::cast(std::istringstream &iss) {
-  int u, s;
+  size_type u, s;
   iss >> s >> u;
   struct timeval t;
   t.tv_sec = s;

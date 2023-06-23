@@ -32,7 +32,7 @@ class MatrixConstant : public Entity {
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-  int rows, cols;
+  size_type rows, cols;
   double color;
 
   void setValue(const dynamicgraph::Matrix &inValue);

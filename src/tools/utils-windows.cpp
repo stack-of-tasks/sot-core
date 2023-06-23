@@ -19,7 +19,7 @@
 int gettimeofday(struct timeval *tv, struct timezone *tz) {
   FILETIME ft;
   unsigned __int64 tmpres = 0;
-  static int tzflag;
+  static size_type tzflag;
 
   if (NULL != tv) {
     GetSystemTimeAsFileTime(&ft);

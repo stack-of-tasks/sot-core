@@ -111,7 +111,7 @@ void GripperControl::computeIncrement(
     return;
   }
 
-  for (int i = 0; i < SIZE; ++i) {
+  for (size_type i = 0; i < SIZE; ++i) {
     // apply a reduction factor if the torque limits are exceeded
     // and the velocity goes in the same way
     if ((torques(i) > torqueLimits(i)) && (currentNormVel(i) > 0)) {
@@ -160,14 +160,14 @@ dynamicgraph::Vector &GripperControl::computeDesiredPosition(
 dynamicgraph::Vector &GripperControl::selector(
     const dynamicgraph::Vector &fullsize, const Flags &selec,
     dynamicgraph::Vector &desPos) {
-  int size = 0;
-  for (int i = 0; i < fullsize.size(); ++i) {
+  size_type size = 0;
+  for (size_type i = 0; i < fullsize.size(); ++i) {
     if (selec(i)) size++;
   }
 
-  int curs = 0;
+  size_type curs = 0;
   desPos.resize(size);
-  for (int i = 0; i < fullsize.size(); ++i) {
+  for (size_type i = 0; i < fullsize.size(); ++i) {
     if (selec(i)) desPos(curs++) = fullsize(i);
   }
 
