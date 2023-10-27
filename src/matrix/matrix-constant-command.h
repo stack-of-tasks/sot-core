@@ -35,8 +35,8 @@ class Resize : public Command {
   virtual Value doExecute() {
     MatrixConstant &mc = static_cast<MatrixConstant &>(owner());
     std::vector<Value> values = getParameterValues();
-    size_type rows = values[0].value();
-    size_type cols = values[1].value();
+    std::int64_t rows = values[0].value();
+    std::int64_t cols = values[1].value();
     Matrix m(Matrix::Zero(rows, cols));
     mc.SOUT.setConstant(m);
 

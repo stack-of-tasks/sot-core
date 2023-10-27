@@ -80,7 +80,7 @@ class SOT_CORE_EXPORT Device : public Entity {
   /* --- DESTRUCTION --- */
   virtual ~Device();
 
-  virtual void setStateSize(const size_type &size);
+  virtual void setStateSize(const std::int64_t &size);
   // Set number of joints that are controlled by the device.
   void setControlSize(const size_type &size);
   // Get the number of joints that are controlled by the device.

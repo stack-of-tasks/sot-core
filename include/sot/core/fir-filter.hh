@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cstdint>
 #include <iterator>
 #include <vector>
 
@@ -147,7 +148,7 @@ class FIRFilter : public Entity {
         "\n"
         "    Input:\n"
         "      - positive int: size\n";
-    addCommand("setSize", new Setter<FIRFilter, std::size_t>(
+    addCommand("setSize", new Setter<FIRFilter, std::int64_t>(
                               *this, &FIRFilter::resizeBuffer, docstring));
 
     docstring =
@@ -155,7 +156,7 @@ class FIRFilter : public Entity {
         "\n"
         "    Return:\n"
         "      - positive int: size\n";
-    addCommand("getSize", new Getter<FIRFilter, std::size_t>(
+    addCommand("getSize", new Getter<FIRFilter, std::int64_t>(
                               *this, &FIRFilter::getBufferSize, docstring));
   }
 
@@ -174,14 +175,14 @@ class FIRFilter : public Entity {
     return res;
   }
 
-  void resizeBuffer(const std::size_t &size) {
-    size_t s = static_cast<size_t>(size);
+  void resizeBuffer(const std::int64_t &size) {
+    std::int64_t s = static_cast<size_t>(size);
     data.reset_capacity(s);
     coefs.resize(s);
   }
 
-  std::size_t getBufferSize() const {
-    return static_cast<std::size_t>(coefs.size());
+  std::int64_t getBufferSize() const {
+    return static_cast<std::int64_t>(coefs.size());
   }
 
   void setElement(const std::size_t &rank, const coefT &coef) {
@@ -219,7 +220,7 @@ Value SetElement<sigT, coefT>::doExecute() {
   FIRFilter<sigT, coefT> &entity =
       static_cast<FIRFilter<sigT, coefT> &>(owner());
   std::vector<Value> values = getParameterValues();
-  std::size_t rank = values[0].value();
+  std::uint64_t rank = values[0].value();
   coefT coef = values[1].value();
   entity.setElement(rank, coef);
   return Value();
@@ -235,7 +236,7 @@ Value GetElement<sigT, coefT>::doExecute() {
   FIRFilter<sigT, coefT> &entity =
       static_cast<FIRFilter<sigT, coefT> &>(owner());
   std::vector<Value> values = getParameterValues();
-  std::size_t rank = values[0].value();
+  std::uint64_t rank = values[0].value();
   return Value(entity.getElement(rank));
 }
 }  // namespace command

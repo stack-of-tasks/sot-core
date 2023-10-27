@@ -14,11 +14,14 @@
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
+#include <cstdint>
+
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
 
 /* STD */
 #include <boost/function.hpp>
+#include <cstdint>
 #include <fstream>
 #include <list>
 #include <string>
@@ -82,7 +85,7 @@ class SOTREADER_EXPORT sotReader : public Entity {
                                     const std::size_t time);
   dynamicgraph::Matrix &getNextMatrix(dynamicgraph::Matrix &res,
                                       const std::size_t time);
-  void resize(const size_type &nbRow, const size_type &nbCol);
+  void resize(const std::int64_t &nbRow, const std::int64_t &nbCol);
 
  public:
   /* --- PARAMS --- */

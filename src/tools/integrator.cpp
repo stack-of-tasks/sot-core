@@ -66,16 +66,18 @@ void Signal::setConstant(const Vector &) {
   throw std::runtime_error("Not implemented.");
 }
 
-void Signal::setReference(const Vector *, Mutex *) {
+void Signal::setReference(const Vector *,
+                          dg::Signal<Vector, sigtime_t>::Mutex *) {
   throw std::runtime_error("Not implemented.");
 }
 
-void Signal::setReferenceNonConstant(Vector *, Mutex *) {
+void Signal::setReferenceNonConstant(Vector *,
+                                     dg::Signal<Vector, sigtime_t>::Mutex *) {
   throw std::runtime_error("Not implemented.");
 }
 
 void Signal::setFunction(boost::function2<Vector &, Vector &, sigtime_t> t,
-                         Mutex *mutexref) {
+                         dg::Signal<Vector, sigtime_t>::Mutex *mutexref) {
   signalType = ::dynamicgraph::Signal<Vector, sigtime_t>::FUNCTION;
   Tfunction = t;
   providerMutex = mutexref;

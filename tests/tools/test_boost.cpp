@@ -130,9 +130,9 @@ int main(int argc, char **argv) {
   //   const unsigned int r=1;
   //   const unsigned int c=30;
   unsigned int r = 1;
-  if (argc > 1) r = atoi(argv[1]);
+  if (argc > 1) r = static_cast<unsigned int>(atoi(argv[1]));
   unsigned int c = 30;
-  if (argc > 2) c = atoi(argv[2]);
+  if (argc > 2) c = static_cast<unsigned int>(atoi(argv[2]));
   static const int BENCH = 100;
 
   dynamicgraph::Matrix M(r, c);

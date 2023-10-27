@@ -88,7 +88,7 @@ Sot::Sot(const std::string &name)
       "        - a positive integer : number of degrees of freedom of "
       "the robot.\n"
       "    \n";
-  addCommand("setSize", new dynamicgraph::command::Setter<Sot, size_type>(
+  addCommand("setSize", new dynamicgraph::command::Setter<Sot, std::int64_t>(
                             *this, &Sot::defineNbDof, docstring));
 
   docstring =
@@ -100,7 +100,7 @@ Sot::Sot(const std::string &name)
       "the robot.\n"
       "    \n";
   addCommand("getSize",
-             new dynamicgraph::command::Getter<Sot, const size_type &>(
+             new dynamicgraph::command::Getter<Sot, const std::int64_t &>(
                  *this, &Sot::getNbDof, docstring));
 
   addCommand("enablePostureTaskAcceleration",
@@ -316,7 +316,7 @@ void Sot::clear(void) {
   controlSOUT.setReady();
 }
 
-void Sot::defineNbDof(const size_type &nbDof) {
+void Sot::defineNbDof(const std::int64_t &nbDof) {
   nbJoints = nbDof;
   controlSOUT.setReady();
 }
@@ -457,8 +457,8 @@ MemoryTaskSOT *getMemory(TaskAbstract &t, const Matrix::Index &tDim,
 
 void Sot::taskVectorToMlVector(const VectorMultiBound &taskVector,
                                Vector &res) {
-  res.resize(taskVector.size());
-  std::size_t i = 0;
+  res.resize(static_cast<Eigen::Index>(taskVector.size()));
+  Eigen::Index i = 0;
 
   for (VectorMultiBound::const_iterator iter = taskVector.begin();
        iter != taskVector.end(); ++iter, ++i) {
@@ -536,7 +536,8 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
     /// Computing first the jacobian may be a little faster overall.
     if (!fullPostureTask) taskA.jacobianSOUT.recompute(iterTime);
     taskA.taskSOUT.recompute(iterTime);
-    const Matrix::Index dim = taskA.taskSOUT.accessCopy().size();
+    const Matrix::Index dim =
+        static_cast<Eigen::Index>(taskA.taskSOUT.accessCopy().size());
     sotCOUNTER(0, 1);  // Direct Dynamic
 
     /* Init memory. */

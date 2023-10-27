@@ -10,6 +10,8 @@
 #ifndef __SOT_SOT_HH
 #define __SOT_SOT_HH
 
+#include <cstdint>
+
 /* --------------------------------------------------------------------- */
 /* --- INCLUDE --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -148,8 +150,8 @@ class SOTSOT_CORE_EXPORT Sot : public Entity {
 
   /*! \brief This method defines the part of the state vector
     which correspond to the free flyer of the robot. */
-  virtual void defineNbDof(const size_type &nbDof);
-  virtual const size_type &getNbDof() const { return nbJoints; }
+  virtual void defineNbDof(const std::int64_t &nbDof);
+  virtual const std::int64_t &getNbDof() const { return nbJoints; }
 
   /*! @} */
  public: /* --- CONTROL --- */

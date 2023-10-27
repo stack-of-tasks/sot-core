@@ -150,7 +150,7 @@ ParameterServer::ParameterServer(const std::string &name)
                           "(string) ParameterName", "(bool) ParameterValue")));
   addCommand("setParameterInt",
              makeCommandVoid2(
-                 *this, &ParameterServer::setParameter<size_type>,
+                 *this, &ParameterServer::setParameter<std::int64_t>,
                  docCommandVoid2("Set a parameter named ParameterName to value "
                                  "ParameterValue (string format).",
                                  "(string) ParameterName",
@@ -179,13 +179,13 @@ ParameterServer::ParameterServer(const std::string &name)
                                  " named ParameterName.",
                                  "(string) ParameterName")));
 
-  addCommand(
-      "getParameterInt",
-      makeCommandReturnType1(*this, &ParameterServer::getParameter<size_type>,
-                             docCommandReturnType1<size_type>(
-                                 "Return the parameter value for parameter"
-                                 " named ParameterName.",
-                                 "(size_type) ParameterName")));
+  addCommand("getParameterInt",
+             makeCommandReturnType1(
+                 *this, &ParameterServer::getParameter<std::int64_t>,
+                 docCommandReturnType1<std::int64_t>(
+                     "Return the parameter value for parameter"
+                     " named ParameterName.",
+                     "(size_type) ParameterName")));
 
   addCommand(
       "getParameterDbl",
@@ -389,7 +389,8 @@ bool ParameterServer::convertJointNameToJointId(const std::string &name,
              MSG_TYPE_ERROR);
     std::stringstream ss;
     for (long unsigned int it = 0; it < m_robot_util->m_nbJoints; it++)
-      ss << m_robot_util->get_name_from_id(it) << ", ";
+      ss << m_robot_util->get_name_from_id(static_cast<Eigen::Index>(it))
+         << ", ";
     SEND_MSG("Possible joint names are: " + ss.str(), MSG_TYPE_INFO);
     return false;
   }

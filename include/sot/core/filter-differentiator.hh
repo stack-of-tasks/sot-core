@@ -43,6 +43,8 @@
 #include <sot/core/causal-filter.hh>
 #include <sot/core/stop-watch.hh>
 
+#include <cstdint>
+
 namespace dynamicgraph {
 namespace sot {
 /** \addtogroup Filters
@@ -84,7 +86,7 @@ class SOTFILTERDIFFERENTIATOR_EXPORT FilterDifferentiator
 
  protected:
   double m_dt;  /// sampling timestep of the input signal
-  size_type m_x_size;
+  std::int64_t m_x_size;
 
   /// polynomial-fitting filters
   CausalFilter *m_filter;
@@ -106,7 +108,7 @@ class SOTFILTERDIFFERENTIATOR_EXPORT FilterDifferentiator
    * polynomial fitting. The larger the delay,
    * the smoother the estimations.
    */
-  void init(const double &timestep, const size_type &xSize,
+  void init(const double &timestep, const std::int64_t &xSize,
             const Eigen::VectorXd &filter_numerator,
             const Eigen::VectorXd &filter_denominator);
 
