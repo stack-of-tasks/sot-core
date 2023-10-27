@@ -76,7 +76,7 @@ double SmoothReach::smoothFunction(double x) {
   return 0;
 }
 
-void SmoothReach::setSmoothing(const size_type &mode, const double &param) {
+void SmoothReach::setSmoothing(const std::int64_t &mode, const double &param) {
   smoothMode = mode;
   smoothParam = param;
 }
@@ -104,7 +104,7 @@ dynamicgraph::Vector &SmoothReach::goalSOUT_function(dynamicgraph::Vector &res,
 }
 
 void SmoothReach::set(const dynamicgraph::Vector &goalDes,
-                      const size_type &lengthDes) {
+                      const std::int64_t &lengthDes) {
   goal = goalDes;
   lengthTime = lengthDes;
   isParam = true;

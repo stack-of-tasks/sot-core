@@ -13,6 +13,7 @@
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
 
+#include <cstdint>
 /* --------------------------------------------------------------------- */
 /* --- MATRIX ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -32,7 +33,7 @@ class MatrixConstant : public Entity {
   static const std::string CLASS_NAME;
   virtual const std::string &getClassName(void) const { return CLASS_NAME; }
 
-  size_type rows, cols;
+  std::int64_t rows, cols;
   double color;
 
   void setValue(const dynamicgraph::Matrix &inValue);

@@ -16,6 +16,7 @@
 /* Matrix */
 #include <dynamic-graph/linear-algebra.h>
 
+#include <cstdint>
 /* --------------------------------------------------------------------- */
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -30,7 +31,7 @@ class Resize;
 
 class VectorConstant : public Entity {
   friend class command::vectorConstant::Resize;
-  size_type rows;
+  std::int64_t rows;
 
  public:
   static const std::string CLASS_NAME;

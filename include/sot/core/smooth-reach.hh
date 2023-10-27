@@ -68,12 +68,12 @@ class SOTSMOOTHREACH_EXPORT SmoothReach : public dynamicgraph::Entity {
   dynamicgraph::Vector &goalSOUT_function(dynamicgraph::Vector &goal,
                                           const sigtime_t &time);
 
-  void set(const dynamicgraph::Vector &goal, const size_type &length);
+  void set(const dynamicgraph::Vector &goal, const std::int64_t &length);
   const dynamicgraph::Vector &getGoal(void);
   const size_type &getLength(void);
   const size_type &getStart(void);
 
-  void setSmoothing(const size_type &mode, const double &param);
+  void setSmoothing(const std::int64_t &mode, const double &param);
 
  public: /* --- PARAMS --- */
   virtual void display(std::ostream &os) const;

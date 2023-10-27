@@ -89,7 +89,7 @@ FilterDifferentiator::FilterDifferentiator(const std::string &name)
 /* --- COMMANDS ------------------------------------------------------ */
 /* --- COMMANDS ------------------------------------------------------ */
 /* --- COMMANDS ------------------------------------------------------ */
-void FilterDifferentiator::init(const double &timestep, const size_type &xSize,
+void FilterDifferentiator::init(const double &timestep, const std::int64_t &xSize,
                                 const Eigen::VectorXd &filter_numerator,
                                 const Eigen::VectorXd &filter_denominator) {
   m_x_size = xSize;

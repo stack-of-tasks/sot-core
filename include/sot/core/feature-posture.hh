@@ -79,7 +79,7 @@ class SOTFEATUREPOSTURE_EXPORT FeaturePosture : public FeatureAbstract {
 
  private:
   std::vector<bool> activeDofs_;
-  std::size_t nbActiveDofs_;
+  dynamicgraph::size_type nbActiveDofs_;
 };  // class FeaturePosture
 }  // namespace sot
 }  // namespace dynamicgraph

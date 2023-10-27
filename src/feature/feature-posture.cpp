@@ -28,7 +28,7 @@ class FeaturePosture::SelectDof : public Command {
   virtual Value doExecute() {
     FeaturePosture &feature = static_cast<FeaturePosture &>(owner());
     std::vector<Value> values = getParameterValues();
-    std::size_t dofId = values[0].value();
+    std::uint64_t dofId = values[0].value();
     bool control = values[1].value();
     feature.selectDof(dofId, control);
     return Value();
@@ -67,7 +67,7 @@ FeaturePosture::FeaturePosture(const std::string &name)
 FeaturePosture::~FeaturePosture() {}
 
 size_type &FeaturePosture::getDimension(size_type &res, sigtime_t) {
-  res = static_cast<std::size_t>(nbActiveDofs_);
+  res = static_cast<size_type>(nbActiveDofs_);
   return res;
 }
 
@@ -77,9 +77,9 @@ dg::Vector &FeaturePosture::computeError(dg::Vector &res, sigtime_t t) {
 
   res.resize(nbActiveDofs_);
   std::size_t index = 0;
-  for (std::size_t i = 0; i < activeDofs_.size(); ++i) {
-    if (activeDofs_[i]) {
-      res(index) = state(i) - posture(i);
+  for (dg::size_type i = 0; i < static_cast<dg::size_type>(activeDofs_.size()); ++i) {
+    if (activeDofs_[static_cast<std::vector<bool>::size_type>(i)]) {
+      res(static_cast<Eigen::Index>(index)) = state(i) - posture(i);
       index++;
     }
   }
@@ -98,7 +98,7 @@ dg::Vector &FeaturePosture::computeErrorDot(dg::Vector &res, sigtime_t t) {
   res.resize(nbActiveDofs_);
   std::size_t index = 0;
   for (std::size_t i = 0; i < activeDofs_.size(); ++i) {
-    if (activeDofs_[i]) res(index++) = -postureDot(i);
+    if (activeDofs_[i]) res(static_cast<Eigen::Index>(index++)) = -postureDot(static_cast<Eigen::Index>(i));
   }
   return res;
 }
@@ -106,7 +106,7 @@ dg::Vector &FeaturePosture::computeErrorDot(dg::Vector &res, sigtime_t t) {
 void FeaturePosture::selectDof(std::size_t dofId, bool control) {
   const Vector &state = state_.accessCopy();
   const Vector &posture = posture_.accessCopy();
-  std::size_t dim(state.size());
+  std::size_t dim(static_cast<std::size_t>(state.size()));
 
   if (dim != (std::size_t)posture.size()) {
     throw std::runtime_error("Posture and State should have same dimension.");
@@ -137,12 +137,12 @@ void FeaturePosture::selectDof(std::size_t dofId, bool control) {
     }
   }
   // recompute jacobian
-  Matrix J(Matrix::Zero(nbActiveDofs_, dim));
+  Matrix J(Matrix::Zero(nbActiveDofs_, static_cast<Eigen::Index>(dim)));
 
-  std::size_t index = 0;
+  Eigen::Index index = 0;
   for (std::size_t i = 0; i < activeDofs_.size(); ++i) {
     if (activeDofs_[i]) {
-      J(index, i) = 1;
+      J(index, static_cast<Eigen::Index>(i)) = 1;
       index++;
     }
   }

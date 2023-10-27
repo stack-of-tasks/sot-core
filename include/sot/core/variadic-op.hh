@@ -86,11 +86,11 @@ class VariadicAbstract : public Entity {
     signalsIN.pop_back();
   }
 
-  void setSignalNumber(const size_type &n) {
+  void setSignalNumber(const std::int64_t &n) {
     assert(n >= 0);
     const std::size_t oldSize = signalsIN.size();
-    for (std::size_t i = n; i < oldSize; ++i) _removeSignal(i);
-    signalsIN.resize(n, NULL);
+    for (std::size_t i = static_cast<std::size_t>(n); i < oldSize; ++i) _removeSignal(i);
+    signalsIN.resize(static_cast<std::size_t>(n), NULL);
     // names.resize(n);
 
     for (std::size_t i = oldSize; i < (std::size_t)n; ++i) {
@@ -106,12 +106,12 @@ class VariadicAbstract : public Entity {
     updateSignalNumber(n);
   }
 
-  size_type getSignalNumber() const { return (size_type)signalsIN.size(); }
+  std::int64_t getSignalNumber() const { return static_cast<std::int64_t>(signalsIN.size()); }
 
   signal_t *getSignalIn(size_type i) {
     if (i < 0 || i >= (size_type)signalsIN.size())
       throw std::out_of_range("Wrong signal index");
-    return signalsIN[i];
+    return signalsIN[static_cast<std::size_t>(i)];
   }
 
  protected:
