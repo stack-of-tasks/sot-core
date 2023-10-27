@@ -38,17 +38,14 @@
 #include <dynamic-graph/signal-ptr.h>
 #include "sot/core/periodic-call.hh"
 
-namespace dg=dynamicgraph;
+namespace dg = dynamicgraph;
 
 namespace dynamicgraph {
 namespace sot {
 namespace internal {
 class Signal : public ::dynamicgraph::Signal<Vector, sigtime_t> {
  protected:
-
-
  public:
-
  protected:
   Mutex *providerMutex;
   using SignalBase<sigtime_t>::signalTime;
@@ -68,12 +65,13 @@ class Signal : public ::dynamicgraph::Signal<Vector, sigtime_t> {
 
   /* --- Generic Set function --- */
   virtual void setConstant(const Vector &t);
-  virtual void setReference(const Vector *t,
-                            dg::Signal<Vector,sigtime_t>::Mutex *mutexref = NULL);
-  virtual void setReferenceNonConstant(Vector *t,
-                                       dg::Signal<Vector,sigtime_t>::Mutex *mutexref = NULL);
-  virtual void setFunction(boost::function2<Vector &, Vector &, sigtime_t> t,
-                           dg::Signal<Vector,sigtime_t>::Mutex *mutexref = NULL);
+  virtual void setReference(
+      const Vector *t, dg::Signal<Vector, sigtime_t>::Mutex *mutexref = NULL);
+  virtual void setReferenceNonConstant(
+      Vector *t, dg::Signal<Vector, sigtime_t>::Mutex *mutexref = NULL);
+  virtual void setFunction(
+      boost::function2<Vector &, Vector &, sigtime_t> t,
+      dg::Signal<Vector, sigtime_t>::Mutex *mutexref = NULL);
 
   /* --- Signal computation --- */
   virtual const Vector &access(const sigtime_t &t);

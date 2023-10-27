@@ -165,10 +165,10 @@ struct MatrixSelector : public UnaryOpHeader<dg::Matrix, dg::Matrix> {
     using namespace dynamicgraph::command;
     std::string doc;
 
-    boost::function<void(const std::int64_t &, const std::int64_t &)> setBoundsRow =
-        boost::bind(&MatrixSelector::setBoundsRow, this, _1, _2);
-    boost::function<void(const std::int64_t &, const std::int64_t &)> setBoundsCol =
-        boost::bind(&MatrixSelector::setBoundsCol, this, _1, _2);
+    boost::function<void(const std::int64_t &, const std::int64_t &)>
+        setBoundsRow = boost::bind(&MatrixSelector::setBoundsRow, this, _1, _2);
+    boost::function<void(const std::int64_t &, const std::int64_t &)>
+        setBoundsCol = boost::bind(&MatrixSelector::setBoundsCol, this, _1, _2);
 
     doc = docCommandVoid2("Set the bound on rows.", "std::int64_t (min)",
                           "std::int64_t (max)");
@@ -204,8 +204,9 @@ struct MatrixColumnSelector : public UnaryOpHeader<dg::Matrix, dg::Vector> {
     using namespace dynamicgraph::command;
     std::string doc;
 
-    boost::function<void(const std::int64_t &, const std::int64_t &)> setBoundsRow =
-        boost::bind(&MatrixColumnSelector::setBoundsRow, this, _1, _2);
+    boost::function<void(const std::int64_t &, const std::int64_t &)>
+        setBoundsRow =
+            boost::bind(&MatrixColumnSelector::setBoundsRow, this, _1, _2);
     boost::function<void(const std::int64_t &)> selectCol =
         boost::bind(&MatrixColumnSelector::selectCol, this, _1);
 
@@ -213,7 +214,8 @@ struct MatrixColumnSelector : public UnaryOpHeader<dg::Matrix, dg::Vector> {
                           "std::int64_t (max)");
     ADD_COMMAND("selecRows", makeCommandVoid2(ent, setBoundsRow, doc));
 
-    doc = docCommandVoid1("Select the col to copy.", "std::int64_t (col index)");
+    doc =
+        docCommandVoid1("Select the col to copy.", "std::int64_t (col index)");
     ADD_COMMAND("selecCols", makeCommandVoid1(ent, selectCol, doc));
   }
 };
@@ -634,16 +636,18 @@ struct VectorStack
     boost::function<void(const std::int64_t &, const std::int64_t &)> selec2 =
         boost::bind(&VectorStack::selec2, this, _1, _2);
 
-    ADD_COMMAND("selec1",
-                makeCommandVoid2(
-                    ent, selec1,
-                    docCommandVoid2("set the min and max of selection.",
-                                    "std::int64_t (imin)", "std::int64_t (imax)")));
-    ADD_COMMAND("selec2",
-                makeCommandVoid2(
-                    ent, selec2,
-                    docCommandVoid2("set the min and max of selection.",
-                                    "std::int64_t (imin)", "std::int64_t (imax)")));
+    ADD_COMMAND(
+        "selec1",
+        makeCommandVoid2(
+            ent, selec1,
+            docCommandVoid2("set the min and max of selection.",
+                            "std::int64_t (imin)", "std::int64_t (imax)")));
+    ADD_COMMAND(
+        "selec2",
+        makeCommandVoid2(
+            ent, selec2,
+            docCommandVoid2("set the min and max of selection.",
+                            "std::int64_t (imin)", "std::int64_t (imax)")));
   }
 };
 

@@ -536,7 +536,8 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
     /// Computing first the jacobian may be a little faster overall.
     if (!fullPostureTask) taskA.jacobianSOUT.recompute(iterTime);
     taskA.taskSOUT.recompute(iterTime);
-    const Matrix::Index dim = static_cast<Eigen::Index>(taskA.taskSOUT.accessCopy().size());
+    const Matrix::Index dim =
+        static_cast<Eigen::Index>(taskA.taskSOUT.accessCopy().size());
     sotCOUNTER(0, 1);  // Direct Dynamic
 
     /* Init memory. */

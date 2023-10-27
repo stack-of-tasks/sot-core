@@ -77,7 +77,8 @@ dg::Vector &FeaturePosture::computeError(dg::Vector &res, sigtime_t t) {
 
   res.resize(nbActiveDofs_);
   std::size_t index = 0;
-  for (dg::size_type i = 0; i < static_cast<dg::size_type>(activeDofs_.size()); ++i) {
+  for (dg::size_type i = 0; i < static_cast<dg::size_type>(activeDofs_.size());
+       ++i) {
     if (activeDofs_[static_cast<std::vector<bool>::size_type>(i)]) {
       res(static_cast<Eigen::Index>(index)) = state(i) - posture(i);
       index++;
@@ -98,7 +99,9 @@ dg::Vector &FeaturePosture::computeErrorDot(dg::Vector &res, sigtime_t t) {
   res.resize(nbActiveDofs_);
   std::size_t index = 0;
   for (std::size_t i = 0; i < activeDofs_.size(); ++i) {
-    if (activeDofs_[i]) res(static_cast<Eigen::Index>(index++)) = -postureDot(static_cast<Eigen::Index>(i));
+    if (activeDofs_[i])
+      res(static_cast<Eigen::Index>(index++)) =
+          -postureDot(static_cast<Eigen::Index>(i));
   }
   return res;
 }

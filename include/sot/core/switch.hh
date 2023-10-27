@@ -27,7 +27,8 @@ class SOT_CORE_DLLAPI Switch : public VariadicAbstract<Value, Value, Time> {
 
   Switch(const std::string &name)
       : Base(name, CLASS_NAME),
-        selectionSIN(NULL, "Switch(" + name + ")::input(std::int64_t)::selection"),
+        selectionSIN(NULL,
+                     "Switch(" + name + ")::input(std::int64_t)::selection"),
         boolSelectionSIN(NULL,
                          "Switch(" + name + ")::input(bool)::boolSelection") {
     this->signalRegistration(selectionSIN << boolSelectionSIN);

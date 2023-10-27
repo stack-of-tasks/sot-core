@@ -89,7 +89,8 @@ class VariadicAbstract : public Entity {
   void setSignalNumber(const std::int64_t &n) {
     assert(n >= 0);
     const std::size_t oldSize = signalsIN.size();
-    for (std::size_t i = static_cast<std::size_t>(n); i < oldSize; ++i) _removeSignal(i);
+    for (std::size_t i = static_cast<std::size_t>(n); i < oldSize; ++i)
+      _removeSignal(i);
     signalsIN.resize(static_cast<std::size_t>(n), NULL);
     // names.resize(n);
 
@@ -106,7 +107,9 @@ class VariadicAbstract : public Entity {
     updateSignalNumber(n);
   }
 
-  std::int64_t getSignalNumber() const { return static_cast<std::int64_t>(signalsIN.size()); }
+  std::int64_t getSignalNumber() const {
+    return static_cast<std::int64_t>(signalsIN.size());
+  }
 
   signal_t *getSignalIn(size_type i) {
     if (i < 0 || i >= (size_type)signalsIN.size())
