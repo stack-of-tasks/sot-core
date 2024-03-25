@@ -271,13 +271,11 @@ void deparse(std::vector<bubMatrix> Jes, std::vector<bubVector> ees,
         if (boundSide[i] & ConstraintMem::BOUND_INF) {
           for (unsigned int j = 0; j < Ji.size2(); ++j)
             cout << -Ji(i, j) << " ";
-          cout << "\t"
-               << " X " << -eiInf(i) << endl;
+          cout << "\t" << " X " << -eiInf(i) << endl;
         }
         if (boundSide[i] & ConstraintMem::BOUND_SUP) {
           for (unsigned int j = 0; j < Ji.size2(); ++j) cout << Ji(i, j) << " ";
-          cout << "\t"
-               << " X " << eiSup(i) << endl;
+          cout << "\t" << " X " << eiSup(i) << endl;
         }
       }
   }

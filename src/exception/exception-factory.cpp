@@ -39,17 +39,15 @@ ExceptionFactory::ExceptionFactory(
   char buffer[SIZE];
   vsnprintf(buffer, SIZE, format, args);
 
-  sotDEBUG(15) << "Created "
-               << " with message <" << msg << "> and buffer <" << buffer
-               << ">. " << std::endl;
+  sotDEBUG(15) << "Created " << " with message <" << msg << "> and buffer <"
+               << buffer << ">. " << std::endl;
 
   message += buffer;
 
   va_end(args);
 
   sotDEBUG(1) << "Throw exception " << EXCEPTION_NAME << "[#" << errcode
-              << "]: "
-              << "<" << message << ">." << std::endl;
+              << "]: " << "<" << message << ">." << std::endl;
 }
 
 /*

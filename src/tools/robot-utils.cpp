@@ -220,10 +220,9 @@ void ForceUtil::display(std::ostream &os) const {
   os << std::endl;
 
   os << "Index for force sensors:" << std::endl;
-  os << "Left Hand (" << m_Force_Id_Left_Hand << ") ,"
-     << "Right Hand (" << m_Force_Id_Right_Hand << ") ,"
-     << "Left Foot (" << m_Force_Id_Left_Foot << ") ,"
-     << "Right Foot (" << m_Force_Id_Right_Foot << ") " << std::endl;
+  os << "Left Hand (" << m_Force_Id_Left_Hand << ") ," << "Right Hand ("
+     << m_Force_Id_Right_Hand << ") ," << "Left Foot (" << m_Force_Id_Left_Foot
+     << ") ," << "Right Foot (" << m_Force_Id_Right_Foot << ") " << std::endl;
 }
 
 /**************** FromURDFToSot *************************/

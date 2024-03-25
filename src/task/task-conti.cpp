@@ -105,8 +105,7 @@ VectorMultiBound &TaskConti::computeContiDesiredVelocity(
 /* --- DISPLAY ------------------------------------------------------------ */
 
 void TaskConti::display(std::ostream &os) const {
-  os << "TaskConti " << name << " [t=" << timeRef << "] "
-     << ": " << endl;
+  os << "TaskConti " << name << " [t=" << timeRef << "] " << ": " << endl;
   os << "--- LIST ---  " << std::endl;
 
   for (FeatureList_t::const_iterator iter = featureList.begin();
