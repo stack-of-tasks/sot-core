@@ -97,19 +97,19 @@ void FilterDifferentiator::init(const double &timestep, const size_type &xSize,
   m_filter =
       new CausalFilter(timestep, xSize, filter_numerator, filter_denominator);
 
-  LOG("Filtering started with "
-      << "Numerator " << filter_numerator << std::endl
-      << "Denominator" << filter_denominator << std::endl);
+  LOG("Filtering started with " << "Numerator " << filter_numerator << std::endl
+                                << "Denominator" << filter_denominator
+                                << std::endl);
   return;
 }
 
 void FilterDifferentiator::switch_filter(
     const Eigen::VectorXd &filter_numerator,
     const Eigen::VectorXd &filter_denominator) {
-  LOG("Filter switched with "
-      << "Numerator " << filter_numerator << std::endl
-      << "Denominator" << filter_denominator << std::endl
-      << "at time" << m_xSIN.getTime());
+  LOG("Filter switched with " << "Numerator " << filter_numerator << std::endl
+                              << "Denominator" << filter_denominator
+                              << std::endl
+                              << "at time" << m_xSIN.getTime());
   m_filter->switch_filter(filter_numerator, filter_denominator);
 }
 

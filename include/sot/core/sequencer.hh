@@ -65,7 +65,7 @@ class SOTSEQUENCER_EXPORT Sequencer : public dynamicgraph::Entity {
     size_type eventType;
 
    public:
-    sotEventAbstract(const std::string &name) : name(name){};
+    sotEventAbstract(const std::string &name) : name(name) {};
     virtual ~sotEventAbstract(void) {}
     virtual const std::string &getName() const { return name; }
     size_type getEventType() const { return eventType; }

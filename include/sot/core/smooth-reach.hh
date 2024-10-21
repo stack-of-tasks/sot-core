@@ -58,7 +58,7 @@ class SOTSMOOTHREACH_EXPORT SmoothReach : public dynamicgraph::Entity {
 
  public: /* --- CONSTRUCTION --- */
   SmoothReach(const std::string &name);
-  virtual ~SmoothReach(void){};
+  virtual ~SmoothReach(void) {};
 
  public: /* --- SIGNAL --- */
   dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> startSIN;

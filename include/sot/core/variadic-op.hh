@@ -159,7 +159,7 @@ class VariadicOp : public VariadicAbstract<typename Operator::Tin,
     op.initialize(this, this->commandMap);
   }
 
-  virtual ~VariadicOp(void){};
+  virtual ~VariadicOp(void) {};
 
  protected:
   Tout &computeOperation(Tout &res, sigtime_t time) {

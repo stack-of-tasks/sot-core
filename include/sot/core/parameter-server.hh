@@ -62,7 +62,7 @@ class SOTParameterServer_EXPORT ParameterServer
   /* --- CONSTRUCTOR ---- */
   ParameterServer(const std::string &name);
 
-  ~ParameterServer(){};
+  ~ParameterServer() {};
 
   /// Initialize
   /// @param dt: control interval
