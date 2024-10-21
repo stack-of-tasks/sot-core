@@ -27,8 +27,8 @@ class Plugin : public PluginAbstract {
   AbstractSotExternalInterface *sotController_;
 
  public:
-  Plugin(){};
-  ~Plugin(){};
+  Plugin() {};
+  ~Plugin() {};
 
   void Initialization(std::string &dynamicLibraryName) {
     // Load the SotRobotBipedController library.

@@ -75,7 +75,7 @@ class Latch : public Entity {
                                 docCommandVoid0("Turn off the latch")));
   }
 
-  virtual ~Latch(void){};
+  virtual ~Latch(void) {};
 };
 } /* namespace sot */
 } /* namespace dynamicgraph */

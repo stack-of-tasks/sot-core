@@ -90,7 +90,7 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
   /*! \brief Default constructor: the name of the class should be given. */
   FeatureAbstract(const std::string &name);
   /*! \brief Default destructor */
-  virtual ~FeatureAbstract(void){};
+  virtual ~FeatureAbstract(void) {};
 
   /*! \name Methods returning the dimension of the feature.
     @{ */
