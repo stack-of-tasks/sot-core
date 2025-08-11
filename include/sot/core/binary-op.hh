@@ -65,7 +65,7 @@ class BinaryOp : public Entity {
     op.addSpecificCommands(*this, commandMap);
   }
 
-  virtual ~BinaryOp(void){};
+  virtual ~BinaryOp(void) {};
 
  public: /* --- SIGNAL --- */
   SignalPtr<Tin1, sigtime_t> SIN1;

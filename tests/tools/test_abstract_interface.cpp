@@ -30,8 +30,8 @@ class PluginLoader {
   std::string dynamicLibraryName_;
 
  public:
-  PluginLoader(){};
-  ~PluginLoader(){};
+  PluginLoader() {};
+  ~PluginLoader() {};
 
   int parseOptions(int argc, char *argv[]) {
     po::options_description desc("Allowed options");

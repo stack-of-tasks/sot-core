@@ -3,8 +3,8 @@
 
 class PluginAbstract {
  public:
-  PluginAbstract(){};
-  virtual ~PluginAbstract(){};
+  PluginAbstract() {};
+  virtual ~PluginAbstract() {};
   virtual void Initialization(std::string &astr) = 0;
 };
 

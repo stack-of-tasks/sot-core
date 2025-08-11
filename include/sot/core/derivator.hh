@@ -65,7 +65,7 @@ class Derivator : public dynamicgraph::Entity {
     timestepSIN.setKeepReference(true);
   }
 
-  virtual ~Derivator(void){};
+  virtual ~Derivator(void) {};
 
  public: /* --- SIGNAL --- */
   dynamicgraph::SignalPtr<T, sigtime_t> SIN;

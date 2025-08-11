@@ -19,9 +19,9 @@ typedef dynamicgraph::size_type size_type;
 class DummySotExternalInterface
     : public dynamicgraph::sot::AbstractSotExternalInterface {
  public:
-  DummySotExternalInterface(){};
+  DummySotExternalInterface() {};
 
-  virtual ~DummySotExternalInterface(){};
+  virtual ~DummySotExternalInterface() {};
 
   virtual void setupSetSensors(
       std::map<std::string, dynamicgraph::sot::SensorValues> &sensorsIn);

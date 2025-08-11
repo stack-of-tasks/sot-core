@@ -52,7 +52,7 @@ class UnaryOp : public Entity {
     op.addSpecificCommands(*this, commandMap);
   }
 
-  virtual ~UnaryOp(void){};
+  virtual ~UnaryOp(void) {};
 
  public: /* --- SIGNAL --- */
   SignalPtr<Tin, sigtime_t> SIN;
