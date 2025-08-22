@@ -101,8 +101,7 @@ class SOTSOT_CORE_EXPORT Sot : public Entity {
  public:
   /*! \brief Default constructor */
   Sot(const std::string &name);
-  ~Sot(void) { /* TODO!! */
-  }
+  ~Sot(void) { /* TODO!! */ }
 
   /*! \name Methods to handle the stack.
     @{

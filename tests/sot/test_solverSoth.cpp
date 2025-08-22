@@ -101,16 +101,18 @@ void parseTest(const std::string filename) {
         eiBoundSide[i] = ConstraintMem::BOUND_VOID;
         off >> number;
         if (number != "X") {
-          eiBoundSide[i] = (ConstraintMem::BoundSideType)(
-              eiBoundSide[i] | ConstraintMem::BOUND_INF);
+          eiBoundSide[i] =
+              (ConstraintMem::BoundSideType)(eiBoundSide[i] |
+                                             ConstraintMem::BOUND_INF);
           eiInf(i) = atof(number.c_str());
         } else {
           eiInf(i) = 1e-66;
         }
         off >> number;
         if (number != "X") {
-          eiBoundSide[i] = (ConstraintMem::BoundSideType)(
-              eiBoundSide[i] | ConstraintMem::BOUND_SUP);
+          eiBoundSide[i] =
+              (ConstraintMem::BoundSideType)(eiBoundSide[i] |
+                                             ConstraintMem::BOUND_SUP);
           eiSup(i) = atof(number.c_str());
         } else {
           eiSup(i) = 1e-66;
@@ -354,16 +356,18 @@ void convertDoubleToSingle(const std::string filename) {
         eiBoundSide[i] = ConstraintMem::BOUND_VOID;
         off >> number;  // std::cout << "toto '" << number << "'" << std::endl;
         if (number != "X") {
-          eiBoundSide[i] = (ConstraintMem::BoundSideType)(
-              eiBoundSide[i] | ConstraintMem::BOUND_INF);
+          eiBoundSide[i] =
+              (ConstraintMem::BoundSideType)(eiBoundSide[i] |
+                                             ConstraintMem::BOUND_INF);
           eiInf(i) = atof(number.c_str());
         } else {
           eiInf(i) = 1e-66;
         }
         off >> number;
         if (number != "X") {
-          eiBoundSide[i] = (ConstraintMem::BoundSideType)(
-              eiBoundSide[i] | ConstraintMem::BOUND_SUP);
+          eiBoundSide[i] =
+              (ConstraintMem::BoundSideType)(eiBoundSide[i] |
+                                             ConstraintMem::BOUND_SUP);
           eiSup(i) = atof(number.c_str());
         } else {
           eiSup(i) = 1e-66;
