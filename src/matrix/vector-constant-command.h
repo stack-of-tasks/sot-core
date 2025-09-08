@@ -34,7 +34,7 @@ class Resize : public Command {
   virtual Value doExecute() {
     VectorConstant &vc = static_cast<VectorConstant &>(owner());
     std::vector<Value> values = getParameterValues();
-    size_type size = values[0].value();
+    std::int64_t size = values[0].value();
     Vector m(Vector::Zero(size));
     vc.SOUT.setConstant(m);
 

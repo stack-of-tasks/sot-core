@@ -113,7 +113,8 @@ class FeatureTestBase {
                         expectedTaskOutput_.size());
     Vector taskOutput(expectedTaskOutput_.size());
     for (int i = 0; i < expectedTaskOutput_.size(); ++i)
-      taskOutput[i] = task_.taskSOUT.accessCopy()[i].getSingleBound();
+      taskOutput[i] = task_.taskSOUT.accessCopy()[static_cast<std::size_t>(i)]
+                          .getSingleBound();
     EIGEN_VECTOR_IS_APPROX(taskOutput, expectedTaskOutput_, 1e-6);
   }
 
@@ -170,7 +171,7 @@ class TestFeatureGeneric : public FeatureTestBase {
       : FeatureTestBase(dim, name),
         feature_("feature" + name),
         featureDes_("featureDes" + name),
-        dim_(dim) {
+        dim_(static_cast<int>(dim)) {
     feature_.setReference(&featureDes_);
     feature_.selectionSIN = Flags(true);
 
@@ -302,7 +303,8 @@ Vector7 toVector(const pinocchio::SE3 &M) {
 
 Vector toVector(const std::vector<MultiBound> &in) {
   Vector out(in.size());
-  for (int i = 0; i < (int)in.size(); ++i) out[i] = in[i].getSingleBound();
+  for (int i = 0; i < (int)in.size(); ++i)
+    out[i] = in[static_cast<std::size_t>(i)].getSingleBound();
   return out;
 }
 

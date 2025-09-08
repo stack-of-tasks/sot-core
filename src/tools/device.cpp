@@ -12,7 +12,7 @@
 
 /* SOT */
 #define ENABLE_RT_LOG
-
+#include <cstdint>
 #include "sot/core/device.hh"
 
 #include <iostream>
@@ -135,7 +135,7 @@ Device::Device(const std::string &n)
         "\n"
         "    Set size of state vector\n"
         "\n";
-    addCommand("resize", new command::Setter<Device, size_type>(
+    addCommand("resize", new command::Setter<Device, std::int64_t>(
                              *this, &Device::setStateSize, docstring));
     docstring =
         "\n"
@@ -227,21 +227,23 @@ void Device::getControl(map<string, ControlValues> &controlOut,
                         const double &period) {
   sotDEBUGIN(25);
   std::vector<double> control;
+  typedef std::vector<double>::size_type control_stype;
   lastTimeControlWasRead_ += (sigtime_t)floor(period / Integrator::dt);
 
   Vector dgControl(controlSIN(lastTimeControlWasRead_));
   // Specify the joint values for the controller.
-  control.resize(dgControl.size());
+  control.resize(static_cast<control_stype>(dgControl.size()));
 
   if (controlInputType_ == POSITION_CONTROL) {
     CHECK_BOUNDS(dgControl, lowerPosition_, upperPosition_, "position", 1e-6);
   }
-  for (size_type i = 0; i < dgControl.size(); ++i) control[i] = dgControl[i];
+  for (size_type i = 0; i < dgControl.size(); ++i)
+    control[static_cast<control_stype>(i)] = dgControl[i];
   controlOut["control"].setValues(control);
   sotDEBUGOUT(25);
 }
 
-void Device::setStateSize(const size_type &size) {
+void Device::setStateSize(const std::int64_t &size) {
   state_.resize(size);
   state_.fill(.0);
   stateSOUT.setConstant(state_);
@@ -283,7 +285,7 @@ void Device::setRoot(const MatrixHomogeneous &worldMwaist) {
   VectorRollPitchYaw r = (worldMwaist.linear().eulerAngles(2, 1, 0)).reverse();
   Vector q = state_;
   q = worldMwaist.translation();  // abusive ... but working.
-  for (std::size_t i = 0; i < 3; ++i) q(i + 3) = r(i);
+  for (Eigen::Index i = 0; i < 3; ++i) q(i + 3) = r(i);
 }
 
 void Device::setSecondOrderIntegration() {}

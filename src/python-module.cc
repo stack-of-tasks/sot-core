@@ -62,13 +62,13 @@ BOOST_PYTHON_MODULE(wrap) {
   bp::class_<Flags>("Flags", bp::init<>())
       .def(bp::init<const char *>())
       .def("__init__", bp::make_constructor(+[](bp::list bools) {
-             std::vector<bool> flags(bp::len(bools));
+             std::vector<bool> flags(static_cast<std::size_t>(bp::len(bools)));
              for (std::size_t i = 0; i < flags.size(); ++i)
                flags[i] = bp::extract<bool>(bools[i]);
              return new Flags(flags);
            }))
       .def("__init__", bp::make_constructor(+[](bp::tuple bools) {
-             std::vector<bool> flags(bp::len(bools));
+             std::vector<bool> flags(static_cast<std::size_t>(bp::len(bools)));
              for (std::size_t i = 0; i < flags.size(); ++i)
                flags[i] = bp::extract<bool>(bools[i]);
              return new Flags(flags);

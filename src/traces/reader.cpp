@@ -172,7 +172,7 @@ void sotReader::initCommands() {
   addCommand("resize", dc::makeCommandVoid2(*this, &sotReader::resize, " "));
 }
 
-void sotReader::resize(const size_type &row, const size_type &col) {
+void sotReader::resize(const std::int64_t &row, const std::int64_t &col) {
   rows = row;
   cols = col;
 }

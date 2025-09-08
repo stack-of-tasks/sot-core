@@ -31,6 +31,8 @@
 #ifndef SOT_CORE_SEGMENT_HH
 #define SOT_CORE_SEGMENT_HH
 
+#include <cstdint>
+
 #include <sot/core/config.hh>
 #include <dynamic-graph/entity.h>
 #include <dynamic-graph/signal-ptr.t.cpp>
@@ -43,7 +45,7 @@ class SOT_CORE_DLLAPI Segment : public Entity {
   static const std::string CLASS_NAME;
   virtual const std::string& getClassName() const { return CLASS_NAME; }
   // Set the range of input vector that is provided as output.
-  void setRange(const size_type& i0, const size_type& length) {
+  void setRange(const std::int64_t& i0, const std::int64_t& length) {
     range_ = std::make_pair(i0, length);
   }
 
