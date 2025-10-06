@@ -49,7 +49,7 @@ class SOT_CORE_EXPORT ExceptionAbstract : public std::exception {
   };
 
   static const std::string EXCEPTION_NAME;
-  virtual const std::string &getExceptionName(void) const {
+  virtual const std::string& getExceptionName(void) const {
     return EXCEPTION_NAME;
   }
 
@@ -66,24 +66,24 @@ class SOT_CORE_EXPORT ExceptionAbstract : public std::exception {
   ExceptionAbstract(void);
 
  public:
-  ExceptionAbstract(const size_type &code, const std::string &msg = "");
+  ExceptionAbstract(const size_type& code, const std::string& msg = "");
   virtual ~ExceptionAbstract(void) throw() {}
 
   /**  Access to the error code. */
   size_type getCode(void);
 
   /** Reference access to the error message (can be empty). */
-  const std::string &getStringMessage(void);
+  const std::string& getStringMessage(void);
 
   /** Access to the pointer on the array of  \e char related to the error
    * string. Cannot be  \e NULL.
    */
-  const char *getMessage(void);
-  const char *what() const throw();
+  const char* getMessage(void);
+  const char* what() const throw();
 
   /** Print the error structure. */
-  SOT_CORE_EXPORT friend std::ostream &operator<<(std::ostream &os,
-                                                  const ExceptionAbstract &err);
+  SOT_CORE_EXPORT friend std::ostream& operator<<(std::ostream& os,
+                                                  const ExceptionAbstract& err);
 
 #ifdef SOT_EXCEPTION_PASSING_PARAM
  public:
@@ -91,29 +91,29 @@ class SOT_CORE_EXPORT ExceptionAbstract : public std::exception {
    public:
     static const size_type BUFFER_SIZE = 80;
 
-    const char *functionPTR;
+    const char* functionPTR;
     char function[BUFFER_SIZE];
     size_type line;
-    const char *filePTR;
+    const char* filePTR;
     char file[BUFFER_SIZE];
     bool pointersSet, set;
 
    public:
-    Param(const size_type &_line, const char *_function, const char *_file);
+    Param(const size_type& _line, const char* _function, const char* _file);
     Param(void) : pointersSet(false), set(false) {}
-    Param &initCopy(const Param &p);
+    Param& initCopy(const Param& p);
   };
 
  protected:
   mutable Param p;
 
   template <class Exc>
-  friend const Exc &operator+(const ExceptionAbstract::Param &p, const Exc &e) {
+  friend const Exc& operator+(const ExceptionAbstract::Param& p, const Exc& e) {
     e.p.initCopy(p);
     return e;
   }
   template <class Exc>
-  friend Exc &operator+(const ExceptionAbstract::Param &p, Exc &e) {
+  friend Exc& operator+(const ExceptionAbstract::Param& p, Exc& e) {
     e.p.initCopy(p);
     return e;
   }
@@ -121,7 +121,7 @@ class SOT_CORE_EXPORT ExceptionAbstract : public std::exception {
 };
 
 #define SOT_RETHROW \
-  (const ExceptionAbstract &err) { throw err; }
+  (const ExceptionAbstract& err) { throw err; }
 
 #ifdef SOT_EXCEPTION_PASSING_PARAM
 #define SOT_THROW \

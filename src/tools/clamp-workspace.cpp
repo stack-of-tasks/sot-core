@@ -19,7 +19,7 @@ using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(ClampWorkspace, "ClampWorkspace");
 
-ClampWorkspace::ClampWorkspace(const string &fName)
+ClampWorkspace::ClampWorkspace(const string& fName)
     : Entity(fName),
       positionrefSIN(
           NULL, "ClampWorkspace(" + name + ")::input(double)::positionref"),
@@ -81,8 +81,8 @@ void ClampWorkspace::update(sigtime_t time) {
   alpha.setZero();
   alphabar.setIdentity();
 
-  const MatrixHomogeneous &posref = positionrefSIN.access(time);
-  const MatrixHomogeneous &pos = positionSIN.access(time);
+  const MatrixHomogeneous& posref = positionrefSIN.access(time);
+  const MatrixHomogeneous& pos = positionSIN.access(time);
 
   MatrixHomogeneous prefMw = posref.inverse(Eigen::Affine);
   prefMp = prefMw * pos;
@@ -174,26 +174,26 @@ void ClampWorkspace::update(sigtime_t time) {
   timeUpdate = time;
 }
 
-Matrix &ClampWorkspace::computeOutput(Matrix &res, sigtime_t time) {
+Matrix& ClampWorkspace::computeOutput(Matrix& res, sigtime_t time) {
   update(time);
   res = alpha;
   return res;
 }
 
-Matrix &ClampWorkspace::computeOutputBar(Matrix &res, sigtime_t time) {
+Matrix& ClampWorkspace::computeOutputBar(Matrix& res, sigtime_t time) {
   update(time);
   res = alphabar;
   return res;
 }
 
-MatrixHomogeneous &ClampWorkspace::computeRef(MatrixHomogeneous &res,
+MatrixHomogeneous& ClampWorkspace::computeRef(MatrixHomogeneous& res,
                                               sigtime_t time) {
   update(time);
   res = handref;
   return res;
 }
 
-void ClampWorkspace::display(std::ostream &os) const {
+void ClampWorkspace::display(std::ostream& os) const {
   os << "ClampWorkspace<" << name << ">" << endl << endl;
   os << "alpha: " << alpha << endl;
   os << "pos in ws: " << prefMp << endl;

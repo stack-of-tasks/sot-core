@@ -41,19 +41,19 @@ class SOT_CORE_EXPORT DebugTrace {
   static const size_type SIZE = 512;
 
   std::stringstream tmpbuffer;
-  std::ostream &outputbuffer;
+  std::ostream& outputbuffer;
   char charbuffer[SIZE + 1];
   size_type traceLevel;
   size_type traceLevelTemplate;
 
-  DebugTrace(std::ostream &os) : outputbuffer(os) {}
+  DebugTrace(std::ostream& os) : outputbuffer(os) {}
 
-  inline void trace(const size_type level, const char *format, ...) {
+  inline void trace(const size_type level, const char* format, ...) {
     if (level <= traceLevel) SOT_COMMON_TRACES;
     tmpbuffer.str("");
   }
 
-  inline void trace(const char *format, ...) {
+  inline void trace(const char* format, ...) {
     SOT_COMMON_TRACES;
     tmpbuffer.str("");
   }
@@ -63,26 +63,26 @@ class SOT_CORE_EXPORT DebugTrace {
     tmpbuffer.str("");
   }
 
-  inline void traceTemplate(const size_type level, const char *format, ...) {
+  inline void traceTemplate(const size_type level, const char* format, ...) {
     if (level <= traceLevelTemplate) SOT_COMMON_TRACES;
     tmpbuffer.str("");
   }
 
-  inline void traceTemplate(const char *format, ...) {
+  inline void traceTemplate(const char* format, ...) {
     SOT_COMMON_TRACES;
     tmpbuffer.str("");
   }
 
-  inline DebugTrace &pre(const std::ostream &) { return *this; }
+  inline DebugTrace& pre(const std::ostream&) { return *this; }
 
-  inline DebugTrace &pre(const std::ostream &, size_type level) {
+  inline DebugTrace& pre(const std::ostream&, size_type level) {
     traceLevel = level;
     return *this;
   }
 
-  static const char *DEBUG_FILENAME_DEFAULT;
-  static void openFile(const char *filename = DEBUG_FILENAME_DEFAULT);
-  static void closeFile(const char *filename = DEBUG_FILENAME_DEFAULT);
+  static const char* DEBUG_FILENAME_DEFAULT;
+  static void openFile(const char* filename = DEBUG_FILENAME_DEFAULT);
+  static void closeFile(const char* filename = DEBUG_FILENAME_DEFAULT);
 };
 
 SOT_CORE_EXPORT extern DebugTrace sotDEBUGFLOW;
@@ -151,11 +151,11 @@ SOT_CORE_EXPORT extern DebugTrace sotERRORFLOW;
 
 namespace dynamicgraph {
 namespace sot {
-inline bool sotDEBUG_ENABLE(const size_type &level) {
+inline bool sotDEBUG_ENABLE(const size_type& level) {
   return level <= VP_DEBUG_MODE;
 }
 
-inline bool sotTDEBUG_ENABLE(const size_type &level) {
+inline bool sotTDEBUG_ENABLE(const size_type& level) {
   return level <= VP_TEMPLATE_DEBUG_MODE;
 }
 }  // namespace sot
@@ -179,11 +179,11 @@ inline bool sotTDEBUG_ENABLE(const size_type &level) {
 
 namespace dynamicgraph {
 namespace sot {
-inline void sotDEBUGF(const size_type, const char *, ...) {}
-inline void sotDEBUGF(const char *, ...) {}
-inline void sotERRORF(const size_type, const char *, ...) {}
-inline void sotERRORF(const char *, ...) {}
-inline std::ostream &__null_stream() {
+inline void sotDEBUGF(const size_type, const char*, ...) {}
+inline void sotDEBUGF(const char*, ...) {}
+inline void sotERRORF(const size_type, const char*, ...) {}
+inline void sotERRORF(const char*, ...) {}
+inline std::ostream& __null_stream() {
   // This function should never be called. With -O3,
   // it should not appear in the generated binary.
   static std::ostream os(NULL);
@@ -201,8 +201,8 @@ inline std::ostream &__null_stream() {
 
 namespace dynamicgraph {
 namespace sot {
-inline void sotTDEBUGF(const size_type, const char *, ...) {}
-inline void sotTDEBUGF(const char *, ...) {}
+inline void sotTDEBUGF(const size_type, const char*, ...) {}
+inline void sotTDEBUGF(const char*, ...) {}
 }  // namespace sot
 }  // namespace dynamicgraph
 

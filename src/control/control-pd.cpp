@@ -30,7 +30,7 @@ const double ControlPD::TIME_STEP_DEFAULT = .001;
 
 #define __SOT_ControlPD_INIT
 
-ControlPD::ControlPD(const std::string &name)
+ControlPD::ControlPD(const std::string& name)
     : Entity(name),
       TimeStep(0),
       KpSIN(NULL, "ControlPD(" + name + ")::input(vector)::Kp"),
@@ -58,7 +58,7 @@ ControlPD::ControlPD(const std::string &name)
                                    << velocityErrorSOUT);
 }
 
-void ControlPD::init(const double &Stept) {
+void ControlPD::init(const double& Stept) {
   TimeStep = Stept;
 
   return;
@@ -68,11 +68,11 @@ void ControlPD::init(const double &Stept) {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void ControlPD::display(std::ostream &os) const {
+void ControlPD::display(std::ostream& os) const {
   os << "ControlPD " << getName();
   try {
     os << "control = " << controlSOUT;
-  } catch (const ExceptionSignal &e) {
+  } catch (const ExceptionSignal& e) {
   }
   os << " (" << TimeStep << ") ";
 }
@@ -81,15 +81,15 @@ void ControlPD::display(std::ostream &os) const {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-dynamicgraph::Vector &ControlPD::computeControl(dynamicgraph::Vector &tau,
+dynamicgraph::Vector& ControlPD::computeControl(dynamicgraph::Vector& tau,
                                                 sigtime_t t) {
   sotDEBUGIN(15);
-  const dynamicgraph::Vector &Kp = KpSIN(t);
-  const dynamicgraph::Vector &Kd = KdSIN(t);
-  const dynamicgraph::Vector &position = positionSIN(t);
-  const dynamicgraph::Vector &desired_position = desiredpositionSIN(t);
-  const dynamicgraph::Vector &velocity = velocitySIN(t);
-  const dynamicgraph::Vector &desired_velocity = desiredvelocitySIN(t);
+  const dynamicgraph::Vector& Kp = KpSIN(t);
+  const dynamicgraph::Vector& Kd = KdSIN(t);
+  const dynamicgraph::Vector& position = positionSIN(t);
+  const dynamicgraph::Vector& desired_position = desiredpositionSIN(t);
+  const dynamicgraph::Vector& velocity = velocitySIN(t);
+  const dynamicgraph::Vector& desired_velocity = desiredvelocitySIN(t);
 
   dynamicgraph::Vector::Index size = Kp.size();
   tau.resize(size);
@@ -106,16 +106,16 @@ dynamicgraph::Vector &ControlPD::computeControl(dynamicgraph::Vector &tau,
   return tau;
 }
 
-dynamicgraph::Vector &ControlPD::getPositionError(
-    dynamicgraph::Vector &position_error, sigtime_t t) {
+dynamicgraph::Vector& ControlPD::getPositionError(
+    dynamicgraph::Vector& position_error, sigtime_t t) {
   // sotDEBUGOUT(15) ??
   controlSOUT(t);
   position_error = position_error_;
   return position_error;
 }
 
-dynamicgraph::Vector &ControlPD::getVelocityError(
-    dynamicgraph::Vector &velocity_error, sigtime_t t) {
+dynamicgraph::Vector& ControlPD::getVelocityError(
+    dynamicgraph::Vector& velocity_error, sigtime_t t) {
   controlSOUT(t);
   velocity_error = velocity_error_;
   return velocity_error;

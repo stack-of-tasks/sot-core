@@ -28,7 +28,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(TaskConti, "TaskConti");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-TaskConti::TaskConti(const std::string &n)
+TaskConti::TaskConti(const std::string& n)
     : Task(n),
       timeRef(TIME_REF_UNSIGNIFICANT),
       mu(0),
@@ -38,15 +38,15 @@ TaskConti::TaskConti(const std::string &n)
   signalRegistration(controlPrevSIN);
 }
 
-VectorMultiBound &TaskConti::computeContiDesiredVelocity(
-    VectorMultiBound &desvel2b, const sigtime_t &timecurr) {
+VectorMultiBound& TaskConti::computeContiDesiredVelocity(
+    VectorMultiBound& desvel2b, const sigtime_t& timecurr) {
   sotDEBUG(15) << "# In {" << endl;
 
   dynamicgraph::Vector desvel = errorSOUT(timecurr);
-  const double &lambda = controlGainSIN(timecurr);
+  const double& lambda = controlGainSIN(timecurr);
 
   try {
-    const dynamicgraph::Matrix &J = jacobianSOUT(timecurr);
+    const dynamicgraph::Matrix& J = jacobianSOUT(timecurr);
 
     dynamicgraph::Vector deref(J.rows());
     sotDEBUG(15) << "q0 = " << q0 << std::endl;
@@ -87,8 +87,8 @@ VectorMultiBound &TaskConti::computeContiDesiredVelocity(
     sotDEBUG(15) << "# Out }" << endl;
     return desvel2b;
   } catch (...) {
-    const dynamicgraph::Vector &desvel = errorSOUT(timecurr);
-    const double &gain = controlGainSIN(timecurr);
+    const dynamicgraph::Vector& desvel = errorSOUT(timecurr);
+    const double& gain = controlGainSIN(timecurr);
     desvel2b.resize(desvel.size());
     for (size_type i = 0; i < desvel.size(); ++i)
       desvel2b[i] = -gain * desvel(i);
@@ -104,7 +104,7 @@ VectorMultiBound &TaskConti::computeContiDesiredVelocity(
 /* --- DISPLAY ------------------------------------------------------------ */
 /* --- DISPLAY ------------------------------------------------------------ */
 
-void TaskConti::display(std::ostream &os) const {
+void TaskConti::display(std::ostream& os) const {
   os << "TaskConti " << name << " [t=" << timeRef << "] "
      << ": " << endl;
   os << "--- LIST ---  " << std::endl;

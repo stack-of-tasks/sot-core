@@ -66,25 +66,25 @@ class SOTGRIPPERCONTROL_EXPORT GripperControl {
   //! \brief Computes the
   // if the torque limit is reached, the normalized position is reduced by
   // (offset)
-  void computeIncrement(const dynamicgraph::Vector &torques,
-                        const dynamicgraph::Vector &torqueLimits,
-                        const dynamicgraph::Vector &currentNormVel);
+  void computeIncrement(const dynamicgraph::Vector& torques,
+                        const dynamicgraph::Vector& torqueLimits,
+                        const dynamicgraph::Vector& currentNormVel);
 
   //! \brief
-  dynamicgraph::Vector &computeDesiredPosition(
-      const dynamicgraph::Vector &currentPos,
-      const dynamicgraph::Vector &desiredPos,
-      const dynamicgraph::Vector &torques,
-      const dynamicgraph::Vector &torqueLimits,
-      dynamicgraph::Vector &referencePos);
+  dynamicgraph::Vector& computeDesiredPosition(
+      const dynamicgraph::Vector& currentPos,
+      const dynamicgraph::Vector& desiredPos,
+      const dynamicgraph::Vector& torques,
+      const dynamicgraph::Vector& torqueLimits,
+      dynamicgraph::Vector& referencePos);
 
   /*! \brief select only some of the values of the vector fullsize,
    *   based on the Flags vector.
    */
 
-  static dynamicgraph::Vector &selector(const dynamicgraph::Vector &fullsize,
-                                        const Flags &selec,
-                                        dynamicgraph::Vector &desPos);
+  static dynamicgraph::Vector& selector(const dynamicgraph::Vector& fullsize,
+                                        const Flags& selec,
+                                        dynamicgraph::Vector& desPos);
 };
 
 /* --------------------------------------------------------------------- */
@@ -100,7 +100,7 @@ class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
   bool calibrationStarted;
 
  public: /* --- CONSTRUCTION --- */
-  GripperControlPlugin(const std::string &name);
+  GripperControlPlugin(const std::string& name);
   virtual ~GripperControlPlugin(void);
 
   /* --- DOCUMENTATION --- */
@@ -133,7 +133,7 @@ class SOTGRIPPERCONTROL_EXPORT GripperControlPlugin
  public: /* --- COMMANDLINE --- */
   void initCommands();
 
-  void setOffset(const double &value);
+  void setOffset(const double& value);
 };
 
 } /* namespace sot */

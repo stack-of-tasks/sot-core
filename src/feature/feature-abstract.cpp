@@ -21,7 +21,7 @@ using dynamicgraph::sot::ExceptionFeature;
 
 const std::string FeatureAbstract::CLASS_NAME = "FeatureAbstract";
 
-FeatureAbstract::FeatureAbstract(const std::string &name)
+FeatureAbstract::FeatureAbstract(const std::string& name)
     : Entity(name),
       selectionSIN(NULL,
                    "sotFeatureAbstract(" + name + ")::input(flag)::selec"),
@@ -67,11 +67,11 @@ void FeatureAbstract::featureRegistration(void) {
   PoolStorage::getInstance()->registerFeature(name, this);
 }
 
-std::ostream &FeatureAbstract::writeGraph(std::ostream &os) const {
+std::ostream& FeatureAbstract::writeGraph(std::ostream& os) const {
   Entity::writeGraph(os);
 
   if (isReferenceSet()) {
-    const FeatureAbstract *asotFA = getReferenceAbstract();
+    const FeatureAbstract* asotFA = getReferenceAbstract();
     os << "\t\"" << asotFA->getName() << "\" -> \"" << getName() << "\""
        << "[ color=darkseagreen4 ]" << std::endl;
   } else
@@ -80,7 +80,7 @@ std::ostream &FeatureAbstract::writeGraph(std::ostream &os) const {
   return os;
 }
 
-void FeatureAbstract::setReferenceByName(const std::string &name) {
+void FeatureAbstract::setReferenceByName(const std::string& name) {
   setReference(
       &dynamicgraph::sot::PoolStorage::getInstance()->getFeature(name));
 }
@@ -92,10 +92,10 @@ std::string FeatureAbstract::getReferenceByName() const {
     return "none";
 }
 
-dynamicgraph::Vector &FeatureAbstract::computeErrorDot(
-    dynamicgraph::Vector &res, sigtime_t time) {
-  const Flags &fl = selectionSIN.access(time);
-  const size_type &dim = dimensionSOUT(time);
+dynamicgraph::Vector& FeatureAbstract::computeErrorDot(
+    dynamicgraph::Vector& res, sigtime_t time) {
+  const Flags& fl = selectionSIN.access(time);
+  const size_type& dim = dimensionSOUT(time);
 
   std::size_t curr = 0;
   res.resize(dim);
@@ -103,7 +103,7 @@ dynamicgraph::Vector &FeatureAbstract::computeErrorDot(
   sotDEBUG(25) << "Dim = " << dim << std::endl;
 
   if (isReferenceSet() && getReferenceAbstract()->errordotSIN.isPlugged()) {
-    const dynamicgraph::Vector &errdotDes =
+    const dynamicgraph::Vector& errdotDes =
         getReferenceAbstract()->errordotSIN(time);
     sotDEBUG(15) << "Err* = " << errdotDes;
     if (errdotDes.size() < dim) {

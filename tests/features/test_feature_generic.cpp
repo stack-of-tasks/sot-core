@@ -79,7 +79,7 @@ class FeatureTestBase {
   int time_;
   dynamicgraph::Vector expectedTaskOutput_;
 
-  FeatureTestBase(unsigned dim, const std::string &name)
+  FeatureTestBase(unsigned dim, const std::string& name)
       : task_("task" + name), time_(0) {
     expectedTaskOutput_.resize(dim);
   }
@@ -89,15 +89,15 @@ class FeatureTestBase {
     task_.setWithDerivative(true);
   }
 
-  void computeExpectedTaskOutput(const Vector &error,
-                                 const Vector &errorDrift) {
+  void computeExpectedTaskOutput(const Vector& error,
+                                 const Vector& errorDrift) {
     double gain = task_.controlGainSIN;
     expectedTaskOutput_ = -gain * error - errorDrift;
   }
 
   template <typename LG_t>
-  void computeExpectedTaskOutput(const Vector &s, const Vector &sdes,
-                                 const Vector &sDesDot, const LG_t &lg) {
+  void computeExpectedTaskOutput(const Vector& s, const Vector& sdes,
+                                 const Vector& sDesDot, const LG_t& lg) {
     Vector s_sd(lg.nv());
     lg.difference(sdes, s, s_sd);
 
@@ -124,13 +124,13 @@ class FeatureTestBase {
   }
 
   template <typename SignalType, typename ValueType>
-  void setSignal(SignalType &sig, const ValueType &v) {
+  void setSignal(SignalType& sig, const ValueType& v) {
     sig = v;
     sig.access(time_);
     sig.setReady();
   }
 
-  virtual FeatureAbstract &featureAbstract() = 0;
+  virtual FeatureAbstract& featureAbstract() = 0;
 
   virtual void setInputs() = 0;
 
@@ -140,7 +140,7 @@ class FeatureTestBase {
     task_.taskSOUT.recompute(time_);
 
     // Check that recomputing went fine.
-    FeatureAbstract &f(featureAbstract());
+    FeatureAbstract& f(featureAbstract());
     BOOST_CHECK_EQUAL(time_, f.errorSOUT.getTime());
     BOOST_CHECK_EQUAL(time_, f.errordotSOUT.getTime());
     BOOST_CHECK_EQUAL(time_, task_.errorSOUT.getTime());
@@ -166,7 +166,7 @@ class TestFeatureGeneric : public FeatureTestBase {
   FeatureGeneric feature_, featureDes_;
   int dim_;
 
-  TestFeatureGeneric(unsigned dim, const std::string &name)
+  TestFeatureGeneric(unsigned dim, const std::string& name)
       : FeatureTestBase(dim, name),
         feature_("feature" + name),
         featureDes_("featureDes" + name),
@@ -181,7 +181,7 @@ class TestFeatureGeneric : public FeatureTestBase {
     init();
   }
 
-  FeatureAbstract &featureAbstract() { return feature_; }
+  FeatureAbstract& featureAbstract() { return feature_; }
 
   void setInputs() {
     dynamicgraph::Vector s(dim_), sd(dim_), vd(dim_);
@@ -293,14 +293,14 @@ MatrixHomogeneous randomM() {
 
 typedef pinocchio::SE3 SE3;
 
-Vector7 toVector(const pinocchio::SE3 &M) {
+Vector7 toVector(const pinocchio::SE3& M) {
   Vector7 v;
   v.head<3>() = M.translation();
   QuaternionMap(v.tail<4>().data()) = M.rotation();
   return v;
 }
 
-Vector toVector(const std::vector<MultiBound> &in) {
+Vector toVector(const std::vector<MultiBound>& in) {
   Vector out(in.size());
   for (int i = 0; i < (int)in.size(); ++i) out[i] = in[i].getSingleBound();
   return out;
@@ -317,7 +317,7 @@ class TestFeaturePose : public FeatureTestBase {
   pinocchio::JointIndex ja_, jb_;
   pinocchio::FrameIndex fa_, fb_;
 
-  TestFeaturePose(bool relative, const std::string &name)
+  TestFeaturePose(bool relative, const std::string& name)
       : FeatureTestBase(6, name),
         feature_("feature" + name),
         relative_(relative),
@@ -369,7 +369,7 @@ class TestFeaturePose : public FeatureTestBase {
     _setFrame();
   }
 
-  FeatureAbstract &featureAbstract() { return feature_; }
+  FeatureAbstract& featureAbstract() { return feature_; }
 
   void setInputs() {
     Vector q(pinocchio::randomConfiguration(model_));
@@ -419,7 +419,7 @@ class TestFeaturePose : public FeatureTestBase {
     const SE3 oMfb = data_.oMf[fb_], oMfa = data_.oMf[fa_],
               faMfb(feature_.faMfb.accessCopy().matrix()),
               faMfbDes(feature_.faMfbDes.accessCopy().matrix());
-    const Vector &nu(feature_.faNufafbDes.accessCopy());
+    const Vector& nu(feature_.faNufafbDes.accessCopy());
 
     computeExpectedTaskOutput(
         toVector(oMfa.inverse() * oMfb), toVector(faMfbDes),
@@ -599,7 +599,7 @@ class TestFeaturePose : public FeatureTestBase {
 };
 
 template <typename TestClass>
-void runTest(TestClass &runner, int N = 2)
+void runTest(TestClass& runner, int N = 2)
 // int N = 10)
 {
   for (int i = 0; i < N; ++i) runner.checkValue();
@@ -610,7 +610,7 @@ void runTest(TestClass &runner, int N = 2)
 BOOST_AUTO_TEST_SUITE(feature_pose)
 
 template <Representation_t representation>
-void feature_pose_absolute_tpl(const std::string &repr) {
+void feature_pose_absolute_tpl(const std::string& repr) {
   BOOST_TEST_MESSAGE("absolute " << repr);
   TestFeaturePose<representation> testAbsolute(false, "abs" + repr);
   testAbsolute.setJointFrame();
@@ -633,7 +633,7 @@ BOOST_AUTO_TEST_CASE(se3) {
 BOOST_AUTO_TEST_SUITE_END()  // absolute
 
 template <Representation_t representation>
-void feature_pose_relative_tpl(const std::string &repr) {
+void feature_pose_relative_tpl(const std::string& repr) {
   BOOST_TEST_MESSAGE("relative " << repr);
   TestFeaturePose<representation> testRelative(true, "rel" + repr);
   runTest(testRelative);

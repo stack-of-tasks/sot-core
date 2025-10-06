@@ -26,7 +26,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureGeneric, "FeatureGeneric");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-FeatureGeneric::FeatureGeneric(const string &pointName)
+FeatureGeneric::FeatureGeneric(const string& pointName)
     : FeatureAbstract(pointName),
       dimensionDefault(0),
       errorSIN(NULL, "sotFeatureGeneric(" + name + ")::input(vector)::errorIN"),
@@ -60,10 +60,10 @@ void FeatureGeneric::removeDependenciesFromReference(void) {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-size_type &FeatureGeneric::getDimension(size_type &dim, sigtime_t time) {
+size_type& FeatureGeneric::getDimension(size_type& dim, sigtime_t time) {
   sotDEBUG(25) << "# In {" << endl;
 
-  const Flags &fl = selectionSIN.access(time);
+  const Flags& fl = selectionSIN.access(time);
 
   if (dimensionDefault == 0) dimensionDefault = errorSIN.access(time).size();
 
@@ -75,10 +75,10 @@ size_type &FeatureGeneric::getDimension(size_type &dim, sigtime_t time) {
   return dim;
 }
 
-Vector &FeatureGeneric::computeError(Vector &res, sigtime_t time) {
-  const Vector &err = errorSIN.access(time);
-  const Flags &fl = selectionSIN.access(time);
-  const size_type &dim = dimensionSOUT(time);
+Vector& FeatureGeneric::computeError(Vector& res, sigtime_t time) {
+  const Vector& err = errorSIN.access(time);
+  const Flags& fl = selectionSIN.access(time);
+  const size_type& dim = dimensionSOUT(time);
 
   std::size_t curr = 0;
   res.resize(dim);
@@ -94,7 +94,7 @@ Vector &FeatureGeneric::computeError(Vector &res, sigtime_t time) {
   sotDEBUG(25) << "Dim = " << dim << endl;
 
   if (isReferenceSet()) {
-    const Vector &errDes = getReference()->errorSIN(time);
+    const Vector& errDes = getReference()->errorSIN(time);
     sotDEBUG(15) << "Err* = " << errDes;
     if (errDes.size() < dim) {
       SOT_THROW ExceptionFeature(
@@ -115,12 +115,12 @@ Vector &FeatureGeneric::computeError(Vector &res, sigtime_t time) {
   return res;
 }
 
-Matrix &FeatureGeneric::computeJacobian(Matrix &res, sigtime_t time) {
+Matrix& FeatureGeneric::computeJacobian(Matrix& res, sigtime_t time) {
   sotDEBUGIN(15);
 
-  const Matrix &Jac = jacobianSIN.access(time);
-  const Flags &fl = selectionSIN.access(time);
-  const std::size_t &dim = dimensionSOUT(time);
+  const Matrix& Jac = jacobianSIN.access(time);
+  const Flags& fl = selectionSIN.access(time);
+  const std::size_t& dim = dimensionSOUT(time);
 
   std::size_t curr = 0;
   res.resize(dim, Jac.cols());
@@ -139,13 +139,13 @@ Matrix &FeatureGeneric::computeJacobian(Matrix &res, sigtime_t time) {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void FeatureGeneric::display(std::ostream &os) const {
+void FeatureGeneric::display(std::ostream& os) const {
   os << "Generic <" << name << ">: " << std::endl;
 
   try {
     os << "  error= " << errorSIN.accessCopy() << endl
        << "  J    = " << jacobianSIN.accessCopy() << endl;
-  } catch (ExceptionSignal &e) {
+  } catch (ExceptionSignal& e) {
     os << e.what();
   }
 }

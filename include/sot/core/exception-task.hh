@@ -40,14 +40,14 @@ class SOT_CORE_EXPORT ExceptionTask : public ExceptionAbstract
   };
 
   static const std::string EXCEPTION_NAME;
-  virtual const std::string &getExceptionName(void) const {
+  virtual const std::string& getExceptionName(void) const {
     return EXCEPTION_NAME;
   }
 
-  ExceptionTask(const ExceptionTask::ErrorCodeEnum &errcode,
-                const std::string &msg = "");
-  ExceptionTask(const ExceptionTask::ErrorCodeEnum &errcode,
-                const std::string &msg, const char *format, ...);
+  ExceptionTask(const ExceptionTask::ErrorCodeEnum& errcode,
+                const std::string& msg = "");
+  ExceptionTask(const ExceptionTask::ErrorCodeEnum& errcode,
+                const std::string& msg, const char* format, ...);
   virtual ~ExceptionTask(void) throw() {}
 };
 

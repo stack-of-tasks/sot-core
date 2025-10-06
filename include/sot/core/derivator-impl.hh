@@ -38,7 +38,7 @@ namespace sot {
 #define DECLARE_SPECIFICATION(className, sotSigType)                \
   class DERIVATOR_EXPORT className : public Derivator<sotSigType> { \
    public:                                                          \
-    className(const std::string &name);                             \
+    className(const std::string& name);                             \
   };
 #else
 #define DECLARE_SPECIFICATION(className, sotSigType) \

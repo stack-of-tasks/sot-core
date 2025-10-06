@@ -77,7 +77,7 @@ void GainAdaptive::addCommands() {
       makeCommandVoid4(*this, &GainAdaptive::initFromPassingPoint, docstring));
 }
 
-GainAdaptive::GainAdaptive(const std::string &name)
+GainAdaptive::GainAdaptive(const std::string& name)
     : __SOT_GAIN_ADAPTATIVE_INIT {
   sotDEBUG(15) << "New gain <" << name << ">" << std::endl;
   init();
@@ -85,23 +85,23 @@ GainAdaptive::GainAdaptive(const std::string &name)
   addCommands();
 }
 
-GainAdaptive::GainAdaptive(const std::string &name, const double &lambda)
+GainAdaptive::GainAdaptive(const std::string& name, const double& lambda)
     : __SOT_GAIN_ADAPTATIVE_INIT {
   init(lambda);
   Entity::signalRegistration(gainSOUT);
   addCommands();
 }
 
-GainAdaptive::GainAdaptive(const std::string &name, const double &valueAt0,
-                           const double &valueAtInfty, const double &tanAt0)
+GainAdaptive::GainAdaptive(const std::string& name, const double& valueAt0,
+                           const double& valueAtInfty, const double& tanAt0)
     : __SOT_GAIN_ADAPTATIVE_INIT {
   init(valueAt0, valueAtInfty, tanAt0);
   Entity::signalRegistration(gainSOUT);
   addCommands();
 }
 
-void GainAdaptive::init(const double &valueAt0, const double &valueAtInfty,
-                        const double &tanAt0) {
+void GainAdaptive::init(const double& valueAt0, const double& valueAtInfty,
+                        const double& tanAt0) {
   coeff_a = valueAt0 - valueAtInfty;
   if (0 == coeff_a) {
     coeff_b = 0;
@@ -130,10 +130,10 @@ void GainAdaptive::init(const double &valueAt0, const double &valueAtInfty,
  *
  * The second solution is tried in the following.
  */
-void GainAdaptive::initFromPassingPoint(const double &valueAt0,
-                                        const double &valueAtInfty,
-                                        const double &xref,
-                                        const double &p)  // gref )
+void GainAdaptive::initFromPassingPoint(const double& valueAt0,
+                                        const double& valueAtInfty,
+                                        const double& xref,
+                                        const double& p)  // gref )
 {
   coeff_c = valueAtInfty;
   coeff_a = valueAt0 - valueAtInfty;
@@ -151,11 +151,11 @@ void GainAdaptive::forceConstant(void) { coeff_a = 0; }
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void GainAdaptive::display(std::ostream &os) const {
+void GainAdaptive::display(std::ostream& os) const {
   os << "Gain Adaptative " << getName();
   try {
     os << " = " << double(gainSOUT.accessCopy());
-  } catch (const ExceptionSignal &e) {
+  } catch (const ExceptionSignal& e) {
   }
   os << " (" << coeff_a << ";" << coeff_b << ";" << coeff_c << ") ";
 }
@@ -163,9 +163,9 @@ void GainAdaptive::display(std::ostream &os) const {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-double &GainAdaptive::computeGain(double &res, sigtime_t t) {
+double& GainAdaptive::computeGain(double& res, sigtime_t t) {
   sotDEBUGIN(15);
-  const dynamicgraph::Vector &error = errorSIN(t);
+  const dynamicgraph::Vector& error = errorSIN(t);
   const double norm = error.norm();
   res = coeff_a * exp(-coeff_b * norm) + coeff_c;
 

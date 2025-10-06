@@ -18,16 +18,16 @@ namespace sot {
 class DoubleConstant : public Entity {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
-  DoubleConstant(const std::string &name);
+  DoubleConstant(const std::string& name);
 
   virtual ~DoubleConstant(void) {}
 
   SignalTimeDependent<double, sigtime_t> SOUT;
 
   /// \brief Set value of vector (and therefore of output signal)
-  void setValue(const double &inValue);
+  void setValue(const double& inValue);
 };
 
 }  // namespace sot

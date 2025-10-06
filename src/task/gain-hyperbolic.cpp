@@ -38,29 +38,29 @@ const double GainHyperbolic::TAN_DEFAULT = 1;
                errorSIN,                                                       \
                "sotGainHyperbolic(" + name + ")::output(double)::gain")
 
-GainHyperbolic::GainHyperbolic(const std::string &name)
+GainHyperbolic::GainHyperbolic(const std::string& name)
     : __SOT_GAIN_HYPERBOLIC_INIT {
   sotDEBUG(15) << "New gain <" << name << ">" << std::endl;
   init();
   Entity::signalRegistration(gainSOUT << errorSIN);
 }
 
-GainHyperbolic::GainHyperbolic(const std::string &name, const double &lambda)
+GainHyperbolic::GainHyperbolic(const std::string& name, const double& lambda)
     : __SOT_GAIN_HYPERBOLIC_INIT {
   init(lambda);
   Entity::signalRegistration(gainSOUT);
 }
 
-GainHyperbolic::GainHyperbolic(const std::string &name, const double &valueAt0,
-                               const double &valueAtInfty, const double &tanAt0,
-                               const double &decal0)
+GainHyperbolic::GainHyperbolic(const std::string& name, const double& valueAt0,
+                               const double& valueAtInfty, const double& tanAt0,
+                               const double& decal0)
     : __SOT_GAIN_HYPERBOLIC_INIT {
   init(valueAt0, valueAtInfty, tanAt0, decal0);
   Entity::signalRegistration(gainSOUT);
 }
 
-void GainHyperbolic::init(const double &valueAt0, const double &valueAtInfty,
-                          const double &tanAt0, const double &decal0) {
+void GainHyperbolic::init(const double& valueAt0, const double& valueAtInfty,
+                          const double& tanAt0, const double& decal0) {
   coeff_a = valueAt0 - valueAtInfty;
   if (0 == coeff_a) {
     coeff_b = 0;
@@ -79,11 +79,11 @@ void GainHyperbolic::forceConstant(void) { coeff_a = 0; }
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void GainHyperbolic::display(std::ostream &os) const {
+void GainHyperbolic::display(std::ostream& os) const {
   os << "Gain Hyperbolic " << getName();
   try {
     os << " = " << double(gainSOUT.accessCopy());
-  } catch (const ExceptionSignal &e) {
+  } catch (const ExceptionSignal& e) {
   }
   // os <<" ("<<coeff_a<<";"<<coeff_b<<";"<<coeff_c<<coeff_d<<") ";
   os << " (" << coeff_a << ".exp(-" << coeff_b << "(x-" << coeff_d << "))+"
@@ -93,9 +93,9 @@ void GainHyperbolic::display(std::ostream &os) const {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-double &GainHyperbolic::computeGain(double &res, sigtime_t t) {
+double& GainHyperbolic::computeGain(double& res, sigtime_t t) {
   sotDEBUGIN(15);
-  const dynamicgraph::Vector &error = errorSIN(t);
+  const dynamicgraph::Vector& error = errorSIN(t);
   const double norm = error.norm();
   res = coeff_a * .5 * (tanh(-coeff_b * (norm - coeff_d)) + 1) + coeff_c;
 

@@ -29,7 +29,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureTask, "FeatureTask");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-FeatureTask::FeatureTask(const string &pointName) : FeatureGeneric(pointName) {}
+FeatureTask::FeatureTask(const string& pointName) : FeatureGeneric(pointName) {}
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -39,7 +39,7 @@ FeatureTask::FeatureTask(const string &pointName) : FeatureGeneric(pointName) {}
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void FeatureTask::display(std::ostream &os) const {
+void FeatureTask::display(std::ostream& os) const {
   os << "Feature from task <" << getName();
   if (taskPtr) os << ": from task " << taskPtr->getName();
   os << std::endl;

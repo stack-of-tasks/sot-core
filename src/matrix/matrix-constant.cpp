@@ -22,7 +22,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MatrixConstant, "MatrixConstant");
 /* --- MATRIX ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-MatrixConstant::MatrixConstant(const std::string &name)
+MatrixConstant::MatrixConstant(const std::string& name)
     : Entity(name),
       rows(0),
       cols(0),
@@ -56,6 +56,6 @@ MatrixConstant::MatrixConstant(const std::string &name)
           *this, &MatrixConstant::setValue, docstring));
 }
 
-void MatrixConstant::setValue(const dynamicgraph::Matrix &inValue) {
+void MatrixConstant::setValue(const dynamicgraph::Matrix& inValue) {
   SOUT.setConstant(inValue);
 }

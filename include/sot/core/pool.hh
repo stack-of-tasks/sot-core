@@ -66,10 +66,10 @@ class SOT_CORE_EXPORT PoolStorage {
     @{
    */
   /*! \brief Sorted set of tasks with unique key (name). */
-  typedef std::map<std::string, TaskAbstract *> Tasks;
+  typedef std::map<std::string, TaskAbstract*> Tasks;
 
   /*! \brief Sorted set of features with unique key (name). */
-  typedef std::map<std::string, FeatureAbstract *> Features;
+  typedef std::map<std::string, FeatureAbstract*> Features;
   /*! @} */
 
  protected:
@@ -90,7 +90,7 @@ class SOT_CORE_EXPORT PoolStorage {
   ~PoolStorage(void);
 
   /// \brief Get unique instance of the class
-  static PoolStorage *getInstance();
+  static PoolStorage* getInstance();
 
   /// \brief destroy unique instance of the class
   static void destroy();
@@ -99,29 +99,29 @@ class SOT_CORE_EXPORT PoolStorage {
     @{
    */
   /*! \brief Registering a feature. */
-  void registerFeature(const std::string &entname, FeatureAbstract *ent);
+  void registerFeature(const std::string& entname, FeatureAbstract* ent);
 
   /*! \brief Get a reference to a feature. */
-  FeatureAbstract &getFeature(const std::string &name);
+  FeatureAbstract& getFeature(const std::string& name);
   /*! @} */
 
   /*! \name Methods related to the handling of the tasks
     @{
    */
   /*! \brief Registering a task. */
-  void registerTask(const std::string &entname, TaskAbstract *ent);
+  void registerTask(const std::string& entname, TaskAbstract* ent);
   /*! \brief Get a reference to a task. */
-  TaskAbstract &getTask(const std::string &name);
+  TaskAbstract& getTask(const std::string& name);
   /*! @} */
 
   /*! \brief This method write a graph description on the file named FileName.
    */
-  void writeGraph(const std::string &aFileName);
-  void writeCompletionList(std::ostream &os);
+  void writeGraph(const std::string& aFileName);
+  void writeCompletionList(std::ostream& os);
 
  private:
   PoolStorage();
-  static PoolStorage *instance_;
+  static PoolStorage* instance_;
 };
 
 } /* namespace sot */

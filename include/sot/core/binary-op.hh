@@ -49,10 +49,10 @@ class BinaryOp : public Entity {
   static std::string getTypeIn2Name(void) { return Operator::nameTypeIn2(); }
   static std::string getTypeOutName(void) { return Operator::nameTypeOut(); }
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName() const { return CLASS_NAME; }
+  virtual const std::string& getClassName() const { return CLASS_NAME; }
   std::string getDocString() const { return op.getDocString(); }
 
-  BinaryOp(const std::string &name)
+  BinaryOp(const std::string& name)
       : Entity(name),
         SIN1(NULL, BinaryOp::CLASS_NAME + "(" + name + ")::input(" +
                        getTypeIn1Name() + ")::sin1"),
@@ -73,9 +73,9 @@ class BinaryOp : public Entity {
   SignalTimeDependent<Tout, sigtime_t> SOUT;
 
  protected:
-  Tout &computeOperation(Tout &res, sigtime_t time) {
-    const Tin1 &x1 = SIN1(time);
-    const Tin2 &x2 = SIN2(time);
+  Tout& computeOperation(Tout& res, sigtime_t time) {
+    const Tin1& x1 = SIN1(time);
+    const Tin2& x2 = SIN2(time);
     op(x1, x2, res);
     return res;
   }

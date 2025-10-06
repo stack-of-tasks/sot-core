@@ -59,8 +59,8 @@ class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic : public dynamicgraph::Entity {
 
  public: /* --- ENTITY INHERITANCE --- */
   static const std::string CLASS_NAME;
-  virtual void display(std::ostream &os) const;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual void display(std::ostream& os) const;
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  protected:
   /* Parameters of the hyperbolic-gain function:
@@ -71,23 +71,23 @@ class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic : public dynamicgraph::Entity {
   double coeff_d;
 
  public: /* --- CONSTRUCTORS ---- */
-  GainHyperbolic(const std::string &name);
-  GainHyperbolic(const std::string &name, const double &lambda);
-  GainHyperbolic(const std::string &name, const double &valueAt0,
-                 const double &valueAtInfty, const double &tanAt0,
-                 const double &decal0);
+  GainHyperbolic(const std::string& name);
+  GainHyperbolic(const std::string& name, const double& lambda);
+  GainHyperbolic(const std::string& name, const double& valueAt0,
+                 const double& valueAtInfty, const double& tanAt0,
+                 const double& decal0);
 
  public: /* --- INIT --- */
   inline void init(void) { init(ZERO_DEFAULT, INFTY_DEFAULT, TAN_DEFAULT, 0); }
-  inline void init(const double &lambda) { init(lambda, lambda, 1., 0); }
+  inline void init(const double& lambda) { init(lambda, lambda, 1., 0); }
   /** Set the coefficients.
    * - \f$ a = valueAt0 - valueAtInfty \f$,
    * - \f$ b = \frac{tanAt0}{2*a} \f$, or \f$ b = 0 \f$ if \f$ a == 0 \f$,
    * - \f$ c = valueAtInfty \f$,
    * - \f$ d = decal0 \f$.
    */
-  void init(const double &valueAt0, const double &valueAtInfty,
-            const double &tanAt0, const double &decal0);
+  void init(const double& valueAt0, const double& valueAtInfty,
+            const double& tanAt0, const double& decal0);
   void forceConstant(void);
 
  public: /* --- SIGNALS --- */
@@ -95,7 +95,7 @@ class SOTGAINHYPERBOLIC_EXPORT GainHyperbolic : public dynamicgraph::Entity {
   dynamicgraph::SignalTimeDependent<double, sigtime_t> gainSOUT;
 
  protected:
-  double &computeGain(double &res, sigtime_t t);
+  double& computeGain(double& res, sigtime_t t);
 };
 
 } /* namespace sot */

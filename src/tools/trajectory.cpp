@@ -29,7 +29,7 @@
 namespace dynamicgraph {
 namespace sot {
 
-RulesJointTrajectory::RulesJointTrajectory(Trajectory &aTrajectoryToFill)
+RulesJointTrajectory::RulesJointTrajectory(Trajectory& aTrajectoryToFill)
     : TrajectoryToFill_(aTrajectoryToFill),
       dbg_level(0),
       float_str_re("[-0-9]+\\.[0-9]*"),
@@ -65,8 +65,8 @@ RulesJointTrajectory::RulesJointTrajectory(Trajectory &aTrajectoryToFill)
       bg_liste_of_pts_re(bg_liste_of_pts_str_re) {}
 
 bool RulesJointTrajectory::search_exp_sub_string(
-    std::string &text, boost::match_results<std::string::const_iterator> &what,
-    boost::regex &e, std::string &sub_text) {
+    std::string& text, boost::match_results<std::string::const_iterator>& what,
+    boost::regex& e, std::string& sub_text) {
   unsigned nb_failures = 0;
 
   boost::match_flag_type flags = boost::match_extra;
@@ -96,8 +96,8 @@ bool RulesJointTrajectory::search_exp_sub_string(
   return false;
 }
 
-void RulesJointTrajectory::parse_header(std::string &trajectory,
-                                        std::string &sub_text1) {
+void RulesJointTrajectory::parse_header(std::string& trajectory,
+                                        std::string& sub_text1) {
   std::istringstream is;
   boost::match_results<std::string::const_iterator> what;
 
@@ -124,8 +124,8 @@ void RulesJointTrajectory::parse_header(std::string &trajectory,
 }
 
 void RulesJointTrajectory::parse_joint_names(
-    std::string &trajectory, std::string &sub_text1,
-    std::vector<std::string> &joint_names) {
+    std::string& trajectory, std::string& sub_text1,
+    std::vector<std::string>& joint_names) {
   std::istringstream is;
   boost::match_results<std::string::const_iterator> what;
   bool joint_names_loop = true;
@@ -151,9 +151,9 @@ void RulesJointTrajectory::parse_joint_names(
   } while (joint_names_loop);
 }
 
-bool RulesJointTrajectory::parse_seq(std::string &trajectory,
-                                     std::string &sub_text1,
-                                     std::vector<double> &seq) {
+bool RulesJointTrajectory::parse_seq(std::string& trajectory,
+                                     std::string& sub_text1,
+                                     std::vector<double>& seq) {
   boost::match_results<std::string::const_iterator> what;
   bool joint_seq_loop = true;
   std::istringstream is;
@@ -193,8 +193,8 @@ bool RulesJointTrajectory::parse_seq(std::string &trajectory,
   return true;
 }
 
-bool RulesJointTrajectory::parse_point(std::string &trajectory,
-                                       std::string &sub_text1) {
+bool RulesJointTrajectory::parse_point(std::string& trajectory,
+                                       std::string& sub_text1) {
   std::vector<double> position, velocities, acceleration, effort;
   std::string sub_text2;
   boost::match_results<std::string::const_iterator> what;
@@ -230,8 +230,8 @@ bool RulesJointTrajectory::parse_point(std::string &trajectory,
   return true;
 }
 
-bool RulesJointTrajectory::parse_points(std::string &trajectory,
-                                        std::string &sub_text1) {
+bool RulesJointTrajectory::parse_points(std::string& trajectory,
+                                        std::string& sub_text1) {
   boost::match_results<std::string::const_iterator> what;
   bool joint_points_loop = true;
   std::istringstream is;
@@ -265,7 +265,7 @@ bool RulesJointTrajectory::parse_points(std::string &trajectory,
   return true;
 }
 
-void RulesJointTrajectory::parse_string(std::string &atext) {
+void RulesJointTrajectory::parse_string(std::string& atext) {
   std::string sub_text1, sub_text2;
   parse_header(atext, sub_text2);
   sub_text1 = sub_text2;
@@ -283,7 +283,7 @@ void RulesJointTrajectory::parse_string(std::string &atext) {
 
 Trajectory::Trajectory(void) {}
 
-Trajectory::Trajectory(const Trajectory &copy) {
+Trajectory::Trajectory(const Trajectory& copy) {
   header_ = copy.header_;
   time_from_start_ = copy.time_from_start_;
   points_ = copy.points_;
@@ -291,7 +291,7 @@ Trajectory::Trajectory(const Trajectory &copy) {
 
 Trajectory::~Trajectory(void) {}
 
-size_type Trajectory::deserialize(std::istringstream &is) {
+size_type Trajectory::deserialize(std::istringstream& is) {
   std::string aStr = is.str();
   RulesJointTrajectory aRJT(*this);
   aRJT.parse_string(aStr);
@@ -299,7 +299,7 @@ size_type Trajectory::deserialize(std::istringstream &is) {
   return 0;
 }
 
-void Trajectory::display(std::ostream &os) const {
+void Trajectory::display(std::ostream& os) const {
   std::size_t index = 0;
   os << "-- Trajectory --" << std::endl;
   for (std::vector<std::string>::const_iterator it_joint_name =

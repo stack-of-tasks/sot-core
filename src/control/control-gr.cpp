@@ -36,7 +36,7 @@ const double ControlGR::TIME_STEP_DEFAULT = .001;
 
 #define __SOT_ControlGR_INIT
 
-ControlGR::ControlGR(const std::string &name)
+ControlGR::ControlGR(const std::string& name)
     : Entity(name),
       TimeStep(0),
       matrixASIN(NULL, "ControlGR(" + name + ")::input(matrix)::matrixA"),
@@ -55,7 +55,7 @@ ControlGR::ControlGR(const std::string &name)
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void ControlGR::init(const double &Stept) {
+void ControlGR::init(const double& Stept) {
   TimeStep = Stept;
 
   return;
@@ -65,11 +65,11 @@ void ControlGR::init(const double &Stept) {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void ControlGR::display(std::ostream &os) const {
+void ControlGR::display(std::ostream& os) const {
   os << "ControlGR " << getName();
   try {
     os << "control = " << controlSOUT;
-  } catch (const ExceptionSignal &e) {
+  } catch (const ExceptionSignal& e) {
   }
   os << " (" << TimeStep << ") ";
 }
@@ -78,20 +78,20 @@ void ControlGR::display(std::ostream &os) const {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-double &ControlGR::setsize(size_type dimension)
+double& ControlGR::setsize(size_type dimension)
 
 {
   _dimension = (double)dimension;
   return _dimension;
 }
 
-dynamicgraph::Vector &ControlGR::computeControl(dynamicgraph::Vector &tau,
+dynamicgraph::Vector& ControlGR::computeControl(dynamicgraph::Vector& tau,
                                                 sigtime_t t) {
   sotDEBUGIN(15);
 
-  const dynamicgraph::Matrix &matrixA = matrixASIN(t);
-  const dynamicgraph::Vector &acceleration = accelerationSIN(t);
-  const dynamicgraph::Vector &gravity = gravitySIN(t);
+  const dynamicgraph::Matrix& matrixA = matrixASIN(t);
+  const dynamicgraph::Vector& acceleration = accelerationSIN(t);
+  const dynamicgraph::Vector& gravity = gravitySIN(t);
   dynamicgraph::Vector::Index size = acceleration.size();
   tau.resize(size);
   // tau*=0;

@@ -62,7 +62,7 @@ template <Representation_t representation = R3xSO3Representation>
 class SOT_CORE_DLLAPI FeaturePose : public FeatureAbstract {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  public:
   /*! \name Input signals
@@ -113,13 +113,13 @@ class SOT_CORE_DLLAPI FeaturePose : public FeatureAbstract {
   /*! @} */
 
  public:
-  FeaturePose(const std::string &name);
+  FeaturePose(const std::string& name);
   virtual ~FeaturePose(void);
 
-  virtual size_type &getDimension(size_type &dim, sigtime_t time);
+  virtual size_type& getDimension(size_type& dim, sigtime_t time);
 
   /// Computes \f$ {}^oM^{-1}_{fa} {}^oM_{fb} \ominus {}^{fa}M^*_{fb} \f$
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+  virtual dynamicgraph::Vector& computeError(dynamicgraph::Vector& res,
                                              sigtime_t time);
   /// Computes \f$ \frac{\partial\ominus}{\partial b} X {}^{fa}\nu^*_{fafb} \f$.
   /// There are two different cases, depending on the representation:
@@ -127,7 +127,7 @@ class SOT_CORE_DLLAPI FeaturePose : public FeatureAbstract {
   /// {}^{fa}t_{fb} ] \\ 0_3 & {{}^{fa}R^*_{fb}}^T \end{array} \right) \f$
   /// - SE3Representation: \f$ X = {{}^{fa}X^*_{fb}}^{-1} \f$ (see
   /// pinocchio::SE3Base<Scalar,Options>::toActionMatrix)
-  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res,
+  virtual dynamicgraph::Vector& computeErrorDot(dynamicgraph::Vector& res,
                                                 sigtime_t time);
   /// Computes \f$ \frac{\partial\ominus}{\partial b} Y \left( {{}^{fb}X_{jb}}
   /// {}^{jb}J_{jb} - {{}^{fb}X_{ja}} {}^{ja}J_{ja} \right) \f$. There are two
@@ -135,26 +135,26 @@ class SOT_CORE_DLLAPI FeaturePose : public FeatureAbstract {
   /// - R3xSO3Representation: \f$ Y = \left( \begin{array}{cc} {{}^{fa}R_{fb}} &
   /// 0_3 \\ 0_3 & I_3 \end{array} \right) \f$
   /// - SE3Representation: \f$ Y = I_6 \f$
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+  virtual dynamicgraph::Matrix& computeJacobian(dynamicgraph::Matrix& res,
                                                 sigtime_t time);
 
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 
  public:
-  void servoCurrentPosition(const sigtime_t &time);
+  void servoCurrentPosition(const sigtime_t& time);
 
  private:
-  MatrixHomogeneous &computefaMfb(MatrixHomogeneous &res, sigtime_t time);
-  Vector7 &computeQfaMfb(Vector7 &res, sigtime_t time);
-  Vector7 &computeQfaMfbDes(Vector7 &res, sigtime_t time);
+  MatrixHomogeneous& computefaMfb(MatrixHomogeneous& res, sigtime_t time);
+  Vector7& computeQfaMfb(Vector7& res, sigtime_t time);
+  Vector7& computeQfaMfbDes(Vector7& res, sigtime_t time);
 
   /// \todo Intermediate variables for internal computations
 };
 
 template <typename T>
-Vector6d convertVelocity(const MatrixHomogeneous &M,
-                         const MatrixHomogeneous &Mdes,
-                         const Vector &faNufafbDes);
+Vector6d convertVelocity(const MatrixHomogeneous& M,
+                         const MatrixHomogeneous& Mdes,
+                         const Vector& faNufafbDes);
 
 template <>
 const std::string FeaturePose<SE3Representation>::CLASS_NAME;

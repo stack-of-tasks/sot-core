@@ -24,7 +24,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(OpPointModifier, "OpPointModifier");
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-OpPointModifier::OpPointModifier(const std::string &name)
+OpPointModifier::OpPointModifier(const std::string& name)
     : Entity(name),
       jacobianSIN(NULL,
                   "OpPointModifior(" + name + ")::input(matrix)::jacobianIN"),
@@ -65,11 +65,11 @@ OpPointModifier::OpPointModifier(const std::string &name)
   sotDEBUGOUT(15);
 }
 
-dynamicgraph::Matrix &OpPointModifier::jacobianSOUT_function(
-    dynamicgraph::Matrix &res, const sigtime_t &iter) {
+dynamicgraph::Matrix& OpPointModifier::jacobianSOUT_function(
+    dynamicgraph::Matrix& res, const sigtime_t& iter) {
   if (isEndEffector) {
-    const dynamicgraph::Matrix &aJa = jacobianSIN(iter);
-    const MatrixHomogeneous &aMb = transformation;
+    const dynamicgraph::Matrix& aJa = jacobianSIN(iter);
+    const MatrixHomogeneous& aMb = transformation;
 
     MatrixTwist bVa;
     buildFrom(aMb.inverse(), bVa);
@@ -86,9 +86,9 @@ dynamicgraph::Matrix &OpPointModifier::jacobianSOUT_function(
      * translation(aMb).
      */
 
-    const dynamicgraph::Matrix &oJa = jacobianSIN(iter);
-    const MatrixHomogeneous &aMb = transformation;
-    const MatrixHomogeneous &oMa = positionSIN(iter);
+    const dynamicgraph::Matrix& oJa = jacobianSIN(iter);
+    const MatrixHomogeneous& aMb = transformation;
+    const MatrixHomogeneous& oMa = positionSIN(iter);
     MatrixRotation oRa;
     oRa = oMa.linear();
     dynamicgraph::Vector aAB(3);
@@ -110,21 +110,21 @@ dynamicgraph::Matrix &OpPointModifier::jacobianSOUT_function(
   }
 }
 
-MatrixHomogeneous &OpPointModifier::positionSOUT_function(
-    MatrixHomogeneous &res, const sigtime_t &iter) {
+MatrixHomogeneous& OpPointModifier::positionSOUT_function(
+    MatrixHomogeneous& res, const sigtime_t& iter) {
   sotDEBUGIN(15);
   sotDEBUGIN(15) << iter << " " << positionSIN.getTime()
                  << positionSOUT.getTime() << endl;
-  const MatrixHomogeneous &position = positionSIN(iter);
+  const MatrixHomogeneous& position = positionSIN(iter);
   res = position * transformation;
   sotDEBUGOUT(15);
   return res;
 }
 
-void OpPointModifier::setTransformation(const Eigen::Matrix4d &tr) {
+void OpPointModifier::setTransformation(const Eigen::Matrix4d& tr) {
   transformation.matrix() = tr;
 }
-const Eigen::Matrix4d &OpPointModifier::getTransformation(void) {
+const Eigen::Matrix4d& OpPointModifier::getTransformation(void) {
   return transformation.matrix();
 }
 
@@ -136,9 +136,9 @@ const Eigen::Matrix4d &OpPointModifier::getTransformation(void) {
  */
 #include <dynamic-graph/pool.h>
 [[deprecated("use setTransformation")]] void
-OpPointModifier::setTransformationBySignalName(std::istringstream &cmdArgs) {
-  Signal<Eigen::Matrix4d, sigtime_t> &sig =
-      dynamic_cast<Signal<Eigen::Matrix4d, sigtime_t> &>(
+OpPointModifier::setTransformationBySignalName(std::istringstream& cmdArgs) {
+  Signal<Eigen::Matrix4d, sigtime_t>& sig =
+      dynamic_cast<Signal<Eigen::Matrix4d, sigtime_t>&>(
           PoolStorage::getInstance()->getSignal(cmdArgs));
   setTransformation(sig.accessCopy());
 }

@@ -28,7 +28,7 @@ using namespace dynamicgraph::sot;
 
 #include <boost/thread.hpp>
 
-sot::MailboxVector *mailbox = NULL;
+sot::MailboxVector* mailbox = NULL;
 
 void f(void) {
   Vector vect(25);
@@ -46,7 +46,7 @@ void f(void) {
   }
 }
 
-int main(int, char **) {
+int main(int, char**) {
   mailbox = new sot::MailboxVector("mail");
 
   boost::thread th(f);

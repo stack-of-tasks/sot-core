@@ -41,7 +41,7 @@ class VariadicAbstract : public Entity {
   static std::string getTypeInName(void);
   static std::string getTypeOutName(void);
 
-  VariadicAbstract(const std::string &name, const std::string &className)
+  VariadicAbstract(const std::string& name, const std::string& className)
       : Entity(name),
         SOUT(className + "(" + name + ")::output(" + getTypeOutName() +
              ")::sout"),
@@ -66,14 +66,14 @@ class VariadicAbstract : public Entity {
     return addSignal(oss.str());
   }
 
-  std::size_t addSignal(const std::string &name) {
-    signal_t *sig = new signal_t(NULL, baseSigname + name);
+  std::size_t addSignal(const std::string& name) {
+    signal_t* sig = new signal_t(NULL, baseSigname + name);
     try {
       _declareSignal(sig);
       signalsIN.push_back(sig);
       // names.push_back (name);
       return signalsIN.size() - 1;
-    } catch (const ExceptionAbstract &) {
+    } catch (const ExceptionAbstract&) {
       delete sig;
       throw;
     }
@@ -86,7 +86,7 @@ class VariadicAbstract : public Entity {
     signalsIN.pop_back();
   }
 
-  void setSignalNumber(const size_type &n) {
+  void setSignalNumber(const size_type& n) {
     assert(n >= 0);
     const std::size_t oldSize = signalsIN.size();
     for (std::size_t i = n; i < oldSize; ++i) _removeSignal(i);
@@ -99,7 +99,7 @@ class VariadicAbstract : public Entity {
       oss << baseSigname << "sin" << i;
       // names[i] = oss.str();
       // signal_t* s = new signal_t (NULL,names[i]);
-      signal_t *s = new signal_t(NULL, oss.str());
+      signal_t* s = new signal_t(NULL, oss.str());
       signalsIN[i] = s;
       _declareSignal(s);
     }
@@ -108,14 +108,14 @@ class VariadicAbstract : public Entity {
 
   size_type getSignalNumber() const { return (size_type)signalsIN.size(); }
 
-  signal_t *getSignalIn(size_type i) {
+  signal_t* getSignalIn(size_type i) {
     if (i < 0 || i >= (size_type)signalsIN.size())
       throw std::out_of_range("Wrong signal index");
     return signalsIN[i];
   }
 
  protected:
-  std::vector<signal_t *> signalsIN;
+  std::vector<signal_t*> signalsIN;
   // Use signal->shortName instead
   // std::vector< std::string > names;
 
@@ -128,7 +128,7 @@ class VariadicAbstract : public Entity {
     SOUT.removeDependency(*signalsIN[i]);
     delete signalsIN[i];
   }
-  void _declareSignal(signal_t *s) {
+  void _declareSignal(signal_t* s) {
     signalRegistration(*s);
     SOUT.addDependency(*s);
   }
@@ -151,10 +151,10 @@ class VariadicOp : public VariadicAbstract<typename Operator::Tin,
   // } static std::string getTypeOutName( void ) { return
   // Operator::nameTypeOut(); }
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName() const { return CLASS_NAME; }
+  virtual const std::string& getClassName() const { return CLASS_NAME; }
   std::string getDocString() const { return op.getDocString(); }
 
-  VariadicOp(const std::string &name) : Base(name, CLASS_NAME) {
+  VariadicOp(const std::string& name) : Base(name, CLASS_NAME) {
     this->SOUT.setFunction(boost::bind(&Self::computeOperation, this, _1, _2));
     op.initialize(this, this->commandMap);
   }
@@ -162,10 +162,10 @@ class VariadicOp : public VariadicAbstract<typename Operator::Tin,
   virtual ~VariadicOp(void) {};
 
  protected:
-  Tout &computeOperation(Tout &res, sigtime_t time) {
-    std::vector<const Tin *> in(this->signalsIN.size());
+  Tout& computeOperation(Tout& res, sigtime_t time) {
+    std::vector<const Tin*> in(this->signalsIN.size());
     for (std::size_t i = 0; i < this->signalsIN.size(); ++i) {
-      const Tin &x = this->signalsIN[i]->access(time);
+      const Tin& x = this->signalsIN[i]->access(time);
       in[i] = &x;
     }
     op(in, res);

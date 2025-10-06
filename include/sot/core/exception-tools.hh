@@ -40,13 +40,13 @@ class SOT_CORE_EXPORT ExceptionTools : public ExceptionAbstract
   };
 
   static const std::string EXCEPTION_NAME;
-  virtual const std::string &getExceptionName() const { return EXCEPTION_NAME; }
+  virtual const std::string& getExceptionName() const { return EXCEPTION_NAME; }
 
  public:
-  ExceptionTools(const ExceptionTools::ErrorCodeEnum &errcode,
-                 const std::string &msg = "");
-  ExceptionTools(const ExceptionTools::ErrorCodeEnum &errcode,
-                 const std::string &msg, const char *format, ...);
+  ExceptionTools(const ExceptionTools::ErrorCodeEnum& errcode,
+                 const std::string& msg = "");
+  ExceptionTools(const ExceptionTools::ErrorCodeEnum& errcode,
+                 const std::string& msg, const char* format, ...);
   virtual ~ExceptionTools(void) throw() {}
 };
 

@@ -48,7 +48,7 @@ class Derivator : public dynamicgraph::Entity {
  public: /* --- CONSTRUCTION --- */
   static std::string getTypeName(void) { return "Unknown"; }
 
-  Derivator(const std::string &name)
+  Derivator(const std::string& name)
       : dynamicgraph::Entity(name),
         memory(),
         initialized(false),
@@ -73,7 +73,7 @@ class Derivator : public dynamicgraph::Entity {
   dynamicgraph::Signal<double, sigtime_t> timestepSIN;
 
  protected:
-  T &computeDerivation(T &res, sigtime_t time) {
+  T& computeDerivation(T& res, sigtime_t time) {
     if (initialized) {
       res = memory;
       res *= -1;
@@ -91,8 +91,8 @@ class Derivator : public dynamicgraph::Entity {
 };
 // TODO Derivation of unit quaternion?
 template <>
-VectorQuaternion &Derivator<VectorQuaternion>::computeDerivation(
-    VectorQuaternion &res, sigtime_t time) {
+VectorQuaternion& Derivator<VectorQuaternion>::computeDerivation(
+    VectorQuaternion& res, sigtime_t time) {
   if (initialized) {
     res = memory;
     res.coeffs() *= -1;

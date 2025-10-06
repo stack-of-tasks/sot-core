@@ -44,7 +44,7 @@ namespace sot {
 class SOT_CORE_DLLAPI Event : public dynamicgraph::Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
-  Event(const std::string &name)
+  Event(const std::string& name)
       : Entity(name),
         checkSOUT("Event(" + name + ")::output(bool)::check"),
         conditionSIN(NULL, "Event(" + name + ")::input(bool)::condition"),
@@ -86,7 +86,7 @@ class SOT_CORE_DLLAPI Event : public dynamicgraph::Entity {
            "satisfied.\n";
   }
 
-  void addSignal(const std::string &signal) {
+  void addSignal(const std::string& signal) {
     std::istringstream iss(signal);
     triggers.push_back(&PoolStorage::getInstance()->getSignal(iss));
   }
@@ -102,15 +102,15 @@ class SOT_CORE_DLLAPI Event : public dynamicgraph::Entity {
     return oss.str();
   }
 
-  void repeat(const sigtime_t &nbIterations) {
+  void repeat(const sigtime_t& nbIterations) {
     repeatAfterNIterations_ = nbIterations;
   }
 
  private:
-  typedef SignalBase<sigtime_t> *Trigger_t;
+  typedef SignalBase<sigtime_t>* Trigger_t;
   typedef std::vector<Trigger_t> Triggers_t;
 
-  bool &check(bool &ret, const int64_t &time);
+  bool& check(bool& ret, const int64_t& time);
 
   Signal<bool, sigtime_t> checkSOUT;
 

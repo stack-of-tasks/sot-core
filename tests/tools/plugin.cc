@@ -24,15 +24,15 @@ using namespace dynamicgraph::sot;
 
 class Plugin : public PluginAbstract {
  protected:
-  AbstractSotExternalInterface *sotController_;
+  AbstractSotExternalInterface* sotController_;
 
  public:
   Plugin() {};
   ~Plugin() {};
 
-  void Initialization(std::string &dynamicLibraryName) {
+  void Initialization(std::string& dynamicLibraryName) {
     // Load the SotRobotBipedController library.
-    void *SotRobotControllerLibrary =
+    void* SotRobotControllerLibrary =
         dlopen(dynamicLibraryName.c_str(), RTLD_GLOBAL | RTLD_NOW);
     if (!SotRobotControllerLibrary) {
       std::cerr << "Cannot load library: " << dlerror() << '\n';
@@ -43,10 +43,10 @@ class Plugin : public PluginAbstract {
     dlerror();
 
     // Load the symbols.
-    createSotExternalInterface_t *createRobotController =
-        (createSotExternalInterface_t *)dlsym(SotRobotControllerLibrary,
-                                              "createSotExternalInterface");
-    const char *dlsym_error = dlerror();
+    createSotExternalInterface_t* createRobotController =
+        (createSotExternalInterface_t*)dlsym(SotRobotControllerLibrary,
+                                             "createSotExternalInterface");
+    const char* dlsym_error = dlerror();
     if (dlsym_error) {
       std::cerr << "Cannot load symbol create: " << dlsym_error << '\n';
       return;
@@ -70,5 +70,5 @@ class Plugin : public PluginAbstract {
 };
 
 extern "C" {
-PluginAbstract *createPlugin() { return new Plugin; }
+PluginAbstract* createPlugin() { return new Plugin; }
 }

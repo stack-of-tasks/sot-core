@@ -23,7 +23,7 @@ struct SOT_CORE_EXPORT timezone {
   size_type tz_dsttime;     /* type of dst correction */
 };
 
-int SOT_CORE_EXPORT gettimeofday(struct timeval *tv, struct timezone *tz);
+int SOT_CORE_EXPORT gettimeofday(struct timeval* tv, struct timezone* tz);
 
 #endif /*WIN32*/
 

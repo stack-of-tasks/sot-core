@@ -26,7 +26,7 @@ const double NeckLimitation::SIGN_TILT_DEFAULT = 1;
 const std::size_t NeckLimitation::PAN_RANK_DEFAULT = 14;
 const std::size_t NeckLimitation::TILT_RANK_DEFAULT = 15;
 
-NeckLimitation::NeckLimitation(const std::string &name)
+NeckLimitation::NeckLimitation(const std::string& name)
     : Entity(name),
       panRank(PAN_RANK_DEFAULT),
       tiltRank(TILT_RANK_DEFAULT),
@@ -58,17 +58,17 @@ NeckLimitation::~NeckLimitation(void) {
 /* --- SIGNALS -------------------------------------------------------------- */
 /* --- SIGNALS -------------------------------------------------------------- */
 
-dynamicgraph::Vector &NeckLimitation::computeJointLimitation(
-    dynamicgraph::Vector &jointLimited, const sigtime_t &timeSpec) {
+dynamicgraph::Vector& NeckLimitation::computeJointLimitation(
+    dynamicgraph::Vector& jointLimited, const sigtime_t& timeSpec) {
   sotDEBUGIN(15);
 
-  const dynamicgraph::Vector &joint = jointSIN(timeSpec);
+  const dynamicgraph::Vector& joint = jointSIN(timeSpec);
   jointLimited = joint;
 
-  const double &pan = joint(panRank);
-  const double &tilt = joint(tiltRank);
-  double &panLimited = jointLimited(panRank);
-  double &tiltLimited = jointLimited(tiltRank);
+  const double& pan = joint(panRank);
+  const double& tilt = joint(tiltRank);
+  double& panLimited = jointLimited(panRank);
+  double& tiltLimited = jointLimited(tiltRank);
 
   if (fabs(pan) < 1e-3)  // pan == 0
   {
@@ -137,6 +137,6 @@ dynamicgraph::Vector &NeckLimitation::computeJointLimitation(
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
 
-void NeckLimitation::display(std::ostream &os) const {
+void NeckLimitation::display(std::ostream& os) const {
   os << "NeckLimitation " << getName() << "." << std::endl;
 }

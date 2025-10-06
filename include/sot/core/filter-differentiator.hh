@@ -87,13 +87,13 @@ class SOTFILTERDIFFERENTIATOR_EXPORT FilterDifferentiator
   size_type m_x_size;
 
   /// polynomial-fitting filters
-  CausalFilter *m_filter;
+  CausalFilter* m_filter;
 
  public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /** --- CONSTRUCTOR ---- */
-  FilterDifferentiator(const std::string &name);
+  FilterDifferentiator(const std::string& name);
 
   /** Initialize the FilterDifferentiator.
    * @param timestep Period (in seconds) after which
@@ -106,16 +106,16 @@ class SOTFILTERDIFFERENTIATOR_EXPORT FilterDifferentiator
    * polynomial fitting. The larger the delay,
    * the smoother the estimations.
    */
-  void init(const double &timestep, const size_type &xSize,
-            const Eigen::VectorXd &filter_numerator,
-            const Eigen::VectorXd &filter_denominator);
+  void init(const double& timestep, const size_type& xSize,
+            const Eigen::VectorXd& filter_numerator,
+            const Eigen::VectorXd& filter_denominator);
 
-  void switch_filter(const Eigen::VectorXd &filter_numerator,
-                     const Eigen::VectorXd &filter_denominator);
+  void switch_filter(const Eigen::VectorXd& filter_numerator,
+                     const Eigen::VectorXd& filter_denominator);
 
  protected:
  public: /* --- ENTITY INHERITANCE --- */
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 
 };  // class FilterDifferentiator
 

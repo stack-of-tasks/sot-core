@@ -26,12 +26,12 @@ using dynamicgraph::Vector;
       std::string(className) + "_" + #sotSigType + "_" + #sotCoefType;         \
                                                                                \
   template <>                                                                  \
-  const std::string &sotClassType<sotSigType, sotCoefType>::getClassName(void) \
+  const std::string& sotClassType<sotSigType, sotCoefType>::getClassName(void) \
       const {                                                                  \
     return CLASS_NAME;                                                         \
   }                                                                            \
   extern "C" {                                                                 \
-  Entity *regFunction##_##id(const std::string &objname) {                     \
+  Entity* regFunction##_##id(const std::string& objname) {                     \
     return new sotClassType<sotSigType, sotCoefType>(objname);                 \
   }                                                                            \
   EntityRegisterer reg##_##id(std::string(className) + "_" + #sotSigType +     \
@@ -52,15 +52,15 @@ SOT_FACTORY_TEMPLATE_ENTITY_PLUGIN(FIRFilter, Vector, Matrix, vec_mat,
                                    "FIRFilter")
 
 template <>
-void FIRFilter<Vector, double>::reset_signal(Vector &res,
-                                             const Vector &sample) {
+void FIRFilter<Vector, double>::reset_signal(Vector& res,
+                                             const Vector& sample) {
   res.resize(sample.size());
   res.fill(0);
 }
 
 template <>
-void FIRFilter<Vector, Matrix>::reset_signal(Vector &res,
-                                             const Vector &sample) {
+void FIRFilter<Vector, Matrix>::reset_signal(Vector& res,
+                                             const Vector& sample) {
   res.resize(sample.size());
   res.fill(0);
 }
@@ -73,7 +73,7 @@ void FIRFilter<Vector, Matrix>::reset_signal(Vector &res,
 #ifdef WIN32
 #define DEFINE_SPECIFICATION(sotClassType, sotSigType, sotCoefType)  \
   sotClassType##sotSigType##sotCoefType::                            \
-      sotClassType##sotSigType##sotCoefType(const std::string &name) \
+      sotClassType##sotSigType##sotCoefType(const std::string& name) \
       : sotClassType<sotSigType, sotCoefType>(name){};
 
 namespace dynamicgraph {

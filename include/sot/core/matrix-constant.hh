@@ -30,15 +30,15 @@ class MatrixConstant : public Entity {
 
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
   size_type rows, cols;
   double color;
 
-  void setValue(const dynamicgraph::Matrix &inValue);
+  void setValue(const dynamicgraph::Matrix& inValue);
 
  public:
-  MatrixConstant(const std::string &name);
+  MatrixConstant(const std::string& name);
 
   virtual ~MatrixConstant(void) {}
 

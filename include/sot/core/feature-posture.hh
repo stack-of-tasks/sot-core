@@ -59,17 +59,17 @@ class SOTFEATUREPOSTURE_EXPORT FeaturePosture : public FeatureAbstract {
 
   DECLARE_NO_REFERENCE;
 
-  explicit FeaturePosture(const std::string &name);
+  explicit FeaturePosture(const std::string& name);
   virtual ~FeaturePosture();
-  virtual size_type &getDimension(size_type &res, sigtime_t);
+  virtual size_type& getDimension(size_type& res, sigtime_t);
   void selectDof(std::size_t dofId, bool control);
 
  protected:
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+  virtual dynamicgraph::Vector& computeError(dynamicgraph::Vector& res,
                                              sigtime_t);
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+  virtual dynamicgraph::Matrix& computeJacobian(dynamicgraph::Matrix& res,
                                                 sigtime_t);
-  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res,
+  virtual dynamicgraph::Vector& computeErrorDot(dynamicgraph::Vector& res,
                                                 sigtime_t time);
 
   signalIn_t state_;

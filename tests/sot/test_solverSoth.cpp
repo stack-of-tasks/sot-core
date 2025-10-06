@@ -58,7 +58,7 @@ void parseTest(const std::string filename) {
   off >> nJ;
 
   sotRotationComposedInExtenso Qh(nJ);
-  std::deque<SolverHierarchicalInequalities *> solvers;
+  std::deque<SolverHierarchicalInequalities*> solvers;
 
   for (unsigned int level = 0;; ++level) {
     /* --- Parse egalities --- */
@@ -145,13 +145,13 @@ void parseTest(const std::string filename) {
     bounds.push_back(eiBoundSide);
 
     sotDEBUG(1) << "--- Level " << level << std::endl;
-    SolverHierarchicalInequalities *solver =
+    SolverHierarchicalInequalities* solver =
         new SolverHierarchicalInequalities(nJ, Qh, Rh, constraintH);
     solver->initConstraintSize(Je.size1() + Ji.size1());
     if (solvers.size() == 0)
       solver->setInitialConditionVoid();
     else {
-      SolverHierarchicalInequalities *solverPrec = solvers.back();
+      SolverHierarchicalInequalities* solverPrec = solvers.back();
       solver->setInitialCondition(solverPrec->u0, solverPrec->rankh);
     }
     solver->recordInitialConditions();
@@ -181,11 +181,11 @@ void parseTest(const std::string filename) {
     for (unsigned int level = 0; level < solvers.size(); ++level) {
       gettimeofday(&t0, NULL);
       sotDEBUG(1) << "--- Level " << level << std::endl;
-      SolverHierarchicalInequalities *solver = solvers[level];
+      SolverHierarchicalInequalities* solver = solvers[level];
       if (level == 0)
         solver->setInitialConditionVoid();
       else {
-        SolverHierarchicalInequalities *solverPrec = solvers[level - 1];
+        SolverHierarchicalInequalities* solverPrec = solvers[level - 1];
         solver->setInitialCondition(solverPrec->u0, solverPrec->rankh);
       }
 
@@ -243,12 +243,12 @@ void deparse(std::vector<bubMatrix> Jes, std::vector<bubVector> ees,
   cout << "variable size " << Jes[0].size2() << endl;
 
   for (unsigned int i = 0; i < Jes.size(); ++i) {
-    bubMatrix &Je = Jes[i];
-    bubMatrix &Ji = Jis[i];
-    bubVector &ee = ees[i];
-    bubVector &eiInf = eiInfs[i];
-    bubVector &eiSup = eiSups[i];
-    ConstraintMem::BoundSideVector &boundSide = bounds[i];
+    bubMatrix& Je = Jes[i];
+    bubMatrix& Ji = Jis[i];
+    bubVector& ee = ees[i];
+    bubVector& eiInf = eiInfs[i];
+    bubVector& eiSup = eiSups[i];
+    ConstraintMem::BoundSideVector& boundSide = bounds[i];
 
     cout << endl
          << endl
@@ -389,7 +389,7 @@ void convertDoubleToSingle(const std::string filename) {
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
 /* ---------------------------------------------------------- */
-void randBound(ConstraintMem::BoundSideVector &M, const unsigned int row) {
+void randBound(ConstraintMem::BoundSideVector& M, const unsigned int row) {
   M.resize(row);
   for (unsigned int i = 0; i < row; ++i) {
     double c = ((rand() + 0.0) / RAND_MAX * 2) - 1.;

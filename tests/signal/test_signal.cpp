@@ -19,7 +19,7 @@ using namespace dynamicgraph;
 
 class DummyClass {
  public:
-  dynamicgraph::Vector &fun(dynamicgraph::Vector &res, double j) {
+  dynamicgraph::Vector& fun(dynamicgraph::Vector& res, double j) {
     res.resize(3);
     res.fill(j);
     return res;
@@ -30,7 +30,7 @@ dynamicgraph::Vector test_data(6);
 Signal<dynamicgraph::Vector, double> sig("sigtest");
 DummyClass dummy;
 
-dynamicgraph::Vector &fun(dynamicgraph::Vector &res, double /*j*/) {
+dynamicgraph::Vector& fun(dynamicgraph::Vector& res, double /*j*/) {
   return res = test_data;
 }
 

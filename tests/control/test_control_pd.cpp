@@ -30,7 +30,7 @@ using namespace dynamicgraph::sot;
 #include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_CASE(control_pd) {
-  sot::ControlPD *aControlPD = new ControlPD("acontrol_pd");
+  sot::ControlPD* aControlPD = new ControlPD("acontrol_pd");
   aControlPD->init(0.001);
   std::istringstream Kpiss("[5](10.0,20.0,30.0,40.0,50.0)");
   std::istringstream Kdiss("[5](0.10,0.20,0.30,0.40,0.50)");

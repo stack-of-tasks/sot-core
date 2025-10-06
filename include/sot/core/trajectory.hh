@@ -28,7 +28,7 @@ class Trajectory;
 
 class RulesJointTrajectory {
  protected:
-  Trajectory &TrajectoryToFill_;
+  Trajectory& TrajectoryToFill_;
 
  public:
   std::size_t dbg_level;
@@ -45,40 +45,40 @@ class RulesJointTrajectory {
 
   /// \brief Constructor TrajectoryToFill is the structure where to store the
   /// parsed information.
-  RulesJointTrajectory(Trajectory &TrajectoryToFill);
+  RulesJointTrajectory(Trajectory& TrajectoryToFill);
 
   /// \brief parse_string will fill TrajectoryToFill with string atext.
-  void parse_string(std::string &atext);
+  void parse_string(std::string& atext);
 
  protected:
   /// \brief General parsing method of text with regexp e. The results are given
   /// in what. The remaining text is left in sub_text.
   bool search_exp_sub_string(
-      std::string &text,
-      boost::match_results<std::string::const_iterator> &what, boost::regex &e,
-      std::string &sub_text);
+      std::string& text,
+      boost::match_results<std::string::const_iterator>& what, boost::regex& e,
+      std::string& sub_text);
   /// \brief Find and store the header.
   /// This method is looking for:
   /// std::size_t seq.
   /// std::size_t sec, std::size_t nsec.
   /// string format_id
-  void parse_header(std::string &text, std::string &sub_text1);
+  void parse_header(std::string& text, std::string& sub_text1);
 
   /// \brief Understand joint_names.
   /// Extract a list of strings.
-  void parse_joint_names(std::string &text, std::string &sub_text1,
-                         std::vector<std::string> &joint_names);
+  void parse_joint_names(std::string& text, std::string& sub_text1,
+                         std::vector<std::string>& joint_names);
 
   /// \brief Extract a sequence of doubles.
   /// To be used for position, velocities, accelerations and effort.
-  bool parse_seq(std::string &text, std::string &sub_text1,
-                 std::vector<double> &seq);
+  bool parse_seq(std::string& text, std::string& sub_text1,
+                 std::vector<double>& seq);
 
   /// \brief Extract a point description.
-  bool parse_point(std::string &trajectory, std::string &sub_text1);
+  bool parse_point(std::string& trajectory, std::string& sub_text1);
 
   /// \brief Extract a sequence of points.
-  bool parse_points(std::string &trajectory, std::string &sub_text1);
+  bool parse_points(std::string& trajectory, std::string& sub_text1);
 };
 
 class SOT_CORE_EXPORT timestamp {
@@ -86,7 +86,7 @@ class SOT_CORE_EXPORT timestamp {
   unsigned long int secs_;
   unsigned long int nsecs_;
   timestamp() : secs_(0), nsecs_(0) {}
-  timestamp(const timestamp &ats) {
+  timestamp(const timestamp& ats) {
     secs_ = ats.secs_;
     nsecs_ = ats.nsecs_;
   }
@@ -94,16 +94,16 @@ class SOT_CORE_EXPORT timestamp {
     secs_ = lsecs;
     nsecs_ = lnsecs;
   }
-  bool operator==(const timestamp &other) const {
+  bool operator==(const timestamp& other) const {
     if ((secs_ != other.secs_) || (nsecs_ != other.nsecs_)) return false;
     return true;
   }
-  timestamp &operator=(const timestamp &other) {
+  timestamp& operator=(const timestamp& other) {
     secs_ = other.secs_;
     nsecs_ = other.nsecs_;
     return *this;
   }
-  friend std::ostream &operator<<(std::ostream &stream, const timestamp &ats) {
+  friend std::ostream& operator<<(std::ostream& stream, const timestamp& ats) {
     stream << ats.secs_ + 0.000001 * (long double)ats.nsecs_;
     return stream;
   }
@@ -126,11 +126,11 @@ class SOT_CORE_EXPORT JointTrajectoryPoint {
 
   typedef std::vector<double> vec_ref;
 
-  void display(std::ostream &os) const {
+  void display(std::ostream& os) const {
     boost::array<std::string, 4> names = boost::assign::list_of("Positions")(
         "Velocities")("Accelerations")("Effort");
 
-    const std::vector<double> *points = 0;
+    const std::vector<double>* points = 0;
 
     for (std::size_t arrayId = 0; arrayId < names.size(); ++arrayId) {
       switch (arrayId) {
@@ -158,7 +158,7 @@ class SOT_CORE_EXPORT JointTrajectoryPoint {
     }
   }
 
-  void transfer(const std::vector<double> &src, std::size_t vecId) {
+  void transfer(const std::vector<double>& src, std::size_t vecId) {
     switch (vecId) {
       case (0):
         positions_ = src;
@@ -181,7 +181,7 @@ class SOT_CORE_EXPORT JointTrajectoryPoint {
 class SOT_CORE_EXPORT Trajectory {
  public:
   Trajectory();
-  Trajectory(const Trajectory &copy);
+  Trajectory(const Trajectory& copy);
   virtual ~Trajectory();
 
   std::vector<std::string> joint_names_;
@@ -191,8 +191,8 @@ class SOT_CORE_EXPORT Trajectory {
 
   std::vector<JointTrajectoryPoint> points_;
 
-  size_type deserialize(std::istringstream &is);
-  void display(std::ostream &) const;
+  size_type deserialize(std::istringstream& is);
+  void display(std::ostream&) const;
 };
 }  // namespace sot
 

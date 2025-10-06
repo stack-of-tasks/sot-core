@@ -45,10 +45,10 @@ namespace sot {
 
 class ControlPD_EXPORT ControlPD : public Entity {
  public: /* --- CONSTRUCTOR ---- */
-  ControlPD(const std::string &name);
+  ControlPD(const std::string& name);
 
  public: /* --- INIT --- */
-  void init(const double &step);
+  void init(const double& step);
 
  public: /* --- CONSTANTS --- */
   /* Default values. */
@@ -56,8 +56,8 @@ class ControlPD_EXPORT ControlPD : public Entity {
 
  public: /* --- ENTITY INHERITANCE --- */
   static const std::string CLASS_NAME;
-  virtual void display(std::ostream &os) const;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual void display(std::ostream& os) const;
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  protected:
   /* Parameters of the torque-control function:
@@ -76,12 +76,12 @@ class ControlPD_EXPORT ControlPD : public Entity {
   SignalTimeDependent<dynamicgraph::Vector, sigtime_t> velocityErrorSOUT;
 
  protected:
-  dynamicgraph::Vector &computeControl(dynamicgraph::Vector &tau, sigtime_t t);
+  dynamicgraph::Vector& computeControl(dynamicgraph::Vector& tau, sigtime_t t);
   dynamicgraph::Vector position_error_;
   dynamicgraph::Vector velocity_error_;
-  dynamicgraph::Vector &getPositionError(dynamicgraph::Vector &position_error,
+  dynamicgraph::Vector& getPositionError(dynamicgraph::Vector& position_error,
                                          sigtime_t t);
-  dynamicgraph::Vector &getVelocityError(dynamicgraph::Vector &velocity_error,
+  dynamicgraph::Vector& getVelocityError(dynamicgraph::Vector& velocity_error,
                                          sigtime_t t);
 };
 

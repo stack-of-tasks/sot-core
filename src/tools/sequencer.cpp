@@ -20,7 +20,7 @@ using namespace dynamicgraph;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Sequencer, "Sequencer");
 
-Sequencer::Sequencer(const std::string &name)
+Sequencer::Sequencer(const std::string& name)
     : Entity(name),
       timeInit(-1),
       playMode(false),
@@ -49,30 +49,30 @@ Sequencer::~Sequencer(void) {
 
 class sotEventTaskBased : public Sequencer::sotEventAbstract {
  protected:
-  TaskAbstract *taskPtr;
+  TaskAbstract* taskPtr;
   const std::string defaultTaskName;
 
  public:
-  sotEventTaskBased(const std::string name = "", TaskAbstract *task = NULL)
+  sotEventTaskBased(const std::string name = "", TaskAbstract* task = NULL)
       : sotEventAbstract(name), taskPtr(task), defaultTaskName("NULL") {}
 
-  void init(std::istringstream &cmdArgs) {
+  void init(std::istringstream& cmdArgs) {
     cmdArgs >> std::ws;
     if (cmdArgs.good()) {
       std::string taskname;
       cmdArgs >> taskname;
       sotDEBUG(15) << "Add task " << taskname << std::endl;
-      taskPtr = dynamic_cast<TaskAbstract *>(
+      taskPtr = dynamic_cast<TaskAbstract*>(
           &dynamicgraph::PoolStorage::getInstance()->getEntity(taskname));
     }
   }
-  virtual void display(std::ostream &os) const {
+  virtual void display(std::ostream& os) const {
     if (taskPtr)
       os << taskPtr->getName();
     else
       os << "NULL";
   }
-  virtual const std::string &getName() const {
+  virtual const std::string& getName() const {
     if (taskPtr)
       return taskPtr->getName();
     else
@@ -82,12 +82,12 @@ class sotEventTaskBased : public Sequencer::sotEventAbstract {
 
 class sotEventAddATask : public sotEventTaskBased {
  public:
-  sotEventAddATask(const std::string name = "", TaskAbstract *task = NULL)
+  sotEventAddATask(const std::string name = "", TaskAbstract* task = NULL)
       : sotEventTaskBased(name, task) {
     eventType = EVENT_ADD;
   }
 
-  void operator()(Sot *sotptr) {
+  void operator()(Sot* sotptr) {
     sotDEBUGIN(15);
     sotDEBUG(45) << "Sot = " << sotptr << ". Task = " << taskPtr << "."
                  << std::endl;
@@ -95,7 +95,7 @@ class sotEventAddATask : public sotEventTaskBased {
     sotDEBUGOUT(15);
   }
 
-  virtual void display(std::ostream &os) const {
+  virtual void display(std::ostream& os) const {
     os << "Add<";
     sotEventTaskBased::display(os);
     os << ">";
@@ -104,12 +104,12 @@ class sotEventAddATask : public sotEventTaskBased {
 
 class sotEventRemoveATask : public sotEventTaskBased {
  public:
-  sotEventRemoveATask(const std::string name = "", TaskAbstract *task = NULL)
+  sotEventRemoveATask(const std::string name = "", TaskAbstract* task = NULL)
       : sotEventTaskBased(name, task) {
     eventType = EVENT_RM;
   }
 
-  void operator()(Sot *sotptr) {
+  void operator()(Sot* sotptr) {
     sotDEBUGIN(15);
     sotDEBUG(45) << "Sot = " << sotptr << ". Task = " << taskPtr << "."
                  << std::endl;
@@ -117,7 +117,7 @@ class sotEventRemoveATask : public sotEventTaskBased {
     sotDEBUGOUT(15);
   }
 
-  virtual void display(std::ostream &os) const {
+  virtual void display(std::ostream& os) const {
     os << "Remove<";
     sotEventTaskBased::display(os);
     os << ">";
@@ -135,11 +135,11 @@ class sotEventCmd : public Sequencer::sotEventAbstract {
     sotDEBUGINOUT(15);
   }
 
-  void init(std::istringstream &args) {
+  void init(std::istringstream& args) {
     sotDEBUGIN(15);
-    std::stringbuf *pbuf = args.rdbuf();
+    std::stringbuf* pbuf = args.rdbuf();
     const std::size_t size = (std::size_t)(pbuf->in_avail());
-    char *buffer = new char[size + 1];
+    char* buffer = new char[size + 1];
     pbuf->sgetn(buffer, size);
 
     buffer[size] = '\0';
@@ -147,9 +147,9 @@ class sotEventCmd : public Sequencer::sotEventAbstract {
     sotDEBUGOUT(15);
     delete[] buffer;
   }
-  const std::string &getEventCmd() const { return cmd; }
-  virtual void display(std::ostream &os) const { os << "Run: " << cmd; }
-  virtual void operator()(Sot * /*sotPtr*/) {
+  const std::string& getEventCmd() const { return cmd; }
+  virtual void display(std::ostream& os) const { os << "Run: " << cmd; }
+  virtual void operator()(Sot* /*sotPtr*/) {
     std::ostringstream onull;
     onull.clear(std::ios::failbit);
     std::istringstream iss(cmd);
@@ -164,24 +164,24 @@ class sotEventCmd : public Sequencer::sotEventAbstract {
 /* --- TASK MANIP ----------------------------------------------------------- */
 /* --- TASK MANIP ----------------------------------------------------------- */
 
-void Sequencer::addTask(sotEventAbstract *task, const std::size_t timeSpec) {
+void Sequencer::addTask(sotEventAbstract* task, const std::size_t timeSpec) {
   TaskMap::iterator listKey = taskMap.find(timeSpec);
   if (taskMap.end() == listKey) {
     sotDEBUG(15) << "New element at " << timeSpec << std::endl;
     taskMap[timeSpec].push_back(task);
   } else {
-    TaskList &tl = listKey->second;
+    TaskList& tl = listKey->second;
     tl.push_back(task);
   }
 }
 
 // rmTask
-void Sequencer::rmTask(size_type eventType, const std::string &name,
+void Sequencer::rmTask(size_type eventType, const std::string& name,
                        const std::size_t time) {
   TaskMap::iterator listKey = taskMap.find(time);
   if (taskMap.end() != listKey)  // the time exist
   {
-    TaskList &tl = listKey->second;
+    TaskList& tl = listKey->second;
     for (TaskList::iterator itL = tl.begin(); itL != tl.end(); ++itL) {
       if ((*itL)->getEventType() == eventType && (*itL)->getName() == name) {
         tl.remove(*itL);
@@ -199,7 +199,7 @@ void Sequencer::clearAll() {
   TaskMap::iterator itM;
   for (itM = taskMap.begin(); itM != taskMap.end(); ++itM) {
     TaskList::iterator itL;
-    TaskList &currentMap = itM->second;
+    TaskList& currentMap = itM->second;
     for (itL = currentMap.begin(); itL != currentMap.end(); ++itL)
       delete (*itL);
     itM->second.clear();
@@ -211,7 +211,7 @@ void Sequencer::clearAll() {
 /* --- SIGNALS -------------------------------------------------------------- */
 /* --- SIGNALS -------------------------------------------------------------- */
 
-size_type &Sequencer::trigger(size_type &dummy, const sigtime_t &timeSpec) {
+size_type& Sequencer::trigger(size_type& dummy, const sigtime_t& timeSpec) {
   sotDEBUGIN(15);
 
   if (!playMode) return dummy;
@@ -222,7 +222,7 @@ size_type &Sequencer::trigger(size_type &dummy, const sigtime_t &timeSpec) {
   if (taskMap.end() != listKey) {
     sotDEBUG(1) << "Time: " << (timeSpec - timeInit)
                 << ": we've got a task to do!" << std::endl;
-    TaskList &tl = listKey->second;
+    TaskList& tl = listKey->second;
     for (TaskList::iterator iter = tl.begin(); iter != tl.end(); ++iter) {
       if (*iter) {
         (*iter)->operator()(sotPtr);
@@ -243,7 +243,7 @@ size_type &Sequencer::trigger(size_type &dummy, const sigtime_t &timeSpec) {
 /* --- PARAMS --------------------------------------------------------------- */
 /* --- PARAMS --------------------------------------------------------------- */
 
-void Sequencer::display(std::ostream &os) const {
+void Sequencer::display(std::ostream& os) const {
   if (noOutput) return;
 
   os << "Sequencer " << getName() << "(t0=" << timeInit
@@ -251,7 +251,7 @@ void Sequencer::display(std::ostream &os) const {
   for (TaskMap::const_iterator iterMap = taskMap.begin();
        iterMap != taskMap.end(); iterMap++) {
     os << " - t=" << (iterMap->first) << ":\t";
-    const TaskList &tl = iterMap->second;
+    const TaskList& tl = iterMap->second;
     for (TaskList::const_iterator iterList = tl.begin(); iterList != tl.end();
          iterList++) {
       (*iterList)->display(os);

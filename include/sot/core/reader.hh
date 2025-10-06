@@ -66,7 +66,7 @@ class SOTREADER_EXPORT sotReader : public Entity {
   sotReader(const std::string n);
   virtual ~sotReader(void) {}
 
-  void load(const std::string &filename);
+  void load(const std::string& filename);
   void clear(void);
   void rewind(void);
 
@@ -78,15 +78,15 @@ class SOTREADER_EXPORT sotReader : public Entity {
 
   size_type rows, cols;
 
-  dynamicgraph::Vector &getNextData(dynamicgraph::Vector &res,
+  dynamicgraph::Vector& getNextData(dynamicgraph::Vector& res,
                                     const std::size_t time);
-  dynamicgraph::Matrix &getNextMatrix(dynamicgraph::Matrix &res,
+  dynamicgraph::Matrix& getNextMatrix(dynamicgraph::Matrix& res,
                                       const std::size_t time);
-  void resize(const size_type &nbRow, const size_type &nbCol);
+  void resize(const size_type& nbRow, const size_type& nbCol);
 
  public:
   /* --- PARAMS --- */
-  void display(std::ostream &os) const;
+  void display(std::ostream& os) const;
   virtual void initCommands();
 };
 }  // namespace sot

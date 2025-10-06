@@ -43,15 +43,15 @@ Signal::Signal(std::string name)
 
 /* ------------------------------------------------------------------------ */
 
-void Signal::set(std::istringstream &stringValue) {
+void Signal::set(std::istringstream& stringValue) {
   (*this) = signal_io<Vector>::cast(stringValue);
 }
 
-void Signal::get(std::ostream &os) const {
+void Signal::get(std::ostream& os) const {
   signal_io<Vector>::disp(this->accessCopy(), os);
 }
 
-void Signal::trace(std::ostream &os) const {
+void Signal::trace(std::ostream& os) const {
   try {
     signal_io<Vector>::trace(this->accessCopy(), os);
   } catch DG_RETHROW catch (...) {
@@ -62,20 +62,20 @@ void Signal::trace(std::ostream &os) const {
   }
 }
 
-void Signal::setConstant(const Vector &) {
+void Signal::setConstant(const Vector&) {
   throw std::runtime_error("Not implemented.");
 }
 
-void Signal::setReference(const Vector *, Mutex *) {
+void Signal::setReference(const Vector*, Mutex*) {
   throw std::runtime_error("Not implemented.");
 }
 
-void Signal::setReferenceNonConstant(Vector *, Mutex *) {
+void Signal::setReferenceNonConstant(Vector*, Mutex*) {
   throw std::runtime_error("Not implemented.");
 }
 
-void Signal::setFunction(boost::function2<Vector &, Vector &, sigtime_t> t,
-                         Mutex *mutexref) {
+void Signal::setFunction(boost::function2<Vector&, Vector&, sigtime_t> t,
+                         Mutex* mutexref) {
   signalType = ::dynamicgraph::Signal<Vector, sigtime_t>::FUNCTION;
   Tfunction = t;
   providerMutex = mutexref;
@@ -83,9 +83,9 @@ void Signal::setFunction(boost::function2<Vector &, Vector &, sigtime_t> t,
   setReady();
 }
 
-const Vector &Signal::accessCopy() const { return Tcopy1; }
+const Vector& Signal::accessCopy() const { return Tcopy1; }
 
-const Vector &Signal::access(const sigtime_t &t) {
+const Vector& Signal::access(const sigtime_t& t) {
   if (NULL == providerMutex) {
     signalTime = t;
     Tfunction(Tcopy1, t);
@@ -98,18 +98,18 @@ const Vector &Signal::access(const sigtime_t &t) {
       signalTime = t;
       Tfunction(Tcopy1, t);
       return Tcopy1;
-    } catch (const MutexError &) {
+    } catch (const MutexError&) {
       return accessCopy();
     }
   }
 }
 
-Signal &Signal::operator=(const Vector &) {
+Signal& Signal::operator=(const Vector&) {
   throw std::runtime_error("Output signal cannot be assigned a value.");
   return *this;
 }
 
-std::ostream &Signal::display(std::ostream &os) const {
+std::ostream& Signal::display(std::ostream& os) const {
   os << "Sig:" << this->name << " (Type ";
   switch (this->signalType) {
     case Signal::CONSTANT:
@@ -133,7 +133,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Integrator, "Integrator");
 
 const double Integrator::dt = 1e-6;
 
-Integrator::Integrator(const std::string &name)
+Integrator::Integrator(const std::string& name)
     : Entity(name),
       velocitySIN_(0x0, "Integrator(" + name + ")::input(vector)::velocity"),
       configurationSOUT_("Integrator(" + name +
@@ -148,19 +148,19 @@ Integrator::Integrator(const std::string &name)
   signalRegistration(configurationSOUT_);
 }
 
-::pinocchio::Model *Integrator::getModel() { return model_; }
+::pinocchio::Model* Integrator::getModel() { return model_; }
 
-void Integrator::setModel(::pinocchio::Model *model) {
+void Integrator::setModel(::pinocchio::Model* model) {
   model_ = model;
   configuration_.resize(model->nq);
   ::pinocchio::neutral(*model_, configuration_);
 }
 
-void Integrator::setInitialConfig(const Vector &initConfig) {
+void Integrator::setInitialConfig(const Vector& initConfig) {
   configuration_ = initConfig;
 }
 
-Vector &Integrator::integrate(Vector &configuration, sigtime_t time) {
+Vector& Integrator::integrate(Vector& configuration, sigtime_t time) {
   ++recursivityLevel_;
   if (recursivityLevel_ == 2) {
     configuration = configuration_;
@@ -174,7 +174,7 @@ Vector &Integrator::integrate(Vector &configuration, sigtime_t time) {
   // connected component of the graph.
   try {
     periodicCallBefore_.run(time);
-  } catch (const std::exception &e) {
+  } catch (const std::exception& e) {
     dgRTLOG() << "exception caught while running periodical commands (before): "
               << e.what() << std::endl;
   }
@@ -193,7 +193,7 @@ Vector &Integrator::integrate(Vector &configuration, sigtime_t time) {
   lastComputationTime_ = time;
   try {
     periodicCallAfter_.run(time);
-  } catch (const std::exception &e) {
+  } catch (const std::exception& e) {
     dgRTLOG() << "exception caught while running periodical commands (after): "
               << e.what() << std::endl;
   }

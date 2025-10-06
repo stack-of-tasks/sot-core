@@ -29,7 +29,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(TaskPD, "TaskPD");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-TaskPD::TaskPD(const std::string &n)
+TaskPD::TaskPD(const std::string& n)
     : Task(n),
       previousError(),
       beta(1),
@@ -49,11 +49,11 @@ TaskPD::TaskPD(const std::string &n)
 /* --- COMPUTATION ---------------------------------------------------------- */
 /* --- COMPUTATION ---------------------------------------------------------- */
 
-dynamicgraph::Vector &TaskPD::computeErrorDot(dynamicgraph::Vector &errorDot,
+dynamicgraph::Vector& TaskPD::computeErrorDot(dynamicgraph::Vector& errorDot,
                                               sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
-  const dynamicgraph::Vector &errCur = errorSOUT(time);
+  const dynamicgraph::Vector& errCur = errorSOUT(time);
   if (previousError.size() == errCur.size()) {
     errorDot = errCur;
     errorDot -= previousError;
@@ -67,11 +67,11 @@ dynamicgraph::Vector &TaskPD::computeErrorDot(dynamicgraph::Vector &errorDot,
   return errorDot;
 }
 
-VectorMultiBound &TaskPD::computeTaskModif(VectorMultiBound &task,
+VectorMultiBound& TaskPD::computeTaskModif(VectorMultiBound& task,
                                            sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
-  const dynamicgraph::Vector &errorDot = errorDotSIN(time);
+  const dynamicgraph::Vector& errorDot = errorDotSIN(time);
   Task::computeTaskExponentialDecrease(task, time);
 
   sotDEBUG(25) << " Task = " << task;

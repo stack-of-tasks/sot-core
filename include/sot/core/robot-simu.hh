@@ -48,9 +48,9 @@ namespace sot {
 
 class SOT_ROBOT_SIMU_EXPORT RobotSimu : public Device {
  public:
-  RobotSimu(const std::string &inName);
+  RobotSimu(const std::string& inName);
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 };
 }  // namespace sot
 }  // namespace dynamicgraph

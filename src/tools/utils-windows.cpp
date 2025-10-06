@@ -16,7 +16,7 @@
 #define DELTA_EPOCH_IN_MICROSECS 11644473600000000ULL
 #endif
 
-int gettimeofday(struct timeval *tv, struct timezone *tz) {
+int gettimeofday(struct timeval* tv, struct timezone* tz) {
   FILETIME ft;
   unsigned __int64 tmpres = 0;
   static size_type tzflag;

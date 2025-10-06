@@ -37,8 +37,8 @@ const std::string Device::CLASS_NAME = "Device";
 
 // Return positive difference between input value and bounds if it saturates,
 // 0 if it does not saturate
-inline double saturateBounds(double &val, const double &lower,
-                             const double &upper) {
+inline double saturateBounds(double& val, const double& lower,
+                             const double& upper) {
   double res = 0;
   assert(lower <= upper);
   if (val < lower) {
@@ -75,7 +75,7 @@ Device::~Device() {
   }
 }
 
-Device::Device(const std::string &n)
+Device::Device(const std::string& n)
     : Entity(n),
       state_(6),
       sanityCheck_(true),
@@ -151,7 +151,7 @@ Device::Device(const std::string &n)
     addCommand("setVelocity", new command::Setter<Device, Vector>(
                                   *this, &Device::setVelocity, docstring));
 
-    void (Device::*setRootPtr)(const Matrix &) = &Device::setRoot;
+    void (Device::*setRootPtr)(const Matrix&) = &Device::setRoot;
     docstring = command::docCommandVoid1("Set the root position.",
                                          "matrix homogeneous");
     addCommand("setRoot",
@@ -223,8 +223,8 @@ Device::Device(const std::string &n)
   }
 }
 
-void Device::getControl(map<string, ControlValues> &controlOut,
-                        const double &period) {
+void Device::getControl(map<string, ControlValues>& controlOut,
+                        const double& period) {
   sotDEBUGIN(25);
   std::vector<double> control;
   lastTimeControlWasRead_ += (sigtime_t)floor(period / Integrator::dt);
@@ -241,7 +241,7 @@ void Device::getControl(map<string, ControlValues> &controlOut,
   sotDEBUGOUT(25);
 }
 
-void Device::setStateSize(const size_type &size) {
+void Device::setStateSize(const size_type& size) {
   state_.resize(size);
   state_.fill(.0);
   stateSOUT.setConstant(state_);
@@ -256,30 +256,30 @@ void Device::setStateSize(const size_type &size) {
   ZMPPreviousControllerSOUT.setConstant(zmp);
 }
 
-void Device::setControlSize(const size_type &size) { controlSize_ = size; }
+void Device::setControlSize(const size_type& size) { controlSize_ = size; }
 
 size_type Device::getControlSize() const { return controlSize_; }
 
-void Device::setVelocitySize(const size_type &size) {
+void Device::setVelocitySize(const size_type& size) {
   velocity_.resize(size);
   velocity_.fill(.0);
   velocitySOUT.setConstant(velocity_);
 }
 
-void Device::setState(const Vector &) {}
+void Device::setState(const Vector&) {}
 
-void Device::setVelocity(const Vector &vel) {
+void Device::setVelocity(const Vector& vel) {
   velocity_ = vel;
   velocitySOUT.setConstant(velocity_);
 }
 
-void Device::setRoot(const Matrix &root) {
+void Device::setRoot(const Matrix& root) {
   Eigen::Matrix4d _matrix4d(root);
   MatrixHomogeneous _root(_matrix4d);
   setRoot(_root);
 }
 
-void Device::setRoot(const MatrixHomogeneous &worldMwaist) {
+void Device::setRoot(const MatrixHomogeneous& worldMwaist) {
   VectorRollPitchYaw r = (worldMwaist.linear().eulerAngles(2, 1, 0)).reverse();
   Vector q = state_;
   q = worldMwaist.translation();  // abusive ... but working.
@@ -290,11 +290,11 @@ void Device::setSecondOrderIntegration() {}
 
 void Device::setNoIntegration() {}
 
-void Device::setControlInputType(const std::string &) {}
+void Device::setControlInputType(const std::string&) {}
 
-void Device::setSanityCheck(const bool &) {}
+void Device::setSanityCheck(const bool&) {}
 
-void Device::setPositionBounds(const Vector &lower, const Vector &upper) {
+void Device::setPositionBounds(const Vector& lower, const Vector& upper) {
   std::ostringstream oss;
   if (lower.size() != controlSize_) {
     oss << "Lower bound size should be " << controlSize_ << ", got "
@@ -310,7 +310,7 @@ void Device::setPositionBounds(const Vector &lower, const Vector &upper) {
   upperPosition_ = upper;
 }
 
-void Device::setVelocityBounds(const Vector &lower, const Vector &upper) {
+void Device::setVelocityBounds(const Vector& lower, const Vector& upper) {
   std::ostringstream oss;
   if (lower.size() != controlSize_) {
     oss << "Lower bound size should be " << controlSize_ << ", got "
@@ -326,7 +326,7 @@ void Device::setVelocityBounds(const Vector &lower, const Vector &upper) {
   upperVelocity_ = upper;
 }
 
-void Device::setTorqueBounds(const Vector &lower, const Vector &upper) {
+void Device::setTorqueBounds(const Vector& lower, const Vector& upper) {
   // TODO I think the torque bounds size are controlSize_-6...
   std::ostringstream oss;
   if (lower.size() != controlSize_) {
@@ -345,7 +345,7 @@ void Device::setTorqueBounds(const Vector &lower, const Vector &upper) {
 
 /* --- DISPLAY ------------------------------------------------------------ */
 
-void Device::display(std::ostream &os) const {
+void Device::display(std::ostream& os) const {
   os << name << ": " << state_ << endl
      << "sanityCheck: " << sanityCheck_ << endl
      << "controlInputType:" << controlInputType_ << endl;

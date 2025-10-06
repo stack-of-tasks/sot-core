@@ -57,22 +57,22 @@ class SOT_CORE_EXPORT TaskAbstract : public dynamicgraph::Entity {
     virtual ~MemoryTaskAbstract(void) {};
 
    public:
-    virtual void display(std::ostream &os) const = 0;
-    friend std::ostream &operator<<(std::ostream &os,
-                                    const MemoryTaskAbstract &tcm) {
+    virtual void display(std::ostream& os) const = 0;
+    friend std::ostream& operator<<(std::ostream& os,
+                                    const MemoryTaskAbstract& tcm) {
       tcm.display(os);
       return os;
     }
   };
 
  public:
-  MemoryTaskAbstract *memoryInternal;
+  MemoryTaskAbstract* memoryInternal;
 
  protected:
   void taskRegistration(void);
 
  public:
-  TaskAbstract(const std::string &n);
+  TaskAbstract(const std::string& n);
 
  public: /* --- SIGNALS --- */
   dynamicgraph::SignalTimeDependent<VectorMultiBound, sigtime_t> taskSOUT;

@@ -51,7 +51,7 @@ class SOTFEATURE1D_EXPORT Feature1D : public FeatureAbstract,
   /*! Field storing the class name. */
   static const std::string CLASS_NAME;
   /*! Returns the name of the class. */
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  protected:
   /* --- SIGNALS ------------------------------------------------------------ */
@@ -83,13 +83,13 @@ class SOTFEATURE1D_EXPORT Feature1D : public FeatureAbstract,
 
  public:
   /*! \brief Default constructor */
-  Feature1D(const std::string &name);
+  Feature1D(const std::string& name);
 
   /*! \brief Default destructor */
   virtual ~Feature1D(void) {}
 
   /*! \brief Get the dimension of the feature. */
-  virtual size_type &getDimension(size_type &dim, sigtime_t time);
+  virtual size_type& getDimension(size_type& dim, sigtime_t time);
 
   /*! \name Methods to trigger computation related to this feature.
     @{
@@ -97,17 +97,17 @@ class SOTFEATURE1D_EXPORT Feature1D : public FeatureAbstract,
 
   /*! \brief Compute the error between the desired value and the value itself.
    */
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+  virtual dynamicgraph::Vector& computeError(dynamicgraph::Vector& res,
                                              sigtime_t time);
 
   /*! \brief Compute the Jacobian of the value according to the robot state.. */
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+  virtual dynamicgraph::Matrix& computeJacobian(dynamicgraph::Matrix& res,
                                                 sigtime_t time);
 
   /*! @} */
 
   /*! \brief Display the information related to this 1D implementation. */
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 
   /*! \name Dealing with the reference value to be reach with this feature.
     @{

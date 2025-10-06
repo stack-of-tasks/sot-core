@@ -41,13 +41,13 @@ typedef Eigen::VectorXd::Index Index;
 class SOT_CORE_EXPORT ExtractJointMimics {
  public:
   /// Constructor
-  ExtractJointMimics(std::string &robot_model);
+  ExtractJointMimics(std::string& robot_model);
 
   /// Get mimic joints.
-  const std::vector<std::string> &get_mimic_joints();
+  const std::vector<std::string>& get_mimic_joints();
 
  private:
-  void go_through(boost::property_tree::ptree &pt, size_type level,
+  void go_through(boost::property_tree::ptree& pt, size_type level,
                   size_type stage);
 
   // Create empty property tree object
@@ -63,10 +63,10 @@ struct SOT_CORE_EXPORT ForceLimits {
 
   ForceLimits() : upper(Vector6d::Zero()), lower(Vector6d::Zero()) {}
 
-  ForceLimits(const Eigen::VectorXd &l, const Eigen::VectorXd &u)
+  ForceLimits(const Eigen::VectorXd& l, const Eigen::VectorXd& u)
       : upper(u), lower(l) {}
 
-  void display(std::ostream &os) const;
+  void display(std::ostream& os) const;
 };
 
 struct SOT_CORE_EXPORT ForceUtil {
@@ -77,20 +77,20 @@ struct SOT_CORE_EXPORT ForceUtil {
   Index m_Force_Id_Left_Hand, m_Force_Id_Right_Hand, m_Force_Id_Left_Foot,
       m_Force_Id_Right_Foot;
 
-  void set_name_to_force_id(const std::string &name, const Index &force_id);
+  void set_name_to_force_id(const std::string& name, const Index& force_id);
 
-  void set_force_id_to_limits(const Index &force_id,
-                              const dynamicgraph::Vector &lf,
-                              const dynamicgraph::Vector &uf);
+  void set_force_id_to_limits(const Index& force_id,
+                              const dynamicgraph::Vector& lf,
+                              const dynamicgraph::Vector& uf);
 
   void create_force_id_to_name_map();
 
-  Index get_id_from_name(const std::string &name);
+  Index get_id_from_name(const std::string& name);
 
-  const std::string &get_name_from_id(Index idx);
+  const std::string& get_name_from_id(Index idx);
   std::string cp_get_name_from_id(Index idx);
 
-  const ForceLimits &get_limits_from_id(Index force_id);
+  const ForceLimits& get_limits_from_id(Index force_id);
   ForceLimits cp_get_limits_from_id(Index force_id);
 
   Index get_force_id_left_hand() { return m_Force_Id_Left_Hand; }
@@ -109,7 +109,7 @@ struct SOT_CORE_EXPORT ForceUtil {
 
   void set_force_id_right_foot(Index anId) { m_Force_Id_Right_Foot = anId; }
 
-  void display(std::ostream &out) const;
+  void display(std::ostream& out) const;
 
 };  // struct ForceUtil
 
@@ -122,13 +122,13 @@ struct SOT_CORE_EXPORT FootUtil {
 
   std::string m_Left_Foot_Frame_Name;
   std::string m_Right_Foot_Frame_Name;
-  void display(std::ostream &os) const;
+  void display(std::ostream& os) const;
 };
 
 struct SOT_CORE_EXPORT HandUtil {
   std::string m_Left_Hand_Frame_Name;
   std::string m_Right_Hand_Frame_Name;
-  void display(std::ostream &os) const;
+  void display(std::ostream& os) const;
 };
 
 struct SOT_CORE_EXPORT RobotUtil {
@@ -176,7 +176,7 @@ struct SOT_CORE_EXPORT RobotUtil {
    * If the specified joint name is not found it returns -1;
    * @param name Name of the joint to find.
    * @return The id of the specified joint, -1 if not found. */
-  const Index &get_id_from_name(const std::string &name);
+  const Index& get_id_from_name(const std::string& name);
 
   /** Given a joint id it finds the associated joint name.
    * If the specified joint is not found it returns "Joint name not found";
@@ -185,18 +185,18 @@ struct SOT_CORE_EXPORT RobotUtil {
    * found. */
 
   /// Get the joint name from its index
-  const std::string &get_name_from_id(Index id);
+  const std::string& get_name_from_id(Index id);
 
   /// Set relation between the name and the SoT id
-  void set_name_to_id(const std::string &jointName, const Index &jointId);
+  void set_name_to_id(const std::string& jointName, const Index& jointId);
 
   /// Set the map between urdf index and sot index
-  void set_urdf_to_sot(const std::vector<Index> &urdf_to_sot);
-  void set_urdf_to_sot(const dynamicgraph::Vector &urdf_to_sot);
+  void set_urdf_to_sot(const std::vector<Index>& urdf_to_sot);
+  void set_urdf_to_sot(const dynamicgraph::Vector& urdf_to_sot);
 
   /// Set the limits (lq,uq) for joint idx
-  void set_joint_limits_for_id(const Index &idx, const double &lq,
-                               const double &uq);
+  void set_joint_limits_for_id(const Index& idx, const double& lq,
+                               const double& uq);
 
   bool joints_urdf_to_sot(ConstRefVector q_urdf, RefVector q_sot);
 
@@ -219,15 +219,15 @@ struct SOT_CORE_EXPORT RobotUtil {
    * @param id Id of the joint to find.
    * @return The limits of the specified joint, JointLimits(0,0) if not found.
    */
-  const JointLimits &get_joint_limits_from_id(Index id);
+  const JointLimits& get_joint_limits_from_id(Index id);
   JointLimits cp_get_joint_limits_from_id(Index id);
 
   /** \name Logger related methods */
   /** \{*/
   /// \brief Send messages \c msg with level \c t. Add string \c file and \c
   /// line to message.
-  void sendMsg(const std::string &msg, MsgType t = MSG_TYPE_INFO,
-               const std::string &lineId = "");
+  void sendMsg(const std::string& msg, MsgType t = MSG_TYPE_INFO,
+               const std::string& lineId = "");
 
   /// \brief Specify the verbosity level of the logger.
   void setLoggerVerbosityLevel(LoggerVerbosity lv) { logger_.setVerbosity(lv); }
@@ -235,7 +235,7 @@ struct SOT_CORE_EXPORT RobotUtil {
   /// \brief Get the logger's verbosity level.
   LoggerVerbosity getLoggerVerbosityLevel() { return logger_.getVerbosity(); };
 
-  void display(std::ostream &os) const;
+  void display(std::ostream& os) const;
 
   /**{ \name Handling general parameters */
   /** \brief Set a parameter of type string.
@@ -243,13 +243,13 @@ struct SOT_CORE_EXPORT RobotUtil {
       If not it is inserted.
    */
   template <typename Type>
-  void set_parameter(const std::string &parameter_name,
-                     const Type &parameter_value) {
+  void set_parameter(const std::string& parameter_name,
+                     const Type& parameter_value) {
     try {
       typedef boost::property_tree::ptree::path_type path;
       path apath(parameter_name, '/');
       property_tree_.put<Type>(apath, parameter_value);
-    } catch (const boost::property_tree::ptree_error &e) {
+    } catch (const boost::property_tree::ptree_error& e) {
       std::ostringstream oss;
       oss << "Robot utils: parameter path is invalid " << '\n'
           << " for set_parameter(" << parameter_name << ")\n"
@@ -266,13 +266,13 @@ struct SOT_CORE_EXPORT RobotUtil {
       Return false if the parameter is not found.
    */
   template <typename Type>
-  Type get_parameter(const std::string &parameter_name) {
+  Type get_parameter(const std::string& parameter_name) {
     try {
       boost::property_tree::ptree::path_type apath(parameter_name, '/');
-      const Type &res = property_tree_.get<Type>(apath);
+      const Type& res = property_tree_.get<Type>(apath);
 
       return res;
-    } catch (const boost::property_tree::ptree_error &e) {
+    } catch (const boost::property_tree::ptree_error& e) {
       std::ostringstream oss;
       oss << "Robot utils: parameter path is invalid " << '\n'
           << " for get_parameter(" << parameter_name << ")\n"
@@ -284,7 +284,7 @@ struct SOT_CORE_EXPORT RobotUtil {
   /** @} */
 
   /** Access to property tree directly */
-  boost::property_tree::ptree &get_property_tree();
+  boost::property_tree::ptree& get_property_tree();
 
  protected:
   Logger logger_;
@@ -300,9 +300,9 @@ struct SOT_CORE_EXPORT RobotUtil {
 typedef std::shared_ptr<RobotUtil> RobotUtilShrPtr;
 
 RobotUtilShrPtr RefVoidRobotUtil();
-RobotUtilShrPtr getRobotUtil(std::string &robotName);
-bool isNameInRobotUtil(std::string &robotName);
-RobotUtilShrPtr createRobotUtil(std::string &robotName);
+RobotUtilShrPtr getRobotUtil(std::string& robotName);
+bool isNameInRobotUtil(std::string& robotName);
+RobotUtilShrPtr createRobotUtil(std::string& robotName);
 std::shared_ptr<std::vector<std::string> > getListOfRobots();
 
 bool base_se3_to_sot(ConstRefVector pos, ConstRefMatrix R, RefVector q_sot);

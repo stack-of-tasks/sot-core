@@ -71,7 +71,7 @@ namespace sot {
 
 class SOTTASK_EXPORT Task : public TaskAbstract {
  public:
-  typedef std::list<FeatureAbstract *> FeatureList_t;
+  typedef std::list<FeatureAbstract*> FeatureList_t;
 
  protected:
   FeatureList_t featureList;
@@ -80,29 +80,29 @@ class SOTTASK_EXPORT Task : public TaskAbstract {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
  public:
-  Task(const std::string &n);
+  Task(const std::string& n);
   void initCommands(void);
 
-  void addFeature(FeatureAbstract &s);
-  void addFeatureFromName(const std::string &name);
+  void addFeature(FeatureAbstract& s);
+  void addFeatureFromName(const std::string& name);
   void clearFeatureList(void);
-  FeatureList_t &getFeatureList(void) { return featureList; }
+  FeatureList_t& getFeatureList(void) { return featureList; }
 
-  void setControlSelection(const Flags &act);
-  void addControlSelection(const Flags &act);
+  void setControlSelection(const Flags& act);
+  void addControlSelection(const Flags& act);
   void clearControlSelection(void);
 
-  void setWithDerivative(const bool &s);
+  void setWithDerivative(const bool& s);
   bool getWithDerivative(void);
 
   /* --- COMPUTATION --- */
-  dynamicgraph::Vector &computeError(dynamicgraph::Vector &error,
+  dynamicgraph::Vector& computeError(dynamicgraph::Vector& error,
                                      sigtime_t time);
-  VectorMultiBound &computeTaskExponentialDecrease(VectorMultiBound &errorRef,
+  VectorMultiBound& computeTaskExponentialDecrease(VectorMultiBound& errorRef,
                                                    sigtime_t time);
-  dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &J,
+  dynamicgraph::Matrix& computeJacobian(dynamicgraph::Matrix& J,
                                         sigtime_t time);
-  dynamicgraph::Vector &computeErrorTimeDerivative(dynamicgraph::Vector &res,
+  dynamicgraph::Vector& computeErrorTimeDerivative(dynamicgraph::Vector& res,
                                                    sigtime_t time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
@@ -115,10 +115,10 @@ class SOTTASK_EXPORT Task : public TaskAbstract {
       errorTimeDerivativeSOUT;
 
   /* --- DISPLAY ------------------------------------------------------------ */
-  void display(std::ostream &os) const;
+  void display(std::ostream& os) const;
 
   /* --- Writing graph --- */
-  virtual std::ostream &writeGraph(std::ostream &os) const;
+  virtual std::ostream& writeGraph(std::ostream& os) const;
 };
 
 } /* namespace sot */

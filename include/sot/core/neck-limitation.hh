@@ -52,7 +52,7 @@ namespace sot {
 class NeckLimitation_EXPORT NeckLimitation : public dynamicgraph::Entity {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  protected:
   std::size_t panRank, tiltRank;
@@ -68,7 +68,7 @@ class NeckLimitation_EXPORT NeckLimitation : public dynamicgraph::Entity {
   static const double SIGN_TILT_DEFAULT;
 
  public: /* --- CONSTRUCTION --- */
-  NeckLimitation(const std::string &name);
+  NeckLimitation(const std::string& name);
   virtual ~NeckLimitation(void);
 
  public: /* --- SIGNAL --- */
@@ -76,11 +76,11 @@ class NeckLimitation_EXPORT NeckLimitation : public dynamicgraph::Entity {
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> jointSOUT;
 
  public: /* --- FUNCTIONS --- */
-  dynamicgraph::Vector &computeJointLimitation(
-      dynamicgraph::Vector &jointLimited, const sigtime_t &timeSpec);
+  dynamicgraph::Vector& computeJointLimitation(
+      dynamicgraph::Vector& jointLimited, const sigtime_t& timeSpec);
 
  public: /* --- PARAMS --- */
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 };
 
 } /* namespace sot */

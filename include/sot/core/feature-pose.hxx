@@ -48,7 +48,7 @@ struct LG_t {
 static const MatrixHomogeneous Id(MatrixHomogeneous::Identity());
 
 template <Representation_t representation>
-FeaturePose<representation>::FeaturePose(const std::string &pointName)
+FeaturePose<representation>::FeaturePose(const std::string& pointName)
     : FeatureAbstract(pointName),
       oMja(NULL, CLASS_NAME + "(" + name + ")::input(matrixHomo)::oMja"),
       jaMfa(NULL, CLASS_NAME + "(" + name + ")::input(matrixHomo)::jaMfa"),
@@ -109,7 +109,7 @@ FeaturePose<representation>::~FeaturePose() {}
 /* --------------------------------------------------------------------- */
 
 template <Representation_t representation>
-static inline void check(const FeaturePose<representation> &ft) {
+static inline void check(const FeaturePose<representation>& ft) {
   (void)ft;
   assert(ft.oMja.isPlugged());
   assert(ft.jaMfa.isPlugged());
@@ -120,11 +120,11 @@ static inline void check(const FeaturePose<representation> &ft) {
 }
 
 template <Representation_t representation>
-size_type &FeaturePose<representation>::getDimension(size_type &dim,
+size_type& FeaturePose<representation>::getDimension(size_type& dim,
                                                      sigtime_t time) {
   sotDEBUG(25) << "# In {" << std::endl;
 
-  const Flags &fl = selectionSIN.access(time);
+  const Flags& fl = selectionSIN.access(time);
 
   dim = 0;
   for (size_type i = 0; i < 6; ++i)
@@ -134,19 +134,19 @@ size_type &FeaturePose<representation>::getDimension(size_type &dim,
   return dim;
 }
 
-void toVector(const MatrixHomogeneous &M, Vector7 &v) {
+void toVector(const MatrixHomogeneous& M, Vector7& v) {
   v.head<3>() = M.translation();
   QuaternionMap(v.tail<4>().data()) = M.linear();
 }
 
-Vector7 toVector(const MatrixHomogeneous &M) {
+Vector7 toVector(const MatrixHomogeneous& M) {
   Vector7 ret;
   toVector(M, ret);
   return ret;
 }
 
 template <Representation_t representation>
-Matrix &FeaturePose<representation>::computeJacobian(Matrix &J,
+Matrix& FeaturePose<representation>::computeJacobian(Matrix& J,
                                                      sigtime_t time) {
   typedef typename internal::LG_t<representation>::type LieGroup_t;
 
@@ -155,12 +155,12 @@ Matrix &FeaturePose<representation>::computeJacobian(Matrix &J,
   q_faMfb.recompute(time);
   q_faMfbDes.recompute(time);
 
-  const std::size_t &dim = dimensionSOUT(time);
-  const Flags &fl = selectionSIN(time);
+  const std::size_t& dim = dimensionSOUT(time);
+  const Flags& fl = selectionSIN(time);
 
-  const Matrix &_jbJjb = jbJjb(time);
+  const Matrix& _jbJjb = jbJjb(time);
 
-  const MatrixHomogeneous &_jbMfb =
+  const MatrixHomogeneous& _jbMfb =
       (jbMfb.isPlugged() ? jbMfb.accessCopy() : Id);
 
   const Matrix::Index cJ = _jbJjb.cols();
@@ -185,7 +185,7 @@ Matrix &FeaturePose<representation>::computeJacobian(Matrix &J,
     if (fl((size_type)r)) J.row(rJ++) = (Jminus * X).row(r) * _jbJjb;
 
   if (jaJja.isPlugged()) {
-    const Matrix &_jaJja = jaJja(time);
+    const Matrix& _jaJja = jaJja(time);
     const MatrixHomogeneous &_jaMfa =
                                 (jaMfa.isPlugged() ? jaMfa.accessCopy() : Id),
                             _faMfb = faMfb.accessCopy();
@@ -205,8 +205,8 @@ Matrix &FeaturePose<representation>::computeJacobian(Matrix &J,
 }
 
 template <Representation_t representation>
-MatrixHomogeneous &FeaturePose<representation>::computefaMfb(
-    MatrixHomogeneous &res, sigtime_t time) {
+MatrixHomogeneous& FeaturePose<representation>::computefaMfb(
+    MatrixHomogeneous& res, sigtime_t time) {
   check(*this);
 
   res = (oMja(time) * jaMfa(time)).inverse(Eigen::Affine) * oMjb(time) *
@@ -215,7 +215,7 @@ MatrixHomogeneous &FeaturePose<representation>::computefaMfb(
 }
 
 template <Representation_t representation>
-Vector7 &FeaturePose<representation>::computeQfaMfb(Vector7 &res,
+Vector7& FeaturePose<representation>::computeQfaMfb(Vector7& res,
                                                     sigtime_t time) {
   check(*this);
 
@@ -224,7 +224,7 @@ Vector7 &FeaturePose<representation>::computeQfaMfb(Vector7 &res,
 }
 
 template <Representation_t representation>
-Vector7 &FeaturePose<representation>::computeQfaMfbDes(Vector7 &res,
+Vector7& FeaturePose<representation>::computeQfaMfbDes(Vector7& res,
                                                        sigtime_t time) {
   check(*this);
 
@@ -233,12 +233,12 @@ Vector7 &FeaturePose<representation>::computeQfaMfbDes(Vector7 &res,
 }
 
 template <Representation_t representation>
-Vector &FeaturePose<representation>::computeError(Vector &error,
+Vector& FeaturePose<representation>::computeError(Vector& error,
                                                   sigtime_t time) {
   typedef typename internal::LG_t<representation>::type LieGroup_t;
   check(*this);
 
-  const Flags &fl = selectionSIN(time);
+  const Flags& fl = selectionSIN(time);
 
   Eigen::Matrix<double, 6, 1> v;
   LieGroup_t().difference(q_faMfbDes(time), q_faMfb(time), v);
@@ -255,18 +255,18 @@ Vector &FeaturePose<representation>::computeError(Vector &error,
 // SE(3) convention onto a velocity expressed with the convention of this
 // feature (R^3xSO(3) or SE(3)), in the right frame.
 template <>
-Vector6d convertVelocity<SE3_t>(const MatrixHomogeneous &M,
-                                const MatrixHomogeneous &Mdes,
-                                const Vector &faNufafbDes) {
+Vector6d convertVelocity<SE3_t>(const MatrixHomogeneous& M,
+                                const MatrixHomogeneous& Mdes,
+                                const Vector& faNufafbDes) {
   (void)M;
   MatrixTwist X;
   buildFrom(Mdes.inverse(Eigen::Affine), X);
   return X * faNufafbDes;
 }
 template <>
-Vector6d convertVelocity<R3xSO3_t>(const MatrixHomogeneous &M,
-                                   const MatrixHomogeneous &Mdes,
-                                   const Vector &faNufafbDes) {
+Vector6d convertVelocity<R3xSO3_t>(const MatrixHomogeneous& M,
+                                   const MatrixHomogeneous& Mdes,
+                                   const Vector& faNufafbDes) {
   Vector6d nu;
   nu.head<3>() =
       faNufafbDes.head<3>() - M.translation().cross(faNufafbDes.tail<3>());
@@ -275,13 +275,13 @@ Vector6d convertVelocity<R3xSO3_t>(const MatrixHomogeneous &M,
 }
 
 template <Representation_t representation>
-Vector &FeaturePose<representation>::computeErrorDot(Vector &errordot,
+Vector& FeaturePose<representation>::computeErrorDot(Vector& errordot,
                                                      sigtime_t time) {
   typedef typename internal::LG_t<representation>::type LieGroup_t;
   check(*this);
 
   errordot.resize(dimensionSOUT(time));
-  const Flags &fl = selectionSIN(time);
+  const Flags& fl = selectionSIN(time);
   if (!faNufafbDes.isPlugged()) {
     errordot.setZero();
     return errordot;
@@ -291,7 +291,7 @@ Vector &FeaturePose<representation>::computeErrorDot(Vector &errordot,
   q_faMfbDes.recompute(time);
   faNufafbDes.recompute(time);
 
-  const MatrixHomogeneous &_faMfbDes = faMfbDes(time);
+  const MatrixHomogeneous& _faMfbDes = faMfbDes(time);
 
   Eigen::Matrix<double, 6, 6, Eigen::RowMajor> Jminus;
 
@@ -310,7 +310,7 @@ Vector &FeaturePose<representation>::computeErrorDot(Vector &errordot,
  * to the current position. The effect on the servo is to maintain the
  * current position and correct any drift. */
 template <Representation_t representation>
-void FeaturePose<representation>::servoCurrentPosition(const sigtime_t &time) {
+void FeaturePose<representation>::servoCurrentPosition(const sigtime_t& time) {
   check(*this);
 
   const MatrixHomogeneous &_oMja = (oMja.isPlugged() ? oMja.access(time) : Id),
@@ -322,13 +322,13 @@ void FeaturePose<representation>::servoCurrentPosition(const sigtime_t &time) {
   faMfbDes = (_oMja * _jaMfa).inverse(Eigen::Affine) * _oMjb * _jbMfb;
 }
 
-static const char *featureNames[] = {"X ", "Y ", "Z ", "RX", "RY", "RZ"};
+static const char* featureNames[] = {"X ", "Y ", "Z ", "RX", "RY", "RZ"};
 template <Representation_t representation>
-void FeaturePose<representation>::display(std::ostream &os) const {
+void FeaturePose<representation>::display(std::ostream& os) const {
   os << CLASS_NAME << "<" << name << ">: (";
 
   try {
-    const Flags &fl = selectionSIN.accessCopy();
+    const Flags& fl = selectionSIN.accessCopy();
     bool first = true;
     for (size_type i = 0; i < 6; ++i)
       if (fl(i)) {
@@ -340,7 +340,7 @@ void FeaturePose<representation>::display(std::ostream &os) const {
         os << featureNames[i];
       }
     os << ") ";
-  } catch (const ExceptionAbstract &e) {
+  } catch (const ExceptionAbstract& e) {
     os << " selectSIN not set.";
   }
 }

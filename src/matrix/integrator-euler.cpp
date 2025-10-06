@@ -14,14 +14,14 @@
 
 #ifdef WIN32
 IntegratorEulerVectorMatrix::IntegratorEulerVectorMatrix(
-    const std::string &name)
+    const std::string& name)
     : IntegratorEuler<Vector, Matrix>(name) {}
 std::string IntegratorEulerVectorMatrix::getTypeName(void) {
   return "IntegratorEulerVectorMatrix";
 }
 
 IntegratorEulerVectorDouble::IntegratorEulerVectorDouble(
-    const std::string &name)
+    const std::string& name)
     : IntegratorEuler<Vector, double>(name) {}
 std::string IntegratorEulerVectorDouble::getTypeName(void) {
   return "IntegratorEulerVectorDouble";

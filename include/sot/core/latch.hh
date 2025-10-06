@@ -40,24 +40,24 @@ class Latch : public Entity {
  protected:
   bool signalOutput;
   void turnOn() { signalOutput = true; }
-  bool &turnOnLatch(bool &res, sigtime_t) {
+  bool& turnOnLatch(bool& res, sigtime_t) {
     res = signalOutput = true;
     return res;
   }
 
   void turnOff() { signalOutput = false; }
-  bool &turnOffLatch(bool &res, sigtime_t) {
+  bool& turnOffLatch(bool& res, sigtime_t) {
     res = signalOutput = false;
     return res;
   }
 
-  bool &latchOutput(bool &res, sigtime_t) {
+  bool& latchOutput(bool& res, sigtime_t) {
     res = signalOutput;
     return res;
   }
 
  public:
-  Latch(const std::string &name)
+  Latch(const std::string& name)
       : Entity(name),
         outSOUT("Latch(" + name + ")::output(bool)::out"),
         turnOnSOUT("Latch(" + name + ")::output(bool)::turnOnSout"),

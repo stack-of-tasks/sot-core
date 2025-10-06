@@ -45,7 +45,7 @@ struct UnaryOpHeader {
   static inline std::string nameTypeOut(void) {
     return TypeNameHelper<Tout>::typeName();
   }
-  inline void addSpecificCommands(Entity &, Entity::CommandMap_t &) {}
+  inline void addSpecificCommands(Entity&, Entity::CommandMap_t&) {}
   inline std::string getDocString() const {
     return std::string(
                "Undocumented unary operator\n"
@@ -62,12 +62,12 @@ struct UnaryOpHeader {
 /* --- ALGEBRA SELECTORS ------------------------------------------------ */
 /* ---------------------------------------------------------------------- */
 struct VectorSelecter : public UnaryOpHeader<dg::Vector, dg::Vector> {
-  inline void operator()(const Tin &m, Vector &res) const {
+  inline void operator()(const Tin& m, Vector& res) const {
     res.resize(size);
     Vector::Index r = 0;
     for (std::size_t i = 0; i < idxs.size(); ++i) {
-      const Vector::Index &R = idxs[i].first;
-      const Vector::Index &nr = idxs[i].second;
+      const Vector::Index& R = idxs[i].first;
+      const Vector::Index& nr = idxs[i].second;
       assert((nr >= 0) && (R + nr <= m.size()));
       res.segment(r, nr) = m.segment(R, nr);
       r += nr;
@@ -80,26 +80,26 @@ struct VectorSelecter : public UnaryOpHeader<dg::Vector, dg::Vector> {
   segments_t idxs;
   Vector::Index size;
 
-  inline void setBounds(const size_type &m, const size_type &M) {
+  inline void setBounds(const size_type& m, const size_type& M) {
     idxs = segments_t(1, segment_t(m, M - m));
     size = M - m;
   }
-  inline void addBounds(const size_type &m, const size_type &M) {
+  inline void addBounds(const size_type& m, const size_type& M) {
     idxs.push_back(segment_t(m, M - m));
     size += M - m;
   }
 
-  inline void addSpecificCommands(Entity &ent,
-                                  Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity& ent,
+                                  Entity::CommandMap_t& commandMap) {
     using namespace dynamicgraph::command;
     std::string doc;
 
-    boost::function<void(const size_type &, const size_type &)> setBound =
+    boost::function<void(const size_type&, const size_type&)> setBound =
         boost::bind(&VectorSelecter::setBounds, this, _1, _2);
     doc = docCommandVoid2("Set the bound of the selection [m,M[.",
                           "size_type (min)", "size_type (max)");
     ADD_COMMAND("selec", makeCommandVoid2(ent, setBound, doc));
-    boost::function<void(const size_type &, const size_type &)> addBound =
+    boost::function<void(const size_type&, const size_type&)> addBound =
         boost::bind(&VectorSelecter::addBounds, this, _1, _2);
     doc = docCommandVoid2("Add a segment to be selected [m,M[.",
                           "size_type (min)", "size_type (max)");
@@ -110,19 +110,19 @@ struct VectorSelecter : public UnaryOpHeader<dg::Vector, dg::Vector> {
 
 /* ---------------------------------------------------------------------- */
 struct VectorComponent : public UnaryOpHeader<dg::Vector, double> {
-  inline void operator()(const Tin &m, double &res) const {
+  inline void operator()(const Tin& m, double& res) const {
     assert(index < m.size());
     res = m(index);
   }
 
   size_type index;
-  inline void setIndex(const size_type &m) { index = m; }
+  inline void setIndex(const size_type& m) { index = m; }
 
-  inline void addSpecificCommands(Entity &ent,
-                                  Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity& ent,
+                                  Entity::CommandMap_t& commandMap) {
     std::string doc;
 
-    boost::function<void(const int &)> callback =
+    boost::function<void(const int&)> callback =
         boost::bind(&VectorComponent::setIndex, this, _1);
     doc = command::docCommandVoid1("Set the index of the component.",
                                    "size_type (index)");
@@ -139,7 +139,7 @@ struct VectorComponent : public UnaryOpHeader<dg::Vector, double> {
 
 /* ---------------------------------------------------------------------- */
 struct MatrixSelector : public UnaryOpHeader<dg::Matrix, dg::Matrix> {
-  inline void operator()(const Matrix &m, Matrix &res) const {
+  inline void operator()(const Matrix& m, Matrix& res) const {
     assert((imin <= imax) && (imax <= m.rows()));
     assert((jmin <= jmax) && (jmax <= m.cols()));
     res.resize(imax - imin, jmax - jmin);
@@ -151,23 +151,23 @@ struct MatrixSelector : public UnaryOpHeader<dg::Matrix, dg::Matrix> {
   size_type imin, imax;
   size_type jmin, jmax;
 
-  inline void setBoundsRow(const size_type &m, const size_type &M) {
+  inline void setBoundsRow(const size_type& m, const size_type& M) {
     imin = m;
     imax = M;
   }
-  inline void setBoundsCol(const size_type &m, const size_type &M) {
+  inline void setBoundsCol(const size_type& m, const size_type& M) {
     jmin = m;
     jmax = M;
   }
 
-  inline void addSpecificCommands(Entity &ent,
-                                  Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity& ent,
+                                  Entity::CommandMap_t& commandMap) {
     using namespace dynamicgraph::command;
     std::string doc;
 
-    boost::function<void(const size_type &, const size_type &)> setBoundsRow =
+    boost::function<void(const size_type&, const size_type&)> setBoundsRow =
         boost::bind(&MatrixSelector::setBoundsRow, this, _1, _2);
-    boost::function<void(const size_type &, const size_type &)> setBoundsCol =
+    boost::function<void(const size_type&, const size_type&)> setBoundsCol =
         boost::bind(&MatrixSelector::setBoundsCol, this, _1, _2);
 
     doc = docCommandVoid2("Set the bound on rows.", "size_type (min)",
@@ -183,7 +183,7 @@ struct MatrixSelector : public UnaryOpHeader<dg::Matrix, dg::Matrix> {
 /* ---------------------------------------------------------------------- */
 struct MatrixColumnSelector : public UnaryOpHeader<dg::Matrix, dg::Vector> {
  public:
-  inline void operator()(const Tin &m, Tout &res) const {
+  inline void operator()(const Tin& m, Tout& res) const {
     assert((imin <= imax) && (imax <= m.rows()));
     assert(jcol < m.cols());
 
@@ -193,20 +193,20 @@ struct MatrixColumnSelector : public UnaryOpHeader<dg::Matrix, dg::Vector> {
 
   size_type imin, imax;
   size_type jcol;
-  inline void selectCol(const size_type &m) { jcol = m; }
-  inline void setBoundsRow(const size_type &m, const size_type &M) {
+  inline void selectCol(const size_type& m) { jcol = m; }
+  inline void setBoundsRow(const size_type& m, const size_type& M) {
     imin = m;
     imax = M;
   }
 
-  inline void addSpecificCommands(Entity &ent,
-                                  Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity& ent,
+                                  Entity::CommandMap_t& commandMap) {
     using namespace dynamicgraph::command;
     std::string doc;
 
-    boost::function<void(const size_type &, const size_type &)> setBoundsRow =
+    boost::function<void(const size_type&, const size_type&)> setBoundsRow =
         boost::bind(&MatrixColumnSelector::setBoundsRow, this, _1, _2);
-    boost::function<void(const size_type &)> selectCol =
+    boost::function<void(const size_type&)> selectCol =
         boost::bind(&MatrixColumnSelector::selectCol, this, _1);
 
     doc = docCommandVoid2("Set the bound on rows.", "size_type (min)",
@@ -220,28 +220,28 @@ struct MatrixColumnSelector : public UnaryOpHeader<dg::Matrix, dg::Vector> {
 
 /* ---------------------------------------------------------------------- */
 struct MatrixTranspose : public UnaryOpHeader<dg::Matrix, dg::Matrix> {
-  inline void operator()(const Tin &m, Tout &res) const { res = m.transpose(); }
+  inline void operator()(const Tin& m, Tout& res) const { res = m.transpose(); }
 };
 
 /* ---------------------------------------------------------------------- */
 struct Diagonalizer : public UnaryOpHeader<Vector, Matrix> {
-  inline void operator()(const dg::Vector &r, dg::Matrix &res) {
+  inline void operator()(const dg::Vector& r, dg::Matrix& res) {
     res = r.asDiagonal();
   }
 
  public:
   Diagonalizer(void) : nbr(0), nbc(0) {}
   std::size_t nbr, nbc;
-  inline void resize(const size_type &r, const size_type &c) {
+  inline void resize(const size_type& r, const size_type& c) {
     nbr = r;
     nbc = c;
   }
-  inline void addSpecificCommands(Entity &ent,
-                                  Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity& ent,
+                                  Entity::CommandMap_t& commandMap) {
     using namespace dynamicgraph::command;
     std::string doc;
 
-    boost::function<void(const size_type &, const size_type &)> resize =
+    boost::function<void(const size_type&, const size_type&)> resize =
         boost::bind(&Diagonalizer::resize, this, _1, _2);
 
     doc = docCommandVoid2("Set output size.", "size_type (row)",
@@ -258,11 +258,11 @@ template <typename matrixgen>
 struct Inverser : public UnaryOpHeader<matrixgen, matrixgen> {
   typedef typename UnaryOpHeader<matrixgen, matrixgen>::Tin Tin;
   typedef typename UnaryOpHeader<matrixgen, matrixgen>::Tout Tout;
-  inline void operator()(const Tin &m, Tout &res) const { res = m.inverse(); }
+  inline void operator()(const Tin& m, Tout& res) const { res = m.inverse(); }
 };
 
 struct Normalize : public UnaryOpHeader<dg::Vector, double> {
-  inline void operator()(const dg::Vector &m, double &res) const {
+  inline void operator()(const dg::Vector& m, double& res) const {
     res = m.norm();
   }
 
@@ -276,12 +276,12 @@ struct Normalize : public UnaryOpHeader<dg::Vector, double> {
 };
 
 struct InverserRotation : public UnaryOpHeader<MatrixRotation, MatrixRotation> {
-  inline void operator()(const Tin &m, Tout &res) const { res = m.transpose(); }
+  inline void operator()(const Tin& m, Tout& res) const { res = m.transpose(); }
 };
 
 struct InverserQuaternion
     : public UnaryOpHeader<VectorQuaternion, VectorQuaternion> {
-  inline void operator()(const Tin &m, Tout &res) const { res = m.conjugate(); }
+  inline void operator()(const Tin& m, Tout& res) const { res = m.conjugate(); }
 };
 
 /* ----------------------------------------------------------------------- */
@@ -290,7 +290,7 @@ struct InverserQuaternion
 
 struct MatrixHomoToPoseUTheta
     : public UnaryOpHeader<MatrixHomogeneous, dg::Vector> {
-  inline void operator()(const MatrixHomogeneous &M, dg::Vector &res) {
+  inline void operator()(const MatrixHomogeneous& M, dg::Vector& res) {
     res.resize(6);
     VectorUTheta r(M.linear());
     res.head<3>() = M.translation();
@@ -299,7 +299,7 @@ struct MatrixHomoToPoseUTheta
 };
 
 struct SkewSymToVector : public UnaryOpHeader<Matrix, Vector> {
-  inline void operator()(const Matrix &M, Vector &res) {
+  inline void operator()(const Matrix& M, Vector& res) {
     res.resize(3);
     res(0) = M(7);
     res(1) = M(2);
@@ -309,7 +309,7 @@ struct SkewSymToVector : public UnaryOpHeader<Matrix, Vector> {
 
 struct PoseUThetaToMatrixHomo
     : public UnaryOpHeader<Vector, MatrixHomogeneous> {
-  inline void operator()(const dg::Vector &v, MatrixHomogeneous &res) {
+  inline void operator()(const dg::Vector& v, MatrixHomogeneous& res) {
     assert(v.size() >= 6);
     res.translation() = v.head<3>();
     double theta = v.tail<3>().norm();
@@ -322,7 +322,7 @@ struct PoseUThetaToMatrixHomo
 
 struct SE3VectorToMatrixHomo
     : public UnaryOpHeader<dg::Vector, MatrixHomogeneous> {
-  void operator()(const dg::Vector &vect, MatrixHomogeneous &Mres) {
+  void operator()(const dg::Vector& vect, MatrixHomogeneous& Mres) {
     Mres.translation() = vect.head<3>();
     Mres.linear().row(0) = vect.segment(3, 3);
     Mres.linear().row(1) = vect.segment(6, 3);
@@ -332,7 +332,7 @@ struct SE3VectorToMatrixHomo
 
 struct MatrixHomoToSE3Vector
     : public UnaryOpHeader<MatrixHomogeneous, dg::Vector> {
-  void operator()(const MatrixHomogeneous &M, dg::Vector &res) {
+  void operator()(const MatrixHomogeneous& M, dg::Vector& res) {
     res.resize(12);
     res.head<3>() = M.translation();
     res.segment(3, 3) = M.linear().row(0);
@@ -343,7 +343,7 @@ struct MatrixHomoToSE3Vector
 
 struct PoseQuaternionToMatrixHomo
     : public UnaryOpHeader<Vector, MatrixHomogeneous> {
-  void operator()(const dg::Vector &vect, MatrixHomogeneous &Mres) {
+  void operator()(const dg::Vector& vect, MatrixHomogeneous& Mres) {
     Mres.translation() = vect.head<3>();
     Mres.linear() = VectorQuaternion(vect.tail<4>()).toRotationMatrix();
   }
@@ -351,7 +351,7 @@ struct PoseQuaternionToMatrixHomo
 
 struct MatrixHomoToPoseQuaternion
     : public UnaryOpHeader<MatrixHomogeneous, Vector> {
-  inline void operator()(const MatrixHomogeneous &M, Vector &res) {
+  inline void operator()(const MatrixHomogeneous& M, Vector& res) {
     res.resize(7);
     res.head<3>() = M.translation();
     Eigen::Map<VectorQuaternion> q(res.tail<4>().data());
@@ -361,7 +361,7 @@ struct MatrixHomoToPoseQuaternion
 
 struct MatrixHomoToPoseRollPitchYaw
     : public UnaryOpHeader<MatrixHomogeneous, Vector> {
-  inline void operator()(const MatrixHomogeneous &M, dg::Vector &res) {
+  inline void operator()(const MatrixHomogeneous& M, dg::Vector& res) {
     VectorRollPitchYaw r = (M.linear().eulerAngles(2, 1, 0)).reverse();
     dg::Vector t(3);
     t = M.translation();
@@ -373,7 +373,7 @@ struct MatrixHomoToPoseRollPitchYaw
 
 struct PoseRollPitchYawToMatrixHomo
     : public UnaryOpHeader<Vector, MatrixHomogeneous> {
-  inline void operator()(const dg::Vector &vect, MatrixHomogeneous &Mres) {
+  inline void operator()(const dg::Vector& vect, MatrixHomogeneous& Mres) {
     VectorRollPitchYaw r;
     for (std::size_t i = 0; i < 3; ++i) r(i) = vect(i + 3);
     MatrixRotation R = (Eigen::AngleAxisd(r(2), Eigen::Vector3d::UnitZ()) *
@@ -390,7 +390,7 @@ struct PoseRollPitchYawToMatrixHomo
 };
 
 struct PoseRollPitchYawToPoseUTheta : public UnaryOpHeader<Vector, Vector> {
-  inline void operator()(const dg::Vector &vect, dg::Vector &vectres) {
+  inline void operator()(const dg::Vector& vect, dg::Vector& vectres) {
     VectorRollPitchYaw r;
     for (std::size_t i = 0; i < 3; ++i) r(i) = vect(i + 3);
     MatrixRotation R = (Eigen::AngleAxisd(r(2), Eigen::Vector3d::UnitZ()) *
@@ -409,20 +409,20 @@ struct PoseRollPitchYawToPoseUTheta : public UnaryOpHeader<Vector, Vector> {
 };
 
 struct HomoToMatrix : public UnaryOpHeader<MatrixHomogeneous, Matrix> {
-  inline void operator()(const MatrixHomogeneous &M, dg::Matrix &res) {
+  inline void operator()(const MatrixHomogeneous& M, dg::Matrix& res) {
     res = M.matrix();
   }
 };
 
 struct MatrixToHomo : public UnaryOpHeader<Matrix, MatrixHomogeneous> {
-  inline void operator()(const Eigen::Matrix<double, 4, 4> &M,
-                         MatrixHomogeneous &res) {
+  inline void operator()(const Eigen::Matrix<double, 4, 4>& M,
+                         MatrixHomogeneous& res) {
     res = M;
   }
 };
 
 struct HomoToTwist : public UnaryOpHeader<MatrixHomogeneous, MatrixTwist> {
-  inline void operator()(const MatrixHomogeneous &M, MatrixTwist &res) {
+  inline void operator()(const MatrixHomogeneous& M, MatrixTwist& res) {
     Eigen::Vector3d _t = M.translation();
     MatrixRotation R(M.linear());
     Eigen::Matrix3d Tx;
@@ -439,20 +439,20 @@ struct HomoToTwist : public UnaryOpHeader<MatrixHomogeneous, MatrixTwist> {
 
 struct HomoToRotation
     : public UnaryOpHeader<MatrixHomogeneous, MatrixRotation> {
-  inline void operator()(const MatrixHomogeneous &M, MatrixRotation &res) {
+  inline void operator()(const MatrixHomogeneous& M, MatrixRotation& res) {
     res = M.linear();
   }
 };
 
 struct MatrixHomoToPose : public UnaryOpHeader<MatrixHomogeneous, Vector> {
-  inline void operator()(const MatrixHomogeneous &M, Vector &res) {
+  inline void operator()(const MatrixHomogeneous& M, Vector& res) {
     res.resize(3);
     res = M.translation();
   }
 };
 
 struct RPYToMatrix : public UnaryOpHeader<VectorRollPitchYaw, MatrixRotation> {
-  inline void operator()(const VectorRollPitchYaw &r, MatrixRotation &res) {
+  inline void operator()(const VectorRollPitchYaw& r, MatrixRotation& res) {
     res = (Eigen::AngleAxisd(r(2), Eigen::Vector3d::UnitZ()) *
            Eigen::AngleAxisd(r(1), Eigen::Vector3d::UnitY()) *
            Eigen::AngleAxisd(r(0), Eigen::Vector3d::UnitX()))
@@ -461,14 +461,14 @@ struct RPYToMatrix : public UnaryOpHeader<VectorRollPitchYaw, MatrixRotation> {
 };
 
 struct MatrixToRPY : public UnaryOpHeader<MatrixRotation, VectorRollPitchYaw> {
-  inline void operator()(const MatrixRotation &r, VectorRollPitchYaw &res) {
+  inline void operator()(const MatrixRotation& r, VectorRollPitchYaw& res) {
     res = (r.eulerAngles(2, 1, 0)).reverse();
   }
 };
 
 struct RPYToQuaternion
     : public UnaryOpHeader<VectorRollPitchYaw, VectorQuaternion> {
-  inline void operator()(const VectorRollPitchYaw &r, VectorQuaternion &res) {
+  inline void operator()(const VectorRollPitchYaw& r, VectorQuaternion& res) {
     res = (Eigen::AngleAxisd(r(2), Eigen::Vector3d::UnitZ()) *
            Eigen::AngleAxisd(r(1), Eigen::Vector3d::UnitY()) *
            Eigen::AngleAxisd(r(0), Eigen::Vector3d::UnitX()))
@@ -478,34 +478,34 @@ struct RPYToQuaternion
 
 struct QuaternionToRPY
     : public UnaryOpHeader<VectorQuaternion, VectorRollPitchYaw> {
-  inline void operator()(const VectorQuaternion &r, VectorRollPitchYaw &res) {
+  inline void operator()(const VectorQuaternion& r, VectorRollPitchYaw& res) {
     res = (r.toRotationMatrix().eulerAngles(2, 1, 0)).reverse();
   }
 };
 
 struct QuaternionToMatrix
     : public UnaryOpHeader<VectorQuaternion, MatrixRotation> {
-  inline void operator()(const VectorQuaternion &r, MatrixRotation &res) {
+  inline void operator()(const VectorQuaternion& r, MatrixRotation& res) {
     res = r.toRotationMatrix();
   }
 };
 
 struct MatrixToQuaternion
     : public UnaryOpHeader<MatrixRotation, VectorQuaternion> {
-  inline void operator()(const MatrixRotation &r, VectorQuaternion &res) {
+  inline void operator()(const MatrixRotation& r, VectorQuaternion& res) {
     res = r;
   }
 };
 
 struct MatrixToUTheta : public UnaryOpHeader<MatrixRotation, VectorUTheta> {
-  inline void operator()(const MatrixRotation &r, VectorUTheta &res) {
+  inline void operator()(const MatrixRotation& r, VectorUTheta& res) {
     res = r;
   }
 };
 
 struct UThetaToQuaternion
     : public UnaryOpHeader<VectorUTheta, VectorQuaternion> {
-  inline void operator()(const VectorUTheta &r, VectorQuaternion &res) {
+  inline void operator()(const VectorUTheta& r, VectorQuaternion& res) {
     res = r;
   }
 };
@@ -524,7 +524,7 @@ struct BinaryOpHeader {
   inline static std::string nameTypeOut(void) {
     return TypeNameHelper<Tout>::typeName();
   }
-  inline void addSpecificCommands(Entity &, Entity::CommandMap_t &) {}
+  inline void addSpecificCommands(Entity&, Entity::CommandMap_t&) {}
   inline std::string getDocString() const {
     return std::string(
                "Undocumented binary operator\n"
@@ -555,21 +555,21 @@ namespace sot {
 
 template <typename F, typename E>
 struct Multiplier_FxE__E : public BinaryOpHeader<F, E, E> {
-  inline void operator()(const F &f, const E &e, E &res) const { res = f * e; }
+  inline void operator()(const F& f, const E& e, E& res) const { res = f * e; }
 };
 
 template <>
 inline void
 Multiplier_FxE__E<dynamicgraph::sot::MatrixHomogeneous, dynamicgraph::Vector>::
-operator()(const dynamicgraph::sot::MatrixHomogeneous &f,
-           const dynamicgraph::Vector &e, dynamicgraph::Vector &res) const {
+operator()(const dynamicgraph::sot::MatrixHomogeneous& f,
+           const dynamicgraph::Vector& e, dynamicgraph::Vector& res) const {
   res = f.matrix() * e;
 }
 
 template <>
 inline void Multiplier_FxE__E<double, dynamicgraph::Vector>::operator()(
-    const double &x, const dynamicgraph::Vector &v,
-    dynamicgraph::Vector &res) const {
+    const double& x, const dynamicgraph::Vector& v,
+    dynamicgraph::Vector& res) const {
   res = v;
   res *= x;
 }
@@ -586,7 +586,7 @@ typedef Multiplier_FxE__E<MatrixTwist, dynamicgraph::Vector>
 /* --- SUBSTRACTION ----------------------------------------------------- */
 template <typename T>
 struct Substraction : public BinaryOpHeader<T, T, T> {
-  inline void operator()(const T &v1, const T &v2, T &r) const {
+  inline void operator()(const T& v1, const T& v2, T& r) const {
     r = v1;
     r -= v2;
   }
@@ -599,9 +599,9 @@ struct VectorStack
  public:
   size_type v1min, v1max;
   size_type v2min, v2max;
-  inline void operator()(const dynamicgraph::Vector &v1,
-                         const dynamicgraph::Vector &v2,
-                         dynamicgraph::Vector &res) const {
+  inline void operator()(const dynamicgraph::Vector& v1,
+                         const dynamicgraph::Vector& v2,
+                         dynamicgraph::Vector& res) const {
     assert((v1max >= v1min) && (v1.size() >= v1max));
     assert((v2max >= v2min) && (v2.size() >= v2max));
 
@@ -615,23 +615,23 @@ struct VectorStack
     }
   }
 
-  inline void selec1(const size_type &m, const size_type M) {
+  inline void selec1(const size_type& m, const size_type M) {
     v1min = m;
     v1max = M;
   }
-  inline void selec2(const size_type &m, const size_type M) {
+  inline void selec2(const size_type& m, const size_type M) {
     v2min = m;
     v2max = M;
   }
 
-  inline void addSpecificCommands(Entity &ent,
-                                  Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity& ent,
+                                  Entity::CommandMap_t& commandMap) {
     using namespace dynamicgraph::command;
     std::string doc;
 
-    boost::function<void(const size_type &, const size_type &)> selec1 =
+    boost::function<void(const size_type&, const size_type&)> selec1 =
         boost::bind(&VectorStack::selec1, this, _1, _2);
-    boost::function<void(const size_type &, const size_type &)> selec2 =
+    boost::function<void(const size_type&, const size_type&)> selec2 =
         boost::bind(&VectorStack::selec2, this, _1, _2);
 
     ADD_COMMAND("selec1",
@@ -652,9 +652,9 @@ struct VectorStack
 struct Composer
     : public BinaryOpHeader<dynamicgraph::Matrix, dynamicgraph::Vector,
                             MatrixHomogeneous> {
-  inline void operator()(const dynamicgraph::Matrix &R,
-                         const dynamicgraph::Vector &t,
-                         MatrixHomogeneous &H) const {
+  inline void operator()(const dynamicgraph::Matrix& R,
+                         const dynamicgraph::Vector& t,
+                         MatrixHomogeneous& H) const {
     H.linear() = R;
     H.translation() = t;
   }
@@ -667,8 +667,8 @@ struct ConvolutionTemporal
   typedef std::deque<dynamicgraph::Vector> MemoryType;
   MemoryType memory;
 
-  inline void convolution(const MemoryType &f1, const dynamicgraph::Matrix &f2,
-                          dynamicgraph::Vector &res) {
+  inline void convolution(const MemoryType& f1, const dynamicgraph::Matrix& f2,
+                          dynamicgraph::Vector& res) {
     const Vector::Index nconv = (Vector::Index)f1.size(), nsig = f2.rows();
     sotDEBUG(15) << "Size: " << nconv << "x" << nsig << std::endl;
     if (nconv > f2.cols()) return;  // TODO: error, this should not happen
@@ -678,7 +678,7 @@ struct ConvolutionTemporal
     std::size_t j = 0;
     for (MemoryType::const_iterator iter = f1.begin(); iter != f1.end();
          iter++) {
-      const dynamicgraph::Vector &s_tau = *iter;
+      const dynamicgraph::Vector& s_tau = *iter;
       sotDEBUG(45) << "Sig" << j << ": " << s_tau;
       if (s_tau.size() != nsig) return;  // TODO: error throw;
       for (size_type i = 0; i < nsig; ++i) {
@@ -687,9 +687,9 @@ struct ConvolutionTemporal
       j++;
     }
   }
-  inline void operator()(const dynamicgraph::Vector &v1,
-                         const dynamicgraph::Matrix &m2,
-                         dynamicgraph::Vector &res) {
+  inline void operator()(const dynamicgraph::Vector& v1,
+                         const dynamicgraph::Matrix& m2,
+                         dynamicgraph::Vector& res) {
     memory.push_front(v1);
     while ((Vector::Index)memory.size() > m2.cols()) memory.pop_back();
     convolution(memory, m2, res);
@@ -700,7 +700,7 @@ struct ConvolutionTemporal
 
 template <typename T>
 struct Comparison : public BinaryOpHeader<T, T, bool> {
-  inline void operator()(const T &a, const T &b, bool &res) const {
+  inline void operator()(const T& a, const T& b, bool& res) const {
     res = (a < b);
   }
   inline std::string getDocString() const {
@@ -726,7 +726,7 @@ struct Comparison : public BinaryOpHeader<T, T, bool> {
 template <typename T1, typename T2 = T1>
 struct MatrixComparison : public BinaryOpHeader<T1, T2, bool> {
   // TODO T1 or T2 could be a scalar type.
-  inline void operator()(const T1 &a, const T2 &b, bool &res) const {
+  inline void operator()(const T1& a, const T2& b, bool& res) const {
     if (equal && any)
       res = (a.array() <= b.array()).any();
     else if (equal && !any)
@@ -759,8 +759,8 @@ struct MatrixComparison : public BinaryOpHeader<T1, T2, bool> {
                "comparison can be made <=.\n");
   }
   MatrixComparison() : any(true), equal(false) {}
-  inline void addSpecificCommands(Entity &ent,
-                                  Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity& ent,
+                                  Entity::CommandMap_t& commandMap) {
     using namespace dynamicgraph::command;
     ADD_COMMAND(
         "setTrueIfAny",
@@ -786,14 +786,14 @@ template <typename T>
 struct WeightedAdder : public BinaryOpHeader<T, T, T> {
  public:
   double gain1, gain2;
-  inline void operator()(const T &v1, const T &v2, T &res) const {
+  inline void operator()(const T& v1, const T& v2, T& res) const {
     res = v1;
     res *= gain1;
     res += gain2 * v2;
   }
 
-  inline void addSpecificCommands(Entity &ent,
-                                  Entity::CommandMap_t &commandMap) {
+  inline void addSpecificCommands(Entity& ent,
+                                  Entity::CommandMap_t& commandMap) {
     using namespace dynamicgraph::command;
     std::string doc;
 
@@ -841,8 +841,8 @@ struct VariadicOpHeader {
     return TypeNameHelper<Tout>::typeName();
   }
   template <typename Op>
-  inline void initialize(VariadicOp<Op> *, Entity::CommandMap_t &) {}
-  inline void updateSignalNumber(const size_type &) {}
+  inline void initialize(VariadicOp<Op>*, Entity::CommandMap_t&) {}
+  inline void updateSignalNumber(const size_type&) {}
   inline std::string getDocString() const {
     return std::string(
         "Undocumented variadic operator\n"
@@ -865,32 +865,31 @@ struct VectorMix : public VariadicOpHeader<Vector, Vector> {
         : index(i), size(s), sigIdx(sig) {}
   };
   typedef std::vector<segment_t> segments_t;
-  Base *entity;
+  Base* entity;
   segments_t idxs;
-  inline void operator()(const std::vector<const Vector *> &vs,
-                         Vector &res) const {
+  inline void operator()(const std::vector<const Vector*>& vs,
+                         Vector& res) const {
     res = *vs[0];
     for (std::size_t i = 0; i < idxs.size(); ++i) {
-      const segment_t &s = idxs[i];
+      const segment_t& s = idxs[i];
       if (s.sigIdx >= vs.size())
         throw std::invalid_argument("Index out of range in VectorMix");
       res.segment(s.index, s.size) = *vs[s.sigIdx];
     }
   }
 
-  inline void addSelec(const size_type &sigIdx, const size_type &i,
-                       const size_type &s) {
+  inline void addSelec(const size_type& sigIdx, const size_type& i,
+                       const size_type& s) {
     idxs.push_back(segment_t(i, s, sigIdx));
   }
 
-  inline void initialize(Base *ent, Entity::CommandMap_t &commandMap) {
+  inline void initialize(Base* ent, Entity::CommandMap_t& commandMap) {
     using namespace dynamicgraph::command;
     entity = ent;
 
     ent->addSignal("default");
 
-    boost::function<void(const size_type &, const size_type &,
-                         const sigtime_t &)>
+    boost::function<void(const size_type&, const size_type&, const sigtime_t&)>
         selec = boost::bind(&VectorMix::addSelec, this, _1, _2, _3);
 
     commandMap.insert(std::make_pair(
@@ -908,27 +907,27 @@ template <typename T>
 struct AdderVariadic : public VariadicOpHeader<T, T> {
   typedef VariadicOp<AdderVariadic> Base;
 
-  Base *entity;
+  Base* entity;
   Vector coeffs;
 
   AdderVariadic() : coeffs() {}
-  inline void operator()(const std::vector<const T *> &vs, T &res) const {
+  inline void operator()(const std::vector<const T*>& vs, T& res) const {
     assert(vs.size() == (std::size_t)coeffs.size());
     if (vs.size() == 0) return;
     res = coeffs[0] * (*vs[0]);
     for (std::size_t i = 1; i < vs.size(); ++i) res += coeffs[i] * (*vs[i]);
   }
 
-  inline void setCoeffs(const Vector &c) {
+  inline void setCoeffs(const Vector& c) {
     if (entity->getSignalNumber() != c.size())
       throw std::invalid_argument("Invalid coefficient size.");
     coeffs = c;
   }
-  inline void updateSignalNumber(const size_type &n) {
+  inline void updateSignalNumber(const size_type& n) {
     coeffs = Vector::Ones(n);
   }
 
-  inline void initialize(Base *ent, Entity::CommandMap_t &) {
+  inline void initialize(Base* ent, Entity::CommandMap_t&) {
     entity = ent;
     entity->setSignalNumber(2);
   }
@@ -951,7 +950,7 @@ template <typename T>
 struct Multiplier : public VariadicOpHeader<T, T> {
   typedef VariadicOp<Multiplier> Base;
 
-  inline void operator()(const std::vector<const T *> &vs, T &res) const {
+  inline void operator()(const std::vector<const T*>& vs, T& res) const {
     if (vs.size() == 0)
       setIdentity(res);
     else {
@@ -960,20 +959,20 @@ struct Multiplier : public VariadicOpHeader<T, T> {
     }
   }
 
-  inline void setIdentity(T &res) const { res.setIdentity(); }
+  inline void setIdentity(T& res) const { res.setIdentity(); }
 
-  inline void initialize(Base *ent, Entity::CommandMap_t &) {
+  inline void initialize(Base* ent, Entity::CommandMap_t&) {
     ent->setSignalNumber(2);
   }
 };
 template <>
-inline void Multiplier<double>::setIdentity(double &res) const {
+inline void Multiplier<double>::setIdentity(double& res) const {
   res = 1;
 }
 template <>
 inline void Multiplier<MatrixHomogeneous>::operator()(
-    const std::vector<const MatrixHomogeneous *> &vs,
-    MatrixHomogeneous &res) const {
+    const std::vector<const MatrixHomogeneous*>& vs,
+    MatrixHomogeneous& res) const {
   if (vs.size() == 0)
     setIdentity(res);
   else {
@@ -982,8 +981,8 @@ inline void Multiplier<MatrixHomogeneous>::operator()(
   }
 }
 template <>
-inline void Multiplier<Vector>::operator()(
-    const std::vector<const Vector *> &vs, Vector &res) const {
+inline void Multiplier<Vector>::operator()(const std::vector<const Vector*>& vs,
+                                           Vector& res) const {
   if (vs.size() == 0)
     res.resize(0);
   else {
@@ -997,7 +996,7 @@ template <size_type operation>
 struct BoolOp : public VariadicOpHeader<bool, bool> {
   typedef VariadicOp<BoolOp> Base;
 
-  inline void operator()(const std::vector<const bool *> &vs, bool &res) const {
+  inline void operator()(const std::vector<const bool*>& vs, bool& res) const {
     // TODO computation could be optimized with lazy evaluation of the
     // signals. When the output result is know, the remaining signals are
     // not computed.

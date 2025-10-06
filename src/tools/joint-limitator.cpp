@@ -19,7 +19,7 @@ typedef dynamicgraph::size_type size_type;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(JointLimitator, "JointLimitator");
 
-JointLimitator::JointLimitator(const string &fName)
+JointLimitator::JointLimitator(const string& fName)
     : Entity(fName),
       jointSIN(NULL, "JointLimitator(" + name + ")::input(vector)::joint"),
       upperJlSIN(NULL, "JointLimitator(" + name + ")::input(vector)::upperJl"),
@@ -38,8 +38,8 @@ JointLimitator::JointLimitator(const string &fName)
                               << controlSOUT << widthJlSINTERN);
 }
 
-dynamicgraph::Vector &JointLimitator::computeWidthJl(dynamicgraph::Vector &res,
-                                                     const sigtime_t &time) {
+dynamicgraph::Vector& JointLimitator::computeWidthJl(dynamicgraph::Vector& res,
+                                                     const sigtime_t& time) {
   sotDEBUGIN(15);
 
   const dynamicgraph::Vector UJL = upperJlSIN.access(time);
@@ -55,14 +55,14 @@ dynamicgraph::Vector &JointLimitator::computeWidthJl(dynamicgraph::Vector &res,
   return res;
 }
 
-dynamicgraph::Vector &JointLimitator::computeControl(dynamicgraph::Vector &uOUT,
+dynamicgraph::Vector& JointLimitator::computeControl(dynamicgraph::Vector& uOUT,
                                                      sigtime_t time) {
   sotDEBUGIN(15);
 
-  const dynamicgraph::Vector &q = jointSIN.access(time);
-  const dynamicgraph::Vector &UJL = upperJlSIN.access(time);
-  const dynamicgraph::Vector &LJL = lowerJlSIN.access(time);
-  const dynamicgraph::Vector &uIN = controlSIN.access(time);
+  const dynamicgraph::Vector& q = jointSIN.access(time);
+  const dynamicgraph::Vector& UJL = upperJlSIN.access(time);
+  const dynamicgraph::Vector& LJL = lowerJlSIN.access(time);
+  const dynamicgraph::Vector& uIN = controlSIN.access(time);
 
   dynamicgraph::Vector::Index controlSize = uIN.size();
   uOUT.resize(controlSize);
@@ -85,6 +85,6 @@ dynamicgraph::Vector &JointLimitator::computeControl(dynamicgraph::Vector &uOUT,
   return uOUT;
 }
 
-void JointLimitator::display(std::ostream &os) const {
+void JointLimitator::display(std::ostream& os) const {
   os << "JointLimitator <" << name << "> ... TODO";
 }

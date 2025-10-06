@@ -29,7 +29,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureLineDistance, "FeatureLineDistance");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-FeatureLineDistance::FeatureLineDistance(const string &pointName)
+FeatureLineDistance::FeatureLineDistance(const string& pointName)
     : FeatureAbstract(pointName),
       positionSIN(NULL, "sotFeatureLineDistance(" + name +
                             ")::input(matrixHomo)::position"),
@@ -56,7 +56,7 @@ FeatureLineDistance::FeatureLineDistance(const string &pointName)
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-size_type &FeatureLineDistance::getDimension(size_type &dim,
+size_type& FeatureLineDistance::getDimension(size_type& dim,
                                              sigtime_t /*time*/) {
   sotDEBUG(25) << "# In {" << endl;
 
@@ -64,15 +64,15 @@ size_type &FeatureLineDistance::getDimension(size_type &dim,
 }
 
 /* --------------------------------------------------------------------- */
-Vector &FeatureLineDistance::computeLineCoordinates(Vector &cood,
+Vector& FeatureLineDistance::computeLineCoordinates(Vector& cood,
                                                     sigtime_t time) {
   sotDEBUGIN(15);
 
   cood.resize(6);
 
   /* Line coordinates */
-  const MatrixHomogeneous &pos = positionSIN(time);
-  const Vector &vect = vectorSIN(time);
+  const MatrixHomogeneous& pos = positionSIN(time);
+  const Vector& vect = vectorSIN(time);
   MatrixRotation R;
   R = pos.linear();
   Vector v(3);
@@ -93,16 +93,16 @@ Vector &FeatureLineDistance::computeLineCoordinates(Vector &cood,
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-Matrix &FeatureLineDistance::computeJacobian(Matrix &J, sigtime_t time) {
+Matrix& FeatureLineDistance::computeJacobian(Matrix& J, sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
   /* --- Compute the jacobian of the line coordinates --- */
   Matrix Jline;
   {
-    const Matrix &Jq = articularJacobianSIN(time);
+    const Matrix& Jq = articularJacobianSIN(time);
 
-    const Vector &vect = vectorSIN(time);
-    const MatrixHomogeneous &M = positionSIN(time);
+    const Vector& vect = vectorSIN(time);
+    const MatrixHomogeneous& M = positionSIN(time);
     MatrixRotation R;
     R = M.linear();  // wRh
 
@@ -133,21 +133,21 @@ Matrix &FeatureLineDistance::computeJacobian(Matrix &J, sigtime_t time) {
   }
 
   /* --- Compute the jacobian wrt the line coordinates --- */
-  const Vector &line = lineSOUT(time);
-  const double &x0 = line(0);
-  const double &y0 = line(1);
-  const double &z0 = line(2);
-  const double &a0 = line(3);
-  const double &b0 = line(4);
-  const double &c0 = line(5);
+  const Vector& line = lineSOUT(time);
+  const double& x0 = line(0);
+  const double& y0 = line(1);
+  const double& z0 = line(2);
+  const double& a0 = line(3);
+  const double& b0 = line(4);
+  const double& c0 = line(5);
 
-  const Vector &posRef = positionRefSIN(time);
-  const double &x1 = posRef(0);
-  const double &y1 = posRef(1);
-  const double &z1 = posRef(2);
-  const double &a1 = posRef(3);
-  const double &b1 = posRef(4);
-  const double &c1 = posRef(5);
+  const Vector& posRef = positionRefSIN(time);
+  const double& x1 = posRef(0);
+  const double& y1 = posRef(1);
+  const double& z1 = posRef(2);
+  const double& a1 = posRef(3);
+  const double& b1 = posRef(4);
+  const double& c1 = posRef(5);
 
   /* Differential */
   const double a1_3 = a1 * a1 * a1;
@@ -240,25 +240,25 @@ Matrix &FeatureLineDistance::computeJacobian(Matrix &J, sigtime_t time) {
 /** Compute the error between two visual features from a subset
  *a the possible features.
  */
-Vector &FeatureLineDistance::computeError(Vector &error, sigtime_t time) {
+Vector& FeatureLineDistance::computeError(Vector& error, sigtime_t time) {
   sotDEBUGIN(15);
 
   /* Line coordinates */
-  const Vector &line = lineSOUT(time);
-  const double &x0 = line(0);
-  const double &y0 = line(1);
-  const double &z0 = line(2);
-  const double &a0 = line(3);
-  const double &b0 = line(4);
-  const double &c0 = line(5);
+  const Vector& line = lineSOUT(time);
+  const double& x0 = line(0);
+  const double& y0 = line(1);
+  const double& z0 = line(2);
+  const double& a0 = line(3);
+  const double& b0 = line(4);
+  const double& c0 = line(5);
 
-  const Vector &posRef = positionRefSIN(time);
-  const double &x1 = posRef(0);
-  const double &y1 = posRef(1);
-  const double &z1 = posRef(2);
-  const double &a1 = posRef(3);
-  const double &b1 = posRef(4);
-  const double &c1 = posRef(5);
+  const Vector& posRef = positionRefSIN(time);
+  const double& x1 = posRef(0);
+  const double& y1 = posRef(1);
+  const double& z1 = posRef(2);
+  const double& a1 = posRef(3);
+  const double& b1 = posRef(4);
+  const double& c1 = posRef(5);
 
   error.resize(1);
   double K = c0 * c0 * a1 * a1 - 2 * c0 * a1 * a0 * c1 - 2 * c0 * b1 * b0 * c1 +
@@ -277,6 +277,6 @@ Vector &FeatureLineDistance::computeError(Vector &error, sigtime_t time) {
   return error;
 }
 
-void FeatureLineDistance::display(std::ostream &os) const {
+void FeatureLineDistance::display(std::ostream& os) const {
   os << "LineDistance <" << name << ">";
 }

@@ -19,32 +19,32 @@ using namespace dynamicgraph::sot;
 typedef dynamicgraph::size_type size_type;
 
 void DummySotExternalInterface::setupSetSensors(
-    std::map<std::string, dynamicgraph::sot::SensorValues> &sensorsIn) {
+    std::map<std::string, dynamicgraph::sot::SensorValues>& sensorsIn) {
   nominalSetSensors(sensorsIn);
   return;
 }
 
 void DummySotExternalInterface::nominalSetSensors(
-    std::map<std::string, dynamicgraph::sot::SensorValues> & /*sensorsIn*/) {
+    std::map<std::string, dynamicgraph::sot::SensorValues>& /*sensorsIn*/) {
   return;
 }
 
 void DummySotExternalInterface::cleanupSetSensors(
-    std::map<std::string, dynamicgraph::sot::SensorValues> &sensorsIn) {
+    std::map<std::string, dynamicgraph::sot::SensorValues>& sensorsIn) {
   nominalSetSensors(sensorsIn);
   return;
 }
 
 void DummySotExternalInterface::getControl(
-    std::map<std::string, dynamicgraph::sot::ControlValues> &controlOut,
-    const double &) {
+    std::map<std::string, dynamicgraph::sot::ControlValues>& controlOut,
+    const double&) {
   controlOut["ctrl_map_name"] = dynamicgraph::sot::ControlValues();
   controlOut["ctrl_map_name"].setName("ctrl_value_name");
   controlOut["ctrl_map_name"].setValues(std::vector<double>(5, 3.1415));
   return;
 }
 
-void DummySotExternalInterface::setControlSize(const size_type &) {}
+void DummySotExternalInterface::setControlSize(const size_type&) {}
 
 void DummySotExternalInterface::setSecondOrderIntegration(void) {
   second_integration_ = true;
@@ -57,14 +57,14 @@ void DummySotExternalInterface::setNoIntegration(void) {
 }
 
 extern "C" {
-dynamicgraph::sot::AbstractSotExternalInterface *createSotExternalInterface() {
+dynamicgraph::sot::AbstractSotExternalInterface* createSotExternalInterface() {
   return new DummySotExternalInterface();
 }
 }
 
 extern "C" {
 void destroySotExternalInterface(
-    dynamicgraph::sot::AbstractSotExternalInterface *p) {
+    dynamicgraph::sot::AbstractSotExternalInterface* p) {
   delete p;
 }
 }

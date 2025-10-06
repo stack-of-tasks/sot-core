@@ -37,7 +37,7 @@ MultiBound::MultiBound(const double x, const MultiBound::SupInfType bound)
       boundSupSetup(bound == BOUND_SUP),
       boundInfSetup(bound == BOUND_INF) {}
 
-MultiBound::MultiBound(const MultiBound &clone)
+MultiBound::MultiBound(const MultiBound& clone)
     : mode(clone.mode),
       boundSingle(clone.boundSingle),
       boundSup(clone.boundSup),
@@ -127,8 +127,8 @@ void MultiBound::setSingleBound(double boundValue) {
   boundSingle = boundValue;
 }
 
-inline static void SOT_MULTI_BOUND_CHECK_C(std::istream &is, char check,
-                                           VectorMultiBound &v) {
+inline static void SOT_MULTI_BOUND_CHECK_C(std::istream& is, char check,
+                                           VectorMultiBound& v) {
   char c;
   is.get(c);
   if (c != check) {
@@ -143,7 +143,7 @@ inline static void SOT_MULTI_BOUND_CHECK_C(std::istream &is, char check,
 namespace dynamicgraph {
 namespace sot {
 
-std::ostream &operator<<(std::ostream &os, const MultiBound &m) {
+std::ostream& operator<<(std::ostream& os, const MultiBound& m) {
   switch (m.mode) {
     case MultiBound::MODE_SINGLE: {
       os << m.boundSingle;
@@ -167,7 +167,7 @@ std::ostream &operator<<(std::ostream &os, const MultiBound &m) {
   return os;
 }
 
-std::istream &operator>>(std::istream &is, MultiBound &m) {
+std::istream& operator>>(std::istream& is, MultiBound& m) {
   sotDEBUGIN(15);
   char c;
   double val;
@@ -225,7 +225,7 @@ std::istream &operator>>(std::istream &is, MultiBound &m) {
   return is;
 }
 
-std::ostream &operator<<(std::ostream &os, const VectorMultiBound &v) {
+std::ostream& operator<<(std::ostream& os, const VectorMultiBound& v) {
   os << "[" << v.size() << "](";
   for (VectorMultiBound::const_iterator iter = v.begin(); iter != v.end();
        ++iter) {
@@ -235,7 +235,7 @@ std::ostream &operator<<(std::ostream &os, const VectorMultiBound &v) {
   return os << ")";
 }
 
-std::istream &operator>>(std::istream &is, VectorMultiBound &v) {
+std::istream& operator>>(std::istream& is, VectorMultiBound& v) {
   std::size_t vali;
 
   /* Read the vector size. */
@@ -258,7 +258,7 @@ std::istream &operator>>(std::istream &is, VectorMultiBound &v) {
   return is;
 }
 
-MultiBound &MultiBound::operator=(const MultiBound &other) {
+MultiBound& MultiBound::operator=(const MultiBound& other) {
   mode = other.mode;
   boundSingle = other.boundSingle;
   boundSup = other.boundSup;

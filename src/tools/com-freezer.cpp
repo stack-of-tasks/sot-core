@@ -17,7 +17,7 @@ using namespace dynamicgraph::sot;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(CoMFreezer, "CoMFreezer");
 
-CoMFreezer::CoMFreezer(const std::string &name)
+CoMFreezer::CoMFreezer(const std::string& name)
     : Entity(name),
       m_lastCoM(3),
       m_previousPGInProcess(false),
@@ -43,8 +43,8 @@ CoMFreezer::~CoMFreezer(void) {
   return;
 }
 
-dynamicgraph::Vector &CoMFreezer::computeFreezedCoM(
-    dynamicgraph::Vector &freezedCoM, const sigtime_t &time) {
+dynamicgraph::Vector& CoMFreezer::computeFreezedCoM(
+    dynamicgraph::Vector& freezedCoM, const sigtime_t& time) {
   sotDEBUGIN(15);
 
   unsigned PGInProcess = PGInProcessSIN(time);
@@ -78,6 +78,6 @@ dynamicgraph::Vector &CoMFreezer::computeFreezedCoM(
   return m_lastCoM;
 }
 
-void CoMFreezer::display(std::ostream &os) const {
+void CoMFreezer::display(std::ostream& os) const {
   os << "CoMFreezer " << getName() << "." << std::endl;
 }

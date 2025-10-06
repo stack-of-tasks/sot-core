@@ -26,7 +26,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureVisualPoint, "FeatureVisualPoint");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-FeatureVisualPoint::FeatureVisualPoint(const string &pointName)
+FeatureVisualPoint::FeatureVisualPoint(const string& pointName)
     : FeatureAbstract(pointName),
       L(),
       xySIN(NULL, "sotFeatureVisualPoint(" + name + ")::input(vector)::xy"),
@@ -59,10 +59,10 @@ void FeatureVisualPoint::removeDependenciesFromReference(void) {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-size_type &FeatureVisualPoint::getDimension(size_type &dim, sigtime_t time) {
+size_type& FeatureVisualPoint::getDimension(size_type& dim, sigtime_t time) {
   sotDEBUG(25) << "# In {" << endl;
 
-  const Flags &fl = selectionSIN.access(time);
+  const Flags& fl = selectionSIN.access(time);
 
   dim = 0;
   if (fl(0)) dim++;
@@ -75,11 +75,11 @@ size_type &FeatureVisualPoint::getDimension(size_type &dim, sigtime_t time) {
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-Matrix &FeatureVisualPoint::computeJacobian(Matrix &J, sigtime_t time) {
+Matrix& FeatureVisualPoint::computeJacobian(Matrix& J, sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
   sotDEBUG(15) << "Get selection flags." << endl;
-  const Flags &fl = selectionSIN(time);
+  const Flags& fl = selectionSIN(time);
 
   const size_type dim = dimensionSOUT(time);
   L.resize(dim, 6);
@@ -87,10 +87,10 @@ Matrix &FeatureVisualPoint::computeJacobian(Matrix &J, sigtime_t time) {
 
   sotDEBUG(5) << std::endl;
 
-  const double &Z = ZSIN(time);
+  const double& Z = ZSIN(time);
   sotDEBUG(5) << xySIN(time) << std::endl;
-  const double &x = xySIN(time)(0);
-  const double &y = xySIN(time)(1);
+  const double& x = xySIN(time)(0);
+  const double& y = xySIN(time)(1);
 
   if (Z < 0) {
     throw(ExceptionFeature(ExceptionFeature::BAD_INIT,
@@ -137,8 +137,8 @@ Matrix &FeatureVisualPoint::computeJacobian(Matrix &J, sigtime_t time) {
 /** Compute the error between two visual features from a subset
  * a the possible features.
  */
-Vector &FeatureVisualPoint::computeError(Vector &error, sigtime_t time) {
-  const Flags &fl = selectionSIN(time);
+Vector& FeatureVisualPoint::computeError(Vector& error, sigtime_t time) {
+  const Flags& fl = selectionSIN(time);
   sotDEBUGIN(15);
   error.resize(dimensionSOUT(time));
   std::size_t cursorL = 0;
@@ -159,22 +159,22 @@ Vector &FeatureVisualPoint::computeError(Vector &error, sigtime_t time) {
   return error;
 }
 
-void FeatureVisualPoint::display(std::ostream &os) const {
+void FeatureVisualPoint::display(std::ostream& os) const {
   os << "VisualPoint <" << name << ">:";
 
   try {
-    const Vector &xy = xySIN.accessCopy();
-    const Flags &fl = selectionSIN.accessCopy();
+    const Vector& xy = xySIN.accessCopy();
+    const Flags& fl = selectionSIN.accessCopy();
     if (fl(0)) os << " x=" << xy(0);
     if (fl(1)) os << " y=" << xy(1);
-  } catch (const ExceptionAbstract &e) {
+  } catch (const ExceptionAbstract& e) {
     os << " XY or select not set.";
   }
 
   try {
-    const double &z = ZSIN.accessCopy();
+    const double& z = ZSIN.accessCopy();
     os << " Z=" << z << " ";
-  } catch (const ExceptionAbstract &e) {
+  } catch (const ExceptionAbstract& e) {
     os << " Z not set.";
   }
 }

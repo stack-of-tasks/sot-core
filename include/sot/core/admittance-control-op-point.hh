@@ -64,13 +64,13 @@ class ADMITTANCECONTROLOPPOINT_EXPORT AdmittanceControlOpPoint
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   /* --- CONSTRUCTOR ---- */
-  AdmittanceControlOpPoint(const std::string &name);
+  AdmittanceControlOpPoint(const std::string& name);
   /**
    * @brief      Initialize the entity
    *
    * @param[in]  dt  Time step of the control
    */
-  void init(const double &dt);
+  void init(const double& dt);
 
   /* --- SIGNALS --- */
   /// \brief  Gain (6d) for the integration of the error on the force
@@ -104,7 +104,7 @@ class ADMITTANCECONTROLOPPOINT_EXPORT AdmittanceControlOpPoint
   void resetDq();
 
   /* --- ENTITY INHERITANCE --- */
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 
  protected:
   /// Dimension of the force signals and of the output

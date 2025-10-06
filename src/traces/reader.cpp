@@ -53,7 +53,7 @@ sotReader::sotReader(const std::string n)
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void sotReader::load(const string &filename) {
+void sotReader::load(const string& filename) {
   sotDEBUGIN(15);
 
   std::ifstream datafile(filename.c_str());
@@ -98,7 +98,7 @@ void sotReader::rewind(void) {
   sotDEBUGOUT(15);
 }
 
-dynamicgraph::Vector &sotReader::getNextData(dynamicgraph::Vector &res,
+dynamicgraph::Vector& sotReader::getNextData(dynamicgraph::Vector& res,
                                              const std::size_t time) {
   sotDEBUGIN(15);
 
@@ -115,8 +115,8 @@ dynamicgraph::Vector &sotReader::getNextData(dynamicgraph::Vector &res,
     return res;
   }
 
-  const Flags &selection = selectionSIN(time);
-  const std::vector<double> &curr = *currentData;
+  const Flags& selection = selectionSIN(time);
+  const std::vector<double>& curr = *currentData;
 
   std::size_t dim = 0;
   for (std::size_t i = 0; i < curr.size(); ++i)
@@ -131,10 +131,10 @@ dynamicgraph::Vector &sotReader::getNextData(dynamicgraph::Vector &res,
   return res;
 }
 
-dynamicgraph::Matrix &sotReader::getNextMatrix(dynamicgraph::Matrix &res,
+dynamicgraph::Matrix& sotReader::getNextMatrix(dynamicgraph::Matrix& res,
                                                const std::size_t time) {
   sotDEBUGIN(15);
-  const dynamicgraph::Vector &vect = vectorSOUT(time);
+  const dynamicgraph::Vector& vect = vectorSOUT(time);
   if (vect.size() < rows * cols) return res;
 
   res.resize(rows, cols);
@@ -148,11 +148,11 @@ dynamicgraph::Matrix &sotReader::getNextMatrix(dynamicgraph::Matrix &res,
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void sotReader::display(std::ostream &os) const {
+void sotReader::display(std::ostream& os) const {
   os << CLASS_NAME << " " << name << endl;
 }
 
-std::ostream &operator<<(std::ostream &os, const sotReader &t) {
+std::ostream& operator<<(std::ostream& os, const sotReader& t) {
   t.display(os);
   return os;
 }
@@ -172,7 +172,7 @@ void sotReader::initCommands() {
   addCommand("resize", dc::makeCommandVoid2(*this, &sotReader::resize, " "));
 }
 
-void sotReader::resize(const size_type &row, const size_type &col) {
+void sotReader::resize(const size_type& row, const size_type& col) {
   rows = row;
   cols = col;
 }

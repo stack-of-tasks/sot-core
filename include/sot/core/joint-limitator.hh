@@ -39,15 +39,15 @@ class SOTJOINTLIMITATOR_EXPORT JointLimitator : public dynamicgraph::Entity {
   DYNAMIC_GRAPH_ENTITY_DECL();
 
  public:
-  JointLimitator(const std::string &name);
+  JointLimitator(const std::string& name);
   virtual ~JointLimitator() {}
 
-  virtual dynamicgraph::Vector &computeControl(dynamicgraph::Vector &res,
+  virtual dynamicgraph::Vector& computeControl(dynamicgraph::Vector& res,
                                                sigtime_t time);
-  dynamicgraph::Vector &computeWidthJl(dynamicgraph::Vector &res,
-                                       const sigtime_t &time);
+  dynamicgraph::Vector& computeWidthJl(dynamicgraph::Vector& res,
+                                       const sigtime_t& time);
 
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 
   /// \name Signals
   /// \{

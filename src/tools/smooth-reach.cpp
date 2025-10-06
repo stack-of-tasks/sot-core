@@ -18,7 +18,7 @@ using namespace dynamicgraph::sot;
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SmoothReach, "SmoothReach");
 
-SmoothReach::SmoothReach(const std::string &name)
+SmoothReach::SmoothReach(const std::string& name)
     : Entity(name)
 
       ,
@@ -76,13 +76,13 @@ double SmoothReach::smoothFunction(double x) {
   return 0;
 }
 
-void SmoothReach::setSmoothing(const size_type &mode, const double &param) {
+void SmoothReach::setSmoothing(const size_type& mode, const double& param) {
   smoothMode = mode;
   smoothParam = param;
 }
 
-dynamicgraph::Vector &SmoothReach::goalSOUT_function(dynamicgraph::Vector &res,
-                                                     const sigtime_t &time) {
+dynamicgraph::Vector& SmoothReach::goalSOUT_function(dynamicgraph::Vector& res,
+                                                     const sigtime_t& time) {
   if (isParam) {
     start = startSIN(time);
     startTime = time;
@@ -103,20 +103,20 @@ dynamicgraph::Vector &SmoothReach::goalSOUT_function(dynamicgraph::Vector &res,
   return res;
 }
 
-void SmoothReach::set(const dynamicgraph::Vector &goalDes,
-                      const size_type &lengthDes) {
+void SmoothReach::set(const dynamicgraph::Vector& goalDes,
+                      const size_type& lengthDes) {
   goal = goalDes;
   lengthTime = lengthDes;
   isParam = true;
 }
 
-const dynamicgraph::Vector &SmoothReach::getGoal(void) { return goal; }
+const dynamicgraph::Vector& SmoothReach::getGoal(void) { return goal; }
 
-const size_type &SmoothReach::getLength(void) { return lengthTime; }
+const size_type& SmoothReach::getLength(void) { return lengthTime; }
 
-const size_type &SmoothReach::getStart(void) { return startTime; }
+const size_type& SmoothReach::getStart(void) { return startTime; }
 
-void SmoothReach::display(std::ostream &os) const {
+void SmoothReach::display(std::ostream& os) const {
   os << "Status: " << isStarted << isParam << std::endl
      << "Goal: " << goal << "start: " << start << "Times: " << startTime << " "
      << lengthTime << std::endl;

@@ -32,7 +32,7 @@ using namespace std;
         (t1.tv_usec - t0.tv_usec + 0.) / 1000.); \
   cout << "dt: " << dt
 
-int main(int, char **) {
+int main(int, char**) {
   sotDEBUGIN(15);
 
   struct timeval t0, t1;

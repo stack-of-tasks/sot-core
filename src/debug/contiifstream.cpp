@@ -12,7 +12,7 @@
 
 using namespace dynamicgraph::sot;
 
-Contiifstream::Contiifstream(const std::string &n)
+Contiifstream::Contiifstream(const std::string& n)
     : filename(n), cursor(0), first(true) {}
 
 Contiifstream::~Contiifstream(void) { sotDEBUGINOUT(5); }

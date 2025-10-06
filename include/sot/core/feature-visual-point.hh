@@ -48,7 +48,7 @@ class SOTFEATUREVISUALPOINT_EXPORT FeatureVisualPoint
       public FeatureReferenceHelper<FeatureVisualPoint> {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  protected:
   dynamicgraph::Matrix L;
@@ -68,21 +68,21 @@ class SOTFEATUREVISUALPOINT_EXPORT FeatureVisualPoint
   DECLARE_REFERENCE_FUNCTIONS(FeatureVisualPoint);
 
  public:
-  FeatureVisualPoint(const std::string &name);
+  FeatureVisualPoint(const std::string& name);
   virtual ~FeatureVisualPoint(void) {}
 
-  virtual size_type &getDimension(size_type &dim, sigtime_t time);
+  virtual size_type& getDimension(size_type& dim, sigtime_t time);
 
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+  virtual dynamicgraph::Vector& computeError(dynamicgraph::Vector& res,
                                              sigtime_t time);
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+  virtual dynamicgraph::Matrix& computeJacobian(dynamicgraph::Matrix& res,
                                                 sigtime_t time);
 
   /** Static Feature selection. */
   inline static Flags selectX(void) { return Flags("10"); }
   inline static Flags selectY(void) { return Flags("01"); }
 
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 };
 
 } /* namespace sot */

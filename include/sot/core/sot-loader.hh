@@ -50,14 +50,14 @@ class SotLoader {
   bool dynamic_graph_stopped_;
 
   /// \brief The interface between the device and the robot driver.
-  AbstractSotExternalInterface *sot_external_interface_;
+  AbstractSotExternalInterface* sot_external_interface_;
 
   /// \brief Name of the dynamic library containing the
   /// dgs::AbstractSotExternalInterface object.
   std::string sot_dynamic_library_filename_;
 
   /// \brief Handle on the SoT library.
-  void *sot_dynamic_library_;
+  void* sot_dynamic_library_;
 
   /// \brief Embeded python interpreter.
   python::Interpreter embeded_python_interpreter_;
@@ -79,7 +79,7 @@ class SotLoader {
   ~SotLoader();
 
   /// \brief Read user input to extract the path of the SoT dynamic library.
-  int parseOptions(int argc, char *argv[]);
+  int parseOptions(int argc, char* argv[]);
 
   /// \brief Prepare the SoT framework.
   bool initialization();
@@ -97,16 +97,16 @@ class SotLoader {
   inline void stopDG() { dynamic_graph_stopped_ = true; }
 
   /// \brief Specify the name of the dynamic library.
-  inline void setDynamicLibraryName(std::string &afilename) {
+  inline void setDynamicLibraryName(std::string& afilename) {
     sot_dynamic_library_filename_ = afilename;
   }
 
   /// \brief Run a python command inside the embeded python interpreter.
-  void runPythonCommand(const std::string &command, std::string &result,
-                        std::string &out, std::string &err);
+  void runPythonCommand(const std::string& command, std::string& result,
+                        std::string& out, std::string& err);
 
   /// \brief Run a python script inside the embeded python interpreter.
-  inline void runPythonFile(std::string ifilename, std::string &err) {
+  inline void runPythonFile(std::string ifilename, std::string& err) {
     embeded_python_interpreter_.runPythonFile(ifilename, err);
   }
 
@@ -118,12 +118,12 @@ class SotLoader {
   /// \brief Compute one iteration of control.
   /// Basically executes fillSensors, the SoT and the readControl.
   /// \param period time since last call
-  void oneIteration(std::map<std::string, SensorValues> &sensors_in,
-                    std::map<std::string, ControlValues> &control_values,
-                    const double &period);
+  void oneIteration(std::map<std::string, SensorValues>& sensors_in,
+                    std::map<std::string, ControlValues>& control_values,
+                    const double& period);
 
   /// \brief Load the Device entity in the python global scope.
-  void loadDeviceInPython(const std::string &device_name);
+  void loadDeviceInPython(const std::string& device_name);
 };
 
 } /* namespace sot */

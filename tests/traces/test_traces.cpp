@@ -20,7 +20,7 @@ using namespace std;
 using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
 
-double &f(double &res, const int & /*t*/) {
+double& f(double& res, const int& /*t*/) {
   cout << "SIGM!" << endl;
   return res;
 }
@@ -44,7 +44,7 @@ int main() {
   SignalTimeDependent<double, sigtime_t> sigM(f, sotNOSIGNAL, "sigM");
   sigM.access(0);
 
-  Tracer *tracer = new Tracer("trace");
+  Tracer* tracer = new Tracer("trace");
   tracer->addSignalToTrace(sig1);
   tracer->openFiles("/tmp/sot-core", "tr_", ".dat");
 

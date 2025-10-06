@@ -46,14 +46,14 @@ class SOT_CORE_EXPORT ExceptionFactory : public ExceptionAbstract
   };
 
   static const std::string EXCEPTION_NAME;
-  virtual const std::string &getExceptionName(void) const {
+  virtual const std::string& getExceptionName(void) const {
     return ExceptionFactory::EXCEPTION_NAME;
   }
 
-  ExceptionFactory(const ExceptionFactory::ErrorCodeEnum &errcode,
-                   const std::string &msg = "");
-  ExceptionFactory(const ExceptionFactory::ErrorCodeEnum &errcode,
-                   const std::string &msg, const char *format, ...);
+  ExceptionFactory(const ExceptionFactory::ErrorCodeEnum& errcode,
+                   const std::string& msg = "");
+  ExceptionFactory(const ExceptionFactory::ErrorCodeEnum& errcode,
+                   const std::string& msg, const char* format, ...);
   virtual ~ExceptionFactory(void) throw() {}
 };
 

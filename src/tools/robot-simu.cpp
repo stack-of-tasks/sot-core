@@ -15,7 +15,7 @@ namespace dynamicgraph {
 namespace sot {
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(RobotSimu, "RobotSimu");
 
-RobotSimu::RobotSimu(const std::string &inName) : Device(inName) {
+RobotSimu::RobotSimu(const std::string& inName) : Device(inName) {
   using namespace dynamicgraph::command;
   std::string docstring;
   /* Set Time step. */

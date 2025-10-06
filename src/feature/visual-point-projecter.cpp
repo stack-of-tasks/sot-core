@@ -21,7 +21,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(VisualPointProjecter,
 /* --- CONSTRUCTION ----------------------------------------------------- */
 /* --- CONSTRUCTION ----------------------------------------------------- */
 /* --- CONSTRUCTION ----------------------------------------------------- */
-VisualPointProjecter::VisualPointProjecter(const std::string &name)
+VisualPointProjecter::VisualPointProjecter(const std::string& name)
     : Entity(name)
 
       ,
@@ -45,22 +45,22 @@ VisualPointProjecter::VisualPointProjecter(const std::string &name)
 /* --- SIGNALS ---------------------------------------------------------- */
 /* --- SIGNALS ---------------------------------------------------------- */
 
-dynamicgraph::Vector &VisualPointProjecter::point3DgazeSOUT_function(
-    dynamicgraph::Vector &p3g, sigtime_t iter) {
-  const dynamicgraph::Vector &p3 = m_point3DSIN(iter);
-  const MatrixHomogeneous &M = m_transfoSIN(iter);
+dynamicgraph::Vector& VisualPointProjecter::point3DgazeSOUT_function(
+    dynamicgraph::Vector& p3g, sigtime_t iter) {
+  const dynamicgraph::Vector& p3 = m_point3DSIN(iter);
+  const MatrixHomogeneous& M = m_transfoSIN(iter);
   MatrixHomogeneous Mi;
   Mi = M.inverse(Eigen::Affine);
   p3g = Mi.matrix() * p3;
   return p3g;
 }
 
-dynamicgraph::Vector &VisualPointProjecter::point2DSOUT_function(
-    dynamicgraph::Vector &p2, sigtime_t iter) {
+dynamicgraph::Vector& VisualPointProjecter::point2DSOUT_function(
+    dynamicgraph::Vector& p2, sigtime_t iter) {
   sotDEBUGIN(15);
 
-  const dynamicgraph::Vector &p3 = m_point3DgazeSOUT(iter);
-  const double &z = m_depthSOUT(iter);
+  const dynamicgraph::Vector& p3 = m_point3DgazeSOUT(iter);
+  const double& z = m_depthSOUT(iter);
   assert(z > 0);
 
   p2.resize(2);
@@ -71,8 +71,8 @@ dynamicgraph::Vector &VisualPointProjecter::point2DSOUT_function(
   return p2;
 }
 
-double &VisualPointProjecter::depthSOUT_function(double &z, sigtime_t iter) {
-  const dynamicgraph::Vector &p3 = m_point3DgazeSOUT(iter);
+double& VisualPointProjecter::depthSOUT_function(double& z, sigtime_t iter) {
+  const dynamicgraph::Vector& p3 = m_point3DgazeSOUT(iter);
   assert(p3.size() == 3);
   z = p3(2);
   return z;
@@ -82,7 +82,7 @@ double &VisualPointProjecter::depthSOUT_function(double &z, sigtime_t iter) {
 /* --- ENTITY ----------------------------------------------------------- */
 /* --- ENTITY ----------------------------------------------------------- */
 
-void VisualPointProjecter::display(std::ostream &os) const {
+void VisualPointProjecter::display(std::ostream& os) const {
   os << "VisualPointProjecter " << getName();
 }
 

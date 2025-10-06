@@ -22,17 +22,17 @@ namespace dynamicgraph {
 
 typedef Eigen::JacobiSVD<Matrix> SVD_t;
 
-void pseudoInverse(Matrix &_inputMatrix, Matrix &_inverseMatrix,
+void pseudoInverse(Matrix& _inputMatrix, Matrix& _inverseMatrix,
                    const double threshold = 1e-6);
 
-void dampedInverse(const SVD_t &svd, Matrix &_inverseMatrix,
+void dampedInverse(const SVD_t& svd, Matrix& _inverseMatrix,
                    const double threshold = 1e-6);
 
-void dampedInverse(const Matrix &_inputMatrix, Matrix &_inverseMatrix,
-                   Matrix &Uref, Vector &Sref, Matrix &Vref,
+void dampedInverse(const Matrix& _inputMatrix, Matrix& _inverseMatrix,
+                   Matrix& Uref, Vector& Sref, Matrix& Vref,
                    const double threshold = 1e-6);
 
-void dampedInverse(const Matrix &_inputMatrix, Matrix &_inverseMatrix,
+void dampedInverse(const Matrix& _inputMatrix, Matrix& _inverseMatrix,
                    const double threshold = 1e-6);
 
 }  // namespace dynamicgraph

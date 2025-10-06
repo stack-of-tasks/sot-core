@@ -29,7 +29,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(TaskUnilateral, "TaskUnilateral");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-TaskUnilateral::TaskUnilateral(const std::string &n)
+TaskUnilateral::TaskUnilateral(const std::string& n)
     : Task(n),
       featureList(),
       positionSIN(NULL,
@@ -55,14 +55,14 @@ TaskUnilateral::TaskUnilateral(const std::string &n)
 /* --- COMPUTATION ---------------------------------------------------------- */
 /* --- COMPUTATION ---------------------------------------------------------- */
 
-VectorMultiBound &TaskUnilateral::computeTaskUnilateral(VectorMultiBound &res,
+VectorMultiBound& TaskUnilateral::computeTaskUnilateral(VectorMultiBound& res,
                                                         sigtime_t time) {
   sotDEBUG(45) << "# In " << getName() << " {" << endl;
-  const dynamicgraph::Vector &position = positionSIN(time);
+  const dynamicgraph::Vector& position = positionSIN(time);
   sotDEBUG(35) << "position = " << position << endl;
-  const dynamicgraph::Vector &refInf = referenceInfSIN(time);
-  const dynamicgraph::Vector &refSup = referenceSupSIN(time);
-  const double &dt = dtSIN(time);
+  const dynamicgraph::Vector& refInf = referenceInfSIN(time);
+  const dynamicgraph::Vector& refSup = referenceSupSIN(time);
+  const double& dt = dtSIN(time);
   res.resize(position.size());
   for (std::size_t i = 0; i < res.size(); ++i) {
     MultiBound toto((refInf(i) - position(i)) / dt,
@@ -79,6 +79,6 @@ VectorMultiBound &TaskUnilateral::computeTaskUnilateral(VectorMultiBound &res,
 /* --- DISPLAY ------------------------------------------------------------ */
 /* --- DISPLAY ------------------------------------------------------------ */
 
-void TaskUnilateral::display(std::ostream &os) const {
+void TaskUnilateral::display(std::ostream& os) const {
   os << "TaskUnilateral " << name << ": " << endl;
 }

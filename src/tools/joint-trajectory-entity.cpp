@@ -33,7 +33,7 @@ using namespace dynamicgraph::command;
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(SotJointTrajectoryEntity,
                                    "SotJointTrajectoryEntity");
 
-SotJointTrajectoryEntity::SotJointTrajectoryEntity(const std::string &n)
+SotJointTrajectoryEntity::SotJointTrajectoryEntity(const std::string& n)
     : Entity(n),
       refresherSINTERN("SotJointTrajectoryEntity(" + n +
                        ")::intern(dummy)::refresher"),
@@ -87,7 +87,7 @@ SotJointTrajectoryEntity::SotJointTrajectoryEntity(const std::string &n)
   sotDEBUGOUT(5);
 }
 
-void SotJointTrajectoryEntity::UpdatePoint(const JointTrajectoryPoint &aJTP) {
+void SotJointTrajectoryEntity::UpdatePoint(const JointTrajectoryPoint& aJTP) {
   sotDEBUGIN(5);
   // Posture
   std::vector<JointTrajectoryPoint>::size_type possize = aJTP.positions_.size();
@@ -129,7 +129,7 @@ void SotJointTrajectoryEntity::UpdatePoint(const JointTrajectoryPoint &aJTP) {
   sotDEBUGOUT(5);
 }
 
-void SotJointTrajectoryEntity::UpdateTrajectory(const Trajectory &aTrajectory) {
+void SotJointTrajectoryEntity::UpdateTrajectory(const Trajectory& aTrajectory) {
   sotDEBUGIN(3);
   sotDEBUG(3) << "traj_timestamp: " << traj_timestamp_
               << " aTrajectory.header_.stamp_" << aTrajectory.header_.stamp_;
@@ -203,10 +203,10 @@ void SotJointTrajectoryEntity::UpdateTrajectory(const Trajectory &aTrajectory) {
   sotDEBUGOUT(3);
 }
 
-size_type &SotJointTrajectoryEntity::OneStepOfUpdate(size_type &dummy,
-                                                     const sigtime_t &time) {
+size_type& SotJointTrajectoryEntity::OneStepOfUpdate(size_type& dummy,
+                                                     const sigtime_t& time) {
   sotDEBUGIN(4);
-  const Trajectory &atraj = trajectorySIN(time);
+  const Trajectory& atraj = trajectorySIN(time);
   if ((atraj.header_.stamp_.secs_ !=
        deque_traj_.front().header_.stamp_.secs_) ||
       (atraj.header_.stamp_.nsecs_ !=
@@ -226,7 +226,7 @@ size_type &SotJointTrajectoryEntity::OneStepOfUpdate(size_type &dummy,
 }
 
 sot::MatrixHomogeneous SotJointTrajectoryEntity::XYZThetaToMatrixHomogeneous(
-    const dynamicgraph::Vector &xyztheta) {
+    const dynamicgraph::Vector& xyztheta) {
   assert(xyztheta.size() == 4);
   dynamicgraph::Vector t(3);
   t(0) = xyztheta(0);
@@ -240,8 +240,8 @@ sot::MatrixHomogeneous SotJointTrajectoryEntity::XYZThetaToMatrixHomogeneous(
   return res;
 }
 
-dynamicgraph::Vector &SotJointTrajectoryEntity::getNextPosition(
-    dynamicgraph::Vector &pos, const sigtime_t &time) {
+dynamicgraph::Vector& SotJointTrajectoryEntity::getNextPosition(
+    dynamicgraph::Vector& pos, const sigtime_t& time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   pos = pose_;
@@ -250,8 +250,8 @@ dynamicgraph::Vector &SotJointTrajectoryEntity::getNextPosition(
   return pos;
 }
 
-dynamicgraph::Vector &SotJointTrajectoryEntity::getNextCoM(
-    dynamicgraph::Vector &com, const sigtime_t &time) {
+dynamicgraph::Vector& SotJointTrajectoryEntity::getNextCoM(
+    dynamicgraph::Vector& com, const sigtime_t& time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   com = com_;
@@ -259,8 +259,8 @@ dynamicgraph::Vector &SotJointTrajectoryEntity::getNextCoM(
   return com;
 }
 
-dynamicgraph::Vector &SotJointTrajectoryEntity::getNextCoP(
-    dynamicgraph::Vector &cop, const sigtime_t &time) {
+dynamicgraph::Vector& SotJointTrajectoryEntity::getNextCoP(
+    dynamicgraph::Vector& cop, const sigtime_t& time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   cop = cop_;
@@ -268,8 +268,8 @@ dynamicgraph::Vector &SotJointTrajectoryEntity::getNextCoP(
   return cop;
 }
 
-sot::MatrixHomogeneous &SotJointTrajectoryEntity::getNextWaist(
-    sot::MatrixHomogeneous &waist, const sigtime_t &time) {
+sot::MatrixHomogeneous& SotJointTrajectoryEntity::getNextWaist(
+    sot::MatrixHomogeneous& waist, const sigtime_t& time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   waist = waist_;
@@ -277,8 +277,8 @@ sot::MatrixHomogeneous &SotJointTrajectoryEntity::getNextWaist(
   return waist_;
 }
 
-std::size_t &SotJointTrajectoryEntity::getSeqId(std::size_t &seqid,
-                                                const sigtime_t &time) {
+std::size_t& SotJointTrajectoryEntity::getSeqId(std::size_t& seqid,
+                                                const sigtime_t& time) {
   sotDEBUGIN(5);
   OneStepOfUpdateS(time);
   seqid = seqid_;
@@ -286,19 +286,19 @@ std::size_t &SotJointTrajectoryEntity::getSeqId(std::size_t &seqid,
   return seqid;
 }
 
-void SotJointTrajectoryEntity::loadFile(const std::string &) {
+void SotJointTrajectoryEntity::loadFile(const std::string&) {
   sotDEBUGIN(5);
   // TODO
   sotDEBUGOUT(5);
 }
 
-void SotJointTrajectoryEntity::display(std::ostream &os) const {
+void SotJointTrajectoryEntity::display(std::ostream& os) const {
   sotDEBUGIN(5);
   os << this;
   sotDEBUGOUT(5);
 }
 
-void SotJointTrajectoryEntity::setInitTraj(const std::string &as) {
+void SotJointTrajectoryEntity::setInitTraj(const std::string& as) {
   sotDEBUGIN(5);
   std::istringstream is(as);
   init_traj_.deserialize(is);

@@ -24,18 +24,18 @@ class DummySotExternalInterface
   virtual ~DummySotExternalInterface() {};
 
   virtual void setupSetSensors(
-      std::map<std::string, dynamicgraph::sot::SensorValues> &sensorsIn);
+      std::map<std::string, dynamicgraph::sot::SensorValues>& sensorsIn);
 
   virtual void nominalSetSensors(
-      std::map<std::string, dynamicgraph::sot::SensorValues> &sensorsIn);
+      std::map<std::string, dynamicgraph::sot::SensorValues>& sensorsIn);
 
   virtual void cleanupSetSensors(
-      std::map<std::string, dynamicgraph::sot::SensorValues> &sensorsIn);
+      std::map<std::string, dynamicgraph::sot::SensorValues>& sensorsIn);
 
   virtual void getControl(
-      std::map<std::string, dynamicgraph::sot::ControlValues> &controlOut,
-      const double &);
-  virtual void setControlSize(const size_type &size);
+      std::map<std::string, dynamicgraph::sot::ControlValues>& controlOut,
+      const double&);
+  virtual void setControlSize(const size_type& size);
   virtual void setSecondOrderIntegration(void);
   virtual void setNoIntegration(void);
 

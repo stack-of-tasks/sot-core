@@ -40,7 +40,7 @@ namespace sot {
 class SOTBINARYINTTOUINT_EXPORT BinaryIntToUint : public dynamicgraph::Entity {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
@@ -48,12 +48,12 @@ class SOTBINARYINTTOUINT_EXPORT BinaryIntToUint : public dynamicgraph::Entity {
   dynamicgraph::SignalTimeDependent<unsigned, sigtime_t> binaryUintSOUT;
 
  public:
-  BinaryIntToUint(const std::string &name);
+  BinaryIntToUint(const std::string& name);
   virtual ~BinaryIntToUint() {}
 
-  virtual unsigned int &computeOutput(unsigned int &res, sigtime_t time);
+  virtual unsigned int& computeOutput(unsigned int& res, sigtime_t time);
 
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 };
 
 } /* namespace sot */

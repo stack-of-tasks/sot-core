@@ -20,7 +20,7 @@ namespace dg = ::dynamicgraph;
 #define REGISTER_UNARY_OP(OpType, name)                               \
   template <>                                                         \
   const std::string UnaryOp<OpType>::CLASS_NAME = std::string(#name); \
-  Entity *regFunction_##name(const std::string &objname) {            \
+  Entity* regFunction_##name(const std::string& objname) {            \
     return new UnaryOp<OpType>(objname);                              \
   }                                                                   \
   EntityRegisterer regObj_##name(std::string(#name), &regFunction_##name)
@@ -88,7 +88,7 @@ REGISTER_UNARY_OP(UThetaToQuaternion, UThetaToQuaternion);
 #define REGISTER_BINARY_OP(OpType, name)                               \
   template <>                                                          \
   const std::string BinaryOp<OpType>::CLASS_NAME = std::string(#name); \
-  Entity *regFunction_##name(const std::string &objname) {             \
+  Entity* regFunction_##name(const std::string& objname) {             \
     return new BinaryOp<OpType>(objname);                              \
   }                                                                    \
   EntityRegisterer regObj_##name(std::string(#name), &regFunction_##name)
@@ -126,7 +126,7 @@ REGISTER_BINARY_OP(WeightedAdder<double>, WeightAdd_of_double);
 #define REGISTER_VARIADIC_OP(OpType, name)                               \
   template <>                                                            \
   const std::string VariadicOp<OpType>::CLASS_NAME = std::string(#name); \
-  Entity *regFunction_##name(const std::string &objname) {               \
+  Entity* regFunction_##name(const std::string& objname) {               \
     return new VariadicOp<OpType>(objname);                              \
   }                                                                      \
   EntityRegisterer regObj_##name(std::string(#name), &regFunction_##name)

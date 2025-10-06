@@ -37,7 +37,7 @@ namespace sot {
 class SOT_CORE_EXPORT PeriodicCall {
  protected:
   struct SignalToCall {
-    dynamicgraph::SignalBase<sigtime_t> *signal;
+    dynamicgraph::SignalBase<sigtime_t>* signal;
     std::size_t downsamplingFactor;
 
     SignalToCall() {
@@ -45,7 +45,7 @@ class SOT_CORE_EXPORT PeriodicCall {
       downsamplingFactor = 1;
     }
 
-    SignalToCall(dynamicgraph::SignalBase<sigtime_t> *s, std::size_t df = 1) {
+    SignalToCall(dynamicgraph::SignalBase<sigtime_t>* s, std::size_t df = 1) {
       signal = s;
       downsamplingFactor = df;
     }
@@ -62,23 +62,23 @@ class SOT_CORE_EXPORT PeriodicCall {
   PeriodicCall(void);
   virtual ~PeriodicCall(void) {}
 
-  void addDownsampledSignal(const std::string &name,
-                            dynamicgraph::SignalBase<sigtime_t> &sig,
-                            const std::size_t &downsamplingFactor);
-  void addDownsampledSignal(const std::string &sigpath,
-                            const std::size_t &downsamplingFactor);
+  void addDownsampledSignal(const std::string& name,
+                            dynamicgraph::SignalBase<sigtime_t>& sig,
+                            const std::size_t& downsamplingFactor);
+  void addDownsampledSignal(const std::string& sigpath,
+                            const std::size_t& downsamplingFactor);
 
-  void addSignal(const std::string &name,
-                 dynamicgraph::SignalBase<sigtime_t> &sig);
-  void addSignal(const std::string &args);
-  void rmSignal(const std::string &name);
+  void addSignal(const std::string& name,
+                 dynamicgraph::SignalBase<sigtime_t>& sig);
+  void addSignal(const std::string& args);
+  void rmSignal(const std::string& name);
 
-  void runSignals(const sigtime_t &t);
-  void run(const sigtime_t &t);
+  void runSignals(const sigtime_t& t);
+  void run(const sigtime_t& t);
 
   void clear(void) { signalMap.clear(); }
 
-  void display(std::ostream &os) const;
+  void display(std::ostream& os) const;
 };
 
 }  // namespace sot

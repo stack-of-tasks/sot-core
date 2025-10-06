@@ -57,24 +57,24 @@ class SOTTASKCONTI_EXPORT TaskConti : public Task {
 
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  public:
-  TaskConti(const std::string &n);
+  TaskConti(const std::string& n);
 
-  void referenceTime(const sigtime_t &t) { timeRef = t; }
-  const sigtime_t &referenceTime(void) { return timeRef; }
+  void referenceTime(const sigtime_t& t) { timeRef = t; }
+  const sigtime_t& referenceTime(void) { return timeRef; }
 
   /* --- COMPUTATION --- */
-  VectorMultiBound &computeContiDesiredVelocity(VectorMultiBound &task,
-                                                const sigtime_t &time);
+  VectorMultiBound& computeContiDesiredVelocity(VectorMultiBound& task,
+                                                const sigtime_t& time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
   dynamicgraph::SignalPtr<dynamicgraph::Vector, sigtime_t> controlPrevSIN;
 
   /* --- DISPLAY ------------------------------------------------------------ */
-  void display(std::ostream &os) const;
+  void display(std::ostream& os) const;
 };
 
 } /* namespace sot */

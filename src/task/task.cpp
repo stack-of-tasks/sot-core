@@ -31,7 +31,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Task, "Task");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-Task::Task(const std::string &n)
+Task::Task(const std::string& n)
     : TaskAbstract(n),
       featureList(),
       withDerivative(false),
@@ -106,15 +106,15 @@ void Task::initCommands(void) {
   addCommand("list", new command::task::ListFeatures(*this, docstring));
 }
 
-void Task::addFeature(FeatureAbstract &s) {
+void Task::addFeature(FeatureAbstract& s) {
   featureList.push_back(&s);
   jacobianSOUT.addDependency(s.jacobianSOUT);
   errorSOUT.addDependency(s.errorSOUT);
   errorTimeDerivativeSOUT.addDependency(s.getErrorDot());
 }
 
-void Task::addFeatureFromName(const std::string &featureName) {
-  FeatureAbstract &feature =
+void Task::addFeatureFromName(const std::string& featureName) {
+  FeatureAbstract& feature =
       PoolStorage::getInstance()->getFeature(featureName);
   addFeature(feature);
 }
@@ -122,7 +122,7 @@ void Task::addFeatureFromName(const std::string &featureName) {
 void Task::clearFeatureList(void) {
   for (FeatureList_t::iterator iter = featureList.begin();
        iter != featureList.end(); ++iter) {
-    FeatureAbstract &s = **iter;
+    FeatureAbstract& s = **iter;
     jacobianSOUT.removeDependency(s.jacobianSOUT);
     errorSOUT.removeDependency(s.errorSOUT);
     errorTimeDerivativeSOUT.removeDependency(s.getErrorDot());
@@ -131,22 +131,22 @@ void Task::clearFeatureList(void) {
   featureList.clear();
 }
 
-void Task::setControlSelection(const Flags &act) { controlSelectionSIN = act; }
-void Task::addControlSelection(const Flags &act) {
+void Task::setControlSelection(const Flags& act) { controlSelectionSIN = act; }
+void Task::addControlSelection(const Flags& act) {
   Flags fl = controlSelectionSIN.accessCopy();
   fl &= act;
   controlSelectionSIN = fl;
 }
 void Task::clearControlSelection(void) { controlSelectionSIN = Flags(false); }
 
-void Task::setWithDerivative(const bool &s) { withDerivative = s; }
+void Task::setWithDerivative(const bool& s) { withDerivative = s; }
 bool Task::getWithDerivative(void) { return withDerivative; }
 
 /* --- COMPUTATION ---------------------------------------------------------- */
 /* --- COMPUTATION ---------------------------------------------------------- */
 /* --- COMPUTATION ---------------------------------------------------------- */
 
-dynamicgraph::Vector &Task::computeError(dynamicgraph::Vector &error,
+dynamicgraph::Vector& Task::computeError(dynamicgraph::Vector& error,
                                          sigtime_t time) {
   sotDEBUG(15) << "# In " << getName() << " {" << endl;
 
@@ -182,11 +182,11 @@ dynamicgraph::Vector &Task::computeError(dynamicgraph::Vector &error,
     /* For each cell of the list, recopy value of s, s_star and error. */
     for (FeatureList_t::iterator iter = featureList.begin();
          iter != featureList.end(); ++iter) {
-      FeatureAbstract &feature = **iter;
+      FeatureAbstract& feature = **iter;
 
       /* Get s, and store it in the s vector. */
       sotDEBUG(45) << "Feature <" << feature.getName() << ">." << std::endl;
-      const dynamicgraph::Vector &partialError = feature.errorSOUT(time);
+      const dynamicgraph::Vector& partialError = feature.errorSOUT(time);
 
       const dynamicgraph::Vector::Index dim = partialError.size();
       while (cursorError + dim > dimError)  // DEBUG It was >=
@@ -212,16 +212,16 @@ dynamicgraph::Vector &Task::computeError(dynamicgraph::Vector &error,
   return error;
 }
 
-dynamicgraph::Vector &Task::computeErrorTimeDerivative(
-    dynamicgraph::Vector &res, sigtime_t time) {
+dynamicgraph::Vector& Task::computeErrorTimeDerivative(
+    dynamicgraph::Vector& res, sigtime_t time) {
   res.resize(errorSOUT(time).size());
   dynamicgraph::Vector::Index cursor = 0;
 
   for (FeatureList_t::iterator iter = featureList.begin();
        iter != featureList.end(); ++iter) {
-    FeatureAbstract &feature = **iter;
+    FeatureAbstract& feature = **iter;
 
-    const dynamicgraph::Vector &partialErrorDot = feature.getErrorDot()(time);
+    const dynamicgraph::Vector& partialErrorDot = feature.getErrorDot()(time);
     const dynamicgraph::Vector::Index dim = partialErrorDot.size();
     res.segment(cursor, dim) = partialErrorDot;
     cursor += dim;
@@ -230,18 +230,18 @@ dynamicgraph::Vector &Task::computeErrorTimeDerivative(
   return res;
 }
 
-VectorMultiBound &Task::computeTaskExponentialDecrease(
-    VectorMultiBound &errorRef, sigtime_t time) {
+VectorMultiBound& Task::computeTaskExponentialDecrease(
+    VectorMultiBound& errorRef, sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
-  const dynamicgraph::Vector &errSingleBound = errorSOUT(time);
-  const double &gain = controlGainSIN(time);
+  const dynamicgraph::Vector& errSingleBound = errorSOUT(time);
+  const double& gain = controlGainSIN(time);
   errorRef.resize(errSingleBound.size());
 
   for (std::size_t i = 0; i < errorRef.size(); ++i)
     errorRef[i] = -errSingleBound(i) * gain;
 
   if (withDerivative) {
-    const dynamicgraph::Vector &de = errorTimeDerivativeSOUT(time);
+    const dynamicgraph::Vector& de = errorTimeDerivativeSOUT(time);
     for (std::size_t i = 0; i < errorRef.size(); ++i)
       errorRef[i] = errorRef[i].getSingleBound() - de(i);
   }
@@ -250,7 +250,7 @@ VectorMultiBound &Task::computeTaskExponentialDecrease(
   return errorRef;
 }
 
-dynamicgraph::Matrix &Task::computeJacobian(dynamicgraph::Matrix &J,
+dynamicgraph::Matrix& Task::computeJacobian(dynamicgraph::Matrix& J,
                                             sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
@@ -272,11 +272,11 @@ dynamicgraph::Matrix &Task::computeJacobian(dynamicgraph::Matrix &J,
     /* For each cell of the list, recopy value of s, s_star and error. */
     for (FeatureList_t::iterator iter = featureList.begin();
          iter != featureList.end(); ++iter) {
-      FeatureAbstract &feature = **iter;
+      FeatureAbstract& feature = **iter;
       sotDEBUG(25) << "Feature <" << feature.getName() << ">" << endl;
 
       /* Get s, and store it in the s vector. */
-      const dynamicgraph::Matrix &partialJacobian = feature.jacobianSOUT(time);
+      const dynamicgraph::Matrix& partialJacobian = feature.jacobianSOUT(time);
       const dynamicgraph::Matrix::Index nbr = partialJacobian.rows();
       sotDEBUG(25) << "Jp =" << endl << partialJacobian << endl;
 
@@ -318,7 +318,7 @@ dynamicgraph::Matrix &Task::computeJacobian(dynamicgraph::Matrix &J,
 /* --- DISPLAY ------------------------------------------------------------ */
 /* --- DISPLAY ------------------------------------------------------------ */
 
-void Task::display(std::ostream &os) const {
+void Task::display(std::ostream& os) const {
   os << "Task " << name << ": " << endl;
   os << "--- LIST ---  " << std::endl;
 
@@ -328,7 +328,7 @@ void Task::display(std::ostream &os) const {
   }
 }
 
-std::ostream &Task::writeGraph(std::ostream &os) const {
+std::ostream& Task::writeGraph(std::ostream& os) const {
   FeatureList_t::const_iterator itFeatureAbstract;
   itFeatureAbstract = featureList.begin();
   while (itFeatureAbstract != featureList.end()) {

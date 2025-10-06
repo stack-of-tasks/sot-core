@@ -5,8 +5,8 @@ class PluginAbstract {
  public:
   PluginAbstract() {};
   virtual ~PluginAbstract() {};
-  virtual void Initialization(std::string &astr) = 0;
+  virtual void Initialization(std::string& astr) = 0;
 };
 
-typedef PluginAbstract *createPlugin_t();
+typedef PluginAbstract* createPlugin_t();
 #endif /* _PLUGIN_HH_ */

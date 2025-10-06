@@ -41,18 +41,18 @@ namespace sot {
 class SOTTASKPD_EXPORT TaskPD : public Task {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
   dynamicgraph::Vector previousError;
   double beta;
 
  public:
-  TaskPD(const std::string &n);
+  TaskPD(const std::string& n);
 
   /* --- COMPUTATION --- */
-  dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &error,
+  dynamicgraph::Vector& computeErrorDot(dynamicgraph::Vector& error,
                                         sigtime_t time);
-  VectorMultiBound &computeTaskModif(VectorMultiBound &error, sigtime_t time);
+  VectorMultiBound& computeTaskModif(VectorMultiBound& error, sigtime_t time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:

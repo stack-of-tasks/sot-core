@@ -29,7 +29,7 @@ using namespace dynamicgraph::sot;
 #include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_CASE(control_admittance) {
-  sot::core::AdmittanceControlOpPoint *aControlAdm =
+  sot::core::AdmittanceControlOpPoint* aControlAdm =
       new sot::core::AdmittanceControlOpPoint("acontrol_admittance");
 
   std::istringstream Kp("[6](10.0,10.0,10.0,10.0,10.0,10.0)");

@@ -47,7 +47,7 @@ namespace sot {
 class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace : public dynamicgraph::Entity {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
@@ -59,18 +59,18 @@ class SOTCLAMPWORKSPACE_EXPORT ClampWorkspace : public dynamicgraph::Entity {
   dynamicgraph::SignalTimeDependent<MatrixHomogeneous, sigtime_t> handrefSOUT;
 
  public:
-  ClampWorkspace(const std::string &name);
+  ClampWorkspace(const std::string& name);
   virtual ~ClampWorkspace(void) {}
 
   void update(sigtime_t time);
 
-  virtual dynamicgraph::Matrix &computeOutput(dynamicgraph::Matrix &res,
+  virtual dynamicgraph::Matrix& computeOutput(dynamicgraph::Matrix& res,
                                               sigtime_t time);
-  virtual dynamicgraph::Matrix &computeOutputBar(dynamicgraph::Matrix &res,
+  virtual dynamicgraph::Matrix& computeOutputBar(dynamicgraph::Matrix& res,
                                                  sigtime_t time);
-  virtual MatrixHomogeneous &computeRef(MatrixHomogeneous &res, sigtime_t time);
+  virtual MatrixHomogeneous& computeRef(MatrixHomogeneous& res, sigtime_t time);
 
-  virtual void display(std::ostream &) const;
+  virtual void display(std::ostream&) const;
 
  private:
   sigtime_t timeUpdate;

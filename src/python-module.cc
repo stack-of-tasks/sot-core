@@ -17,26 +17,26 @@ BOOST_PYTHON_MODULE(wrap) {
   using dgs::PeriodicCall;
   bp::class_<PeriodicCall, boost::noncopyable>("PeriodicCall", bp::no_init)
       .def("addSignal",
-           static_cast<void (PeriodicCall::*)(const std::string &,
-                                              dg::SignalBase<dg::sigtime_t> &)>(
+           static_cast<void (PeriodicCall::*)(const std::string&,
+                                              dg::SignalBase<dg::sigtime_t>&)>(
                &PeriodicCall::addSignal),
            "Add the signal to the refresh list", (bp::arg("name"), "signal"))
       .def("addSignal",
-           static_cast<void (PeriodicCall::*)(const std::string &)>(
+           static_cast<void (PeriodicCall::*)(const std::string&)>(
                &PeriodicCall::addSignal),
            "Add the signal to the refresh list", (bp::arg("signal_name")))
 
       .def("addDownsampledSignal",
            static_cast<void (PeriodicCall::*)(
-               const std::string &, dg::SignalBase<dg::sigtime_t> &,
-               const std::size_t &)>(&PeriodicCall::addDownsampledSignal),
+               const std::string&, dg::SignalBase<dg::sigtime_t>&,
+               const std::size_t&)>(&PeriodicCall::addDownsampledSignal),
            "Add the signal to the refresh list\n"
            "The downsampling factor: 1 means every time, "
            "2 means every other time, etc...",
            (bp::arg("name"), "signal", "factor"))
       .def("addDownsampledSignal",
-           static_cast<void (PeriodicCall::*)(const std::string &,
-                                              const std::size_t &)>(
+           static_cast<void (PeriodicCall::*)(const std::string&,
+                                              const std::size_t&)>(
                &PeriodicCall::addDownsampledSignal),
            "Add the signal to the refresh list\n"
            "The downsampling factor: 1 means every time, "
@@ -48,7 +48,7 @@ BOOST_PYTHON_MODULE(wrap) {
       .def("clear", &PeriodicCall::clear,
            "Clear all signals and commands from the refresh list.")
       .def(
-          "__str__", +[](const PeriodicCall &e) {
+          "__str__", +[](const PeriodicCall& e) {
             std::ostringstream os;
             e.display(os);
             return os.str();
@@ -60,7 +60,7 @@ BOOST_PYTHON_MODULE(wrap) {
 
   using dgs::Flags;
   bp::class_<Flags>("Flags", bp::init<>())
-      .def(bp::init<const char *>())
+      .def(bp::init<const char*>())
       .def("__init__", bp::make_constructor(+[](bp::list bools) {
              std::vector<bool> flags(bp::len(bools));
              for (std::size_t i = 0; i < flags.size(); ++i)
@@ -88,12 +88,12 @@ BOOST_PYTHON_MODULE(wrap) {
 
       .def(
           "set",
-          +[](Flags &f, const std::string &s) {
+          +[](Flags& f, const std::string& s) {
             std::istringstream is(s);
             is >> f;
           })
       .def(
-          "__str__", +[](const Flags &f) {
+          "__str__", +[](const Flags& f) {
             std::ostringstream os;
             os << f;
             return os.str();

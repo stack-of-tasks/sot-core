@@ -47,7 +47,7 @@ namespace sot {
 class SOTFEATUREVECTOR3_EXPORT FeatureVector3 : public FeatureAbstract {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
   DECLARE_NO_REFERENCE;
 
@@ -64,17 +64,17 @@ class SOTFEATUREVECTOR3_EXPORT FeatureVector3 : public FeatureAbstract {
   using FeatureAbstract::selectionSIN;
 
  public:
-  FeatureVector3(const std::string &name);
+  FeatureVector3(const std::string& name);
   virtual ~FeatureVector3(void) {}
 
-  virtual size_type &getDimension(size_type &dim, sigtime_t time);
+  virtual size_type& getDimension(size_type& dim, sigtime_t time);
 
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+  virtual dynamicgraph::Vector& computeError(dynamicgraph::Vector& res,
                                              sigtime_t time);
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+  virtual dynamicgraph::Matrix& computeJacobian(dynamicgraph::Matrix& res,
                                                 sigtime_t time);
 
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 };
 
 } /* namespace sot */
