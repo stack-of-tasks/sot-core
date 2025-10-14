@@ -67,7 +67,7 @@ typedef const Eigen::Map<const MatrixRXd> const_SigMatrixXd;
 typedef const Eigen::Map<const Eigen::VectorXd> const_SigVectorXd;
 
 typedef Eigen::Ref<Eigen::VectorXd> RefVector;
-typedef const Eigen::Ref<const Eigen::VectorXd> &ConstRefVector;
+typedef const Eigen::Ref<const Eigen::VectorXd>& ConstRefVector;
 typedef Eigen::Ref<Eigen::MatrixXd> RefMatrix;
 typedef const Eigen::Ref<const Eigen::MatrixXd> ConstRefMatrix;
 
@@ -85,7 +85,7 @@ typedef Eigen::Matrix<double, 7, 1> SOT_CORE_EXPORT Vector7;
 typedef Eigen::Quaternion<double> SOT_CORE_EXPORT Quaternion;
 typedef Eigen::Map<Quaternion> SOT_CORE_EXPORT QuaternionMap;
 
-inline void buildFrom(const MatrixHomogeneous &MH, MatrixTwist &MT) {
+inline void buildFrom(const MatrixHomogeneous& MH, MatrixTwist& MT) {
   Eigen::Vector3d _t = MH.translation();
   MatrixRotation R(MH.linear());
   Eigen::Matrix3d Tx;

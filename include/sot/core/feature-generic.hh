@@ -60,7 +60,7 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
   /*! Field storing the class name. */
   static const std::string CLASS_NAME;
   /*! Returns the name of the class. */
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  protected:
   dynamicgraph::Vector::Index dimensionDefault;
@@ -94,13 +94,13 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
 
  public:
   /*! \brief Default constructor */
-  FeatureGeneric(const std::string &name);
+  FeatureGeneric(const std::string& name);
 
   /*! \brief Default destructor */
   virtual ~FeatureGeneric(void) {}
 
   /*! \brief Get the dimension of the feature. */
-  virtual size_type &getDimension(size_type &dim, sigtime_t time);
+  virtual size_type& getDimension(size_type& dim, sigtime_t time);
 
   /*! \name Methods to trigger computation related to this feature.
     @{
@@ -108,17 +108,17 @@ class SOTFEATUREGENERIC_EXPORT FeatureGeneric
 
   /*! \brief Compute the error between the desired value and the value itself.
    */
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+  virtual dynamicgraph::Vector& computeError(dynamicgraph::Vector& res,
                                              sigtime_t time);
 
   /*! \brief Compute the Jacobian of the value according to the robot state.. */
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+  virtual dynamicgraph::Matrix& computeJacobian(dynamicgraph::Matrix& res,
                                                 sigtime_t time);
 
   /*! @} */
 
   /*! \brief Display the information related to this generic implementation. */
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 
   /*! \name Dealing with the reference value to be reach with this feature.
     @{

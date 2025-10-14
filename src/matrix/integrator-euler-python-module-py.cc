@@ -18,20 +18,20 @@ void exposeIntegratorEuler() {
   dg::python::exposeEntity<IE_t>()
       .add_property(
           "numerators",
-          +[](const IE_t &e) {
+          +[](const IE_t& e) {
             return dg::python::to_py_list(e.numCoeffs().begin(),
                                           e.numCoeffs().end());
           },
-          +[](IE_t &e, bp::object iterable) {
+          +[](IE_t& e, bp::object iterable) {
             e.numCoeffs(dg::python::to_std_vector<C>(iterable));
           })
       .add_property(
           "denominators",
-          +[](const IE_t &e) {
+          +[](const IE_t& e) {
             return dg::python::to_py_list(e.denomCoeffs().begin(),
                                           e.denomCoeffs().end());
           },
-          +[](IE_t &e, bp::object iterable) {
+          +[](IE_t& e, bp::object iterable) {
             e.denomCoeffs(dg::python::to_std_vector<C>(iterable));
           });
 }

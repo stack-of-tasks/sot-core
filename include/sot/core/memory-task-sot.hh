@@ -45,7 +45,7 @@ class SOT_CORE_EXPORT MemoryTaskSOT : public TaskAbstract::MemoryTaskAbstract {
     }
   }
 
-  Kernel_t &getKernel(const Matrix::Index r, const Matrix::Index c) {
+  Kernel_t& getKernel(const Matrix::Index r, const Matrix::Index c) {
     resizeKernel(r, c);
     return kernel;
   }
@@ -57,7 +57,7 @@ class SOT_CORE_EXPORT MemoryTaskSOT : public TaskAbstract::MemoryTaskAbstract {
    **/
   MemoryTaskSOT(const Matrix::Index nJ = 0, const Matrix::Index mJ = 0);
 
-  void display(std::ostream &os) const;
+  void display(std::ostream& os) const;
 
  private:
   void initMemory(const Matrix::Index nJ, const Matrix::Index mJ);

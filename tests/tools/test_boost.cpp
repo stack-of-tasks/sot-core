@@ -124,7 +124,7 @@ double timerCounter;
 /* ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------- */
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   if (sotDEBUG_ENABLE(1)) DebugTrace::openFile();
 
   //   const unsigned int r=1;

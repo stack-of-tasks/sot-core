@@ -50,7 +50,7 @@ bool integratorEulerCoeffIsIdentity(const Matrix c) { return c.isIdentity(); }
 template <class sigT, class coefT>
 class IntegratorEuler : public IntegratorAbstract<sigT, coefT> {
  public:
-  virtual const std::string &getClassName(void) const;
+  virtual const std::string& getClassName(void) const;
   static std::string getTypeName(void) { return "Unknown"; }
   static const std::string CLASS_NAME;
 
@@ -61,7 +61,7 @@ class IntegratorEuler : public IntegratorAbstract<sigT, coefT> {
   using IntegratorAbstract<sigT, coefT>::denominator;
 
  public:
-  IntegratorEuler(const std::string &name)
+  IntegratorEuler(const std::string& name)
       : IntegratorAbstract<sigT, coefT>(name),
         derivativeSOUT(boost::bind(&IntegratorEuler<sigT, coefT>::derivative,
                                    this, _1, _2),
@@ -103,13 +103,13 @@ class IntegratorEuler : public IntegratorAbstract<sigT, coefT> {
   double invdt;
 
  public:
-  sigT &integrate(sigT &res, sigtime_t time) {
+  sigT& integrate(sigT& res, sigtime_t time) {
     sotDEBUG(15) << "# In {" << std::endl;
 
     sigT sum;
     sigT tmp1, tmp2;
-    const std::vector<coefT> &num = numerator;
-    const std::vector<coefT> &denom = denominator;
+    const std::vector<coefT>& num = numerator;
+    const std::vector<coefT>& denom = denominator;
 
     // Step 1
     tmp1 = inputMemory[0];
@@ -150,7 +150,7 @@ class IntegratorEuler : public IntegratorAbstract<sigT, coefT> {
     return res;
   }
 
-  sigT &derivative(sigT &res, sigtime_t time) {
+  sigT& derivative(sigT& res, sigtime_t time) {
     if (outputMemory.size() < 2)
       throw dynamicgraph::ExceptionSignal(
           dynamicgraph::ExceptionSignal::GENERIC,
@@ -161,7 +161,7 @@ class IntegratorEuler : public IntegratorAbstract<sigT, coefT> {
     return res;
   }
 
-  void setSamplingPeriod(const double &period) {
+  void setSamplingPeriod(const double& period) {
     dt = period;
     invdt = 1 / period;
   }

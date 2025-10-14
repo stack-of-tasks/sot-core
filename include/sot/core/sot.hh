@@ -61,10 +61,10 @@ class SOTSOT_CORE_EXPORT Sot : public Entity {
 
  public:
   /*! \brief Returns the name of this class. */
-  virtual const std::string &getClassName() const { return CLASS_NAME; }
+  virtual const std::string& getClassName() const { return CLASS_NAME; }
 
   /*! \brief Defines a type for a list of tasks */
-  typedef std::list<TaskAbstract *> StackType;
+  typedef std::list<TaskAbstract*> StackType;
 
  protected:
   /*! \brief This field is a list of controllers
@@ -95,49 +95,49 @@ class SOTSOT_CORE_EXPORT Sot : public Entity {
   /*   static const bool USE_CONTI_INVERSE_DEFAULT = false; */
 
   /*! \brief Number of joints by default. */
-  static void taskVectorToMlVector(const VectorMultiBound &taskVector,
-                                   Vector &err);
+  static void taskVectorToMlVector(const VectorMultiBound& taskVector,
+                                   Vector& err);
 
  public:
   /*! \brief Default constructor */
-  Sot(const std::string &name);
+  Sot(const std::string& name);
   ~Sot(void) { /* TODO!! */ }
 
   /*! \name Methods to handle the stack.
     @{
   */
-  virtual const StackType &tasks() const { return stack; }
+  virtual const StackType& tasks() const { return stack; }
 
   /*! \brief Push the task in the stack.
     It has a lowest priority than the previous ones.
     If this is the first task, then it has the highest
     priority. */
-  virtual void push(TaskAbstract &task);
+  virtual void push(TaskAbstract& task);
   /*! \brief Pop the task from the stack.
     This method removes the task with the smallest
     priority in the task. The other are projected
     in the null-space of their predecessors. */
-  virtual TaskAbstract &pop(void);
+  virtual TaskAbstract& pop(void);
 
   /*! \brief This method allows to know if a task exists or not */
-  virtual bool exist(const TaskAbstract &task);
+  virtual bool exist(const TaskAbstract& task);
 
   /*! \brief Remove a task regardless to its position in the stack.
     It removes also the signals connected to the output signal of this
     stack.*/
-  virtual void remove(const TaskAbstract &task);
+  virtual void remove(const TaskAbstract& task);
 
   /*! \brief This method removes the output signals depending on
       this task. */
-  virtual void removeDependency(const TaskAbstract &key);
+  virtual void removeDependency(const TaskAbstract& key);
 
   /*! \brief This method makes the task to swap with the task having the
     immediate superior priority. */
-  virtual void up(const TaskAbstract &task);
+  virtual void up(const TaskAbstract& task);
 
   /*! \brief This method makes the task to swap with the task having the
     immediate inferior priority. */
-  virtual void down(const TaskAbstract &task);
+  virtual void down(const TaskAbstract& task);
 
   /*! \brief Remove all the tasks from the stack. */
   virtual void clear(void);
@@ -147,8 +147,8 @@ class SOTSOT_CORE_EXPORT Sot : public Entity {
 
   /*! \brief This method defines the part of the state vector
     which correspond to the free flyer of the robot. */
-  virtual void defineNbDof(const size_type &nbDof);
-  virtual const size_type &getNbDof() const { return nbJoints; }
+  virtual void defineNbDof(const size_type& nbDof);
+  virtual const size_type& getNbDof() const { return nbJoints; }
 
   /*! @} */
  public: /* --- CONTROL --- */
@@ -158,8 +158,8 @@ class SOTSOT_CORE_EXPORT Sot : public Entity {
   */
 
   /*! \brief Compute the control law. */
-  virtual dynamicgraph::Vector &computeControlLaw(dynamicgraph::Vector &control,
-                                                  const sigtime_t &time);
+  virtual dynamicgraph::Vector& computeControlLaw(dynamicgraph::Vector& control,
+                                                  const sigtime_t& time);
 
   /*! @} */
 
@@ -168,10 +168,10 @@ class SOTSOT_CORE_EXPORT Sot : public Entity {
     @{
   */
   /*! Display the stack of tasks in text mode as a tree. */
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
   /*! Wrap the previous method around an operator. */
-  SOTSOT_CORE_EXPORT friend std::ostream &operator<<(std::ostream &os,
-                                                     const Sot &sot);
+  SOTSOT_CORE_EXPORT friend std::ostream& operator<<(std::ostream& os,
+                                                     const Sot& sot);
   /*! @} */
  public: /* --- SIGNALS --- */
   /*! \name Methods to handle signals
@@ -197,7 +197,7 @@ class SOTSOT_CORE_EXPORT Sot : public Entity {
 
   /*! \brief This method write the priority between tasks in the output stream
    * os. */
-  virtual std::ostream &writeGraph(std::ostream &os) const;
+  virtual std::ostream& writeGraph(std::ostream& os) const;
 };
 }  // namespace sot
 }  // namespace dynamicgraph

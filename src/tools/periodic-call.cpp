@@ -34,37 +34,37 @@ PeriodicCall::PeriodicCall(void) : signalMap(), innerTime(0) {}
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-void PeriodicCall::addSignal(const std::string &name,
-                             SignalBase<sigtime_t> &sig) {
+void PeriodicCall::addSignal(const std::string& name,
+                             SignalBase<sigtime_t>& sig) {
   signalMap[name] = SignalToCall(&sig);
   return;
 }
 
-void PeriodicCall::addSignal(const std::string &sigpath) {
+void PeriodicCall::addSignal(const std::string& sigpath) {
   istringstream sigISS(sigpath);
-  SignalBase<sigtime_t> &signal =
+  SignalBase<sigtime_t>& signal =
       ::dynamicgraph::PoolStorage::getInstance()->getSignal(sigISS);
   addSignal(sigpath, signal);
   return;
 }
 
-void PeriodicCall::addDownsampledSignal(const std::string &name,
-                                        SignalBase<sigtime_t> &sig,
-                                        const std::size_t &downsamplingFactor) {
+void PeriodicCall::addDownsampledSignal(const std::string& name,
+                                        SignalBase<sigtime_t>& sig,
+                                        const std::size_t& downsamplingFactor) {
   signalMap[name] = SignalToCall(&sig, downsamplingFactor);
   return;
 }
 
-void PeriodicCall::addDownsampledSignal(const std::string &sigpath,
-                                        const std::size_t &downsamplingFactor) {
+void PeriodicCall::addDownsampledSignal(const std::string& sigpath,
+                                        const std::size_t& downsamplingFactor) {
   istringstream sigISS(sigpath);
-  SignalBase<sigtime_t> &signal =
+  SignalBase<sigtime_t>& signal =
       ::dynamicgraph::PoolStorage::getInstance()->getSignal(sigISS);
   addDownsampledSignal(sigpath, signal, downsamplingFactor);
   return;
 }
 
-void PeriodicCall::rmSignal(const std::string &name) {
+void PeriodicCall::rmSignal(const std::string& name) {
   signalMap.erase(name);
   return;
 }
@@ -72,7 +72,7 @@ void PeriodicCall::rmSignal(const std::string &name) {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-void PeriodicCall::runSignals(const sigtime_t &t) {
+void PeriodicCall::runSignals(const sigtime_t& t) {
   for (SignalMapType::iterator iter = signalMap.begin();
        signalMap.end() != iter; ++iter) {
     if (t % iter->second.downsamplingFactor == 0)
@@ -81,7 +81,7 @@ void PeriodicCall::runSignals(const sigtime_t &t) {
   return;
 }
 
-void PeriodicCall::run(const sigtime_t &t) {
+void PeriodicCall::run(const sigtime_t& t) {
   runSignals(t);
   return;
 }
@@ -90,7 +90,7 @@ void PeriodicCall::run(const sigtime_t &t) {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void PeriodicCall::display(std::ostream &os) const {
+void PeriodicCall::display(std::ostream& os) const {
   os << "  (t=" << innerTime << ")" << endl;
 
   os << " -> SIGNALS:" << endl;

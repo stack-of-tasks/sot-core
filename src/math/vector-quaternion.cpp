@@ -17,20 +17,20 @@ static const double ANGLE_MINIMUM = 0.0001;
 static const double SINC_MINIMUM = 1e-8;
 static const double COSC_MINIMUM = 2.5e-4;
 
-VectorRotation &VectorQuaternion::fromMatrix(const MatrixRotation &rot) {
+VectorRotation& VectorQuaternion::fromMatrix(const MatrixRotation& rot) {
   sotDEBUGIN(15);
 
-  const dynamicgraph::Matrix &rotmat = rot;
+  const dynamicgraph::Matrix& rotmat = rot;
 
   double d0 = rotmat(0, 0), d1 = rotmat(1, 1), d2 = rotmat(2, 2);
 
   // The trace determines the method of decomposition
   double rr = 1.0 + d0 + d1 + d2;
 
-  double &_x = vector(1);
-  double &_y = vector(2);
-  double &_z = vector(3);
-  double &_r = vector(0);
+  double& _x = vector(1);
+  double& _y = vector(2);
+  double& _z = vector(3);
+  double& _r = vector(0);
 
   if (rr > 0) {
     double s = 0.5 / sqrt(rr);
@@ -66,7 +66,7 @@ VectorRotation &VectorQuaternion::fromMatrix(const MatrixRotation &rot) {
   return *this;
 }
 
-VectorRotation &VectorQuaternion::fromVector(const VectorUTheta &ut) {
+VectorRotation& VectorQuaternion::fromVector(const VectorUTheta& ut) {
   sotDEBUGIN(15);
 
   double theta = sqrt(ut(0) * ut(0) + ut(1) * ut(1) + ut(2) * ut(2));
@@ -81,15 +81,15 @@ VectorRotation &VectorQuaternion::fromVector(const VectorUTheta &ut) {
   return *this;
 }
 
-MatrixRotation &VectorQuaternion::toMatrix(MatrixRotation &rot) const {
+MatrixRotation& VectorQuaternion::toMatrix(MatrixRotation& rot) const {
   sotDEBUGIN(15);
 
-  dynamicgraph::Matrix &rotmat = rot;
+  dynamicgraph::Matrix& rotmat = rot;
 
-  const double &_x = vector(1);
-  const double &_y = vector(2);
-  const double &_z = vector(3);
-  const double &_r = vector(0);
+  const double& _x = vector(1);
+  const double& _y = vector(2);
+  const double& _z = vector(3);
+  const double& _r = vector(0);
 
   double x2 = _x * _x;
   double y2 = _y * _y;
@@ -118,7 +118,7 @@ MatrixRotation &VectorQuaternion::toMatrix(MatrixRotation &rot) const {
   return rot;
 }
 
-VectorQuaternion &VectorQuaternion::conjugate(VectorQuaternion &res) const {
+VectorQuaternion& VectorQuaternion::conjugate(VectorQuaternion& res) const {
   res.vector(0) = vector(0);
   res.vector(1) = -vector(1);
   res.vector(2) = -vector(2);
@@ -126,17 +126,17 @@ VectorQuaternion &VectorQuaternion::conjugate(VectorQuaternion &res) const {
   return res;
 }
 
-VectorQuaternion &VectorQuaternion::multiply(const VectorQuaternion &q2,
-                                             VectorQuaternion &res) const {
-  double &a1 = vector(0);
-  double &b1 = vector(1);
-  double &c1 = vector(2);
-  double &d1 = vector(3);
+VectorQuaternion& VectorQuaternion::multiply(const VectorQuaternion& q2,
+                                             VectorQuaternion& res) const {
+  double& a1 = vector(0);
+  double& b1 = vector(1);
+  double& c1 = vector(2);
+  double& d1 = vector(3);
 
-  double &a2 = q2.vector(0);
-  double &b2 = q2.vector(1);
-  double &c2 = q2.vector(2);
-  double &d2 = q2.vector(3);
+  double& a2 = q2.vector(0);
+  double& b2 = q2.vector(1);
+  double& c2 = q2.vector(2);
+  double& d2 = q2.vector(3);
 
   res.vector(0) = a1 * a2 - b1 * b2 - c1 * c2 - d1 * d2;
   res.vector(1) = a1 * b2 + b1 * a2 + c1 * d2 - d1 * c2;

@@ -28,7 +28,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(MotionPeriod, "MotionPeriod");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-MotionPeriod::MotionPeriod(const string &fName)
+MotionPeriod::MotionPeriod(const string& fName)
     : Entity(fName),
       motionParams(0),
       motionSOUT(boost::bind(&MotionPeriod::computeMotion, this, _1, _2),
@@ -43,13 +43,13 @@ MotionPeriod::MotionPeriod(const string &fName)
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-dynamicgraph::Vector &MotionPeriod::computeMotion(dynamicgraph::Vector &res,
-                                                  const sigtime_t &time) {
+dynamicgraph::Vector& MotionPeriod::computeMotion(dynamicgraph::Vector& res,
+                                                  const sigtime_t& time) {
   sotDEBUGIN(15);
 
   res.resize(size);
   for (std::size_t i = 0; i < size; ++i) {
-    const sotMotionParam &p = motionParams[i];
+    const sotMotionParam& p = motionParams[i];
     double x = (double)((time - p.initPeriod) % p.period) / (double)(p.period);
     res(i) = p.initAmplitude;
     switch (p.motionType) {
@@ -73,7 +73,7 @@ dynamicgraph::Vector &MotionPeriod::computeMotion(dynamicgraph::Vector &res,
   return res;
 }
 
-void MotionPeriod::resize(const std::size_t &_size) {
+void MotionPeriod::resize(const std::size_t& _size) {
   size = _size;
   motionParams.resize(size);
   for (std::size_t i = 0; i < size; ++i) {
@@ -85,7 +85,7 @@ void MotionPeriod::resize(const std::size_t &_size) {
   }
 }
 
-void MotionPeriod::display(std::ostream &os) const {
+void MotionPeriod::display(std::ostream& os) const {
   os << "MotionPeriod <" << name << "> ... TODO";
 }
 

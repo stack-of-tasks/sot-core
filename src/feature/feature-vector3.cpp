@@ -30,7 +30,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureVector3, "FeatureVector3");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-FeatureVector3::FeatureVector3(const string &pointName)
+FeatureVector3::FeatureVector3(const string& pointName)
     : FeatureAbstract(pointName),
       vectorSIN(NULL,
                 "sotFeatureVector3(" + name + ")::input(vector3)::vector"),
@@ -55,7 +55,7 @@ FeatureVector3::FeatureVector3(const string &pointName)
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-size_type &FeatureVector3::getDimension(size_type &dim, sigtime_t /*time*/) {
+size_type& FeatureVector3::getDimension(size_type& dim, sigtime_t /*time*/) {
   sotDEBUG(25) << "# In {" << endl;
 
   return dim = 3;
@@ -65,12 +65,12 @@ size_type &FeatureVector3::getDimension(size_type &dim, sigtime_t /*time*/) {
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-Matrix &FeatureVector3::computeJacobian(Matrix &J, sigtime_t time) {
+Matrix& FeatureVector3::computeJacobian(Matrix& J, sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
-  const Matrix &Jq = articularJacobianSIN(time);
-  const Vector &vect = vectorSIN(time);
-  const MatrixHomogeneous &M = positionSIN(time);
+  const Matrix& Jq = articularJacobianSIN(time);
+  const Vector& vect = vectorSIN(time);
+  const MatrixHomogeneous& M = positionSIN(time);
   MatrixRotation R;
   R = M.linear();
 
@@ -104,12 +104,12 @@ Matrix &FeatureVector3::computeJacobian(Matrix &J, sigtime_t time) {
 /** Compute the error between two visual features from a subset
  *a the possible features.
  */
-Vector &FeatureVector3::computeError(Vector &Mvect3, sigtime_t time) {
+Vector& FeatureVector3::computeError(Vector& Mvect3, sigtime_t time) {
   sotDEBUGIN(15);
 
-  const MatrixHomogeneous &M = positionSIN(time);
-  const Vector &vect = vectorSIN(time);
-  const Vector &vectdes = positionRefSIN(time);
+  const MatrixHomogeneous& M = positionSIN(time);
+  const Vector& vect = vectorSIN(time);
+  const Vector& vectdes = positionRefSIN(time);
 
   sotDEBUG(15) << "M = " << M << std::endl;
   sotDEBUG(15) << "v = " << vect << std::endl;
@@ -125,6 +125,6 @@ Vector &FeatureVector3::computeError(Vector &Mvect3, sigtime_t time) {
   return Mvect3;
 }
 
-void FeatureVector3::display(std::ostream &os) const {
+void FeatureVector3::display(std::ostream& os) const {
   os << "Vector3 <" << name << ">";
 }

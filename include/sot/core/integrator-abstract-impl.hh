@@ -36,7 +36,7 @@
   class INTEGRATOR_ABSTRACT_EXPORT className                      \
       : public IntegratorAbstract<sotSigType, sotCoefType> {      \
    public:                                                        \
-    className(const std::string &name);                           \
+    className(const std::string& name);                           \
   };
 #else
 #define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType) \

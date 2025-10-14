@@ -9,7 +9,7 @@ using Eigen::ComputeFullV;
 using Eigen::ComputeThinU;
 using Eigen::ComputeThinV;
 
-void pseudoInverse(Matrix &_inputMatrix, Matrix &_inverseMatrix,
+void pseudoInverse(Matrix& _inputMatrix, Matrix& _inverseMatrix,
                    const double threshold) {
   SVD_t svd(_inputMatrix, ComputeThinU | ComputeThinV);
   SVD_t::SingularValuesType m_singularValues = svd.singularValues();
@@ -25,7 +25,7 @@ void pseudoInverse(Matrix &_inputMatrix, Matrix &_inverseMatrix,
                     svd.matrixU().transpose());
 }
 
-void dampedInverse(const SVD_t &svd, Matrix &_inverseMatrix,
+void dampedInverse(const SVD_t& svd, Matrix& _inverseMatrix,
                    const double threshold) {
   typedef SVD_t::SingularValuesType SV_t;
   Eigen::ArrayWrapper<const SV_t> sigmas(svd.singularValues());
@@ -37,8 +37,8 @@ void dampedInverse(const SVD_t &svd, Matrix &_inverseMatrix,
                               svd.matrixU().leftCols(m).transpose());
 }
 
-void dampedInverse(const Matrix &_inputMatrix, Matrix &_inverseMatrix,
-                   Matrix &Uref, Vector &Sref, Matrix &Vref,
+void dampedInverse(const Matrix& _inputMatrix, Matrix& _inverseMatrix,
+                   Matrix& Uref, Vector& Sref, Matrix& Vref,
                    const double threshold) {
   SVD_t svd(_inputMatrix, ComputeThinU | ComputeThinV);
 
@@ -49,7 +49,7 @@ void dampedInverse(const Matrix &_inputMatrix, Matrix &_inverseMatrix,
   Sref = svd.singularValues();
 }
 
-void dampedInverse(const Matrix &_inputMatrix, Matrix &_inverseMatrix,
+void dampedInverse(const Matrix& _inputMatrix, Matrix& _inverseMatrix,
                    const double threshold) {
   SVD_t svd(_inputMatrix, ComputeThinU | ComputeFullV);
   dampedInverse(svd, _inverseMatrix, threshold);

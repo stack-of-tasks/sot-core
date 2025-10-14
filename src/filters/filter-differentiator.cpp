@@ -55,7 +55,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FilterDifferentiator,
 /* --- CONSTRUCTION ------------------------------------------------- */
 /* --- CONSTRUCTION ------------------------------------------------- */
 /* --- CONSTRUCTION ------------------------------------------------- */
-FilterDifferentiator::FilterDifferentiator(const std::string &name)
+FilterDifferentiator::FilterDifferentiator(const std::string& name)
     : Entity(name),
       CONSTRUCT_SIGNAL_IN(x, dynamicgraph::Vector),
       CONSTRUCT_SIGNAL_OUT(x_filtered, dynamicgraph::Vector, m_x_dx_ddxSINNER),
@@ -89,9 +89,9 @@ FilterDifferentiator::FilterDifferentiator(const std::string &name)
 /* --- COMMANDS ------------------------------------------------------ */
 /* --- COMMANDS ------------------------------------------------------ */
 /* --- COMMANDS ------------------------------------------------------ */
-void FilterDifferentiator::init(const double &timestep, const size_type &xSize,
-                                const Eigen::VectorXd &filter_numerator,
-                                const Eigen::VectorXd &filter_denominator) {
+void FilterDifferentiator::init(const double& timestep, const size_type& xSize,
+                                const Eigen::VectorXd& filter_numerator,
+                                const Eigen::VectorXd& filter_denominator) {
   m_x_size = xSize;
   m_dt = timestep;
   m_filter =
@@ -104,8 +104,8 @@ void FilterDifferentiator::init(const double &timestep, const size_type &xSize,
 }
 
 void FilterDifferentiator::switch_filter(
-    const Eigen::VectorXd &filter_numerator,
-    const Eigen::VectorXd &filter_denominator) {
+    const Eigen::VectorXd& filter_numerator,
+    const Eigen::VectorXd& filter_denominator) {
   LOG("Filter switched with " << "Numerator " << filter_numerator << std::endl
                               << "Denominator" << filter_denominator
                               << std::endl
@@ -121,7 +121,7 @@ DEFINE_SIGNAL_INNER_FUNCTION(x_dx_ddx, dynamicgraph::Vector) {
   sotDEBUG(15) << "Compute x_dx inner signal " << iter << std::endl;
   if (s.size() != 3 * m_x_size) s.resize(3 * m_x_size);
   // read encoders
-  const dynamicgraph::Vector &base_x = m_xSIN(iter);
+  const dynamicgraph::Vector& base_x = m_xSIN(iter);
   assert(base_x.size() == m_x_size);
   m_filter->get_x_dx_ddx(base_x, s);
   return s;
@@ -136,7 +136,7 @@ DEFINE_SIGNAL_INNER_FUNCTION(x_dx_ddx, dynamicgraph::Vector) {
 DEFINE_SIGNAL_OUT_FUNCTION(x_filtered, dynamicgraph::Vector) {
   sotDEBUG(15) << "Compute x_filtered output signal " << iter << std::endl;
 
-  const dynamicgraph::Vector &x_dx_ddx = m_x_dx_ddxSINNER(iter);
+  const dynamicgraph::Vector& x_dx_ddx = m_x_dx_ddxSINNER(iter);
   if (s.size() != m_x_size) s.resize(m_x_size);
   s = x_dx_ddx.head(m_x_size);
   return s;
@@ -145,7 +145,7 @@ DEFINE_SIGNAL_OUT_FUNCTION(x_filtered, dynamicgraph::Vector) {
 DEFINE_SIGNAL_OUT_FUNCTION(dx, dynamicgraph::Vector) {
   sotDEBUG(15) << "Compute dx output signal " << iter << std::endl;
 
-  const dynamicgraph::Vector &x_dx_ddx = m_x_dx_ddxSINNER(iter);
+  const dynamicgraph::Vector& x_dx_ddx = m_x_dx_ddxSINNER(iter);
   if (s.size() != m_x_size) s.resize(m_x_size);
   s = x_dx_ddx.segment(m_x_size, m_x_size);
   return s;
@@ -154,17 +154,17 @@ DEFINE_SIGNAL_OUT_FUNCTION(dx, dynamicgraph::Vector) {
 DEFINE_SIGNAL_OUT_FUNCTION(ddx, dynamicgraph::Vector) {
   sotDEBUG(15) << "Compute ddx output signal " << iter << std::endl;
 
-  const dynamicgraph::Vector &x_dx_ddx = m_x_dx_ddxSINNER(iter);
+  const dynamicgraph::Vector& x_dx_ddx = m_x_dx_ddxSINNER(iter);
   if (s.size() != m_x_size) s.resize(m_x_size);
   s = x_dx_ddx.tail(m_x_size);
   return s;
 }
 
-void FilterDifferentiator::display(std::ostream &os) const {
+void FilterDifferentiator::display(std::ostream& os) const {
   os << "FilterDifferentiator " << getName() << ":\n";
   try {
     getProfiler().report_all(3, os);
-  } catch (const ExceptionSignal &e) {
+  } catch (const ExceptionSignal& e) {
   }
 }
 

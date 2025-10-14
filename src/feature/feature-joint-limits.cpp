@@ -31,7 +31,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(FeatureJointLimits, "FeatureJointLimits");
 
 const double FeatureJointLimits::THRESHOLD_DEFAULT = .9;
 
-FeatureJointLimits::FeatureJointLimits(const string &fName)
+FeatureJointLimits::FeatureJointLimits(const string& fName)
     : FeatureAbstract(fName),
       threshold(THRESHOLD_DEFAULT)
 
@@ -73,10 +73,10 @@ void FeatureJointLimits::removeDependenciesFromReference(void) {}
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-size_type &FeatureJointLimits::getDimension(size_type &dim, sigtime_t time) {
+size_type& FeatureJointLimits::getDimension(size_type& dim, sigtime_t time) {
   sotDEBUG(25) << "# In {" << endl;
 
-  const Flags &fl = selectionSIN.access(time);
+  const Flags& fl = selectionSIN.access(time);
   const Matrix::Index NBJL = upperJlSIN.access(time).size();
 
   dim = 0;
@@ -87,7 +87,7 @@ size_type &FeatureJointLimits::getDimension(size_type &dim, sigtime_t time) {
   return dim;
 }
 
-Vector &FeatureJointLimits::computeWidthJl(Vector &res, const sigtime_t &time) {
+Vector& FeatureJointLimits::computeWidthJl(Vector& res, const sigtime_t& time) {
   sotDEBUGIN(15);
 
   const Vector UJL = upperJlSIN.access(time);
@@ -106,12 +106,12 @@ Vector &FeatureJointLimits::computeWidthJl(Vector &res, const sigtime_t &time) {
 /** Compute the interaction matrix from a subset of
  * the possible features.
  */
-Matrix &FeatureJointLimits::computeJacobian(Matrix &J, sigtime_t time) {
+Matrix& FeatureJointLimits::computeJacobian(Matrix& J, sigtime_t time) {
   sotDEBUG(15) << "# In {" << endl;
 
   const std::size_t SIZE = dimensionSOUT.access(time);
   const Vector q = jointSIN.access(time);
-  const Flags &fl = selectionSIN(time);
+  const Flags& fl = selectionSIN(time);
   // const std::size_t SIZE_FF=SIZE+freeFloatingSize;
   const Vector::Index SIZE_TOTAL = q.size();
   const Vector WJL = widthJlSINTERN.access(time);
@@ -148,10 +148,10 @@ Matrix &FeatureJointLimits::computeJacobian(Matrix &J, sigtime_t time) {
 /** Compute the error between two visual features from a subset
  * a the possible features.
  */
-Vector &FeatureJointLimits::computeError(Vector &error, sigtime_t time) {
+Vector& FeatureJointLimits::computeError(Vector& error, sigtime_t time) {
   sotDEBUGIN(15);
 
-  const Flags &fl = selectionSIN(time);
+  const Flags& fl = selectionSIN(time);
   const Vector q = jointSIN.access(time);
   const Vector UJL = upperJlSIN.access(time);
   const Vector LJL = lowerJlSIN.access(time);
@@ -182,6 +182,6 @@ Vector &FeatureJointLimits::computeError(Vector &error, sigtime_t time) {
   return error;
 }
 
-void FeatureJointLimits::display(std::ostream &os) const {
+void FeatureJointLimits::display(std::ostream& os) const {
   os << "JointLimits <" << name << "> ... TODO";
 }

@@ -45,10 +45,10 @@ namespace sot {
 
 class ControlGR_EXPORT ControlGR : public Entity {
  public: /* --- CONSTRUCTOR ---- */
-  ControlGR(const std::string &name);
+  ControlGR(const std::string& name);
 
  public: /* --- INIT --- */
-  void init(const double &step);
+  void init(const double& step);
 
  public: /* --- CONSTANTS --- */
   /* Default values. */
@@ -56,8 +56,8 @@ class ControlGR_EXPORT ControlGR : public Entity {
 
  public: /* --- ENTITY INHERITANCE --- */
   static const std::string CLASS_NAME;
-  virtual void display(std::ostream &os) const;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual void display(std::ostream& os) const;
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  protected:
   /* Parameters of the torque-control function:
@@ -72,8 +72,8 @@ class ControlGR_EXPORT ControlGR : public Entity {
   SignalTimeDependent<dynamicgraph::Vector, sigtime_t> controlSOUT;
 
  protected:
-  double &setsize(size_type dimension);
-  dynamicgraph::Vector &computeControl(dynamicgraph::Vector &tau, sigtime_t t);
+  double& setsize(size_type dimension);
+  dynamicgraph::Vector& computeControl(dynamicgraph::Vector& tau, sigtime_t t);
 };
 
 }  // namespace sot

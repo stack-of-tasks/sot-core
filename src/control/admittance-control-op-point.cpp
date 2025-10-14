@@ -52,7 +52,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(AdmittanceControlOpPoint,
 /* ------------------------------------------------------------------- */
 /* --- CONSTRUCTION -------------------------------------------------- */
 /* ------------------------------------------------------------------- */
-AdmittanceControlOpPoint::AdmittanceControlOpPoint(const std::string &name)
+AdmittanceControlOpPoint::AdmittanceControlOpPoint(const std::string& name)
     : Entity(name),
       CONSTRUCT_SIGNAL_IN(Kp, dynamicgraph::Vector),
       CONSTRUCT_SIGNAL_IN(Kd, dynamicgraph::Vector),
@@ -77,7 +77,7 @@ AdmittanceControlOpPoint::AdmittanceControlOpPoint(const std::string &name)
                               docCommandVoid0("resetDq")));
 }
 
-void AdmittanceControlOpPoint::init(const double &dt) {
+void AdmittanceControlOpPoint::init(const double& dt) {
   if (!m_dqSaturationSIN.isPlugged())
     return SEND_MSG("Init failed: signal dqSaturation is not plugged",
                     MSG_TYPE_ERROR);
@@ -121,8 +121,8 @@ DEFINE_SIGNAL_INNER_FUNCTION(w_force, dynamicgraph::Vector) {
 
   getProfiler().start(PROFILE_ADMITTANCECONTROLOPPOINT_WFORCE_COMPUTATION);
 
-  const Vector &force = m_forceSIN(iter);
-  const MatrixHomogeneous &sensorPose = m_sensorPoseSIN(iter);
+  const Vector& force = m_forceSIN(iter);
+  const MatrixHomogeneous& sensorPose = m_sensorPoseSIN(iter);
   assert(force.size() == m_n && "Unexpected size of signal force");
   pinocchio::SE3 sensorPlacement(
       sensorPose.matrix());  // homogeneous matrix to SE3
@@ -143,11 +143,11 @@ DEFINE_SIGNAL_INNER_FUNCTION(w_dq, dynamicgraph::Vector) {
 
   getProfiler().start(PROFILE_ADMITTANCECONTROLOPPOINT_WDQ_COMPUTATION);
 
-  const Vector &w_forceDes = m_w_forceDesSIN(iter);
-  const Vector &w_force = m_w_forceSINNER(iter);
-  const Vector &Kp = m_KpSIN(iter);
-  const Vector &Kd = m_KdSIN(iter);
-  const Vector &dqSaturation = m_dqSaturationSIN(iter);
+  const Vector& w_forceDes = m_w_forceDesSIN(iter);
+  const Vector& w_force = m_w_forceSINNER(iter);
+  const Vector& Kp = m_KpSIN(iter);
+  const Vector& Kd = m_KdSIN(iter);
+  const Vector& dqSaturation = m_dqSaturationSIN(iter);
   assert(w_force.size() == m_n && "Unexpected size of signal force");
   assert(w_forceDes.size() == m_n && "Unexpected size of signal w_forceDes");
   assert(Kp.size() == m_n && "Unexpected size of signal Kp");
@@ -179,8 +179,8 @@ DEFINE_SIGNAL_OUT_FUNCTION(dq, dynamicgraph::Vector) {
 
   getProfiler().start(PROFILE_ADMITTANCECONTROLOPPOINT_DQ_COMPUTATION);
 
-  const Vector &w_dq = m_w_dqSINNER(iter);
-  const MatrixHomogeneous &opPose = m_opPoseSIN(iter);
+  const Vector& w_dq = m_w_dqSINNER(iter);
+  const MatrixHomogeneous& opPose = m_opPoseSIN(iter);
   assert(w_dq.size() == m_n && "Unexpected size of signal w_dq");
   pinocchio::SE3 opPointPlacement(
       opPose.matrix());  // homogeneous matrix to SE3
@@ -196,11 +196,11 @@ DEFINE_SIGNAL_OUT_FUNCTION(dq, dynamicgraph::Vector) {
 /* ------------------------------------------------------------------- */
 /* --- ENTITY -------------------------------------------------------- */
 /* ------------------------------------------------------------------- */
-void AdmittanceControlOpPoint::display(std::ostream &os) const {
+void AdmittanceControlOpPoint::display(std::ostream& os) const {
   os << "AdmittanceControlOpPoint " << getName();
   try {
     getProfiler().report_all(3, os);
-  } catch (const ExceptionSignal &e) {
+  } catch (const ExceptionSignal& e) {
   }
 }
 }  // namespace core

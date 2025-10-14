@@ -52,7 +52,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(ParameterServer, "ParameterServer");
 /* ------------------------------------------------------------------- */
 /* --- CONSTRUCTION -------------------------------------------------- */
 /* ------------------------------------------------------------------- */
-ParameterServer::ParameterServer(const std::string &name)
+ParameterServer::ParameterServer(const std::string& name)
     : Entity(name),
       m_robot_util(RefVoidRobotUtil()),
       m_initSucceeded(false),
@@ -204,7 +204,7 @@ ParameterServer::ParameterServer(const std::string &name)
                                       "(string) ParameterName")));
 }
 
-void ParameterServer::init_simple(const double &dt) {
+void ParameterServer::init_simple(const double& dt) {
   if (dt <= 0.0) return SEND_MSG("Timestep must be positive", MSG_TYPE_ERROR);
 
   m_dt = dt;
@@ -239,8 +239,8 @@ void ParameterServer::init_simple(const double &dt) {
                                        "Vector of integer for mapping")));
 }
 
-void ParameterServer::init(const double &dt, const std::string &urdfFile,
-                           const std::string &robotRef) {
+void ParameterServer::init(const double& dt, const std::string& urdfFile,
+                           const std::string& robotRef) {
   if (dt <= 0.0) return SEND_MSG("Timestep must be positive", MSG_TYPE_ERROR);
   m_dt = dt;
   m_emergency_stop_triggered = false;
@@ -262,8 +262,8 @@ void ParameterServer::init(const double &dt, const std::string &urdfFile,
 
 /* --- COMMANDS ---------------------------------------------------------- */
 
-void ParameterServer::setNameToId(const std::string &jointName,
-                                  const double &jointId) {
+void ParameterServer::setNameToId(const std::string& jointName,
+                                  const double& jointId) {
   if (!m_initSucceeded) {
     SEND_WARNING_STREAM_MSG(
         "Cannot set joint name from joint id  before initialization!");
@@ -272,8 +272,8 @@ void ParameterServer::setNameToId(const std::string &jointName,
   m_robot_util->set_name_to_id(jointName, static_cast<Index>(jointId));
 }
 
-void ParameterServer::setJointLimitsFromId(const double &jointId,
-                                           const double &lq, const double &uq) {
+void ParameterServer::setJointLimitsFromId(const double& jointId,
+                                           const double& lq, const double& uq) {
   if (!m_initSucceeded) {
     SEND_WARNING_STREAM_MSG(
         "Cannot set joints limits from joint id  before initialization!");
@@ -283,9 +283,9 @@ void ParameterServer::setJointLimitsFromId(const double &jointId,
   m_robot_util->set_joint_limits_for_id((Index)jointId, lq, uq);
 }
 
-void ParameterServer::setForceLimitsFromId(const double &jointId,
-                                           const dynamicgraph::Vector &lq,
-                                           const dynamicgraph::Vector &uq) {
+void ParameterServer::setForceLimitsFromId(const double& jointId,
+                                           const dynamicgraph::Vector& lq,
+                                           const dynamicgraph::Vector& uq) {
   if (!m_initSucceeded) {
     SEND_WARNING_STREAM_MSG(
         "Cannot set force limits from force id  before initialization!");
@@ -295,8 +295,8 @@ void ParameterServer::setForceLimitsFromId(const double &jointId,
   m_robot_util->m_force_util.set_force_id_to_limits((Index)jointId, lq, uq);
 }
 
-void ParameterServer::setForceNameToForceId(const std::string &forceName,
-                                            const double &forceId) {
+void ParameterServer::setForceNameToForceId(const std::string& forceName,
+                                            const double& forceId) {
   if (!m_initSucceeded) {
     SEND_WARNING_STREAM_MSG(
         "Cannot set force sensor name from force sensor id "
@@ -308,7 +308,7 @@ void ParameterServer::setForceNameToForceId(const std::string &forceName,
                                                   static_cast<Index>(forceId));
 }
 
-void ParameterServer::setJoints(const dynamicgraph::Vector &urdf_to_sot) {
+void ParameterServer::setJoints(const dynamicgraph::Vector& urdf_to_sot) {
   if (!m_initSucceeded) {
     SEND_WARNING_STREAM_MSG("Cannot set mapping to sot before initialization!");
     return;
@@ -316,7 +316,7 @@ void ParameterServer::setJoints(const dynamicgraph::Vector &urdf_to_sot) {
   m_robot_util->set_urdf_to_sot(urdf_to_sot);
 }
 
-void ParameterServer::setRightFootSoleXYZ(const dynamicgraph::Vector &xyz) {
+void ParameterServer::setRightFootSoleXYZ(const dynamicgraph::Vector& xyz) {
   if (!m_initSucceeded) {
     SEND_WARNING_STREAM_MSG(
         "Cannot set right foot sole XYZ before initialization!");
@@ -327,7 +327,7 @@ void ParameterServer::setRightFootSoleXYZ(const dynamicgraph::Vector &xyz) {
 }
 
 void ParameterServer::setRightFootForceSensorXYZ(
-    const dynamicgraph::Vector &xyz) {
+    const dynamicgraph::Vector& xyz) {
   if (!m_initSucceeded) {
     SEND_WARNING_STREAM_MSG(
         "Cannot set right foot force sensor XYZ before initialization!");
@@ -337,8 +337,8 @@ void ParameterServer::setRightFootForceSensorXYZ(
   m_robot_util->m_foot_util.m_Right_Foot_Force_Sensor_XYZ = xyz;
 }
 
-void ParameterServer::setFootFrameName(const std::string &FootName,
-                                       const std::string &FrameName) {
+void ParameterServer::setFootFrameName(const std::string& FootName,
+                                       const std::string& FrameName) {
   if (!m_initSucceeded) {
     SEND_WARNING_STREAM_MSG("Cannot set foot frame name!");
     return;
@@ -351,8 +351,8 @@ void ParameterServer::setFootFrameName(const std::string &FootName,
     SEND_WARNING_STREAM_MSG("Did not understand the foot name !" + FootName);
 }
 
-void ParameterServer::setHandFrameName(const std::string &HandName,
-                                       const std::string &FrameName) {
+void ParameterServer::setHandFrameName(const std::string& HandName,
+                                       const std::string& FrameName) {
   if (!m_initSucceeded) {
     SEND_WARNING_STREAM_MSG("Cannot set hand frame name!");
     return;
@@ -367,7 +367,7 @@ void ParameterServer::setHandFrameName(const std::string &HandName,
         "' !");
 }
 
-void ParameterServer::setImuJointName(const std::string &JointName) {
+void ParameterServer::setImuJointName(const std::string& JointName) {
   if (!m_initSucceeded) {
     SEND_WARNING_STREAM_MSG("Cannot set IMU joint name!");
     return;
@@ -380,8 +380,8 @@ void ParameterServer::displayRobotUtil() { m_robot_util->display(std::cout); }
 /* --- PROTECTED MEMBER METHODS
  * ---------------------------------------------------------- */
 
-bool ParameterServer::convertJointNameToJointId(const std::string &name,
-                                                std::size_t &id) {
+bool ParameterServer::convertJointNameToJointId(const std::string& name,
+                                                std::size_t& id) {
   // Check if the joint name exists
   sot::Index jid = m_robot_util->get_id_from_name(name);
   if (jid < 0) {
@@ -398,7 +398,7 @@ bool ParameterServer::convertJointNameToJointId(const std::string &name,
 }
 
 bool ParameterServer::isJointInRange(std::size_t id, double q) {
-  const JointLimits &JL = m_robot_util->get_joint_limits_from_id((Index)id);
+  const JointLimits& JL = m_robot_util->get_joint_limits_from_id((Index)id);
 
   double jl = JL.lower;
   if (q < jl) {
@@ -421,7 +421,7 @@ bool ParameterServer::isJointInRange(std::size_t id, double q) {
 /* --- ENTITY -------------------------------------------------------- */
 /* ------------------------------------------------------------------- */
 
-void ParameterServer::display(std::ostream &os) const {
+void ParameterServer::display(std::ostream& os) const {
   os << "ParameterServer " << getName();
 }
 }  // namespace sot

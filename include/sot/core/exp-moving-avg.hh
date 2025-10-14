@@ -39,14 +39,14 @@ class SOT_CORE_DLLAPI ExpMovingAvg : public Entity {
   SignalTimeDependent<dynamicgraph::Vector, sigtime_t> averageSOUT;
 
  public:
-  ExpMovingAvg(const std::string &n);
+  ExpMovingAvg(const std::string& n);
   virtual ~ExpMovingAvg(void);
 
-  void setAlpha(const double &alpha_);
+  void setAlpha(const double& alpha_);
 
  protected:
-  dynamicgraph::Vector &update(dynamicgraph::Vector &res,
-                               const sigtime_t &inTime);
+  dynamicgraph::Vector& update(dynamicgraph::Vector& res,
+                               const sigtime_t& inTime);
 
   dynamicgraph::Vector average;
 

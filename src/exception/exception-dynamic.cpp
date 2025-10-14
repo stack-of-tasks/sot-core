@@ -21,12 +21,12 @@ using namespace dynamicgraph::sot;
 const std::string ExceptionDynamic::EXCEPTION_NAME = "Dynamic";
 
 ExceptionDynamic::ExceptionDynamic(
-    const ExceptionDynamic::ErrorCodeEnum &errcode, const std::string &msg)
+    const ExceptionDynamic::ErrorCodeEnum& errcode, const std::string& msg)
     : ExceptionAbstract(errcode, msg) {}
 
 ExceptionDynamic::ExceptionDynamic(
-    const ExceptionDynamic::ErrorCodeEnum &errcode, const std::string &msg,
-    const char *format, ...)
+    const ExceptionDynamic::ErrorCodeEnum& errcode, const std::string& msg,
+    const char* format, ...)
     : ExceptionAbstract(errcode, msg) {
   va_list args;
   va_start(args, format);

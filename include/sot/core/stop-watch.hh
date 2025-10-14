@@ -176,10 +176,10 @@ class Stopwatch {
 
   /** Dump the data of a certain performance record */
   void report(std::string perf_name, int precision = 2,
-              std::ostream &output = std::cout);
+              std::ostream& output = std::cout);
 
   /** Dump the data of all the performance records */
-  void report_all(int precision = 2, std::ostream &output = std::cout);
+  void report_all(int precision = 2, std::ostream& output = std::cout);
 
   /** Returns total execution time of a certain performance */
   long double get_total_time(std::string perf_name);
@@ -252,10 +252,10 @@ class Stopwatch {
 
   /** Pointer to the dynamic structure which holds the collection of performance
       data */
-  std::map<std::string, PerformanceData> *records_of;
+  std::map<std::string, PerformanceData>* records_of;
 };
 
-Stopwatch &getProfiler();
+Stopwatch& getProfiler();
 
 #ifndef WIN32
 #pragma GCC visibility pop

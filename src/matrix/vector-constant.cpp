@@ -21,7 +21,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(VectorConstant, "VectorConstant");
 /* --------------------------------------------------------------------- */
 /* --- VECTOR ---------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-VectorConstant::VectorConstant(const std::string &name)
+VectorConstant::VectorConstant(const std::string& name)
     : Entity(name),
       rows(0),
       SOUT("sotVectorConstant(" + name + ")::output(vector)::sout") {
@@ -54,6 +54,6 @@ VectorConstant::VectorConstant(const std::string &name)
           *this, &VectorConstant::setValue, docstring));
 }
 
-void VectorConstant::setValue(const dynamicgraph::Vector &inValue) {
+void VectorConstant::setValue(const dynamicgraph::Vector& inValue) {
   SOUT.setConstant(inValue);
 }

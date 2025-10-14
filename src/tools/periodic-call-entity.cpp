@@ -28,7 +28,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(PeriodicCallEntity, "PeriodicCallEntity");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-PeriodicCallEntity::PeriodicCallEntity(const string &fName)
+PeriodicCallEntity::PeriodicCallEntity(const string& fName)
     : Entity(fName),
       PeriodicCall(),
       triger("Tracer(" + fName + ")::triger"),
@@ -41,13 +41,13 @@ PeriodicCallEntity::PeriodicCallEntity(const string &fName)
       boost::bind(&PeriodicCallEntity::trigerOnceCall, this, _1, _2));
 }
 
-size_type &PeriodicCallEntity::trigerCall(size_type &dummy,
-                                          const sigtime_t &time) {
+size_type& PeriodicCallEntity::trigerCall(size_type& dummy,
+                                          const sigtime_t& time) {
   run(time);
   return dummy;
 }
-size_type &PeriodicCallEntity::trigerOnceCall(size_type &dummy,
-                                              const sigtime_t &time) {
+size_type& PeriodicCallEntity::trigerOnceCall(size_type& dummy,
+                                              const sigtime_t& time) {
   run(time);
   clear();
   return dummy;
@@ -57,7 +57,7 @@ size_type &PeriodicCallEntity::trigerOnceCall(size_type &dummy,
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void PeriodicCallEntity::display(std::ostream &os) const {
+void PeriodicCallEntity::display(std::ostream& os) const {
   os << "PeriodicCallEntity <" << name << "> ";
   PeriodicCall::display(os);
 }

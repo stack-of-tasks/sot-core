@@ -46,7 +46,7 @@ namespace sot {
 class SOT_KALMAN_EXPORT Kalman : public Entity {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  protected:
   std::size_t size_state;
@@ -141,15 +141,15 @@ class SOT_KALMAN_EXPORT Kalman : public Entity {
   }
 
  protected:
-  Matrix &computeVarianceUpdate(Matrix &P_k_k, const sigtime_t &time);
-  Vector &computeStateUpdate(Vector &x_est, const sigtime_t &time);
+  Matrix& computeVarianceUpdate(Matrix& P_k_k, const sigtime_t& time);
+  Vector& computeStateUpdate(Vector& x_est, const sigtime_t& time);
 
-  void setStateEstimation(const Vector &x0) {
+  void setStateEstimation(const Vector& x0) {
     stateEstimation_ = x0;
     stateUpdateSOUT.recompute(0);
   }
 
-  void setStateVariance(const Matrix &P0) {
+  void setStateVariance(const Matrix& P0) {
     stateVariance_ = P0;
     varianceUpdateSOUT.recompute(0);
   }
@@ -184,9 +184,9 @@ class SOT_KALMAN_EXPORT Kalman : public Entity {
   Matrix K_;
 
  public:
-  Kalman(const std::string &name);
+  Kalman(const std::string& name);
   /* --- Entity --- */
-  void display(std::ostream &os) const;
+  void display(std::ostream& os) const;
 };
 
 }  // namespace sot

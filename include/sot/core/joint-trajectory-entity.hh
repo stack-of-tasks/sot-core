@@ -50,43 +50,43 @@ class SOTJOINT_TRAJECTORY_ENTITY_EXPORT SotJointTrajectoryEntity
   DYNAMIC_GRAPH_ENTITY_DECL();
 
   /// \brief Constructor
-  SotJointTrajectoryEntity(const std::string &name);
+  SotJointTrajectoryEntity(const std::string& name);
   virtual ~SotJointTrajectoryEntity() {}
 
-  void loadFile(const std::string &name);
+  void loadFile(const std::string& name);
 
   /// \brief Return the next pose for the legs.
-  dynamicgraph::Vector &getNextPosition(dynamicgraph::Vector &pos,
-                                        const sigtime_t &time);
+  dynamicgraph::Vector& getNextPosition(dynamicgraph::Vector& pos,
+                                        const sigtime_t& time);
 
   /// \brief Return the next com.
-  dynamicgraph::Vector &getNextCoM(dynamicgraph::Vector &com,
-                                   const sigtime_t &time);
+  dynamicgraph::Vector& getNextCoM(dynamicgraph::Vector& com,
+                                   const sigtime_t& time);
 
   /// \brief Return the next cop.
-  dynamicgraph::Vector &getNextCoP(dynamicgraph::Vector &cop,
-                                   const sigtime_t &time);
+  dynamicgraph::Vector& getNextCoP(dynamicgraph::Vector& cop,
+                                   const sigtime_t& time);
 
   /// \brief Return the next waist.
-  sot::MatrixHomogeneous &getNextWaist(sot::MatrixHomogeneous &waist,
-                                       const sigtime_t &time);
+  sot::MatrixHomogeneous& getNextWaist(sot::MatrixHomogeneous& waist,
+                                       const sigtime_t& time);
 
   /// \brief Return the current seq identified of the current trajectory.
-  std::size_t &getSeqId(std::size_t &seqid, const sigtime_t &time);
+  std::size_t& getSeqId(std::size_t& seqid, const sigtime_t& time);
 
   /// \brief Convert a xyztheta vector into an homogeneous matrix
   sot::MatrixHomogeneous XYZThetaToMatrixHomogeneous(
-      const dynamicgraph::Vector &xyztheta);
+      const dynamicgraph::Vector& xyztheta);
 
   /// \brief Perform one update of the signals.
-  size_type &OneStepOfUpdate(size_type &dummy, const sigtime_t &time);
+  size_type& OneStepOfUpdate(size_type& dummy, const sigtime_t& time);
 
   /// @name Display
   /// @{
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
   SOTJOINT_TRAJECTORY_ENTITY_EXPORT
-  friend std::ostream &operator<<(std::ostream &os,
-                                  const SotJointTrajectoryEntity &r) {
+  friend std::ostream& operator<<(std::ostream& os,
+                                  const SotJointTrajectoryEntity& r) {
     r.display(os);
     return os;
   }
@@ -153,13 +153,13 @@ class SOTJOINT_TRAJECTORY_ENTITY_EXPORT SotJointTrajectoryEntity
   std::deque<sot::Trajectory> deque_traj_;
 
   /// \brief Update the entity with the current point of the trajectory.
-  void UpdatePoint(const JointTrajectoryPoint &aJTP);
+  void UpdatePoint(const JointTrajectoryPoint& aJTP);
 
   /// \brief Update the entity with the trajectory aTrajectory.
-  void UpdateTrajectory(const Trajectory &aTrajectory);
+  void UpdateTrajectory(const Trajectory& aTrajectory);
 
   /// \brief Implements the parsing and the affectation of initial trajectory.
-  void setInitTraj(const std::string &os);
+  void setInitTraj(const std::string& os);
 };
 
 } /* namespace sot */

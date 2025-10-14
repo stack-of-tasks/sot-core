@@ -24,7 +24,7 @@ namespace sot {
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Kalman, "Kalman");
 
-Kalman::Kalman(const std::string &name)
+Kalman::Kalman(const std::string& name)
     : Entity(name),
       measureSIN(NULL, "Kalman(" + name + ")::input(vector)::y"),
       modelTransitionSIN(NULL, "Kalman(" + name + ")::input(matrix)::F"),
@@ -70,7 +70,7 @@ Kalman::Kalman(const std::string &name)
   sotDEBUGOUT(15);
 }
 
-Matrix &Kalman::computeVarianceUpdate(Matrix &Pk_k, const sigtime_t &time) {
+Matrix& Kalman::computeVarianceUpdate(Matrix& Pk_k, const sigtime_t& time) {
   sotDEBUGIN(15);
   if (time == 0) {
     // First time return variance initial state
@@ -79,11 +79,11 @@ Matrix &Kalman::computeVarianceUpdate(Matrix &Pk_k, const sigtime_t &time) {
     varianceUpdateSOUT.addDependency(noiseTransitionSIN);
     varianceUpdateSOUT.addDependency(modelTransitionSIN);
   } else {
-    const Matrix &Q = noiseTransitionSIN(time);
-    const Matrix &R = noiseMeasureSIN(time);
-    const Matrix &F = modelTransitionSIN(time);
-    const Matrix &H = modelMeasureSIN(time);
-    const Matrix &Pk_1_k_1 = stateVariance_;
+    const Matrix& Q = noiseTransitionSIN(time);
+    const Matrix& R = noiseMeasureSIN(time);
+    const Matrix& F = modelTransitionSIN(time);
+    const Matrix& H = modelMeasureSIN(time);
+    const Matrix& Pk_1_k_1 = stateVariance_;
 
     sotDEBUG(15) << "Q=" << Q << std::endl;
     sotDEBUG(15) << "R=" << R << std::endl;
@@ -134,7 +134,7 @@ Matrix &Kalman::computeVarianceUpdate(Matrix &Pk_k, const sigtime_t &time) {
 //   P   = (I - K  H ) P
 //    k|k        k  k   k|k-1
 
-Vector &Kalman::computeStateUpdate(Vector &x_est, const sigtime_t &time) {
+Vector& Kalman::computeStateUpdate(Vector& x_est, const sigtime_t& time) {
   sotDEBUGIN(15);
   if (time == 0) {
     // First time return variance initial state
@@ -149,9 +149,9 @@ Vector &Kalman::computeStateUpdate(Vector &x_est, const sigtime_t &time) {
     stateUpdateSOUT.addDependency(varianceUpdateSOUT);
   } else {
     varianceUpdateSOUT.recompute(time);
-    const Vector &x_pred = statePredictedSIN(time);
-    const Vector &y_pred = observationPredictedSIN(time);
-    const Vector &y = measureSIN(time);
+    const Vector& x_pred = statePredictedSIN(time);
+    const Vector& y_pred = observationPredictedSIN(time);
+    const Vector& y = measureSIN(time);
 
     sotDEBUG(25) << "K_{k} = " << std::endl << K_ << std::endl;
     sotDEBUG(25) << "y = " << y << std::endl;
@@ -176,7 +176,7 @@ Vector &Kalman::computeStateUpdate(Vector &x_est, const sigtime_t &time) {
 /* --- MODELE --------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
-void Kalman::display(std::ostream &) const {}
+void Kalman::display(std::ostream&) const {}
 
 }  // namespace sot
 }  // namespace dynamicgraph

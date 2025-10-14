@@ -24,7 +24,7 @@ using namespace std;
 using namespace dynamicgraph::sot;
 
 double drand(void) { return 2 * ((double)rand()) / RAND_MAX - 1; }
-dynamicgraph::Matrix &mrand(dynamicgraph::Matrix &J) {
+dynamicgraph::Matrix& mrand(dynamicgraph::Matrix& J) {
   for (int i = 0; i < J.rows(); ++i)
     for (int j = 0; j < J.cols(); ++j) J(i, j) = drand();
   return J;
@@ -42,8 +42,8 @@ int main(void) {
   p1xy(1) = -2;
 
   sotDEBUGF("Create feature");
-  FeatureVisualPoint *p1 = new FeatureVisualPoint("p1");
-  FeatureVisualPoint *p1des = new FeatureVisualPoint("p1des");
+  FeatureVisualPoint* p1 = new FeatureVisualPoint("p1");
+  FeatureVisualPoint* p1des = new FeatureVisualPoint("p1des");
 
   p1->articularJacobianSIN.setReference(&Jq);
   p1->selectionSIN = Flags(true);
@@ -55,11 +55,11 @@ int main(void) {
   sotDEBUGF("Create Task");
   //  sotDEBUG(0) << dynamicgraph::MATLAB;
 
-  Task *task = new Task("task");
+  Task* task = new Task("task");
   task->addFeature(*p1);
   task->addFeature(*p1);
 
-  GainAdaptive *lambda = new GainAdaptive("g");
+  GainAdaptive* lambda = new GainAdaptive("g");
   lambda->errorSIN.plug(&task->errorSOUT);
 
   task->controlGainSIN.plug(&lambda->gainSOUT);

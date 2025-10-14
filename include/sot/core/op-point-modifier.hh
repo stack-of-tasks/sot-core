@@ -49,7 +49,7 @@ namespace sot {
 class SOTOPPOINTMODIFIER_EXPORT OpPointModifier : public dynamicgraph::Entity {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  public:
   dynamicgraph::SignalPtr<dynamicgraph::Matrix, sigtime_t> jacobianSIN;
@@ -60,16 +60,16 @@ class SOTOPPOINTMODIFIER_EXPORT OpPointModifier : public dynamicgraph::Entity {
   dynamicgraph::SignalTimeDependent<MatrixHomogeneous, sigtime_t> positionSOUT;
 
  public:
-  OpPointModifier(const std::string &name);
+  OpPointModifier(const std::string& name);
   virtual ~OpPointModifier(void) {}
 
-  dynamicgraph::Matrix &jacobianSOUT_function(dynamicgraph::Matrix &res,
-                                              const sigtime_t &time);
-  MatrixHomogeneous &positionSOUT_function(MatrixHomogeneous &res,
-                                           const sigtime_t &time);
-  void setTransformation(const Eigen::Matrix4d &tr);
-  void setTransformationBySignalName(std::istringstream &cmdArgs);
-  const Eigen::Matrix4d &getTransformation(void);
+  dynamicgraph::Matrix& jacobianSOUT_function(dynamicgraph::Matrix& res,
+                                              const sigtime_t& time);
+  MatrixHomogeneous& positionSOUT_function(MatrixHomogeneous& res,
+                                           const sigtime_t& time);
+  void setTransformation(const Eigen::Matrix4d& tr);
+  void setTransformationBySignalName(std::istringstream& cmdArgs);
+  const Eigen::Matrix4d& getTransformation(void);
 
  private:
   MatrixHomogeneous transformation;

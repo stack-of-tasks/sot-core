@@ -20,12 +20,12 @@ using namespace dynamicgraph::sot;
 
 const std::string ExceptionTools::EXCEPTION_NAME = "Tools";
 
-ExceptionTools::ExceptionTools(const ExceptionTools::ErrorCodeEnum &errcode,
-                               const std::string &msg)
+ExceptionTools::ExceptionTools(const ExceptionTools::ErrorCodeEnum& errcode,
+                               const std::string& msg)
     : ExceptionAbstract(errcode, msg) {}
 
-ExceptionTools::ExceptionTools(const ExceptionTools::ErrorCodeEnum &errcode,
-                               const std::string &msg, const char *format, ...)
+ExceptionTools::ExceptionTools(const ExceptionTools::ErrorCodeEnum& errcode,
+                               const std::string& msg, const char* format, ...)
     : ExceptionAbstract(errcode, msg) {
   va_list args;
   va_start(args, format);

@@ -45,7 +45,7 @@ RobotUtilShrPtr RefVoidRobotUtil() {
   return std::shared_ptr<RobotUtil>(nullptr);
 }
 
-ExtractJointMimics::ExtractJointMimics(std::string &robot_model) {
+ExtractJointMimics::ExtractJointMimics(std::string& robot_model) {
   // Parsing the model from a string.
   std::istringstream iss(robot_model);
   /// Read the XML file in the property tree.
@@ -54,7 +54,7 @@ ExtractJointMimics::ExtractJointMimics(std::string &robot_model) {
   go_through_full();
 }
 
-const std::vector<std::string> &ExtractJointMimics::get_mimic_joints() {
+const std::vector<std::string>& ExtractJointMimics::get_mimic_joints() {
   return mimic_joints_;
 }
 
@@ -64,7 +64,7 @@ void ExtractJointMimics::go_through_full() {
   go_through(tree_, 0, 0);
 }
 
-void ExtractJointMimics::go_through(pt::ptree &pt, size_type level,
+void ExtractJointMimics::go_through(pt::ptree& pt, size_type level,
                                     size_type stage) {
   /// If pt is empty (i.e. this is a leaf)
   if (pt.empty()) {
@@ -106,7 +106,7 @@ void ExtractJointMimics::go_through(pt::ptree &pt, size_type level,
   }
 }
 
-void ForceLimits::display(std::ostream &os) const {
+void ForceLimits::display(std::ostream& os) const {
   os << "Lower limits:" << std::endl;
   os << lower << std::endl;
   os << "Upper Limits:" << std::endl;
@@ -115,7 +115,7 @@ void ForceLimits::display(std::ostream &os) const {
 
 /******************** FootUtil ***************************/
 
-void FootUtil::display(std::ostream &os) const {
+void FootUtil::display(std::ostream& os) const {
   os << "Right Foot Sole XYZ " << std::endl;
   os << m_Right_Foot_Sole_XYZ << std::endl;
   os << "Left Foot Frame Name:" << m_Left_Foot_Frame_Name << std::endl;
@@ -124,15 +124,15 @@ void FootUtil::display(std::ostream &os) const {
 
 /******************** HandUtil ***************************/
 
-void HandUtil::display(std::ostream &os) const {
+void HandUtil::display(std::ostream& os) const {
   os << "Left Hand Frame Name:" << m_Left_Hand_Frame_Name << std::endl;
   os << "Right Hand Frame Name:" << m_Right_Hand_Frame_Name << std::endl;
 }
 
 /******************** ForceUtil ***************************/
 
-void ForceUtil::set_name_to_force_id(const std::string &name,
-                                     const Index &force_id) {
+void ForceUtil::set_name_to_force_id(const std::string& name,
+                                     const Index& force_id) {
   m_name_to_force_id[name] = (Index)force_id;
   create_force_id_to_name_map();
   if (name == "rf")
@@ -145,14 +145,14 @@ void ForceUtil::set_name_to_force_id(const std::string &name,
     set_force_id_right_hand(m_name_to_force_id[name]);
 }
 
-void ForceUtil::set_force_id_to_limits(const Index &force_id,
-                                       const dg::Vector &lf,
-                                       const dg::Vector &uf) {
+void ForceUtil::set_force_id_to_limits(const Index& force_id,
+                                       const dg::Vector& lf,
+                                       const dg::Vector& uf) {
   m_force_id_to_limits[(Index)force_id].lower = lf;
   m_force_id_to_limits[(Index)force_id].upper = uf;
 }
 
-Index ForceUtil::get_id_from_name(const std::string &name) {
+Index ForceUtil::get_id_from_name(const std::string& name) {
   std::map<std::string, Index>::const_iterator it;
   it = m_name_to_force_id.find(name);
   if (it != m_name_to_force_id.end()) return it->second;
@@ -162,7 +162,7 @@ Index ForceUtil::get_id_from_name(const std::string &name) {
 std::string force_default_rtn("Force name not found");
 std::string joint_default_rtn("Joint name not found");
 
-const std::string &ForceUtil::get_name_from_id(Index idx) {
+const std::string& ForceUtil::get_name_from_id(Index idx) {
   std::map<Index, std::string>::const_iterator it;
   it = m_force_id_to_name.find(idx);
   if (it != m_force_id_to_name.end()) return it->second;
@@ -170,7 +170,7 @@ const std::string &ForceUtil::get_name_from_id(Index idx) {
 }
 
 std::string ForceUtil::cp_get_name_from_id(Index idx) {
-  const std::string &default_rtn = get_name_from_id(idx);
+  const std::string& default_rtn = get_name_from_id(idx);
   return default_rtn;
 }
 void ForceUtil::create_force_id_to_name_map() {
@@ -179,7 +179,7 @@ void ForceUtil::create_force_id_to_name_map() {
     m_force_id_to_name[it->second] = it->first;
 }
 
-const ForceLimits &ForceUtil::get_limits_from_id(Index force_id) {
+const ForceLimits& ForceUtil::get_limits_from_id(Index force_id) {
   std::map<Index, ForceLimits>::const_iterator iter =
       m_force_id_to_limits.find(force_id);
   if (iter == m_force_id_to_limits.end())
@@ -195,7 +195,7 @@ ForceLimits ForceUtil::cp_get_limits_from_id(Index force_id) {
   return iter->second;
 }
 
-void ForceUtil::display(std::ostream &os) const {
+void ForceUtil::display(std::ostream& os) const {
   os << "Force Id to limits " << std::endl;
   for (std::map<Index, ForceLimits>::const_iterator it =
            m_force_id_to_limits.begin();
@@ -229,23 +229,23 @@ void ForceUtil::display(std::ostream &os) const {
 /**************** FromURDFToSot *************************/
 RobotUtil::RobotUtil() {}
 
-void RobotUtil::set_joint_limits_for_id(const Index &idx, const double &lq,
-                                        const double &uq) {
+void RobotUtil::set_joint_limits_for_id(const Index& idx, const double& lq,
+                                        const double& uq) {
   m_limits_map[(Index)idx] = JointLimits(lq, uq);
 }
 
-const JointLimits &RobotUtil::get_joint_limits_from_id(Index id) {
+const JointLimits& RobotUtil::get_joint_limits_from_id(Index id) {
   std::map<Index, JointLimits>::const_iterator iter = m_limits_map.find(id);
   if (iter == m_limits_map.end()) return VoidJointLimits;
   return iter->second;
 }
 JointLimits RobotUtil::cp_get_joint_limits_from_id(Index id) {
-  const JointLimits &rtn = get_joint_limits_from_id(id);
+  const JointLimits& rtn = get_joint_limits_from_id(id);
   return rtn;
 }
 
-void RobotUtil::set_name_to_id(const std::string &jointName,
-                               const Index &jointId) {
+void RobotUtil::set_name_to_id(const std::string& jointName,
+                               const Index& jointId) {
   m_name_to_id[jointName] = (Index)jointId;
   create_id_to_name_map();
 }
@@ -256,19 +256,19 @@ void RobotUtil::create_id_to_name_map() {
     m_id_to_name[it->second] = it->first;
 }
 
-const Index &RobotUtil::get_id_from_name(const std::string &name) {
+const Index& RobotUtil::get_id_from_name(const std::string& name) {
   std::map<std::string, Index>::const_iterator it = m_name_to_id.find(name);
   if (it == m_name_to_id.end()) return VoidIndex;
   return it->second;
 }
 
-const std::string &RobotUtil::get_name_from_id(Index id) {
+const std::string& RobotUtil::get_name_from_id(Index id) {
   std::map<Index, std::string>::const_iterator iter = m_id_to_name.find(id);
   if (iter == m_id_to_name.end()) return joint_default_rtn;
   return iter->second;
 }
 
-void RobotUtil::set_urdf_to_sot(const std::vector<Index> &urdf_to_sot) {
+void RobotUtil::set_urdf_to_sot(const std::vector<Index>& urdf_to_sot) {
   m_nbJoints = urdf_to_sot.size();
   m_urdf_to_sot.resize(urdf_to_sot.size());
   m_dgv_urdf_to_sot.resize(urdf_to_sot.size());
@@ -279,7 +279,7 @@ void RobotUtil::set_urdf_to_sot(const std::vector<Index> &urdf_to_sot) {
   }
 }
 
-void RobotUtil::set_urdf_to_sot(const dg::Vector &urdf_to_sot) {
+void RobotUtil::set_urdf_to_sot(const dg::Vector& urdf_to_sot) {
   m_nbJoints = urdf_to_sot.size();
   m_urdf_to_sot.resize(urdf_to_sot.size());
   for (std::size_t idx = 0; idx < (std::size_t)urdf_to_sot.size(); idx++) {
@@ -407,7 +407,7 @@ bool RobotUtil::config_sot_to_urdf(ConstRefVector q_sot, RefVector q_urdf) {
   joints_sot_to_urdf(q_sot.tail(m_nbJoints), q_urdf.tail(m_nbJoints));
   return true;
 }
-void RobotUtil::display(std::ostream &os) const {
+void RobotUtil::display(std::ostream& os) const {
   m_force_util.display(os);
   m_foot_util.display(os);
   m_hand_util.display(os);
@@ -437,8 +437,8 @@ void RobotUtil::display(std::ostream &os) const {
   boost::property_tree::write_xml(os, property_tree_);
 }
 
-void RobotUtil::sendMsg(const std::string &msg, MsgType t,
-                        const std::string &lineId) {
+void RobotUtil::sendMsg(const std::string& msg, MsgType t,
+                        const std::string& lineId) {
   logger_.stream(t, lineId) << "[RobotUtil]" << msg << '\n';
 }
 
@@ -519,21 +519,21 @@ std::shared_ptr<std::vector<std::string> > getListOfRobots() {
   return res;
 }
 
-RobotUtilShrPtr getRobotUtil(std::string &robotName) {
+RobotUtilShrPtr getRobotUtil(std::string& robotName) {
   std::map<std::string, RobotUtilShrPtr>::iterator it =
       sgl_map_name_to_robot_util.find(robotName);
   if (it != sgl_map_name_to_robot_util.end()) return it->second;
   return RefVoidRobotUtil();
 }
 
-bool isNameInRobotUtil(std::string &robotName) {
+bool isNameInRobotUtil(std::string& robotName) {
   std::map<std::string, RobotUtilShrPtr>::iterator it =
       sgl_map_name_to_robot_util.find(robotName);
   if (it != sgl_map_name_to_robot_util.end()) return true;
   return false;
 }
 
-RobotUtilShrPtr createRobotUtil(std::string &robotName) {
+RobotUtilShrPtr createRobotUtil(std::string& robotName) {
   std::map<std::string, RobotUtilShrPtr>::iterator it =
       sgl_map_name_to_robot_util.find(robotName);
   if (it == sgl_map_name_to_robot_util.end()) {

@@ -49,17 +49,17 @@ namespace sot {
 
 class SOTTASKUNILATERAL_EXPORT TaskUnilateral : public Task {
  protected:
-  std::list<FeatureAbstract *> featureList;
+  std::list<FeatureAbstract*> featureList;
 
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  public:
-  TaskUnilateral(const std::string &n);
+  TaskUnilateral(const std::string& n);
 
   /* --- COMPUTATION --- */
-  VectorMultiBound &computeTaskUnilateral(VectorMultiBound &res,
+  VectorMultiBound& computeTaskUnilateral(VectorMultiBound& res,
                                           sigtime_t time);
 
   /* --- SIGNALS ------------------------------------------------------------ */
@@ -70,7 +70,7 @@ class SOTTASKUNILATERAL_EXPORT TaskUnilateral : public Task {
   dynamicgraph::SignalPtr<double, sigtime_t> dtSIN;
 
   /* --- DISPLAY ------------------------------------------------------------ */
-  void display(std::ostream &os) const;
+  void display(std::ostream& os) const;
 };
 
 } /* namespace sot */

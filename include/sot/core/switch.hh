@@ -25,7 +25,7 @@ class SOT_CORE_DLLAPI Switch : public VariadicAbstract<Value, Value, Time> {
  public:
   typedef VariadicAbstract<Value, Value, Time> Base;
 
-  Switch(const std::string &name)
+  Switch(const std::string& name)
       : Base(name, CLASS_NAME),
         selectionSIN(NULL, "Switch(" + name + ")::input(size_type)::selection"),
         boolSelectionSIN(NULL,
@@ -41,7 +41,7 @@ class SOT_CORE_DLLAPI Switch : public VariadicAbstract<Value, Value, Time> {
         "    Set number of input signals\n";
     this->addCommand(
         "setSignalNumber",
-        makeCommandVoid1(*(Base *)this, &Base::setSignalNumber, docstring));
+        makeCommandVoid1(*(Base*)this, &Base::setSignalNumber, docstring));
 
     docstring =
         "\n"
@@ -62,12 +62,12 @@ class SOT_CORE_DLLAPI Switch : public VariadicAbstract<Value, Value, Time> {
   SignalPtr<bool, Time> boolSelectionSIN;
 
  private:
-  Value &signal(Value &ret, const Time &time) {
+  Value& signal(Value& ret, const Time& time) {
     size_type sel;
     if (selectionSIN.isPlugged()) {
       sel = selectionSIN(time);
     } else {
-      const bool &b = boolSelectionSIN(time);
+      const bool& b = boolSelectionSIN(time);
       sel = b ? 1 : 0;
     }
     if (sel < 0 || sel >= size_type(this->signalsIN.size()))

@@ -56,7 +56,7 @@ template <class T>
 class Timer_EXPORT Timer : public dynamicgraph::Entity {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  protected:
   struct timeval t0, t1;
@@ -65,12 +65,12 @@ class Timer_EXPORT Timer : public dynamicgraph::Entity {
 
  public:
   /* --- CONSTRUCTION --- */
-  Timer(const std::string &name);
+  Timer(const std::string& name);
 
  public: /* --- DISPLAY --- */
-  virtual void display(std::ostream &os) const;
-  Timer_EXPORT friend std::ostream &operator<<(std::ostream &os,
-                                               const Timer<T> &timer) {
+  virtual void display(std::ostream& os) const;
+  Timer_EXPORT friend std::ostream& operator<<(std::ostream& os,
+                                               const Timer<T>& timer) {
     timer.display(os);
     return os;
   }
@@ -82,13 +82,13 @@ class Timer_EXPORT Timer : public dynamicgraph::Entity {
   dynamicgraph::Signal<double, dg::sigtime_t> timerSOUT;
 
  protected: /* --- SIGNAL FUNCTIONS --- */
-  void plug(dynamicgraph::Signal<T, dg::sigtime_t> &sig) {
+  void plug(dynamicgraph::Signal<T, dg::sigtime_t>& sig) {
     sigSIN = &sig;
     dt = 0.;
   }
 
   template <bool UseClock>
-  T &compute(T &t, const sigtime_t &time) {
+  T& compute(T& t, const sigtime_t& time) {
     sotDEBUGIN(15);
     if (UseClock) {
       c0 = clock();
@@ -121,14 +121,14 @@ class Timer_EXPORT Timer : public dynamicgraph::Entity {
     return t;
   }
 
-  double &getDt(double &res, const sigtime_t & /*time*/) {
+  double& getDt(double& res, const sigtime_t& /*time*/) {
     res = dt;
     return res;
   }
 };
 
-void cmdChrono(const std::string &cmd, std::istringstream &args,
-               std::ostream &os);
+void cmdChrono(const std::string& cmd, std::istringstream& args,
+               std::ostream& os);
 
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
@@ -136,7 +136,7 @@ void cmdChrono(const std::string &cmd, std::istringstream &args,
 
 /* --- CONSTRUCTION ---------------------------------------------------- */
 template <class T>
-Timer<T>::Timer(const std::string &name)
+Timer<T>::Timer(const std::string& name)
     : Entity(name),
       dt(0.),
       sigSIN(NULL, "Timer(" + name + ")::input(T)::sin"),
@@ -154,7 +154,7 @@ Timer<T>::Timer(const std::string &name)
 
 /* --- DISPLAY --------------------------------------------------------- */
 template <class T>
-void Timer<T>::display(std::ostream &os) const {
+void Timer<T>::display(std::ostream& os) const {
   os << "Timer <" << sigSIN << "> : " << dt << "ms." << std::endl;
 }
 

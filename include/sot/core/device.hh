@@ -47,7 +47,7 @@ const std::string ControlInput_s[] = {"noInteg", "oneInteg", "twoInteg"};
 class SOT_CORE_EXPORT Device : public Entity {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
   enum ForceSignalSource {
     FORCE_SIGNAL_RLEG,
@@ -76,37 +76,37 @@ class SOT_CORE_EXPORT Device : public Entity {
   /// \}
  public:
   /* --- CONSTRUCTION --- */
-  Device(const std::string &name);
+  Device(const std::string& name);
   /* --- DESTRUCTION --- */
   virtual ~Device();
 
-  virtual void setStateSize(const size_type &size);
+  virtual void setStateSize(const size_type& size);
   // Set number of joints that are controlled by the device.
-  void setControlSize(const size_type &size);
+  void setControlSize(const size_type& size);
   // Get the number of joints that are controlled by the device.
   size_type getControlSize() const;
-  virtual void setState(const dynamicgraph::Vector &st);
-  void setVelocitySize(const size_type &size);
-  virtual void setVelocity(const dynamicgraph::Vector &vel);
+  virtual void setState(const dynamicgraph::Vector& st);
+  void setVelocitySize(const size_type& size);
+  virtual void setVelocity(const dynamicgraph::Vector& vel);
   virtual void setSecondOrderIntegration();
   virtual void setNoIntegration();
-  virtual void setControlInputType(const std::string &cit);
-  void getControl(std::map<std::string, ControlValues> &anglesOut,
-                  const double &period);
+  virtual void setControlInputType(const std::string& cit);
+  void getControl(std::map<std::string, ControlValues>& anglesOut,
+                  const double& period);
 
   /// \name Sanity check parameterization
   /// \{
-  void setSanityCheck(const bool &enableCheck);
-  void setPositionBounds(const Vector &lower, const Vector &upper);
-  void setVelocityBounds(const Vector &lower, const Vector &upper);
-  void setTorqueBounds(const Vector &lower, const Vector &upper);
+  void setSanityCheck(const bool& enableCheck);
+  void setPositionBounds(const Vector& lower, const Vector& upper);
+  void setVelocityBounds(const Vector& lower, const Vector& upper);
+  void setTorqueBounds(const Vector& lower, const Vector& upper);
   /// \}
 
  public: /* --- DISPLAY --- */
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
   virtual void cmdDisplay();
-  SOT_CORE_EXPORT friend std::ostream &operator<<(std::ostream &os,
-                                                  const Device &r) {
+  SOT_CORE_EXPORT friend std::ostream& operator<<(std::ostream& os,
+                                                  const Device& r) {
     r.display(os);
     return os;
   }
@@ -139,16 +139,16 @@ class SOT_CORE_EXPORT Device : public Entity {
   /// Motor velocities
   dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> robotVelocity_;
   /// The force torque sensors
-  dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> *forcesSOUT[4];
+  dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t>* forcesSOUT[4];
   /// Motor torques
   /// \todo why pseudo ?
   dynamicgraph::Signal<dynamicgraph::Vector, sigtime_t> pseudoTorqueSOUT;
   /// \}
 
  public:
-  virtual void setRoot(const dynamicgraph::Matrix &root);
+  virtual void setRoot(const dynamicgraph::Matrix& root);
 
-  virtual void setRoot(const MatrixHomogeneous &worldMwaist);
+  virtual void setRoot(const MatrixHomogeneous& worldMwaist);
 
  private:
   sigtime_t lastTimeControlWasRead_;

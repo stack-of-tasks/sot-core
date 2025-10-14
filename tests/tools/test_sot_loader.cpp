@@ -26,7 +26,7 @@ namespace dg = dynamicgraph;
 
 class TestDevice : public dg::sot::Device {
  public:
-  TestDevice(const std::string &RobotName) : Device(RobotName) {
+  TestDevice(const std::string& RobotName) : Device(RobotName) {
     timestep_ = 0.001;
   }
   ~TestDevice() {}
@@ -86,7 +86,7 @@ BOOST_FIXTURE_TEST_CASE(test_option_parsing_input_file, TestFixture) {
   char argv0[] = "test_sot_loader";
   char argv1[] = "--input-file";
   char argv2[] = LIB_PLUGIN_ABSTRACT_PATH;
-  char *argv[] = {argv0, argv1, argv2, NULL};
+  char* argv[] = {argv0, argv1, argv2, NULL};
   sot_loader.parseOptions(3, argv);
   BOOST_CHECK(sot_loader.initialization());
 }
@@ -98,7 +98,7 @@ BOOST_FIXTURE_TEST_CASE(test_option_parsing_sot_dynamic_library, TestFixture) {
   char argv0[] = "test_sot_loader";
   char argv1[] = "--sot-dynamic-library";
   char argv2[] = LIB_PLUGIN_ABSTRACT_PATH;
-  char *argv[] = {argv0, argv1, argv2, NULL};
+  char* argv[] = {argv0, argv1, argv2, NULL};
   sot_loader.parseOptions(3, argv);
   BOOST_CHECK(sot_loader.initialization());
 }

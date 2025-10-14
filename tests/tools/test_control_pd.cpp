@@ -25,7 +25,7 @@ using namespace dynamicgraph;
 using namespace dynamicgraph::sot;
 
 BOOST_AUTO_TEST_CASE(control_pd) {
-  sot::ControlPD *aControlPD = ControlPD("acontrol_pd");
+  sot::ControlPD* aControlPD = ControlPD("acontrol_pd");
   aControlPD->init(0.001);
   aControlPD->setsize(5);
   std::istringstream Kpiss("[5](10.0,20.0,30.0,40.0,50.0)");

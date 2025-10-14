@@ -20,12 +20,12 @@ using namespace dynamicgraph::sot;
 
 const std::string ExceptionTask::EXCEPTION_NAME = "Task";
 
-ExceptionTask::ExceptionTask(const ExceptionTask::ErrorCodeEnum &errcode,
-                             const std::string &msg)
+ExceptionTask::ExceptionTask(const ExceptionTask::ErrorCodeEnum& errcode,
+                             const std::string& msg)
     : ExceptionAbstract(errcode, msg) {}
 
-ExceptionTask::ExceptionTask(const ExceptionTask::ErrorCodeEnum &errcode,
-                             const std::string &msg, const char *format, ...)
+ExceptionTask::ExceptionTask(const ExceptionTask::ErrorCodeEnum& errcode,
+                             const std::string& msg, const char* format, ...)
     : ExceptionAbstract(errcode, msg) {
   va_list args;
   va_start(args, format);

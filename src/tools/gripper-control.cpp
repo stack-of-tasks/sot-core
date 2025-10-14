@@ -44,7 +44,7 @@ const double DT = 0.005;
 GripperControl::GripperControl(void)
     : offset(GripperControl::OFFSET_DEFAULT), factor() {}
 
-GripperControlPlugin::GripperControlPlugin(const std::string &name)
+GripperControlPlugin::GripperControlPlugin(const std::string& name)
     : Entity(name),
       calibrationStarted(false),
       positionSIN(NULL,
@@ -94,9 +94,9 @@ std::string GripperControlPlugin::getDocString() const {
 /* --- SIGNALS -------------------------------------------------------------- */
 
 void GripperControl::computeIncrement(
-    const dynamicgraph::Vector &torques,
-    const dynamicgraph::Vector &torqueLimits,
-    const dynamicgraph::Vector &currentNormVel) {
+    const dynamicgraph::Vector& torques,
+    const dynamicgraph::Vector& torqueLimits,
+    const dynamicgraph::Vector& currentNormVel) {
   const dynamicgraph::Vector::Index SIZE = currentNormVel.size();
 
   // initialize factor, if needed.
@@ -129,11 +129,11 @@ void GripperControl::computeIncrement(
   }
 }
 
-dynamicgraph::Vector &GripperControl::computeDesiredPosition(
-    const dynamicgraph::Vector &currentPos,
-    const dynamicgraph::Vector &desiredPos, const dynamicgraph::Vector &torques,
-    const dynamicgraph::Vector &torqueLimits,
-    dynamicgraph::Vector &referencePos) {
+dynamicgraph::Vector& GripperControl::computeDesiredPosition(
+    const dynamicgraph::Vector& currentPos,
+    const dynamicgraph::Vector& desiredPos, const dynamicgraph::Vector& torques,
+    const dynamicgraph::Vector& torqueLimits,
+    dynamicgraph::Vector& referencePos) {
   const dynamicgraph::Vector::Index SIZE = currentPos.size();
   //  if( (SIZE==torques.size()) )
   //    { /* ERROR ... */ }
@@ -157,9 +157,9 @@ dynamicgraph::Vector &GripperControl::computeDesiredPosition(
   return referencePos;
 }
 
-dynamicgraph::Vector &GripperControl::selector(
-    const dynamicgraph::Vector &fullsize, const Flags &selec,
-    dynamicgraph::Vector &desPos) {
+dynamicgraph::Vector& GripperControl::selector(
+    const dynamicgraph::Vector& fullsize, const Flags& selec,
+    dynamicgraph::Vector& desPos) {
   size_type size = 0;
   for (size_type i = 0; i < fullsize.size(); ++i) {
     if (selec(i)) size++;
@@ -184,7 +184,7 @@ void GripperControlPlugin::initCommands() {
                                   "set the offset (should be in )0, 1( )."));
 }
 
-void GripperControlPlugin::setOffset(const double &value) {
+void GripperControlPlugin::setOffset(const double& value) {
   if ((value > 0) && (value < 1))
     offset = value;
   else

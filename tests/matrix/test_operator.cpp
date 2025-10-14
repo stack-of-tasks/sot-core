@@ -44,9 +44,9 @@ BOOST_AUTO_TEST_CASE(test_vector_selecter) {
   output << dg::sot::UnaryOp<VectorSelecter>::CLASS_NAME;
   BOOST_CHECK(output.is_equal("Selec_of_vector"));
 
-  dg::Entity *anEntity = regFunction_Selec_of_vector("test_Selec_of_vector");
-  dg::sot::UnaryOp<VectorSelecter> *aVectorSelecter =
-      dynamic_cast<dg::sot::UnaryOp<VectorSelecter> *>(anEntity);
+  dg::Entity* anEntity = regFunction_Selec_of_vector("test_Selec_of_vector");
+  dg::sot::UnaryOp<VectorSelecter>* aVectorSelecter =
+      dynamic_cast<dg::sot::UnaryOp<VectorSelecter>*>(anEntity);
   output << aVectorSelecter->getTypeInName();
   BOOST_CHECK(output.is_equal("Vector"));
 
@@ -88,10 +88,10 @@ BOOST_AUTO_TEST_CASE(test_vector_component) {
   output << aComponent_of_vector.nameTypeOut();
   BOOST_CHECK(output.is_equal("double"));
 
-  dg::Entity *anEntity =
+  dg::Entity* anEntity =
       regFunction_Component_of_vector("test_Component_of_vector");
-  dg::sot::UnaryOp<VectorComponent> *aVectorSelecter =
-      dynamic_cast<dg::sot::UnaryOp<VectorComponent> *>(anEntity);
+  dg::sot::UnaryOp<VectorComponent>* aVectorSelecter =
+      dynamic_cast<dg::sot::UnaryOp<VectorComponent>*>(anEntity);
   output << aVectorSelecter->getTypeInName();
   BOOST_CHECK(output.is_equal("Vector"));
 
@@ -131,9 +131,9 @@ BOOST_AUTO_TEST_CASE(test_matrix_selector) {
   output << aSelec_of_matrix.nameTypeOut();
   BOOST_CHECK(output.is_equal("Matrix"));
 
-  dg::Entity *anEntity = regFunction_Selec_of_matrix("test_Selec_of_matrix");
-  dg::sot::UnaryOp<MatrixSelector> *aMatrixSelector =
-      dynamic_cast<dg::sot::UnaryOp<MatrixSelector> *>(anEntity);
+  dg::Entity* anEntity = regFunction_Selec_of_matrix("test_Selec_of_matrix");
+  dg::sot::UnaryOp<MatrixSelector>* aMatrixSelector =
+      dynamic_cast<dg::sot::UnaryOp<MatrixSelector>*>(anEntity);
   output << aMatrixSelector->getTypeInName();
   BOOST_CHECK(output.is_equal("Matrix"));
 
@@ -169,12 +169,12 @@ MatrixHomogeneous random<MatrixHomogeneous>() {
 }
 
 template <typename type>
-bool compare(const type &a, const type &b) {
+bool compare(const type& a, const type& b) {
   return a.isApprox(b);
 }
 template <>
-bool compare<VectorQuaternion>(const VectorQuaternion &a,
-                               const VectorQuaternion &b) {
+bool compare<VectorQuaternion>(const VectorQuaternion& a,
+                               const VectorQuaternion& b) {
   return a.isApprox(b) || a.coeffs().isApprox(-b.coeffs());
 }
 

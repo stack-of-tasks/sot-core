@@ -37,7 +37,7 @@ PoolStorage::~PoolStorage(void) {
 }
 
 /* --------------------------------------------------------------------- */
-void PoolStorage::registerTask(const std::string &entname, TaskAbstract *ent) {
+void PoolStorage::registerTask(const std::string& entname, TaskAbstract* ent) {
   Tasks::iterator entkey = task.find(entname);
   if (entkey != task.end())  // key does exist
   {
@@ -52,7 +52,7 @@ void PoolStorage::registerTask(const std::string &entname, TaskAbstract *ent) {
   }
 }
 
-TaskAbstract &PoolStorage::getTask(const std::string &name) {
+TaskAbstract& PoolStorage::getTask(const std::string& name) {
   Tasks::iterator entPtr = task.find(name);
   if (entPtr == task.end()) {
     SOT_THROW ExceptionFactory(ExceptionFactory::UNREFERED_OBJECT,
@@ -63,8 +63,8 @@ TaskAbstract &PoolStorage::getTask(const std::string &name) {
 }
 
 /* --------------------------------------------------------------------- */
-void PoolStorage::registerFeature(const std::string &entname,
-                                  FeatureAbstract *ent) {
+void PoolStorage::registerFeature(const std::string& entname,
+                                  FeatureAbstract* ent) {
   Features::iterator entkey = feature.find(entname);
   if (entkey != feature.end())  // key does exist
   {
@@ -79,7 +79,7 @@ void PoolStorage::registerFeature(const std::string &entname,
   }
 }
 
-FeatureAbstract &PoolStorage::getFeature(const std::string &name) {
+FeatureAbstract& PoolStorage::getFeature(const std::string& name) {
   Features::iterator entPtr = feature.find(name);
   if (entPtr == feature.end()) {
     SOT_THROW ExceptionFactory(ExceptionFactory::UNREFERED_OBJECT,
@@ -89,7 +89,7 @@ FeatureAbstract &PoolStorage::getFeature(const std::string &name) {
   return *entPtr->second;
 }
 
-void PoolStorage::writeGraph(const std::string &aFileName) {
+void PoolStorage::writeGraph(const std::string& aFileName) {
   size_t IdxPointFound = aFileName.rfind(".");
   std::string tmp1 = aFileName.substr(0, IdxPointFound);
   size_t IdxSeparatorFound = aFileName.rfind("/");
@@ -129,7 +129,7 @@ void PoolStorage::writeGraph(const std::string &aFileName) {
   GraphFile << "\t\t color=blue; label=\"Tasks\";" << std::endl;
 
   for (Tasks::iterator iter = task.begin(); iter != task.end(); iter++) {
-    TaskAbstract *ent = iter->second;
+    TaskAbstract* ent = iter->second;
     GraphFile << "\t\t" << ent->getName() << " [ label = \"" << ent->getName()
               << "\" ," << std::endl
               << "\t\t   fontcolor = black, color = black, "
@@ -142,9 +142,9 @@ void PoolStorage::writeGraph(const std::string &aFileName) {
   GraphFile.close();
 }
 
-void PoolStorage::writeCompletionList(std::ostream & /*os*/) {}
+void PoolStorage::writeCompletionList(std::ostream& /*os*/) {}
 
-PoolStorage *PoolStorage::getInstance() {
+PoolStorage* PoolStorage::getInstance() {
   if (instance_ == 0) {
     instance_ = new PoolStorage;
   }
@@ -157,6 +157,6 @@ void PoolStorage::destroy() {
 
 PoolStorage::PoolStorage() {}
 
-PoolStorage *PoolStorage::instance_ = 0;
+PoolStorage* PoolStorage::instance_ = 0;
 }  // namespace sot
 }  // namespace dynamicgraph

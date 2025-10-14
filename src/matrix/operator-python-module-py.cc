@@ -54,8 +54,8 @@ struct exposeVariadicOpImpl<dgs::AdderVariadic<T> > {
   static void run() {
     typedef dgs::VariadicOp<dgs::AdderVariadic<T> > E_t;
     exposeVariadicOpBase<dgs::AdderVariadic<T> >().add_property(
-        "coeffs", +[](E_t &e) { return e.op.coeffs; },
-        +[](E_t &e, const dg::Vector &c) { e.op.setCoeffs(c); },
+        "coeffs", +[](E_t& e) { return e.op.coeffs; },
+        +[](E_t& e, const dg::Vector& c) { e.op.setCoeffs(c); },
         "the multipliers.");
   }
 };

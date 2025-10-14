@@ -21,12 +21,12 @@ using command::Value;
 class FeaturePosture::SelectDof : public Command {
  public:
   virtual ~SelectDof() {}
-  SelectDof(FeaturePosture &entity, const std::string &docstring)
+  SelectDof(FeaturePosture& entity, const std::string& docstring)
       : Command(entity,
                 boost::assign::list_of(Value::UNSIGNEDLONGINT)(Value::BOOL),
                 docstring) {}
   virtual Value doExecute() {
-    FeaturePosture &feature = static_cast<FeaturePosture &>(owner());
+    FeaturePosture& feature = static_cast<FeaturePosture&>(owner());
     std::vector<Value> values = getParameterValues();
     std::size_t dofId = values[0].value();
     bool control = values[1].value();
@@ -35,7 +35,7 @@ class FeaturePosture::SelectDof : public Command {
   }
 };  // class SelectDof
 
-FeaturePosture::FeaturePosture(const std::string &name)
+FeaturePosture::FeaturePosture(const std::string& name)
     : FeatureAbstract(name),
       state_(NULL, "FeaturePosture(" + name + ")::input(Vector)::state"),
       posture_(0, "FeaturePosture(" + name + ")::input(Vector)::posture"),
@@ -66,14 +66,14 @@ FeaturePosture::FeaturePosture(const std::string &name)
 
 FeaturePosture::~FeaturePosture() {}
 
-size_type &FeaturePosture::getDimension(size_type &res, sigtime_t) {
+size_type& FeaturePosture::getDimension(size_type& res, sigtime_t) {
   res = static_cast<std::size_t>(nbActiveDofs_);
   return res;
 }
 
-dg::Vector &FeaturePosture::computeError(dg::Vector &res, sigtime_t t) {
-  const dg::Vector &state = state_.access(t);
-  const dg::Vector &posture = posture_.access(t);
+dg::Vector& FeaturePosture::computeError(dg::Vector& res, sigtime_t t) {
+  const dg::Vector& state = state_.access(t);
+  const dg::Vector& posture = posture_.access(t);
 
   res.resize(nbActiveDofs_);
   std::size_t index = 0;
@@ -86,14 +86,14 @@ dg::Vector &FeaturePosture::computeError(dg::Vector &res, sigtime_t t) {
   return res;
 }
 
-dg::Matrix &FeaturePosture::computeJacobian(dg::Matrix &, sigtime_t) {
+dg::Matrix& FeaturePosture::computeJacobian(dg::Matrix&, sigtime_t) {
   throw std::runtime_error(
       "jacobian signal should be constant."
       " This function should never be called");
 }
 
-dg::Vector &FeaturePosture::computeErrorDot(dg::Vector &res, sigtime_t t) {
-  const Vector &postureDot = postureDot_.access(t);
+dg::Vector& FeaturePosture::computeErrorDot(dg::Vector& res, sigtime_t t) {
+  const Vector& postureDot = postureDot_.access(t);
 
   res.resize(nbActiveDofs_);
   std::size_t index = 0;
@@ -104,8 +104,8 @@ dg::Vector &FeaturePosture::computeErrorDot(dg::Vector &res, sigtime_t t) {
 }
 
 void FeaturePosture::selectDof(std::size_t dofId, bool control) {
-  const Vector &state = state_.accessCopy();
-  const Vector &posture = posture_.accessCopy();
+  const Vector& state = state_.accessCopy();
+  const Vector& posture = posture_.accessCopy();
   std::size_t dim(state.size());
 
   if (dim != (std::size_t)posture.size()) {

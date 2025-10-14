@@ -33,9 +33,9 @@ N is the sample number
 
 */
 
-CausalFilter::CausalFilter(const double &timestep, const size_type &xSize,
-                           const Eigen::VectorXd &filter_numerator,
-                           const Eigen::VectorXd &filter_denominator)
+CausalFilter::CausalFilter(const double& timestep, const size_type& xSize,
+                           const Eigen::VectorXd& filter_numerator,
+                           const Eigen::VectorXd& filter_denominator)
 
     : m_dt(timestep),
       m_x_size(xSize),
@@ -54,8 +54,8 @@ CausalFilter::CausalFilter(const double &timestep, const size_type &xSize,
   assert(m_filter_denominator.size() == m_filter_order_n);
 }
 
-void CausalFilter::get_x_dx_ddx(const Eigen::VectorXd &base_x,
-                                Eigen::VectorXd &x_output_dx_ddx) {
+void CausalFilter::get_x_dx_ddx(const Eigen::VectorXd& base_x,
+                                Eigen::VectorXd& x_output_dx_ddx) {
   // const dynamicgraph::Vector &base_x = m_xSIN(iter);
   if (m_first_sample) {
     for (size_type i = 0; i < m_filter_order_m; i++)
@@ -104,8 +104,8 @@ void CausalFilter::get_x_dx_ddx(const Eigen::VectorXd &base_x,
   return;
 }
 
-void CausalFilter::switch_filter(const Eigen::VectorXd &filter_numerator,
-                                 const Eigen::VectorXd &filter_denominator) {
+void CausalFilter::switch_filter(const Eigen::VectorXd& filter_numerator,
+                                 const Eigen::VectorXd& filter_denominator) {
   Eigen::VectorXd::Index filter_order_m = filter_numerator.size();
   Eigen::VectorXd::Index filter_order_n = filter_denominator.size();
 

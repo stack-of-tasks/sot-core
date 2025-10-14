@@ -28,7 +28,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(GradientAscent, "GradientAscent");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-GradientAscent::GradientAscent(const std::string &n)
+GradientAscent::GradientAscent(const std::string& n)
     : Entity(n),
       gradientSIN(NULL, "GradientAscent(" + n + ")::input(vector)::gradient"),
       learningRateSIN(NULL,
@@ -49,10 +49,10 @@ GradientAscent::~GradientAscent() {}
 /* --- COMPUTE ----------------------------------------------------------- */
 /* --- COMPUTE ----------------------------------------------------------- */
 
-dynamicgraph::Vector &GradientAscent::update(dynamicgraph::Vector &res,
-                                             const sigtime_t &inTime) {
-  const dynamicgraph::Vector &gradient = gradientSIN(inTime);
-  const double &learningRate = learningRateSIN(inTime);
+dynamicgraph::Vector& GradientAscent::update(dynamicgraph::Vector& res,
+                                             const sigtime_t& inTime) {
+  const dynamicgraph::Vector& gradient = gradientSIN(inTime);
+  const double& learningRate = learningRateSIN(inTime);
 
   if (init == false) {
     init = true;

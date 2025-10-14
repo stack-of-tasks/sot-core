@@ -24,8 +24,8 @@ AdditionalFunctions::AdditionalFunctions() {}
 
 AdditionalFunctions::~AdditionalFunctions() {}
 
-void AdditionalFunctions::cmdFlagSet(const std::string &cmdLine,
-                                     istringstream &cmdArg, std::ostream &os) {
+void AdditionalFunctions::cmdFlagSet(const std::string& cmdLine,
+                                     istringstream& cmdArg, std::ostream& os) {
   if (cmdLine == "help") {
     os << "  - set <obj1.sig1(flag type)> {#&|}START:END"
        << "\t\tSet or reset the flag value." << endl;
@@ -33,7 +33,7 @@ void AdditionalFunctions::cmdFlagSet(const std::string &cmdLine,
   }
 
   try {
-    Signal<Flags, sigtime_t> &sig1 = dynamic_cast<Signal<Flags, sigtime_t> &>(
+    Signal<Flags, sigtime_t>& sig1 = dynamic_cast<Signal<Flags, sigtime_t>&>(
         PoolStorage::getInstance()->getSignal(cmdArg));
 
     dgDEBUG(25) << "set..." << endl;
@@ -46,7 +46,7 @@ void AdditionalFunctions::cmdFlagSet(const std::string &cmdLine,
     dgDEBUG(15) << "Fl=" << fl << std::endl;
     sig1 = fl;
 
-  } catch (ExceptionAbstract &err) {
+  } catch (ExceptionAbstract& err) {
     throw;
   } catch (...) {
     DG_THROW ExceptionFactory(ExceptionFactory::SYNTAX_ERROR,

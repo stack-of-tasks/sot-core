@@ -37,7 +37,7 @@
       : public IntegratorEuler<sotSigType, sotCoefType> {         \
    public:                                                        \
     std::string getTypeName(void);                                \
-    className(const std::string &name);                           \
+    className(const std::string& name);                           \
   };
 #else
 #define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType) \

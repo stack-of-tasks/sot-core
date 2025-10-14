@@ -54,7 +54,7 @@ namespace sot {
 class TimeStamp_EXPORT TimeStamp : public dynamicgraph::Entity {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  protected:
   struct timeval val;
@@ -63,10 +63,10 @@ class TimeStamp_EXPORT TimeStamp : public dynamicgraph::Entity {
 
  public:
   /* --- CONSTRUCTION --- */
-  TimeStamp(const std::string &name);
+  TimeStamp(const std::string& name);
 
  public: /* --- DISPLAY --- */
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 
  public: /* --- SIGNALS --- */
   /* These signals can be called several time per period, given
@@ -81,9 +81,9 @@ class TimeStamp_EXPORT TimeStamp : public dynamicgraph::Entity {
   dynamicgraph::SignalTimeDependent<double, sigtime_t> timeOnceDoubleSOUT;
 
  protected: /* --- SIGNAL FUNCTIONS --- */
-  dynamicgraph::Vector &getTimeStamp(dynamicgraph::Vector &res,
-                                     const sigtime_t &time);
-  double &getTimeStampDouble(const dynamicgraph::Vector &vect, double &res);
+  dynamicgraph::Vector& getTimeStamp(dynamicgraph::Vector& res,
+                                     const sigtime_t& time);
+  double& getTimeStampDouble(const dynamicgraph::Vector& vect, double& res);
 };
 
 } /* namespace sot */

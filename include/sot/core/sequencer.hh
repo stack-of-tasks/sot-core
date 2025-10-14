@@ -61,21 +61,21 @@ class SOTSEQUENCER_EXPORT Sequencer : public dynamicgraph::Entity {
 
    protected:
     std::string name;
-    void setName(const std::string &name_) { name = name_; }
+    void setName(const std::string& name_) { name = name_; }
     size_type eventType;
 
    public:
-    sotEventAbstract(const std::string &name) : name(name) {};
+    sotEventAbstract(const std::string& name) : name(name) {};
     virtual ~sotEventAbstract(void) {}
-    virtual const std::string &getName() const { return name; }
+    virtual const std::string& getName() const { return name; }
     size_type getEventType() const { return eventType; }
-    virtual void operator()(Sot *sotPtr) = 0;
-    virtual void display(std::ostream &os) const { os << name; }
+    virtual void operator()(Sot* sotPtr) = 0;
+    virtual void display(std::ostream& os) const { os << name; }
   };
 
  protected:
-  Sot *sotPtr;
-  typedef std::list<sotEventAbstract *> TaskList;
+  Sot* sotPtr;
+  typedef std::list<sotEventAbstract*> TaskList;
   typedef std::map<std::size_t, TaskList> TaskMap;
 
   TaskMap taskMap;
@@ -83,17 +83,17 @@ class SOTSEQUENCER_EXPORT Sequencer : public dynamicgraph::Entity {
    * is set to the first time of trig.    */
   sigtime_t timeInit;
   bool playMode;
-  std::ostream *outputStreamPtr;
+  std::ostream* outputStreamPtr;
   bool noOutput; /*! if true, display nothing standard output on except errors*/
 
  public: /* --- CONSTRUCTION --- */
-  Sequencer(const std::string &name);
+  Sequencer(const std::string& name);
   virtual ~Sequencer(void);
 
  public: /* --- TASK MANIP --- */
-  void setSotRef(Sot *sot) { sotPtr = sot; }
-  void addTask(sotEventAbstract *task, const std::size_t time);
-  void rmTask(size_type eventType, const std::string &name,
+  void setSotRef(Sot* sot) { sotPtr = sot; }
+  void addTask(sotEventAbstract* task, const std::size_t time);
+  void rmTask(size_type eventType, const std::string& name,
               const std::size_t time);
   void clearAll();
 
@@ -101,10 +101,10 @@ class SOTSEQUENCER_EXPORT Sequencer : public dynamicgraph::Entity {
   dynamicgraph::SignalTimeDependent<size_type, sigtime_t> triggerSOUT;
 
  public: /* --- FUNCTIONS --- */
-  size_type &trigger(size_type &dummy, const sigtime_t &time);
+  size_type& trigger(size_type& dummy, const sigtime_t& time);
 
  public: /* --- PARAMS --- */
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 };
 }  // namespace sot
 }  // namespace dynamicgraph

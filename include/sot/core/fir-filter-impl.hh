@@ -31,7 +31,7 @@
   class FIL_FILTER_EXPORT className                               \
       : public FIRFilter<sotSigType, sotCoefType> {               \
    public:                                                        \
-    className(const std::string &name);                           \
+    className(const std::string& name);                           \
   };
 #else
 #define DECLARE_SPECIFICATION(className, sotSigType, sotCoefType) \

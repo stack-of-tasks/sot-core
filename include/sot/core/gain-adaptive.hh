@@ -59,8 +59,8 @@ class SOTGAINADAPTATIVE_EXPORT GainAdaptive : public dynamicgraph::Entity {
 
  public: /* --- ENTITY INHERITANCE --- */
   static const std::string CLASS_NAME;
-  virtual void display(std::ostream &os) const;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual void display(std::ostream& os) const;
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  protected:
   /* Parameters of the adaptative-gain function:
@@ -70,16 +70,16 @@ class SOTGAINADAPTATIVE_EXPORT GainAdaptive : public dynamicgraph::Entity {
   double coeff_c;
 
  public: /* --- CONSTRUCTORS ---- */
-  GainAdaptive(const std::string &name);
-  GainAdaptive(const std::string &name, const double &lambda);
-  GainAdaptive(const std::string &name, const double &valueAt0,
-               const double &valueAtInfty, const double &tanAt0);
+  GainAdaptive(const std::string& name);
+  GainAdaptive(const std::string& name, const double& lambda);
+  GainAdaptive(const std::string& name, const double& valueAt0,
+               const double& valueAtInfty, const double& tanAt0);
 
  public: /* --- INIT --- */
   inline void init(void) { init(ZERO_DEFAULT, INFTY_DEFAULT, TAN_DEFAULT); }
-  inline void init(const double &lambda) { init(lambda, lambda, 1.); }
-  void init(const double &valueAt0, const double &valueAtInfty,
-            const double &tanAt0);
+  inline void init(const double& lambda) { init(lambda, lambda, 1.); }
+  void init(const double& valueAt0, const double& valueAtInfty,
+            const double& tanAt0);
   /** \brief Set the gain
    * by providing the value at 0, at \f$ \infty \f$ and the percentage of
    * accomplishment between both to be reached when the error is
@@ -110,9 +110,9 @@ class SOTGAINADAPTATIVE_EXPORT GainAdaptive : public dynamicgraph::Entity {
    * plt.show()
    * \endcode
    */
-  void initFromPassingPoint(const double &valueAt0, const double &valueAtInfty,
-                            const double &errorReference,
-                            const double &percentage);
+  void initFromPassingPoint(const double& valueAt0, const double& valueAtInfty,
+                            const double& errorReference,
+                            const double& percentage);
   void forceConstant(void);
 
  public: /* --- SIGNALS --- */
@@ -120,7 +120,7 @@ class SOTGAINADAPTATIVE_EXPORT GainAdaptive : public dynamicgraph::Entity {
   dynamicgraph::SignalTimeDependent<double, sigtime_t> gainSOUT;
 
  protected:
-  double &computeGain(double &res, sigtime_t t);
+  double& computeGain(double& res, sigtime_t t);
 
  private:
   void addCommands();

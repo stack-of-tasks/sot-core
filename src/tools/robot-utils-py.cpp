@@ -22,7 +22,7 @@ BOOST_PYTHON_MODULE(robot_utils_sot_py) {
       .def_readwrite("lower", &JointLimits::lower);
 
   class_<ForceLimits>("ForceLimits",
-                      init<const Eigen::VectorXd &, const Eigen::VectorXd &>())
+                      init<const Eigen::VectorXd&, const Eigen::VectorXd&>())
       .def("display", &ForceLimits::display)
       .def_readwrite("upper", &ForceLimits::upper)
       .def_readwrite("lower", &ForceLimits::lower);

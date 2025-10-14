@@ -22,7 +22,7 @@ using namespace dynamicgraph;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-TaskAbstract::TaskAbstract(const std::string &n)
+TaskAbstract::TaskAbstract(const std::string& n)
     : Entity(n),
       memoryInternal(NULL),
       taskSOUT("sotTaskAbstract(" + n + ")::output(vector)::task"),

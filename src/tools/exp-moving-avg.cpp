@@ -28,7 +28,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(ExpMovingAvg, "ExpMovingAvg");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-ExpMovingAvg::ExpMovingAvg(const std::string &n)
+ExpMovingAvg::ExpMovingAvg(const std::string& n)
     : Entity(n),
       updateSIN(NULL, "ExpMovingAvg(" + n + ")::input(vector)::update"),
       refresherSINTERN("ExpMovingAvg(" + n + ")::intern(dummy)::refresher"),
@@ -58,14 +58,14 @@ ExpMovingAvg::~ExpMovingAvg() {}
 /* --- COMPUTE ----------------------------------------------------------- */
 /* --- COMPUTE ----------------------------------------------------------- */
 
-void ExpMovingAvg::setAlpha(const double &alpha_) {
+void ExpMovingAvg::setAlpha(const double& alpha_) {
   assert(alpha <= 1. && alpha >= 0.);
   alpha = alpha_;
 }
 
-dynamicgraph::Vector &ExpMovingAvg::update(dynamicgraph::Vector &res,
-                                           const sigtime_t &inTime) {
-  const dynamicgraph::Vector &update = updateSIN(inTime);
+dynamicgraph::Vector& ExpMovingAvg::update(dynamicgraph::Vector& res,
+                                           const sigtime_t& inTime) {
+  const dynamicgraph::Vector& update = updateSIN(inTime);
 
   if (init == false) {
     init = true;

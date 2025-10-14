@@ -45,22 +45,22 @@ class SOTFEATURETASK_EXPORT FeatureTask : public FeatureGeneric {
   /*! Field storing the class name. */
   static const std::string CLASS_NAME;
   /*! Returns the name of the class. */
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  protected:
-  TaskAbstract *taskPtr;
+  TaskAbstract* taskPtr;
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
  public:
   /*! \brief Default constructor */
-  FeatureTask(const std::string &name);
+  FeatureTask(const std::string& name);
 
   /*! \brief Default destructor */
   virtual ~FeatureTask(void) {}
 
   /*! \brief Display the information related to this task implementation. */
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 };
 
 } /* namespace sot */

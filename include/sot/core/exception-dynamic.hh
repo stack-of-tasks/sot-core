@@ -42,15 +42,15 @@ class SOT_CORE_EXPORT ExceptionDynamic : public ExceptionAbstract
   };
 
   static const std::string EXCEPTION_NAME;
-  virtual const std::string &getExceptionName(void) const {
+  virtual const std::string& getExceptionName(void) const {
     return EXCEPTION_NAME;
   }
 
  public:
-  ExceptionDynamic(const ExceptionDynamic::ErrorCodeEnum &errcode,
-                   const std::string &msg = "");
-  ExceptionDynamic(const ExceptionDynamic::ErrorCodeEnum &errcode,
-                   const std::string &msg, const char *format, ...);
+  ExceptionDynamic(const ExceptionDynamic::ErrorCodeEnum& errcode,
+                   const std::string& msg = "");
+  ExceptionDynamic(const ExceptionDynamic::ErrorCodeEnum& errcode,
+                   const std::string& msg, const char* format, ...);
   virtual ~ExceptionDynamic(void) throw() {}
 };
 

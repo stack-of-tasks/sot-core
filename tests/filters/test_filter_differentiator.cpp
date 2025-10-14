@@ -32,7 +32,7 @@ using namespace dynamicgraph::sot;
 using boost::test_tools::output_test_stream;
 
 BOOST_AUTO_TEST_CASE(test_filter_differentiator) {
-  sot::FilterDifferentiator *aFilterDiff =
+  sot::FilterDifferentiator* aFilterDiff =
       new FilterDifferentiator("filter_differentiator");
 
   Eigen::VectorXd filter_num(7), filter_den(7);

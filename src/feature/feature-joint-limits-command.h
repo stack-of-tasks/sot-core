@@ -29,10 +29,10 @@ class Actuate : public Command {
   /// Create command and store it in Entity
   /// \param entity instance of Entity owning this command
   /// \param docstring documentation of the command
-  Actuate(FeatureJointLimits &entity, const std::string &docstring)
+  Actuate(FeatureJointLimits& entity, const std::string& docstring)
       : Command(entity, std::vector<Value::Type>(), docstring) {}
   virtual Value doExecute() {
-    FeatureJointLimits &fjl = static_cast<FeatureJointLimits &>(owner());
+    FeatureJointLimits& fjl = static_cast<FeatureJointLimits&>(owner());
     Flags fl(63);  // 0x0000003f = 00000000000000000000000000111111
     fjl.selectionSIN = (!fl);
     // return void

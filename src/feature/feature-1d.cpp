@@ -27,7 +27,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(Feature1D, "Feature1D");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-Feature1D::Feature1D(const string &pointName)
+Feature1D::Feature1D(const string& pointName)
     : FeatureAbstract(pointName),
       errorSIN(NULL, "sotFeature1D(" + name + ")::input(vector)::errorIN"),
       jacobianSIN(NULL,
@@ -49,7 +49,7 @@ void Feature1D::removeDependenciesFromReference(void) {}
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-size_type &Feature1D::getDimension(size_type &dim, sigtime_t /*time*/) {
+size_type& Feature1D::getDimension(size_type& dim, sigtime_t /*time*/) {
   sotDEBUG(25) << "# In {" << endl;
 
   dim = 1;
@@ -58,21 +58,21 @@ size_type &Feature1D::getDimension(size_type &dim, sigtime_t /*time*/) {
   return dim;
 }
 
-dynamicgraph::Vector &Feature1D::computeError(dynamicgraph::Vector &res,
+dynamicgraph::Vector& Feature1D::computeError(dynamicgraph::Vector& res,
                                               sigtime_t time) {
-  const dynamicgraph::Vector &err = errorSIN.access(time);
+  const dynamicgraph::Vector& err = errorSIN.access(time);
   res.resize(1);
   res(0) = err.dot(err) * .5;
 
   return res;
 }
 
-dynamicgraph::Matrix &Feature1D::computeJacobian(dynamicgraph::Matrix &res,
+dynamicgraph::Matrix& Feature1D::computeJacobian(dynamicgraph::Matrix& res,
                                                  sigtime_t time) {
   sotDEBUGIN(15);
 
-  const dynamicgraph::Matrix &Jac = jacobianSIN.access(time);
-  const dynamicgraph::Vector &err = errorSIN.access(time);
+  const dynamicgraph::Matrix& Jac = jacobianSIN.access(time);
+  const dynamicgraph::Vector& err = errorSIN.access(time);
 
   res.resize(1, Jac.cols());
   res.fill(0);
@@ -87,13 +87,13 @@ dynamicgraph::Matrix &Feature1D::computeJacobian(dynamicgraph::Matrix &res,
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-void Feature1D::display(std::ostream &os) const {
+void Feature1D::display(std::ostream& os) const {
   os << "1D <" << name << ">: " << std::endl;
 
   try {
     os << "  error= " << errorSIN.accessCopy() << endl
        << "  J    = " << jacobianSIN.accessCopy() << endl;
-  } catch (const ExceptionAbstract &e) {
+  } catch (const ExceptionAbstract& e) {
     os << " All SIN not set.";
   }
 }

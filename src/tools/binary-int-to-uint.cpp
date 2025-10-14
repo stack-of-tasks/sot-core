@@ -25,7 +25,7 @@ DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(BinaryIntToUint, "BinaryIntToUint");
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-BinaryIntToUint::BinaryIntToUint(const string &fname)
+BinaryIntToUint::BinaryIntToUint(const string& fname)
     : Entity(fname),
       binaryIntSIN(NULL, "BinaryIntToUint(" + name + ")::input(int)::sin"),
       binaryUintSOUT(
@@ -39,7 +39,7 @@ BinaryIntToUint::BinaryIntToUint(const string &fname)
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-unsigned &BinaryIntToUint::computeOutput(unsigned &res, sigtime_t time) {
+unsigned& BinaryIntToUint::computeOutput(unsigned& res, sigtime_t time) {
   sotDEBUGIN(15);
 
   int in = binaryIntSIN.access(time);
@@ -53,6 +53,6 @@ unsigned &BinaryIntToUint::computeOutput(unsigned &res, sigtime_t time) {
   return res;
 }
 
-void BinaryIntToUint::display(std::ostream &os) const {
+void BinaryIntToUint::display(std::ostream& os) const {
   os << "BinaryIntToUint <" << name << "> TODO..." << endl;
 }

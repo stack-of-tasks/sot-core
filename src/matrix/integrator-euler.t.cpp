@@ -23,13 +23,13 @@ using namespace dynamicgraph;
   const std::string sotClassType<sotSigType, sotCoefType>::CLASS_NAME =        \
       className;                                                               \
   template <>                                                                  \
-  const std::string &sotClassType<sotSigType, sotCoefType>::getClassName(void) \
+  const std::string& sotClassType<sotSigType, sotCoefType>::getClassName(void) \
       const {                                                                  \
     return CLASS_NAME;                                                         \
   }                                                                            \
   extern "C" {                                                                 \
-  Entity *regFunction##_##sotSigType##_##sotCoefType(                          \
-      const std::string &objname) {                                            \
+  Entity* regFunction##_##sotSigType##_##sotCoefType(                          \
+      const std::string& objname) {                                            \
     return new sotClassType<sotSigType, sotCoefType>(objname);                 \
   }                                                                            \
   EntityRegisterer regObj##_##sotSigType##_##sotCoefType(                      \

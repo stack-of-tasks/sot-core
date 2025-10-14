@@ -32,7 +32,7 @@ template <class T>
 class circular_buffer {
  public:
   circular_buffer() : buf(1), start(0), numel(0) {}
-  void push_front(const T &data) {
+  void push_front(const T& data) {
     if (start) {
       --start;
     } else {
@@ -48,13 +48,13 @@ class circular_buffer {
     start = 0;
     numel = 0;
   }
-  void reset_capacity(size_t n, const T &el) {
+  void reset_capacity(size_t n, const T& el) {
     buf.clear();
     buf.resize(n, el);
     start = 0;
     numel = 0;
   }
-  T &operator[](size_t i) {
+  T& operator[](size_t i) {
     assert((i < numel) && "Youre accessing an empty buffer");
     size_t index = (start + i) % buf.size();
     return buf[index];
@@ -78,14 +78,14 @@ using ::dynamicgraph::command::Value;
 template <class sigT, class coefT>
 class SetElement : public Command {
  public:
-  SetElement(FIRFilter<sigT, coefT> &entity, const std::string &docstring);
+  SetElement(FIRFilter<sigT, coefT>& entity, const std::string& docstring);
   Value doExecute();
 };  // class SetElement
 
 template <class sigT, class coefT>
 class GetElement : public Command {
  public:
-  GetElement(FIRFilter<sigT, coefT> &entity, const std::string &docstring);
+  GetElement(FIRFilter<sigT, coefT>& entity, const std::string& docstring);
   Value doExecute();
 };  // class SetElement
 }  // namespace command
@@ -96,7 +96,7 @@ using ::dynamicgraph::command::Setter;
 template <class sigT, class coefT>
 class FIRFilter : public Entity {
  public:
-  virtual const std::string &getClassName() const {
+  virtual const std::string& getClassName() const {
     return Entity::getClassName();
   }
   static std::string getTypeName(void) { return "Unknown"; }
@@ -119,7 +119,7 @@ class FIRFilter : public Entity {
   }
 
  public:
-  FIRFilter(const std::string &name)
+  FIRFilter(const std::string& name)
       : Entity(name),
         SIN(NULL, "sotFIRFilter(" + name + ")::input(T)::sin"),
         SOUT(boost::bind(&FIRFilter::compute, this, _1, _2), SIN,
@@ -161,8 +161,8 @@ class FIRFilter : public Entity {
 
   virtual ~FIRFilter() {}
 
-  virtual sigT &compute(sigT &res, sigtime_t time) {
-    const sigT &in = SIN.access(time);
+  virtual sigT& compute(sigT& res, sigtime_t time) {
+    const sigT& in = SIN.access(time);
     reset_signal(res, in);
     data.push_front(in);
 
@@ -174,7 +174,7 @@ class FIRFilter : public Entity {
     return res;
   }
 
-  void resizeBuffer(const std::size_t &size) {
+  void resizeBuffer(const std::size_t& size) {
     size_t s = static_cast<size_t>(size);
     data.reset_capacity(s);
     coefs.resize(s);
@@ -184,13 +184,13 @@ class FIRFilter : public Entity {
     return static_cast<std::size_t>(coefs.size());
   }
 
-  void setElement(const std::size_t &rank, const coefT &coef) {
+  void setElement(const std::size_t& rank, const coefT& coef) {
     coefs[rank] = coef;
   }
 
-  coefT getElement(const std::size_t &rank) const { return coefs[rank]; }
+  coefT getElement(const std::size_t& rank) const { return coefs[rank]; }
 
-  static void reset_signal(sigT & /*res*/, const sigT & /*sample*/) {}
+  static void reset_signal(sigT& /*res*/, const sigT& /*sample*/) {}
 
  public:
   SignalPtr<sigT, sigtime_t> SIN;
@@ -207,8 +207,8 @@ using ::dynamicgraph::command::Value;
 using ::dynamicgraph::command::ValueHelper;
 
 template <class sigT, class coefT>
-SetElement<sigT, coefT>::SetElement(FIRFilter<sigT, coefT> &entity,
-                                    const std::string &docstring)
+SetElement<sigT, coefT>::SetElement(FIRFilter<sigT, coefT>& entity,
+                                    const std::string& docstring)
     : Command(
           entity,
           boost::assign::list_of(Value::UNSIGNED)(ValueHelper<coefT>::TypeID),
@@ -216,8 +216,8 @@ SetElement<sigT, coefT>::SetElement(FIRFilter<sigT, coefT> &entity,
 
 template <class sigT, class coefT>
 Value SetElement<sigT, coefT>::doExecute() {
-  FIRFilter<sigT, coefT> &entity =
-      static_cast<FIRFilter<sigT, coefT> &>(owner());
+  FIRFilter<sigT, coefT>& entity =
+      static_cast<FIRFilter<sigT, coefT>&>(owner());
   std::vector<Value> values = getParameterValues();
   std::size_t rank = values[0].value();
   coefT coef = values[1].value();
@@ -226,14 +226,14 @@ Value SetElement<sigT, coefT>::doExecute() {
 }
 
 template <class sigT, class coefT>
-GetElement<sigT, coefT>::GetElement(FIRFilter<sigT, coefT> &entity,
-                                    const std::string &docstring)
+GetElement<sigT, coefT>::GetElement(FIRFilter<sigT, coefT>& entity,
+                                    const std::string& docstring)
     : Command(entity, boost::assign::list_of(Value::UNSIGNED), docstring) {}
 
 template <class sigT, class coefT>
 Value GetElement<sigT, coefT>::doExecute() {
-  FIRFilter<sigT, coefT> &entity =
-      static_cast<FIRFilter<sigT, coefT> &>(owner());
+  FIRFilter<sigT, coefT>& entity =
+      static_cast<FIRFilter<sigT, coefT>&>(owner());
   std::vector<Value> values = getParameterValues();
   std::size_t rank = values[0].value();
   return Value(entity.getElement(rank));

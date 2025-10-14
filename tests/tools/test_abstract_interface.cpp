@@ -25,7 +25,7 @@ namespace po = boost::program_options;
 
 class PluginLoader {
  protected:
-  PluginAbstract *sotController_;
+  PluginAbstract* sotController_;
   po::variables_map vm_;
   std::string dynamicLibraryName_;
 
@@ -33,7 +33,7 @@ class PluginLoader {
   PluginLoader() {};
   ~PluginLoader() {};
 
-  int parseOptions(int argc, char *argv[]) {
+  int parseOptions(int argc, char* argv[]) {
     po::options_description desc("Allowed options");
     desc.add_options()("help", "produce help message")(
         "input-file", po::value<string>(), "library to load");
@@ -57,7 +57,7 @@ class PluginLoader {
 
   void Initialization() {
     // Load the SotRobotBipedController library.
-    void *SotRobotControllerLibrary =
+    void* SotRobotControllerLibrary =
         dlopen("libpluginabstract.so", RTLD_LAZY | RTLD_LOCAL);
     if (!SotRobotControllerLibrary) {
       std::cerr << "Cannot load library: " << dlerror() << '\n';
@@ -68,9 +68,9 @@ class PluginLoader {
     dlerror();
 
     // Load the symbols.
-    createPlugin_t *createPlugin =
-        (createPlugin_t *)dlsym(SotRobotControllerLibrary, "createPlugin");
-    const char *dlsym_error = dlerror();
+    createPlugin_t* createPlugin =
+        (createPlugin_t*)dlsym(SotRobotControllerLibrary, "createPlugin");
+    const char* dlsym_error = dlerror();
     if (dlsym_error) {
       std::cerr << "Cannot load symbol create: " << dlsym_error << '\n';
       return;
@@ -84,7 +84,7 @@ class PluginLoader {
   }
 };
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   PluginLoader aPluginLoader;
   aPluginLoader.parseOptions(argc, argv);
 }

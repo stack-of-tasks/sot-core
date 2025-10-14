@@ -16,7 +16,7 @@ namespace sot {
 
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(DoubleConstant, "DoubleConstant");
 
-DoubleConstant::DoubleConstant(const std::string &name)
+DoubleConstant::DoubleConstant(const std::string& name)
     : Entity(name), SOUT("DoubleConstant(" + name + ")::output(double)::sout") {
   SOUT.setDependencyType(TimeDependency<sigtime_t>::BOOL_DEPENDENT);
   signalRegistration(SOUT);
@@ -35,7 +35,7 @@ DoubleConstant::DoubleConstant(const std::string &name)
                         *this, &DoubleConstant::setValue, docstring));
 }
 
-void DoubleConstant::setValue(const double &inValue) {
+void DoubleConstant::setValue(const double& inValue) {
   SOUT.setConstant(inValue);
 }
 

@@ -43,12 +43,12 @@ class SOTVISUALPOINTPROJECTER_EXPORT VisualPointProjecter
     : public ::dynamicgraph::Entity,
       public ::dynamicgraph::EntityHelper<VisualPointProjecter> {
  public: /* --- CONSTRUCTOR ---- */
-  VisualPointProjecter(const std::string &name);
+  VisualPointProjecter(const std::string& name);
 
  public: /* --- ENTITY INHERITANCE --- */
   static const std::string CLASS_NAME;
-  virtual void display(std::ostream &os) const;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual void display(std::ostream& os) const;
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  public: /* --- SIGNALS --- */
   DECLARE_SIGNAL_IN(point3D, dynamicgraph::Vector);

@@ -34,24 +34,24 @@ using namespace dg;
 #ifdef WIN32
 typedef HMODULE sotPluginKey;
 #else
-typedef void *sotPluginKey;
+typedef void* sotPluginKey;
 #endif
 
 class TestFeature : public FeatureAbstract {
  public:
   TestFeature(void) : FeatureAbstract("") {}
   virtual ~TestFeature(void) {}
-  virtual unsigned int &getDimension(unsigned int &res, int /*time*/) {
+  virtual unsigned int& getDimension(unsigned int& res, int /*time*/) {
     return res;
   }
 
-  virtual dg::Vector &computeError(dg::Vector &res, int /*time*/) {
+  virtual dg::Vector& computeError(dg::Vector& res, int /*time*/) {
     return res;
   }
-  virtual dg::Matrix &computeJacobian(dg::Matrix &res, int /*time*/) {
+  virtual dg::Matrix& computeJacobian(dg::Matrix& res, int /*time*/) {
     return res;
   }
-  virtual dg::Vector &computeActivation(dg::Vector &res, int /*time*/) {
+  virtual dg::Vector& computeActivation(dg::Vector& res, int /*time*/) {
     return res;
   }
 };
@@ -120,9 +120,9 @@ int main() {
     exit(1);
   }
 
-  Entity *gain =
+  Entity* gain =
       FactoryStorage::getInstance()->newEntity("GainAdaptive", "Gain");
-  FeatureAbstract *point =
+  FeatureAbstract* point =
       sotFactory.newFeature("FeatureVisualPoint", "DynamicTest.");
 
   try {

@@ -37,15 +37,15 @@ class SOT_CORE_EXPORT ExceptionFeature : public ExceptionAbstract
   };
 
   static const std::string EXCEPTION_NAME;
-  virtual const std::string &getExceptionName(void) const {
+  virtual const std::string& getExceptionName(void) const {
     return ExceptionFeature::EXCEPTION_NAME;
   }
 
-  ExceptionFeature(const ExceptionFeature::ErrorCodeEnum &errcode,
-                   const std::string &msg = "");
+  ExceptionFeature(const ExceptionFeature::ErrorCodeEnum& errcode,
+                   const std::string& msg = "");
 
-  ExceptionFeature(const ExceptionFeature::ErrorCodeEnum &errcode,
-                   const std::string &msg, const char *format, ...);
+  ExceptionFeature(const ExceptionFeature::ErrorCodeEnum& errcode,
+                   const std::string& msg, const char* format, ...);
 
   virtual ~ExceptionFeature(void) throw() {}
 };

@@ -60,51 +60,51 @@ class SOTParameterServer_EXPORT ParameterServer
 
  public:
   /* --- CONSTRUCTOR ---- */
-  ParameterServer(const std::string &name);
+  ParameterServer(const std::string& name);
 
   ~ParameterServer() {};
 
   /// Initialize
   /// @param dt: control interval
   /// @param urdfFile: path to the URDF model of the robot
-  void init(const double &dt, const std::string &urdfFile,
-            const std::string &robotRef);
+  void init(const double& dt, const std::string& urdfFile,
+            const std::string& robotRef);
 
   /// Initialize
   /// @param dt: control interval provided by the device.
   /// The urdf model is found by reading /robot_description
   /// The robot name is found using the name inside robot_description
-  void init_simple(const double &dt);
+  void init_simple(const double& dt);
   /* --- SIGNALS --- */
 
   /* --- COMMANDS --- */
 
   /// Commands related to joint name and joint id
-  void setNameToId(const std::string &jointName, const double &jointId);
-  void setJointLimitsFromId(const double &jointId, const double &lq,
-                            const double &uq);
+  void setNameToId(const std::string& jointName, const double& jointId);
+  void setJointLimitsFromId(const double& jointId, const double& lq,
+                            const double& uq);
 
   /// Command related to ForceUtil
-  void setForceLimitsFromId(const double &jointId,
-                            const dynamicgraph::Vector &lq,
-                            const dynamicgraph::Vector &uq);
-  void setForceNameToForceId(const std::string &forceName,
-                             const double &forceId);
+  void setForceLimitsFromId(const double& jointId,
+                            const dynamicgraph::Vector& lq,
+                            const dynamicgraph::Vector& uq);
+  void setForceNameToForceId(const std::string& forceName,
+                             const double& forceId);
 
   /// \name  Commands related to FootUtil
   /// @{
-  void setRightFootSoleXYZ(const dynamicgraph::Vector &);
-  void setRightFootForceSensorXYZ(const dynamicgraph::Vector &);
-  void setFootFrameName(const std::string &, const std::string &);
-  void setHandFrameName(const std::string &, const std::string &);
-  void setImuJointName(const std::string &);
+  void setRightFootSoleXYZ(const dynamicgraph::Vector&);
+  void setRightFootForceSensorXYZ(const dynamicgraph::Vector&);
+  void setFootFrameName(const std::string&, const std::string&);
+  void setHandFrameName(const std::string&, const std::string&);
+  void setImuJointName(const std::string&);
   void displayRobotUtil();
   /// @}
   /// \name Commands related to the model
   /// @{
   template <typename Type>
-  void setParameter(const std::string &ParameterName,
-                    const Type &ParameterValue) {
+  void setParameter(const std::string& ParameterName,
+                    const Type& ParameterValue) {
     if (!m_initSucceeded) {
       DYNAMIC_GRAPH_ENTITY_WARNING(*this)
           << "Cannot set parameter " << ParameterName << " to "
@@ -116,7 +116,7 @@ class SOTParameterServer_EXPORT ParameterServer
   }
 
   template <typename Type>
-  Type getParameter(const std::string &ParameterName) {
+  Type getParameter(const std::string& ParameterName) {
     if (!m_initSucceeded) {
       DYNAMIC_GRAPH_ENTITY_WARNING(*this)
           << "Cannot get parameter " << ParameterName
@@ -128,10 +128,10 @@ class SOTParameterServer_EXPORT ParameterServer
 
   /// @}
   /// Set the mapping between urdf and sot.
-  void setJoints(const dynamicgraph::Vector &);
+  void setJoints(const dynamicgraph::Vector&);
 
   /* --- ENTITY INHERITANCE --- */
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 
  protected:
   RobotUtilShrPtr m_robot_util;
@@ -146,7 +146,7 @@ class SOTParameterServer_EXPORT ParameterServer
   double m_sleep_time;  /// time to sleep at every iteration (to slow down
                         /// simulation)
 
-  bool convertJointNameToJointId(const std::string &name, std::size_t &id);
+  bool convertJointNameToJointId(const std::string& name, std::size_t& id);
   bool isJointInRange(std::size_t id, double q);
   void updateJointCtrlModesOutputSignal();
 

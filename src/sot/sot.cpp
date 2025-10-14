@@ -59,7 +59,7 @@ const Eigen::IOFormat python(Eigen::FullPrecision, 0,
 /* --------------------------------------------------------------------- */
 /* --- CONSTRUCTION ---------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-Sot::Sot(const std::string &name)
+Sot::Sot(const std::string& name)
     : Entity(name),
       stack(),
       nbJoints(0),
@@ -100,7 +100,7 @@ Sot::Sot(const std::string &name)
       "the robot.\n"
       "    \n";
   addCommand("getSize",
-             new dynamicgraph::command::Getter<Sot, const size_type &>(
+             new dynamicgraph::command::Getter<Sot, const size_type&>(
                  *this, &Sot::getNbDof, docstring));
 
   addCommand("enablePostureTaskAcceleration",
@@ -207,7 +207,7 @@ Sot::Sot(const std::string &name)
 /* --------------------------------------------------------------------- */
 /* --- STACK MANIPULATION --- */
 /* --------------------------------------------------------------------- */
-void Sot::push(TaskAbstract &task) {
+void Sot::push(TaskAbstract& task) {
   if (nbJoints == 0)
     throw std::logic_error("Set joint size of " + getClassName() + " \"" +
                            getName() + "\" first");
@@ -216,15 +216,15 @@ void Sot::push(TaskAbstract &task) {
   controlSOUT.addDependency(task.jacobianSOUT);
   controlSOUT.setReady();
 }
-TaskAbstract &Sot::pop(void) {
-  TaskAbstract *res = stack.back();
+TaskAbstract& Sot::pop(void) {
+  TaskAbstract* res = stack.back();
   stack.pop_back();
   controlSOUT.removeDependency(res->taskSOUT);
   controlSOUT.removeDependency(res->jacobianSOUT);
   controlSOUT.setReady();
   return *res;
 }
-bool Sot::exist(const TaskAbstract &key) {
+bool Sot::exist(const TaskAbstract& key) {
   StackType::iterator it;
   for (it = stack.begin(); stack.end() != it; ++it) {
     if (*it == &key) {
@@ -233,7 +233,7 @@ bool Sot::exist(const TaskAbstract &key) {
   }
   return false;
 }
-void Sot::remove(const TaskAbstract &key) {
+void Sot::remove(const TaskAbstract& key) {
   bool find = false;
   StackType::iterator it;
   for (it = stack.begin(); stack.end() != it; ++it) {
@@ -250,13 +250,13 @@ void Sot::remove(const TaskAbstract &key) {
   removeDependency(key);
 }
 
-void Sot::removeDependency(const TaskAbstract &key) {
+void Sot::removeDependency(const TaskAbstract& key) {
   controlSOUT.removeDependency(key.taskSOUT);
   controlSOUT.removeDependency(key.jacobianSOUT);
   controlSOUT.setReady();
 }
 
-void Sot::up(const TaskAbstract &key) {
+void Sot::up(const TaskAbstract& key) {
   bool find = false;
   StackType::iterator it;
   for (it = stack.begin(); stack.end() != it; ++it) {
@@ -274,12 +274,12 @@ void Sot::up(const TaskAbstract &key) {
 
   StackType::iterator pos = it;
   pos--;
-  TaskAbstract *task = *it;
+  TaskAbstract* task = *it;
   stack.erase(it);
   stack.insert(pos, task);
   controlSOUT.setReady();
 }
-void Sot::down(const TaskAbstract &key) {
+void Sot::down(const TaskAbstract& key) {
   bool find = false;
   StackType::iterator it;
   for (it = stack.begin(); stack.end() != it; ++it) {
@@ -297,7 +297,7 @@ void Sot::down(const TaskAbstract &key) {
 
   StackType::iterator pos = it;
   pos++;
-  TaskAbstract *task = *it;
+  TaskAbstract* task = *it;
   stack.erase(it);
   if (stack.end() == pos) {
     stack.push_back(task);
@@ -316,7 +316,7 @@ void Sot::clear(void) {
   controlSOUT.setReady();
 }
 
-void Sot::defineNbDof(const size_type &nbDof) {
+void Sot::defineNbDof(const size_type& nbDof) {
   nbJoints = nbDof;
   controlSOUT.setReady();
 }
@@ -325,10 +325,10 @@ void Sot::defineNbDof(const size_type &nbDof) {
 /* --------------------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-const Matrix &computeJacobianActivated(TaskAbstract *Ta, Task *T, Matrix &Jmem,
-                                       const sigtime_t &iterTime) {
+const Matrix& computeJacobianActivated(TaskAbstract* Ta, Task* T, Matrix& Jmem,
+                                       const sigtime_t& iterTime) {
   if (T != NULL) {
-    const Flags &controlSelec = T->controlSelectionSIN(iterTime);
+    const Flags& controlSelec = T->controlSelectionSIN(iterTime);
     sotDEBUG(25) << "Control selection = " << controlSelec << endl;
     if (controlSelec) {
       if (!controlSelec) {
@@ -340,7 +340,7 @@ const Matrix &computeJacobianActivated(TaskAbstract *Ta, Task *T, Matrix &Jmem,
         return Ta->jacobianSOUT.accessCopy();
     } else {
       sotDEBUG(15) << "Task not activated." << endl;
-      const Matrix &Jac = Ta->jacobianSOUT.accessCopy();
+      const Matrix& Jac = Ta->jacobianSOUT.accessCopy();
       Jmem = Matrix::Zero(Jac.rows(), Jac.cols());
       return Jmem;
     }
@@ -352,20 +352,20 @@ typedef MemoryTaskSOT::Kernel_t Kernel_t;
 typedef MemoryTaskSOT::KernelConst_t KernelConst_t;
 
 template <typename MapType, typename MatrixType>
-inline void makeMap(MapType &map, MatrixType &m) {
+inline void makeMap(MapType& map, MatrixType& m) {
   // There is not memory allocation here.
   // See https://eigen.tuxfamily.org/dox/group__TutorialMapClass.html
   new (&map) KernelConst_t(m.data(), m.rows(), m.cols());
 }
 
-bool updateControl(MemoryTaskSOT *mem, const Matrix::Index rankJ,
-                   bool has_kernel, const KernelConst_t &kernel,
-                   Vector &control, const double &threshold) {
-  const SVD_t &svd(mem->svd);
-  Vector &tmpTask(mem->tmpTask);
-  Vector &tmpVar(mem->tmpVar);
-  Vector &tmpControl(mem->tmpControl);
-  const Vector &err(mem->err);
+bool updateControl(MemoryTaskSOT* mem, const Matrix::Index rankJ,
+                   bool has_kernel, const KernelConst_t& kernel,
+                   Vector& control, const double& threshold) {
+  const SVD_t& svd(mem->svd);
+  Vector& tmpTask(mem->tmpTask);
+  Vector& tmpVar(mem->tmpVar);
+  Vector& tmpControl(mem->tmpControl);
+  const Vector& err(mem->err);
 
   // tmpTask <- S^-1 * U^T * err
   tmpTask.head(rankJ).noalias() = svd.matrixU().leftCols(rankJ).adjoint() * err;
@@ -384,21 +384,21 @@ bool updateControl(MemoryTaskSOT *mem, const Matrix::Index rankJ,
   return true;
 }
 
-bool isFullPostureTask(Task *task, const Matrix::Index &nDof,
-                       const sigtime_t &iterTime) {
+bool isFullPostureTask(Task* task, const Matrix::Index& nDof,
+                       const sigtime_t& iterTime) {
   if (task == NULL || task->getFeatureList().size() != 1 ||
       !task->controlSelectionSIN(iterTime))
     return false;
-  FeaturePosture *posture =
-      dynamic_cast<FeaturePosture *>(task->getFeatureList().front());
+  FeaturePosture* posture =
+      dynamic_cast<FeaturePosture*>(task->getFeatureList().front());
 
   assert(posture->dimensionSOUT(iterTime) <= nDof - 6);
   return posture != NULL && posture->dimensionSOUT(iterTime) == nDof - 6;
 }
 
-MemoryTaskSOT *getMemory(TaskAbstract &t, const Matrix::Index &tDim,
-                         const Matrix::Index &nDof) {
-  MemoryTaskSOT *mem = dynamic_cast<MemoryTaskSOT *>(t.memoryInternal);
+MemoryTaskSOT* getMemory(TaskAbstract& t, const Matrix::Index& tDim,
+                         const Matrix::Index& nDof) {
+  MemoryTaskSOT* mem = dynamic_cast<MemoryTaskSOT*>(t.memoryInternal);
   if (NULL == mem) {
     if (NULL != t.memoryInternal) delete t.memoryInternal;
     mem = new MemoryTaskSOT(tDim, nDof);
@@ -455,8 +455,8 @@ MemoryTaskSOT *getMemory(TaskAbstract &t, const Matrix::Index &tDim,
 #define sotPRINTCOUNTER(nbc1)
 #endif  // #ifdef  WITH_CHRONO
 
-void Sot::taskVectorToMlVector(const VectorMultiBound &taskVector,
-                               Vector &res) {
+void Sot::taskVectorToMlVector(const VectorMultiBound& taskVector,
+                               Vector& res) {
   res.resize(taskVector.size());
   std::size_t i = 0;
 
@@ -466,8 +466,8 @@ void Sot::taskVectorToMlVector(const VectorMultiBound &taskVector,
   }
 }
 
-dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
-                                             const sigtime_t &iterTime) {
+dynamicgraph::Vector& Sot::computeControlLaw(dynamicgraph::Vector& control,
+                                             const sigtime_t& iterTime) {
   sotDEBUGIN(15);
 
   sotINIT_CHRONO1;
@@ -481,7 +481,7 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
 
   sotSTART_CHRONO1;
 
-  const double &th = inversionThresholdSIN(iterTime);
+  const double& th = inversionThresholdSIN(iterTime);
 
   bool controlIsZero = true;
   if (q0SIN.isPlugged()) {
@@ -510,7 +510,7 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
   bool has_kernel = false;
   // Get initial projector if any.
   if (proj0SIN.isPlugged()) {
-    const Matrix &K = proj0SIN.access(iterTime);
+    const Matrix& K = proj0SIN.access(iterTime);
     if (K.rows() == nbJoints) {
       makeMap(kernel, K);
       has_kernel = true;
@@ -524,8 +524,8 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
     sotSTARTPARTCOUNTERS;
 
     sotDEBUGF(5, "Rank %d.", iterTask);
-    TaskAbstract &taskA = **iter;
-    Task *task = dynamic_cast<Task *>(*iter);
+    TaskAbstract& taskA = **iter;
+    Task* task = dynamic_cast<Task*>(*iter);
 
     bool last = (iterTask + 1 == stack.size());
     bool fullPostureTask = (last && enablePostureTaskAcceleration &&
@@ -540,7 +540,7 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
     sotCOUNTER(0, 1);  // Direct Dynamic
 
     /* Init memory. */
-    MemoryTaskSOT *mem = getMemory(taskA, dim, nbJoints);
+    MemoryTaskSOT* mem = getMemory(taskA, dim, nbJoints);
     /***/ sotCOUNTER(1, 2);  // first allocs
 
     Matrix::Index rankJ = -1;
@@ -564,12 +564,12 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
       assert(taskA.jacobianSOUT.accessCopy().cols() == nbJoints);
 
       /* --- COMPUTE S * JK --- */
-      const Matrix &JK =
+      const Matrix& JK =
           computeJacobianActivated(&taskA, task, mem->JK, iterTime);
       /***/ sotCOUNTER(2, 3);  // compute JK*S
 
       /* --- COMPUTE Jt --- */
-      const Matrix *Jt = &mem->Jt;
+      const Matrix* Jt = &mem->Jt;
       if (has_kernel)
         mem->Jt.noalias() = JK * kernel;
       else
@@ -577,7 +577,7 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
       /***/ sotCOUNTER(3, 4);  // compute Jt
 
       /* --- SVD and RANK--- */
-      SVD_t &svd = mem->svd;
+      SVD_t& svd = mem->svd;
       if (last)
         svd.compute(*Jt, Eigen::ComputeThinU | Eigen::ComputeThinV);
       else
@@ -645,7 +645,7 @@ dynamicgraph::Vector &Sot::computeControlLaw(dynamicgraph::Vector &control,
 /* --------------------------------------------------------------------- */
 /* --- DISPLAY --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
-void Sot::display(std::ostream &os) const {
+void Sot::display(std::ostream& os) const {
   os << "+-----------------" << std::endl
      << "+   SOT     " << std::endl
      << "+-----------------" << std::endl;
@@ -656,7 +656,7 @@ void Sot::display(std::ostream &os) const {
   os << "+-----------------" << std::endl;
 }
 
-std::ostream &operator<<(std::ostream &os, const Sot &sot) {
+std::ostream& operator<<(std::ostream& os, const Sot& sot) {
   sot.display(os);
   return os;
 }
@@ -665,15 +665,15 @@ std::ostream &operator<<(std::ostream &os, const Sot &sot) {
 /* --- COMMAND --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-std::ostream &Sot::writeGraph(std::ostream &os) const {
+std::ostream& Sot::writeGraph(std::ostream& os) const {
   StackType::const_iterator iter;
   for (iter = stack.begin(); iter != stack.end(); ++iter) {
-    const TaskAbstract &task = **iter;
+    const TaskAbstract& task = **iter;
     StackType::const_iterator nextiter = iter;
     nextiter++;
 
     if (nextiter != stack.end()) {
-      TaskAbstract &nexttask = **nextiter;
+      TaskAbstract& nexttask = **nextiter;
       os << "\t\t\t\"" << task.getName() << "\" -> \"" << nexttask.getName()
          << "\" [color=red]" << endl;
     }
@@ -684,7 +684,7 @@ std::ostream &Sot::writeGraph(std::ostream &os) const {
   os << "\t\t\t\tcolor=lightsteelblue1; label=\"" << getName()
      << "\"; style=filled;" << std::endl;
   for (iter = stack.begin(); iter != stack.end(); ++iter) {
-    const TaskAbstract &task = **iter;
+    const TaskAbstract& task = **iter;
     os << "\t\t\t\t\"" << task.getName() << "\" [ label = \"" << task.getName()
        << "\" ," << std::endl
        << "\t\t\t\t   fontcolor = black, color = black, fillcolor = magenta, "

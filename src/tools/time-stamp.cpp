@@ -28,7 +28,7 @@ using namespace dynamicgraph::sot;
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(TimeStamp, "TimeStamp");
 
 /* --- CONSTRUCTION ---------------------------------------------------- */
-TimeStamp::TimeStamp(const std::string &name)
+TimeStamp::TimeStamp(const std::string& name)
     : Entity(name),
       offsetValue(0),
       offsetSet(false),
@@ -58,7 +58,7 @@ TimeStamp::TimeStamp(const std::string &name)
 }
 
 /* --- DISPLAY --------------------------------------------------------- */
-void TimeStamp::display(std::ostream &os) const {
+void TimeStamp::display(std::ostream& os) const {
   os << "TimeStamp <> : " << val.tv_sec << "s; " << val.tv_usec << "us."
      << std::endl;
 }
@@ -67,8 +67,8 @@ void TimeStamp::display(std::ostream &os) const {
 /* --- CONTROL --------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-dynamicgraph::Vector &TimeStamp::getTimeStamp(dynamicgraph::Vector &res,
-                                              const sigtime_t & /*time*/) {
+dynamicgraph::Vector& TimeStamp::getTimeStamp(dynamicgraph::Vector& res,
+                                              const sigtime_t& /*time*/) {
   sotDEBUGIN(15);
   gettimeofday(&val, NULL);
   if (res.size() != 2) res.resize(2);
@@ -79,8 +79,8 @@ dynamicgraph::Vector &TimeStamp::getTimeStamp(dynamicgraph::Vector &res,
   return res;
 }
 
-double &TimeStamp::getTimeStampDouble(const dynamicgraph::Vector &vect,
-                                      double &res) {
+double& TimeStamp::getTimeStampDouble(const dynamicgraph::Vector& vect,
+                                      double& res) {
   sotDEBUGIN(15);
 
   if (offsetSet)

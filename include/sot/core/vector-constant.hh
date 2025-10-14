@@ -34,16 +34,16 @@ class VectorConstant : public Entity {
 
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
-  VectorConstant(const std::string &name);
+  VectorConstant(const std::string& name);
 
   virtual ~VectorConstant(void) {}
 
   SignalTimeDependent<dynamicgraph::Vector, sigtime_t> SOUT;
 
   /// \brief Set value of vector (and therefore of output signal)
-  void setValue(const dynamicgraph::Vector &inValue);
+  void setValue(const dynamicgraph::Vector& inValue);
 };
 
 }  // namespace sot

@@ -40,7 +40,7 @@ SotLoader::SotLoader() {
 
 SotLoader::~SotLoader() { cleanUp(); }
 
-int SotLoader::parseOptions(int argc, char *argv[]) {
+int SotLoader::parseOptions(int argc, char* argv[]) {
   po::options_description desc("Allowed options");
   desc.add_options()("help", "produce help message")(
       "sot-dynamic-library", po::value<std::string>(), "Library to load");
@@ -80,10 +80,10 @@ bool SotLoader::initialization() {
   dlerror();
 
   // Load the symbols.
-  createSotExternalInterface_t *createSotExternalInterface =
-      reinterpret_cast<createSotExternalInterface_t *>(reinterpret_cast<long>(
+  createSotExternalInterface_t* createSotExternalInterface =
+      reinterpret_cast<createSotExternalInterface_t*>(reinterpret_cast<long>(
           dlsym(sot_dynamic_library_, "createSotExternalInterface")));
-  const char *dlsym_error = dlerror();
+  const char* dlsym_error = dlerror();
   if (dlsym_error) {
     std::cerr << "Cannot load symbol create: " << dlsym_error << '\n';
     return false;
@@ -143,11 +143,10 @@ void SotLoader::cleanUp() {
 
   // Load the symbols.
   if (sot_dynamic_library_ != nullptr && sot_external_interface_ != nullptr) {
-    destroySotExternalInterface_t *destroySotExternalInterface =
-        reinterpret_cast<destroySotExternalInterface_t *>(
-            reinterpret_cast<long>(
-                dlsym(sot_dynamic_library_, "destroySotExternalInterface")));
-    const char *dlsym_error = dlerror();
+    destroySotExternalInterface_t* destroySotExternalInterface =
+        reinterpret_cast<destroySotExternalInterface_t*>(reinterpret_cast<long>(
+            dlsym(sot_dynamic_library_, "destroySotExternalInterface")));
+    const char* dlsym_error = dlerror();
     if (dlsym_error) {
       std::cerr << "Cannot load symbol destroy: " << dlsym_error << '\n';
       return;
@@ -162,21 +161,21 @@ void SotLoader::cleanUp() {
   }
 }
 
-void SotLoader::runPythonCommand(const std::string &command,
-                                 std::string &result, std::string &out,
-                                 std::string &err) {
+void SotLoader::runPythonCommand(const std::string& command,
+                                 std::string& result, std::string& out,
+                                 std::string& err) {
   embeded_python_interpreter_.python(command, result, out, err);
 }
 
 void SotLoader::oneIteration(
-    std::map<std::string, SensorValues> &sensors_in,
-    std::map<std::string, ControlValues> &control_values,
-    const double &period) {
+    std::map<std::string, SensorValues>& sensors_in,
+    std::map<std::string, ControlValues>& control_values,
+    const double& period) {
   if (!dynamic_graph_stopped_) {
     try {
       sot_external_interface_->nominalSetSensors(sensors_in);
       sot_external_interface_->getControl(control_values, period);
-    } catch (std::exception &e) {
+    } catch (std::exception& e) {
       std::cout << "Exception while running the graph:\n"
                 << e.what() << std::endl;
       throw e;
@@ -184,7 +183,7 @@ void SotLoader::oneIteration(
   }
 }
 
-void SotLoader::loadDeviceInPython(const std::string &device_name) {
+void SotLoader::loadDeviceInPython(const std::string& device_name) {
   std::string result, out, err;
   // Debug print.
   runPythonCommand("print(\"Load device from C++ to Python...\")", result, out,

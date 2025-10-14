@@ -79,7 +79,7 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
   static const std::string CLASS_NAME;
 
   /*! \brief Returns the name class. */
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
   /*! \brief Register the feature in the stack of tasks. */
   void featureRegistration(void);
@@ -88,7 +88,7 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
 
  public:
   /*! \brief Default constructor: the name of the class should be given. */
-  FeatureAbstract(const std::string &name);
+  FeatureAbstract(const std::string& name);
   /*! \brief Default destructor */
   virtual ~FeatureAbstract(void) {};
 
@@ -101,7 +101,7 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
     \return Dimension of the feature.
     \note Be careful with features changing their dimension according to time.
   */
-  virtual size_type &getDimension(size_type &res, sigtime_t time) = 0;
+  virtual size_type& getDimension(size_type& res, sigtime_t time) = 0;
 
   /*! \brief Short method
     \par time: The time at which the feature should be considered.
@@ -137,7 +137,7 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
     \par[in] time: The time at which the error is computed.
     \return The vector res with the appropriate value.
   */
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+  virtual dynamicgraph::Vector& computeError(dynamicgraph::Vector& res,
                                              sigtime_t time) = 0;
 
   /*! \brief Compute the Jacobian of the error according the robot state.
@@ -145,14 +145,14 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
     \par[out] res: The matrix in which the error will be written.
     \return The matrix res with the appropriate values.
   */
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+  virtual dynamicgraph::Matrix& computeJacobian(dynamicgraph::Matrix& res,
                                                 sigtime_t time) = 0;
 
   /// Callback for signal errordotSOUT
   ///
   /// Copy components of the input signal errordotSIN defined by selection
   /// flag selectionSIN.
-  virtual dynamicgraph::Vector &computeErrorDot(dynamicgraph::Vector &res,
+  virtual dynamicgraph::Vector& computeErrorDot(dynamicgraph::Vector& res,
                                                 sigtime_t time);
 
   /*! @} */
@@ -197,9 +197,9 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
 
   /*! \brief This method write a graph description on the file named
     FileName. */
-  virtual std::ostream &writeGraph(std::ostream &os) const;
+  virtual std::ostream& writeGraph(std::ostream& os) const;
 
-  virtual SignalTimeDependent<dynamicgraph::Vector, sigtime_t> &getErrorDot() {
+  virtual SignalTimeDependent<dynamicgraph::Vector, sigtime_t>& getErrorDot() {
     return errordotSOUT;
   }
 
@@ -210,47 +210,47 @@ class SOT_CORE_EXPORT FeatureAbstract : public Entity {
   /*! \name Reference
     @{
   */
-  virtual void setReference(FeatureAbstract *sdes) = 0;
+  virtual void setReference(FeatureAbstract* sdes) = 0;
   virtual void unsetReference(void) { setReference(NULL); }
-  virtual const FeatureAbstract *getReferenceAbstract(void) const = 0;
-  virtual FeatureAbstract *getReferenceAbstract(void) = 0;
+  virtual const FeatureAbstract* getReferenceAbstract(void) const = 0;
+  virtual FeatureAbstract* getReferenceAbstract(void) = 0;
   virtual bool isReferenceSet(void) const { return false; }
 
   virtual void addDependenciesFromReference(void) = 0;
   virtual void removeDependenciesFromReference(void) = 0;
 
   /* Commands for bindings. */
-  void setReferenceByName(const std::string &name);
+  void setReferenceByName(const std::string& name);
   std::string getReferenceByName(void) const;
   /*! @} */
 };
 
 template <class FeatureSpecialized>
 class FeatureReferenceHelper {
-  FeatureSpecialized *ptr;
-  FeatureAbstract *ptrA;
+  FeatureSpecialized* ptr;
+  FeatureAbstract* ptrA;
 
  public:
   FeatureReferenceHelper(void) : ptr(NULL) {}
 
-  void setReference(FeatureAbstract *sdes);
+  void setReference(FeatureAbstract* sdes);
   // void setReferenceByName( const std::string & name );
   void unsetReference(void) { setReference(NULL); }
   bool isReferenceSet(void) const { return ptr != NULL; }
-  FeatureSpecialized *getReference(void) { return ptr; }
-  const FeatureSpecialized *getReference(void) const { return ptr; }
+  FeatureSpecialized* getReference(void) { return ptr; }
+  const FeatureSpecialized* getReference(void) const { return ptr; }
 };
 
 template <class FeatureSpecialized>
 void FeatureReferenceHelper<FeatureSpecialized>::setReference(
-    FeatureAbstract *sdes) {
-  ptr = dynamic_cast<FeatureSpecialized *>(sdes);
+    FeatureAbstract* sdes) {
+  ptr = dynamic_cast<FeatureSpecialized*>(sdes);
   ptrA = ptr;
 }
 
 #define DECLARE_REFERENCE_FUNCTIONS(FeatureSpecialized)             \
   typedef FeatureReferenceHelper<FeatureSpecialized> SP;            \
-  virtual void setReference(FeatureAbstract *sdes) {                \
+  virtual void setReference(FeatureAbstract* sdes) {                \
     if (sdes == NULL) {                                             \
       /* UNSET */                                                   \
       if (SP::isReferenceSet()) removeDependenciesFromReference();  \
@@ -261,11 +261,11 @@ void FeatureReferenceHelper<FeatureSpecialized>::setReference(
       if (SP::isReferenceSet()) addDependenciesFromReference();     \
     }                                                               \
   }                                                                 \
-  virtual const FeatureAbstract *getReferenceAbstract(void) const { \
+  virtual const FeatureAbstract* getReferenceAbstract(void) const { \
     return SP::getReference();                                      \
   }                                                                 \
-  virtual FeatureAbstract *getReferenceAbstract(void) {             \
-    return (FeatureAbstract *)SP::getReference();                   \
+  virtual FeatureAbstract* getReferenceAbstract(void) {             \
+    return (FeatureAbstract*)SP::getReference();                    \
   }                                                                 \
   bool isReferenceSet(void) const { return SP::isReferenceSet(); }  \
   virtual void addDependenciesFromReference(void);                  \
@@ -273,11 +273,11 @@ void FeatureReferenceHelper<FeatureSpecialized>::setReference(
 /* END OF define DECLARE_REFERENCE_FUNCTIONS */
 
 #define DECLARE_NO_REFERENCE                                           \
-  virtual void setReference(FeatureAbstract *) {}                      \
-  virtual const FeatureAbstract *getReferenceAbstract(void) const {    \
+  virtual void setReference(FeatureAbstract*) {}                       \
+  virtual const FeatureAbstract* getReferenceAbstract(void) const {    \
     return NULL;                                                       \
   }                                                                    \
-  virtual FeatureAbstract *getReferenceAbstract(void) { return NULL; } \
+  virtual FeatureAbstract* getReferenceAbstract(void) { return NULL; } \
   virtual void addDependenciesFromReference(void) {}                   \
   virtual void removeDependenciesFromReference(void) {}                \
   /* To force a ; */ bool NO_REFERENCE

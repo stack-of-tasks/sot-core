@@ -47,7 +47,7 @@ class SOT_CORE_EXPORT MultiBound {
   MultiBound(const double x = 0.);
   MultiBound(const double xi, const double xs);
   MultiBound(const double x, const SupInfType bound);
-  MultiBound(const MultiBound &clone);
+  MultiBound(const MultiBound& clone);
 
  public:  // Acessors
   MultiBoundModeType getMode(void) const;
@@ -61,18 +61,18 @@ class SOT_CORE_EXPORT MultiBound {
   void setSingleBound(double boundValue);
 
  public:
-  SOT_CORE_EXPORT friend std::ostream &operator<<(std::ostream &os,
-                                                  const MultiBound &m);
-  SOT_CORE_EXPORT friend std::istream &operator>>(std::istream &is,
-                                                  MultiBound &m);
-  MultiBound &operator=(const MultiBound &other);
+  SOT_CORE_EXPORT friend std::ostream& operator<<(std::ostream& os,
+                                                  const MultiBound& m);
+  SOT_CORE_EXPORT friend std::istream& operator>>(std::istream& is,
+                                                  MultiBound& m);
+  MultiBound& operator=(const MultiBound& other);
 };
 
 /* --------------------------------------------------------------------- */
 typedef std::vector<MultiBound> VectorMultiBound;
-SOT_CORE_EXPORT std::ostream &operator<<(std::ostream &os,
-                                         const VectorMultiBound &v);
-SOT_CORE_EXPORT std::istream &operator>>(std::istream &os, VectorMultiBound &v);
+SOT_CORE_EXPORT std::ostream& operator<<(std::ostream& os,
+                                         const VectorMultiBound& v);
+SOT_CORE_EXPORT std::istream& operator>>(std::istream& os, VectorMultiBound& v);
 
 } /* namespace sot */
 

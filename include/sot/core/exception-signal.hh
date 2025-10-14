@@ -43,15 +43,15 @@ class SOT_CORE_EXPORT ExceptionSignal : public ExceptionAbstract
   };
 
   static const std::string EXCEPTION_NAME;
-  virtual const std::string &getExceptionName(void) const {
+  virtual const std::string& getExceptionName(void) const {
     return EXCEPTION_NAME;
   }
 
  public:
-  ExceptionSignal(const ExceptionSignal::ErrorCodeEnum &errcode,
-                  const std::string &msg = "");
-  ExceptionSignal(const ExceptionSignal::ErrorCodeEnum &errcode,
-                  const std::string &msg, const char *format, ...);
+  ExceptionSignal(const ExceptionSignal::ErrorCodeEnum& errcode,
+                  const std::string& msg = "");
+  ExceptionSignal(const ExceptionSignal::ErrorCodeEnum& errcode,
+                  const std::string& msg, const char* format, ...);
   virtual ~ExceptionSignal(void) throw() {}
 };
 

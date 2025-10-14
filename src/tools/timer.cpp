@@ -42,8 +42,8 @@ template <>
 DYNAMICGRAPH_FACTORY_ENTITY_PLUGIN(timedouble, "TimerDouble");
 
 /* --------------------------------------------------------------------- */
-void cmdChrono(const std::string &cmdLine, std::istringstream &cmdArg,
-               std::ostream &os) {
+void cmdChrono(const std::string& cmdLine, std::istringstream& cmdArg,
+               std::ostream& os) {
   sotDEBUGIN(15);
 
   if (cmdLine == "help") {

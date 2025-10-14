@@ -48,7 +48,7 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
       FeatureReferenceHelper<FeatureJointLimits> {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  protected:
   double threshold;
@@ -78,22 +78,22 @@ class SOTFEATUREJOINTLIMITS_EXPORT FeatureJointLimits
   /*! @} */
 
  public:
-  FeatureJointLimits(const std::string &name);
+  FeatureJointLimits(const std::string& name);
   virtual ~FeatureJointLimits(void) {}
 
-  virtual size_type &getDimension(size_type &dim, sigtime_t time);
+  virtual size_type& getDimension(size_type& dim, sigtime_t time);
 
-  virtual dynamicgraph::Vector &computeError(dynamicgraph::Vector &res,
+  virtual dynamicgraph::Vector& computeError(dynamicgraph::Vector& res,
                                              sigtime_t time);
-  virtual dynamicgraph::Matrix &computeJacobian(dynamicgraph::Matrix &res,
+  virtual dynamicgraph::Matrix& computeJacobian(dynamicgraph::Matrix& res,
                                                 sigtime_t time);
-  dynamicgraph::Vector &computeWidthJl(dynamicgraph::Vector &res,
-                                       const sigtime_t &time);
+  dynamicgraph::Vector& computeWidthJl(dynamicgraph::Vector& res,
+                                       const sigtime_t& time);
 
   /** Static Feature selection. */
   inline static Flags selectActuated(void);
 
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 };
 
 } /* namespace sot */

@@ -42,9 +42,9 @@ class SOT_CORE_EXPORT Contiifstream {
   bool first;
 
  public: /* --- Constructor --- */
-  Contiifstream(const std::string &n = "");
+  Contiifstream(const std::string& n = "");
   ~Contiifstream(void);
-  void open(const std::string &n) {
+  void open(const std::string& n) {
     filename = n;
     cursor = 0;
   }

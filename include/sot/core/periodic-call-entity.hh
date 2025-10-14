@@ -58,21 +58,21 @@ class PeriodicCallEntity_EXPORT PeriodicCallEntity
       protected sot::PeriodicCall {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
   Signal<size_type, sigtime_t> triger;
   Signal<size_type, sigtime_t> trigerOnce;
 
-  size_type &trigerCall(size_type &dummy, const sigtime_t &time);
-  size_type &trigerOnceCall(size_type &dummy, const sigtime_t &time);
+  size_type& trigerCall(size_type& dummy, const sigtime_t& time);
+  size_type& trigerOnceCall(size_type& dummy, const sigtime_t& time);
 
   /* --- FUNCTIONS ------------------------------------------------------------
    */
  public:
-  PeriodicCallEntity(const std::string &name);
+  PeriodicCallEntity(const std::string& name);
   virtual ~PeriodicCallEntity(void) {}
 
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 };
 
 }  // namespace sot

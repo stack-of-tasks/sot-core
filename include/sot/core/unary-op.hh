@@ -37,11 +37,11 @@ class UnaryOp : public Entity {
   static std::string getTypeOutName(void) { return Operator::nameTypeOut(); }
   static const std::string CLASS_NAME;
 
-  virtual const std::string &getClassName() const { return CLASS_NAME; }
+  virtual const std::string& getClassName() const { return CLASS_NAME; }
 
   std::string getDocString() const { return op.getDocString(); }
 
-  UnaryOp(const std::string &name)
+  UnaryOp(const std::string& name)
       : Entity(name),
         SIN(NULL, Self::CLASS_NAME + "(" + name + ")::input(" +
                       Self::getTypeInName() + ")::sin"),
@@ -59,8 +59,8 @@ class UnaryOp : public Entity {
   SignalTimeDependent<Tout, sigtime_t> SOUT;
 
  protected:
-  Tout &computeOperation(Tout &res, sigtime_t time) {
-    const Tin &x1 = SIN(time);
+  Tout& computeOperation(Tout& res, sigtime_t time) {
+    const Tin& x1 = SIN(time);
     op(x1, res);
     return res;
   }

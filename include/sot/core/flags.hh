@@ -36,27 +36,27 @@ class SOT_CORE_EXPORT Flags {
   bool outOfRangeFlag;
 
  public:
-  Flags(const bool &b = false);
-  Flags(const char *flags);
-  Flags(const std::vector<bool> &flags);
+  Flags(const bool& b = false);
+  Flags(const char* flags);
+  Flags(const std::vector<bool>& flags);
 
-  void add(const bool &b);
+  void add(const bool& b);
 
   Flags operator!(void) const;
-  SOT_CORE_EXPORT friend Flags operator&(const Flags &f1, const Flags &f2);
-  SOT_CORE_EXPORT friend Flags operator|(const Flags &f1, const Flags &f2);
-  Flags &operator&=(const Flags &f2);
-  Flags &operator|=(const Flags &f2);
+  SOT_CORE_EXPORT friend Flags operator&(const Flags& f1, const Flags& f2);
+  SOT_CORE_EXPORT friend Flags operator|(const Flags& f1, const Flags& f2);
+  Flags& operator&=(const Flags& f2);
+  Flags& operator|=(const Flags& f2);
 
-  SOT_CORE_EXPORT friend std::ostream &operator<<(std::ostream &os,
-                                                  const Flags &fl);
-  SOT_CORE_EXPORT friend std::istream &operator>>(std::istream &is, Flags &fl);
-  bool operator()(const size_type &i) const;
+  SOT_CORE_EXPORT friend std::ostream& operator<<(std::ostream& os,
+                                                  const Flags& fl);
+  SOT_CORE_EXPORT friend std::istream& operator>>(std::istream& is, Flags& fl);
+  bool operator()(const size_type& i) const;
 
   operator bool(void) const;
 
-  void unset(const std::size_t &i);
-  void set(const std::size_t &i);
+  void unset(const std::size_t& i);
+  void set(const std::size_t& i);
 };
 
 }  // namespace sot

@@ -50,7 +50,7 @@ namespace sot {
 class SOTMOTIONPERIOD_EXPORT MotionPeriod : public dynamicgraph::Entity {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
 
  protected:
   enum MotionPeriodType { MOTION_CONSTANT, MOTION_SIN, MOTION_COS };
@@ -66,20 +66,20 @@ class SOTMOTIONPERIOD_EXPORT MotionPeriod : public dynamicgraph::Entity {
   std::size_t size;
   std::vector<sotMotionParam> motionParams;
 
-  void resize(const std::size_t &size);
+  void resize(const std::size_t& size);
 
   /* --- SIGNALS ------------------------------------------------------------ */
  public:
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> motionSOUT;
 
  public:
-  MotionPeriod(const std::string &name);
+  MotionPeriod(const std::string& name);
   virtual ~MotionPeriod(void) {}
 
-  dynamicgraph::Vector &computeMotion(dynamicgraph::Vector &res,
-                                      const sigtime_t &time);
+  dynamicgraph::Vector& computeMotion(dynamicgraph::Vector& res,
+                                      const sigtime_t& time);
 
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
 };
 
 } /* namespace sot */

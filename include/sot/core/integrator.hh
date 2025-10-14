@@ -46,9 +46,9 @@ class Signal : public ::dynamicgraph::Signal<Vector, sigtime_t> {
   enum SignalType { CONSTANT, REFERENCE, REFERENCE_NON_CONST, FUNCTION };
   static const SignalType SIGNAL_TYPE_DEFAULT = CONSTANT;
 
-  const Vector *Treference;
-  Vector *TreferenceNonConst;
-  boost::function2<Vector &, Vector &, sigtime_t> Tfunction;
+  const Vector* Treference;
+  Vector* TreferenceNonConst;
+  boost::function2<Vector&, Vector&, sigtime_t> Tfunction;
 
   bool keepReference;
   const static bool KEEP_REFERENCE_DEFAULT = false;
@@ -58,12 +58,12 @@ class Signal : public ::dynamicgraph::Signal<Vector, sigtime_t> {
   typedef boost::try_mutex Mutex;
   typedef boost::lock_error MutexError;
 #else
-  typedef size_type *Mutex;
-  typedef size_type *MutexError;
+  typedef size_type* Mutex;
+  typedef size_type* MutexError;
 #endif
 
  protected:
-  Mutex *providerMutex;
+  Mutex* providerMutex;
   using SignalBase<sigtime_t>::signalTime;
 
  public:
@@ -75,31 +75,31 @@ class Signal : public ::dynamicgraph::Signal<Vector, sigtime_t> {
   virtual ~Signal() {}
 
   /* --- Generic In/Out function --- */
-  virtual void get(std::ostream &value) const;
-  virtual void set(std::istringstream &value);
-  virtual void trace(std::ostream &os) const;
+  virtual void get(std::ostream& value) const;
+  virtual void set(std::istringstream& value);
+  virtual void trace(std::ostream& os) const;
 
   /* --- Generic Set function --- */
-  virtual void setConstant(const Vector &t);
-  virtual void setReference(const Vector *t, Mutex *mutexref = NULL);
-  virtual void setReferenceNonConstant(Vector *t, Mutex *mutexref = NULL);
-  virtual void setFunction(boost::function2<Vector &, Vector &, sigtime_t> t,
-                           Mutex *mutexref = NULL);
+  virtual void setConstant(const Vector& t);
+  virtual void setReference(const Vector* t, Mutex* mutexref = NULL);
+  virtual void setReferenceNonConstant(Vector* t, Mutex* mutexref = NULL);
+  virtual void setFunction(boost::function2<Vector&, Vector&, sigtime_t> t,
+                           Mutex* mutexref = NULL);
 
   /* --- Signal computation --- */
-  virtual const Vector &access(const sigtime_t &t);
-  virtual inline void recompute(const sigtime_t &t) { access(t); }
-  virtual const Vector &accessCopy() const;
+  virtual const Vector& access(const sigtime_t& t);
+  virtual inline void recompute(const sigtime_t& t) { access(t); }
+  virtual const Vector& accessCopy() const;
 
-  virtual std::ostream &display(std::ostream &os) const;
+  virtual std::ostream& display(std::ostream& os) const;
 
   /* --- Operators --- */
-  virtual inline const Vector &operator()(const sigtime_t &t) {
+  virtual inline const Vector& operator()(const sigtime_t& t) {
     return access(t);
   }
-  virtual Signal &operator=(const Vector &t);
-  inline operator const Vector &() const { return accessCopy(); }
-  virtual void getClassName(std::string &aClassName) const {
+  virtual Signal& operator=(const Vector& t);
+  inline operator const Vector&() const { return accessCopy(); }
+  virtual void getClassName(std::string& aClassName) const {
     aClassName = typeid(this).name();
   }
 };
@@ -116,29 +116,29 @@ class SOT_CORE_DLLEXPORT Integrator : public Entity {
   // Time corresponding to incrementing signal velocity by 1
   static const double dt;
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName(void) const { return CLASS_NAME; }
-  Integrator(const std::string &name);
+  virtual const std::string& getClassName(void) const { return CLASS_NAME; }
+  Integrator(const std::string& name);
 
   // Get pointer to the model
-  ::pinocchio::Model *getModel();
+  ::pinocchio::Model* getModel();
   // Set pointer to the model
-  void setModel(::pinocchio::Model *model);
+  void setModel(::pinocchio::Model* model);
   // Set Initial configuration
-  void setInitialConfig(const Vector &initConfig);
+  void setInitialConfig(const Vector& initConfig);
 
-  PeriodicCall &periodicCallBefore() { return periodicCallBefore_; }
-  PeriodicCall &periodicCallAfter() { return periodicCallAfter_; }
+  PeriodicCall& periodicCallBefore() { return periodicCallBefore_; }
+  PeriodicCall& periodicCallAfter() { return periodicCallAfter_; }
 
  private:
   PeriodicCall periodicCallBefore_;
   PeriodicCall periodicCallAfter_;
 
-  Vector &integrate(Vector &configuration, sigtime_t time);
+  Vector& integrate(Vector& configuration, sigtime_t time);
   // Signals
   SignalPtr<Vector, sigtime_t> velocitySIN_;
   internal::Signal configurationSOUT_;
   // Pointer to pinocchio model
-  ::pinocchio::Model *model_;
+  ::pinocchio::Model* model_;
   Vector configuration_;
   sigtime_t lastComputationTime_;
   sigtime_t recursivityLevel_;

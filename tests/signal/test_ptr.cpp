@@ -27,18 +27,18 @@ class DummyClass {
  public:
   DummyClass(void) : res(), appel(0), timedata(0) {}
 
-  Res &fun(Res &res, int t) {
+  Res& fun(Res& res, int t) {
     appel++;
     timedata = t;
 
     sotDEBUG(5) << "Inside " << typeid(Res).name() << endl;
-    for (list<SignalTimeDependent<double, sigtime_t> *>::iterator it =
+    for (list<SignalTimeDependent<double, sigtime_t>*>::iterator it =
              inputsig.begin();
          it != inputsig.end(); ++it) {
       sotDEBUG(5) << *(*it) << endl;
       (*it)->access(timedata);
     }
-    for (list<SignalTimeDependent<dynamicgraph::Vector, sigtime_t> *>::iterator
+    for (list<SignalTimeDependent<dynamicgraph::Vector, sigtime_t>*>::iterator
              it = inputsigV.begin();
          it != inputsigV.end(); ++it) {
       sotDEBUG(5) << *(*it) << endl;
@@ -48,13 +48,13 @@ class DummyClass {
     return res = (*this)();
   }
 
-  list<SignalTimeDependent<double, sigtime_t> *> inputsig;
-  list<SignalTimeDependent<dynamicgraph::Vector, sigtime_t> *> inputsigV;
+  list<SignalTimeDependent<double, sigtime_t>*> inputsig;
+  list<SignalTimeDependent<dynamicgraph::Vector, sigtime_t>*> inputsigV;
 
-  void add(SignalTimeDependent<double, sigtime_t> &sig) {
+  void add(SignalTimeDependent<double, sigtime_t>& sig) {
     inputsig.push_back(&sig);
   }
-  void add(SignalTimeDependent<dynamicgraph::Vector, sigtime_t> &sig) {
+  void add(SignalTimeDependent<dynamicgraph::Vector, sigtime_t>& sig) {
     inputsigV.push_back(&sig);
   }
 
@@ -88,7 +88,7 @@ VectorUTheta DummyClass<VectorUTheta>::operator()(void) {
   return res;
 }
 
-void funtest(dynamicgraph::Vector & /*v*/) {}
+void funtest(dynamicgraph::Vector& /*v*/) {}
 
 #include <vector>
 int main(void) {
@@ -102,7 +102,7 @@ int main(void) {
   sig3.setFunction(boost::bind(&DummyClass<VectorUTheta>::fun, pro3, _1, _2));
   try {
     sigTo3.plug(&sig3);
-  } catch (sot::ExceptionAbstract &e) {
+  } catch (sot::ExceptionAbstract& e) {
     cout << "Plugin error " << e << endl;
     exit(1);
   }

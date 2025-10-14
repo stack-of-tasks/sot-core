@@ -27,8 +27,8 @@ class SetInitTrajectory : public Command {
   virtual ~SetInitTrajectory() {}
 
   /// Set the initial trajectory.
-  SetInitTrajectory(SotJointTrajectoryEntity &entity,
-                    const std::string &docstring)
+  SetInitTrajectory(SotJointTrajectoryEntity& entity,
+                    const std::string& docstring)
       : Command(entity, boost::assign::list_of(Value::STRING), docstring) {}
 
   virtual Value doExecute() {

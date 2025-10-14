@@ -40,12 +40,12 @@ class SOT_CORE_DLLAPI GradientAscent : public Entity {
   SignalTimeDependent<dynamicgraph::Vector, sigtime_t> valueSOUT;
 
  public:
-  GradientAscent(const std::string &n);
+  GradientAscent(const std::string& n);
   virtual ~GradientAscent(void);
 
  protected:
-  dynamicgraph::Vector &update(dynamicgraph::Vector &res,
-                               const sigtime_t &inTime);
+  dynamicgraph::Vector& update(dynamicgraph::Vector& res,
+                               const sigtime_t& inTime);
 
   dynamicgraph::Vector value;
 

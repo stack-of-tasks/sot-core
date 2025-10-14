@@ -45,7 +45,7 @@ namespace sot {
 class SOTSMOOTHREACH_EXPORT SmoothReach : public dynamicgraph::Entity {
  public:
   static const std::string CLASS_NAME;
-  virtual const std::string &getClassName() const { return CLASS_NAME; }
+  virtual const std::string& getClassName() const { return CLASS_NAME; }
 
  private:
   dynamicgraph::Vector start, goal;
@@ -57,7 +57,7 @@ class SOTSMOOTHREACH_EXPORT SmoothReach : public dynamicgraph::Entity {
   double smoothFunction(double x);
 
  public: /* --- CONSTRUCTION --- */
-  SmoothReach(const std::string &name);
+  SmoothReach(const std::string& name);
   virtual ~SmoothReach(void) {};
 
  public: /* --- SIGNAL --- */
@@ -65,18 +65,18 @@ class SOTSMOOTHREACH_EXPORT SmoothReach : public dynamicgraph::Entity {
   dynamicgraph::SignalTimeDependent<dynamicgraph::Vector, sigtime_t> goalSOUT;
 
  public: /* --- FUNCTION --- */
-  dynamicgraph::Vector &goalSOUT_function(dynamicgraph::Vector &goal,
-                                          const sigtime_t &time);
+  dynamicgraph::Vector& goalSOUT_function(dynamicgraph::Vector& goal,
+                                          const sigtime_t& time);
 
-  void set(const dynamicgraph::Vector &goal, const size_type &length);
-  const dynamicgraph::Vector &getGoal(void);
-  const size_type &getLength(void);
-  const size_type &getStart(void);
+  void set(const dynamicgraph::Vector& goal, const size_type& length);
+  const dynamicgraph::Vector& getGoal(void);
+  const size_type& getLength(void);
+  const size_type& getStart(void);
 
-  void setSmoothing(const size_type &mode, const double &param);
+  void setSmoothing(const size_type& mode, const double& param);
 
  public: /* --- PARAMS --- */
-  virtual void display(std::ostream &os) const;
+  virtual void display(std::ostream& os) const;
   void initCommands(void);
 };
 

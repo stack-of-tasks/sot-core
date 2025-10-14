@@ -45,7 +45,7 @@ namespace sot {
 template <class sigT, class coefT>
 class IntegratorAbstract : public dynamicgraph::Entity {
  public:
-  IntegratorAbstract(const std::string &name)
+  IntegratorAbstract(const std::string& name)
       : dynamicgraph::Entity(name),
         SIN(NULL, "sotIntegratorAbstract(" + name + ")::input(vector)::sin"),
         SOUT(boost::bind(&IntegratorAbstract<sigT, coefT>::integrate, this, _1,
@@ -81,28 +81,28 @@ class IntegratorAbstract : public dynamicgraph::Entity {
 
   virtual ~IntegratorAbstract() {}
 
-  virtual sigT &integrate(sigT &res, sigtime_t time) = 0;
+  virtual sigT& integrate(sigT& res, sigtime_t time) = 0;
 
  public:
-  void pushNumCoef(const coefT &numCoef) { numerator.push_back(numCoef); }
-  void pushDenomCoef(const coefT &denomCoef) {
+  void pushNumCoef(const coefT& numCoef) { numerator.push_back(numCoef); }
+  void pushDenomCoef(const coefT& denomCoef) {
     denominator.push_back(denomCoef);
   }
   void popNumCoef() { numerator.pop_back(); }
   void popDenomCoef() { denominator.pop_back(); }
 
-  const std::vector<coefT> &numCoeffs() const { return numerator; }
-  void numCoeffs(const std::vector<coefT> &coeffs) { numerator = coeffs; }
+  const std::vector<coefT>& numCoeffs() const { return numerator; }
+  void numCoeffs(const std::vector<coefT>& coeffs) { numerator = coeffs; }
 
-  const std::vector<coefT> &denomCoeffs() const { return denominator; }
-  void denomCoeffs(const std::vector<coefT> &coeffs) { denominator = coeffs; }
+  const std::vector<coefT>& denomCoeffs() const { return denominator; }
+  void denomCoeffs(const std::vector<coefT>& coeffs) { denominator = coeffs; }
 
  public:
   dynamicgraph::SignalPtr<sigT, sigtime_t> SIN;
 
   dynamicgraph::SignalTimeDependent<sigT, sigtime_t> SOUT;
 
-  virtual void display(std::ostream &os) const {
+  virtual void display(std::ostream& os) const {
     os << this->getClassName() << ": " << getName() << '\n' << "  ";
     if (numerator.empty() || denominator.empty()) {
       os << "ill-formed.";

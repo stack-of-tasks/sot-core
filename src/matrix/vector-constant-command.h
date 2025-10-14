@@ -29,10 +29,10 @@ class Resize : public Command {
   /// Create command and store it in Entity
   /// \param entity instance of Entity owning this command
   /// \param docstring documentation of the command
-  Resize(VectorConstant &entity, const std::string &docstring)
+  Resize(VectorConstant& entity, const std::string& docstring)
       : Command(entity, boost::assign::list_of(Value::LONGINT), docstring) {}
   virtual Value doExecute() {
-    VectorConstant &vc = static_cast<VectorConstant &>(owner());
+    VectorConstant& vc = static_cast<VectorConstant&>(owner());
     std::vector<Value> values = getParameterValues();
     size_type size = values[0].value();
     Vector m(Vector::Zero(size));

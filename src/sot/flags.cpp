@@ -27,9 +27,9 @@ using namespace dynamicgraph::sot;
 /* --- CLASS ----------------------------------------------------------- */
 /* --------------------------------------------------------------------- */
 
-Flags::Flags(const bool &b) : flags(), outOfRangeFlag(b) {}
+Flags::Flags(const bool& b) : flags(), outOfRangeFlag(b) {}
 
-Flags::Flags(const char *_flags)
+Flags::Flags(const char* _flags)
     : flags(strlen(_flags)), outOfRangeFlag(false) {
   for (std::size_t i = 0; i < flags.size(); ++i) {
     switch (_flags[i]) {
@@ -48,7 +48,7 @@ Flags::Flags(const char *_flags)
   }
 }
 
-Flags::Flags(const std::vector<bool> &_flags)
+Flags::Flags(const std::vector<bool>& _flags)
     : flags(_flags), outOfRangeFlag(false) {}
 
 Flags::operator bool(void) const {
@@ -60,20 +60,20 @@ Flags::operator bool(void) const {
 
 /* --------------------------------------------------------------------- */
 
-bool Flags::operator()(const size_type &i) const {
+bool Flags::operator()(const size_type& i) const {
   if (i < (size_type)flags.size()) return flags[i];
   return outOfRangeFlag;
 }
 
 /* --------------------------------------------------------------------- */
-void Flags::add(const bool &b) { flags.push_back(b); }
+void Flags::add(const bool& b) { flags.push_back(b); }
 
 /* --------------------------------------------------------------------- */
-void Flags::set(const std::size_t &idx) {
+void Flags::set(const std::size_t& idx) {
   if (idx < flags.size()) flags[idx] = true;
 }
 
-void Flags::unset(const std::size_t &idx) {
+void Flags::unset(const std::size_t& idx) {
   if (idx < flags.size()) flags[idx] = false;
 }
 
@@ -88,19 +88,19 @@ Flags Flags::operator!(void) const {
   return res;
 }
 
-Flags operator&(const Flags &f1, const Flags &f2) {
+Flags operator&(const Flags& f1, const Flags& f2) {
   Flags res = f1;
   res &= f2;
   return res;
 }
 
-Flags operator|(const Flags &f1, const Flags &f2) {
+Flags operator|(const Flags& f1, const Flags& f2) {
   Flags res = f1;
   res |= f2;
   return res;
 }
 
-Flags &Flags::operator&=(const Flags &f2) {
+Flags& Flags::operator&=(const Flags& f2) {
   if (f2.flags.size() > flags.size())
     flags.resize(f2.flags.size(), outOfRangeFlag);
   for (std::size_t i = 0; i < f2.flags.size(); ++i)
@@ -111,7 +111,7 @@ Flags &Flags::operator&=(const Flags &f2) {
   return *this;
 }
 
-Flags &Flags::operator|=(const Flags &f2) {
+Flags& Flags::operator|=(const Flags& f2) {
   if (f2.flags.size() > flags.size())
     flags.resize(f2.flags.size(), outOfRangeFlag);
   for (std::size_t i = 0; i < f2.flags.size(); ++i)
@@ -123,12 +123,12 @@ Flags &Flags::operator|=(const Flags &f2) {
 }
 
 /* --------------------------------------------------------------------- */
-std::ostream &operator<<(std::ostream &os, const Flags &fl) {
+std::ostream& operator<<(std::ostream& os, const Flags& fl) {
   for (auto f : fl.flags) os << (f ? '1' : '0');
   return os;
 }
 
-std::istream &operator>>(std::istream &is, Flags &fl) {
+std::istream& operator>>(std::istream& is, Flags& fl) {
   char c;
   fl.flags.clear();
   while (is.get(c).good()) {
